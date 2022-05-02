@@ -1,0 +1,36 @@
+#!/usr/bin/env bash
+
+title_styles=$'\e[92m\e[4m\e[3m'
+error_styles=$'\e[1m\e[91m'
+styles_end=$'\e[0m'
+
+# $1 - title that will be decorated and printed
+title() {
+  echo
+  echo "$title_styles== $1 ==$styles_end"
+}
+
+# $1 - error that will be decorated and printed
+error() {
+  echo
+  echo "$error_styles!! $1 !!$styles_end"
+}
+
+# Pre-process options to:
+# - expand -xyz into -x -y -z
+# - expand --longopt=arg into --longopt arg
+ARGV=()
+END_OF_OPT=
+while [[ $# -gt 0 ]]; do
+  arg="$1"; shift
+  case "${END_OF_OPT}${arg}" in
+    --) ARGV+=("$arg"); END_OF_OPT=1 ;;
+    --*=*)ARGV+=("${arg%%=*}" "${arg#*=}") ;;
+    --*) ARGV+=("$arg") ;;
+    -*) for i in $(seq 2 ${#arg}); do ARGV+=("-${arg:i-1:1}"); done ;;
+    *) ARGV+=("$arg") ;;
+  esac
+done
+
+# Apply pre-processed options
+set -- "${ARGV[@]}"

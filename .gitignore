@@ -30,6 +30,28 @@
 !/tmp/storage/.keep
 
 /public/assets
+/.annotate_solargraph_schema
+/.solargraph.yml
+
+# Ignore YARD documentation
+/doc
+/.yardoc
+
+.byebug_history
+ignore.*
+
+# ENV
+.env
+
+# Ignore master key for decrypting credentials and more.
+/config/*.yml
+/config/master.key
+/config/keys/*rsa
+/config/keys/*rsa.pub
 
 # Ignore master key for decrypting credentials and more.
 /config/master.key
+
+# VSCode
+.vscode
+.VSCodeCounter
