@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+. $script_dir/shell_helper "$@"
+
+bundle_install_script="$script_dir/bundle_install $1"
+
+if [[ $RAILS_ENV == "test" ]] ; then
+  $bundle_install_script
+  exit 0
+fi
+
+title "Installing dependencies"
+
+# Load RVM into a shell session *as a function*
+if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+  # First try to load from a user install
+  source "$HOME/.rvm/scripts/rvm"
+elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+  # Then try to load from a root install
+  source "/usr/local/rvm/scripts/rvm"
+else
+  error "No RVM installation was found"
+  title "Installing RVM"
+  curl -sSL https://rvm.io/mpapis.asc | gpg --import -
+  curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
+  \curl -sSL https://get.rvm.io | bash -s stable
+
+  if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
+    # First try to load from a user install
+    source "$HOME/.rvm/scripts/rvm"
+  elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
+    # Then try to load from a root install
+    source "/usr/local/rvm/scripts/rvm"
+  fi
+fi
+
+title "Checking your Ruby version"
+
+required_version=$(cat $script_dir/../.ruby-version)
+gemset=$(cat $script_dir/../.ruby-gemset)
+current_version=$(ruby -e "puts ::RUBY_VERSION")
+
+if [[ "$required_version" == "$current_version" ]]; then
+  echo "Ruby version is correct - ${required_version}"
+  $bundle_install_script
+else
+  rvm install $required_version
+  rvm use $required_version@$gemset --create
+  $bundle_install_script
+  if [[ $DONT_RELOAD_SHELL != "true" ]] ; then
+    $SHELL
+  fi
+fi

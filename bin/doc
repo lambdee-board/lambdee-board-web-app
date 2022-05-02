@@ -1,0 +1,48 @@
+#!/usr/bin/env bash
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+. $script_dir/shell_helper "$@"
+
+# default options
+SERVER=true
+GENERATE=true
+
+title "Opening Lambdee Web App Docs"
+
+# parse passed options
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --ns|--no-server)
+      SERVER=false
+      shift
+      ;;
+    -s|--server)
+      SERVER=true
+      shift
+      ;;
+    -g|--gen)
+      GENERATE=true
+      shift
+      ;;
+    --ng|--no-gen)
+      GENERATE=false
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
+
+if $GENERATE; then
+  title "Generating YARD documentation"
+
+  yard gems
+  yardoc
+fi
+
+if $SERVER; then
+  title "Running the YARD documentation server"
+  open http://localhost:8808 && yard server
+fi
