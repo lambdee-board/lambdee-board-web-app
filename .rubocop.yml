@@ -1,0 +1,160 @@
+Style/ClassMethodsDefinitions:
+  Enabled: false
+
+Metrics/AbcSize:
+  Enabled: false
+
+Metrics/MethodLength:
+  Max: 20
+
+Metrics/ClassLength:
+  Max: 300
+
+Metrics/CyclomaticComplexity:
+  Max: 12
+
+Layout/ExtraSpacing:
+  Enabled: false
+
+Layout/SingleLineBlockChain:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 12
+
+Layout/ClassStructure:
+  Enabled: false
+
+Style/OpenStructUse:
+  Enabled: true
+
+Style/MethodCalledOnDoEndBlock:
+  Enabled: true
+
+Style/LambdaCall:
+  EnforcedStyle: braces
+
+Style/OptionHash:
+  Enabled: false
+
+Style/QuotedSymbols:
+  Enabled: true
+
+Style/ReturnNil:
+  Enabled: true
+  EnforcedStyle: return
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/AutoResourceCleanup:
+  Enabled: true
+
+Style/StringChars:
+  Enabled: true
+
+Style/TopLevelMethodDefinition:
+  Enabled: true
+
+Style/RedundantArgument:
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: false
+
+Layout/LineLength:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: true
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Naming/BlockForwarding:
+  Enabled: true
+
+Style/ClassMethodsDefinitions:
+  Enabled: true
+  EnforcedStyle: self_class
+
+Style/ImplicitRuntimeError:
+  Enabled: false
+
+Style/InPatternThen:
+  Enabled: true
+
+Style/MethodCallWithArgsParentheses:
+  Enabled: false
+
+Style/ModuleFunction:
+  EnforcedStyle: extend_self
+
+Style/MissingElse:
+  Enabled: false
+
+Lint/NumberConversion:
+  Enabled: false
+
+Lint/ConstantResolution:
+  Enabled: false
+
+Style/RescueStandardError:
+  Enabled: false
+
+Style/FormatStringToken:
+  Enabled: false
+
+Style/FormatString:
+  Enabled: false
+
+Style/DocumentationMethod:
+  Enabled: true
+
+Style/Copyright:
+  Enabled: false
+
+Style/StringHashKeys:
+  Enabled: false
+
+Style/InlineComment:
+  Enabled: false
+
+Layout/FirstHashElementLineBreak:
+  Enabled: false
+
+Layout/FirstMethodArgumentLineBreak:
+  Enabled: false
+
+Style/ConstantVisibility:
+  Enabled: false
+
+Layout/FirstArrayElementLineBreak:
+  Enabled: false
+
+Layout/MultilineMethodArgumentLineBreaks:
+  Enabled: false
+
+Layout/MultilineAssignmentLayout:
+  Enabled: false
+
+Bundler/GemComment:
+  Enabled: false
+
+Bundler/GemVersion:
+  Enabled: false
+
+AllCops:
+  SuggestExtensions: false
+  EnabledByDefault: true
+  Exclude:
+    - 'bin/*'
+    - 'db/seeds.rb'
+    - 'db/schema.rb'
+    - 'db/**/*'
+    - 'vendor/bundle/**/*'
+    - 'config/**/*'
+    - 'Guardfile'
+    - 'spec/**/*'
+    - 'test/**/*'
+    - 'script/**/*'
