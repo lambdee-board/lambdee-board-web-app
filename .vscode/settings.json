@@ -1,6 +1,17 @@
 {
   "cSpell.words": [
     "Cyclomatic",
-    "Lambdee"
-  ]
+    "dataurl",
+    "esbuild",
+    "Lambdee",
+    "noscript",
+    "outfile",
+    "stylesheet"
+  ],
+  "files.associations": {
+    "*.yml.example": "yaml",
+    "*.env.example": "env",
+    "*.js.erb": "javascript",
+    "Procfile*": "procfile"
+},
 }

@@ -1,16 +1,33 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>LambdeeBoardWebApp</title>
-    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Lambdee | Extendable Agile Board</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="description" content="Open-Source extendable agile board, which is stupidly easy to automate!" />
+    <meta name="theme-color" content="#2395F3" />
+    <meta name="color-scheme" content="only light">
+    <meta name="author" content="Lambdee" />
+    <meta name="keywords" content="board,agile,scripts,automation,CI,CD" />
+
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-    <%= javascript_importmap_tags %>
+    <%= stylesheet_link_tag "frontend", "data-turbo-track": "reload" %>
+    <%= javascript_include_tag "frontend", "data-turbo-track": "reload", defer: true %>
   </head>
 
   <body>
+    <!--
+
+    dP                            dP             dP
+    88                            88             88
+    88        .d8888b. 88d8b.d8b. 88d888b. .d888b88 .d8888b. .d8888b.
+    88        88'  `88 88'`88'`88 88'  `88 88'  `88 88ooood8 88ooood8
+    88        88.  .88 88  88  88 88.  .88 88.  .88 88.  ... 88.  ...
+    88888888P `88888P8 dP  dP  dP 88Y8888' `88888P8 `88888P' `88888P'
+
+    !-->
+
     <%= yield %>
   </body>
 </html>

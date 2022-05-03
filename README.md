@@ -1,3 +1,7 @@
+# Lambdee Web App
+
+Lambdee - Scriptable Agile Board
+
 ## Setup
 1. `bin/setup`
 
