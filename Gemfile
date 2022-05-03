@@ -67,6 +67,11 @@ group :development do
   # A Ruby documentation tool [https://yardoc.org/]
   gem 'yard'
 
+  # Monitor file changes
+  gem 'guard'
+  gem 'guard-livereload', require: false
+  gem 'rack-livereload'
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 

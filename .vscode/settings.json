@@ -3,7 +3,9 @@
     "Cyclomatic",
     "dataurl",
     "esbuild",
+    "Guardfile",
     "Lambdee",
+    "livereload",
     "noscript",
     "outfile",
     "stylesheet"

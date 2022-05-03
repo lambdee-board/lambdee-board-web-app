@@ -36,6 +36,6 @@ asset_source_dir = ::File.join src_dir, 'assets'
 ::Dir[::File.join(build_dir, '**', '*.erb')].each do |file_name|
   preprocessed_content = ::ERB.new(::File.read(file_name)).result
   new_file_name = file_name.delete_suffix '.erb'
-  ::File.delete file_name
+  ::File.delete(file_name) rescue nil
   ::File.write(new_file_name, preprocessed_content)
 end
