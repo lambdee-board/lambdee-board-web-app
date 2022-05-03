@@ -3,11 +3,17 @@
 script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 . $script_dir/shell_helper "$@"
 
-title "Running Lambdee in the Development env"
-
-if ! command -v foreman &> /dev/null; then
-  echo "Installing foreman..."
-  gem install foreman
+if ls $script_dir/../tmp/pids/server.pid &> /dev/null; then
+  error "A Rails server is already running"
+  error "Check $script_dir/../tmp/pids/server.pid"
+  exit 1
 fi
 
+if ! command -v foreman &> /dev/null; then
+  $script_dir/setup
+fi
+
+title "Running Lambdee in the Development env"
+
+open http://localhost:3000
 foreman start -f Procfile.dev
