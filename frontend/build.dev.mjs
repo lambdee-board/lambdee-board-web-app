@@ -8,6 +8,9 @@ let erbCompilationPlugin = {
     build.onStart(() => {
       spawnSync('rails', ['runner', 'bin/.build/preprocess_react.rb'], { stdio: 'inherit', env: { ...process.env, BUILD: true } })
     })
+    build.onEnd(() => {
+      console.log('📦 React built!\n')
+    })
   },
 }
 
