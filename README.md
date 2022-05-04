@@ -16,6 +16,135 @@ Lambdee - Scriptable Agile Board
 - `bin/build` - build the frontend React app
 - `bin/doc` - generate the YARD docs and open them in your browser
 
+### Architecture
+
+#### Backend
+
+The backend app is written in Ruby on Rails. It serves two purposes:
+- hosting the API for the frontend app
+- hosting the built frontend app
+
+The `FrontendController` serves the fronted app.
+
+All classes and modules should be named using `PascalCase` eg. `AdminUser`, `UserData`.
+
+All variables and methods should be named using `snake_case` eg. `admin_user`, `user_data`.
+
+All constants (not containing modules or classes) should be named
+using `SCREAMING_SNAKE_CASE` eg. `ADMIN_USER`, `USER_DATA`.
+
+All files should be named using `snake_case` eg. `user_data`, `admin_user`.
+
+##### REST API
+
+All paths regarding the REST API should be defined under the `/api` scope.
+
+Furthermore, controllers handling these requests should be defined under the `API` module.
+
+Let's say that you want to implement a GET query for the data of
+a particular user.
+
+The controller should be named `API::UsersController` (`app/controllers/api/users_controller.rb`), and the route should be `/api/users/:id`
+
+##### Database models
+
+All `ActiveRecord` models (classes that represent a single record from a particular database table) should be defined under the `DB` namespace.
+
+Let's say that you want to define a User model. The class should be named `DB::User` (`app/models/db/user.rb`) with the database table named `users`.
+
+##### Configuration files
+
+All configuration files should be located in `config/` (preferably using `YAML`). They should be loaded in an initializer file inside `config/initializers/`. Values loaded from these files should be saved in Ruby constants under the `Config` namespace.
+
+Let's say that you want to add a configuration file, which stores GitHub credentials. The file should be named `config/github.yml`.
+The initializer should be named `config/initializers/github.rb`, and the content of the config file should be saved in `Config::GITHUB`.
+
+#### Frontend
+
+The frontend app is written in React and lives in the `frontend/` directory. It is built using `esbuild` and copied to the Rails Asset Pipeline, which serves it.
+
+All components should be named using `PascalCase` eg, `UserData`, `Board`.
+
+All variables and regular (non-component) functions should be named
+using `camelCase` eg. `userData`, `getUser`.
+
+##### View components
+
+Components representing a single view (page) should be stored in the
+`frontend/src/views/` directory. Components should be written in the functional style and named using `PascalCase` eg. `Account`, `UserData`, `ErrorButton`.
+
+Let's say that you want to write an account view. It should be stored in `frontend/src/views/Account.js`.
+
+Any `CSS` styles unique to this view should be saved inside `frontend/src/views/Account.css` and imported in the `.js` file.
+
+Here is an example of its code:
+
+```js
+// frontend/src/views/Account.js
+import './Account.css'
+
+const Account = (props) => {
+  return (
+    <div className="account">
+      <h1>Some code</h1>
+    </div>
+  );
+}
+
+export default Account;
+```
+
+##### Components
+
+All other components which get used in views should be stored in the
+`frontend/src/components/` directory. Components should be written in the functional style and named using PascalCase.
+
+Let's say that you want to write a button component. It should be stored in `frontend/src/components/Button.js`.
+
+Any `CSS` styles unique to this component should be saved inside `frontend/src/components/Button.css` and imported in the `.js` file.
+
+Here is an example of its code:
+
+```js
+// frontend/src/components/Button.js
+import './Button.css'
+
+const Button = (props) => {
+  return (
+    <div className="button">
+      <h1>Some code</h1>
+    </div>
+  );
+}
+
+export default Button;
+```
+
+##### Assets
+
+Assets like images should be stored in `frontend/src/assets`.
+
+If you want to use these assets inside a `.js` file, you should rename it to `.js.erb` and use ERB (Embedded Ruby) to get its path.
+
+Example:
+
+```js
+// frontend/src/components/Logo.js.erb
+
+import './Logo.css';
+
+function Logo() {
+  return (
+    // this will return a url for `frontend/src/assets/logo.svg`
+    <img  src="<%= asset_path('logo.svg') %>"
+          className="logo"
+          alt="logo" />
+  );
+}
+
+export default Logo;
+```
+
 ## Problems
 
 **eventmachine**
