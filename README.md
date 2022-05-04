@@ -4,6 +4,10 @@ Lambdee - Scriptable Agile Board
 
 ## Setup
 1. `bin/setup`
+1. Setup the postgresql server
+   - `psql -d template1`
+   - `CREATE DATABASE <username>;` where `<username>` is the name of your current system user
+   - `\q`
 
 ## Development
 
