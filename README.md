@@ -154,10 +154,14 @@ export default Logo;
 > #include <openssl/ssl.h>
 >          ^~~~~~~~~~~~~~~
 > 1 error generated.
-
-```sh
-$ gem install eventmachine -- --with-openssl-dir=/opt/homebrew/Cellar/openssl@1.1/1.1.1n/
-```
+- intel
+  ```sh
+  $ gem install eventmachine -- --with-openssl-dir=/usr/local/Cellar/openssl@1.1/1.1.1n/
+  ```
+- m1/arm
+  ```sh
+  $ gem install eventmachine -- --with-openssl-dir=/opt/homebrew/Cellar/openssl@1.1/1.1.1n/
+  ```
 
 **mysql2**
 
