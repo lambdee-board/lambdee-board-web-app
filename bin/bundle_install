@@ -62,6 +62,8 @@ end
     `RAILS_ENV=test bin/rails db:migrate`
   end
 
+  `npm --prefix ./frontend install`
+
   if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP']
     title 'Removing old logs and tempfiles'
     `bin/rails log:clear tmp:clear`
