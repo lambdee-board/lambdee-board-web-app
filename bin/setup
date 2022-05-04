@@ -29,9 +29,9 @@ end
     title 'Updating/Installing Node.js'
     `brew install node`
 
-    title "Updating/Installing mysql"
-    `brew install mysql`
-    `brew services restart mysql`
+    title "Updating/Installing postgresql"
+    `brew install postgresql`
+    `brew services restart postgresql`
 
     title 'Updating/Installing Redis'
     `brew install redis`
