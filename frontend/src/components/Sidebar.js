@@ -10,6 +10,8 @@ import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { ListItemIcon } from '@mui/material';
 
@@ -17,7 +19,10 @@ import { ListItemIcon } from '@mui/material';
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const sidebarText = {'Scripts': 'fa-scroll', 'Settings': 'fa-gear', 'Members':'fa-users'}
+  const sidebarText = {'Scripts': 'scroll', 'Settings': 'gear', 'Members':'users'}
+  const colors = ['green', 'red', 'orange', 'purple', 'blue']
+  library.add(faChalkboard,faScroll, faGear, faUsers)
+
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
@@ -43,9 +48,9 @@ export default function Sidebar() {
             {Object.entries(sidebarText).map(([text, icon], index) => (
               <Box>
                 <ListItem button key={text}>
-                  {/* <ListItemIcon>
-                      <FontAwesomeIcon icon={"fa-solid " + icon} />
-                  </ListItemIcon> */}
+                  <ListItemIcon>
+                      <FontAwesomeIcon icon={["fas", icon]} />
+                  </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
                 <Divider />
@@ -54,8 +59,8 @@ export default function Sidebar() {
             {['Board', 'Board'].map((text, index) => (
               <Box>
                 <ListItem button key={text}>
-                  <ListItemIcon className="container">
-                      <FontAwesomeIcon icon={["fab", "chalkboard"]} />
+                  <ListItemIcon>
+                      <FontAwesomeIcon icon={["fas", "chalkboard"]} color={colors[Math.floor(Math.random() * colors.length)]}/>
                   </ListItemIcon>
                   <ListItemText primary={text + " " + (index + 1)} />
                 </ListItem>
