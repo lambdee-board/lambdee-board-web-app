@@ -16,8 +16,10 @@
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
 
-    <%= stylesheet_link_tag "frontend", "data-turbo-track": "reload" %>
-    <%= javascript_include_tag "frontend", "data-turbo-track": "reload", defer: true %>
+    <% if controller.class == ::FrontendController && (!::Rails.env.development? || asset_exists?('builds', 'frontend.js')) -%>
+      <%= stylesheet_link_tag "frontend", "data-turbo-track": "reload" %>
+      <%= javascript_include_tag "frontend", "data-turbo-track": "reload", defer: true %>
+    <% end -%>
   </head>
 
   <body>
