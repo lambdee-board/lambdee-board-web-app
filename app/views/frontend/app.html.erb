@@ -1,3 +1,6 @@
 <noscript>We're sorry but this app doesn't work properly without JavaScript enabled. Please enable it to continue.</noscript>
 
 <div id="root"></div>
+
+<%= render 'react_build_error' if react_build_error? %>
+<%= raise 'React is not built! Try running `bin/build`.' if !react_build_error? && react_not_built?  %>
