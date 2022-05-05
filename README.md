@@ -52,11 +52,19 @@ a particular user.
 
 The controller should be named `API::UsersController` (`app/controllers/api/users_controller.rb`), and the route should be `/api/users/:id`
 
+##### Plain Old Ruby Objects
+
+All regular Ruby classes and modules should be kept
+inside the `app/internal` folder.
+
 ##### Database models
 
 All `ActiveRecord` models (classes that represent a single record from a particular database table) should be defined under the `DB` namespace.
 
 Let's say that you want to define a User model. The class should be named `DB::User` (`app/models/db/user.rb`) with the database table named `users`.
+
+The `app/models` folder is supposed to store
+only `ActiveRecord` related classes/modules.
 
 ##### Configuration files
 

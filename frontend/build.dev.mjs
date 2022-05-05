@@ -1,9 +1,30 @@
 import esbuild from 'esbuild';
 import { spawnSync } from 'child_process'
 import chokidar from 'chokidar'
-import { writeFileSync, unlinkSync, existsSync } from 'fs'
+import { sep, join } from 'path'
+import { writeFileSync,
+         unlinkSync,
+         existsSync,
+         readdirSync } from 'fs'
 
 const buildErrorFilePath = '../tmp/react_build_error.json'
+
+const getAllErbSourceFiles = (dir = join(process.cwd(), 'src'), object = {}) => {
+  readdirSync(dir, { withFileTypes: true }).forEach(element => {
+    if(element.isDirectory()) {
+      let childObject = {}
+      object[element.name] = childObject
+      getAllErbSourceFiles(join(dir, element.name), childObject)
+      return
+    }
+
+    if(!element.name.endsWith('.erb')) return
+
+    object[element.name.replace('.erb', '')] = true
+  })
+
+  return object
+}
 
 const erbCompilationPlugin = {
   name: 'erb-compilation',
@@ -20,6 +41,15 @@ const erbCompilationPlugin = {
 
       console.log('💣 React build failed!\n')
       writeFileSync(buildErrorFilePath, JSON.stringify(result))
+    })
+    build.onResolve({ filter: /erb-source-files$/ }, async () => {
+      return { path: 'erb-source-files', namespace: 'erb-compilation' }
+    })
+    build.onLoad({ filter: /erb-source-files$/, namespace: 'erb-compilation' }, async (args) => {
+      return {
+        contents: JSON.stringify(getAllErbSourceFiles()),
+        loader: 'json'
+      }
     })
   },
 }
@@ -45,8 +75,11 @@ async function build() {
         '.jpeg': 'file'
       },
       plugins: [erbCompilationPlugin],
+      sourcemap: true,
       define: {
         'process.env.NODE_ENV': JSON.stringify('development'),
+        '__dirname': JSON.stringify(process.cwd()),
+        'process.path.sep': JSON.stringify(sep)
       },
       inject: ['./react-shim.js'],
       incremental: true
