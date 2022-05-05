@@ -4,6 +4,10 @@ Lambdee - Scriptable Agile Board
 
 ## Setup
 1. `bin/setup`
+1. Setup the postgresql server
+   - `psql -d template1`
+   - `CREATE DATABASE <username>;` where `<username>` is the name of your current system user
+   - `\q`
 
 ## Development
 
@@ -12,6 +16,8 @@ Lambdee - Scriptable Agile Board
 - `bin/setup` - install/update node.js, mysql, ruby and run `bin/install`
 - `bin/install` - install missing gems, create missing config files, execute pending migrations
 - `bin/dev` - run the app with all the necessary processes in one terminal window
+  - `--ng` or `--no-guard` -- run the app without automatic page refreshing on file changes
+  - `--nw` or `--no-watch` -- run the app without automatic frontend building on file changes
 - `bin/console` - run the rails console
 - `bin/build` - build the frontend React app
 - `bin/doc` - generate the YARD docs and open them in your browser

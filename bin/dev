@@ -10,10 +10,44 @@ if ls $script_dir/../tmp/pids/server.pid &> /dev/null; then
 fi
 
 if ! command -v foreman &> /dev/null; then
+  error "Foreman not found, Attempting setup"
+
   $script_dir/setup
 fi
+
+# Default number of workers per process
+RAILS=1
+GUARD=1
+REACT=1
+
+# parse passed options
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    --no-rails)
+      RAILS=0
+      shift
+      ;;
+    --ng|--no-guard)
+      GUARD=0
+      shift
+      ;;
+    --nr|--no-react)
+      REACT=0
+      shift
+      ;;
+    --nw|--no-watch)
+      REACT=0
+      GUARD=0
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
 
 title "Running Lambdee in the Development env"
 
 open http://localhost:3000
-foreman start -f Procfile.dev
+foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,guard=$GUARD,react=$REACT

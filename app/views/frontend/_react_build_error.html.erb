@@ -1,0 +1,27 @@
+<% react_build_result = ::JSON.load_file(::Config::REACT_BUILD_ERROR_FILE_PATH) %>
+
+<h1>💣 React Build Failed!</h1>
+<h3>Check your terminal for more details</h3>
+<br/>
+
+<% %w[errors warnings].each do |type| -%>
+  <% react_build_result[type].each do |error| -%>
+    <% location = error['location'] || {} %>
+    <h3>
+      <% if type == 'errors' -%>
+        <span style="color: red;">✘ [ERROR]</span>
+      <% else -%>
+        <span style="color: orange;">▲ [WARNING]</span>
+      <% end -%>
+      <%= error['text'] %>
+    </h3>
+    <h4><%= "frontend/" + location['file'].to_s.sub('build', 'src') %>:<%= location['line'] %>:<%= location['column'] %></h4>
+    <% if location['lineText'].present? -%>
+<pre style="background-color: gray; color: white; padding: 1em 2px;">
+<%= location['lineText'] %>
+<%= ' ' * location['column'] + '~' * location['length'] %>
+<%= ' ' * location['column'] + location['suggestion'] %>
+</pre>
+    <% end -%>
+  <% end -%>
+<% end -%>

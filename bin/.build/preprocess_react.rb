@@ -39,3 +39,5 @@ asset_source_dir = ::File.join src_dir, 'assets'
   ::File.delete(file_name) rescue nil
   ::File.write(new_file_name, preprocessed_content)
 end
+
+puts "\n💎 Preprocessing React finished\n\n"
