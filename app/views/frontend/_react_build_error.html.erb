@@ -15,7 +15,13 @@
       <% end -%>
       <%= error['text'] %>
     </h3>
-    <h4><%= "frontend/" + location['file'].to_s.sub('build', 'src') %>:<%= location['line'] %>:<%= location['column'] %></h4>
+    <h4>
+      <% file_relative_path = ::File.join('frontend', location['file'].to_s.sub('build', 'src')) %>
+      <% file_absolute_path = ::Rails.root.join(file_relative_path) %>
+      <a href="vscode://file/<%=file_absolute_path%>:<%=location['line']%>:<%=location['column']%>">
+        <%= file_relative_path %>:<%= location['line'] %>:<%= location['column'] %>
+      </a>
+    </h4>
     <% if location['lineText'].present? -%>
 <pre style="background-color: gray; color: white; padding: 1em 2px;">
 <%= location['lineText'] %>
