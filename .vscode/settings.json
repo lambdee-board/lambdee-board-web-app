@@ -1,13 +1,24 @@
 {
+  "eslint.format.enable": true,
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": true
+  },
   "cSpell.words": [
+    "camelcase",
     "Cyclomatic",
     "dataurl",
+    "dotfiles",
     "esbuild",
     "Guardfile",
     "Lambdee",
+    "linebreak",
     "livereload",
+    "multilines",
+    "nonblock",
     "noscript",
     "outfile",
+    "paren",
+    "parens",
     "stylesheet"
   ],
   "files.associations": {
