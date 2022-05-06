@@ -11,23 +11,38 @@ import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboard, faScroll, faGear, faUsers, faBars} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { Avatar, ListItemIcon } from '@mui/material';
+import { IconButton, ListItemIcon } from '@mui/material';
+import Jdenticon from 'react-jdenticon';
+
+import style from './Sidebar.css'
+
 
 
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const sidebarText = {'Scripts': 'scroll', 'Settings': 'gear', 'Members':'users'}
+  const { isOpen, toggleSidebar } = React.useState(true)
+  const sidebarText = {'Scripts': faScroll, 'Settings': faGear, 'Members': faUsers}
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
-  library.add(faChalkboard,faScroll, faGear, faUsers)
+  library.add(faChalkboard,faScroll, faGear, faUsers, faBars)
   const workspace = 'SnippetzDev'
+
 
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, flexDirection: 'row'}}>
+        <Toolbar>
+          <IconButton
+            color="inherit"
+            aria-label="Open drawer"
+            onClick={() => toggleSidebar(!isOpen)}
+          >
+            <FontAwesomeIcon icon={faBars} />
+        </IconButton>
+        </Toolbar>
         <Toolbar>
           <Typography variant="h6" noWrap component="div">
             Epic sidebar
@@ -36,7 +51,8 @@ export default function Sidebar() {
       </AppBar>
 
       <Drawer
-        variant="permanent"
+        variant="persistent"
+        open={isOpen}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -49,10 +65,9 @@ export default function Sidebar() {
             <Box>
               <ListItem button key={workspace}>
                 <ListItemIcon>
-                  <Avatar variant="square" src="../assets/workspace.jpg">
-                  </Avatar>
+                  <Jdenticon size="48" value={workspace} />
                 </ListItemIcon>
-                <ListItemText primary={workspace} />
+                <ListItemText primary={workspace} primaryTypographyProps={{fontSize: 24}}/>
               </ListItem>
               <Divider />
             </Box>
@@ -60,7 +75,7 @@ export default function Sidebar() {
               <Box>
                 <ListItem button key={text}>
                   <ListItemIcon>
-                      <FontAwesomeIcon icon={["fas", icon]} />
+                      <FontAwesomeIcon icon={icon} />
                   </ListItemIcon>
                   <ListItemText primary={text} />
                 </ListItem>
@@ -71,7 +86,7 @@ export default function Sidebar() {
               <Box>
                 <ListItem button key={text}>
                   <ListItemIcon>
-                      <FontAwesomeIcon icon={["fas", "chalkboard"]} color={colors[Math.floor(Math.random() * colors.length)]}/>
+                      <FontAwesomeIcon icon={faChalkboard} color={colors[Math.floor(Math.random() * colors.length)]}/>
                   </ListItemIcon>
                   <ListItemText primary={text + " " + (index + 1)} />
                 </ListItem>
