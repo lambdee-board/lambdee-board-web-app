@@ -2,6 +2,25 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
+  "license" : "MIT",
+  "contributors": [
+    {
+      "name": "Mateusz Drewniak",
+      "email": "matmg24@gmail.com"
+    },
+    {
+      "name": "Michał Zaporski",
+      "email": "focus16k@gmail.com"
+    },
+    {
+      "name": "Michał Zmudziński",
+      "email": "michal.zmudzinski@gmail.com"
+    },
+    {
+      "name": "Kuba Jądrzak",
+      "email": "kuba.jadrzak@gmail.com"
+    }
+  ],
   "dependencies": {
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
