@@ -18,15 +18,12 @@ import Jdenticon from 'react-jdenticon';
 
 import style from './Sidebar.css'
 
-
-
 const drawerWidth = 240;
 
 export default function Sidebar() {
   const { isOpen, toggleSidebar } = React.useState(true)
   const sidebarText = {'Scripts': faScroll, 'Settings': faGear, 'Members': faUsers}
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
-  library.add(faChalkboard,faScroll, faGear, faUsers, faBars)
   const workspace = 'SnippetzDev'
 
 
@@ -52,7 +49,7 @@ export default function Sidebar() {
 
       <Drawer
         variant="persistent"
-        open={isOpen}
+        open={true}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
