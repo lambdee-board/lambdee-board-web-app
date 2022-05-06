@@ -42,7 +42,7 @@ const Navbar = () => {
   };
 
   return (
-        <AppBar position="static">
+    <AppBar position="absolute" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
         <Container maxWidth>
             <Toolbar disableGutters>
             <IconButton sx={{ color: 'common.white', display: { xs: 'flex', md: 'flex' }, p: 2, mr: 2 }}>
@@ -132,7 +132,7 @@ const Navbar = () => {
             </Box>
             </Toolbar>
         </Container>
-        </AppBar>
+      </AppBar>
   );
 };
 

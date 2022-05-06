@@ -1,69 +1,44 @@
 import * as React from 'react';
 import Box from '@mui/material/Box';
 import Drawer from '@mui/material/Drawer';
-import AppBar from '@mui/material/AppBar';
-import CssBaseline from '@mui/material/CssBaseline';
 import Toolbar from '@mui/material/Toolbar';
 import List from '@mui/material/List';
-import Typography from '@mui/material/Typography';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
 
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faChalkboard, faScroll, faGear, faUsers, faBars} from '@fortawesome/free-solid-svg-icons'
+import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { IconButton, ListItemIcon } from '@mui/material';
+import { ListItemIcon } from '@mui/material';
 
-
-import style from './Sidebar.css'
 
 const drawerWidth = 240;
 
 export default function Sidebar() {
   const sidebarText = {'Scripts': faScroll, 'Settings': faGear, 'Members': faUsers}
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
-  const workspace = 'SnippetzDev'
+  const workspaceName = 'SnippetzDev'
 
 
   return (
-    <Box sx={{ display: 'flex' }}>
-      <CssBaseline />
-      <AppBar position="fixed" sx={{ zIndex: (theme) => theme.zIndex.drawer + 1, flexDirection: 'row'}}>
-        <Toolbar>
-          <IconButton
-            color="inherit"
-            aria-label="Open drawer"
-            onClick={console.log('click')}
-          >
-            <FontAwesomeIcon icon={faBars} />
-        </IconButton>
-        </Toolbar>
-        <Toolbar>
-          <Typography variant="h6" noWrap component="div">
-            Epic sidebar
-          </Typography>
-        </Toolbar>
-      </AppBar>
-
       <Drawer
         variant="persistent"
         open={true}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
-          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' },
+          [`& .MuiDrawer-paper`]: { width: drawerWidth, boxSizing: 'border-box' }
         }}
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
             <Box>
-              <ListItem button key={workspace}>
+              <ListItem button key={workspaceName}>
                 <ListItemIcon>
-                  {/* <Jdenticon size="48" value={workspace} /> */}
+                  {/* <Jdenticon size="48" value={workspaceName} /> */}
                 </ListItemIcon>
-                <ListItemText primary={workspace} primaryTypographyProps={{fontSize: 24}}/>
+                <ListItemText primary={workspaceName} primaryTypographyProps={{fontSize: 24}}/>
               </ListItem>
               <Divider />
             </Box>
@@ -92,14 +67,5 @@ export default function Sidebar() {
           </List>
         </Box>
       </Drawer>
-
-
-
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-        <Typography paragraph>
-        </Typography>
-      </Box>
-    </Box>
   );
 }
