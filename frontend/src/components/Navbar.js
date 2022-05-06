@@ -1,16 +1,16 @@
 import * as React from 'react';
-import AppBar from '@mui/material/AppBar';
-import Box from '@mui/material/Box';
-import Toolbar from '@mui/material/Toolbar';
-import IconButton from '@mui/material/IconButton';
-import Typography from '@mui/material/Typography';
-import Menu from '@mui/material/Menu';
-import Container from '@mui/material/Container';
-import Avatar from '@mui/material/Avatar';
-import Button from '@mui/material/Button';
-import MenuItem from '@mui/material/MenuItem';
-import { ThemeProvider } from "@mui/material"
-import lambdeeTheme from '../lambdeeTheme';
+import {
+    AppBar,
+    Box,
+    Toolbar,
+    IconButton,
+    Typography,
+    Menu,
+    Container,
+    Avatar,
+    Button,
+    MenuItem
+  } from '@mui/material'
 
 const pages = ['Workspaces', 'Recent', 'Actions'];
 const settings = ['Account', 'Logout'];
@@ -35,9 +35,7 @@ const Navbar = () => {
   };
 
   return (
-    <ThemeProvider theme={lambdeeTheme}>
         <AppBar position="static">
-
         <Container maxWidth>
             <Toolbar disableGutters>
             <Typography
@@ -124,7 +122,6 @@ const Navbar = () => {
             </Toolbar>
         </Container>
         </AppBar>
-    </ThemeProvider>
   );
 };
 
