@@ -14,14 +14,13 @@ import { library } from '@fortawesome/fontawesome-svg-core'
 import { faChalkboard, faScroll, faGear, faUsers, faBars} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
 import { IconButton, ListItemIcon } from '@mui/material';
-import Jdenticon from 'react-jdenticon';
+
 
 import style from './Sidebar.css'
 
 const drawerWidth = 240;
 
 export default function Sidebar() {
-  const { isOpen, toggleSidebar } = React.useState(true)
   const sidebarText = {'Scripts': faScroll, 'Settings': faGear, 'Members': faUsers}
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   const workspace = 'SnippetzDev'
@@ -35,7 +34,7 @@ export default function Sidebar() {
           <IconButton
             color="inherit"
             aria-label="Open drawer"
-            onClick={() => toggleSidebar(!isOpen)}
+            onClick={console.log('click')}
           >
             <FontAwesomeIcon icon={faBars} />
         </IconButton>
@@ -62,7 +61,7 @@ export default function Sidebar() {
             <Box>
               <ListItem button key={workspace}>
                 <ListItemIcon>
-                  <Jdenticon size="48" value={workspace} />
+                  {/* <Jdenticon size="48" value={workspace} /> */}
                 </ListItemIcon>
                 <ListItemText primary={workspace} primaryTypographyProps={{fontSize: 24}}/>
               </ListItem>
