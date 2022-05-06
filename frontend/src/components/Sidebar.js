@@ -13,7 +13,7 @@ import ListItemText from '@mui/material/ListItemText';
 import { library } from '@fortawesome/fontawesome-svg-core'
 import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ListItemIcon } from '@mui/material';
+import { Avatar, ListItemIcon } from '@mui/material';
 
 
 const drawerWidth = 240;
@@ -22,6 +22,7 @@ export default function Sidebar() {
   const sidebarText = {'Scripts': 'scroll', 'Settings': 'gear', 'Members':'users'}
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   library.add(faChalkboard,faScroll, faGear, faUsers)
+  const workspace = 'SnippetzDev'
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -45,6 +46,16 @@ export default function Sidebar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
+            <Box>
+              <ListItem button key={workspace}>
+                <ListItemIcon>
+                  <Avatar variant="square" src="../assets/workspace.jpg">
+                  </Avatar>
+                </ListItemIcon>
+                <ListItemText primary={workspace} />
+              </ListItem>
+              <Divider />
+            </Box>
             {Object.entries(sidebarText).map(([text, icon], index) => (
               <Box>
                 <ListItem button key={text}>
