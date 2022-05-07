@@ -11,8 +11,7 @@ import {
   Button,
   MenuItem
 } from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faBars } from '@fortawesome/free-solid-svg-icons'
+import './Navbar.css'
 
 
 const settings = ['Account', 'Logout']
@@ -43,9 +42,10 @@ const Navbar = () => {
     <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth='false'>
         <Toolbar disableGutters>
-          <IconButton sx={{ color: 'common.white', display: { xs: 'flex', md: 'flex' }, p: 2, mr: 2 }}>
-            <FontAwesomeIcon icon={faBars}  />
-          </IconButton>
+          <img
+            className='logo'
+            src="<%= asset_path('lambdee-logo.svg') %>"
+          />
           <Typography
             variant='h6'
             noWrap
