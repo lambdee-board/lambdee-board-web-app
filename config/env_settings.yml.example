@@ -1,0 +1,17 @@
+default: &default
+  default_url_options:
+    host: 'localhost:3000'
+    protocol: 'http'
+  gravatar_host: www.gravatar.com
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  default_url_options:
+    host: <%= ENV['LAMBDEE_HOST'] %>
+    protocol: <%= ENV['LAMBDEE_PROTOCOL'] || 'https' %>
+  gravatar_host: www.gravatar.com

@@ -77,6 +77,9 @@ The initializer should be named `config/initializers/github.rb`, and the content
 
 The frontend app is written in React and lives in the `frontend/` directory. It is built using `esbuild` and copied to the Rails Asset Pipeline, which serves it.
 
+The React app is written in JavaScript with custom
+configured `ESLint` rules (`frontend/.eslintrc.yml`).
+
 All components should be named using `PascalCase` eg, `UserData`, `Board`.
 
 All variables and regular (non-component) functions should be named
@@ -97,7 +100,7 @@ Here is an example of its code:
 // frontend/src/views/Account.js
 import './Account.css'
 
-const Account = (props) => {
+const Account = () => {
   return (
     <div className="account">
       <h1>Some code</h1>
@@ -117,18 +120,26 @@ Let's say that you want to write a button component. It should be stored in `fro
 
 Any `CSS` styles unique to this component should be saved inside `frontend/src/components/Button.css` and imported in the `.js` file.
 
-Here is an example of its code:
+All `props` used by components should be documented using
+the [prop-types](https://reactjs.org/docs/typechecking-with-proptypes.html) package.
+
+Example:
 
 ```js
 // frontend/src/components/Button.js
 import './Button.css'
+import PropTypes from 'prop-types'
 
 const Button = (props) => {
   return (
     <div className="button">
-      <h1>Some code</h1>
+      <h1>{props.label}</h1>
     </div>
   );
+}
+
+Button.propTypes = {
+  label: PropTypes.string.isRequired
 }
 
 export default Button;

@@ -1,14 +1,16 @@
+import { ThemeProvider } from '@mui/material'
+
 import './App.css'
 import Navbar from './components/Navbar'
 import lambdeeTheme from './lambdeeTheme'
-
-import { ThemeProvider, Button } from '@mui/material'
+import Sidebar from './components/Sidebar'
 
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
       <div className='App'>
         <Navbar />
+        <Sidebar />
       </div>
     </ThemeProvider>
   )

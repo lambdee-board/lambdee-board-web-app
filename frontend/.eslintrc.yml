@@ -112,7 +112,7 @@ rules:
   no-confusing-arrow:
     - warn
   default-param-last:
-    - error
+    - warn
   eqeqeq:
     - warn
     - smart
