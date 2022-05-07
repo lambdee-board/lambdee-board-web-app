@@ -35,7 +35,7 @@ export default function Sidebar() {
         <Box sx={{ overflow: 'auto' }}>
           <List>
             <Box key={workspaceName}>
-              <ListItem button key={workspaceName}>
+              <ListItem button>
                 <ListItemIcon>
                   <WorkspaceIcon name={workspaceName} size={48}/>
                 </ListItemIcon>
@@ -45,7 +45,7 @@ export default function Sidebar() {
             </Box>
             {Object.entries(sidebarText).map(([text, icon], index) => (
               <Box key={text}>
-                <ListItem button key={text}>
+                <ListItem button>
                   <ListItemIcon>
                       <FontAwesomeIcon icon={icon} />
                   </ListItemIcon>
@@ -56,11 +56,11 @@ export default function Sidebar() {
             ))}
             {['Board', 'Board'].map((text, index) => (
               <Box key={text + index}>
-                <ListItem button key={text + index}>
+                <ListItem button>
                   <ListItemIcon>
                       <FontAwesomeIcon icon={faChalkboard} color={colors[Math.floor(Math.random() * colors.length)]}/>
                   </ListItemIcon>
-                  <ListItemText primary={text + " " + (index + 1)} />
+                  <ListItemText primary={`${text} ${index + 1}`} />
                 </ListItem>
                 <Divider />
               </Box>
