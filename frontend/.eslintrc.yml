@@ -1,0 +1,194 @@
+env:
+  browser: true
+  es2022: true
+extends:
+  - eslint:recommended
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+  ecmaVersion: latest
+  sourceType: module
+plugins:
+  - react
+  - react-hooks
+globals:
+  process: readonly
+  __dirname: readonly
+rules:
+  react/jsx-wrap-multilines:
+    - error
+  react/jsx-tag-spacing:
+    - warn
+  react/jsx-space-before-closing:
+    - warn
+  react/jsx-pascal-case:
+    - warn
+  react/jsx-props-no-multi-spaces:
+    - warn
+  react/prefer-stateless-function:
+    - error
+  react/react-in-jsx-scope:
+    - off
+  no-duplicate-imports:
+    - warn
+  camelcase:
+    - error
+    - properties: always
+      ignoreDestructuring: true
+  object-shorthand:
+    - warn
+    - always
+  operator-assignment:
+    - warn
+    - always
+  prefer-arrow-callback:
+    - error
+  prefer-const:
+    - warn
+  prefer-exponentiation-operator:
+    - warn
+  prefer-template:
+    - warn
+  spaced-comment:
+    - warn
+    - always
+  yoda:
+    - warn
+  array-bracket-newline:
+    - warn
+    - consistent
+  no-shadow:
+    - error
+  no-undef-init:
+    - error
+  no-unneeded-ternary:
+    - warn
+  no-useless-return:
+    - warn
+  no-var:
+    - error
+  default-case-last:
+    - warn
+  no-else-return:
+    - warn
+  arrow-spacing:
+    - warn
+  block-spacing:
+    - warn
+    - always
+  brace-style:
+    - warn
+    - 1tbs
+    - allowSingleLine: true
+  comma-spacing:
+    - warn
+  comma-style:
+    - warn
+  computed-property-spacing:
+    - warn
+  dot-location:
+    - warn
+    - property
+  eol-last:
+    - warn
+  func-call-spacing:
+    - warn
+  function-call-argument-newline:
+    - warn
+    - consistent
+  function-paren-newline:
+    - warn
+    - consistent
+  generator-star-spacing:
+    - warn
+  implicit-arrow-linebreak:
+    - warn
+  no-lonely-if:
+    - warn
+  no-nested-ternary:
+    - error
+  no-confusing-arrow:
+    - warn
+  default-param-last:
+    - warn
+  eqeqeq:
+    - warn
+    - smart
+  no-constructor-return:
+    - error
+  no-empty:
+    - warn
+  no-unused-vars:
+    - warn
+    - args: none
+  indent:
+    - warn
+    - 2
+  jsx-quotes:
+    - warn
+    - prefer-single
+  key-spacing:
+    - warn
+  keyword-spacing:
+    - warn
+  linebreak-style:
+    - warn
+    - unix
+  lines-between-class-members:
+    - warn
+  quotes:
+    - warn
+    - single
+  semi:
+    - error
+    - never
+  newline-per-chained-call:
+    - warn
+    - ignoreChainWithDepth: 3
+  no-multiple-empty-lines:
+    - warn
+    - max: 2
+  no-trailing-spaces:
+    - warn
+  no-whitespace-before-property:
+    - warn
+  nonblock-statement-body-position:
+    - warn
+  object-curly-newline:
+    - warn
+  object-curly-spacing:
+    - warn
+    - always
+  object-property-newline:
+    - warn
+    - allowAllPropertiesOnSameLine: true
+  operator-linebreak:
+    - warn
+    - after
+  padded-blocks:
+    - warn
+    - never
+  rest-spread-spacing:
+    - warn
+  semi-spacing:
+    - warn
+  space-before-blocks:
+    - warn
+  space-before-function-paren:
+    - warn
+    - never
+  space-in-parens:
+    - warn
+    - never
+  space-infix-ops:
+    - error
+  switch-colon-spacing:
+    - warn
+  template-curly-spacing:
+    - warn
+  wrap-iife:
+    - error
+  yield-star-spacing:
+    - warn

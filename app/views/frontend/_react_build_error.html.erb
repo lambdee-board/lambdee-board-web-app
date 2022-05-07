@@ -17,7 +17,11 @@
     </h3>
     <h4>
       <% file_relative_path = ::File.join('frontend', location['file'].to_s.sub('build', 'src')) %>
-      <% file_absolute_path = ::Rails.root.join(file_relative_path) %>
+      <% file_absolute_path = ::File.join(::Rails.root, file_relative_path) %>
+      <% if !::File.exist?(file_absolute_path) -%>
+        <% file_relative_path = file_relative_path + '.erb' %>
+        <% file_absolute_path = file_absolute_path + '.erb' %>
+      <% end -%>
       <a href="vscode://file/<%=file_absolute_path%>:<%=location['line']%>:<%=location['column']%>">
         <%= file_relative_path %>:<%= location['line'] %>:<%= location['column'] %>
       </a>

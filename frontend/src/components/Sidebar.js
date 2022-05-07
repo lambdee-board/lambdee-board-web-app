@@ -1,22 +1,23 @@
-import * as React from 'react';
-import Box from '@mui/material/Box';
-import Drawer from '@mui/material/Drawer';
-import Toolbar from '@mui/material/Toolbar';
-import List from '@mui/material/List';
-import Divider from '@mui/material/Divider';
-import ListItem from '@mui/material/ListItem';
-import ListItemText from '@mui/material/ListItemText';
-import WorkspaceIcon from './WorkspaceIcon';
+import * as React from 'react'
+import {
+  Box,
+  Drawer,
+  Toolbar,
+  List,
+  Divider,
+  ListItem,
+  ListItemText,
+  ListItemIcon
+} from '@mui/material'
 
 import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
-import { ListItemIcon } from '@mui/material';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-const drawerWidth = 240;
+const drawerWidth = 240
 
 export default function Sidebar() {
-  const sidebarText = {'Scripts': faScroll, 'Settings': faGear, 'Members': faUsers}
+  const sidebarText = { Scripts: faScroll, Settings: faGear, Members: faUsers }
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   const workspaceName = 'SnippetzDev'
 
@@ -39,7 +40,7 @@ export default function Sidebar() {
                 <ListItemIcon>
                   <WorkspaceIcon name={workspaceName} size={48}/>
                 </ListItemIcon>
-                <ListItemText primary={workspaceName} primaryTypographyProps={{fontSize: 24}}/>
+                <ListItemText primary={text} />
               </ListItem>
               <Divider />
             </Box>
