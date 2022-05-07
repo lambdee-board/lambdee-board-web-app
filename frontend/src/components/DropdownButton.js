@@ -1,6 +1,9 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import { Typography, Button, Menu } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
+
 import './DropdownButton.css'
 
 const DropdownButton = (props) => {
@@ -21,10 +24,13 @@ const DropdownButton = (props) => {
         id='dropdown-button'
         onClick={handleClick}
       >
-        <Typography variant='button' color='common.white' >{props.label}</Typography>
+        <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
+          {props.label}
+          <FontAwesomeIcon className='DropdownButton-icon' icon={faAngleDown} />
+        </Typography>
       </Button>
       <Menu
-        sx = {{ mt: 1.5 }}
+        sx = {{ mt: 1.7 }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}

@@ -8,10 +8,12 @@ import {
   Menu,
   Container,
   Avatar,
-  MenuItem
+  MenuItem,
+  Divider
 } from '@mui/material'
 import DropdownButton from './DropdownButton'
 import WorkspaceIcon from './WorkspaceIcon'
+
 
 import './Navbar.css'
 
@@ -57,6 +59,10 @@ const Navbar = () => {
                   {workspace}
                 </MenuItem>
               ))}
+              <Divider />
+              <MenuItem>
+                <Typography color='primary'>More...</Typography>
+              </MenuItem>
             </DropdownButton>
             <DropdownButton label='Recent'>
               {recents.map((recent) => (
@@ -70,6 +76,10 @@ const Navbar = () => {
               {actions.map((action) => (
                 <MenuItem key={action} onClick={handleClose}>{action}</MenuItem>
               ))}
+              <Divider />
+              <MenuItem>
+                <Typography color='primary'>More...</Typography>
+              </MenuItem>
             </DropdownButton>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
