@@ -1,3 +1,7 @@
+import greetConsole from './greetConsole.js'
+
+greetConsole()
+
 import panic from 'panic-overlay'
 import React from 'react'
 import ReactDOM from 'react-dom/client'

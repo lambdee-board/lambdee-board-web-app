@@ -10,6 +10,7 @@
     "dotfiles",
     "esbuild",
     "Guardfile",
+    "jdenticon",
     "Lambdee",
     "linebreak",
     "livereload",

@@ -8,6 +8,6 @@
   end
 
   # path to the frontend React app
-  root ::ApplicationController::FRONTEND_ACTION
+  root ::ApplicationController::FRONTEND_ACTION, as: :frontend
   get '/*path', to: ::ApplicationController::FRONTEND_ACTION, format: false
 end
