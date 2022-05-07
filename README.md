@@ -85,6 +85,22 @@ All components should be named using `PascalCase` eg, `UserData`, `Board`.
 All variables and regular (non-component) functions should be named
 using `camelCase` eg. `userData`, `getUser`.
 
+##### State management
+
+###### UI state
+
+This app uses [Redux](https://redux.js.org/) as its global store for UI
+state. All code regarding `Redux` is stored in `frontend/src/redux`.
+
+The main store is located in `frontend/src/redux/store.js`.
+All reducers, actions and selectors having to do with
+a single part of the UI should be stored in a `Slice` file inside `frontend/src/redux/slices`.
+
+###### Data fetching
+
+[SWR](https://swr.vercel.app/) is used for guarding the state
+of data that is fetched from the backend.
+
 ##### View components
 
 Components representing a single view (page) should be stored in the

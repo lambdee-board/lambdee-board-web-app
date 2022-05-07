@@ -1,6 +1,8 @@
 import esbuild from 'esbuild'
-import { spawnSync } from 'child_process'
+import { sassPlugin } from 'esbuild-sass-plugin'
 import chokidar from 'chokidar'
+
+import { spawnSync } from 'child_process'
 import { sep, join } from 'path'
 import {
   writeFileSync,
@@ -76,7 +78,10 @@ async function build() {
         '.jpg': 'file',
         '.jpeg': 'file'
       },
-      plugins: [erbCompilationPlugin],
+      plugins: [
+        erbCompilationPlugin,
+        sassPlugin()
+      ],
       sourcemap: true,
       define: {
         'process.env.NODE_ENV': JSON.stringify('development'),

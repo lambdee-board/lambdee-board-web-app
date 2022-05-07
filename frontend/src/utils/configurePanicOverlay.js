@@ -2,12 +2,12 @@ import panic from 'panic-overlay'
 import erbSourceFiles from 'erb-compilation/erb-source-files'
 import { get } from 'lodash'
 
-const isAnErbFile = (relativeFilePath) => {
-  const filePathArray = relativeFilePath.split(process.path.sep)
-  return get(erbSourceFiles, filePathArray.splice(1))
-}
-
 if (process.env.NODE_ENV === 'development') {
+  const isAnErbFile = (relativeFilePath) => {
+    const filePathArray = relativeFilePath.split(process.path.sep)
+    return get(erbSourceFiles, filePathArray.splice(1))
+  }
+
   panic.configure({
     projectRoot: __dirname,
     stackEntryClicked(entry) {
