@@ -40,8 +40,8 @@ const Navbar = () => {
   }
 
   return (
-    <AppBar position='absolute' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Container>
+    <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <Container maxWidth='false'>
         <Toolbar disableGutters>
           <IconButton sx={{ color: 'common.white', display: { xs: 'flex', md: 'flex' }, p: 2, mr: 2 }}>
             <FontAwesomeIcon icon={faBars}  />
