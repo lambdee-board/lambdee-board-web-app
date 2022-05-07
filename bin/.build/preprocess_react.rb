@@ -15,8 +15,16 @@ rescue ::Sprockets::Rails::Helper::AssetNotFound => e
   error e.message.strip
 end
 
-def image_path(...)
-  helpers.image_path(...)
+def asset_url(*args, **kwargs, &)
+  helpers.asset_path(
+    *args,
+    {
+      host: ::Rails.application.default_url_options[:host],
+      protocol: ::Rails.application.default_url_options[:protocol],
+      **kwargs
+    },
+    &
+  )
 rescue ::Sprockets::Rails::Helper::AssetNotFound => e
   error e.message.strip
 end
