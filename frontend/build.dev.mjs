@@ -1,24 +1,26 @@
-import esbuild from 'esbuild';
+import esbuild from 'esbuild'
 import { spawnSync } from 'child_process'
 import chokidar from 'chokidar'
 import { sep, join } from 'path'
-import { writeFileSync,
-         unlinkSync,
-         existsSync,
-         readdirSync } from 'fs'
+import {
+  writeFileSync,
+  unlinkSync,
+  existsSync,
+  readdirSync
+} from 'fs'
 
 const buildErrorFilePath = '../tmp/react_build_error.json'
 
 const getAllErbSourceFiles = (dir = join(process.cwd(), 'src'), object = {}) => {
   readdirSync(dir, { withFileTypes: true }).forEach(element => {
-    if(element.isDirectory()) {
-      let childObject = {}
+    if (element.isDirectory()) {
+      const childObject = {}
       object[element.name] = childObject
       getAllErbSourceFiles(join(dir, element.name), childObject)
       return
     }
 
-    if(!element.name.endsWith('.erb')) return
+    if (!element.name.endsWith('.erb')) return
 
     object[element.name.replace('.erb', '')] = true
   })
@@ -28,24 +30,24 @@ const getAllErbSourceFiles = (dir = join(process.cwd(), 'src'), object = {}) => 
 
 const erbCompilationPlugin = {
   name: 'erb-compilation',
-  setup(build) {
-    build.onStart(() => {
+  setup(buildProcess) {
+    buildProcess.onStart(() => {
       spawnSync('rails', ['runner', 'bin/.build/preprocess_react.rb'], { stdio: 'inherit', env: { ...process.env, BUILD: true } })
     })
-    build.onEnd((result) => {
-      if(result.errors === undefined || result.errors.length === 0) {
+    buildProcess.onEnd((result) => {
+      if (result.errors === undefined || result.errors.length === 0) {
         console.log('📦 React built!\n')
-        if(existsSync(buildErrorFilePath)) unlinkSync(buildErrorFilePath)
+        if (existsSync(buildErrorFilePath)) unlinkSync(buildErrorFilePath)
         return
       }
 
       console.log('💣 React build failed!\n')
       writeFileSync(buildErrorFilePath, JSON.stringify(result))
     })
-    build.onResolve({ filter: /erb-source-files$/ }, async () => {
+    buildProcess.onResolve({ filter: /erb-source-files$/ }, async() => {
       return { path: 'erb-source-files', namespace: 'erb-compilation' }
     })
-    build.onLoad({ filter: /erb-source-files$/, namespace: 'erb-compilation' }, async (args) => {
+    buildProcess.onLoad({ filter: /erb-source-files$/, namespace: 'erb-compilation' }, async(args) => {
       return {
         contents: JSON.stringify(getAllErbSourceFiles()),
         loader: 'json'
@@ -86,13 +88,13 @@ async function build() {
     })
   } catch {}
 
-  let watcher = chokidar.watch('./src', {
-    ignored: /(^|[\/\\])\../, // ignore dotfiles
+  const watcher = chokidar.watch('./src', {
+    ignored: /(^|[/\\])\../, // ignore dotfiles
     persistent: true,
     ignoreInitial: true,
   })
 
-  watcher.on('all', async (event, path) => {
+  watcher.on('all', async(event, path) => {
     console.log(`[watch] build started (${event}: "${path}")`)
     try { await result.rebuild() } catch {}
     console.log('[watch] build finished')

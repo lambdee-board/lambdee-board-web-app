@@ -1,19 +1,19 @@
-import './App.css';
-import Navbar from './components/Navbar'
-import lambdeeTheme from './lambdeeTheme';
+import { ThemeProvider } from '@mui/material'
 
-import { ThemeProvider } from "@mui/material"
-import Sidebar from './components/Sidebar';
+import './App.css'
+import Navbar from './components/Navbar'
+import lambdeeTheme from './lambdeeTheme'
+import Sidebar from './components/Sidebar'
 
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
-      <div className="App">
+      <div className='App'>
         <Navbar />
         <Sidebar />
       </div>
     </ThemeProvider>
-  );
+  )
 }
 
-export default App;
+export default App
