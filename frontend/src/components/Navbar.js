@@ -41,7 +41,7 @@ const Navbar = () => {
 
   return (
     <AppBar position='absolute' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Container maxWidth>
+      <Container>
         <Toolbar disableGutters>
           <IconButton sx={{ color: 'common.white', display: { xs: 'flex', md: 'flex' }, p: 2, mr: 2 }}>
             <FontAwesomeIcon icon={faBars}  />
@@ -57,7 +57,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
             <Button
               id='workspaces-button'
-              onClick={e => setAnchorElWorkspaces(e.currentTarget)}
+              onClick={(e) => setAnchorElWorkspaces(e.currentTarget)}
               sx={{ mr: 4 }}
             >
               <Typography variant='button' color='common.white'>Workspaces</Typography>
@@ -67,7 +67,7 @@ const Navbar = () => {
               id='workspaces-menu'
               anchorEl={anchorElWorkspaces}
               open={Boolean(anchorElWorkspaces)}
-              onClose={e => setAnchorElWorkspaces()}
+              onClose={(e) => setAnchorElWorkspaces()}
             >
               <MenuItem onClick={handleClose}>1</MenuItem>
               <MenuItem onClick={handleClose}>2</MenuItem>
@@ -75,7 +75,7 @@ const Navbar = () => {
             </Menu>
             <Button
               id='recent-button'
-              onClick={e => setAnchorElRecent(e.currentTarget)}
+              onClick={(e) => setAnchorElRecent(e.currentTarget)}
               sx={{ mr: 4 }}
             >
               <Typography variant='button' color='common.white'>Recent</Typography>
@@ -85,7 +85,7 @@ const Navbar = () => {
               id='recent-button'
               anchorEl={anchorElRecent}
               open={Boolean(anchorElRecent)}
-              onClose={e => setAnchorElRecent()}
+              onClose={(e) => setAnchorElRecent()}
             >
               <MenuItem onClick={handleClose}>4</MenuItem>
               <MenuItem onClick={handleClose}>5</MenuItem>
@@ -93,7 +93,7 @@ const Navbar = () => {
             </Menu>
             <Button
               id='actions-button'
-              onClick={e => setAnchorElActions(e.currentTarget)}
+              onClick={(e) => setAnchorElActions(e.currentTarget)}
               sx={{ mr: 4 }}
             >
               <Typography variant='button' color='common.white'>Actions</Typography>
@@ -103,7 +103,7 @@ const Navbar = () => {
               id='actions-button'
               anchorEl={anchorElActions}
               open={Boolean(anchorElActions)}
-              onClose={e => setAnchorElActions()}
+              onClose={(e) => setAnchorElActions()}
             >
               <MenuItem onClick={handleClose}>aaaaaaaaaaaaaaaaaaaaa</MenuItem>
               <MenuItem onClick={handleClose}>aaaaaaaaaaaaaaaaaaaaa</MenuItem>
@@ -112,7 +112,7 @@ const Navbar = () => {
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-              <Avatar alt='Remy Sharp' src='/static/images/avatar/2.jpg' />
+              <Avatar alt='Remy Sharp' />
             </IconButton>
             <Menu
               sx={{ mt: 1.5 }}

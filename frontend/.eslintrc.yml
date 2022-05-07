@@ -45,6 +45,8 @@ rules:
     - always
   prefer-arrow-callback:
     - error
+  arrow-parens:
+    - warn
   prefer-const:
     - warn
   prefer-exponentiation-operator:
