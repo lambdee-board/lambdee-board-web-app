@@ -8,9 +8,9 @@ import {
   Menu,
   Container,
   Avatar,
-  Button,
   MenuItem
 } from '@mui/material'
+import DropdownButton from './DropdownButton'
 import './Navbar.css'
 
 
@@ -19,17 +19,11 @@ const settings = ['Account', 'Logout']
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
 
-  const [anchorElWorkspaces, setAnchorElWorkspaces] = React.useState(null)
-  const [anchorElRecent, setAnchorElRecent] = React.useState(null)
-  const [anchorElActions, setAnchorElActions] = React.useState(null)
-
+  const [setAnchorEl] = React.useState(null)
 
   const handleClose = () => {
-    setAnchorElWorkspaces(null)
-    setAnchorElRecent(null)
-    setAnchorElActions(null)
+    setAnchorEl(null)
   }
-
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
@@ -43,72 +37,31 @@ const Navbar = () => {
       <Container maxWidth='false'>
         <Toolbar disableGutters>
           <img
-            className='logo'
+            className='Navbar-logo'
             src="<%= asset_path('lambdee-logo.svg') %>"
           />
           <Typography
             variant='h6'
-            noWrap
-            component='div'
-            sx={{ mr: 20, display: { xs: 'none',  md: 'flex' } }}
+            sx={{ mr: 12, display: { xs: 'none',  md: 'flex' } }}
           >
                 Lambdee
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
-            <Button
-              id='workspaces-button'
-              onClick={(e) => setAnchorElWorkspaces(e.currentTarget)}
-              sx={{ mr: 4 }}
-            >
-              <Typography variant='button' color='common.white'>Workspaces</Typography>
-            </Button>
-            <Menu
-              sx={{ mt: 2 }}
-              id='workspaces-menu'
-              anchorEl={anchorElWorkspaces}
-              open={Boolean(anchorElWorkspaces)}
-              onClose={(e) => setAnchorElWorkspaces()}
-            >
-              <MenuItem onClick={handleClose}>1</MenuItem>
-              <MenuItem onClick={handleClose}>2</MenuItem>
-              <MenuItem onClick={handleClose}>3</MenuItem>
-            </Menu>
-            <Button
-              id='recent-button'
-              onClick={(e) => setAnchorElRecent(e.currentTarget)}
-              sx={{ mr: 4 }}
-            >
-              <Typography variant='button' color='common.white'>Recent</Typography>
-            </Button>
-            <Menu
-              sx={{ mt: 2 }}
-              id='recent-button'
-              anchorEl={anchorElRecent}
-              open={Boolean(anchorElRecent)}
-              onClose={(e) => setAnchorElRecent()}
-            >
-              <MenuItem onClick={handleClose}>4</MenuItem>
-              <MenuItem onClick={handleClose}>5</MenuItem>
-              <MenuItem onClick={handleClose}>6</MenuItem>
-            </Menu>
-            <Button
-              id='actions-button'
-              onClick={(e) => setAnchorElActions(e.currentTarget)}
-              sx={{ mr: 4 }}
-            >
-              <Typography variant='button' color='common.white'>Actions</Typography>
-            </Button>
-            <Menu
-              sx={{ mt: 2 }}
-              id='actions-button'
-              anchorEl={anchorElActions}
-              open={Boolean(anchorElActions)}
-              onClose={(e) => setAnchorElActions()}
-            >
-              <MenuItem onClick={handleClose}>aaaaaaaaaaaaaaaaaaaaa</MenuItem>
-              <MenuItem onClick={handleClose}>aaaaaaaaaaaaaaaaaaaaa</MenuItem>
-              <MenuItem onClick={handleClose}>aaaaaaaaaaaaaaaaaaaaa</MenuItem>
-            </Menu>
+            <DropdownButton label='Workspaces'>
+              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
+              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
+              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
+            </DropdownButton>
+            <DropdownButton label='Recent'>
+              <MenuItem onClick={handleClose}>Recent</MenuItem>
+              <MenuItem onClick={handleClose}>Recent</MenuItem>
+              <MenuItem onClick={handleClose}>Recent</MenuItem>
+            </DropdownButton>
+            <DropdownButton label='Actions'>
+              <MenuItem onClick={handleClose}>Actions</MenuItem>
+              <MenuItem onClick={handleClose}>Actions</MenuItem>
+              <MenuItem onClick={handleClose}>Actions</MenuItem>
+            </DropdownButton>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
             <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
