@@ -1,10 +1,4 @@
-
-export default function greetConsole() {
-  const url = '<%= asset_url "lambdee-logo.svg" %>'
-  logLogo(url, 24, ' Lambdee', 32)
-}
-
-export function logLogo(url, height = 100, text = '', fontSize = 16) {
+function logLogo(url, height = 100, text = '', fontSize = 16) {
   const styles = [
     `font-size: ${fontSize}px`,
     `padding: ${height}px`,
@@ -13,3 +7,6 @@ export function logLogo(url, height = 100, text = '', fontSize = 16) {
   ].join(';')
   console.log(`%c ${text}`, styles)
 }
+
+const url = '<%= asset_url "lambdee-logo.svg" %>'
+logLogo(url, 24, ' Lambdee', 32)

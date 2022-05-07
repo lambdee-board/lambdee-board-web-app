@@ -1,0 +1,23 @@
+import './App.css'
+import lambdeeTheme from './lambdeeTheme'
+
+import { ThemeProvider, Button } from '@mui/material'
+
+function App() {
+  return (
+    <ThemeProvider theme={lambdeeTheme}>
+      <div className='App'>
+        <header className='App-header'>
+          <img src="<%= asset_path('lambdee-logo.svg') %>" className='App-logo' alt='logo' />
+          <p>Live reloading Baby! </p>
+          <p>
+            Edit <code>src/App.js</code> and save to reload.
+          </p>
+          <Button variant='contained' onClick={() => { throw new Error('lol') }}>Throw Error</Button>
+        </header>
+      </div>
+    </ThemeProvider>
+  )
+}
+
+export default App
