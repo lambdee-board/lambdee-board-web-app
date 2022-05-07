@@ -11,14 +11,13 @@ import {
   MenuItem
 } from '@mui/material'
 import DropdownButton from './DropdownButton'
+import WorkspaceIcon from './WorkspaceIcon'
+
 import './Navbar.css'
 
 
-const settings = ['Account', 'Logout']
-
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-
   const [setAnchorEl] = React.useState(null)
 
   const handleClose = () => {
@@ -27,10 +26,14 @@ const Navbar = () => {
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
-
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+
+  const workspaces = ['SnippetzDev', 'MyApp', 'Lambdee']
+  const recents = ['MyApp', 'Lambdee']
+  const actions = ['Delete old task', 'Delete blocked user']
+  const settings = ['Account', 'Logout']
 
   return (
     <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -48,19 +51,25 @@ const Navbar = () => {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
             <DropdownButton label='Workspaces'>
-              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
-              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
-              <MenuItem onClick={handleClose}>Workspaces</MenuItem>
+              {workspaces.map((workspace) => (
+                <MenuItem key={workspace} onClick={handleClose}>
+                  <WorkspaceIcon name={workspace} size={32} />
+                  {workspace}
+                </MenuItem>
+              ))}
             </DropdownButton>
             <DropdownButton label='Recent'>
-              <MenuItem onClick={handleClose}>Recent</MenuItem>
-              <MenuItem onClick={handleClose}>Recent</MenuItem>
-              <MenuItem onClick={handleClose}>Recent</MenuItem>
+              {recents.map((recent) => (
+                <MenuItem key={recent} onClick={handleClose}>
+                  <WorkspaceIcon name={recent} size={32} />
+                  {recent}
+                </MenuItem>
+              ))}
             </DropdownButton>
             <DropdownButton label='Actions'>
-              <MenuItem onClick={handleClose}>Actions</MenuItem>
-              <MenuItem onClick={handleClose}>Actions</MenuItem>
-              <MenuItem onClick={handleClose}>Actions</MenuItem>
+              {actions.map((action) => (
+                <MenuItem key={action} onClick={handleClose}>{action}</MenuItem>
+              ))}
             </DropdownButton>
           </Box>
           <Box sx={{ flexGrow: 0 }}>
