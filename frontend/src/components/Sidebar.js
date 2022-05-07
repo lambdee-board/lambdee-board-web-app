@@ -6,6 +6,7 @@ import List from '@mui/material/List';
 import Divider from '@mui/material/Divider';
 import ListItem from '@mui/material/ListItem';
 import ListItemText from '@mui/material/ListItemText';
+import WorkspaceIcon from './WorkspaceIcon';
 
 import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"
@@ -33,17 +34,17 @@ export default function Sidebar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            <Box>
+            <Box key={workspaceName}>
               <ListItem button key={workspaceName}>
                 <ListItemIcon>
-                  {/* <Jdenticon size="48" value={workspaceName} /> */}
+                  <WorkspaceIcon name={workspaceName} size={48}/>
                 </ListItemIcon>
                 <ListItemText primary={workspaceName} primaryTypographyProps={{fontSize: 24}}/>
               </ListItem>
               <Divider />
             </Box>
             {Object.entries(sidebarText).map(([text, icon], index) => (
-              <Box>
+              <Box key={text}>
                 <ListItem button key={text}>
                   <ListItemIcon>
                       <FontAwesomeIcon icon={icon} />
@@ -54,8 +55,8 @@ export default function Sidebar() {
               </Box>
             ))}
             {['Board', 'Board'].map((text, index) => (
-              <Box>
-                <ListItem button key={text}>
+              <Box key={text + index}>
+                <ListItem button key={text + index}>
                   <ListItemIcon>
                       <FontAwesomeIcon icon={faChalkboard} color={colors[Math.floor(Math.random() * colors.length)]}/>
                   </ListItemIcon>
