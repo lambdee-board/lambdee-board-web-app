@@ -6,7 +6,6 @@ import {
   Typography,
   Avatar,
   Chip,
-  Stack
 } from '@mui/material'
 import PropTypes from 'prop-types'
 
