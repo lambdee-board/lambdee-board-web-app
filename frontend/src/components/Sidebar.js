@@ -64,7 +64,7 @@ export default function Sidebar() {
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
           <List>
-            <ListItem divider key={workspaceName}>
+            <ListItem alignItems='center' divider key={workspaceName}>
               <ListItemIcon>
                 <WorkspaceIcon name={workspaceName} size={48} />
               </ListItemIcon>
