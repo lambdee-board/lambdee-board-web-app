@@ -42,7 +42,8 @@ const TaskCard = (props) => {
 TaskCard.propTypes = {
   label: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
-  categories: PropTypes.array.isRequired
+  categories: PropTypes.array.isRequired,
+  users: PropTypes.array.isRequired
 }
 
 export default TaskCard
