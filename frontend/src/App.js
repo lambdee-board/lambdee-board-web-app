@@ -1,18 +1,17 @@
 import { ThemeProvider } from '@mui/material'
 
 import './App.css'
-import Navbar from './components/Navbar'
+import TaskCard from './components/TaskCard'
 import lambdeeTheme from './lambdeeTheme'
-import Sidebar from './components/Sidebar'
 import ErrorCounter from './components/ErrorCounter'
 
+const categories = [['Login', '#0000FF', '#FFFFFF.'], ['Login', '#FFFF00', '#000000']]
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
       <div className='App'>
         <ErrorCounter />
-        <Navbar />
-        <Sidebar />
+        <TaskCard label = 'Fix the login issue' categories={categories} priority='priority' />
       </div>
     </ThemeProvider>
   )
