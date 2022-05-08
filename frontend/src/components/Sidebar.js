@@ -9,24 +9,46 @@ import {
   ListItemIcon,
   Button
 } from '@mui/material'
+import { styled, useTheme } from '@mui/material/styles'
 import WorkspaceIcon from './WorkspaceIcon'
 
-import { faChalkboard, faScroll, faGear, faUsers, faArrowLeft } from '@fortawesome/free-solid-svg-icons'
+import { faChalkboard, faScroll, faGear, faUsers, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const drawerWidth = 240
 
+const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+)
+
 export default function Sidebar() {
+  const theme = useTheme()
+  const [isOpen, setOpen] = React.useState(true)
+
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   const workspaceName = 'SnippetzDev'
-
 
   return (
     <Box>
       <Drawer
         variant='persistent'
-        open={true}
+        open={isOpen}
         sx={{
           width: drawerWidth,
           flexShrink: 0,
@@ -61,14 +83,19 @@ export default function Sidebar() {
           </List>
         </Box>
       </Drawer>
-      <Button variant='contained' color='secondary' sx={{ position: 'absolute',
-        top: (theme) => theme.mixins.toolbar.minHeight + 16,
-        left: drawerWidth,
-        minWidth: 0,
-        padding: '8px',
-        borderRadius: '0px 8px 8px 0px' }} >
-        <FontAwesomeIcon icon={faArrowLeft} />
-      </Button>
+      <SidebarButton variant='contained'
+        color='secondary'
+        sx={{ position: 'absolute',
+          top: theme.mixins.toolbar.minHeight + 16,
+          left: drawerWidth,
+          minWidth: 0,
+          padding: '8px',
+          borderRadius: '0px 8px 8px 0px' }}
+        onClick={() => setOpen(!isOpen)}
+        open={isOpen}
+      >
+        <FontAwesomeIcon style={{ transform: isOpen ? '' : 'rotate(180deg)', transition: 'transform 150ms ease' }} icon={faArrowLeft} />
+      </SidebarButton>
     </Box>
   )
 }
