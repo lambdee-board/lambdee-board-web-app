@@ -5,13 +5,19 @@ import TaskCard from './components/TaskCard'
 import lambdeeTheme from './lambdeeTheme'
 import ErrorCounter from './components/ErrorCounter'
 
-const categories = [['Login', '#0000FF', '#FFFFFF.'], ['Login', '#FFFF00', '#000000']]
+const categories = [['Frontend', '#FFFFFF', '#33E3FF'], ['Backend', '#000000', '#FF3333']]
+const users = ['Remy Sharp', 'Sharp Remy']
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
       <div className='App'>
         <ErrorCounter />
-        <TaskCard label = 'Fix the login issue' categories={categories} priority='priority' />
+        <TaskCard
+          label = 'Fix the login issue'
+          categories={categories}
+          priority='priority'
+          users={users}
+        />
       </div>
     </ThemeProvider>
   )
