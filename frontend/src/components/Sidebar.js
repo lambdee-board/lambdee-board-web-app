@@ -9,11 +9,16 @@ import {
   ListItemIcon,
   Button
 } from '@mui/material'
+import {
+  faChalkboard,
+  faScroll,
+  faGear,
+  faUsers,
+  faArrowLeft
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import WorkspaceIcon from './WorkspaceIcon'
-
-import { faChalkboard, faScroll, faGear, faUsers, faArrowLeft, faArrowRight } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 const drawerWidth = 240
@@ -41,6 +46,7 @@ export default function Sidebar() {
   const theme = useTheme()
   const [isOpen, setOpen] = React.useState(true)
 
+  // replace both with swr request after workspace api will be implemented
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   const workspaceName = 'SnippetzDev'
 
