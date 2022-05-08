@@ -4,71 +4,104 @@ import {
   Drawer,
   Toolbar,
   List,
-  Divider,
   ListItem,
   ListItemText,
-  ListItemIcon
+  ListItemIcon,
+  Button
 } from '@mui/material'
-import WorkspaceIcon from './WorkspaceIcon'
-
-import { faChalkboard, faScroll, faGear, faUsers } from '@fortawesome/free-solid-svg-icons'
+import {
+  faChalkboard,
+  faScroll,
+  faGear,
+  faUsers,
+  faArrowLeft
+} from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { styled, useTheme } from '@mui/material/styles'
+import WorkspaceIcon from './WorkspaceIcon'
 
 
 const drawerWidth = 240
 
+const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'open' })(
+  ({ theme, open }) => ({
+    flexGrow: 1,
+    padding: theme.spacing(3),
+    transition: theme.transitions.create('margin', {
+      easing: theme.transitions.easing.sharp,
+      duration: theme.transitions.duration.leavingScreen,
+    }),
+    marginLeft: `-${drawerWidth}px`,
+    ...(open && {
+      transition: theme.transitions.create('margin', {
+        easing: theme.transitions.easing.easeOut,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      marginLeft: 0,
+    }),
+  }),
+)
+
 export default function Sidebar() {
-  const sidebarText = { Scripts: faScroll, Settings: faGear, Members: faUsers }
+  const theme = useTheme()
+  const [isOpen, setOpen] = React.useState(true)
+
+  // replace both with swr request after workspace api will be implemented
   const colors = ['green', 'red', 'orange', 'purple', 'blue']
   const workspaceName = 'SnippetzDev'
 
-
   return (
-    <Drawer
-      variant='persistent'
-      open={true}
-      sx={{
-        width: drawerWidth,
-        flexShrink: 0,
-        ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' }
-      }}
-    >
-      <Toolbar />
-      <Box sx={{ overflow: 'auto' }}>
-        <List>
-          <Box key={workspaceName}>
-            <ListItem button>
+    <Box>
+      <Drawer
+        variant='persistent'
+        open={isOpen}
+        sx={{
+          width: drawerWidth,
+          flexShrink: 0,
+          ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' }
+        }}
+      >
+        <Toolbar />
+        <Box sx={{ overflow: 'auto' }}>
+          <List>
+            <ListItem alignItems='center' divider key={workspaceName}>
               <ListItemIcon>
                 <WorkspaceIcon name={workspaceName} size={48} />
               </ListItemIcon>
-              <ListItemText primary={workspaceName} sx={{ fontSize: 24 }} />
+              <ListItemText primary={workspaceName} primaryTypographyProps={{ fontSize: 24 }} />
             </ListItem>
-            <Divider />
-          </Box>
-          {Object.entries(sidebarText).map(([text, icon], index) => (
-            <Box key={text}>
-              <ListItem button>
+            {Object.entries({ Scripts: faScroll, Settings: faGear, Members: faUsers }).map(([text, icon], index) => (
+              <ListItem button divider key={text}>
                 <ListItemIcon>
                   <FontAwesomeIcon icon={icon} />
                 </ListItemIcon>
                 <ListItemText primary={text} />
               </ListItem>
-              <Divider />
-            </Box>
-          ))}
-          {['Board', 'Board'].map((text, index) => (
-            <Box key={text + index}>
-              <ListItem button>
+            ))}
+            {['Board', 'Board'].map((text, index) => (
+              <ListItem button divider key={text + index}>
                 <ListItemIcon>
                   <FontAwesomeIcon icon={faChalkboard} color={colors[Math.floor(Math.random() * colors.length)]} />
                 </ListItemIcon>
                 <ListItemText primary={`${text} ${index + 1}`} />
               </ListItem>
-              <Divider />
-            </Box>
-          ))}
-        </List>
-      </Box>
-    </Drawer>
+            ))}
+          </List>
+        </Box>
+      </Drawer>
+      <SidebarButton variant='contained'
+        color='secondary'
+        sx={{ position: 'absolute',
+          top: theme.mixins.toolbar.minHeight + 16,
+          left: drawerWidth,
+          minWidth: 0,
+          padding: '8px',
+          borderRadius: '0px 8px 8px 0px' }}
+        onClick={() => setOpen(!isOpen)}
+        open={isOpen}
+      >
+        <FontAwesomeIcon style={{ transform: isOpen ? '' : 'rotate(180deg)', transition: 'transform 150ms ease' }} icon={faArrowLeft} />
+      </SidebarButton>
+    </Box>
   )
 }
