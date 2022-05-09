@@ -8,6 +8,7 @@ import {
   Chip,
 } from '@mui/material'
 import PropTypes from 'prop-types'
+import PriorityIcon from './PriorityIcon'
 
 
 const TaskCard = (props) => {
@@ -25,7 +26,7 @@ const TaskCard = (props) => {
           </Box>
           <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Typography color='text.primary' sx = {{ marginRight: 'auto', mt: 1 }}>
-              {props.priority}
+              <PriorityIcon priority={props.priority} />
             </Typography>
             {props.users.slice(0, 4).map((user) => (
               <Avatar key={user} alt={user} sx = {{ width: 24, height: 24, alignSelf: 'flex-end' }} />
