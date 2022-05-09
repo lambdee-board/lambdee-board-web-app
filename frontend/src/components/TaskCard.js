@@ -27,7 +27,7 @@ const TaskCard = (props) => {
             <Typography color='text.primary' sx = {{ marginRight: 'auto', mt: 1 }}>
               {props.priority}
             </Typography>
-            {props.users.map((user) => (
+            {props.users.slice(0, 4).map((user) => (
               <Avatar key={user} alt={user} sx = {{ width: 24, height: 24, alignSelf: 'flex-end' }} />
             ))}
           </Box>
