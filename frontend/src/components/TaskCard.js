@@ -2,20 +2,21 @@ import * as React from 'react'
 import {
   Box,
   Card,
-  CardContent,
   Typography,
   Avatar,
   Chip,
+  AvatarGroup
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon'
+import './TaskCard.css'
 
 
 const TaskCard = (props) => {
   return (
-    <Box width = '320px'>
+    <Box width = '300px'>
       <Card sx = {{ m: 2 }}>
-        <CardContent>
+        <div className='Card-content'>
           <Typography align='left' color='text.primary'>
             {props.label}
           </Typography>
@@ -24,16 +25,17 @@ const TaskCard = (props) => {
               <Chip key={category[0]} label={category[0]} sx={{ color: category[1], bgcolor: category[2] }} size='small' />
             ))}
           </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', mt: 0.2 }}>
             <Typography color='text.primary' sx = {{ marginRight: 'auto', mt: 1 }}>
               <PriorityIcon priority={props.priority} />
             </Typography>
-            {props.users.slice(0, 4).map((user) => (
-              <Avatar key={user} alt={user} sx = {{ width: 24, height: 24, alignSelf: 'flex-end' }} />
-            ))}
+            <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 28, height: 28, fontSize: 14 } }}>
+              {props.users.map((user) => (
+                <Avatar key={user} alt={user} sx = {{ alignSelf: 'flex-end' }} />
+              ))}
+            </AvatarGroup>
           </Box>
-        </CardContent>
-
+        </div>
       </Card>
     </Box>
   )

@@ -7,7 +7,7 @@ import ErrorCounter from './components/ErrorCounter'
 
 const categories = [['Frontend', '#FFFFFF', '#33E3FF'], ['Backend', '#000000', '#FF3333']]
 const users = ['Remy Sharp', 'Sharp Remy', 'Sharper Remy', 'Ramier Sharp', 'Even Sharper Remy', 'Even Ramier Sharp']
-const label = 'Fix the login issue'
+const label = 'Fix login issue'
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
