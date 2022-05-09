@@ -4,7 +4,7 @@ import { Typography, Button, Menu } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
-import './DropdownButton.css'
+import './DropdownButton.sass'
 
 const DropdownButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
@@ -18,15 +18,15 @@ const DropdownButton = (props) => {
   }
 
   return (
-    <div>
+    <div className='DropdownButton'>
       <Button
-        sx = {{ mr: 4 }}
+        className='Button'
         id='dropdown-button'
         onClick={handleClick}
       >
         <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
           {props.label}
-          <FontAwesomeIcon className='DropdownButton-icon' icon={faAngleDown} />
+          <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
         </Typography>
       </Button>
       <Menu

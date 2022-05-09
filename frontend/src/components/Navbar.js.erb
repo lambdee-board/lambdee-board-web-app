@@ -14,9 +14,7 @@ import {
 import DropdownButton from './DropdownButton'
 import WorkspaceIcon from './WorkspaceIcon'
 
-
-import './Navbar.css'
-
+import './Navbar.sass'
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -38,20 +36,20 @@ const Navbar = () => {
   const settings = ['Account', 'Logout']
 
   return (
-    <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+    <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth='false'>
         <Toolbar disableGutters>
           <img
-            className='Navbar-logo'
+            className='logo'
             src="<%= asset_path('lambdee-logo.svg') %>"
           />
           <Typography
+            className='Typography-logo-title'
             variant='h6'
-            sx={{ mr: 12, display: { xs: 'none',  md: 'flex' } }}
           >
-                Lambdee
+            Lambdee
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'flex' } }}>
+          <Box className='Box-dropdown-button-group'>
             <DropdownButton label='Workspaces'>
               {workspaces.map((workspace) => (
                 <MenuItem key={workspace} onClick={handleClose}>
@@ -82,8 +80,8 @@ const Navbar = () => {
               </MenuItem>
             </DropdownButton>
           </Box>
-          <Box sx={{ flexGrow: 0 }}>
-            <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
+          <Box className='Box-user-menu-wrapper'>
+            <IconButton className='IconButton-user-avatar' onClick={handleOpenUserMenu}>
               <Avatar alt='Remy Sharp' />
             </IconButton>
             <Menu
