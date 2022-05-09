@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material'
 
-import './App.css'
+import './App.sass'
 import Navbar from './components/Navbar'
 import lambdeeTheme from './lambdeeTheme'
 import Sidebar from './components/Sidebar'
