@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material'
 
-import './App.css'
+import './App.sass'
 import TaskCard from './components/TaskCard'
 import lambdeeTheme from './lambdeeTheme'
 import ErrorCounter from './components/ErrorCounter'
