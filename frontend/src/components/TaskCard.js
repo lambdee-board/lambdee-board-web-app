@@ -38,6 +38,13 @@ const TaskCard = (props) => {
   )
 }
 
+TaskCard.defaultProps = {
+  label: '',
+  priority: '',
+  categories: [],
+  users: [],
+}
+
 TaskCard.propTypes = {
   label: PropTypes.string.isRequired,
   priority: PropTypes.string.isRequired,
