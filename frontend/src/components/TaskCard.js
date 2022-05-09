@@ -9,35 +9,33 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon'
-import './TaskCard.css'
+import './TaskCard.sass'
 
 
 const TaskCard = (props) => {
   return (
-    <Box width = '300px'>
-      <Card sx = {{ m: 2 }}>
-        <div className='Card-content'>
-          <Typography align='left' color='text.primary'>
-            {props.label}
-          </Typography>
-          <Box sx={{ display: 'flex', mt: 0.2 }}>
-            {props.categories.map((category) => (
-              <Chip key={category[0]} label={category[0]} sx={{ color: category[1], bgcolor: category[2] }} size='small' />
+    <div className='TaskCard'>
+      <Card className='.MuiCard-root'>
+        <Typography>
+          {props.label}
+        </Typography>
+        <Box className='Box-categories'>
+          {props.categories.map((category) => (
+            <Chip key={category[0]} label={category[0]} sx={{ color: category[1], bgcolor: category[2] }} size='small' />
+          ))}
+        </Box>
+        <Box className='Box'>
+          <Box className='Box-priority'>
+            <PriorityIcon priority={props.priority} />
+          </Box>
+          <AvatarGroup max={4} className='.MuiAvatar-root'>
+            {props.users.map((user) => (
+              <Avatar key={user} alt={user} />
             ))}
-          </Box>
-          <Box sx={{ display: 'flex', flexDirection: 'row', mt: 0.2 }}>
-            <Typography color='text.primary' sx = {{ marginRight: 'auto', mt: 1 }}>
-              <PriorityIcon priority={props.priority} />
-            </Typography>
-            <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: 28, height: 28, fontSize: 14 } }}>
-              {props.users.map((user) => (
-                <Avatar key={user} alt={user} sx = {{ alignSelf: 'flex-end' }} />
-              ))}
-            </AvatarGroup>
-          </Box>
-        </div>
+          </AvatarGroup>
+        </Box>
       </Card>
-    </Box>
+    </div>
   )
 }
 
