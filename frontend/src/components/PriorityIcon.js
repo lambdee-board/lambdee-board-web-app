@@ -1,14 +1,21 @@
 import PropTypes from 'prop-types'
 import { faAngleDoubleUp, faAngleUp, faAngleDown, faAngleDoubleDown } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
+import './PriorityIcon.sass'
 
 const PriorityIcon = (props) => {
-  if (props.taskPriority === 'very high')  return  <FontAwesomeIcon color='red' icon={faAngleDoubleUp} />
-  else if (props.taskPriority  === 'high') return  <FontAwesomeIcon color='orange' icon={faAngleUp} />
-  else if (props.taskPriority  === 'normal') return  <FontAwesomeIcon color='yellow' icon={faAngleDown} />
-  else if (props.taskPriority  === 'low') return  <FontAwesomeIcon color='green' icon={faAngleDoubleDown} />
-  return ''
+  switch (props.taskPriority) {
+  case 'very high':
+    return  <FontAwesomeIcon className='PriorityIcon' color='red' icon={faAngleDoubleUp} />
+  case 'high':
+    return  <FontAwesomeIcon className='PriorityIcon' color='orange' icon={faAngleUp} />
+  case 'normal':
+    return  <FontAwesomeIcon className='PriorityIcon' color='yellow' icon={faAngleDown} />
+  case 'low':
+    return  <FontAwesomeIcon className='PriorityIcon' color='green' icon={faAngleDoubleDown} />
+  default:
+    return ''
+  }
 }
 
 PriorityIcon.defaultProps = {

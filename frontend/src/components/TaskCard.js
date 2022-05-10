@@ -27,10 +27,11 @@ const TaskCard = (props) => {
         <Box className='Box'>
           <Box className='Box-priority'>
             <PriorityIcon taskPriority={props.taskPriority} />
+            {props.taskPoints ? <Avatar className='Box-priority-avatar'>{props.taskPoints}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
-            {props.assignedUsers.map((assginedUser) => (
-              <Avatar key={assginedUser} alt={assginedUser} />
+            {props.assignedUsers.map((assignedUser) => (
+              <Avatar key={assignedUser} alt={assignedUser} />
             ))}
           </AvatarGroup>
         </Box>
@@ -44,13 +45,15 @@ TaskCard.defaultProps = {
   taskPriority: '',
   taskCategories: [],
   assignedUsers: [],
+  taskPoints: null,
 }
 
 TaskCard.propTypes = {
   taskLabel: PropTypes.string.isRequired,
   taskPriority: PropTypes.string.isRequired,
   taskCategories: PropTypes.array.isRequired,
-  assignedUsers: PropTypes.array.isRequired
+  assignedUsers: PropTypes.array.isRequired,
+  taskPoints: PropTypes.number
 }
 
 export default TaskCard
