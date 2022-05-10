@@ -17,20 +17,20 @@ const TaskCard = (props) => {
     <div className='TaskCard'>
       <Card className='.MuiCard-root'>
         <Typography>
-          {props.label}
+          {props.taskLabel}
         </Typography>
         <Box className='Box-categories'>
-          {props.categories.map((category) => (
-            <Chip key={category[0]} label={category[0]} sx={{ color: category[1], bgcolor: category[2] }} size='small' />
+          {props.taskCategories.map((taskCategory) => (
+            <Chip key={taskCategory[0]} label={taskCategory[0]} sx={{ color: taskCategory[1], bgcolor: taskCategory[2] }} size='small' />
           ))}
         </Box>
         <Box className='Box'>
           <Box className='Box-priority'>
-            <PriorityIcon priority={props.priority} />
+            <PriorityIcon taskPriority={props.taskPriority} />
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
-            {props.users.map((user) => (
-              <Avatar key={user} alt={user} />
+            {props.assignedUsers.map((assginedUser) => (
+              <Avatar key={assginedUser} alt={assginedUser} />
             ))}
           </AvatarGroup>
         </Box>
@@ -40,17 +40,17 @@ const TaskCard = (props) => {
 }
 
 TaskCard.defaultProps = {
-  label: '',
-  priority: '',
-  categories: [],
-  users: [],
+  taskLabel: '',
+  taskPriority: '',
+  taskCategories: [],
+  assignedUsers: [],
 }
 
 TaskCard.propTypes = {
-  label: PropTypes.string.isRequired,
-  priority: PropTypes.string.isRequired,
-  categories: PropTypes.array.isRequired,
-  users: PropTypes.array.isRequired
+  taskLabel: PropTypes.string.isRequired,
+  taskPriority: PropTypes.string.isRequired,
+  taskCategories: PropTypes.array.isRequired,
+  assignedUsers: PropTypes.array.isRequired
 }
 
 export default TaskCard
