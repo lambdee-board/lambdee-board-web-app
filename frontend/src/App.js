@@ -12,7 +12,7 @@ const task = {
   taskPriority: 'high'
 }
 const task2 = {
-  label: 'Implement Redux',
+  label: 'Not important task',
   taskCategories: [['Frontend', '#FFFFFF', '#33E3FF']],
   assignedUsers: ['Remy Sharp', 'Sharp Remy'],
   taskPriority: 'low'
@@ -23,14 +23,16 @@ const task3 = {
 
 }
 const task4 = {
-  label: 'New Task',
+  label: 'Important task',
+  taskPriority: 'very high'
+}
+const task5 = {
+  label: 'New Task'
 }
 
-const taskList = [task, task2, task3, task4]
 
-// const taskCategories = [['Frontend', '#FFFFFF', '#33E3FF'], ['Backend', '#000000', '#FF3333']]
-// const assignedUsers = ['Remy Sharp', 'Sharp Remy', 'Sharper Remy', 'Ramier Sharp', 'Even Sharper Remy', 'Even Ramier Sharp']
-// const taskLabel = 'Fix login issue'
+const taskList = [task, task2, task3, task4, task5]
+
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>

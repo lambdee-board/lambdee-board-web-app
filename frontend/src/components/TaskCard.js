@@ -8,7 +8,7 @@ import {
   AvatarGroup
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import PriorityIcon from './PriorityIcon'
+import PriorityIcon from './PriorityIcon.js'
 import './TaskCard.sass'
 
 
