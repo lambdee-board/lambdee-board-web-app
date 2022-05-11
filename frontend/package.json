@@ -51,7 +51,8 @@
     "cra:test": "react-scripts test",
     "cra:eject": "react-scripts eject",
     "test": "react-scripts test",
-    "build:development": "node ./build.dev.mjs"
+    "build:development": "node ./build.dev.mjs",
+    "lint": "eslint \"./src\""
   },
   "eslintConfig": {
     "extends": [
