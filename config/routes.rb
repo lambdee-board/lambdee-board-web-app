@@ -5,6 +5,7 @@
 
   scope '/api' do
     # backend API endpoints
+    resources :workspaces, only: %i[index show]
   end
 
   # path to the frontend React app

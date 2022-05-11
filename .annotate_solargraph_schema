@@ -137,3 +137,34 @@ class ActionDispatch::Routing::RouteSet
 end
 
 # Dynamically generated documentation
+
+# %%<RailsAnnotateSolargraph:Start:workspaces>%%
+
+class Workspace < ApplicationRecord
+  # Database column `workspaces.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `workspaces.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `workspaces.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `workspaces.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `workspaces.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `workspaces.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `workspaces.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `workspaces.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:workspaces>%%
+
