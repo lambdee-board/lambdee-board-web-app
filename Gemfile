@@ -12,7 +12,7 @@ gem 'rails', '~> 7.0.2', '>= 7.0.2.4'
 gem 'sprockets-rails'
 
 # Use pg as the database for Active Record
-gem "pg", "~> 1.1"
+gem 'pg', '~> 1.1'
 
 # Use the Puma web server [https://github.com/puma/puma]
 gem 'puma', '~> 5.0'
@@ -47,23 +47,32 @@ gem 'bootsnap', require: false
 group :development, :test do
   gem 'better_errors'
   gem 'binding_of_caller'
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', platforms: %i[mri mingw x64_mingw]
-  # Easier Model record factories for tests
-  gem 'factory_bot_rails'
-  gem 'foreman' # for running and managing many process at once (Procfile)
-end
+  gem 'brakeman'
 
-group :development do
   # Patch-level verification for Bundler
   gem 'bundler-audit'
 
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'debug', platforms: %i[mri mingw x64_mingw]
+
+  # Easier Model record factories for tests
+  gem 'factory_bot_rails'
+
+  # for running and managing many process at once (Procfile)
+  gem 'foreman'
+
+  gem 'rubocop'
+  gem 'rubocop-rails'
+  gem 'ruby_audit'
+end
+
+group :development do
   # provide better intellisense in IDEs supporting Solargraph
   gem 'rails-annotate-solargraph'
-  # A Ruby static code analyzer and formatter [https://rubocop.org/]
-  gem 'rubocop'
+
   # Solargraph is a Ruby gem that provides intellisense features through Microsoft's language server protocol. [https://solargraph.org/]
   gem 'solargraph'
+
   # A Ruby documentation tool [https://yardoc.org/]
   gem 'yard'
 
