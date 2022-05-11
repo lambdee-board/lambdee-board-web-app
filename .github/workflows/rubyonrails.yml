@@ -48,9 +48,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
       - name: Install Ruby and gems
-        uses: ruby/setup-ruby@8v1
+        uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Run setup script
+        run: ./bin/bundle_install
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bundle exec bundle audit --update
@@ -58,3 +60,5 @@ jobs:
         run: bundle exec brakeman -q -w2
       - name: Lint Ruby files
         run: bundle exec rubocop --parallel
+      - name: Lint JS files
+        run: npm --prefix frontend run lint
