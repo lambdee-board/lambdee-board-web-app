@@ -138,9 +138,89 @@ end
 
 # Dynamically generated documentation
 
+# %%<RailsAnnotateSolargraph:Start:boards>%%
+
+class DB::Board < ApplicationRecord
+  # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
+  # @param val [DB::Workspace, nil]
+  def workspace=(val); end
+  # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
+  # @return [DB::Workspace, nil]
+  def workspace; end
+  # Database column `boards.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `boards.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `boards.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `boards.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `boards.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `boards.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `boards.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `boards.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `boards.workspace_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def workspace_id=(val); end
+  # Database column `boards.workspace_id`, type: `integer`.
+  # @return [Integer, nil]
+  def workspace_id; end
+end
+# %%<RailsAnnotateSolargraph:End:boards>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:users>%%
+
+class DB::User < ApplicationRecord
+  # Database column `users.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `users.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `users.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `users.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `users.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `users.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `users.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `users.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:users>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:workspaces>%%
 
-class Workspace < ApplicationRecord
+class DB::Workspace < ApplicationRecord
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @param val [Array<DB::Board>, nil]
+  def boards=(val); end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @return [Array<DB::Board>, nil]
+  def boards; end
   # Database column `workspaces.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end

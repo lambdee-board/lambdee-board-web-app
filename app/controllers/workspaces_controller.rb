@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class WorkspacesController < ApplicationController
+class WorkspacesController < ::ApplicationAPIController
   before_action :set_workspace
 
   def index

@@ -1,5 +1,5 @@
 FactoryBot.define do
-  factory :workspace, class: 'DB::Workspace' do
+  factory :user, class: 'DB::User' do
     name { "MyString" }
   end
 end
