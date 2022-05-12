@@ -23,6 +23,8 @@ gem 'importmap-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
+gem 'jsonapi-resources'
+
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
@@ -89,8 +91,8 @@ group :development do
 end
 
 group :test do
-  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
+  gem 'shoulda'
   gem 'webdrivers'
 end
