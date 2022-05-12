@@ -5,6 +5,8 @@ import TaskCard from './components/TaskCard'
 import lambdeeTheme from './lambdeeTheme'
 import ErrorCounter from './components/ErrorCounter'
 import TaskList from './components/TaskList'
+import Navbar from './components/Navbar'
+import Sidebar from './components/Sidebar'
 
 const task = {
   taskLabel: 'Fix login issue',
@@ -35,29 +37,36 @@ const task5 = {
 }
 
 
-const taskList = [task, task2, task3, task4, task5]
+const taskList = [task, task, task, task, task2, task3, task4, task5]
+
+
+const getColor = () => {
+  const colors = ['green', 'red', 'orange', 'purple', 'blue']
+  return colors[Math.floor(Math.random() * colors.length)]
+}
+
+const workspaceName = 'SnippetzDev'
+const boardNameColor = [['Board 1', getColor()], ['Board 2', getColor()]]
+const activeTab = 'Board 1'
 
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
       <div className='App'>
         <ErrorCounter />
-        {taskList.map((taskListElement) => (
-          <TaskCard key = {taskListElement.taskLabel}
-            taskLabel = {taskListElement.taskLabel}
-            taskCategories={taskListElement.taskCategories}
-            taskPriority={taskListElement.taskPriority}
-            assignedUsers={taskListElement.assignedUsers}
-            taskPoints={taskListElement.taskPoints}
-          />
-        ))}
         <Navbar />
-        <Sidebar />
+        <Sidebar workspaceName={workspaceName} boardNameColor={boardNameColor} activeTab={activeTab} />
         <Box sx={{ ml: 32, display: 'flex', flexDirection: 'row' }}>
-          {['a', 'b', 'c'].map((text, index) => (
-            <TaskList key={index} title={`Title ${text}`}>
-              {['a', 'b', 'c'].map((text1, index1) => (
-                <div key={index1}>Card {index1}</div>
+          {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((text, index) => (
+            <TaskList key={index} title={text}>
+              {taskList.map((taskListElement) => (
+                <TaskCard key = {taskListElement.taskLabel}
+                  taskLabel = {taskListElement.taskLabel}
+                  taskCategories={taskListElement.taskCategories}
+                  taskPriority={taskListElement.taskPriority}
+                  assignedUsers={taskListElement.assignedUsers}
+                  taskPoints={taskListElement.taskPoints}
+                />
               ))}
             </TaskList>
           ))}
