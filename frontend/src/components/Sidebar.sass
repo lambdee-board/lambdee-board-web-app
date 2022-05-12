@@ -1,0 +1,30 @@
+@import './../styles/base'
+
+.Sidebar-wrapper
+  .Sidebar
+    width: 240,
+    flexShrink: 0,
+
+    .List-wrapper
+      overflow: auto
+
+      .List
+        #active
+          background-color: #d6d6d6
+        .ListItem-workspace
+          .MuiListItemText-primary
+            font-size: 3 * $unit
+
+  .toggle-button
+    position: fixed,
+    min-width: 0,
+    padding: $unit,
+    border-radius: 0px $unit $unit 0px
+
+    .opened-icon
+      transform: none
+      transition: transform 150ms ease
+
+    .closed-icon
+      transform: rotate(180deg)
+      transition: transform 150ms ease

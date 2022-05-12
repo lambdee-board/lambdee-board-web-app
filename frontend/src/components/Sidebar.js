@@ -19,6 +19,9 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import WorkspaceIcon from './WorkspaceIcon'
+import PropTypes from 'prop-types'
+
+import './Sidebar.sass'
 
 
 const drawerWidth = 240
@@ -42,66 +45,75 @@ const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'op
   }),
 )
 
-export default function Sidebar() {
+export default function Sidebar(props) {
   const theme = useTheme()
   const [isOpen, setOpen] = React.useState(true)
 
+  const defaultTabs = [ ['Scripts', faScroll], ['Settings', faGear], ['Members', faUsers] ]
+
+  const getColor = () => {
+    const colors = ['green', 'red', 'orange', 'purple', 'blue']
+    return colors[Math.floor(Math.random() * colors.length)]
+  }
+
   // replace both with swr request after workspace api will be implemented
-  const colors = ['green', 'red', 'orange', 'purple', 'blue']
-  const workspaceName = 'SnippetzDev'
+  const workspaceName = props.workspaceName || 'SnippetzDev'
+  const boardNameColor = props.boardNameColor || [['Board 1', getColor()], ['Board 2', getColor()]]
+  const activeTab = props.activeTab || 'Board 1'
 
   return (
-    <Box>
+    <Box className='Sidebar-wrapper'>
       <Drawer
+        className='Sidebar'
         variant='persistent'
         open={isOpen}
-        sx={{
-          width: drawerWidth,
-          flexShrink: 0,
-          ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' }
-        }}
-      >
+        sx={{ ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' } }} >
         <Toolbar />
-        <Box sx={{ overflow: 'auto' }}>
-          <List>
-            <ListItem alignItems='center' divider key={workspaceName}>
+        <Box className='List-wrapper'>
+          <List className='List'>
+            <ListItem className='ListItem-workspace' alignItems='center' divider key={workspaceName} >
               <ListItemIcon>
                 <WorkspaceIcon name={workspaceName} size={48} />
               </ListItemIcon>
-              <ListItemText primary={workspaceName} primaryTypographyProps={{ fontSize: 24 }} />
+              <ListItemText primary={workspaceName} />
             </ListItem>
-            {Object.entries({ Scripts: faScroll, Settings: faGear, Members: faUsers }).map(([text, icon], index) => (
-              <ListItem button divider key={text}>
+            {defaultTabs.map(([tabName, tabIcon], index) => (
+              <ListItem id={ activeTab === tabName ? 'active' : ''} button divider key={tabName} >
                 <ListItemIcon>
-                  <FontAwesomeIcon icon={icon} />
+                  <FontAwesomeIcon icon={tabIcon} />
                 </ListItemIcon>
-                <ListItemText primary={text} />
+                <ListItemText primary={tabName} />
               </ListItem>
             ))}
-            {['Board', 'Board'].map((text, index) => (
-              <ListItem button divider key={text + index}>
+            {boardNameColor.map(([boardName, color], index) => (
+              <ListItem id={ activeTab === boardName ? 'active' : ''} button divider key={boardName + index}>
                 <ListItemIcon>
-                  <FontAwesomeIcon icon={faChalkboard} color={colors[Math.floor(Math.random() * colors.length)]} />
+                  <FontAwesomeIcon icon={faChalkboard} color={color} />
                 </ListItemIcon>
-                <ListItemText primary={`${text} ${index + 1}`} />
+                <ListItemText primary={boardName} />
               </ListItem>
             ))}
           </List>
         </Box>
       </Drawer>
-      <SidebarButton variant='contained'
+      <SidebarButton
+        className='toggle-button'
+        variant='contained'
         color='secondary'
-        sx={{ position: 'absolute',
-          top: theme.mixins.toolbar.minHeight + 16,
-          left: drawerWidth,
-          minWidth: 0,
-          padding: '8px',
-          borderRadius: '0px 8px 8px 0px' }}
+        sx={{ top: theme.mixins.toolbar.minHeight + 32, left: drawerWidth, zIndex: theme.zIndex.drawer + 1 }}
         onClick={() => setOpen(!isOpen)}
-        open={isOpen}
-      >
-        <FontAwesomeIcon style={{ transform: isOpen ? '' : 'rotate(180deg)', transition: 'transform 150ms ease' }} icon={faArrowLeft} />
+        open={isOpen} >
+        <FontAwesomeIcon
+          className={isOpen ? 'opened-icon' : 'closed-icon'}
+          icon={faArrowLeft}
+        />
       </SidebarButton>
     </Box>
   )
+}
+
+Sidebar.propTypes = {
+  workspaceName: PropTypes.string.isRequired,
+  boardNameColor: PropTypes.array.isRequired,
+  activeTab: PropTypes.string.isRequired,
 }
