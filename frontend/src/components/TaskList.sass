@@ -1,3 +1,29 @@
 @import './../styles/base'
-.TaskList
-    
+
+.TaskList-wrapper
+    margin: 2 * $unit
+    .TaskList-paper
+        width: 40 * $unit,
+        height: 90 * $unit,
+        display: flex,
+        flex-direction: column,
+        justify-content: space-between,
+        background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+        .TaskList
+            overflow-y: scroll
+            .TaskList-header
+                padding-top: $unit,
+                font-size: 4 * $unit,
+                display: flex,
+                justify-content: space-between,
+                background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+                .TaskList-header-text
+                    font-size: 3 * $unit
+            .TaskList-item
+                width: 100%
+                padding: 0.5 * $unit
+        .TaskList-new-task-wrapper
+            .TaskList-new-task-button
+                text-transform: none,
+                justify-content: flex-start,
+                width: 100%
