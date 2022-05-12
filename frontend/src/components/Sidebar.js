@@ -100,7 +100,7 @@ export default function Sidebar(props) {
         className='toggle-button'
         variant='contained'
         color='secondary'
-        sx={{ top: theme.mixins.toolbar.minHeight + 16, left: drawerWidth }}
+        sx={{ top: theme.mixins.toolbar.minHeight + 16, left: drawerWidth, zIndex: theme.zIndex.drawer + 1 }}
         onClick={() => setOpen(!isOpen)}
         open={isOpen} >
         <FontAwesomeIcon
