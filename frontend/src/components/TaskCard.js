@@ -20,8 +20,8 @@ const TaskCard = (props) => {
           {props.taskLabel}
         </Typography>
         <Box className='Box-categories'>
-          {props.taskCategories.map((taskCategory) => (
-            <Chip key={taskCategory[0]} label={taskCategory[0]} sx={{ color: taskCategory[1], bgcolor: taskCategory[2] }} size='small' />
+          {props.taskTags.map((taskTag) => (
+            <Chip key={taskTag.name} label={taskTag.name} sx={{ color: taskTag.textColor, bgcolor: taskTag.backgroundColor }} size='small' />
           ))}
         </Box>
         <Box className='Box'>
@@ -42,16 +42,14 @@ const TaskCard = (props) => {
 
 TaskCard.defaultProps = {
   taskLabel: '',
-  taskPriority: '',
-  taskCategories: [],
+  taskTags: [],
   assignedUsers: [],
-  taskPoints: null,
 }
 
 TaskCard.propTypes = {
   taskLabel: PropTypes.string.isRequired,
-  taskPriority: PropTypes.string.isRequired,
-  taskCategories: PropTypes.array.isRequired,
+  taskPriority: PropTypes.string,
+  taskTags: PropTypes.array.isRequired,
   assignedUsers: PropTypes.array.isRequired,
   taskPoints: PropTypes.number
 }

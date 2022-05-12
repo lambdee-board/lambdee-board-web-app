@@ -3,7 +3,9 @@
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": true
   },
+  "editor.tabSize": 2,
   "cSpell.words": [
+    "bgcolor",
     "camelcase",
     "Cyclomatic",
     "dataurl",
@@ -31,5 +33,47 @@
     "*.env.example": "env",
     "*.js.erb": "javascript",
     "Procfile*": "procfile"
-},
+  },
+  "[ruby]": {
+    "editor.tabSize": 2
+  },
+  "[css.erb]": {
+      "editor.tabSize": 2
+  },
+  "[erb]": {
+      "editor.tabSize": 2
+  },
+  "[html.erb]": {
+      "editor.tabSize": 2
+  },
+  "[html]": {
+      "editor.tabSize": 2
+  },
+  "[haml]": {
+      "editor.tabSize": 2
+  },
+  "[js.erb]": {
+      "editor.tabSize": 2
+  },
+  "[js]": {
+      "editor.tabSize": 2
+  },
+  "[json]": {
+      "editor.tabSize": 2
+  },
+  "[yml]": {
+      "editor.tabSize": 2
+  },
+  "[yaml]": {
+      "editor.tabSize": 2
+  },
+  "[scss]": {
+      "editor.tabSize": 2
+  },
+  "[sass]": {
+      "editor.tabSize": 2
+  },
+  "[scss.erb]": {
+      "editor.tabSize": 2
+  },
 }
