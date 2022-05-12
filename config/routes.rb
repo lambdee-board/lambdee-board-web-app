@@ -3,8 +3,11 @@
 ::Rails.application.routes.draw do
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
-  scope '/api' do
-    # backend API endpoints
+  # backend API endpoints
+  namespace :api do
+    jsonapi_resources :users
+    jsonapi_resources :workspaces
+    jsonapi_resources :boards
   end
 
   # path to the frontend React app
