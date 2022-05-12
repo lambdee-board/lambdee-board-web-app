@@ -61,7 +61,7 @@ function App() {
         <ErrorCounter />
         <Navbar />
         <Sidebar workspaceName={workspaceName} boardNameColor={boardNameColor} activeTab={activeTab} />
-        <Box sx={{ ml: 32, display: 'flex', flexDirection: 'row' }}>
+        <Box sx={{ pl: 36, display: 'flex', flexDirection: 'row', overflowX: 'auto', height: 950 }} >
           {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((text, index) => (
             <TaskList key={index} title={text}>
               {taskList.map((taskListElement) => (
