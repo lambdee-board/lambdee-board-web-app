@@ -1,0 +1,31 @@
+env:
+  browser: true
+  node: false
+extends:
+  - plugin:react/recommended
+  - plugin:react-hooks/recommended
+parserOptions:
+  ecmaFeatures:
+    jsx: true
+settings:
+    react:
+      version: "detect"
+plugins:
+  - react
+  - react-hooks
+globals:
+  process: readonly
+  __dirname: readonly
+rules:
+  react/jsx-wrap-multilines:
+    - error
+  react/jsx-tag-spacing:
+    - warn
+  react/jsx-pascal-case:
+    - warn
+  react/jsx-props-no-multi-spaces:
+    - warn
+  react/prefer-stateless-function:
+    - error
+  react/react-in-jsx-scope:
+    - off

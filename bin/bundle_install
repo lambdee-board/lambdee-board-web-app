@@ -63,7 +63,7 @@ end
   end
 
   title 'Installing frontend dependencies'
-  `npm --prefix ./frontend install`
+  `npm install`
 
   if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP']
     title 'Removing old logs and tempfiles'

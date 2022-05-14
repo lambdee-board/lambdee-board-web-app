@@ -50,9 +50,8 @@
     "cra:build": "react-scripts build",
     "cra:test": "react-scripts test",
     "cra:eject": "react-scripts eject",
-    "test": "react-scripts test",
-    "build:development": "node ./build.dev.mjs",
-    "lint": "eslint \"./src\""
+    "build:development": "node ./frontend/build.dev.mjs",
+    "lint": "eslint \"./frontend/src\""
   },
   "eslintConfig": {
     "extends": [
@@ -73,7 +72,9 @@
     ]
   },
   "devDependencies": {
+    "cypress": "^9.6.1",
     "eslint": "^8.14.0",
+    "eslint-plugin-cypress": "^2.12.1",
     "eslint-plugin-react": "^7.29.4",
     "eslint-plugin-react-hooks": "^4.5.0"
   }

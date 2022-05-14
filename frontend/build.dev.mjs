@@ -2,8 +2,9 @@ import esbuild from 'esbuild'
 import { sassPlugin } from 'esbuild-sass-plugin'
 import chokidar from 'chokidar'
 
+import { fileURLToPath } from 'url'
 import { spawnSync } from 'child_process'
-import { sep, join } from 'path'
+import { sep, join, dirname } from 'path'
 import {
   writeFileSync,
   unlinkSync,
@@ -11,10 +12,11 @@ import {
   readdirSync
 } from 'fs'
 
-const buildErrorFilePath = '../tmp/react_build_error.json'
+const __dirname = dirname(fileURLToPath(import.meta.url))
+const buildErrorFilePath = `${__dirname}/../tmp/react_build_error.json`
 
-const getAllErbSourceFiles = (dir = join(process.cwd(), 'src'), object = {}) => {
-  readdirSync(dir, { withFileTypes: true }).forEach(element => {
+const getAllErbSourceFiles = (dir = join(__dirname, 'src'), object = {}) => {
+  readdirSync(dir, { withFileTypes: true }).forEach((element) => {
     if (element.isDirectory()) {
       const childObject = {}
       object[element.name] = childObject
@@ -57,14 +59,15 @@ const erbCompilationPlugin = {
     })
   },
 }
+console.log()
 
 async function build() {
   let result
   try {
     result = await esbuild.build({
-      entryPoints: ['./build/index.js'],
+      entryPoints: [`${__dirname}/build/index.js`],
       bundle: true,
-      outfile: './../app/assets/builds/frontend.js',
+      outfile: `${__dirname}/../app/assets/builds/frontend.js`,
       assetNames: '[name]',
       logLevel: 'info',
       loader: {
@@ -85,15 +88,15 @@ async function build() {
       sourcemap: true,
       define: {
         'process.env.NODE_ENV': JSON.stringify('development'),
-        '__dirname': JSON.stringify(process.cwd()),
+        '__dirname': JSON.stringify(__dirname),
         'process.path.sep': JSON.stringify(sep)
       },
-      inject: ['./react-shim.js'],
+      inject: [`${__dirname}/react-shim.js`],
       incremental: true
     })
   } catch {}
 
-  const watcher = chokidar.watch('./src', {
+  const watcher = chokidar.watch(`${__dirname}/src`, {
     ignored: /(^|[/\\])\../, // ignore dotfiles
     persistent: true,
     ignoreInitial: true,

@@ -13,14 +13,17 @@ Lambdee - Scriptable Agile Board
 
 ### Commands
 
-- `bin/setup` - install/update node.js, mysql, ruby and run `bin/install`
-- `bin/install` - install missing gems, create missing config files, execute pending migrations
-- `bin/dev` - run the app with all the necessary processes in one terminal window
+- `bin/setup` -- install/update node.js, mysql, ruby and run `bin/install`
+- `bin/install` -- install missing gems, create missing config files, execute pending migrations
+- `bin/dev` -- run the app with all the necessary processes in one terminal window
   - `--ng` or `--no-guard` -- run the app without automatic page refreshing on file changes
   - `--nw` or `--no-watch` -- run the app without automatic frontend building on file changes
 - `bin/console` - run the rails console
 - `bin/build` - build the frontend React app
-- `bin/doc` - generate the YARD docs and open them in your browser
+- `bin/cypress`
+  - `open` -- open cypress for testing during development
+  - `run` -- run cypress tests headless (without a browser window)
+- `bin/doc` -- generate the YARD docs and open them in your browser
 
 ### Architecture
 

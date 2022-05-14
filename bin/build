@@ -10,4 +10,4 @@ if [ -z "$RAILS_ENV" ]; then
   RAILS_ENV="development"
 fi
 
-npm --prefix $script_dir/../frontend run build:$RAILS_ENV
+npm run build:$RAILS_ENV
