@@ -43,7 +43,9 @@ jobs:
       - name: Run backend tests
         run: bin/rake
       - name: Build the frontend
-        run: npm run build:ci
+        run: |
+          BUILD=true bin/rails runner bin/.build/preprocess_react.rb
+          npm run build:ci
       - name: Run cypress tests
         run: bin/cypress run
       - name: Archive test artifacts
@@ -63,7 +65,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - name: Run setup script
+      - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace any other lints here
       - name: Security audit dependencies
