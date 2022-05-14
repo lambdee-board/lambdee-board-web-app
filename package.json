@@ -29,9 +29,6 @@
     "@fortawesome/react-fontawesome": "^0.1.18",
     "@mui/material": "^5.6.4",
     "@reduxjs/toolkit": "^1.8.1",
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.1.1",
-    "@testing-library/user-event": "^13.5.0",
     "chokidar": "^3.5.3",
     "esbuild": "^0.14.38",
     "esbuild-sass-plugin": "^2.2.6",
@@ -50,7 +47,8 @@
     "cra:build": "react-scripts build",
     "cra:test": "react-scripts test",
     "cra:eject": "react-scripts eject",
-    "build:development": "node ./frontend/build.dev.mjs",
+    "build:development": "node ./frontend/scripts/build.dev.mjs",
+    "build:ci": "node ./frontend/scripts/build.ci.mjs",
     "lint": "eslint \"./frontend/src\""
   },
   "eslintConfig": {
