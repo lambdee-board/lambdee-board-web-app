@@ -48,7 +48,7 @@
     "cra:test": "react-scripts test",
     "cra:eject": "react-scripts eject",
     "build:development": "node ./frontend/scripts/build.dev.mjs",
-    "build:ci": "node ./frontend/scripts/build.ci.mjs",
+    "build:test": "node ./frontend/scripts/build.test.mjs",
     "lint": "eslint \"./frontend/src\""
   },
   "eslintConfig": {

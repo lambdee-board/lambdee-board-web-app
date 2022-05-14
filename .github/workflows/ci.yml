@@ -45,7 +45,7 @@ jobs:
       - name: Build the frontend
         run: |
           BUILD=true bin/rails runner bin/.build/preprocess_react.rb
-          npm run build:ci
+          bin/build
       - name: Run cypress tests
         run: bin/cypress run
       - name: Archive test artifacts
