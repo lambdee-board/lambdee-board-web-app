@@ -33,8 +33,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - restore_cache:
+          keys:
+            - v1-npm-{{ checksum "package-lock.json" }}
       - name: Run setup script
         run: ./bin/bundle_install
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.cache
+          key: v1-npm-{{ checksum "package-lock.json" }}
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
@@ -63,8 +71,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - restore_cache:
+          keys:
+            - v1-npm-{{ checksum "package-lock.json" }}
       - name: Run setup script
         run: ./bin/bundle_install
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.cache
+          key: v1-npm-{{ checksum "package-lock.json" }}
       # Add or replace database setup steps here
       - name: Set up database schema
         run: bin/rails db:schema:load
@@ -80,8 +96,16 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - restore_cache:
+          keys:
+            - v1-npm-{{ checksum "package-lock.json" }}
       - name: Run setup script
         run: ./bin/bundle_install
+      - save_cache:
+          paths:
+            - node_modules
+            - ~/.cache
+          key: v1-npm-{{ checksum "package-lock.json" }}
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bundle exec bundle audit --update
