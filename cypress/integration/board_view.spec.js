@@ -1,7 +1,7 @@
 
 describe('Board View', () => {
   beforeEach(() => {
-    cy.visit('/')
+    cy.visit('/', { failOnStatusCode: false })
   })
 
   context('Navbar', () => {
