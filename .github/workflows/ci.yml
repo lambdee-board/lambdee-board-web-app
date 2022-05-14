@@ -51,7 +51,7 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}
         with:
-          name: dist-without-markdown
+          name: cypress_screenshots
           path: tmp/cypress_screenshots
   lint:
     runs-on: ubuntu-latest
@@ -64,9 +64,8 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-      - uses: actions/setup-node@v3
-        with:
-          cache: 'npm'
+      - name: Run setup script
+        run: ./bin/bundle_install
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bundle exec bundle audit --update
