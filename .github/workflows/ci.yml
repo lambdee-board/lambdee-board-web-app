@@ -42,9 +42,8 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
       - name: Install node modules
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
@@ -87,9 +86,8 @@ jobs:
       - name: Cache node modules
         uses: actions/cache@v2
         with:
-          path: ~/.npm
-          key: npm-${{ hashFiles('package-lock.json') }}
-          restore-keys: npm-
+          path: ./node_modules
+          key: modules-${{ hashFiles('package-lock.json') }}
       - name: Install node modules
         if: steps.cache.outputs.cache-hit != 'true'
         run: npm ci
