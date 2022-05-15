@@ -54,6 +54,8 @@ end
 
   copy_example_files
 
+  `bin/rails db:schema:load` if ::ENV['CI']
+
   if ::ENV['RAILS_ENV'] != 'test' && !::ENV['CI']
     title 'Preparing the database'
 
@@ -65,7 +67,7 @@ end
   title 'Installing frontend dependencies'
   `npm install`
 
-  if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP']
+  if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP'] && !::ENV['CI']
     title 'Removing old logs and tempfiles'
     `bin/rails log:clear tmp:clear`
 

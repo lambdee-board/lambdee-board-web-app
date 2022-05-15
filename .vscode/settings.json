@@ -22,13 +22,14 @@
     "multilines",
     "nonblock",
     "noscript",
+    "openapi",
     "outfile",
     "paren",
     "parens",
     "recents",
     "reduxjs",
     "stylesheet"
-  ],
+],
   "files.associations": {
     "*.yml.example": "yaml",
     "*.env.example": "env",
