@@ -70,6 +70,9 @@ Layout/LineLength:
 
 Style/Documentation:
   Enabled: true
+  Exclude:
+    - 'app/helpers/**/*'
+    - 'app/validators/**/*'
 
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -113,6 +116,9 @@ Style/FormatString:
 
 Style/DocumentationMethod:
   Enabled: true
+  Exclude:
+    - 'app/helpers/**/*'
+    - 'app/validators/**/*'
 
 Style/Copyright:
   Enabled: false
