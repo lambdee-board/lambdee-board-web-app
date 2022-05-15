@@ -47,7 +47,7 @@ jobs:
           restore-keys: npm-
       - name: Install node modules
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: npm ci
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace database setup steps here
@@ -92,7 +92,7 @@ jobs:
           restore-keys: npm-
       - name: Install node modules
         if: steps.cache.outputs.cache-hit != 'true'
-        run: npm ci --ignore-scripts
+        run: npm ci
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace any other lints here
