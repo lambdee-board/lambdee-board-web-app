@@ -39,6 +39,11 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
       - name: Cache cypress
         uses: actions/cache@v2
         with:
@@ -81,6 +86,11 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
       - name: Cache cypress
         uses: actions/cache@v2
         with:

@@ -63,11 +63,7 @@ end
   end
 
   title 'Installing frontend dependencies'
-  if ::ENV['CI']
-    `npm ci`
-  else
-    `npm install`
-  end
+  `npm install`
 
   if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP'] && !::ENV['CI']
     title 'Removing old logs and tempfiles'
