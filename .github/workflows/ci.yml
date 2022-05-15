@@ -41,6 +41,9 @@ jobs:
       - run: npm ci
       - name: Run the setup script
         run: ./bin/bundle_install
+      # Add or replace database setup steps here
+      - name: Set up the database
+        run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Run backend tests
         run: bin/rake

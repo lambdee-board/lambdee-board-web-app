@@ -54,8 +54,6 @@ end
 
   copy_example_files
 
-  `bin/rails db:schema:load` if ::ENV['CI']
-
   if ::ENV['RAILS_ENV'] != 'test' && !::ENV['CI']
     title 'Preparing the database'
 
