@@ -114,6 +114,9 @@ Style/FormatStringToken:
 Style/FormatString:
   Enabled: false
 
+Style/FrozenStringLiteralComment:
+  Enabled: false
+
 Style/DocumentationMethod:
   Enabled: true
   Exclude:
