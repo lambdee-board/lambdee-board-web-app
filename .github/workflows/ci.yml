@@ -55,8 +55,10 @@ jobs:
       - name: Set up the database
         run: bin/rails db:schema:load
       # Add or replace test runners here
-      - name: Run backend tests
+      - name: Backend unit tests
         run: bin/rake
+      - name: Backend spec tests
+        run: bundle exec rspec
       - name: Build the frontend
         run: |
           BUILD=true bin/rails runner bin/.build/preprocess_react.rb

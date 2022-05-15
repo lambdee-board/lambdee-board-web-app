@@ -1,0 +1,18 @@
+#!/usr/bin/env bash
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+. $script_dir/shell_helper "$@"
+
+# if RAILS_ENV is empty
+if [ -z "$RAILS_ENV" ]; then
+  RAILS_ENV="test"
+fi
+
+title "Running Backend Unit Tests"
+$script_dir/rails t
+
+title "Running Backend Spec Tests"
+bundle exec rspec
+
+title "Running Frontend Cypress Tests"
+$script_dir/cypress run

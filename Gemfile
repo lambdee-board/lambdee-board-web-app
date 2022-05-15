@@ -26,6 +26,10 @@ gem 'jbuilder'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
+# Swagger OpenAPI docs UI
+gem 'rswag-api'
+gem 'rswag-ui'
+
 # Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
 # gem "kredis"
 
@@ -63,6 +67,10 @@ group :development, :test do
 
   # for running and managing many process at once (Procfile)
   gem 'foreman'
+
+  # OpenAPI generating tests
+  gem 'rspec-rails'
+  gem 'rswag-specs'
 
   gem 'rubocop'
   gem 'rubocop-rails'

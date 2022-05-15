@@ -1,0 +1,1178 @@
+---
+openapi: 3.0.1
+info:
+  title: API V1
+  version: v1
+paths:
+  "/api/boards":
+    get:
+      summary: list boards
+      tags:
+      - Boards
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+              - id: 164
+                name: Aluminum
+                workspace_id: 234
+                created_at: '2022-05-15T22:14:44.226Z'
+                updated_at: '2022-05-15T22:14:44.226Z'
+                workspace_url: http://www.example.com/api/workspaces/234
+                url: http://www.example.com/api/boards/164
+              - id: 165
+                name: Bismuth
+                workspace_id: 235
+                created_at: '2022-05-15T22:14:44.228Z'
+                updated_at: '2022-05-15T22:14:44.228Z'
+                workspace_url: http://www.example.com/api/workspaces/235
+                url: http://www.example.com/api/boards/165
+              - id: 166
+                name: Holmium
+                workspace_id: 236
+                created_at: '2022-05-15T22:14:44.229Z'
+                updated_at: '2022-05-15T22:14:44.229Z'
+                workspace_url: http://www.example.com/api/workspaces/236
+                url: http://www.example.com/api/boards/166
+              - id: 167
+                name: Yttrium
+                workspace_id: 237
+                created_at: '2022-05-15T22:14:44.231Z'
+                updated_at: '2022-05-15T22:14:44.231Z'
+                workspace_url: http://www.example.com/api/workspaces/237
+                url: http://www.example.com/api/boards/167
+              - id: 168
+                name: Copper
+                workspace_id: 238
+                created_at: '2022-05-15T22:14:44.232Z'
+                updated_at: '2022-05-15T22:14:44.232Z'
+                workspace_url: http://www.example.com/api/workspaces/238
+                url: http://www.example.com/api/boards/168
+              - id: 172
+                name: Niobium
+                workspace_id: 252
+                created_at: '2022-05-15T22:15:40.365Z'
+                updated_at: '2022-05-15T22:15:40.365Z'
+                workspace_url: http://www.example.com/api/workspaces/252
+                url: http://www.example.com/api/boards/172
+              - id: 173
+                name: Curium
+                workspace_id: 253
+                created_at: '2022-05-15T22:15:40.367Z'
+                updated_at: '2022-05-15T22:15:40.367Z'
+                workspace_url: http://www.example.com/api/workspaces/253
+                url: http://www.example.com/api/boards/173
+              - id: 174
+                name: Rutherfordium
+                workspace_id: 254
+                created_at: '2022-05-15T22:15:40.369Z'
+                updated_at: '2022-05-15T22:15:40.369Z'
+                workspace_url: http://www.example.com/api/workspaces/254
+                url: http://www.example.com/api/boards/174
+              - id: 175
+                name: Plutonium
+                workspace_id: 255
+                created_at: '2022-05-15T22:15:40.370Z'
+                updated_at: '2022-05-15T22:15:40.370Z'
+                workspace_url: http://www.example.com/api/workspaces/255
+                url: http://www.example.com/api/boards/175
+              - id: 176
+                name: Thulium
+                workspace_id: 256
+                created_at: '2022-05-15T22:15:40.372Z'
+                updated_at: '2022-05-15T22:15:40.372Z'
+                workspace_url: http://www.example.com/api/workspaces/256
+                url: http://www.example.com/api/boards/176
+              - id: 180
+                name: Magnesium
+                workspace_id: 270
+                created_at: '2022-05-15T22:17:31.967Z'
+                updated_at: '2022-05-15T22:17:31.967Z'
+                workspace_url: http://www.example.com/api/workspaces/270
+                url: http://www.example.com/api/boards/180
+              - id: 181
+                name: Calcium
+                workspace_id: 271
+                created_at: '2022-05-15T22:17:31.969Z'
+                updated_at: '2022-05-15T22:17:31.969Z'
+                workspace_url: http://www.example.com/api/workspaces/271
+                url: http://www.example.com/api/boards/181
+              - id: 182
+                name: Actinium
+                workspace_id: 272
+                created_at: '2022-05-15T22:17:31.970Z'
+                updated_at: '2022-05-15T22:17:31.970Z'
+                workspace_url: http://www.example.com/api/workspaces/272
+                url: http://www.example.com/api/boards/182
+              - id: 183
+                name: Gadolinium
+                workspace_id: 273
+                created_at: '2022-05-15T22:17:31.971Z'
+                updated_at: '2022-05-15T22:17:31.971Z'
+                workspace_url: http://www.example.com/api/workspaces/273
+                url: http://www.example.com/api/boards/183
+              - id: 184
+                name: Neon
+                workspace_id: 274
+                created_at: '2022-05-15T22:17:31.972Z'
+                updated_at: '2022-05-15T22:17:31.972Z'
+                workspace_url: http://www.example.com/api/workspaces/274
+                url: http://www.example.com/api/boards/184
+              - id: 189
+                name: Vanadium
+                workspace_id: 288
+                created_at: '2022-05-15T22:23:30.515Z'
+                updated_at: '2022-05-15T22:23:30.515Z'
+                workspace_url: http://www.example.com/api/workspaces/288
+                url: http://www.example.com/api/boards/189
+              - id: 190
+                name: Gadolinium
+                workspace_id: 289
+                created_at: '2022-05-15T22:23:30.517Z'
+                updated_at: '2022-05-15T22:23:30.517Z'
+                workspace_url: http://www.example.com/api/workspaces/289
+                url: http://www.example.com/api/boards/190
+              - id: 191
+                name: Zinc
+                workspace_id: 290
+                created_at: '2022-05-15T22:23:30.518Z'
+                updated_at: '2022-05-15T22:23:30.518Z'
+                workspace_url: http://www.example.com/api/workspaces/290
+                url: http://www.example.com/api/boards/191
+              - id: 192
+                name: Selenium
+                workspace_id: 291
+                created_at: '2022-05-15T22:23:30.519Z'
+                updated_at: '2022-05-15T22:23:30.519Z'
+                workspace_url: http://www.example.com/api/workspaces/291
+                url: http://www.example.com/api/boards/192
+              - id: 193
+                name: Gold
+                workspace_id: 292
+                created_at: '2022-05-15T22:23:30.521Z'
+                updated_at: '2022-05-15T22:23:30.521Z'
+                workspace_url: http://www.example.com/api/workspaces/292
+                url: http://www.example.com/api/boards/193
+              - id: 198
+                name: Fluorine
+                workspace_id: 306
+                created_at: '2022-05-15T22:27:37.314Z'
+                updated_at: '2022-05-15T22:27:37.314Z'
+                workspace_url: http://www.example.com/api/workspaces/306
+                url: http://www.example.com/api/boards/198
+              - id: 199
+                name: Berkelium
+                workspace_id: 307
+                created_at: '2022-05-15T22:27:37.315Z'
+                updated_at: '2022-05-15T22:27:37.315Z'
+                workspace_url: http://www.example.com/api/workspaces/307
+                url: http://www.example.com/api/boards/199
+              - id: 200
+                name: Palladium
+                workspace_id: 308
+                created_at: '2022-05-15T22:27:37.316Z'
+                updated_at: '2022-05-15T22:27:37.316Z'
+                workspace_url: http://www.example.com/api/workspaces/308
+                url: http://www.example.com/api/boards/200
+              - id: 201
+                name: Antimony
+                workspace_id: 309
+                created_at: '2022-05-15T22:27:37.317Z'
+                updated_at: '2022-05-15T22:27:37.317Z'
+                workspace_url: http://www.example.com/api/workspaces/309
+                url: http://www.example.com/api/boards/201
+              - id: 202
+                name: Actinium
+                workspace_id: 310
+                created_at: '2022-05-15T22:27:37.318Z'
+                updated_at: '2022-05-15T22:27:37.318Z'
+                workspace_url: http://www.example.com/api/workspaces/310
+                url: http://www.example.com/api/boards/202
+              - id: 156
+                name: Dubnium
+                workspace_id: 217
+                created_at: '2022-05-15T22:12:03.808Z'
+                updated_at: '2022-05-15T22:12:03.808Z'
+                workspace_url: http://www.example.com/api/workspaces/217
+                url: http://www.example.com/api/boards/156
+              - id: 157
+                name: Argon
+                workspace_id: 218
+                created_at: '2022-05-15T22:12:03.810Z'
+                updated_at: '2022-05-15T22:12:03.810Z'
+                workspace_url: http://www.example.com/api/workspaces/218
+                url: http://www.example.com/api/boards/157
+              - id: 158
+                name: Rhenium
+                workspace_id: 219
+                created_at: '2022-05-15T22:12:03.811Z'
+                updated_at: '2022-05-15T22:12:03.811Z'
+                workspace_url: http://www.example.com/api/workspaces/219
+                url: http://www.example.com/api/boards/158
+              - id: 159
+                name: Thallium
+                workspace_id: 220
+                created_at: '2022-05-15T22:12:03.812Z'
+                updated_at: '2022-05-15T22:12:03.812Z'
+                workspace_url: http://www.example.com/api/workspaces/220
+                url: http://www.example.com/api/boards/159
+              - id: 160
+                name: Arsenic
+                workspace_id: 221
+                created_at: '2022-05-15T22:12:03.813Z'
+                updated_at: '2022-05-15T22:12:03.813Z'
+                workspace_url: http://www.example.com/api/workspaces/221
+                url: http://www.example.com/api/boards/160
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/board_response"
+    post:
+      summary: create board
+      tags:
+      - Boards
+      parameters: []
+      responses:
+        '201':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 203
+                name: New Board
+                workspace_id: 316
+                created_at: '2022-05-15T22:27:37.442Z'
+                updated_at: '2022-05-15T22:27:37.442Z'
+                workspace_url: http://www.example.com/api/workspaces/316
+                url: http://www.example.com/api/boards/203
+              schema:
+                "$ref": "#/components/schemas/board_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/board_request"
+  "/api/boards/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show board
+      tags:
+      - Boards
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 204
+                name: Radon
+                workspace_id: 317
+                created_at: '2022-05-15T22:27:37.447Z'
+                updated_at: '2022-05-15T22:27:37.447Z'
+                workspace_url: http://www.example.com/api/workspaces/317
+                url: http://www.example.com/api/boards/204
+              schema:
+                "$ref": "#/components/schemas/board_response"
+    put:
+      summary: update board
+      tags:
+      - Boards
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 205
+                name: New Name
+                workspace_id: 318
+                created_at: '2022-05-15T22:27:37.458Z'
+                updated_at: '2022-05-15T22:27:37.465Z'
+                workspace_url: http://www.example.com/api/workspaces/318
+                url: http://www.example.com/api/boards/205
+              schema:
+                "$ref": "#/components/schemas/board_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/board_request"
+    delete:
+      summary: delete board
+      tags:
+      - Boards
+      responses:
+        '204':
+          description: successful
+  "/api/users":
+    get:
+      summary: list users
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+              - id: 214
+                name: Lamont Legros V
+                email: lamont_legros_v.1652652245@example.com
+                created_at: '2022-05-15T22:04:05.456Z'
+                updated_at: '2022-05-15T22:04:05.456Z'
+                url: http://www.example.com/api/users/214
+              - id: 215
+                name: Wiley Schinner DC
+                email: wiley_schinner_dc.1652652245@example.com
+                created_at: '2022-05-15T22:04:05.461Z'
+                updated_at: '2022-05-15T22:04:05.461Z'
+                url: http://www.example.com/api/users/215
+              - id: 216
+                name: Kendra Swaniawski DDS
+                email: kendra_swaniawski_dds.1652652245@example.com
+                created_at: '2022-05-15T22:04:05.462Z'
+                updated_at: '2022-05-15T22:04:05.462Z'
+                url: http://www.example.com/api/users/216
+              - id: 217
+                name: Krystle Goyette
+                email: krystle_goyette.1652652245@example.com
+                created_at: '2022-05-15T22:04:05.463Z'
+                updated_at: '2022-05-15T22:04:05.463Z'
+                url: http://www.example.com/api/users/217
+              - id: 218
+                name: George Hilpert
+                email: george_hilpert.1652652245@example.com
+                created_at: '2022-05-15T22:04:05.464Z'
+                updated_at: '2022-05-15T22:04:05.464Z'
+                url: http://www.example.com/api/users/218
+              - id: 271
+                name: Gov. Ezekiel Thompson
+                email: gov_ezekiel_thompson.1652653410@example.com
+                created_at: '2022-05-15T22:23:30.536Z'
+                updated_at: '2022-05-15T22:23:30.536Z'
+                url: http://www.example.com/api/users/271
+              - id: 223
+                name: Hilario Monahan
+                email: hilario_monahan.1652652282@example.com
+                created_at: '2022-05-15T22:04:42.404Z'
+                updated_at: '2022-05-15T22:04:42.404Z'
+                url: http://www.example.com/api/users/223
+              - id: 224
+                name: Domingo Blanda
+                email: domingo_blanda.1652652282@example.com
+                created_at: '2022-05-15T22:04:42.409Z'
+                updated_at: '2022-05-15T22:04:42.409Z'
+                url: http://www.example.com/api/users/224
+              - id: 225
+                name: Manual Crona JD
+                email: manual_crona_jd.1652652282@example.com
+                created_at: '2022-05-15T22:04:42.411Z'
+                updated_at: '2022-05-15T22:04:42.411Z'
+                url: http://www.example.com/api/users/225
+              - id: 226
+                name: Mrs. Perry Wolff
+                email: mrs_perry_wolff.1652652282@example.com
+                created_at: '2022-05-15T22:04:42.412Z'
+                updated_at: '2022-05-15T22:04:42.412Z'
+                url: http://www.example.com/api/users/226
+              - id: 227
+                name: Adalberto Bins
+                email: adalberto_bins.1652652282@example.com
+                created_at: '2022-05-15T22:04:42.413Z'
+                updated_at: '2022-05-15T22:04:42.413Z'
+                url: http://www.example.com/api/users/227
+              - id: 272
+                name: Angila Mann
+                email: angila_mann.1652653410@example.com
+                created_at: '2022-05-15T22:23:30.537Z'
+                updated_at: '2022-05-15T22:23:30.537Z'
+                url: http://www.example.com/api/users/272
+              - id: 232
+                name: Shella Gorczany
+                email: shella_gorczany.1652652723@example.com
+                created_at: '2022-05-15T22:12:03.825Z'
+                updated_at: '2022-05-15T22:12:03.825Z'
+                url: http://www.example.com/api/users/232
+              - id: 233
+                name: Gordon Heathcote
+                email: gordon_heathcote.1652652723@example.com
+                created_at: '2022-05-15T22:12:03.826Z'
+                updated_at: '2022-05-15T22:12:03.826Z'
+                url: http://www.example.com/api/users/233
+              - id: 234
+                name: Jaimie Welch JD
+                email: jaimie_welch_jd.1652652723@example.com
+                created_at: '2022-05-15T22:12:03.827Z'
+                updated_at: '2022-05-15T22:12:03.827Z'
+                url: http://www.example.com/api/users/234
+              - id: 235
+                name: Dr. Lakenya Kunze
+                email: dr_lakenya_kunze.1652652723@example.com
+                created_at: '2022-05-15T22:12:03.828Z'
+                updated_at: '2022-05-15T22:12:03.828Z'
+                url: http://www.example.com/api/users/235
+              - id: 236
+                name: Nick Schuster
+                email: nick_schuster.1652652723@example.com
+                created_at: '2022-05-15T22:12:03.829Z'
+                updated_at: '2022-05-15T22:12:03.829Z'
+                url: http://www.example.com/api/users/236
+              - id: 241
+                name: Carri Dietrich
+                email: carri_dietrich.1652652884@example.com
+                created_at: '2022-05-15T22:14:44.242Z'
+                updated_at: '2022-05-15T22:14:44.242Z'
+                url: http://www.example.com/api/users/241
+              - id: 242
+                name: Albert Reynolds
+                email: albert_reynolds.1652652884@example.com
+                created_at: '2022-05-15T22:14:44.244Z'
+                updated_at: '2022-05-15T22:14:44.244Z'
+                url: http://www.example.com/api/users/242
+              - id: 243
+                name: Jarod Funk
+                email: jarod_funk.1652652884@example.com
+                created_at: '2022-05-15T22:14:44.245Z'
+                updated_at: '2022-05-15T22:14:44.245Z'
+                url: http://www.example.com/api/users/243
+              - id: 244
+                name: Dale Hayes
+                email: dale_hayes.1652652884@example.com
+                created_at: '2022-05-15T22:14:44.246Z'
+                updated_at: '2022-05-15T22:14:44.246Z'
+                url: http://www.example.com/api/users/244
+              - id: 245
+                name: Michal Bode
+                email: michal_bode.1652652884@example.com
+                created_at: '2022-05-15T22:14:44.247Z'
+                updated_at: '2022-05-15T22:14:44.247Z'
+                url: http://www.example.com/api/users/245
+              - id: 250
+                name: Mathew Brown
+                email: mathew_brown.1652652940@example.com
+                created_at: '2022-05-15T22:15:40.383Z'
+                updated_at: '2022-05-15T22:15:40.383Z'
+                url: http://www.example.com/api/users/250
+              - id: 251
+                name: Miss Heriberto Roberts
+                email: miss_heriberto_roberts.1652652940@example.com
+                created_at: '2022-05-15T22:15:40.385Z'
+                updated_at: '2022-05-15T22:15:40.385Z'
+                url: http://www.example.com/api/users/251
+              - id: 252
+                name: Prof. Damian Mante
+                email: prof_damian_mante.1652652940@example.com
+                created_at: '2022-05-15T22:15:40.386Z'
+                updated_at: '2022-05-15T22:15:40.386Z'
+                url: http://www.example.com/api/users/252
+              - id: 253
+                name: Leslie Heidenreich
+                email: leslie_heidenreich.1652652940@example.com
+                created_at: '2022-05-15T22:15:40.387Z'
+                updated_at: '2022-05-15T22:15:40.387Z'
+                url: http://www.example.com/api/users/253
+              - id: 254
+                name: Dora Von
+                email: dora_von.1652652940@example.com
+                created_at: '2022-05-15T22:15:40.388Z'
+                updated_at: '2022-05-15T22:15:40.388Z'
+                url: http://www.example.com/api/users/254
+              - id: 205
+                name: Roselee Kihn
+                email: roselee_kihn.1652651297@example.com
+                created_at: '2022-05-15T21:48:17.324Z'
+                updated_at: '2022-05-15T21:48:17.324Z'
+                url: http://www.example.com/api/users/205
+              - id: 206
+                name: Prof. Moshe Carter
+                email: prof_moshe_carter.1652651297@example.com
+                created_at: '2022-05-15T21:48:17.327Z'
+                updated_at: '2022-05-15T21:48:17.327Z'
+                url: http://www.example.com/api/users/206
+              - id: 207
+                name: Jules DuBuque
+                email: jules_du_buque.1652651297@example.com
+                created_at: '2022-05-15T21:48:17.328Z'
+                updated_at: '2022-05-15T21:48:17.328Z'
+                url: http://www.example.com/api/users/207
+              - id: 208
+                name: Delmer Monahan
+                email: delmer_monahan.1652651297@example.com
+                created_at: '2022-05-15T21:48:17.329Z'
+                updated_at: '2022-05-15T21:48:17.329Z'
+                url: http://www.example.com/api/users/208
+              - id: 209
+                name: Marshall Ferry
+                email: marshall_ferry.1652651297@example.com
+                created_at: '2022-05-15T21:48:17.330Z'
+                updated_at: '2022-05-15T21:48:17.330Z'
+                url: http://www.example.com/api/users/209
+              - id: 259
+                name: Jen Auer
+                email: jen_auer.1652653051@example.com
+                created_at: '2022-05-15T22:17:31.982Z'
+                updated_at: '2022-05-15T22:17:31.982Z'
+                url: http://www.example.com/api/users/259
+              - id: 260
+                name: Reginald Frami MD
+                email: reginald_frami_md.1652653051@example.com
+                created_at: '2022-05-15T22:17:31.983Z'
+                updated_at: '2022-05-15T22:17:31.983Z'
+                url: http://www.example.com/api/users/260
+              - id: 261
+                name: Rosalia Schmitt
+                email: rosalia_schmitt.1652653051@example.com
+                created_at: '2022-05-15T22:17:31.985Z'
+                updated_at: '2022-05-15T22:17:31.985Z'
+                url: http://www.example.com/api/users/261
+              - id: 262
+                name: Brain Bechtelar DO
+                email: brain_bechtelar_do.1652653051@example.com
+                created_at: '2022-05-15T22:17:31.986Z'
+                updated_at: '2022-05-15T22:17:31.986Z'
+                url: http://www.example.com/api/users/262
+              - id: 263
+                name: Edwardo MacGyver
+                email: edwardo_mac_gyver.1652653051@example.com
+                created_at: '2022-05-15T22:17:31.986Z'
+                updated_at: '2022-05-15T22:17:31.986Z'
+                url: http://www.example.com/api/users/263
+              - id: 268
+                name: Travis Cremin LLD
+                email: travis_cremin_lld.1652653410@example.com
+                created_at: '2022-05-15T22:23:30.533Z'
+                updated_at: '2022-05-15T22:23:30.533Z'
+                url: http://www.example.com/api/users/268
+              - id: 269
+                name: Ciera O'Conner
+                email: ciera_o'conner.1652653410@example.com
+                created_at: '2022-05-15T22:23:30.534Z'
+                updated_at: '2022-05-15T22:23:30.534Z'
+                url: http://www.example.com/api/users/269
+              - id: 270
+                name: Rep. Angela Kautzer
+                email: rep_angela_kautzer.1652653410@example.com
+                created_at: '2022-05-15T22:23:30.535Z'
+                updated_at: '2022-05-15T22:23:30.535Z'
+                url: http://www.example.com/api/users/270
+              - id: 277
+                name: Sheryl Schmidt
+                email: sheryl_schmidt.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.329Z'
+                updated_at: '2022-05-15T22:27:37.329Z'
+                url: http://www.example.com/api/users/277
+              - id: 278
+                name: Dr. Sylvia Kris
+                email: dr_sylvia_kris.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.331Z'
+                updated_at: '2022-05-15T22:27:37.331Z'
+                url: http://www.example.com/api/users/278
+              - id: 279
+                name: Shaquita Auer
+                email: shaquita_auer.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.332Z'
+                updated_at: '2022-05-15T22:27:37.332Z'
+                url: http://www.example.com/api/users/279
+              - id: 280
+                name: Rachele Aufderhar
+                email: rachele_aufderhar.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.333Z'
+                updated_at: '2022-05-15T22:27:37.333Z'
+                url: http://www.example.com/api/users/280
+              - id: 281
+                name: Stacy Daniel
+                email: stacy_daniel.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.334Z'
+                updated_at: '2022-05-15T22:27:37.334Z'
+                url: http://www.example.com/api/users/281
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/user_response"
+    post:
+      summary: create user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '201':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 282
+                name: New User
+                email: new_user@example.com
+                created_at: '2022-05-15T22:27:37.501Z'
+                updated_at: '2022-05-15T22:27:37.501Z'
+                url: http://www.example.com/api/users/282
+              schema:
+                "$ref": "#/components/schemas/user_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user_request"
+  "/api/users/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show user
+      tags:
+      - Users
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 283
+                name: Janina Mertz
+                email: janina_mertz.1652653657@example.com
+                created_at: '2022-05-15T22:27:37.506Z'
+                updated_at: '2022-05-15T22:27:37.506Z'
+                url: http://www.example.com/api/users/283
+              schema:
+                "$ref": "#/components/schemas/user_response"
+    put:
+      summary: update user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 284
+                name: New Name
+                email: new_email@example.com
+                created_at: '2022-05-15T22:27:37.514Z'
+                updated_at: '2022-05-15T22:27:37.520Z'
+                url: http://www.example.com/api/users/284
+              schema:
+                "$ref": "#/components/schemas/user_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user_request"
+    delete:
+      summary: delete user
+      tags:
+      - Users
+      responses:
+        '204':
+          description: successful
+  "/api/workspaces":
+    get:
+      summary: list workspaces
+      tags:
+      - Workspaces
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+              - id: 288
+                name: Toughjoyfax
+                created_at: '2022-05-15T22:23:30.511Z'
+                updated_at: '2022-05-15T22:23:30.511Z'
+                url: http://www.example.com/api/workspaces/288
+              - id: 289
+                name: Cookley
+                created_at: '2022-05-15T22:23:30.516Z'
+                updated_at: '2022-05-15T22:23:30.516Z'
+                url: http://www.example.com/api/workspaces/289
+              - id: 290
+                name: Otcom
+                created_at: '2022-05-15T22:23:30.518Z'
+                updated_at: '2022-05-15T22:23:30.518Z'
+                url: http://www.example.com/api/workspaces/290
+              - id: 291
+                name: Sonsing
+                created_at: '2022-05-15T22:23:30.519Z'
+                updated_at: '2022-05-15T22:23:30.519Z'
+                url: http://www.example.com/api/workspaces/291
+              - id: 292
+                name: Biodex
+                created_at: '2022-05-15T22:23:30.520Z'
+                updated_at: '2022-05-15T22:23:30.520Z'
+                url: http://www.example.com/api/workspaces/292
+              - id: 293
+                name: Otcom
+                created_at: '2022-05-15T22:23:30.542Z'
+                updated_at: '2022-05-15T22:23:30.542Z'
+                url: http://www.example.com/api/workspaces/293
+              - id: 294
+                name: Bytecard
+                created_at: '2022-05-15T22:23:30.543Z'
+                updated_at: '2022-05-15T22:23:30.543Z'
+                url: http://www.example.com/api/workspaces/294
+              - id: 295
+                name: Bamity
+                created_at: '2022-05-15T22:23:30.543Z'
+                updated_at: '2022-05-15T22:23:30.543Z'
+                url: http://www.example.com/api/workspaces/295
+              - id: 296
+                name: Home Ing
+                created_at: '2022-05-15T22:23:30.544Z'
+                updated_at: '2022-05-15T22:23:30.544Z'
+                url: http://www.example.com/api/workspaces/296
+              - id: 297
+                name: Ronstring
+                created_at: '2022-05-15T22:23:30.544Z'
+                updated_at: '2022-05-15T22:23:30.544Z'
+                url: http://www.example.com/api/workspaces/297
+              - id: 306
+                name: Stim
+                created_at: '2022-05-15T22:27:37.310Z'
+                updated_at: '2022-05-15T22:27:37.310Z'
+                url: http://www.example.com/api/workspaces/306
+              - id: 307
+                name: Holdlamis
+                created_at: '2022-05-15T22:27:37.315Z'
+                updated_at: '2022-05-15T22:27:37.315Z'
+                url: http://www.example.com/api/workspaces/307
+              - id: 217
+                name: Fix San
+                created_at: '2022-05-15T22:12:03.804Z'
+                updated_at: '2022-05-15T22:12:03.804Z'
+                url: http://www.example.com/api/workspaces/217
+              - id: 218
+                name: Zamit
+                created_at: '2022-05-15T22:12:03.809Z'
+                updated_at: '2022-05-15T22:12:03.809Z'
+                url: http://www.example.com/api/workspaces/218
+              - id: 219
+                name: Lotstring
+                created_at: '2022-05-15T22:12:03.810Z'
+                updated_at: '2022-05-15T22:12:03.810Z'
+                url: http://www.example.com/api/workspaces/219
+              - id: 220
+                name: Bytecard
+                created_at: '2022-05-15T22:12:03.811Z'
+                updated_at: '2022-05-15T22:12:03.811Z'
+                url: http://www.example.com/api/workspaces/220
+              - id: 221
+                name: Alphazap
+                created_at: '2022-05-15T22:12:03.812Z'
+                updated_at: '2022-05-15T22:12:03.812Z'
+                url: http://www.example.com/api/workspaces/221
+              - id: 222
+                name: Lotlux
+                created_at: '2022-05-15T22:12:03.834Z'
+                updated_at: '2022-05-15T22:12:03.834Z'
+                url: http://www.example.com/api/workspaces/222
+              - id: 223
+                name: Zamit
+                created_at: '2022-05-15T22:12:03.835Z'
+                updated_at: '2022-05-15T22:12:03.835Z'
+                url: http://www.example.com/api/workspaces/223
+              - id: 224
+                name: Tresom
+                created_at: '2022-05-15T22:12:03.835Z'
+                updated_at: '2022-05-15T22:12:03.835Z'
+                url: http://www.example.com/api/workspaces/224
+              - id: 225
+                name: Transcof
+                created_at: '2022-05-15T22:12:03.836Z'
+                updated_at: '2022-05-15T22:12:03.836Z'
+                url: http://www.example.com/api/workspaces/225
+              - id: 226
+                name: Stringtough
+                created_at: '2022-05-15T22:12:03.836Z'
+                updated_at: '2022-05-15T22:12:03.836Z'
+                url: http://www.example.com/api/workspaces/226
+              - id: 308
+                name: Home Ing
+                created_at: '2022-05-15T22:27:37.316Z'
+                updated_at: '2022-05-15T22:27:37.316Z'
+                url: http://www.example.com/api/workspaces/308
+              - id: 309
+                name: Gembucket
+                created_at: '2022-05-15T22:27:37.317Z'
+                updated_at: '2022-05-15T22:27:37.317Z'
+                url: http://www.example.com/api/workspaces/309
+              - id: 310
+                name: Voltsillam
+                created_at: '2022-05-15T22:27:37.318Z'
+                updated_at: '2022-05-15T22:27:37.318Z'
+                url: http://www.example.com/api/workspaces/310
+              - id: 311
+                name: Bamity
+                created_at: '2022-05-15T22:27:37.340Z'
+                updated_at: '2022-05-15T22:27:37.340Z'
+                url: http://www.example.com/api/workspaces/311
+              - id: 312
+                name: Flexidy
+                created_at: '2022-05-15T22:27:37.341Z'
+                updated_at: '2022-05-15T22:27:37.341Z'
+                url: http://www.example.com/api/workspaces/312
+              - id: 313
+                name: Zaam-Dox
+                created_at: '2022-05-15T22:27:37.341Z'
+                updated_at: '2022-05-15T22:27:37.341Z'
+                url: http://www.example.com/api/workspaces/313
+              - id: 314
+                name: Namfix
+                created_at: '2022-05-15T22:27:37.342Z'
+                updated_at: '2022-05-15T22:27:37.342Z'
+                url: http://www.example.com/api/workspaces/314
+              - id: 315
+                name: Cardify
+                created_at: '2022-05-15T22:27:37.342Z'
+                updated_at: '2022-05-15T22:27:37.342Z'
+                url: http://www.example.com/api/workspaces/315
+              - id: 234
+                name: Voyatouch
+                created_at: '2022-05-15T22:14:44.222Z'
+                updated_at: '2022-05-15T22:14:44.222Z'
+                url: http://www.example.com/api/workspaces/234
+              - id: 235
+                name: Flowdesk
+                created_at: '2022-05-15T22:14:44.227Z'
+                updated_at: '2022-05-15T22:14:44.227Z'
+                url: http://www.example.com/api/workspaces/235
+              - id: 236
+                name: Konklab
+                created_at: '2022-05-15T22:14:44.228Z'
+                updated_at: '2022-05-15T22:14:44.228Z'
+                url: http://www.example.com/api/workspaces/236
+              - id: 237
+                name: Lotlux
+                created_at: '2022-05-15T22:14:44.230Z'
+                updated_at: '2022-05-15T22:14:44.230Z'
+                url: http://www.example.com/api/workspaces/237
+              - id: 238
+                name: Job
+                created_at: '2022-05-15T22:14:44.231Z'
+                updated_at: '2022-05-15T22:14:44.231Z'
+                url: http://www.example.com/api/workspaces/238
+              - id: 239
+                name: Zaam-Dox
+                created_at: '2022-05-15T22:14:44.251Z'
+                updated_at: '2022-05-15T22:14:44.251Z'
+                url: http://www.example.com/api/workspaces/239
+              - id: 240
+                name: Alpha
+                created_at: '2022-05-15T22:14:44.252Z'
+                updated_at: '2022-05-15T22:14:44.252Z'
+                url: http://www.example.com/api/workspaces/240
+              - id: 241
+                name: Namfix
+                created_at: '2022-05-15T22:14:44.253Z'
+                updated_at: '2022-05-15T22:14:44.253Z'
+                url: http://www.example.com/api/workspaces/241
+              - id: 242
+                name: Viva
+                created_at: '2022-05-15T22:14:44.253Z'
+                updated_at: '2022-05-15T22:14:44.253Z'
+                url: http://www.example.com/api/workspaces/242
+              - id: 243
+                name: Flowdesk
+                created_at: '2022-05-15T22:14:44.254Z'
+                updated_at: '2022-05-15T22:14:44.254Z'
+                url: http://www.example.com/api/workspaces/243
+              - id: 252
+                name: Biodex
+                created_at: '2022-05-15T22:15:40.360Z'
+                updated_at: '2022-05-15T22:15:40.360Z'
+                url: http://www.example.com/api/workspaces/252
+              - id: 253
+                name: Keylex
+                created_at: '2022-05-15T22:15:40.366Z'
+                updated_at: '2022-05-15T22:15:40.366Z'
+                url: http://www.example.com/api/workspaces/253
+              - id: 254
+                name: Wrapsafe
+                created_at: '2022-05-15T22:15:40.368Z'
+                updated_at: '2022-05-15T22:15:40.368Z'
+                url: http://www.example.com/api/workspaces/254
+              - id: 255
+                name: Gembucket
+                created_at: '2022-05-15T22:15:40.370Z'
+                updated_at: '2022-05-15T22:15:40.370Z'
+                url: http://www.example.com/api/workspaces/255
+              - id: 256
+                name: Ronstring
+                created_at: '2022-05-15T22:15:40.371Z'
+                updated_at: '2022-05-15T22:15:40.371Z'
+                url: http://www.example.com/api/workspaces/256
+              - id: 257
+                name: Fixflex
+                created_at: '2022-05-15T22:15:40.393Z'
+                updated_at: '2022-05-15T22:15:40.393Z'
+                url: http://www.example.com/api/workspaces/257
+              - id: 258
+                name: Pannier
+                created_at: '2022-05-15T22:15:40.394Z'
+                updated_at: '2022-05-15T22:15:40.394Z'
+                url: http://www.example.com/api/workspaces/258
+              - id: 259
+                name: Andalax
+                created_at: '2022-05-15T22:15:40.396Z'
+                updated_at: '2022-05-15T22:15:40.396Z'
+                url: http://www.example.com/api/workspaces/259
+              - id: 260
+                name: Opela
+                created_at: '2022-05-15T22:15:40.397Z'
+                updated_at: '2022-05-15T22:15:40.397Z'
+                url: http://www.example.com/api/workspaces/260
+              - id: 261
+                name: Domainer
+                created_at: '2022-05-15T22:15:40.397Z'
+                updated_at: '2022-05-15T22:15:40.397Z'
+                url: http://www.example.com/api/workspaces/261
+              - id: 270
+                name: Flexidy
+                created_at: '2022-05-15T22:17:31.964Z'
+                updated_at: '2022-05-15T22:17:31.964Z'
+                url: http://www.example.com/api/workspaces/270
+              - id: 271
+                name: Quo Lux
+                created_at: '2022-05-15T22:17:31.968Z'
+                updated_at: '2022-05-15T22:17:31.968Z'
+                url: http://www.example.com/api/workspaces/271
+              - id: 272
+                name: Bitwolf
+                created_at: '2022-05-15T22:17:31.970Z'
+                updated_at: '2022-05-15T22:17:31.970Z'
+                url: http://www.example.com/api/workspaces/272
+              - id: 273
+                name: Voltsillam
+                created_at: '2022-05-15T22:17:31.971Z'
+                updated_at: '2022-05-15T22:17:31.971Z'
+                url: http://www.example.com/api/workspaces/273
+              - id: 274
+                name: Rank
+                created_at: '2022-05-15T22:17:31.972Z'
+                updated_at: '2022-05-15T22:17:31.972Z'
+                url: http://www.example.com/api/workspaces/274
+              - id: 275
+                name: Y-find
+                created_at: '2022-05-15T22:17:31.990Z'
+                updated_at: '2022-05-15T22:17:31.990Z'
+                url: http://www.example.com/api/workspaces/275
+              - id: 276
+                name: Konklab
+                created_at: '2022-05-15T22:17:31.991Z'
+                updated_at: '2022-05-15T22:17:31.991Z'
+                url: http://www.example.com/api/workspaces/276
+              - id: 277
+                name: Veribet
+                created_at: '2022-05-15T22:17:31.991Z'
+                updated_at: '2022-05-15T22:17:31.991Z'
+                url: http://www.example.com/api/workspaces/277
+              - id: 278
+                name: Span
+                created_at: '2022-05-15T22:17:31.992Z'
+                updated_at: '2022-05-15T22:17:31.992Z'
+                url: http://www.example.com/api/workspaces/278
+              - id: 279
+                name: Konklux
+                created_at: '2022-05-15T22:17:31.992Z'
+                updated_at: '2022-05-15T22:17:31.992Z'
+                url: http://www.example.com/api/workspaces/279
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/workspace_response"
+    post:
+      summary: create workspace
+      tags:
+      - Workspaces
+      parameters: []
+      responses:
+        '201':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 320
+                name: New Workspace
+                created_at: '2022-05-15T22:27:37.555Z'
+                updated_at: '2022-05-15T22:27:37.555Z'
+                url: http://www.example.com/api/workspaces/320
+              schema:
+                "$ref": "#/components/schemas/workspace_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/workspace_request"
+  "/api/workspaces/{id}":
+    parameters:
+    - name: id
+      in: path
+      description: id
+      required: true
+      schema:
+        type: string
+    get:
+      summary: show workspace
+      tags:
+      - Workspaces
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 321
+                name: Trippledex
+                created_at: '2022-05-15T22:27:37.559Z'
+                updated_at: '2022-05-15T22:27:37.559Z'
+                url: http://www.example.com/api/workspaces/321
+              schema:
+                "$ref": "#/components/schemas/workspace_response"
+    put:
+      summary: update workspace
+      tags:
+      - Workspaces
+      parameters: []
+      responses:
+        '200':
+          description: successful
+          content:
+            application/json:
+              example:
+                id: 322
+                name: New Name
+                created_at: '2022-05-15T22:27:37.567Z'
+                updated_at: '2022-05-15T22:27:37.573Z'
+                url: http://www.example.com/api/workspaces/322
+              schema:
+                "$ref": "#/components/schemas/workspace_response"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/workspace_request"
+    delete:
+      summary: delete workspace
+      tags:
+      - Workspaces
+      responses:
+        '204':
+          description: successful
+components:
+  schemas:
+    user_response:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        url:
+          type: string
+      required:
+      - id
+      - name
+      - email
+      - created_at
+      - updated_at
+    user_request:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+      required:
+      - name
+      - email
+    board_response:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        workspace_id:
+          type: integer
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        url:
+          type: string
+        workspace_url:
+          type: string
+      required:
+      - id
+      - name
+      - workspace_id
+      - created_at
+      - updated_at
+    board_request:
+      type: object
+      properties:
+        name:
+          type: string
+        workspace_id:
+          type: integer
+      required:
+      - name
+      - workspace_id
+    workspace_response:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        url:
+          type: string
+      required:
+      - id
+      - name
+      - created_at
+      - updated_at
+    workspace_request:
+      type: object
+      properties:
+        name:
+          type: string
+      required:
+      - name
+servers:
+- url: "{defaultProtocol}://{defaultHost}"
+  variables:
+    defaultProtocol:
+      default: http
+    defaultHost:
+      default: localhost:3000
