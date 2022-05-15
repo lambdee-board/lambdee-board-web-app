@@ -39,13 +39,11 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - name: Cache node modules
+      - name: Cache cypress
         uses: actions/cache@v2
         with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-      - name: Install node modules
-        run: npm install
+          path: ~/.cache/Cypress
+          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace database setup steps here
@@ -83,13 +81,11 @@ jobs:
         with:
           node-version: 18
           cache: 'npm'
-      - name: Cache node modules
+      - name: Cache cypress
         uses: actions/cache@v2
         with:
-          path: ./node_modules
-          key: modules-${{ hashFiles('package-lock.json') }}
-      - name: Install node modules
-        run: npm install
+          path: ~/.cache/Cypress
+          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace any other lints here

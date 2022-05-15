@@ -62,8 +62,10 @@ end
     `RAILS_ENV=test bin/rails db:migrate`
   end
 
-  if !::ENV['CI']
-    title 'Installing frontend dependencies'
+  title 'Installing frontend dependencies'
+  if ::ENV['CI']
+    `npm ci`
+  else
     `npm install`
   end
 
