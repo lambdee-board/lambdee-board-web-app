@@ -62,8 +62,10 @@ end
     `RAILS_ENV=test bin/rails db:migrate`
   end
 
-  title 'Installing frontend dependencies'
-  `npm install`
+  if !::ENV['CI']
+    title 'Installing frontend dependencies'
+    `npm install`
+  end
 
   if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP'] && !::ENV['CI']
     title 'Removing old logs and tempfiles'
