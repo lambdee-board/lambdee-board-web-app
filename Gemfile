@@ -23,8 +23,6 @@ gem 'importmap-rails'
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
 gem 'jbuilder'
 
-gem 'jsonapi-resources'
-
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 
@@ -60,6 +58,8 @@ group :development, :test do
 
   # Easier Model record factories for tests
   gem 'factory_bot_rails'
+  # Generate fake data for tests and seeding
+  gem 'faker'
 
   # for running and managing many process at once (Procfile)
   gem 'foreman'

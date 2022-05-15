@@ -2,6 +2,6 @@
 
 ::FactoryBot.define do
   factory :workspace, class: 'DB::Workspace' do
-    name { "MyString" }
+    name { ::Faker::App.name }
   end
 end

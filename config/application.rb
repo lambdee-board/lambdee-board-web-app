@@ -18,5 +18,10 @@ module LambdeeBoardWebApp
     #
     # config.time_zone = "Central Time (US & Canada)"
     # config.eager_load_paths << Rails.root.join("extras")
+
+    config.generators do |g|
+      g.api true
+      g.system_tests false
+    end
   end
 end

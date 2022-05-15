@@ -1,0 +1,148 @@
+NoMethodError at /api/users/27
+==============================
+
+undefined method `db_user_url' for #<API::UsersController:0x0000000000c558>
+              target.public_send(method, *args)
+                    ^^^^^^^^^^^^
+Did you mean?  api_user_url
+
+> To access an interactive console with this error, point your browser to: /__better_errors
+
+
+app/controllers/api/users_controller.rb, line 25
+------------------------------------------------
+
+``` ruby
+   20       render json: @user.errors, status: :unprocessable_entity
+   21     end
+   22   
+   23     # PATCH/PUT /api/users/1 or /api/users/1.json
+   24     def update
+>  25       render :show, status: :ok, location: @user if @user.update(user_params)
+   26   
+   27       render json: @user.errors, status: :unprocessable_entity
+   28     end
+   29   
+   30     # DELETE /api/users/1 or /api/users/1.json
+```
+
+App backtrace
+-------------
+
+ - app/controllers/api/users_controller.rb:25:in `update'
+ - test/controllers/api/users_controller_test.rb:45:in `block in <class:UsersControllerTest>'
+
+Full backtrace
+--------------
+
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/polymorphic_routes.rb:280:in `handle_model_call'
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/url_for.rb:191:in `full_url_for'
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/url_for.rb:170:in `url_for'
+ - actionpack (7.0.2.4) lib/action_controller/metal/rendering.rb:122:in `_process_options'
+ - actionpack (7.0.2.4) lib/action_controller/metal/streaming.rb:199:in `_process_options'
+ - actionview (7.0.2.4) lib/action_view/rendering.rb:102:in `render_to_body'
+ - actionpack (7.0.2.4) lib/action_controller/metal/rendering.rb:46:in `render_to_body'
+ - actionpack (7.0.2.4) lib/action_controller/metal/renderers.rb:142:in `render_to_body'
+ - actionpack (7.0.2.4) lib/abstract_controller/rendering.rb:25:in `render'
+ - actionpack (7.0.2.4) lib/action_controller/metal/rendering.rb:30:in `render'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:22:in `block (2 levels) in render'
+ - /Users/mateuszdrewniak/.rvm/rubies/ruby-3.1.2/lib/ruby/3.1.0/benchmark.rb:311:in `realtime'
+ - activesupport (7.0.2.4) lib/active_support/core_ext/benchmark.rb:14:in `ms'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:22:in `block in render'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:91:in `cleanup_view_runtime'
+ - activerecord (7.0.2.4) lib/active_record/railties/controller_runtime.rb:34:in `cleanup_view_runtime'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:21:in `render'
+ - app/controllers/api/users_controller.rb:25:in `update'
+ - actionpack (7.0.2.4) lib/action_controller/metal/basic_implicit_render.rb:6:in `send_action'
+ - actionpack (7.0.2.4) lib/abstract_controller/base.rb:214:in `process_action'
+ - actionpack (7.0.2.4) lib/action_controller/metal/rendering.rb:53:in `process_action'
+ - actionpack (7.0.2.4) lib/abstract_controller/callbacks.rb:234:in `block in process_action'
+ - activesupport (7.0.2.4) lib/active_support/callbacks.rb:118:in `block in run_callbacks'
+ - actiontext (7.0.2.4) lib/action_text/rendering.rb:20:in `with_renderer'
+ - actiontext (7.0.2.4) lib/action_text/engine.rb:69:in `block (4 levels) in <class:Engine>'
+ - activesupport (7.0.2.4) lib/active_support/callbacks.rb:127:in `block in run_callbacks'
+ - activesupport (7.0.2.4) lib/active_support/callbacks.rb:138:in `run_callbacks'
+ - actionpack (7.0.2.4) lib/abstract_controller/callbacks.rb:233:in `process_action'
+ - actionpack (7.0.2.4) lib/action_controller/metal/rescue.rb:22:in `process_action'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:67:in `block in process_action'
+ - activesupport (7.0.2.4) lib/active_support/notifications.rb:206:in `block in instrument'
+ - activesupport (7.0.2.4) lib/active_support/notifications/instrumenter.rb:24:in `instrument'
+ - activesupport (7.0.2.4) lib/active_support/notifications.rb:206:in `instrument'
+ - actionpack (7.0.2.4) lib/action_controller/metal/instrumentation.rb:66:in `process_action'
+ - actionpack (7.0.2.4) lib/action_controller/metal/params_wrapper.rb:259:in `process_action'
+ - activerecord (7.0.2.4) lib/active_record/railties/controller_runtime.rb:27:in `process_action'
+ - actionpack (7.0.2.4) lib/abstract_controller/base.rb:151:in `process'
+ - actionview (7.0.2.4) lib/action_view/rendering.rb:39:in `process'
+ - actionpack (7.0.2.4) lib/action_controller/metal.rb:188:in `dispatch'
+ - actionpack (7.0.2.4) lib/action_controller/metal.rb:251:in `dispatch'
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/route_set.rb:49:in `dispatch'
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/route_set.rb:32:in `serve'
+ - actionpack (7.0.2.4) lib/action_dispatch/journey/router.rb:50:in `block in serve'
+ - actionpack (7.0.2.4) lib/action_dispatch/journey/router.rb:32:in `serve'
+ - actionpack (7.0.2.4) lib/action_dispatch/routing/route_set.rb:850:in `call'
+ - rack (2.2.3) lib/rack/tempfile_reaper.rb:15:in `call'
+ - rack (2.2.3) lib/rack/etag.rb:27:in `call'
+ - rack (2.2.3) lib/rack/conditional_get.rb:40:in `call'
+ - rack (2.2.3) lib/rack/head.rb:12:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/http/permissions_policy.rb:22:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/http/content_security_policy.rb:18:in `call'
+ - rack (2.2.3) lib/rack/session/abstract/id.rb:266:in `context'
+ - rack (2.2.3) lib/rack/session/abstract/id.rb:260:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/cookies.rb:693:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/callbacks.rb:27:in `block in call'
+ - activesupport (7.0.2.4) lib/active_support/callbacks.rb:99:in `run_callbacks'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/callbacks.rb:26:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/executor.rb:14:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/actionable_exceptions.rb:17:in `call'
+ - better_errors (2.9.1) lib/better_errors/middleware.rb:87:in `protected_app_call'
+ - better_errors (2.9.1) lib/better_errors/middleware.rb:82:in `better_errors_call'
+ - better_errors (2.9.1) lib/better_errors/middleware.rb:60:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/debug_exceptions.rb:28:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/show_exceptions.rb:26:in `call'
+ - railties (7.0.2.4) lib/rails/rack/logger.rb:36:in `call_app'
+ - railties (7.0.2.4) lib/rails/rack/logger.rb:25:in `block in call'
+ - activesupport (7.0.2.4) lib/active_support/tagged_logging.rb:99:in `block in tagged'
+ - activesupport (7.0.2.4) lib/active_support/tagged_logging.rb:37:in `tagged'
+ - activesupport (7.0.2.4) lib/active_support/tagged_logging.rb:99:in `tagged'
+ - railties (7.0.2.4) lib/rails/rack/logger.rb:25:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/remote_ip.rb:93:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/request_id.rb:26:in `call'
+ - rack (2.2.3) lib/rack/method_override.rb:24:in `call'
+ - rack (2.2.3) lib/rack/runtime.rb:22:in `call'
+ - activesupport (7.0.2.4) lib/active_support/cache/strategy/local_cache_middleware.rb:29:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/executor.rb:14:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/static.rb:23:in `call'
+ - rack (2.2.3) lib/rack/sendfile.rb:110:in `call'
+ - actionpack (7.0.2.4) lib/action_dispatch/middleware/host_authorization.rb:131:in `call'
+ - railties (7.0.2.4) lib/rails/engine.rb:530:in `call'
+ - rack-test (1.1.0) lib/rack/mock_session.rb:29:in `request'
+ - rack-test (1.1.0) lib/rack/test.rb:266:in `process_request'
+ - rack-test (1.1.0) lib/rack/test.rb:119:in `request'
+ - actionpack (7.0.2.4) lib/action_dispatch/testing/integration.rb:279:in `process'
+ - actionpack (7.0.2.4) lib/action_dispatch/testing/integration.rb:28:in `patch'
+ - actionpack (7.0.2.4) lib/action_dispatch/testing/integration.rb:370:in `patch'
+ - test/controllers/api/users_controller_test.rb:45:in `block in <class:UsersControllerTest>'
+ - minitest (5.15.0) lib/minitest/test.rb:98:in `block (3 levels) in run'
+ - minitest (5.15.0) lib/minitest/test.rb:195:in `capture_exceptions'
+ - minitest (5.15.0) lib/minitest/test.rb:95:in `block (2 levels) in run'
+ - minitest (5.15.0) lib/minitest.rb:281:in `time_it'
+ - minitest (5.15.0) lib/minitest/test.rb:94:in `block in run'
+ - minitest (5.15.0) lib/minitest.rb:376:in `on_signal'
+ - minitest (5.15.0) lib/minitest/test.rb:221:in `with_info_handler'
+ - minitest (5.15.0) lib/minitest/test.rb:93:in `run'
+ - activesupport (7.0.2.4) lib/active_support/executor/test_helper.rb:5:in `block in run'
+ - activesupport (7.0.2.4) lib/active_support/execution_wrapper.rb:105:in `perform'
+ - activesupport (7.0.2.4) lib/active_support/executor/test_helper.rb:5:in `run'
+ - minitest (5.15.0) lib/minitest.rb:1042:in `run_one_method'
+ - minitest (5.15.0) lib/minitest.rb:350:in `run_one_method'
+ - minitest (5.15.0) lib/minitest.rb:337:in `block (2 levels) in run'
+ - minitest (5.15.0) lib/minitest.rb:336:in `block in run'
+ - minitest (5.15.0) lib/minitest.rb:376:in `on_signal'
+ - minitest (5.15.0) lib/minitest.rb:363:in `with_info_handler'
+ - minitest (5.15.0) lib/minitest.rb:335:in `run'
+ - railties (7.0.2.4) lib/rails/test_unit/line_filtering.rb:10:in `run'
+ - minitest (5.15.0) lib/minitest.rb:169:in `block in __run'
+ - minitest (5.15.0) lib/minitest.rb:169:in `__run'
+ - minitest (5.15.0) lib/minitest.rb:146:in `run'
+ - minitest (5.15.0) lib/minitest.rb:73:in `block in autorun'
+

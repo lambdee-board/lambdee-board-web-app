@@ -9,6 +9,7 @@
     "camelcase",
     "Cyclomatic",
     "dataurl",
+    "datetime",
     "dotfiles",
     "esbuild",
     "fontawesome",
@@ -26,6 +27,7 @@
     "outfile",
     "paren",
     "parens",
+    "plpgsql",
     "recents",
     "reduxjs",
     "stylesheet"

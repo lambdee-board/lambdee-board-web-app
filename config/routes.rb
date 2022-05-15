@@ -5,9 +5,9 @@
 
   # backend API endpoints
   namespace :api do
-    jsonapi_resources :users
-    jsonapi_resources :workspaces
-    jsonapi_resources :boards
+    resources :workspaces, defaults: { format: 'json' }
+    resources :users, defaults: { format: 'json' }
+    resources :boards, defaults: { format: 'json' }
   end
 
   # path to the frontend React app

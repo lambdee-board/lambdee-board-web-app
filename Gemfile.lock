@@ -117,6 +117,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (2.20.0)
+      i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (1.1.0)
@@ -150,10 +152,6 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jsonapi-resources (0.10.7)
-      activerecord (>= 4.1)
-      concurrent-ruby
-      railties (>= 4.1)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -345,12 +343,12 @@ DEPENDENCIES
   cypress-rails
   debug
   factory_bot_rails
+  faker
   foreman
   guard
   guard-livereload
   importmap-rails
   jbuilder
-  jsonapi-resources
   pg (~> 1.1)
   puma (~> 5.0)
   rack-livereload

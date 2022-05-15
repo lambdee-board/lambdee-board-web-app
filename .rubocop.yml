@@ -1,5 +1,3 @@
-inherit_from: .rubocop_todo.yml
-
 Metrics/AbcSize:
   Enabled: false
 
@@ -11,6 +9,12 @@ Metrics/ClassLength:
 
 Metrics/CyclomaticComplexity:
   Max: 12
+
+Layout/RedundantLineBreak:
+  Enabled: false
+
+Style/DisableCopsWithinSourceCodeDirective:
+  Enabled: false
 
 Layout/ExtraSpacing:
   Enabled: false
