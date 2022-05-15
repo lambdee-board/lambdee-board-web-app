@@ -67,6 +67,7 @@ jobs:
         with:
           name: cypress_screenshots
           path: tmp/cypress_screenshots
+
   lint:
     runs-on: ubuntu-latest
     env:
