@@ -6,7 +6,7 @@ class DB::WorkspaceTest < ActiveSupport::TestCase
   should 'not save when name length is longer than 50 characters or is null' do
     workspace = ::FactoryBot.build(:workspace, name: 'a' * 51)
     workspace.save
-    assert_equal 'Name is too long (maximum is 50 characters)', workspace.errors.full_messages.first
+    assert_equal 'Name is too long (maximum is 40 characters)', workspace.errors.full_messages.first
     assert_not workspace.persisted?
 
     workspace.name = nil

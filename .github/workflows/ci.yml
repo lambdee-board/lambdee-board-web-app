@@ -34,14 +34,31 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache cypress
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace database setup steps here
       - name: Set up the database
         run: bin/rails db:schema:load
       # Add or replace test runners here
-      - name: Run backend tests
+      - name: Backend unit tests
         run: bin/rake
+      - name: Backend spec tests
+        run: bundle exec rspec
       - name: Build the frontend
         run: |
           BUILD=true bin/rails runner bin/.build/preprocess_react.rb
@@ -54,6 +71,7 @@ jobs:
         with:
           name: cypress_screenshots
           path: tmp/cypress_screenshots
+
   lint:
     runs-on: ubuntu-latest
     env:
@@ -65,6 +83,21 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
+      - name: Install Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+          cache: 'npm'
+      - name: Cache node modules
+        uses: actions/cache@v2
+        with:
+          path: ./node_modules
+          key: node_modules-${{ hashFiles('package-lock.json') }}
+      - name: Cache cypress
+        uses: actions/cache@v2
+        with:
+          path: ~/.cache/Cypress
+          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/bundle_install
       # Add or replace any other lints here

@@ -117,6 +117,8 @@ GEM
     factory_bot_rails (6.2.0)
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
+    faker (2.20.0)
+      i18n (>= 1.8.11, < 2)
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (1.1.0)
@@ -150,10 +152,8 @@ GEM
     jbuilder (2.11.5)
       actionview (>= 5.0.0)
       activesupport (>= 5.0.0)
-    jsonapi-resources (0.10.7)
-      activerecord (>= 4.1)
-      concurrent-ruby
-      railties (>= 4.1)
+    json-schema (2.8.1)
+      addressable (>= 2.4)
     kramdown (2.4.0)
       rexml
     kramdown-parser-gfm (1.1.0)
@@ -257,6 +257,32 @@ GEM
     reverse_markdown (2.1.1)
       nokogiri
     rexml (3.2.5)
+    rspec-core (3.11.0)
+      rspec-support (~> 3.11.0)
+    rspec-expectations (3.11.0)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-mocks (3.11.1)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.11.0)
+    rspec-rails (5.1.2)
+      actionpack (>= 5.2)
+      activesupport (>= 5.2)
+      railties (>= 5.2)
+      rspec-core (~> 3.10)
+      rspec-expectations (~> 3.10)
+      rspec-mocks (~> 3.10)
+      rspec-support (~> 3.10)
+    rspec-support (3.11.0)
+    rswag-api (2.5.1)
+      railties (>= 3.1, < 7.1)
+    rswag-specs (2.5.1)
+      activesupport (>= 3.1, < 7.1)
+      json-schema (~> 2.2)
+      railties (>= 3.1, < 7.1)
+    rswag-ui (2.5.1)
+      actionpack (>= 3.1, < 7.1)
+      railties (>= 3.1, < 7.1)
     rubocop (1.28.2)
       parallel (~> 1.10)
       parser (>= 3.1.0.0)
@@ -345,18 +371,22 @@ DEPENDENCIES
   cypress-rails
   debug
   factory_bot_rails
+  faker
   foreman
   guard
   guard-livereload
   importmap-rails
   jbuilder
-  jsonapi-resources
   pg (~> 1.1)
   puma (~> 5.0)
   rack-livereload
   rails (~> 7.0.2, >= 7.0.2.4)
   rails-annotate-solargraph
   redis (~> 4.0)
+  rspec-rails
+  rswag-api
+  rswag-specs
+  rswag-ui
   rubocop
   rubocop-rails
   ruby_audit

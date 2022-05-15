@@ -208,6 +208,12 @@ class DB::User < ApplicationRecord
   # Database column `users.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `users.email`, type: `string`.
+  # @param val [String, nil]
+  def email=(val); end
+  # Database column `users.email`, type: `string`.
+  # @return [String, nil]
+  def email; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 

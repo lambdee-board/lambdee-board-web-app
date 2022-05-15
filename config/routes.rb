@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 ::Rails.application.routes.draw do
+  mount ::Rswag::Ui::Engine => '/api-docs'
+  mount ::Rswag::Api::Engine => '/api-docs'
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
   # backend API endpoints
   namespace :api do
-    jsonapi_resources :users
-    jsonapi_resources :workspaces
-    jsonapi_resources :boards
+    resources :workspaces, defaults: { format: 'json' }
+    resources :users, defaults: { format: 'json' }
+    resources :boards, defaults: { format: 'json' }
   end
 
   # path to the frontend React app
