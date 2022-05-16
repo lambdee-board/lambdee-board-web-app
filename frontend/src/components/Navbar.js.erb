@@ -18,17 +18,14 @@ import './Navbar.sass'
 
 const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-  const [setAnchorEl] = React.useState(null)
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
   }
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+  const handleClose = handleCloseUserMenu
 
   const workspaces = ['SnippetzDev', 'MyApp', 'Lambdee']
   const recents = ['MyApp', 'Lambdee']

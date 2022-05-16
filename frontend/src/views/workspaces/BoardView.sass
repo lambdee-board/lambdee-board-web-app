@@ -1,0 +1,14 @@
+@import './../../styles/base'
+
+.BoardView
+  .TaskLists-scrollable
+    overflow-x: auto
+    height: calc(100vh - (9 * $unit))
+
+    .TaskLists-wrapper
+      display: flex
+      flex-direction: row
+      margin-left: 2.5 * $unit
+
+      .TaskLists-spacer
+        padding-right: 2* $unit

@@ -1,5 +1,5 @@
 import React from 'react'
-import { List, ListItem, Paper, Toolbar, ListSubheader, Typography, IconButton, Button } from '@mui/material'
+import { List, ListItem, Paper, ListSubheader, Typography, IconButton, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -11,7 +11,6 @@ import './TaskList.sass'
 export default function TaskList(props) {
   return (
     <Box className='TaskList-wrapper'>
-      <Toolbar />
       <Paper className='TaskList-paper'
         elevation={5}>
         <List className='TaskList'

@@ -1,21 +1,26 @@
 import { ThemeProvider } from '@mui/material'
+import { Provider } from 'react-redux'
+import { Outlet, Link } from 'react-router-dom'
 
 import './App.sass'
 import lambdeeTheme from './lambdeeTheme'
+import store from './redux/store'
 
 import ErrorCounter from './components/ErrorCounter'
 import Navbar from './components/Navbar'
 
-import BoardView from './views/BoardView'
-
 function App() {
   return (
     <ThemeProvider theme={lambdeeTheme}>
-      <div className='App'>
-        <ErrorCounter />
-        <Navbar />
-        <BoardView />
-      </div>
+      <Provider store={store}>
+        <div className='App'>
+          <ErrorCounter />
+          <Navbar />
+          <div className='App-body'>
+            <Outlet />
+          </div>
+        </div>
+      </Provider>
     </ThemeProvider>
   )
 }
