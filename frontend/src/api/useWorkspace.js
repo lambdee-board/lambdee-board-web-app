@@ -1,14 +1,4 @@
-import useSWR from 'swr'
+import { useAPI } from './apiClient'
 
-import { fetcher } from './apiClient'
-
-export default function useWorkspace(id, options = {}) {
-  const url = `/api/workspaces/${id}`
-  const { data, error } = useSWR([url, options], fetcher)
-
-  return {
-    workspace: data,
-    isLoading: !error && !data,
-    isError: error
-  }
-}
+const useWorkspace = (id, ...args)  => useAPI(`/api/workspaces/${id}`, ...args)
+export default useWorkspace

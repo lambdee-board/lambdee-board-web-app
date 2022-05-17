@@ -1,13 +1,4 @@
-import useSWR from 'swr'
+import { useAPI } from './apiClient'
 
-import { fetcher } from './apiClient'
-
-export default function useWorkspaces(limit, fetch = true) {
-  const { data, error } = useSWR(fetch ? `/api/workspaces?limit=${limit}` : null, fetcher)
-
-  return {
-    workspaces: data,
-    isLoading: !error && !data,
-    isError: error
-  }
-}
+const useWorkspaces = (limit, ...args)  => useAPI('/api/workspaces', { params: { limit } }, ...args)
+export default useWorkspaces

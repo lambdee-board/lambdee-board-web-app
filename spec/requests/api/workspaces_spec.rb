@@ -14,11 +14,15 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/workspace_response' }
 
-        wrk = ::FactoryBot.create(:workspace)
-        5.times { ::FactoryBot.create :board, workspace: wrk }
-        ::FactoryBot.create(:workspace)
-
         let(:include) { 'boards' }
+
+        before do
+          usr = ::FactoryBot.create(:user)
+          wrk = ::FactoryBot.create(:workspace)
+          wrk.users << usr
+          5.times { ::FactoryBot.create :board, workspace: wrk }
+          ::FactoryBot.create(:workspace)
+        end
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -34,7 +38,10 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/workspace_response' }
 
-        5.times { ::FactoryBot.create :workspace }
+        before do
+          usr = ::FactoryBot.create(:user)
+          5.times { ::FactoryBot.create(:workspace).users << usr }
+        end
 
         let(:limit) { 3 }
 
@@ -52,7 +59,10 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/workspace_response' }
 
-        5.times { ::FactoryBot.create :workspace }
+        before do
+          usr = ::FactoryBot.create(:user)
+          5.times { ::FactoryBot.create(:workspace).users << usr }
+        end
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -73,6 +83,10 @@ require 'swagger_helper'
       response(201, 'successful') do
         schema '$ref' => '#/components/schemas/workspace_response'
         let(:workspace) { { name: 'New Workspace' } }
+
+        before do
+          ::FactoryBot.create :user
+        end
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -95,6 +109,9 @@ require 'swagger_helper'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/workspace_response'
 
+        before do
+          ::FactoryBot.create :user
+        end
         let(:id) { ::FactoryBot.create(:workspace).id }
 
         after do |example|
@@ -118,6 +135,9 @@ require 'swagger_helper'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/workspace_response'
 
+        before do
+          ::FactoryBot.create :user
+        end
         let(:id) { ::FactoryBot.create(:workspace).id }
         let(:workspace) { { name: 'New Name' } }
 
@@ -135,6 +155,9 @@ require 'swagger_helper'
     delete('delete workspace') do
       tags 'Workspaces'
       response(204, 'successful') do
+        before do
+          ::FactoryBot.create :user
+        end
         let(:id) { ::FactoryBot.create(:workspace).id }
         run_test!
       end

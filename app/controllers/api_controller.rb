@@ -7,7 +7,13 @@ class APIController < ::ApplicationController
 
   rescue_from ::ActiveRecord::RecordNotFound, with: :not_found
 
+  before_action :authorize_user!
+
   protected
+
+  def authorize_user!
+    head(:unauthorized) unless user_signed_in?
+  end
 
   # @return [Integer, nil]
   def limit
@@ -32,6 +38,6 @@ class APIController < ::ApplicationController
   end
 
   def not_found
-    head 404
+    head :not_found
   end
 end

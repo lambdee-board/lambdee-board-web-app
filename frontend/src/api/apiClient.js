@@ -1,4 +1,5 @@
 import axios from 'axios'
+import useSWR from 'swr'
 import applyCaseMiddleware from 'axios-case-converter'
 
 const axiosClient = axios.create({
@@ -11,5 +12,16 @@ const apiClient = applyCaseMiddleware(axiosClient, {
 
 const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
 
-export { apiClient, fetcher }
+const useAPI = (url, axiosOptions = {}, fetch = true) => {
+  const { data, error } = useSWR(fetch ? [url, axiosOptions] : null, fetcher)
+
+  return {
+    data,
+    error,
+    isLoading: !error && !data,
+    isError: Boolean(error),
+  }
+}
+
+export { apiClient, fetcher, useAPI }
 export default apiClient

@@ -101,10 +101,9 @@ export default function Sidebar() {
   const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
-  const { workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { include: 'boards' } })
+  const { data: workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { include: 'boards' } })
   const [isOpen, setOpen] = React.useState(true)
 
-  console.log(workspaceId, boardId)
   return (
     <Box className='Sidebar-wrapper'>
       <Drawer
@@ -140,6 +139,7 @@ export default function Sidebar() {
               />
               {workspace.boards?.map((board, index) => (
                 <SidebarListItem
+                  className='ListItem-board'
                   key={board.name + index}
                   active={board.id === boardId}
                   label={board.name}

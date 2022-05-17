@@ -2,6 +2,10 @@ require 'swagger_helper'
 
 ::RSpec.describe 'api/boards', type: :request do
 
+  before(:each) do
+    ::FactoryBot.create :user
+  end
+
   path '/api/boards' do
 
     get('list boards') do
@@ -13,7 +17,9 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/board_response' }
 
-        5.times { ::FactoryBot.create :board }
+        before do
+          5.times { ::FactoryBot.create :board }
+        end
 
         after do |example|
           example.metadata[:response][:content] = {

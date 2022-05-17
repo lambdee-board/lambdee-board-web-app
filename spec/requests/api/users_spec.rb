@@ -12,7 +12,9 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/user_response' }
 
-        5.times { ::FactoryBot.create :user }
+        before do
+          5.times { ::FactoryBot.create :user }
+        end
 
         after do |example|
           example.metadata[:response][:content] = {
@@ -52,6 +54,10 @@ require 'swagger_helper'
       produces 'application/json'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/user_response'
+
+        before do
+          ::FactoryBot.create(:user)
+        end
 
         after do |example|
           example.metadata[:response][:content] = {

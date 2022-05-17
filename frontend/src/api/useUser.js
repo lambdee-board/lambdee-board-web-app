@@ -1,13 +1,4 @@
-import useSWR from 'swr'
+import { useAPI } from './apiClient'
 
-import { fetcher } from './apiClient'
-
-export default function useUser(id) {
-  const { data, error } = useSWR(`/api/users/${id}`, fetcher)
-
-  return {
-    user: data,
-    isLoading: !error && !data,
-    isError: error
-  }
-}
+const useUser = (id, ...args)  => useAPI(`/api/users/${id}`, ...args)
+export default useUser
