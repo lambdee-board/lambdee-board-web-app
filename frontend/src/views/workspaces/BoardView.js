@@ -5,6 +5,7 @@ import TaskCard from './../../components/TaskCard'
 import TaskList from './../../components/TaskList'
 
 import TaskTag from './../../types/TaskTag'
+import useTaskLists from '../api/useTaskLists'
 
 const frontendTag = new TaskTag('Frontend', '#FFFFFF', '#33E3FF')
 const backendTag = new TaskTag('Backend', '#000000', '#FF3333')
@@ -40,12 +41,13 @@ const task5 = {
 const taskList = [task, task, task, task, task2, task3, task4, task5]
 
 export default function BoardView() {
+  const { data: taskLists, isLoading, isError } = useTaskLists()
   return (
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper'>
           {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((text, index) => (
-            <TaskList key={index} title={text}>
+            <TaskList key={index} title={text} >
               {sampleSize(taskList, Math.floor(Math.random() * taskList.length)).map((taskListElement) => (
                 <TaskCard key = {taskListElement.taskLabel}
                   taskLabel = {taskListElement.taskLabel}

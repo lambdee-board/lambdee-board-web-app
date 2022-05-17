@@ -4,10 +4,11 @@ import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
+import useTasks from '../api/useTasks'
 
 import './TaskList.sass'
 
-function TaskListSkeleton(props) {
+function TaskListSkeleton() {
   return (
     <Box>
       <List className='TaskList'
@@ -27,10 +28,7 @@ function TaskListSkeleton(props) {
 }
 
 export default function TaskList(props) {
-  // const { data: taskList, isLoading, isError } = useTaskList()
-  const isLoading = true
-  const isError = null
-
+  const { data: tasks, isLoading, isError } = useTasks()
   return (
     <Box className='TaskList-wrapper'>
       <Paper className='TaskList-paper'
@@ -71,4 +69,5 @@ export default function TaskList(props) {
 TaskList.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
+  pos: PropTypes.array.isRequired,
 }
