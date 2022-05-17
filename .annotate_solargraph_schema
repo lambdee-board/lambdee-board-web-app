@@ -181,6 +181,61 @@ end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:lists>%%
+
+class DB::List < ApplicationRecord
+  # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  # Database column `lists.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `lists.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `lists.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `lists.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `lists.pos`, type: `float`.
+  # @param val [BigDecimal, nil]
+  def pos=(val); end
+  # Database column `lists.pos`, type: `float`.
+  # @return [BigDecimal, nil]
+  def pos; end
+  # Database column `lists.deleted`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def deleted=(val); end
+  # Database column `lists.deleted`, type: `boolean`.
+  # @return [Boolean, nil]
+  def deleted; end
+  # Database column `lists.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `lists.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
+  # Database column `lists.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `lists.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `lists.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `lists.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:lists>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:users>%%
 
 class DB::User < ApplicationRecord
