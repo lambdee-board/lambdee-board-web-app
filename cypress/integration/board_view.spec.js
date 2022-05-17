@@ -39,11 +39,8 @@ describe('Board View', () => {
   context('Sidebar', () => {
     it('displays the sidebar', () => {
       cy.get('div.Sidebar-wrapper').should('exist')
-      cy.contains('SnippetzDev')
       cy.contains('Settings')
       cy.contains('Members')
-      cy.contains('Board 1')
-      cy.contains('Board 2')
     })
 
     it('collapses and expands', () => {

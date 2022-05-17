@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Box,
   Drawer,
@@ -51,7 +51,7 @@ const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'op
 
 function SidebarListItem(props) {
   return (
-    <ListItem className={props.className} id={ props.active ? 'active' : ''} button divider >
+    <ListItem onClick={props.onClick} className={props.className} id={ props.active ? 'active' : ''} button divider >
       <ListItemIcon>
         {props.icon}
       </ListItemIcon>
@@ -61,6 +61,7 @@ function SidebarListItem(props) {
 }
 
 SidebarListItem.propTypes = {
+  onClick: PropTypes.func,
   className: PropTypes.string,
   active: PropTypes.bool,
   label: PropTypes.string.isRequired,
@@ -98,10 +99,12 @@ function SidebarListSkeleton() {
 
 export default function Sidebar() {
   const theme = useTheme()
-  const { workspaceId } = useParams()
+  const navigate = useNavigate()
+  const { workspaceId, boardId } = useParams()
   const { workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { include: 'boards' } })
   const [isOpen, setOpen] = React.useState(true)
 
+  console.log(workspaceId, boardId)
   return (
     <Box className='Sidebar-wrapper'>
       <Drawer
@@ -138,8 +141,9 @@ export default function Sidebar() {
               {workspace.boards?.map((board, index) => (
                 <SidebarListItem
                   key={board.name + index}
-                  active={false}
+                  active={board.id === boardId}
                   label={board.name}
+                  onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
                   icon={<FontAwesomeIcon icon={faClipboardList} color={board.color} />}
                 />
               ))}

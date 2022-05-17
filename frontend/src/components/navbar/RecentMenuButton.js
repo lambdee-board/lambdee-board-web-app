@@ -15,7 +15,7 @@ const RecentMenuButton = () => {
   // isLoading = true
 
   if (isLoading || isError) return (
-    <DropdownButton label='Workspaces'>
+    <DropdownButton label='Recent'>
       <MenuItem>
         <Skeleton variant='rectangular' width={24} height={24} />
         <Skeleton variant='text' width={50} sx={{ ml: 2 }} />
@@ -28,7 +28,7 @@ const RecentMenuButton = () => {
   )
 
   return (
-    <DropdownButton label='Workspaces'>
+    <DropdownButton label='Recent'>
       {workspaces.map((workspace) => (
         <MenuItem onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.name}>
           <WorkspaceIcon name={workspace.name} size={32} />
