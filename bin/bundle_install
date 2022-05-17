@@ -57,9 +57,7 @@ end
   if ::ENV['RAILS_ENV'] != 'test' && !::ENV['CI']
     title 'Preparing the database'
 
-    `bin/rails db:prepare` if ::ENV['SETUP']
-    `bin/rails db:migrate`
-    `RAILS_ENV=test bin/rails db:migrate`
+    `bin/rails db:setup`
   end
 
   title 'Installing frontend dependencies'

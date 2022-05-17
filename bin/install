@@ -46,7 +46,12 @@ if [[ "$required_version" == "$current_version" ]]; then
   $bundle_install_script
 else
   rvm install $required_version
-  rvm use $required_version@$gemset --create
+  rvm use $required_version
+  # only load the gemset on MacOS sic!
+  if [ "$(uname)" == "Darwin" ]; then
+    rvm gemset use $gemset --create
+  fi
+
   $bundle_install_script
   if [[ $DONT_RELOAD_SHELL != "true" ]] ; then
     $SHELL
