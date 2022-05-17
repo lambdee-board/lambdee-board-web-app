@@ -7,6 +7,8 @@ require 'swagger_helper'
     get('list boards') do
       tags 'Boards'
       produces 'application/json'
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+
       response(200, 'successful') do
         schema type: :array,
           items: { '$ref' => '#/components/schemas/board_response' }

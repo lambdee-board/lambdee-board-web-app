@@ -1,5 +1,5 @@
-import './utils/configurePanicOverlay'
-import './utils/initializeConsole'
+import './init/configurePanicOverlay'
+import './init/initializeConsole'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -10,10 +10,10 @@ import {
   Route,
 } from 'react-router-dom'
 
-import './utils/listenToConsoleErrors'
+import './init/listenToConsoleErrors'
 
 import App from './App'
-import reportWebVitals from './utils/reportWebVitals'
+import reportWebVitals from './init/reportWebVitals'
 import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/BoardView'

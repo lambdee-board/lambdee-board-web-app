@@ -8,10 +8,18 @@ class API::UsersController < ::APIController
   # GET /api/users or /api/users.json
   def index
     @users = ::DB::User.all
+    @users = @users.limit(limit) if limit?
   end
 
   # GET /api/users/1 or /api/users/1.json
   def show; end
+
+  def current
+    return head(:unauthorized) unless user_signed_in?
+
+    @user = current_user
+    render :show, status: :ok
+  end
 
   # POST /api/users or /api/users.json
   def create

@@ -9,6 +9,7 @@ class API::BoardsController < ::APIController
   # GET /api/boards.json
   def index
     @boards = ::DB::Board.all
+    @boards = @boards.limit(limit) if limit?
   end
 
   # GET /api/boards/1
@@ -27,7 +28,7 @@ class API::BoardsController < ::APIController
   # PATCH/PUT /api/boards/1
   # PATCH/PUT /api/boards/1.json
   def update
-    return render :show, status: :ok, location:  api_board_url(@board) if @board.update(board_params)
+    return render :show, status: :ok, location: api_board_url(@board) if @board.update(board_params)
 
     render json: @board.errors, status: :unprocessable_entity
   end

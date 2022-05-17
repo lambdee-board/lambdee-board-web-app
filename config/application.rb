@@ -2,6 +2,8 @@ require_relative "boot"
 
 require "rails/all"
 
+require 'debug' if ::Rails.env.test? || ::Rails.env.development?
+
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
@@ -22,6 +24,8 @@ module LambdeeBoardWebApp
     config.generators do |g|
       g.api true
       g.system_tests false
+      g.template_engine :jbuilder
+      g.test_framework :test_unit
     end
   end
 end
