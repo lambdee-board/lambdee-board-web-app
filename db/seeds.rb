@@ -5,3 +5,9 @@
 #
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
+
+wrk = ::FactoryBot.create :workspace
+2.times { wrk.users << ::FactoryBot.create(:user) }
+
+3.times { ::FactoryBot.create(:workspace) }
+2.times { ::FactoryBot.create(:board, workspace: wrk) }

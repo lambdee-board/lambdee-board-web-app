@@ -31,7 +31,9 @@ esbuild.build({
   ],
   sourcemap: true,
   define: {
-    'process.env.NODE_ENV': JSON.stringify('development'),
+    'process.env.NODE_ENV': JSON.stringify('test'),
+    'process.env.LAMBDEE_HOST': JSON.stringify(process.env.LAMBDEE_HOST || 'localhost:3000'),
+    'process.env.LAMBDEE_PROTOCOL': JSON.stringify(process.env.LAMBDEE_PROTOCOL || 'http'),
     '__dirname': JSON.stringify(`${__dirname}/..`),
     'process.path.sep': JSON.stringify(sep)
   },

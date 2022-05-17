@@ -7,6 +7,47 @@ require 'swagger_helper'
     get('list workspaces') do
       tags 'Workspaces'
       produces 'application/json'
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+      parameter name: 'include', in: 'query', type: 'string', description: 'Choose which associated entities should be included in the response', example: 'boards'
+
+      response(200, 'successful with boards') do
+        schema type: :array,
+          items: { '$ref' => '#/components/schemas/workspace_response' }
+
+        wrk = ::FactoryBot.create(:workspace)
+        5.times { ::FactoryBot.create :board, workspace: wrk }
+        ::FactoryBot.create(:workspace)
+
+        let(:include) { 'boards' }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: ::JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(200, 'successful with limit') do
+        schema type: :array,
+          items: { '$ref' => '#/components/schemas/workspace_response' }
+
+        5.times { ::FactoryBot.create :workspace }
+
+        let(:limit) { 3 }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: ::JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
       response(200, 'successful') do
         schema type: :array,
           items: { '$ref' => '#/components/schemas/workspace_response' }

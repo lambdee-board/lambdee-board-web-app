@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 
-RSpec.configure do |config|
+::RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
   # to ensure that it's configured to serve Swagger from the same folder
-  config.swagger_root = Rails.root.join('swagger').to_s
+  config.swagger_root = ::Rails.root.join('swagger').to_s
 
   # Define one or more Swagger documents and provide global metadata for each one
   # When you run the 'rswag:specs:swaggerize' rake task, the complete Swagger will
@@ -32,6 +32,7 @@ RSpec.configure do |config|
               email: { type: :string },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
+              avatar_url: { type: :string },
               url: { type: :string },
             },
             required: %w[id name email created_at updated_at]
@@ -73,6 +74,10 @@ RSpec.configure do |config|
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
+              boards: {
+                '$ref' => '#/components/schemas/board_response',
+                nullable: true
+              }
             },
             required: %w[id name created_at updated_at]
           },

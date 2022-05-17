@@ -22,6 +22,7 @@ Lambdee - Scriptable Agile Board
 - `bin/console` - run the rails console
 - `bin/build` - build the frontend React app
 - `bin/openapi` - build the OpenAPI documentation from Ruby specs
+- `bin/seed` - fill the database with generated data
 - `bin/cypress`
   - `open` -- open cypress for testing during development
   - `run` -- run cypress tests headless (without a browser window)

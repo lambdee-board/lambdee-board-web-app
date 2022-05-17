@@ -50,5 +50,5 @@ done
 title "Running Lambdee in the Development env"
 
 open http://localhost:3000/api-docs
-open http://localhost:3000
+open http://localhost:3000/workspaces/1/boards/1
 foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,guard=$GUARD,react=$REACT

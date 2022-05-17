@@ -184,6 +184,66 @@ end
 # %%<RailsAnnotateSolargraph:Start:users>%%
 
 class DB::User < ApplicationRecord
+  # Scope `:admin`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.admin(); end
+  # Scope `:developer`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.developer(); end
+  # Scope `:guest`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.guest(); end
+  # Scope `:not_admin`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_admin(); end
+  # Scope `:not_developer`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_developer(); end
+  # Scope `:not_guest`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_guest(); end
+  # Scope `:not_regular`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_regular(); end
+  # Scope `:regular`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.regular(); end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
+  # @param val [Array<DB::UserWorkspace>, nil]
+  def user_workspaces=(val); end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
+  # @return [Array<DB::UserWorkspace>, nil]
+  def user_workspaces; end
+  # `has_many` relation with `DB::Workspace` through `DB::UserWorkspace`.
+  # @param val [Array<DB::Workspace>, nil]
+  def workspaces=(val); end
+  # `has_many` relation with `DB::Workspace` through `DB::UserWorkspace`.
+  # @return [Array<DB::Workspace>, nil]
+  def workspaces; end
   # Database column `users.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -214,8 +274,63 @@ class DB::User < ApplicationRecord
   # Database column `users.email`, type: `string`.
   # @return [String, nil]
   def email; end
+  # Database column `users.type`, type: `integer`.
+  # @param val [Integer, nil]
+  def type=(val); end
+  # Database column `users.type`, type: `integer`.
+  # @return [Integer, nil]
+  def type; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:user_workspaces>%%
+
+class DB::UserWorkspace < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `user_workspaces.user_id`.
+  # @param val [DB::User, nil]
+  def user=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `user_workspaces.user_id`.
+  # @return [DB::User, nil]
+  def user; end
+  # `belongs_to` relation with `DB::Workspace`. Database column `user_workspaces.workspace_id`.
+  # @param val [DB::Workspace, nil]
+  def workspace=(val); end
+  # `belongs_to` relation with `DB::Workspace`. Database column `user_workspaces.workspace_id`.
+  # @return [DB::Workspace, nil]
+  def workspace; end
+  # Database column `user_workspaces.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `user_workspaces.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `user_workspaces.user_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def user_id=(val); end
+  # Database column `user_workspaces.user_id`, type: `integer`.
+  # @return [Integer, nil]
+  def user_id; end
+  # Database column `user_workspaces.workspace_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def workspace_id=(val); end
+  # Database column `user_workspaces.workspace_id`, type: `integer`.
+  # @return [Integer, nil]
+  def workspace_id; end
+  # Database column `user_workspaces.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `user_workspaces.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `user_workspaces.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `user_workspaces.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:user_workspaces>%%
 
 
 # %%<RailsAnnotateSolargraph:Start:workspaces>%%
@@ -227,6 +342,18 @@ class DB::Workspace < ApplicationRecord
   # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
   # @return [Array<DB::Board>, nil]
   def boards; end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.workspace_id`.
+  # @param val [Array<DB::UserWorkspace>, nil]
+  def user_workspaces=(val); end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.workspace_id`.
+  # @return [Array<DB::UserWorkspace>, nil]
+  def user_workspaces; end
+  # `has_many` relation with `DB::User` through `DB::UserWorkspace`.
+  # @param val [Array<DB::User>, nil]
+  def users=(val); end
+  # `has_many` relation with `DB::User` through `DB::UserWorkspace`.
+  # @return [Array<DB::User>, nil]
+  def users; end
   # Database column `workspaces.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end

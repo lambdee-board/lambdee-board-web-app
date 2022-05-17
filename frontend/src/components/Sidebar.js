@@ -1,4 +1,5 @@
 import * as React from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
 import {
   Box,
   Drawer,
@@ -7,10 +8,11 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Button
+  Button,
+  Skeleton
 } from '@mui/material'
 import {
-  faChalkboard,
+  faClipboardList,
   faScroll,
   faGear,
   faUsers,
@@ -18,8 +20,10 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
-import WorkspaceIcon from './WorkspaceIcon'
 import PropTypes from 'prop-types'
+
+import WorkspaceIcon from './WorkspaceIcon'
+import useWorkspace from '../api/useWorkspace'
 
 import './Sidebar.sass'
 
@@ -45,22 +49,62 @@ const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'op
   }),
 )
 
-export default function Sidebar(props) {
+function SidebarListItem(props) {
+  return (
+    <ListItem onClick={props.onClick} className={props.className} id={ props.active ? 'active' : ''} button divider >
+      <ListItemIcon>
+        {props.icon}
+      </ListItemIcon>
+      <ListItemText primary={props.label} />
+    </ListItem>
+  )
+}
+
+SidebarListItem.propTypes = {
+  onClick: PropTypes.func,
+  className: PropTypes.string,
+  active: PropTypes.bool,
+  label: PropTypes.string.isRequired,
+  icon: PropTypes.object.isRequired,
+}
+
+function SidebarListSkeleton() {
+  return (
+    <List className='List List-skeleton'>
+      <ListItem className='ListItem-workspace' button divider>
+        <Skeleton height={46} width={46} variant='rectangular' />
+        <Skeleton height={36} width={100} variant='text' />
+      </ListItem>
+      <ListItem className='ListItem' button divider>
+        <div className='ListItem-skeleton-wrapper'>
+          <Skeleton height={32} width={32} variant='rectangular' />
+          <Skeleton height={24} width={80} variant='text' />
+        </div>
+      </ListItem>
+      <ListItem className='ListItem' button divider>
+        <div className='ListItem-skeleton-wrapper'>
+          <Skeleton height={32} width={32} variant='rectangular' />
+          <Skeleton height={24} width={80} variant='text' />
+        </div>
+      </ListItem>
+      <ListItem className='ListItem' button divider>
+        <div className='ListItem-skeleton-wrapper'>
+          <Skeleton height={32} width={32} variant='rectangular' />
+          <Skeleton height={24} width={80} variant='text' />
+        </div>
+      </ListItem>
+    </List>
+  )
+}
+
+export default function Sidebar() {
   const theme = useTheme()
+  const navigate = useNavigate()
+  const { workspaceId, boardId } = useParams()
+  const { workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { include: 'boards' } })
   const [isOpen, setOpen] = React.useState(true)
 
-  const defaultTabs = [ ['Scripts', faScroll], ['Settings', faGear], ['Members', faUsers] ]
-
-  const getColor = () => {
-    const colors = ['green', 'red', 'orange', 'purple', 'blue']
-    return colors[Math.floor(Math.random() * colors.length)]
-  }
-
-  // replace both with swr request after workspace api will be implemented
-  const workspaceName = props.workspaceName || 'SnippetzDev'
-  const boardNameColor = props.boardNameColor || [['Board 1', getColor()], ['Board 2', getColor()]]
-  const activeTab = props.activeTab || 'Board 1'
-
+  console.log(workspaceId, boardId)
   return (
     <Box className='Sidebar-wrapper'>
       <Drawer
@@ -70,30 +114,41 @@ export default function Sidebar(props) {
         sx={{ ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' } }} >
         <Toolbar />
         <Box className='List-wrapper'>
-          <List className='List'>
-            <ListItem className='ListItem-workspace' alignItems='center' divider key={workspaceName} >
-              <ListItemIcon>
-                <WorkspaceIcon name={workspaceName} size={48} />
-              </ListItemIcon>
-              <ListItemText primary={workspaceName} />
-            </ListItem>
-            {defaultTabs.map(([tabName, tabIcon], index) => (
-              <ListItem id={ activeTab === tabName ? 'active' : ''} button divider key={tabName} >
-                <ListItemIcon>
-                  <FontAwesomeIcon icon={tabIcon} />
-                </ListItemIcon>
-                <ListItemText primary={tabName} />
-              </ListItem>
-            ))}
-            {boardNameColor.map(([boardName, color], index) => (
-              <ListItem id={ activeTab === boardName ? 'active' : ''} button divider key={boardName + index}>
-                <ListItemIcon>
-                  <FontAwesomeIcon icon={faChalkboard} color={color} />
-                </ListItemIcon>
-                <ListItemText primary={boardName} />
-              </ListItem>
-            ))}
-          </List>
+
+          {isLoading || isError ? (
+            <SidebarListSkeleton />
+          ) : (
+            <List className='List'>
+              <SidebarListItem className='ListItem-workspace'
+                label={workspace.name}
+                icon={<WorkspaceIcon name={workspace.name} size={48} />}
+              />
+              <SidebarListItem
+                active={false}
+                label='Scripts'
+                icon={<FontAwesomeIcon icon={faScroll} />}
+              />
+              <SidebarListItem
+                active={false}
+                label='Settings'
+                icon={<FontAwesomeIcon icon={faGear} />}
+              />
+              <SidebarListItem
+                active={false}
+                label='Members'
+                icon={<FontAwesomeIcon icon={faUsers} />}
+              />
+              {workspace.boards?.map((board, index) => (
+                <SidebarListItem
+                  key={board.name + index}
+                  active={board.id === boardId}
+                  label={board.name}
+                  onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
+                  icon={<FontAwesomeIcon icon={faClipboardList} color={board.color} />}
+                />
+              ))}
+            </List>
+          )}
         </Box>
       </Drawer>
       <SidebarButton

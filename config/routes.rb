@@ -7,9 +7,13 @@
 
   # backend API endpoints
   namespace :api do
-    resources :workspaces, defaults: { format: 'json' }
-    resources :users, defaults: { format: 'json' }
-    resources :boards, defaults: { format: 'json' }
+    defaults format: :json do
+      resources :workspaces
+      resources :users do
+        get :current, on: :collection
+      end
+      resources :boards
+    end
   end
 
   # path to the frontend React app

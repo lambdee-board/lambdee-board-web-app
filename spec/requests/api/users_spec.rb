@@ -3,10 +3,11 @@ require 'swagger_helper'
 ::RSpec.describe 'api/users', type: :request do
 
   path '/api/users' do
-
-    get('list users') do
+    get('List users') do
       tags 'Users'
       produces 'application/json'
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+
       response(200, 'successful') do
         schema type: :array,
           items: { '$ref' => '#/components/schemas/user_response' }
@@ -24,7 +25,7 @@ require 'swagger_helper'
       end
     end
 
-    post('create user') do
+    post('Create a user') do
       tags 'Users'
       consumes 'application/json'
       produces 'application/json'
@@ -45,10 +46,29 @@ require 'swagger_helper'
     end
   end
 
+  path '/api/users/current' do
+    get('Show the currently signed in user') do
+      tags 'Users'
+      produces 'application/json'
+      response(200, 'successful') do
+        schema '$ref' => '#/components/schemas/user_response'
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+    end
+  end
+
   path '/api/users/{id}' do
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
-    get('show user') do
+    get('Show a user') do
       tags 'Users'
       produces 'application/json'
       response(200, 'successful') do
@@ -67,7 +87,7 @@ require 'swagger_helper'
       end
     end
 
-    put('update user') do
+    put('Update a user') do
       tags 'Users'
       parameter name: 'user', in: :body, schema: { '$ref' => '#/components/schemas/user_request' }
 
@@ -91,7 +111,7 @@ require 'swagger_helper'
       end
     end
 
-    delete('delete user') do
+    delete('Delete a user') do
       tags 'Users'
       response(204, 'successful') do
         let(:id) { ::FactoryBot.create(:user).id }

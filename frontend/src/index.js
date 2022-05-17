@@ -1,23 +1,36 @@
-import './utils/configurePanicOverlay'
-import './utils/initializeConsole'
+import './init/configurePanicOverlay'
+import './init/initializeConsole'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
 
-import store from './redux/store'
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+} from 'react-router-dom'
 
-import './utils/listenToConsoleErrors'
+import './init/listenToConsoleErrors'
 
 import App from './App'
-import reportWebVitals from './utils/reportWebVitals'
+import reportWebVitals from './init/reportWebVitals'
+import WorkspacesView from './views/workspaces/WorkspacesView'
+import WorkspaceView from './views/workspaces/WorkspaceView'
+import BoardView from './views/workspaces/BoardView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <BrowserRouter>
+      <Routes>
+        <Route path='/' element={<App />}>
+          <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
+            <Route path='boards/:boardId' element={<BoardView />} />
+          </Route>
+          <Route path='workspaces' element={<WorkspacesView />} />
+        </Route>
+      </Routes>
+    </BrowserRouter>
   </React.StrictMode>
 )
 

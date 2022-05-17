@@ -10,12 +10,8 @@ const DropdownButton = (props) => {
   const [anchorEl, setAnchorEl] = React.useState(null)
   const open = Boolean(anchorEl)
 
-  const handleClose = () => {
-    setAnchorEl(null)
-  }
-  const handleClick = (event) => {
-    setAnchorEl(event.currentTarget)
-  }
+  const handleClose = () => setAnchorEl(null)
+  const handleClick = (event) => setAnchorEl(event.currentTarget)
 
   return (
     <div className='DropdownButton'>

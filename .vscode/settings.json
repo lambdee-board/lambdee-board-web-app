@@ -15,6 +15,7 @@
     "fontawesome",
     "fortawesome",
     "Guardfile",
+    "jbuilder",
     "jdenticon",
     "jsonapi",
     "Lambdee",
@@ -31,7 +32,8 @@
     "recents",
     "reduxjs",
     "Rswag",
-    "stylesheet"
+    "stylesheet",
+    "TTFB"
 ],
   "files.associations": {
     "*.yml.example": "yaml",

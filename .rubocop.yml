@@ -73,6 +73,7 @@ Style/Documentation:
   Exclude:
     - 'app/helpers/**/*'
     - 'app/validators/**/*'
+    - 'app/controllers/**/*'
 
 Style/ClassAndModuleChildren:
   Enabled: false
@@ -122,6 +123,7 @@ Style/DocumentationMethod:
   Exclude:
     - 'app/helpers/**/*'
     - 'app/validators/**/*'
+    - 'app/controllers/**/*'
 
 Style/Copyright:
   Enabled: false

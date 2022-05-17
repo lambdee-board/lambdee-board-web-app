@@ -8,7 +8,13 @@ class API::WorkspacesController < ::APIController
   # GET /api/workspaces
   # GET /api/workspaces.json
   def index
-    @workspaces = ::DB::Workspace.all
+    @workspaces = if current_user.admin?
+                    ::DB::Workspace.all
+                  else
+                    current_user.workspaces
+                  end
+
+    @workspaces = @workspaces.limit(limit) if limit?
   end
 
   # GET /api/workspaces/1
