@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_05_17_121420) do
+ActiveRecord::Schema[7.0].define(version: 2022_05_17_152517) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -46,8 +46,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_05_17_121420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "email"
-    t.integer "type"
-    t.index ["type"], name: "index_users_on_type"
+    t.integer "role"
+    t.index ["role"], name: "index_users_on_role"
   end
 
   create_table "workspaces", force: :cascade do |t|

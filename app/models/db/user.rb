@@ -6,7 +6,7 @@ class DB::User < ::ApplicationRecord
   has_many :user_workspaces
   has_many :workspaces, through: :user_workspaces
 
-  enum type: {
+  enum role: {
     guest: 0,
     regular: 1,
     developer: 2,

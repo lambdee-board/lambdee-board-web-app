@@ -329,12 +329,12 @@ class DB::User < ApplicationRecord
   # Database column `users.email`, type: `string`.
   # @return [String, nil]
   def email; end
-  # Database column `users.type`, type: `integer`.
+  # Database column `users.role`, type: `integer`.
   # @param val [Integer, nil]
-  def type=(val); end
-  # Database column `users.type`, type: `integer`.
+  def role=(val); end
+  # Database column `users.role`, type: `integer`.
   # @return [Integer, nil]
-  def type; end
+  def role; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
