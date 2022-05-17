@@ -141,6 +141,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:boards>%%
 
 class DB::Board < ApplicationRecord
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def lists; end
   # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
   # @param val [DB::Workspace, nil]
   def workspace=(val); end
@@ -184,12 +190,24 @@ end
 # %%<RailsAnnotateSolargraph:Start:lists>%%
 
 class DB::List < ApplicationRecord
+  # Scope `:not_archived`.
+  #
+  #     scope :not_archived, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.not_archived(); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @return [DB::Board, nil]
   def board; end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @return [Array<DB::Task>, nil]
+  def tasks; end
   # Database column `lists.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -239,12 +257,24 @@ end
 # %%<RailsAnnotateSolargraph:Start:tasks>%%
 
 class DB::Task < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
+  # @return [DB::User, nil]
+  def author; end
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @param val [DB::List, nil]
   def list=(val); end
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @return [DB::List, nil]
   def list; end
+  #
+  # @param val [Object, nil]
+  def users=(val); end
+  #
+  # @return [Object, nil]
+  def users; end
   # Database column `tasks.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -287,6 +317,12 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `tasks.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `tasks.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 
@@ -342,6 +378,18 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.regular(); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
+  # @param val [Array<DB::Task>, nil]
+  def created_tasks=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
+  # @return [Array<DB::Task>, nil]
+  def created_tasks; end
+  #
+  # @param val [Object, nil]
+  def tasks=(val); end
+  #
+  # @return [Object, nil]
+  def tasks; end
   # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
   # @param val [Array<DB::UserWorkspace>, nil]
   def user_workspaces=(val); end

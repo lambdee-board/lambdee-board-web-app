@@ -4,6 +4,7 @@
 # which can contain lists of tasks.
 class DB::Board < ::ApplicationRecord
   belongs_to :workspace
+  has_many :lists
 
   validates :name, presence: true, length: { maximum: 50 }
 end

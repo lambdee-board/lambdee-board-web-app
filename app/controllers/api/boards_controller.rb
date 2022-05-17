@@ -14,7 +14,9 @@ class API::BoardsController < ::APIController
 
   # GET /api/boards/1
   # GET /api/boards/1.json
-  def show; end
+  def show
+    return render :show_landing if params[:landing]
+  end
 
   # POST /api/boards
   # POST /api/boards.json

@@ -5,6 +5,8 @@
 class DB::User < ::ApplicationRecord
   has_many :user_workspaces
   has_many :workspaces, through: :user_workspaces
+  has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id
+  has_and_belongs_to_many :tasks
 
   enum role: {
     guest: 0,
