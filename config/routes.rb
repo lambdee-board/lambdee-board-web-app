@@ -14,6 +14,7 @@
       end
       resources :boards
       resources :lists
+      resources :tasks
     end
   end
 

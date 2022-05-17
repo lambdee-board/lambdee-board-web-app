@@ -4,6 +4,7 @@ require 'test_helper'
 
 class API::ListsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = ::FactoryBot.create(:user)
     @list = ::FactoryBot.create(:list)
     @board = @list.board
   end
@@ -37,7 +38,6 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     json = ::JSON.parse response.body
-    p json
     assert_equal 'is too long (maximum is 50 characters)', json.dig('name', 0)
   end
 

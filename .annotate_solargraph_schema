@@ -236,6 +236,61 @@ end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:tasks>%%
+
+class DB::Task < ApplicationRecord
+  # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
+  # @param val [DB::List, nil]
+  def list=(val); end
+  # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
+  # @return [DB::List, nil]
+  def list; end
+  # Database column `tasks.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `tasks.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `tasks.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `tasks.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `tasks.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `tasks.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
+  # Database column `tasks.pos`, type: `float`.
+  # @param val [BigDecimal, nil]
+  def pos=(val); end
+  # Database column `tasks.pos`, type: `float`.
+  # @return [BigDecimal, nil]
+  def pos; end
+  # Database column `tasks.list_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def list_id=(val); end
+  # Database column `tasks.list_id`, type: `integer`.
+  # @return [Integer, nil]
+  def list_id; end
+  # Database column `tasks.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `tasks.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `tasks.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `tasks.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:tasks>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:users>%%
 
 class DB::User < ApplicationRecord
