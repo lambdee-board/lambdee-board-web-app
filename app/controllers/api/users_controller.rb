@@ -3,6 +3,7 @@
 # Controller which provides a full CRUD for users
 # through the JSON API.
 class API::UsersController < ::APIController
+  skip_before_action :authorize_user!, only: %i[create]
   before_action :set_user, only: %i[show edit update destroy]
 
   # GET /api/users or /api/users.json
@@ -15,8 +16,6 @@ class API::UsersController < ::APIController
   def show; end
 
   def current
-    return head(:unauthorized) unless user_signed_in?
-
     @user = current_user
     render :show, status: :ok
   end

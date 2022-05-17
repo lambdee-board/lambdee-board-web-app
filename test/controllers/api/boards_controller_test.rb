@@ -2,6 +2,7 @@ require "test_helper"
 
 class API::BoardsControllerTest < ActionDispatch::IntegrationTest
   setup do
+    @user = ::FactoryBot.create :user
     @board = ::FactoryBot.create :board
     @workspace = @board.workspace
   end

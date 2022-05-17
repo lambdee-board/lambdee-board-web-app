@@ -10,7 +10,7 @@ import DropdownButton from '../DropdownButton'
 import useWorkspaces from '../../api/useWorkspaces'
 
 const RecentMenuButton = () => {
-  const { workspaces, isLoading, isError } = useWorkspaces(5)
+  const { data: workspaces, isLoading, isError } = useWorkspaces(5)
   const navigate = useNavigate()
   // isLoading = true
 

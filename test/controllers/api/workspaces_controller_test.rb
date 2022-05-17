@@ -5,17 +5,19 @@ require "test_helper"
 class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   setup do
     @workspace = ::FactoryBot.create :workspace
+    @user = ::FactoryBot.create :user
   end
 
   should 'get index' do
-    3.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}") }
+    3.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}").users << @user }
     get '/api/workspaces'
     assert_response 200
     json = ::JSON.parse(response.body)
 
-    assert_equal @workspace.name, json.dig(0, 'name')
+    assert_not_equal @workspace.name, json.dig(0, 'name')
+    assert_equal 3, json.length
     3.times do |i|
-      assert_equal "workspace#{i}", json.dig(i + 1, 'name')
+      assert_equal "workspace#{i}", json.dig(i, 'name')
     end
   end
 

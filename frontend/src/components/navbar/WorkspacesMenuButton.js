@@ -12,7 +12,7 @@ import DropdownButton from '../DropdownButton'
 import useWorkspaces from '../../api/useWorkspaces'
 
 const WorkspacesMenuButton = () => {
-  const { workspaces, isLoading, isError } = useWorkspaces(5)
+  const { data: workspaces, isLoading, isError } = useWorkspaces(5)
   const navigate = useNavigate()
   // isLoading = true
 
@@ -36,7 +36,7 @@ const WorkspacesMenuButton = () => {
   return (
     <DropdownButton label='Workspaces'>
       {workspaces.map((workspace) => (
-        <MenuItem onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.name}>
+        <MenuItem className='Workspace-menu-item' onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.name}>
           <WorkspaceIcon name={workspace.name} size={32} />
           {workspace.name}
         </MenuItem>

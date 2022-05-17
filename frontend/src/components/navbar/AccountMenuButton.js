@@ -14,7 +14,7 @@ import useCurrentUser from '../../api/useCurrentUser'
 const AccountMenuButton = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   // TODO: User id should be derived from a Cookie
-  const { user, isLoading, isError } = useCurrentUser()
+  const { data: user, isLoading, isError } = useCurrentUser()
   const settings = ['Account', 'Logout']
 
   const handleOpenUserMenu = (event) => {

@@ -25,7 +25,7 @@ module LambdeeBoardWebApp
       g.api true
       g.system_tests false
       g.template_engine :jbuilder
-      g.test_framework :test_unit
+      g.test_framework :test_unit, fixture: false
     end
   end
 end
