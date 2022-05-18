@@ -5,11 +5,33 @@ import {
   Typography,
   Avatar,
   Chip,
-  AvatarGroup
+  AvatarGroup,
+  Skeleton
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon.js'
 import './TaskCard.sass'
+
+const TaskCardSkeleton = () => {
+  return (
+    <div className='TaskCard'>
+      <Card className='.MuiCard-root'>
+        <Typography>
+          <Skeleton height={36} width={200} variant='text' />
+        </Typography>
+        <Box className='Box-categories'>
+          <Skeleton height={24} width={65} variant='rectangular' />
+        </Box>
+        <Box className='Box'>
+          <Box className='Box-priority' />
+          <AvatarGroup max={4} className='.MuiAvatar-root'>
+            <Skeleton height={24} width={24} variant='circular' />
+          </AvatarGroup>
+        </Box>
+      </Card>
+    </div>
+  )
+}
 
 
 const TaskCard = (props) => {
@@ -55,3 +77,4 @@ TaskCard.propTypes = {
 }
 
 export default TaskCard
+export { TaskCard, TaskCardSkeleton }
