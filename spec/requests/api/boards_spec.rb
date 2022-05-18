@@ -22,11 +22,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -43,11 +39,7 @@ require 'swagger_helper'
         let(:board) { { name: 'New Board', workspace_id: workspace.id } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -68,11 +60,7 @@ require 'swagger_helper'
         let(:id) { ::FactoryBot.create(:board).id }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -84,11 +72,7 @@ require 'swagger_helper'
         let(:tasks) { 'visible' }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -108,11 +92,7 @@ require 'swagger_helper'
         let(:board) { { name: 'New Name' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end

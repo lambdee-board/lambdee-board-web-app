@@ -25,11 +25,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -46,11 +42,7 @@ require 'swagger_helper'
         let(:limit) { 3 }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -65,11 +57,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -89,11 +77,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -115,11 +99,7 @@ require 'swagger_helper'
         let(:id) { ::FactoryBot.create(:workspace).id }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -142,11 +122,7 @@ require 'swagger_helper'
         let(:workspace) { { name: 'New Name' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end

@@ -2,6 +2,19 @@
 
 require 'rails_helper'
 
+def save_response(example, response)
+  example.metadata[:response][:content] ||= { 'application/json' => { examples: {} } }
+
+  example.metadata[:response][:content]['application/json'][:examples].merge!(
+    {
+      example.metadata[:response][:description] => {
+        summary: example.metadata[:response][:description],
+        value: ::JSON.parse(response.body, symbolize_names: true),
+      }
+    }
+  )
+end
+
 ::RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
