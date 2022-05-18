@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for boards
 # through the JSON API.
 class API::BoardsController < ::APIController
-  before_action :set_board, only: %i[show update destroy]
+  before_action :set_board, only: %i[update destroy]
 
   # GET /api/boards
   # GET /api/boards.json
@@ -15,7 +15,12 @@ class API::BoardsController < ::APIController
   # GET /api/boards/1
   # GET /api/boards/1.json
   def show
-    return render :show_landing if params[:landing]
+    if params[:landing]
+      @board = ::DB::Board.find_with_preloaded_tasks(params[:id])
+      return render :show_landing
+    end
+
+    set_board
   end
 
   # POST /api/boards

@@ -10,7 +10,7 @@ json.extract! @board,
 json.workspace_url api_workspace_url(@board.workspace, format: :json)
 json.url api_board_url(@board, format: :json)
 json.lists do
-  json.array! @board.lists.not_archived do |list|
+  json.array! @board.lists do |list|
     json.extract! list, :id, :name, :pos, :created_at, :updated_at
     json.tasks do
       json.array! list.tasks do |task|

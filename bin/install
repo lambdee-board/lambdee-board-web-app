@@ -10,6 +10,11 @@ if [[ $RAILS_ENV == "test" ]] ; then
   exit 0
 fi
 
+if command -v brew &> /dev/null; then
+  title 'Upgrading brew casks'
+  brew upgrade
+fi
+
 title "Installing dependencies"
 
 # Load RVM into a shell session *as a function*

@@ -141,6 +141,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:boards>%%
 
 class DB::Board < ApplicationRecord
+  # Scope `:find_with_preloaded_tasks`.
+  #
+  #     scope :find_with_preloaded_tasks, (lambda do |id|
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.find_with_preloaded_tasks(id); end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
   def lists=(val); end
