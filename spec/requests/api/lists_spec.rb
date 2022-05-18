@@ -2,6 +2,10 @@ require 'swagger_helper'
 
 ::RSpec.describe 'api/lists', type: :request do
 
+  before(:each) do
+    ::FactoryBot.create :user
+  end
+
   path '/api/lists' do
 
     get('List lists') do
