@@ -39,7 +39,6 @@ function TaskListSkeleton() {
         </ListItem>
       </List>
       <Box className='TaskList-new-task-wrapper' sx={{ display: 'flex' }}>
-        {/* <Skeleton height={24} width={24} variant='circular' /> */}
         <Skeleton height={36} width={70} variant='text' sx={{ ml: 2, mb: 1 }} />
       </Box>
     </Paper>
