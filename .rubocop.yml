@@ -13,6 +13,9 @@ Metrics/CyclomaticComplexity:
 Layout/RedundantLineBreak:
   Enabled: false
 
+Style/HashSyntax:
+  EnforcedShorthandSyntax: either
+
 Style/DisableCopsWithinSourceCodeDirective:
   Enabled: false
 
@@ -61,6 +64,9 @@ Style/TopLevelMethodDefinition:
 
 Style/RedundantArgument:
   Enabled: true
+
+Style/Alias:
+  Enabled: false
 
 Lint/MissingSuper:
   Enabled: false

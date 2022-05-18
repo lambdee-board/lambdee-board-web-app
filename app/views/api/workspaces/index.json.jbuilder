@@ -1,3 +1,3 @@
 # frozen_string_literal: true
 
-json.array! @workspaces, partial: 'workspace', as: :workspace
+json.array! @workspaces, partial: 'workspace', as: :workspace, locals: { boards: params[:boards] }

@@ -10,6 +10,11 @@ if [[ $RAILS_ENV == "test" ]] ; then
   exit 0
 fi
 
+if command -v brew &> /dev/null; then
+  title 'Upgrading brew casks'
+  brew upgrade
+fi
+
 title "Installing dependencies"
 
 # Load RVM into a shell session *as a function*
@@ -46,7 +51,12 @@ if [[ "$required_version" == "$current_version" ]]; then
   $bundle_install_script
 else
   rvm install $required_version
-  rvm use $required_version@$gemset --create
+  rvm use $required_version
+  # only load the gemset on MacOS sic!
+  if [ "$(uname)" == "Darwin" ]; then
+    rvm gemset use $gemset --create
+  fi
+
   $bundle_install_script
   if [[ $DONT_RELOAD_SHELL != "true" ]] ; then
     $SHELL

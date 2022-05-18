@@ -17,11 +17,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -37,11 +33,7 @@ require 'swagger_helper'
         let(:user) { { name: 'New User', email: 'new_user@example.com' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -60,11 +52,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -83,11 +71,7 @@ require 'swagger_helper'
         let(:id) { ::FactoryBot.create(:user).id }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -107,11 +91,7 @@ require 'swagger_helper'
         let(:user) { { name: 'New Name', email: 'new_email@example.com' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
