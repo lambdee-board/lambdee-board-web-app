@@ -60,10 +60,28 @@ require 'swagger_helper'
     get('show board') do
       tags 'Boards'
       produces 'application/json'
+      parameter name: 'tasks', in: 'query', type: 'string', schema: { '$ref' => '#/components/schemas/include_associated_enum' }
+
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/board_response'
 
         let(:id) { ::FactoryBot.create(:board).id }
+
+        after do |example|
+          example.metadata[:response][:content] = {
+            'application/json' => {
+              example: JSON.parse(response.body, symbolize_names: true)
+            }
+          }
+        end
+        run_test!
+      end
+
+      response(200, 'successful include visible') do
+        schema '$ref' => '#/components/schemas/board_response'
+
+        let(:id) { ::FactoryBot.create(:board).id }
+        let(:tasks) { 'visible' }
 
         after do |example|
           example.metadata[:response][:content] = {

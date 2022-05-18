@@ -24,6 +24,14 @@ require 'rails_helper'
       paths: {},
       components: {
         schemas: {
+          include_associated_enum: {
+            type: :string,
+            enum: [
+              'visible',
+              'archived',
+              'all'
+            ]
+          },
           user_response: {
             type: :object,
             properties: {
@@ -45,6 +53,21 @@ require 'rails_helper'
             },
             required: %w[name email]
           },
+          task_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              description: { type: :string },
+              pos: { type: :number, format: :float },
+              list_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' } }
+            },
+            required: %w[id name pos list_id created_at updated_at]
+          },
           list_response: {
             type: :object,
             properties: {
@@ -57,6 +80,7 @@ require 'rails_helper'
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               board_url: { type: :string },
+              tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' } }
             },
             required: %w[id name board_id created_at updated_at]
           },
@@ -80,6 +104,7 @@ require 'rails_helper'
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               workspace_url: { type: :string },
+              lists: { type: :array, items: { '$ref' => '#/components/schemas/list_response' }  }
             },
             required: %w[id name workspace_id created_at updated_at]
           },
