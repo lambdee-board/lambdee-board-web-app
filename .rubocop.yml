@@ -62,6 +62,9 @@ Style/TopLevelMethodDefinition:
 Style/RedundantArgument:
   Enabled: true
 
+Style/Alias:
+  Enabled: false
+
 Lint/MissingSuper:
   Enabled: false
 
