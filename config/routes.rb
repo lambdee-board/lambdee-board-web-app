@@ -13,6 +13,8 @@
         get :current, on: :collection
       end
       resources :boards
+      resources :lists
+      resources :tasks
     end
   end
 

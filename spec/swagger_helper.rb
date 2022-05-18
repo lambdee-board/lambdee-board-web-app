@@ -45,6 +45,31 @@ require 'rails_helper'
             },
             required: %w[name email]
           },
+          list_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              pos: { type: :number },
+              deleted: { type: :boolean },
+              board_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              board_url: { type: :string },
+            },
+            required: %w[id name board_id created_at updated_at]
+          },
+          list_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              pos: { type: :number },
+              deleted: { type: :boolean },
+              board_id: { type: :integer },
+            },
+            required: %w[name board_id]
+          },
           board_response: {
             type: :object,
             properties: {
