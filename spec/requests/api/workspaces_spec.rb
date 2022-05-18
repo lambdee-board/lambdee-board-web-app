@@ -7,14 +7,24 @@ require 'swagger_helper'
     get('list workspaces') do
       tags 'Workspaces'
       produces 'application/json'
-      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
-      parameter name: 'include', in: 'query', type: 'string', description: 'Choose which associated entities should be included in the response', example: 'boards'
+      parameter name: 'limit',
+                in: :query,
+                type: :integer,
+                description: 'Decides how many entities should be returned',
+                example: 3,
+                required: false
 
-      response(200, 'successful with boards') do
+      parameter name: 'boards',
+                in: :query,
+                type: :string,
+                schema: { '$ref' => '#/components/schemas/include_associated_enum' },
+                required: false
+
+      response(200, 'successful with `boards=all`') do
         schema type: :array,
-          items: { '$ref' => '#/components/schemas/workspace_response' }
+               items: { '$ref' => '#/components/schemas/workspace_response' }
 
-        let(:include) { 'boards' }
+        let(:boards) { 'all' }
 
         before do
           usr = ::FactoryBot.create(:user)
@@ -23,23 +33,6 @@ require 'swagger_helper'
           5.times { ::FactoryBot.create :board, workspace: wrk }
           ::FactoryBot.create(:workspace)
         end
-
-        after do |example|
-          save_response(example, response)
-        end
-        run_test!
-      end
-
-      response(200, 'successful with limit') do
-        schema type: :array,
-          items: { '$ref' => '#/components/schemas/workspace_response' }
-
-        before do
-          usr = ::FactoryBot.create(:user)
-          5.times { ::FactoryBot.create(:workspace).users << usr }
-        end
-
-        let(:limit) { 3 }
 
         after do |example|
           save_response(example, response)
@@ -88,8 +81,35 @@ require 'swagger_helper'
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('show workspace') do
+      parameter name: 'boards',
+                in: :query,
+                type: :string,
+                schema: { '$ref' => '#/components/schemas/include_associated_enum' },
+                required: false
+
       tags 'Workspaces'
       produces 'application/json'
+
+      response(200, 'successful with `boards=all`') do
+        schema '$ref' => '#/components/schemas/workspace_response'
+
+        before do
+          ::FactoryBot.create :user
+        end
+        let(:boards) { 'all' }
+        let(:id) do
+          workspace = ::FactoryBot.create(:workspace)
+          workspace.boards << ::FactoryBot.create(:board)
+          workspace.boards << ::FactoryBot.create(:board)
+          workspace.id
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/workspace_response'
 

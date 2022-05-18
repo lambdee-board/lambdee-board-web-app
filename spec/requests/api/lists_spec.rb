@@ -16,7 +16,9 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/list_response' }
 
-        5.times { ::FactoryBot.create :list }
+        before do
+          5.times { ::FactoryBot.create :list }
+        end
 
         after do |example|
           save_response(example, response)

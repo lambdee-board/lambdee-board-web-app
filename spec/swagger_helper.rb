@@ -31,7 +31,7 @@ end
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
       info: {
-        title: 'API V1',
+        title: 'Lambdee API V1',
         version: 'v1'
       },
       paths: {},
@@ -56,7 +56,7 @@ end
               avatar_url: { type: :string },
               url: { type: :string },
             },
-            required: %w[id name email created_at updated_at]
+            required: %w[id name]
           },
           user_request: {
             type: :object,
@@ -73,13 +73,14 @@ end
               name: { type: :string },
               description: { type: :string },
               pos: { type: :number, format: :float },
-              list_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
+              list_id: { type: :integer },
+              list_url: { type: :string },
               url: { type: :string },
-              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' } }
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
             },
-            required: %w[id name pos list_id created_at updated_at]
+            required: %w[id name pos list_id]
           },
           list_response: {
             type: :object,
@@ -93,9 +94,9 @@ end
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               board_url: { type: :string },
-              tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' } }
+              tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' }, nullable: true }
             },
-            required: %w[id name board_id created_at updated_at]
+            required: %w[id name board_id]
           },
           list_request: {
             type: :object,
@@ -117,9 +118,9 @@ end
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               workspace_url: { type: :string },
-              lists: { type: :array, items: { '$ref' => '#/components/schemas/list_response' }  }
+              lists: { type: :array, items: { '$ref' => '#/components/schemas/list_response' }, nullable: true  }
             },
-            required: %w[id name workspace_id created_at updated_at]
+            required: %w[id name workspace_id]
           },
           board_request: {
             type: :object,
@@ -138,11 +139,12 @@ end
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               boards: {
-                '$ref' => '#/components/schemas/board_response',
-                nullable: true
+                type: :array,
+                items: { '$ref' => '#/components/schemas/board_response' },
+                nullable: true,
               }
             },
-            required: %w[id name created_at updated_at]
+            required: %w[id name]
           },
           workspace_request: {
             type: :object,
