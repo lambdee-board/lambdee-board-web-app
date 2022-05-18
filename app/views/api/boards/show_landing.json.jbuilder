@@ -17,7 +17,7 @@ json.lists do
         json.extract! task, :id, :name, :description, :pos, :created_at, :updated_at
         json.users do
           json.array! task.users do |user|
-            json.extract! user, :id
+            json.extract! user, :id, :name
           end
         end
       end

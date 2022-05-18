@@ -22,7 +22,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'create task' do
     assert_difference('DB::Task.count') do
-      post api_tasks_url, params: { task: { name: 'New task', pos: @task.pos, list_id: @list.id } }, as: :json
+      post api_tasks_url, params: { task: { name: 'New task', pos: @task.pos, list_id: @list.id, author_id: @user.id } }, as: :json
     end
 
     assert_response :created

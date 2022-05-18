@@ -6,5 +6,6 @@
     description { ::Faker::Lorem.paragraph(sentence_count: 4) }
     pos { rand(65000) }
     association :list
+    association :author, factory: :user
   end
 end
