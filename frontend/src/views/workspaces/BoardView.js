@@ -35,10 +35,10 @@ export default function BoardView() {
               {taskList.tasks.map((taskListElement) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}
-                  taskTags={taskListElement.tags}
-                  taskPriority={taskListElement.priority}
+                  taskTags={taskListElement.tags} // api response missing this prop
+                  taskPriority={taskListElement.priority} // api response missing this prop
                   assignedUsers={taskListElement.users}
-                  taskPoints={taskListElement.points}
+                  taskPoints={taskListElement.points} // api response missing this prop
                 />
               ))}
             </TaskList>
