@@ -2,10 +2,11 @@ import { sampleSize } from 'lodash'
 
 import './BoardView.sass'
 import TaskCard from './../../components/TaskCard'
-import TaskList from './../../components/TaskList'
+import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 
 import TaskTag from './../../types/TaskTag'
 import useTaskLists from '../../api/useTaskLists'
+
 
 const frontendTag = new TaskTag('Frontend', '#FFFFFF', '#33E3FF')
 const backendTag = new TaskTag('Backend', '#000000', '#FF3333')
@@ -40,8 +41,30 @@ const task5 = {
 
 const taskList = [task, task, task, task, task2, task3, task4, task5]
 
+function BoardViewSkeleton() {
+  return (
+    <div className='BoardView'>
+      <div className='TaskLists-scrollable' >
+        <div className='TaskLists-wrapper'>
+          {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((index) => (
+            <TaskListSkeleton key={index} />
+          ))}
+          <div className='TaskLists-spacer'></div>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+
 export default function BoardView() {
-  const { data: taskLists, isLoading, isError } = useTaskLists()
+  // const { data: taskLists, isLoading, isError } = useTaskLists()
+
+  const isError = true
+  const isLoading = true
+
+  if (isLoading || isError) return (<BoardViewSkeleton />)
+
   return (
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
