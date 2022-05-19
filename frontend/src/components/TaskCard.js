@@ -53,7 +53,7 @@ const TaskCard = (props) => {
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
             {props.assignedUsers.map((assignedUser) => (
-              <Avatar key={assignedUser} alt={assignedUser} />
+              <Avatar key={assignedUser.id} alt={assignedUser.name} src={assignedUser.avatarUrl} />
             ))}
           </AvatarGroup>
         </Box>

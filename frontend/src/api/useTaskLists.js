@@ -1,4 +1,4 @@
 import { useAPI } from './apiClient'
 
-const useTaskLists = (...args)  => useAPI('/api/workspaces', ...args)
+const useTaskLists = (id, tasks, ...args)  => useAPI(`/api/boards/${id}`, { params: { tasks } }, ...args)
 export default useTaskLists

@@ -14,7 +14,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 
-import useTasks from '../api/useTasks'
 import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
@@ -82,7 +81,7 @@ function TaskList(props) {
 TaskList.propTypes = {
   title: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
-  pos: PropTypes.array.isRequired,
+  pos: PropTypes.number.isRequired,
 }
 
 export default TaskList
