@@ -189,6 +189,12 @@ class DB::Board < ApplicationRecord
   # Database column `boards.workspace_id`, type: `integer`.
   # @return [Integer, nil]
   def workspace_id; end
+  # Database column `boards.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `boards.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
 end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
