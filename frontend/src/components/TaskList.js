@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   List,
   ListItem,
@@ -17,6 +17,9 @@ import PropTypes from 'prop-types'
 import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
+import { useDrag } from 'react-dnd'
+import { useDrop } from 'react-dnd'
+import { ItemTypes } from '../constants/draggableItems'
 
 function TaskListSkeleton() {
   return (
@@ -48,8 +51,49 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
+  const ref = useRef(null)
+
+  // const moveList = (id, position) => {
+  //   const taskLists = []
+  //   const index = taskLists?.findIndex((list) => list.id === id)
+
+  //   taskLists[index].pos = taskLists[0].pos / 2
+
+  //   taskLists[index].pos
+
+  //   taskLists[index].pos = taskLists[-1].pos + 1024 || taskLists[index].pos
+  // }
+
+  const [, drop] = useDrop(() => ({
+    accept: ItemTypes.TASKLIST,
+    hover(item)  {
+      if (!ref.current) return
+
+      const dragIndex = item.index
+      const hoverIndex = props.index
+
+      if (dragIndex === hoverIndex) return
+
+      props.moveList(dragIndex, hoverIndex)
+      item.index = hoverIndex
+    }
+  }),)
+
+  const [{ isDragging }, drag] = useDrag(() => ({
+    type: ItemTypes.TASKLIST,
+    item: {
+      id: props.id,
+      index: props.index
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  }))
+
+  drag(drop(ref))
+
   return (
-    <Box className='TaskList-wrapper'>
+    <Box className='TaskList-wrapper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }}>
       <Paper className='TaskList-paper'
         elevation={5}>
         <List className='TaskList'
@@ -79,9 +123,12 @@ function TaskList(props) {
 
 
 TaskList.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
+  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  moveList: PropTypes.func.isRequired,
   pos: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default TaskList
