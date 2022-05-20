@@ -13,7 +13,7 @@ describe('TaskList', () => {
   context('TaskList', () => {
     // tests for displaying tasklist properly
     // should be performed before this
-    it('add new task', () => {
+    it('switches between add task button and add task input field', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
       cy.get('.TaskList-new-task').should('exist')
@@ -21,6 +21,10 @@ describe('TaskList', () => {
       cy.get('.TaskList-new-task-cancel').should('not.exist')
       cy.get('.TaskList-new-task-button').should('exist').click({ multiple: true })
       cy.get('.TaskList-new-task-button').should('not.exist')
+    })
+    it('inputs string into add task input field', () => {
+      cy.get('.TaskList-new-task-button').should('exist')
+        .click({ multiple: true })
       cy.get('.css-rhrbtd-MuiInputBase-input').should('exist').first()
         .click()
         .type('Cypress New Task')
