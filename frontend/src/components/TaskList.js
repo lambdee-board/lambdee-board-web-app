@@ -45,8 +45,8 @@ export default function TaskList(props) {
               multiline
               placeholder='Task Label'
             />
-            <IconButton className='TaskList-new-task-delete' onClick={() => setVisible(!visible)}>
-              <FontAwesomeIcon className='TaskList-new-task-delete-icon' icon={faTrash} />
+            <IconButton className='TaskList-new-task-cancel' onClick={() => setVisible(!visible)}>
+              <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faTrash} />
             </IconButton>
           </Card>
           }
