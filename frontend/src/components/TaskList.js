@@ -1,16 +1,22 @@
 import React from 'react'
-import { List, ListItem, Paper, ListSubheader, Typography, IconButton, Button } from '@mui/material'
+import { List, ListItem, Paper, Toolbar, InputBase, Card, ListSubheader, Typography, IconButton, Button } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 
 import './TaskList.sass'
 
+const postTest = () => {
+
+}
+
 
 export default function TaskList(props) {
+  const [visible, setVisible] = React.useState(true)
   return (
     <Box className='TaskList-wrapper'>
+      <Toolbar />
       <Paper className='TaskList-paper'
         elevation={5}>
         <List className='TaskList'
@@ -27,11 +33,30 @@ export default function TaskList(props) {
               {item}
             </ListItem>
           ))}
+          {!visible &&
+          <Card className='TaskList-new-task'
+            component='form'
+            noValidate
+            autoComplete='off'
+          >
+            <InputBase
+              className='TaskList-new-task-input'
+              fullWidth
+              multiline
+              placeholder='Task Label'
+            />
+            <IconButton className='TaskList-new-task-delete' onClick={() => setVisible(!visible)}>
+              <FontAwesomeIcon className='TaskList-new-task-delete-icon' icon={faTrash} />
+            </IconButton>
+          </Card>
+          }
         </List>
         <Box className='TaskList-new-task-wrapper'>
-          <Button className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-            <Typography>New task</Typography>
-          </Button>
+          {visible &&
+            <Button onClick={() => setVisible(!visible)} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+              <Typography>New Task</Typography>
+            </Button>
+          }
         </Box>
       </Paper>
     </Box>
