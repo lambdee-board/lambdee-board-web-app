@@ -4,6 +4,7 @@ import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
+import apiClient from '../api/apiClient'
 
 import './TaskList.sass'
 
@@ -34,16 +35,19 @@ export default function TaskList(props) {
             </ListItem>
           ))}
           {!visible &&
-          <Card className='TaskList-new-task'
-            component='form'
-            noValidate
-            autoComplete='off'
-          >
+          <Card className='TaskList-new-task'>
             <InputBase
               className='TaskList-new-task-input'
               fullWidth
               multiline
               placeholder='Task Label'
+              onKeyPress={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  apiClient.post('/api/tasks', { name: 'New Task' })
+                  setVisible(!visible)
+                }
+              }}
             />
             <IconButton className='TaskList-new-task-cancel' onClick={() => setVisible(!visible)}>
               <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faTrash} />
