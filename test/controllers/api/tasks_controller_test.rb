@@ -22,12 +22,15 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'create task' do
     assert_difference('DB::Task.count') do
-      post api_tasks_url, params: { task: { name: 'New task', pos: @task.pos, list_id: @list.id, author_id: @user.id } }, as: :json
+      post api_tasks_url, params: { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }, as: :json
     end
 
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'New task', json['name']
+    assert_equal 66560.0, json['pos']
+    assert_equal 'very_high', json['priority']
+    assert_equal 7, json['points']
   end
 
   should "not create task with a too long name" do

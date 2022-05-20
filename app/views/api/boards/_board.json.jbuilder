@@ -3,6 +3,7 @@
 json.extract! board,
               :id,
               :name,
+              :colour,
               :workspace_id,
               :created_at,
               :updated_at

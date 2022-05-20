@@ -4,7 +4,8 @@
   factory :task, class: 'DB::Task'  do
     name { ::Faker::Music.album }
     description { ::Faker::Lorem.paragraph(sentence_count: 4) }
-    pos { rand(65000) }
+    priority { rand(5) }
+    points { rand(5) + 1 }
     association :list
     association :author, factory: :user
   end
