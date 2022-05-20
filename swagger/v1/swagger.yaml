@@ -1,7 +1,7 @@
 ---
 openapi: 3.0.1
 info:
-  title: API V1
+  title: Lambdee API V1
   version: v1
 paths:
   "/api/boards":
@@ -21,322 +21,45 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-              - id: 1
-                name: Thulium
-                workspace_id: 1
-                created_at: '2022-05-17T16:17:17.217Z'
-                updated_at: '2022-05-17T16:17:17.217Z'
-                workspace_url: http://www.example.com/api/workspaces/1
-                url: http://www.example.com/api/boards/1
-              - id: 2
-                name: Strontium
-                workspace_id: 2
-                created_at: '2022-05-17T16:17:17.262Z'
-                updated_at: '2022-05-17T16:17:17.262Z'
-                workspace_url: http://www.example.com/api/workspaces/2
-                url: http://www.example.com/api/boards/2
-              - id: 3
-                name: Thulium
-                workspace_id: 3
-                created_at: '2022-05-17T16:17:17.265Z'
-                updated_at: '2022-05-17T16:17:17.265Z'
-                workspace_url: http://www.example.com/api/workspaces/3
-                url: http://www.example.com/api/boards/3
-              - id: 4
-                name: Samarium
-                workspace_id: 4
-                created_at: '2022-05-17T16:17:17.270Z'
-                updated_at: '2022-05-17T16:17:17.270Z'
-                workspace_url: http://www.example.com/api/workspaces/4
-                url: http://www.example.com/api/boards/4
-              - id: 5
-                name: Tantalum
-                workspace_id: 5
-                created_at: '2022-05-17T16:17:17.274Z'
-                updated_at: '2022-05-17T16:17:17.274Z'
-                workspace_url: http://www.example.com/api/workspaces/5
-                url: http://www.example.com/api/boards/5
-              - id: 6
-                name: Scandium
-                workspace_id: 6
-                created_at: '2022-05-17T16:17:17.343Z'
-                updated_at: '2022-05-17T16:17:17.343Z'
-                workspace_url: http://www.example.com/api/workspaces/6
-                url: http://www.example.com/api/boards/6
-              - id: 7
-                name: Tantalum
-                workspace_id: 7
-                created_at: '2022-05-17T16:17:17.353Z'
-                updated_at: '2022-05-17T16:17:17.353Z'
-                workspace_url: http://www.example.com/api/workspaces/7
-                url: http://www.example.com/api/boards/7
-              - id: 8
-                name: Calcium
-                workspace_id: 8
-                created_at: '2022-05-17T16:17:17.360Z'
-                updated_at: '2022-05-17T16:17:17.360Z'
-                workspace_url: http://www.example.com/api/workspaces/8
-                url: http://www.example.com/api/boards/8
-              - id: 9
-                name: Nobelium
-                workspace_id: 9
-                created_at: '2022-05-17T16:17:17.366Z'
-                updated_at: '2022-05-17T16:17:17.366Z'
-                workspace_url: http://www.example.com/api/workspaces/9
-                url: http://www.example.com/api/boards/9
-              - id: 10
-                name: Argon
-                workspace_id: 10
-                created_at: '2022-05-17T16:17:17.372Z'
-                updated_at: '2022-05-17T16:17:17.372Z'
-                workspace_url: http://www.example.com/api/workspaces/10
-                url: http://www.example.com/api/boards/10
-              - id: 11
-                name: Cerium
-                workspace_id: 11
-                created_at: '2022-05-17T16:17:17.626Z'
-                updated_at: '2022-05-17T16:17:17.626Z'
-                workspace_url: http://www.example.com/api/workspaces/11
-                url: http://www.example.com/api/boards/11
-              - id: 12
-                name: Promethium
-                workspace_id: 11
-                created_at: '2022-05-17T16:17:17.629Z'
-                updated_at: '2022-05-17T16:17:17.629Z'
-                workspace_url: http://www.example.com/api/workspaces/11
-                url: http://www.example.com/api/boards/12
-              - id: 13
-                name: Neodymium
-                workspace_id: 11
-                created_at: '2022-05-17T16:17:17.632Z'
-                updated_at: '2022-05-17T16:17:17.632Z'
-                workspace_url: http://www.example.com/api/workspaces/11
-                url: http://www.example.com/api/boards/13
-              - id: 14
-                name: Lanthanum
-                workspace_id: 11
-                created_at: '2022-05-17T16:17:17.633Z'
-                updated_at: '2022-05-17T16:17:17.633Z'
-                workspace_url: http://www.example.com/api/workspaces/11
-                url: http://www.example.com/api/boards/14
-              - id: 15
-                name: Arsenic
-                workspace_id: 11
-                created_at: '2022-05-17T16:17:17.635Z'
-                updated_at: '2022-05-17T16:17:17.635Z'
-                workspace_url: http://www.example.com/api/workspaces/11
-                url: http://www.example.com/api/boards/15
-              - id: 24
-                name: Californium
-                workspace_id: 35
-                created_at: '2022-05-17T16:20:19.423Z'
-                updated_at: '2022-05-17T16:20:19.423Z'
-                workspace_url: http://www.example.com/api/workspaces/35
-                url: http://www.example.com/api/boards/24
-              - id: 25
-                name: Rutherfordium
-                workspace_id: 36
-                created_at: '2022-05-17T16:20:19.427Z'
-                updated_at: '2022-05-17T16:20:19.427Z'
-                workspace_url: http://www.example.com/api/workspaces/36
-                url: http://www.example.com/api/boards/25
-              - id: 26
-                name: Moscovium
-                workspace_id: 37
-                created_at: '2022-05-17T16:20:19.432Z'
-                updated_at: '2022-05-17T16:20:19.432Z'
-                workspace_url: http://www.example.com/api/workspaces/37
-                url: http://www.example.com/api/boards/26
-              - id: 27
-                name: Lutetium
-                workspace_id: 38
-                created_at: '2022-05-17T16:20:19.435Z'
-                updated_at: '2022-05-17T16:20:19.435Z'
-                workspace_url: http://www.example.com/api/workspaces/38
-                url: http://www.example.com/api/boards/27
-              - id: 28
-                name: Hassium
-                workspace_id: 39
-                created_at: '2022-05-17T16:20:19.438Z'
-                updated_at: '2022-05-17T16:20:19.438Z'
-                workspace_url: http://www.example.com/api/workspaces/39
-                url: http://www.example.com/api/boards/28
-              - id: 29
-                name: Iridium
-                workspace_id: 40
-                created_at: '2022-05-17T16:20:19.456Z'
-                updated_at: '2022-05-17T16:20:19.456Z'
-                workspace_url: http://www.example.com/api/workspaces/40
-                url: http://www.example.com/api/boards/29
-              - id: 30
-                name: Lanthanum
-                workspace_id: 41
-                created_at: '2022-05-17T16:20:19.463Z'
-                updated_at: '2022-05-17T16:20:19.463Z'
-                workspace_url: http://www.example.com/api/workspaces/41
-                url: http://www.example.com/api/boards/30
-              - id: 31
-                name: Thulium
-                workspace_id: 42
-                created_at: '2022-05-17T16:20:19.469Z'
-                updated_at: '2022-05-17T16:20:19.469Z'
-                workspace_url: http://www.example.com/api/workspaces/42
-                url: http://www.example.com/api/boards/31
-              - id: 32
-                name: Darmstadtium
-                workspace_id: 43
-                created_at: '2022-05-17T16:20:19.474Z'
-                updated_at: '2022-05-17T16:20:19.474Z'
-                workspace_url: http://www.example.com/api/workspaces/43
-                url: http://www.example.com/api/boards/32
-              - id: 33
-                name: Neon
-                workspace_id: 44
-                created_at: '2022-05-17T16:20:19.479Z'
-                updated_at: '2022-05-17T16:20:19.479Z'
-                workspace_url: http://www.example.com/api/workspaces/44
-                url: http://www.example.com/api/boards/33
-              - id: 34
-                name: Iodine
-                workspace_id: 45
-                created_at: '2022-05-17T16:20:19.528Z'
-                updated_at: '2022-05-17T16:20:19.528Z'
-                workspace_url: http://www.example.com/api/workspaces/45
-                url: http://www.example.com/api/boards/34
-              - id: 35
-                name: Cadmium
-                workspace_id: 45
-                created_at: '2022-05-17T16:20:19.531Z'
-                updated_at: '2022-05-17T16:20:19.531Z'
-                workspace_url: http://www.example.com/api/workspaces/45
-                url: http://www.example.com/api/boards/35
-              - id: 36
-                name: Copper
-                workspace_id: 45
-                created_at: '2022-05-17T16:20:19.533Z'
-                updated_at: '2022-05-17T16:20:19.533Z'
-                workspace_url: http://www.example.com/api/workspaces/45
-                url: http://www.example.com/api/boards/36
-              - id: 37
-                name: Berkelium
-                workspace_id: 45
-                created_at: '2022-05-17T16:20:19.534Z'
-                updated_at: '2022-05-17T16:20:19.534Z'
-                workspace_url: http://www.example.com/api/workspaces/45
-                url: http://www.example.com/api/boards/37
-              - id: 38
-                name: Polonium
-                workspace_id: 45
-                created_at: '2022-05-17T16:20:19.536Z'
-                updated_at: '2022-05-17T16:20:19.536Z'
-                workspace_url: http://www.example.com/api/workspaces/45
-                url: http://www.example.com/api/boards/38
-              - id: 47
-                name: Thorium
-                workspace_id: 69
-                created_at: '2022-05-17T16:28:37.668Z'
-                updated_at: '2022-05-17T16:28:37.668Z'
-                workspace_url: http://www.example.com/api/workspaces/69
-                url: http://www.example.com/api/boards/47
-              - id: 48
-                name: Californium
-                workspace_id: 70
-                created_at: '2022-05-17T16:28:37.672Z'
-                updated_at: '2022-05-17T16:28:37.672Z'
-                workspace_url: http://www.example.com/api/workspaces/70
-                url: http://www.example.com/api/boards/48
-              - id: 49
-                name: Tin
-                workspace_id: 71
-                created_at: '2022-05-17T16:28:37.675Z'
-                updated_at: '2022-05-17T16:28:37.675Z'
-                workspace_url: http://www.example.com/api/workspaces/71
-                url: http://www.example.com/api/boards/49
-              - id: 50
-                name: Praseodymium
-                workspace_id: 72
-                created_at: '2022-05-17T16:28:37.679Z'
-                updated_at: '2022-05-17T16:28:37.679Z'
-                workspace_url: http://www.example.com/api/workspaces/72
-                url: http://www.example.com/api/boards/50
-              - id: 51
-                name: Manganese
-                workspace_id: 73
-                created_at: '2022-05-17T16:28:37.683Z'
-                updated_at: '2022-05-17T16:28:37.683Z'
-                workspace_url: http://www.example.com/api/workspaces/73
-                url: http://www.example.com/api/boards/51
-              - id: 52
-                name: Actinium
-                workspace_id: 74
-                created_at: '2022-05-17T16:28:37.745Z'
-                updated_at: '2022-05-17T16:28:37.745Z'
-                workspace_url: http://www.example.com/api/workspaces/74
-                url: http://www.example.com/api/boards/52
-              - id: 53
-                name: Dubnium
-                workspace_id: 75
-                created_at: '2022-05-17T16:28:37.754Z'
-                updated_at: '2022-05-17T16:28:37.754Z'
-                workspace_url: http://www.example.com/api/workspaces/75
-                url: http://www.example.com/api/boards/53
-              - id: 54
-                name: Bromine
-                workspace_id: 76
-                created_at: '2022-05-17T16:28:37.759Z'
-                updated_at: '2022-05-17T16:28:37.759Z'
-                workspace_url: http://www.example.com/api/workspaces/76
-                url: http://www.example.com/api/boards/54
-              - id: 55
-                name: Sodium
-                workspace_id: 77
-                created_at: '2022-05-17T16:28:37.766Z'
-                updated_at: '2022-05-17T16:28:37.766Z'
-                workspace_url: http://www.example.com/api/workspaces/77
-                url: http://www.example.com/api/boards/55
-              - id: 56
-                name: Lutetium
-                workspace_id: 78
-                created_at: '2022-05-17T16:28:37.773Z'
-                updated_at: '2022-05-17T16:28:37.773Z'
-                workspace_url: http://www.example.com/api/workspaces/78
-                url: http://www.example.com/api/boards/56
-              - id: 57
-                name: Tin
-                workspace_id: 79
-                created_at: '2022-05-17T16:28:37.818Z'
-                updated_at: '2022-05-17T16:28:37.818Z'
-                workspace_url: http://www.example.com/api/workspaces/79
-                url: http://www.example.com/api/boards/57
-              - id: 58
-                name: Hafnium
-                workspace_id: 79
-                created_at: '2022-05-17T16:28:37.820Z'
-                updated_at: '2022-05-17T16:28:37.820Z'
-                workspace_url: http://www.example.com/api/workspaces/79
-                url: http://www.example.com/api/boards/58
-              - id: 59
-                name: Neptunium
-                workspace_id: 79
-                created_at: '2022-05-17T16:28:37.822Z'
-                updated_at: '2022-05-17T16:28:37.822Z'
-                workspace_url: http://www.example.com/api/workspaces/79
-                url: http://www.example.com/api/boards/59
-              - id: 60
-                name: Polonium
-                workspace_id: 79
-                created_at: '2022-05-17T16:28:37.824Z'
-                updated_at: '2022-05-17T16:28:37.824Z'
-                workspace_url: http://www.example.com/api/workspaces/79
-                url: http://www.example.com/api/boards/60
-              - id: 61
-                name: Meitnerium
-                workspace_id: 79
-                created_at: '2022-05-17T16:28:37.826Z'
-                updated_at: '2022-05-17T16:28:37.826Z'
-                workspace_url: http://www.example.com/api/workspaces/79
-                url: http://www.example.com/api/boards/61
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                  - id: 1
+                    name: Rhodium
+                    workspace_id: 1
+                    created_at: '2022-05-18T16:35:53.872Z'
+                    updated_at: '2022-05-18T16:35:53.872Z'
+                    workspace_url: http://www.example.com/api/workspaces/1
+                    url: http://www.example.com/api/boards/1
+                  - id: 2
+                    name: Oganesson
+                    workspace_id: 2
+                    created_at: '2022-05-18T16:35:53.873Z'
+                    updated_at: '2022-05-18T16:35:53.873Z'
+                    workspace_url: http://www.example.com/api/workspaces/2
+                    url: http://www.example.com/api/boards/2
+                  - id: 3
+                    name: Molybdenum
+                    workspace_id: 3
+                    created_at: '2022-05-18T16:35:53.874Z'
+                    updated_at: '2022-05-18T16:35:53.874Z'
+                    workspace_url: http://www.example.com/api/workspaces/3
+                    url: http://www.example.com/api/boards/3
+                  - id: 4
+                    name: Vanadium
+                    workspace_id: 4
+                    created_at: '2022-05-18T16:35:53.876Z'
+                    updated_at: '2022-05-18T16:35:53.876Z'
+                    workspace_url: http://www.example.com/api/workspaces/4
+                    url: http://www.example.com/api/boards/4
+                  - id: 5
+                    name: Selenium
+                    workspace_id: 5
+                    created_at: '2022-05-18T16:35:53.877Z'
+                    updated_at: '2022-05-18T16:35:53.877Z'
+                    workspace_url: http://www.example.com/api/workspaces/5
+                    url: http://www.example.com/api/boards/5
               schema:
                 type: array
                 items:
@@ -351,14 +74,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 62
-                name: New Board
-                workspace_id: 91
-                created_at: '2022-05-17T16:28:38.041Z'
-                updated_at: '2022-05-17T16:28:38.041Z'
-                workspace_url: http://www.example.com/api/workspaces/91
-                url: http://www.example.com/api/boards/62
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 6
+                    name: New Board
+                    workspace_id: 6
+                    created_at: '2022-05-18T16:35:53.947Z'
+                    updated_at: '2022-05-18T16:35:53.947Z'
+                    workspace_url: http://www.example.com/api/workspaces/6
+                    url: http://www.example.com/api/boards/6
               schema:
                 "$ref": "#/components/schemas/board_response"
       requestBody:
@@ -378,19 +104,230 @@ paths:
       summary: show board
       tags:
       - Boards
+      parameters:
+      - name: tasks
+        in: query
+        type: string
+        schema:
+          "$ref": "#/components/schemas/include_associated_enum"
+        required: false
       responses:
         '200':
           description: successful
           content:
             application/json:
-              example:
-                id: 63
-                name: Uranium
-                workspace_id: 92
-                created_at: '2022-05-17T16:28:38.051Z'
-                updated_at: '2022-05-17T16:28:38.051Z'
-                workspace_url: http://www.example.com/api/workspaces/92
-                url: http://www.example.com/api/boards/63
+              examples:
+                successful with `tasks=all`:
+                  summary: successful with `tasks=all`
+                  value:
+                    id: 7
+                    name: Lanthanum
+                    workspace_id: 7
+                    created_at: '2022-05-18T16:35:53.954Z'
+                    updated_at: '2022-05-18T16:35:53.954Z'
+                    workspace_url: http://www.example.com/api/workspaces/7
+                    url: http://www.example.com/api/boards/7
+                    lists:
+                    - id: 1
+                      name: blue
+                      pos: 582.0
+                      deleted: false
+                      board_id: 7
+                      created_at: '2022-05-18T16:35:53.968Z'
+                      updated_at: '2022-05-18T16:35:53.970Z'
+                      url: http://www.example.com/api/lists/1
+                      board_url: http://www.example.com/api/boards/7
+                      tasks:
+                      - id: 1
+                        name: Happy Nation
+                        pos: 18564.0
+                        list_id: 1
+                        url: http://www.example.com/api/tasks/1
+                        list_url: http://www.example.com/api/lists/1
+                        users:
+                        - id: 5
+                          name: Jude Spencer
+                          avatar_url: https://www.gravatar.com/avatar/7b56e21add076c35da051cbe5265b8fc
+                          url: http://www.example.com/api/users/5
+                        - id: 6
+                          name: Josiah West
+                          avatar_url: https://www.gravatar.com/avatar/6f3d1c4dc90407409099602976ab6050
+                          url: http://www.example.com/api/users/6
+                      - id: 2
+                        name: Supernatural
+                        pos: 4135.0
+                        list_id: 1
+                        url: http://www.example.com/api/tasks/2
+                        list_url: http://www.example.com/api/lists/1
+                        users: []
+                    - id: 4
+                      name: blush
+                      pos: 17537.0
+                      deleted: true
+                      board_id: 7
+                      created_at: '2022-05-18T16:35:54.006Z'
+                      updated_at: '2022-05-18T16:35:54.007Z'
+                      url: http://www.example.com/api/lists/4
+                      board_url: http://www.example.com/api/boards/7
+                      tasks:
+                      - id: 3
+                        name: Hysteria
+                        pos: 58355.0
+                        list_id: 4
+                        url: http://www.example.com/api/tasks/3
+                        list_url: http://www.example.com/api/lists/4
+                        users:
+                        - id: 9
+                          name: Sen. Rene Ratke
+                          avatar_url: https://www.gravatar.com/avatar/42182a477cabced3fca96b1af7ed472a
+                          url: http://www.example.com/api/users/9
+                      - id: 4
+                        name: Brand New Eyes
+                        pos: 17520.0
+                        list_id: 4
+                        url: http://www.example.com/api/tasks/4
+                        list_url: http://www.example.com/api/lists/4
+                        users: []
+                      - id: 5
+                        name: Brand New Eyes
+                        pos: 20857.0
+                        list_id: 4
+                        url: http://www.example.com/api/tasks/5
+                        list_url: http://www.example.com/api/lists/4
+                        users: []
+                    - id: 8
+                      name: ultramarine
+                      pos: 28271.0
+                      deleted: true
+                      board_id: 7
+                      created_at: '2022-05-18T16:35:54.027Z'
+                      updated_at: '2022-05-18T16:35:54.028Z'
+                      url: http://www.example.com/api/lists/8
+                      board_url: http://www.example.com/api/boards/7
+                      tasks:
+                      - id: 6
+                        name: Backstreet's Back
+                        pos: 31495.0
+                        list_id: 8
+                        url: http://www.example.com/api/tasks/6
+                        list_url: http://www.example.com/api/lists/8
+                        users: []
+                successful with `tasks=visible`:
+                  summary: successful with `tasks=visible`
+                  value:
+                    id: 17
+                    name: Flerovium
+                    workspace_id: 17
+                    created_at: '2022-05-18T16:35:54.057Z'
+                    updated_at: '2022-05-18T16:35:54.057Z'
+                    workspace_url: http://www.example.com/api/workspaces/17
+                    url: http://www.example.com/api/boards/17
+                    lists:
+                    - id: 10
+                      name: cerulean
+                      pos: 45918.0
+                      deleted: false
+                      board_id: 17
+                      created_at: '2022-05-18T16:35:54.059Z'
+                      updated_at: '2022-05-18T16:35:54.059Z'
+                      url: http://www.example.com/api/lists/10
+                      board_url: http://www.example.com/api/boards/17
+                      tasks:
+                      - id: 7
+                        name: 'Gold: Greatest Hits'
+                        pos: 47400.0
+                        list_id: 10
+                        url: http://www.example.com/api/tasks/7
+                        list_url: http://www.example.com/api/lists/10
+                        users:
+                        - id: 15
+                          name: Denver Kuvalis
+                          avatar_url: https://www.gravatar.com/avatar/77f875a7b7b4d452e937944242e8eade
+                          url: http://www.example.com/api/users/15
+                        - id: 16
+                          name: Mrs. Jacquelynn Stiedemann
+                          avatar_url: https://www.gravatar.com/avatar/9bf230970d5c2fe2634d769e1fa94b48
+                          url: http://www.example.com/api/users/16
+                      - id: 8
+                        name: Millennium
+                        pos: 17603.0
+                        list_id: 10
+                        url: http://www.example.com/api/tasks/8
+                        list_url: http://www.example.com/api/lists/10
+                        users: []
+                successful with `tasks=archived`:
+                  summary: successful with `tasks=archived`
+                  value:
+                    id: 21
+                    name: Bismuth
+                    workspace_id: 21
+                    created_at: '2022-05-18T16:35:54.091Z'
+                    updated_at: '2022-05-18T16:35:54.091Z'
+                    workspace_url: http://www.example.com/api/workspaces/21
+                    url: http://www.example.com/api/boards/21
+                    lists:
+                    - id: 13
+                      name: black
+                      pos: 48513.0
+                      deleted: true
+                      board_id: 21
+                      created_at: '2022-05-18T16:35:54.093Z'
+                      updated_at: '2022-05-18T16:35:54.093Z'
+                      url: http://www.example.com/api/lists/13
+                      board_url: http://www.example.com/api/boards/21
+                      tasks:
+                      - id: 9
+                        name: Abbey Road
+                        pos: 45335.0
+                        list_id: 13
+                        url: http://www.example.com/api/tasks/9
+                        list_url: http://www.example.com/api/lists/13
+                        users:
+                        - id: 20
+                          name: Prof. Caroyln Kuvalis
+                          avatar_url: https://www.gravatar.com/avatar/112aafd198ab1c588926a85d4cb06d56
+                          url: http://www.example.com/api/users/20
+                      - id: 11
+                        name: '25'
+                        pos: 23535.0
+                        list_id: 13
+                        url: http://www.example.com/api/tasks/11
+                        list_url: http://www.example.com/api/lists/13
+                        users: []
+                      - id: 10
+                        name: Metallica
+                        pos: 3944.0
+                        list_id: 13
+                        url: http://www.example.com/api/tasks/10
+                        list_url: http://www.example.com/api/lists/13
+                        users: []
+                    - id: 17
+                      name: byzantium
+                      pos: 55520.0
+                      deleted: true
+                      board_id: 21
+                      created_at: '2022-05-18T16:35:54.118Z'
+                      updated_at: '2022-05-18T16:35:54.119Z'
+                      url: http://www.example.com/api/lists/17
+                      board_url: http://www.example.com/api/boards/21
+                      tasks:
+                      - id: 12
+                        name: Riot!
+                        pos: 53396.0
+                        list_id: 17
+                        url: http://www.example.com/api/tasks/12
+                        list_url: http://www.example.com/api/lists/17
+                        users: []
+                successful:
+                  summary: successful
+                  value:
+                    id: 28
+                    name: Bismuth
+                    workspace_id: 28
+                    created_at: '2022-05-18T16:35:54.143Z'
+                    updated_at: '2022-05-18T16:35:54.143Z'
+                    workspace_url: http://www.example.com/api/workspaces/28
+                    url: http://www.example.com/api/boards/28
               schema:
                 "$ref": "#/components/schemas/board_response"
     put:
@@ -403,14 +340,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 64
-                name: New Name
-                workspace_id: 93
-                created_at: '2022-05-17T16:28:38.070Z'
-                updated_at: '2022-05-17T16:28:38.083Z'
-                workspace_url: http://www.example.com/api/workspaces/93
-                url: http://www.example.com/api/boards/64
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 29
+                    name: New Name
+                    workspace_id: 29
+                    created_at: '2022-05-18T16:35:54.156Z'
+                    updated_at: '2022-05-18T16:35:54.163Z'
+                    workspace_url: http://www.example.com/api/workspaces/29
+                    url: http://www.example.com/api/boards/29
               schema:
                 "$ref": "#/components/schemas/board_response"
       requestBody:
@@ -435,127 +375,55 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-              - id: 1
-                name: copper
-                pos: 21810.0
-                deleted: false
-                board_id: 6
-                created_at: '2022-05-17T16:17:17.347Z'
-                updated_at: '2022-05-17T16:17:17.347Z'
-                url: http://www.example.com/api/lists/1
-              - id: 2
-                name: indigo
-                pos: 57202.0
-                deleted: false
-                board_id: 7
-                created_at: '2022-05-17T16:17:17.355Z'
-                updated_at: '2022-05-17T16:17:17.355Z'
-                url: http://www.example.com/api/lists/2
-              - id: 3
-                name: scarlet
-                pos: 24858.0
-                deleted: false
-                board_id: 8
-                created_at: '2022-05-17T16:17:17.362Z'
-                updated_at: '2022-05-17T16:17:17.362Z'
-                url: http://www.example.com/api/lists/3
-              - id: 4
-                name: plum
-                pos: 60055.0
-                deleted: false
-                board_id: 9
-                created_at: '2022-05-17T16:17:17.367Z'
-                updated_at: '2022-05-17T16:17:17.367Z'
-                url: http://www.example.com/api/lists/4
-              - id: 5
-                name: lemon
-                pos: 51349.0
-                deleted: false
-                board_id: 10
-                created_at: '2022-05-17T16:17:17.374Z'
-                updated_at: '2022-05-17T16:17:17.374Z'
-                url: http://www.example.com/api/lists/5
-              - id: 10
-                name: rose
-                pos: 10736.0
-                deleted: false
-                board_id: 29
-                created_at: '2022-05-17T16:20:19.459Z'
-                updated_at: '2022-05-17T16:20:19.459Z'
-                url: http://www.example.com/api/lists/10
-              - id: 11
-                name: grey
-                pos: 53272.0
-                deleted: false
-                board_id: 30
-                created_at: '2022-05-17T16:20:19.465Z'
-                updated_at: '2022-05-17T16:20:19.465Z'
-                url: http://www.example.com/api/lists/11
-              - id: 12
-                name: jade
-                pos: 45547.0
-                deleted: false
-                board_id: 31
-                created_at: '2022-05-17T16:20:19.470Z'
-                updated_at: '2022-05-17T16:20:19.470Z'
-                url: http://www.example.com/api/lists/12
-              - id: 13
-                name: viridian
-                pos: 20760.0
-                deleted: false
-                board_id: 32
-                created_at: '2022-05-17T16:20:19.475Z'
-                updated_at: '2022-05-17T16:20:19.475Z'
-                url: http://www.example.com/api/lists/13
-              - id: 14
-                name: lime
-                pos: 8844.0
-                deleted: false
-                board_id: 33
-                created_at: '2022-05-17T16:20:19.480Z'
-                updated_at: '2022-05-17T16:20:19.480Z'
-                url: http://www.example.com/api/lists/14
-              - id: 19
-                name: orchid
-                pos: 54333.0
-                deleted: false
-                board_id: 52
-                created_at: '2022-05-17T16:28:37.748Z'
-                updated_at: '2022-05-17T16:28:37.748Z'
-                url: http://www.example.com/api/lists/19
-              - id: 20
-                name: amethyst
-                pos: 25737.0
-                deleted: false
-                board_id: 53
-                created_at: '2022-05-17T16:28:37.756Z'
-                updated_at: '2022-05-17T16:28:37.756Z'
-                url: http://www.example.com/api/lists/20
-              - id: 21
-                name: puce
-                pos: 62304.0
-                deleted: false
-                board_id: 54
-                created_at: '2022-05-17T16:28:37.761Z'
-                updated_at: '2022-05-17T16:28:37.761Z'
-                url: http://www.example.com/api/lists/21
-              - id: 22
-                name: plum
-                pos: 1344.0
-                deleted: false
-                board_id: 55
-                created_at: '2022-05-17T16:28:37.768Z'
-                updated_at: '2022-05-17T16:28:37.768Z'
-                url: http://www.example.com/api/lists/22
-              - id: 23
-                name: orchid
-                pos: 25956.0
-                deleted: false
-                board_id: 56
-                created_at: '2022-05-17T16:28:37.774Z'
-                updated_at: '2022-05-17T16:28:37.774Z'
-                url: http://www.example.com/api/lists/23
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                  - id: 19
+                    name: peach
+                    pos: 46868.0
+                    deleted: false
+                    board_id: 31
+                    created_at: '2022-05-18T16:35:54.186Z'
+                    updated_at: '2022-05-18T16:35:54.186Z'
+                    url: http://www.example.com/api/lists/19
+                    board_url: http://www.example.com/api/boards/31
+                  - id: 20
+                    name: lilac
+                    pos: 61120.0
+                    deleted: false
+                    board_id: 32
+                    created_at: '2022-05-18T16:35:54.189Z'
+                    updated_at: '2022-05-18T16:35:54.189Z'
+                    url: http://www.example.com/api/lists/20
+                    board_url: http://www.example.com/api/boards/32
+                  - id: 21
+                    name: ruby
+                    pos: 64550.0
+                    deleted: false
+                    board_id: 33
+                    created_at: '2022-05-18T16:35:54.192Z'
+                    updated_at: '2022-05-18T16:35:54.192Z'
+                    url: http://www.example.com/api/lists/21
+                    board_url: http://www.example.com/api/boards/33
+                  - id: 22
+                    name: indigo
+                    pos: 38265.0
+                    deleted: false
+                    board_id: 34
+                    created_at: '2022-05-18T16:35:54.195Z'
+                    updated_at: '2022-05-18T16:35:54.195Z'
+                    url: http://www.example.com/api/lists/22
+                    board_url: http://www.example.com/api/boards/34
+                  - id: 23
+                    name: olive
+                    pos: 53060.0
+                    deleted: false
+                    board_id: 35
+                    created_at: '2022-05-18T16:35:54.198Z'
+                    updated_at: '2022-05-18T16:35:54.198Z'
+                    url: http://www.example.com/api/lists/23
+                    board_url: http://www.example.com/api/boards/35
               schema:
                 type: array
                 items:
@@ -570,15 +438,19 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 24
-                name: New List
-                pos: 1212.0
-                deleted: false
-                board_id: 66
-                created_at: '2022-05-17T16:28:38.148Z'
-                updated_at: '2022-05-17T16:28:38.148Z'
-                url: http://www.example.com/api/lists/24
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 24
+                    name: New List
+                    pos: 1212.0
+                    deleted: false
+                    board_id: 36
+                    created_at: '2022-05-18T16:35:54.228Z'
+                    updated_at: '2022-05-18T16:35:54.228Z'
+                    url: http://www.example.com/api/lists/24
+                    board_url: http://www.example.com/api/boards/36
               schema:
                 "$ref": "#/components/schemas/list_response"
       requestBody:
@@ -603,15 +475,19 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 25
-                name: jade
-                pos: 21171.0
-                deleted: false
-                board_id: 67
-                created_at: '2022-05-17T16:28:38.161Z'
-                updated_at: '2022-05-17T16:28:38.161Z'
-                url: http://www.example.com/api/lists/25
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 25
+                    name: ultramarine
+                    pos: 29419.0
+                    deleted: false
+                    board_id: 37
+                    created_at: '2022-05-18T16:35:54.238Z'
+                    updated_at: '2022-05-18T16:35:54.238Z'
+                    url: http://www.example.com/api/lists/25
+                    board_url: http://www.example.com/api/boards/37
               schema:
                 "$ref": "#/components/schemas/list_response"
     put:
@@ -624,15 +500,19 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 26
-                name: New Name
-                pos: 17741.0
-                deleted: false
-                board_id: 68
-                created_at: '2022-05-17T16:28:38.180Z'
-                updated_at: '2022-05-17T16:28:38.193Z'
-                url: http://www.example.com/api/lists/26
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 26
+                    name: New Name
+                    pos: 26612.0
+                    deleted: false
+                    board_id: 38
+                    created_at: '2022-05-18T16:35:54.253Z'
+                    updated_at: '2022-05-18T16:35:54.260Z'
+                    url: http://www.example.com/api/lists/26
+                    board_url: http://www.example.com/api/boards/38
               schema:
                 "$ref": "#/components/schemas/list_response"
       requestBody:
@@ -664,112 +544,45 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-              - id: 1
-                name: Amb. Beth Friesen
-                email: amb_beth_friesen.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/1ced41ba5d9f810c8605fa1a4b165e01
-                created_at: '2022-05-17T16:17:17.556Z'
-                updated_at: '2022-05-17T16:17:17.556Z'
-                url: http://www.example.com/api/users/1
-              - id: 2
-                name: Sherrie Durgan
-                email: sherrie_durgan.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/0f07d8101a366d2026f2f3ca5639f738
-                created_at: '2022-05-17T16:17:17.563Z'
-                updated_at: '2022-05-17T16:17:17.563Z'
-                url: http://www.example.com/api/users/2
-              - id: 3
-                name: Andres McGlynn JD
-                email: andres_mc_glynn_jd.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/3585e6da64a43781d2111dcbc875eb5d
-                created_at: '2022-05-17T16:17:17.566Z'
-                updated_at: '2022-05-17T16:17:17.566Z'
-                url: http://www.example.com/api/users/3
-              - id: 4
-                name: Elana Miller
-                email: elana_miller.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/9239285609e8a4cbc03023013e95119a
-                created_at: '2022-05-17T16:17:17.569Z'
-                updated_at: '2022-05-17T16:17:17.569Z'
-                url: http://www.example.com/api/users/4
-              - id: 5
-                name: Kip Cummerata
-                email: kip_cummerata.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/226ff49b86238b79c76cf172ebe7bdc3
-                created_at: '2022-05-17T16:17:17.572Z'
-                updated_at: '2022-05-17T16:17:17.572Z'
-                url: http://www.example.com/api/users/5
-              - id: 10
-                name: Aracely Kulas
-                email: aracely_kulas.1652804419@example.com
-                avatar_url: https://www.gravatar.com/avatar/4e583a154976a160b0eea7875f3761b9
-                created_at: '2022-05-17T16:20:19.501Z'
-                updated_at: '2022-05-17T16:20:19.501Z'
-                url: http://www.example.com/api/users/10
-              - id: 11
-                name: Manual Green CPA
-                email: manual_green_cpa.1652804419@example.com
-                avatar_url: https://www.gravatar.com/avatar/c2b8a26d857f1e1c17ca146a4ea17d44
-                created_at: '2022-05-17T16:20:19.506Z'
-                updated_at: '2022-05-17T16:20:19.506Z'
-                url: http://www.example.com/api/users/11
-              - id: 12
-                name: Oda Torp PhD
-                email: oda_torp_ph_d.1652804419@example.com
-                avatar_url: https://www.gravatar.com/avatar/e2666a65c560a84c7b6d0cb71da47443
-                created_at: '2022-05-17T16:20:19.509Z'
-                updated_at: '2022-05-17T16:20:19.509Z'
-                url: http://www.example.com/api/users/12
-              - id: 13
-                name: Marshall Spinka
-                email: marshall_spinka.1652804419@example.com
-                avatar_url: https://www.gravatar.com/avatar/3c27fddfe74023619fa7da88b597fc4f
-                created_at: '2022-05-17T16:20:19.512Z'
-                updated_at: '2022-05-17T16:20:19.512Z'
-                url: http://www.example.com/api/users/13
-              - id: 14
-                name: Debroah Sanford
-                email: debroah_sanford.1652804419@example.com
-                avatar_url: https://www.gravatar.com/avatar/67c66b3dcd7363397d7e97b174efc243
-                created_at: '2022-05-17T16:20:19.517Z'
-                updated_at: '2022-05-17T16:20:19.517Z'
-                url: http://www.example.com/api/users/14
-              - id: 19
-                name: Miss Sid Quigley
-                email: miss_sid_quigley.1652804917@example.com
-                avatar_url: https://www.gravatar.com/avatar/c5c169e3ca26ac5f83f649ae00c392bc
-                created_at: '2022-05-17T16:28:37.795Z'
-                updated_at: '2022-05-17T16:28:37.795Z'
-                url: http://www.example.com/api/users/19
-              - id: 20
-                name: Shelby Gislason
-                email: shelby_gislason.1652804917@example.com
-                avatar_url: https://www.gravatar.com/avatar/2f6d8d1cb7b1771576ede5feb8ed4021
-                created_at: '2022-05-17T16:28:37.799Z'
-                updated_at: '2022-05-17T16:28:37.799Z'
-                url: http://www.example.com/api/users/20
-              - id: 21
-                name: Julia Ward
-                email: julia_ward.1652804917@example.com
-                avatar_url: https://www.gravatar.com/avatar/487ae96739517aaada74f1ddec75f581
-                created_at: '2022-05-17T16:28:37.801Z'
-                updated_at: '2022-05-17T16:28:37.801Z'
-                url: http://www.example.com/api/users/21
-              - id: 22
-                name: Nisha Haley
-                email: nisha_haley.1652804917@example.com
-                avatar_url: https://www.gravatar.com/avatar/1d6b25c271479ee9a338fef288a69450
-                created_at: '2022-05-17T16:28:37.804Z'
-                updated_at: '2022-05-17T16:28:37.804Z'
-                url: http://www.example.com/api/users/22
-              - id: 23
-                name: Tawanda Flatley
-                email: tawanda_flatley.1652804917@example.com
-                avatar_url: https://www.gravatar.com/avatar/14a65db27054b0ea60c493d172237e71
-                created_at: '2022-05-17T16:28:37.807Z'
-                updated_at: '2022-05-17T16:28:37.807Z'
-                url: http://www.example.com/api/users/23
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                  - id: 32
+                    name: Alycia Abernathy
+                    avatar_url: https://www.gravatar.com/avatar/abb23727f49a53847f1410b00a86a3f8
+                    url: http://www.example.com/api/users/32
+                    email: alycia_abernathy.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.277Z'
+                    updated_at: '2022-05-18T16:35:54.277Z'
+                  - id: 33
+                    name: Flavia Dickens III
+                    avatar_url: https://www.gravatar.com/avatar/71184e7cc496c2fe8782510709cb3123
+                    url: http://www.example.com/api/users/33
+                    email: flavia_dickens_iii.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.278Z'
+                    updated_at: '2022-05-18T16:35:54.278Z'
+                  - id: 34
+                    name: Linnie Blanda
+                    avatar_url: https://www.gravatar.com/avatar/29760dd62a67ce8f311fd2163b6a7d20
+                    url: http://www.example.com/api/users/34
+                    email: linnie_blanda.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.279Z'
+                    updated_at: '2022-05-18T16:35:54.279Z'
+                  - id: 35
+                    name: Agnus Simonis
+                    avatar_url: https://www.gravatar.com/avatar/c94956ce7ac06f694e67444c228ca6d1
+                    url: http://www.example.com/api/users/35
+                    email: agnus_simonis.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.280Z'
+                    updated_at: '2022-05-18T16:35:54.280Z'
+                  - id: 36
+                    name: Miss Emmanuel Ritchie
+                    avatar_url: https://www.gravatar.com/avatar/26047fb74c44295b4f11225990bf6679
+                    url: http://www.example.com/api/users/36
+                    email: miss_emmanuel_ritchie.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.281Z'
+                    updated_at: '2022-05-18T16:35:54.281Z'
               schema:
                 type: array
                 items:
@@ -784,14 +597,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 24
-                name: New User
-                email: new_user@example.com
-                avatar_url: https://www.gravatar.com/avatar/d01d74e2303cfd7320eca0fd8ed8bb91
-                created_at: '2022-05-17T16:28:38.268Z'
-                updated_at: '2022-05-17T16:28:38.268Z'
-                url: http://www.example.com/api/users/24
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 37
+                    name: New User
+                    avatar_url: https://www.gravatar.com/avatar/d01d74e2303cfd7320eca0fd8ed8bb91
+                    url: http://www.example.com/api/users/37
+                    email: new_user@example.com
+                    created_at: '2022-05-18T16:35:54.302Z'
+                    updated_at: '2022-05-18T16:35:54.302Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
       requestBody:
@@ -809,14 +625,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 1
-                name: Amb. Beth Friesen
-                email: amb_beth_friesen.1652804237@example.com
-                avatar_url: https://www.gravatar.com/avatar/1ced41ba5d9f810c8605fa1a4b165e01
-                created_at: '2022-05-17T16:17:17.556Z'
-                updated_at: '2022-05-17T16:17:17.556Z'
-                url: http://www.example.com/api/users/1
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 38
+                    name: Pres. Terrie Barton
+                    avatar_url: https://www.gravatar.com/avatar/d307f957efcf03345fd5d0b891c9e772
+                    url: http://www.example.com/api/users/38
+                    email: pres_terrie_barton.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.309Z'
+                    updated_at: '2022-05-18T16:35:54.309Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
   "/api/users/{id}":
@@ -836,14 +655,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 25
-                name: Pres. Tracey Gulgowski
-                email: pres_tracey_gulgowski.1652804918@example.com
-                avatar_url: https://www.gravatar.com/avatar/7b629dec93a41cf6b1b1d4f55b3e4674
-                created_at: '2022-05-17T16:28:38.296Z'
-                updated_at: '2022-05-17T16:28:38.296Z'
-                url: http://www.example.com/api/users/25
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 39
+                    name: Elvis Spinka
+                    avatar_url: https://www.gravatar.com/avatar/6720fde03e9abcc536d6e52baf60ee47
+                    url: http://www.example.com/api/users/39
+                    email: elvis_spinka.1652891754@example.com
+                    created_at: '2022-05-18T16:35:54.319Z'
+                    updated_at: '2022-05-18T16:35:54.319Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
     put:
@@ -856,14 +678,17 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 26
-                name: New Name
-                email: new_email@example.com
-                avatar_url: https://www.gravatar.com/avatar/560fe38b92f371bd514190a64a9c9159
-                created_at: '2022-05-17T16:28:38.316Z'
-                updated_at: '2022-05-17T16:28:38.329Z'
-                url: http://www.example.com/api/users/26
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 40
+                    name: New Name
+                    avatar_url: https://www.gravatar.com/avatar/560fe38b92f371bd514190a64a9c9159
+                    url: http://www.example.com/api/users/40
+                    email: new_email@example.com
+                    created_at: '2022-05-18T16:35:54.330Z'
+                    updated_at: '2022-05-18T16:35:54.337Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
       requestBody:
@@ -888,20 +713,93 @@ paths:
         in: query
         description: Decides how many entities should be returned
         example: 3
+        required: false
         schema:
           type: integer
-      - name: include
+      - name: boards
         in: query
-        description: Choose which associated entities should be included in the response
-        example: boards
+        type: string
         schema:
-          type: string
+          "$ref": "#/components/schemas/include_associated_enum"
+        required: false
       responses:
         '200':
           description: successful
           content:
             application/json:
-              example: []
+              examples:
+                successful with `boards=all`:
+                  summary: successful with `boards=all`
+                  value:
+                  - id: 40
+                    name: Keylex
+                    created_at: '2022-05-18T16:35:54.354Z'
+                    updated_at: '2022-05-18T16:35:54.354Z'
+                    url: http://www.example.com/api/workspaces/40
+                    boards:
+                    - id: 40
+                      name: Molybdenum
+                      workspace_id: 40
+                      created_at: '2022-05-18T16:35:54.364Z'
+                      updated_at: '2022-05-18T16:35:54.364Z'
+                      workspace_url: http://www.example.com/api/workspaces/40
+                      url: http://www.example.com/api/boards/40
+                    - id: 41
+                      name: Curium
+                      workspace_id: 40
+                      created_at: '2022-05-18T16:35:54.364Z'
+                      updated_at: '2022-05-18T16:35:54.364Z'
+                      workspace_url: http://www.example.com/api/workspaces/40
+                      url: http://www.example.com/api/boards/41
+                    - id: 42
+                      name: Indium
+                      workspace_id: 40
+                      created_at: '2022-05-18T16:35:54.365Z'
+                      updated_at: '2022-05-18T16:35:54.365Z'
+                      workspace_url: http://www.example.com/api/workspaces/40
+                      url: http://www.example.com/api/boards/42
+                    - id: 43
+                      name: Lutetium
+                      workspace_id: 40
+                      created_at: '2022-05-18T16:35:54.366Z'
+                      updated_at: '2022-05-18T16:35:54.366Z'
+                      workspace_url: http://www.example.com/api/workspaces/40
+                      url: http://www.example.com/api/boards/43
+                    - id: 44
+                      name: Protactinium
+                      workspace_id: 40
+                      created_at: '2022-05-18T16:35:54.366Z'
+                      updated_at: '2022-05-18T16:35:54.366Z'
+                      workspace_url: http://www.example.com/api/workspaces/40
+                      url: http://www.example.com/api/boards/44
+                successful:
+                  summary: successful
+                  value:
+                  - id: 42
+                    name: Mat Lam Tam
+                    created_at: '2022-05-18T16:35:54.389Z'
+                    updated_at: '2022-05-18T16:35:54.389Z'
+                    url: http://www.example.com/api/workspaces/42
+                  - id: 43
+                    name: Tampflex
+                    created_at: '2022-05-18T16:35:54.391Z'
+                    updated_at: '2022-05-18T16:35:54.391Z'
+                    url: http://www.example.com/api/workspaces/43
+                  - id: 44
+                    name: Kanlam
+                    created_at: '2022-05-18T16:35:54.393Z'
+                    updated_at: '2022-05-18T16:35:54.393Z'
+                    url: http://www.example.com/api/workspaces/44
+                  - id: 45
+                    name: Treeflex
+                    created_at: '2022-05-18T16:35:54.394Z'
+                    updated_at: '2022-05-18T16:35:54.394Z'
+                    url: http://www.example.com/api/workspaces/45
+                  - id: 46
+                    name: Konklab
+                    created_at: '2022-05-18T16:35:54.395Z'
+                    updated_at: '2022-05-18T16:35:54.395Z'
+                    url: http://www.example.com/api/workspaces/46
               schema:
                 type: array
                 items:
@@ -916,12 +814,15 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 99
-                name: New Workspace
-                created_at: '2022-05-17T16:28:38.430Z'
-                updated_at: '2022-05-17T16:28:38.430Z'
-                url: http://www.example.com/api/workspaces/99
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 47
+                    name: New Workspace
+                    created_at: '2022-05-18T16:35:54.414Z'
+                    updated_at: '2022-05-18T16:35:54.414Z'
+                    url: http://www.example.com/api/workspaces/47
               schema:
                 "$ref": "#/components/schemas/workspace_response"
       requestBody:
@@ -939,6 +840,13 @@ paths:
         type: string
     get:
       summary: show workspace
+      parameters:
+      - name: boards
+        in: query
+        type: string
+        schema:
+          "$ref": "#/components/schemas/include_associated_enum"
+        required: false
       tags:
       - Workspaces
       responses:
@@ -946,12 +854,38 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 100
-                name: Domainer
-                created_at: '2022-05-17T16:28:38.439Z'
-                updated_at: '2022-05-17T16:28:38.439Z'
-                url: http://www.example.com/api/workspaces/100
+              examples:
+                successful with `boards=all`:
+                  summary: successful with `boards=all`
+                  value:
+                    id: 48
+                    name: Tin
+                    created_at: '2022-05-18T16:35:54.429Z'
+                    updated_at: '2022-05-18T16:35:54.429Z'
+                    url: http://www.example.com/api/workspaces/48
+                    boards:
+                    - id: 45
+                      name: Radium
+                      workspace_id: 48
+                      created_at: '2022-05-18T16:35:54.431Z'
+                      updated_at: '2022-05-18T16:35:54.432Z'
+                      workspace_url: http://www.example.com/api/workspaces/48
+                      url: http://www.example.com/api/boards/45
+                    - id: 46
+                      name: Radium
+                      workspace_id: 48
+                      created_at: '2022-05-18T16:35:54.434Z'
+                      updated_at: '2022-05-18T16:35:54.435Z'
+                      workspace_url: http://www.example.com/api/workspaces/48
+                      url: http://www.example.com/api/boards/46
+                successful:
+                  summary: successful
+                  value:
+                    id: 51
+                    name: Opela
+                    created_at: '2022-05-18T16:35:54.447Z'
+                    updated_at: '2022-05-18T16:35:54.447Z'
+                    url: http://www.example.com/api/workspaces/51
               schema:
                 "$ref": "#/components/schemas/workspace_response"
     put:
@@ -964,12 +898,15 @@ paths:
           description: successful
           content:
             application/json:
-              example:
-                id: 101
-                name: New Name
-                created_at: '2022-05-17T16:28:38.459Z'
-                updated_at: '2022-05-17T16:28:38.470Z'
-                url: http://www.example.com/api/workspaces/101
+              examples:
+                successful:
+                  summary: successful
+                  value:
+                    id: 52
+                    name: New Name
+                    created_at: '2022-05-18T16:35:54.458Z'
+                    updated_at: '2022-05-18T16:35:54.464Z'
+                    url: http://www.example.com/api/workspaces/52
               schema:
                 "$ref": "#/components/schemas/workspace_response"
       requestBody:
@@ -986,6 +923,12 @@ paths:
           description: successful
 components:
   schemas:
+    include_associated_enum:
+      type: string
+      enum:
+      - visible
+      - archived
+      - all
     user_response:
       type: object
       properties:
@@ -1008,9 +951,6 @@ components:
       required:
       - id
       - name
-      - email
-      - created_at
-      - updated_at
     user_request:
       type: object
       properties:
@@ -1021,6 +961,40 @@ components:
       required:
       - name
       - email
+    task_response:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        pos:
+          type: number
+          format: float
+        created_at:
+          type: string
+          format: date_time
+        updated_at:
+          type: string
+          format: date_time
+        list_id:
+          type: integer
+        list_url:
+          type: string
+        url:
+          type: string
+        users:
+          type: array
+          items:
+            "$ref": "#/components/schemas/user_response"
+          nullable: true
+      required:
+      - id
+      - name
+      - pos
+      - list_id
     list_response:
       type: object
       properties:
@@ -1044,12 +1018,15 @@ components:
           type: string
         board_url:
           type: string
+        tasks:
+          type: array
+          items:
+            "$ref": "#/components/schemas/task_response"
+          nullable: true
       required:
       - id
       - name
       - board_id
-      - created_at
-      - updated_at
     list_request:
       type: object
       properties:
@@ -1083,12 +1060,15 @@ components:
           type: string
         workspace_url:
           type: string
+        lists:
+          type: array
+          items:
+            "$ref": "#/components/schemas/list_response"
+          nullable: true
       required:
       - id
       - name
       - workspace_id
-      - created_at
-      - updated_at
     board_request:
       type: object
       properties:
@@ -1115,13 +1095,13 @@ components:
         url:
           type: string
         boards:
-          "$ref": "#/components/schemas/board_response"
+          type: array
+          items:
+            "$ref": "#/components/schemas/board_response"
           nullable: true
       required:
       - id
       - name
-      - created_at
-      - updated_at
     workspace_request:
       type: object
       properties:

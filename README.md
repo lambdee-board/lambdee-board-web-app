@@ -58,6 +58,15 @@ a particular user.
 
 The controller should be named `API::UsersController` (`app/controllers/api/users_controller.rb`), and the route should be `/api/users/:id`
 
+We use [Jbuilder](https://github.com/rails/jbuilder) views (`app/views`) for building `JSON` responses.
+
+###### Documentation
+
+We document the backend REST API with [swagger/OpenAPI](https://swagger.io/specification/).
+
+The doc file is served under `/api-docs/v1/swagger.yaml`, and there is
+a swagger web interface served under `/api-docs`
+
 ##### Plain Old Ruby Objects
 
 All regular Ruby classes and modules should be kept
@@ -106,6 +115,11 @@ a single part of the UI should be stored in a `Slice` file inside `frontend/src/
 
 [SWR](https://swr.vercel.app/) is used for guarding the state
 of data that is fetched from the backend.
+
+All code interacting with the backend API should be located in
+the `frontend/src/api` folder.
+
+We use [Axios](https://github.com/axios/axios) as our HTTP client library.
 
 ##### View components
 

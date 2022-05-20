@@ -16,14 +16,12 @@ require 'swagger_helper'
         schema type: :array,
           items: { '$ref' => '#/components/schemas/list_response' }
 
-        5.times { ::FactoryBot.create :list }
+        before do
+          5.times { ::FactoryBot.create :list }
+        end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -40,11 +38,7 @@ require 'swagger_helper'
         let(:list) { { name: 'New List', pos: 1212, board_id: board.id } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -63,11 +57,7 @@ require 'swagger_helper'
         let(:id) { ::FactoryBot.create(:list).id }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -87,11 +77,7 @@ require 'swagger_helper'
         let(:list) { { name: 'New Name' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end

@@ -22,11 +22,7 @@ require 'swagger_helper'
         end
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -43,11 +39,7 @@ require 'swagger_helper'
         let(:board) { { name: 'New Board', workspace_id: workspace.id } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: ::JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -60,17 +52,88 @@ require 'swagger_helper'
     get('show board') do
       tags 'Boards'
       produces 'application/json'
+      parameter name: 'tasks',
+                in: :query,
+                type: :string,
+                schema: { '$ref' => '#/components/schemas/include_associated_enum' },
+                required: false
+
+      response(200, 'successful with `tasks=all`') do
+        schema '$ref' => '#/components/schemas/board_response'
+
+        let(:id) do
+          board = ::FactoryBot.create(:board)
+          board.lists << list = ::FactoryBot.create(:list)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+          list.tasks << ::FactoryBot.create(:task)
+          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          list.tasks << ::FactoryBot.create(:task)
+          board.id
+        end
+        let(:tasks) { 'all' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with `tasks=visible`') do
+        schema '$ref' => '#/components/schemas/board_response'
+
+        let(:id) do
+          board = ::FactoryBot.create(:board)
+          board.lists << list = ::FactoryBot.create(:list)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+          board.id
+        end
+        let(:tasks) { 'visible' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with `tasks=archived`') do
+        schema '$ref' => '#/components/schemas/board_response'
+
+        let(:id) do
+          board = ::FactoryBot.create(:board)
+          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+          list.tasks << ::FactoryBot.create(:task)
+          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          list.tasks << ::FactoryBot.create(:task)
+          board.id
+        end
+        let(:tasks) { 'archived' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/board_response'
 
         let(:id) { ::FactoryBot.create(:board).id }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end
@@ -90,11 +153,7 @@ require 'swagger_helper'
         let(:board) { { name: 'New Name' } }
 
         after do |example|
-          example.metadata[:response][:content] = {
-            'application/json' => {
-              example: JSON.parse(response.body, symbolize_names: true)
-            }
-          }
+          save_response(example, response)
         end
         run_test!
       end

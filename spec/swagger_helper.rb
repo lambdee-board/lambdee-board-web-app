@@ -2,6 +2,19 @@
 
 require 'rails_helper'
 
+def save_response(example, response)
+  example.metadata[:response][:content] ||= { 'application/json' => { examples: {} } }
+
+  example.metadata[:response][:content]['application/json'][:examples].merge!(
+    {
+      example.metadata[:response][:description] => {
+        summary: example.metadata[:response][:description],
+        value: ::JSON.parse(response.body, symbolize_names: true),
+      }
+    }
+  )
+end
+
 ::RSpec.configure do |config|
   # Specify a root folder where Swagger JSON files are generated
   # NOTE: If you're using the rswag-api to serve API descriptions, you'll need
@@ -18,12 +31,20 @@ require 'rails_helper'
     'v1/swagger.yaml' => {
       openapi: '3.0.1',
       info: {
-        title: 'API V1',
+        title: 'Lambdee API V1',
         version: 'v1'
       },
       paths: {},
       components: {
         schemas: {
+          include_associated_enum: {
+            type: :string,
+            enum: [
+              'visible',
+              'archived',
+              'all'
+            ]
+          },
           user_response: {
             type: :object,
             properties: {
@@ -35,7 +56,7 @@ require 'rails_helper'
               avatar_url: { type: :string },
               url: { type: :string },
             },
-            required: %w[id name email created_at updated_at]
+            required: %w[id name]
           },
           user_request: {
             type: :object,
@@ -44,6 +65,22 @@ require 'rails_helper'
               email: { type: :string },
             },
             required: %w[name email]
+          },
+          task_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              description: { type: :string },
+              pos: { type: :number, format: :float },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              list_id: { type: :integer },
+              list_url: { type: :string },
+              url: { type: :string },
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
+            },
+            required: %w[id name pos list_id]
           },
           list_response: {
             type: :object,
@@ -57,8 +94,9 @@ require 'rails_helper'
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               board_url: { type: :string },
+              tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' }, nullable: true }
             },
-            required: %w[id name board_id created_at updated_at]
+            required: %w[id name board_id]
           },
           list_request: {
             type: :object,
@@ -80,8 +118,9 @@ require 'rails_helper'
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               workspace_url: { type: :string },
+              lists: { type: :array, items: { '$ref' => '#/components/schemas/list_response' }, nullable: true  }
             },
-            required: %w[id name workspace_id created_at updated_at]
+            required: %w[id name workspace_id]
           },
           board_request: {
             type: :object,
@@ -100,11 +139,12 @@ require 'rails_helper'
               updated_at: { type: :string, format: :date_time },
               url: { type: :string },
               boards: {
-                '$ref' => '#/components/schemas/board_response',
-                nullable: true
+                type: :array,
+                items: { '$ref' => '#/components/schemas/board_response' },
+                nullable: true,
               }
             },
-            required: %w[id name created_at updated_at]
+            required: %w[id name]
           },
           workspace_request: {
             type: :object,
