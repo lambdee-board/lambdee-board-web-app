@@ -61,6 +61,6 @@ class API::BoardsController < ::APIController
 
   # Only allow a list of trusted parameters through.
   def board_params
-    params.require(:board).permit(:name, :workspace_id)
+    params.require(:board).permit(:name, :colour, :workspace_id)
   end
 end

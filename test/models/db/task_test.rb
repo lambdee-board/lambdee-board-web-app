@@ -16,4 +16,12 @@ class DB::TaskTest < ActiveSupport::TestCase
     assert_equal 'Description is too long (maximum is 300 characters)', task.errors.full_messages.first
     assert_not task.persisted?
   end
+
+  should 'set last pos value for new record to be the last in the list' do
+    task = ::FactoryBot.create(:task)
+    assert_equal 65_536, task.pos
+
+    task = ::FactoryBot.create(:task, list_id: task.list.id)
+    assert_equal 65_536 + 1024, task.pos
+  end
 end

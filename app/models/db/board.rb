@@ -52,4 +52,5 @@ class DB::Board < ::ApplicationRecord
   end
 
   validates :name, presence: true, length: { maximum: 50 }
+  validates :colour, length: { minimum: 7, maximum: 9 }, allow_blank: true
 end
