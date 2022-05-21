@@ -41,8 +41,8 @@ describe('Workspace View', () => {
 
     it('shows all list elements', () => {
       cy.get('.TaskList-wrapper').should('exist')
-      cy.get('.TaskList-header-text').should('exist') // dowiedzieć sie jak porownac z baza testowa
-      cy.get('.TaskList-new-task-button p').contains('New task')
+      cy.get('.TaskList-header-text').should('exist')
+      cy.get('.TaskList-new-task-button p').should('exist')
     })
   })
 })

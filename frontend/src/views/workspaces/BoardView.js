@@ -1,6 +1,7 @@
 import './BoardView.sass'
 import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
+import { useParams } from 'react-router-dom'
 
 import useTaskLists from '../../api/useTaskLists'
 
@@ -22,7 +23,8 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
-  const { data: taskLists, isLoading, isError } = useTaskLists(1, 'visible')
+  const { workspaceId, boardId } = useParams()
+  const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -30,8 +32,8 @@ export default function BoardView() {
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper'>
-          {taskLists.lists.map((taskList) => (
-            <TaskList key={taskList.name} title={taskList.name} pos={taskList.pos} >
+          {taskLists.lists.map((taskList, index) => (
+            <TaskList key={taskList.name + index} title={taskList.name} pos={taskList.pos} >
               {taskList.tasks.map((taskListElement) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}
