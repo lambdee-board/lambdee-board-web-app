@@ -5,15 +5,15 @@
 class API::ListsController < ::APIController
   before_action :set_list, only: %i[show update destroy]
 
-  # GET /lists or GET /lists.json
+  # GET api/lists or GET api/lists.json
   def index
     @lists = ::DB::List.all
   end
 
-  # GET /lists/1 or GET /lists/1.json
+  # GET api/lists/1 or GET api/lists/1.json
   def show; end
 
-  # POST /lists or POST /lists.json
+  # POST api/lists or POST api/lists.json
   def create
     @list = ::DB::List.new(list_params)
     return render :show, status: :created, location: api_list_url(@list) if @list.save
@@ -21,14 +21,14 @@ class API::ListsController < ::APIController
     render json: @list.errors, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /lists/1 or PATCH/PUT /lists/1.json
+  # PATCH/PUT api/lists/1 or PATCH/PUT api/lists/1.json
   def update
     return render :show, status: :ok, location: api_list_url(@list) if @list.update(list_params)
 
     render json: @list.errors, status: :unprocessable_entity
   end
 
-  # DELETE /lists/1 or DELETE /lists/1.json
+  # DELETE api/lists/1 or DELETE api/lists/1.json
   def destroy
     @list.archive!
   end

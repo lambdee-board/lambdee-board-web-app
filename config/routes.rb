@@ -14,7 +14,10 @@
       end
       resources :boards
       resources :lists
-      resources :tasks
+      resources :tasks do
+        resources :tags, only: %i[index]
+      end
+      resources :tags
     end
   end
 

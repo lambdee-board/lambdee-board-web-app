@@ -5,15 +5,15 @@
 class API::TasksController < ::APIController
   before_action :set_task, only: %i[show update destroy]
 
-  # GET /tasks or GET /tasks.json
+  # GET api/tasks or GET api/tasks.json
   def index
     @tasks = ::DB::Task.all
   end
 
-  # GET /tasks/1 or GET /tasks/1.json
+  # GET api/tasks/1 or GET api/tasks/1.json
   def show; end
 
-  # POST /tasks or POST /tasks.json
+  # POST api/tasks or POST api/tasks.json
   def create
     @task = ::DB::Task.new(task_params)
     return render :show, status: :created, location: api_task_url(@task) if @task.save
@@ -21,14 +21,14 @@ class API::TasksController < ::APIController
     render json: @task.errors, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /tasks/1 or PATCH/PUT /tasks/1.json
+  # PATCH/PUT api/tasks/1 or PATCH/PUT api/tasks/1.json
   def update
     return render :show, status: :ok, location: api_task_url(@task) if @task.update(task_params)
 
     render json: @task.errors, status: :unprocessable_entity
   end
 
-  # DELETE /tasks/1 or DELETE /tasks/1.json
+  # DELETE api/tasks/1 or DELETE api/tasks/1.json
   def destroy
     @task.destroy
   end
