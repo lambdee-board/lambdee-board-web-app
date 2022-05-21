@@ -35,19 +35,19 @@ class DB::Board < ::ApplicationRecord
     # @param id [Integer]
     # @return [self]
     def find_with_visible_tasks(id)
-      with_visible_tasks.first || find_with_empty_lists(id)
+      with_visible_tasks.where(id: id).first || find_with_empty_lists(id)
     end
 
     # @param id [Integer]
     # @return [self]
     def find_with_all_tasks(id)
-      with_all_tasks.first || find_with_empty_lists(id)
+      with_all_tasks.where(id: id).first || find_with_empty_lists(id)
     end
 
     # @param id [Integer]
     # @return [self]
     def find_with_archived_tasks(id)
-      with_archived_tasks.first || find_with_empty_lists(id)
+      with_archived_tasks.where(id: id).first || find_with_empty_lists(id)
     end
   end
 
