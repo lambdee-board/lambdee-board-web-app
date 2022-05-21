@@ -22,8 +22,16 @@
       .TaskList-item
         width: 100%
         padding: 0.5 * $unit
+        flex-direction: column
     .TaskList-new-task-wrapper
       .TaskList-new-task-button
         text-transform: none
         justify-content: flex-start
         width: 100%
+    .TaskList-new-task-wrapper-skeleton
+      display: flex
+      flex-direction: row
+      padding: $unit
+      align-items: center
+      .TaskList-new-task-item-skeleton
+        margin: $unit
