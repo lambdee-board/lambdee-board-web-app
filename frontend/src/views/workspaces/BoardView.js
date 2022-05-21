@@ -3,11 +3,9 @@ import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 
 import useTaskLists from '../../api/useTaskLists'
-import React, { useMemo } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import update from 'immutability-helper'
-import taskListSlice from '../../redux/slices/taskListSlice'
-import { useSelector } from 'react-redux'
 
 
 function BoardViewSkeleton() {
@@ -27,28 +25,43 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
+  const [sortedTaskLists, setNewTaskListOrder] = useState([])
   const { data: taskLists, isLoading, isError } = useTaskLists(1, 'visible')
-  const taskListOrder = useSelector(taskListSlice)
 
-  const sortTaskList = useMemo(() => {
-    const sortedTaskList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-    return sortedTaskList
-  }, [taskLists.lists])
+  useEffect(() => {
+    if ((isLoading || isError) !== true) {
+      const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      console.log('useEffect sorting', sortedList)
+      setNewTaskListOrder([...sortedList])
+    }
+  }, [isLoading, isError])
 
 
-  if (!isLoading && !isError) {
-    const sortedLists = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-    setTaskList(sortedLists)
-  }
   const moveList = (dragIndex, hoverIndex) => {
-    console.log(sortedTaskLists)
-    const draggedList = sortedTaskLists[dragIndex]
-    setTaskList(
-      update(sortedTaskLists, {
-        $splice: [[dragIndex, 1], [hoverIndex, 0, draggedList]]
-      })
-    )
+    console.log(dragIndex, hoverIndex)
+    setNewTaskListOrder((prevState) => update(prevState, {
+      $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, prevState[dragIndex]],
+      ],
+    }))
+    console.log('aaaa', sortedTaskLists)
   }
+
+
+  // const changeListPos = (dragIndex, hoverIndex) => {
+  //   console.log(dragIndex, hoverIndex)
+  //   if (hoverIndex === 0) {
+  //     sortedTaskLists[dragIndex].pos = sortedTaskLists[hoverIndex].pos / 2
+  //   } else if (hoverIndex === sortedTaskLists.length - 1) {
+  //     sortedTaskLists[dragIndex].pos = sortedTaskLists[-1].pos + 1024
+  //   } else {
+  //     sortedTaskLists[dragIndex].pos = (sortedTaskLists[hoverIndex - 1].pos + sortedTaskLists[hoverIndex].pos) / 2
+  //   }
+  //   console.log(sortedTaskLists[dragIndex].pos, sortedTaskLists[dragIndex])
+  // }
+
+  const onTaskDrop = {}
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -62,18 +75,17 @@ export default function BoardView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              moveList={moveList} >
+              dndFun={[moveList, onTaskDrop]} >
               {taskList.tasks.map((taskListElement, taskIndex) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}
-                  taskTags={taskListElement.tags} // api response missing this prop
-                  taskPriority={taskListElement.priority} // api response missing this prop
+                  taskTags={taskListElement.tags}
+                  taskPriority={taskListElement.priority}
                   assignedUsers={taskListElement.users}
-                  taskPoints={taskListElement.points} // api response missing this prop
+                  taskPoints={taskListElement.points}
                 />
               ))}
-            </TaskList>
-          ))}
+            </TaskList>))}
           <div className='TaskLists-spacer'></div>
         </div>
       </div>

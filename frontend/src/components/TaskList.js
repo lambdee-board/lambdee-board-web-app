@@ -13,13 +13,11 @@ import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
-
+import { useDrag, useDrop } from 'react-dnd'
+import { ItemTypes } from '../constants/draggableItems'
 import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
-import { useDrag } from 'react-dnd'
-import { useDrop } from 'react-dnd'
-import { ItemTypes } from '../constants/draggableItems'
 
 function TaskListSkeleton() {
   return (
@@ -52,21 +50,17 @@ function TaskListSkeleton() {
 
 function TaskList(props) {
   const ref = useRef(null)
+  const [moveList] = props.dndFun
 
-  // const moveList = (id, position) => {
-  //   const taskLists = []
-  //   const index = taskLists?.findIndex((list) => list.id === id)
 
-  //   taskLists[index].pos = taskLists[0].pos / 2
-
-  //   taskLists[index].pos
-
-  //   taskLists[index].pos = taskLists[-1].pos + 1024 || taskLists[index].pos
-  // }
-
-  const [, drop] = useDrop(() => ({
+  const [{ handlerId }, drop] = useDrop(() => ({
     accept: ItemTypes.TASKLIST,
-    hover(item)  {
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item, monitor)  {
       if (!ref.current) return
 
       const dragIndex = item.index
@@ -74,15 +68,28 @@ function TaskList(props) {
 
       if (dragIndex === hoverIndex) return
 
-      props.moveList(dragIndex, hoverIndex)
+
+      const hoveredRect = ref.current.getBoundingClientRect()
+      const hoverMiddleX = (hoveredRect.left - hoveredRect.right) / 2
+      const mousePosition = monitor.getClientOffset()
+      const hoverClientX = mousePosition.x - hoveredRect.right
+
+      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return
+
+      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return
+
+      moveList(dragIndex, hoverIndex)
+      // changeListPos(dragIndex, hoverIndex)
       item.index = hoverIndex
+      console.log('list moved', item)
     }
-  }),)
+  }))
 
   const [{ isDragging }, drag] = useDrag(() => ({
     type: ItemTypes.TASKLIST,
     item: {
       id: props.id,
+      name: props.title,
       index: props.index
     },
     collect: (monitor) => ({
@@ -93,8 +100,8 @@ function TaskList(props) {
   drag(drop(ref))
 
   return (
-    <Box className='TaskList-wrapper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }}>
-      <Paper className='TaskList-paper'
+    <Box className='TaskList-wrapper' >
+      <Paper className='TaskList-paper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
@@ -124,9 +131,9 @@ function TaskList(props) {
 
 TaskList.propTypes = {
   children: PropTypes.array.isRequired,
+  dndFun: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
-  moveList: PropTypes.func.isRequired,
   pos: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 }
