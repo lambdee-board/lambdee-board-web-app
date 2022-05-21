@@ -3,9 +3,11 @@ import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 
 import useTaskLists from '../../api/useTaskLists'
-import React from 'react'
+import React, { useMemo } from 'react'
 
 import update from 'immutability-helper'
+import taskListSlice from '../../redux/slices/taskListSlice'
+import { useSelector } from 'react-redux'
 
 
 function BoardViewSkeleton() {
@@ -25,49 +27,19 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
-  const [ sortedTaskLists, setTaskList ] = React.useState([
-    { boardId: 1,
-      id: 1,
-      name: 'asdasdad',
-      pos: 123132123123123,
-      tasks: [
-        {
-          id: 2,
-          listId: 1,
-          name: 'ddddddddddddddddddddddddddddddddddddddd',
-          pos: 111111,
-        }, {
-          id: 2,
-          listId: 1,
-          name: 'cccccccccccccccccccccccccccccccccccccc',
-          pos: 222222,
-        },
-      ], },
-    { boardId: 1,
-      id: 2,
-      name: 'emerald',
-      pos: 987987987987,
-      tasks: [
-        {
-          id: 2,
-          listId: 1,
-          name: 'aaaaaaaaaaaaaaaaaa',
-          pos: 333333,
-        }, {
-          id: 2,
-          listId: 2,
-          name: 'bbbbbbbbbbbbbbbbbbbbbbb',
-          pos: 4444,
-        },
-      ] },
-  ])
-
   const { data: taskLists, isLoading, isError } = useTaskLists(1, 'visible')
+  const taskListOrder = useSelector(taskListSlice)
 
-  // if (!isLoading && !isError) {
-  //   const sortedLists = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-  //   setTaskList(sortedLists)
-  // }
+  const sortTaskList = useMemo(() => {
+    const sortedTaskList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    return sortedTaskList
+  }, [taskLists.lists])
+
+
+  if (!isLoading && !isError) {
+    const sortedLists = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    setTaskList(sortedLists)
+  }
   const moveList = (dragIndex, hoverIndex) => {
     console.log(sortedTaskLists)
     const draggedList = sortedTaskLists[dragIndex]
