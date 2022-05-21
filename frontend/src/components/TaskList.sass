@@ -26,6 +26,7 @@
         padding: 1 * $unit
         margin: 1.5 * $unit
         display: flex
+        flex-direction: column
         .TaskList-new-task-input
           margin-right: auto
         .TaskList-new-task-cancel
@@ -40,3 +41,10 @@
         text-transform: none
         justify-content: flex-start
         width: 100%
+    .TaskList-new-task-wrapper-skeleton
+      display: flex
+      flex-direction: row
+      padding: $unit
+      align-items: center
+      .TaskList-new-task-item-skeleton
+        margin: $unit

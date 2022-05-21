@@ -10,7 +10,9 @@ wrk = ::FactoryBot.create :workspace
 4.times { wrk.users << ::FactoryBot.create(:user) }
 
 wrk.boards << board = ::FactoryBot.create(:board)
-5.times do
+board.lists << list = ::FactoryBot.create(:list, name: 'Backlog')
+list.tasks << task = ::FactoryBot.create(:task, name: 'Add a login system', priority: 2, points: 3)
+5.times do |i|
   board.lists << list = ::FactoryBot.create(:list)
   rand(5).times do
     list.tasks << task = ::FactoryBot.create(:task)

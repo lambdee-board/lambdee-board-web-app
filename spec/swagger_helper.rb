@@ -71,8 +71,10 @@ end
             properties: {
               id: { type: :integer },
               name: { type: :string },
-              description: { type: :string },
-              pos: { type: :number, format: :float },
+              description: { type: %i[string null] },
+              pos: { type: %i[number null], format: :float },
+              priority: { type: %i[string null] },
+              points: { type: %i[number null], format: :float },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
               list_id: { type: :integer },
@@ -80,14 +82,30 @@ end
               url: { type: :string },
               users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
             },
-            required: %w[id name pos list_id]
+            required: %w[id name pos priority points list_id]
+          },
+          task_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              pos: {
+                type: :number,
+                format: :float,
+                description: 'If not given, value will be set as for the last item in the list.' },
+              priority: { type: :number, format: :float },
+              points: { type: :number, format: :float },
+              list_id: { type: :integer },
+              author_id: { type: :integer },
+            },
+            required: %w[name list_id author_id]
           },
           list_response: {
             type: :object,
             properties: {
               id: { type: :integer },
               name: { type: :string },
-              pos: { type: :number },
+              pos: { type: :number, format: :float },
               deleted: { type: :boolean },
               board_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
@@ -102,7 +120,7 @@ end
             type: :object,
             properties: {
               name: { type: :string },
-              pos: { type: :number },
+              pos: { type: :number, format: :float },
               deleted: { type: :boolean },
               board_id: { type: :integer },
             },
