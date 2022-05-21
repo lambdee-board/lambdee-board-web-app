@@ -24,12 +24,11 @@ if (process.env.NODE_ENV === 'development') {
     console.error(
       `
   ${error?.config?.method?.toUpperCase()} ${error?.request?.responseURL}
-  Request failed with HTTP response code ${error.request.status}.
-
-  Server response:
-    ${error?.request?.response}
+  Sent: %O
+  Received: HTTP ${error.request.status} %O
       `,
-      error?.response?.data
+      error.config.data && JSON.parse(error.config.data) || error.config.params || null,
+      error?.response?.data,
     )
     return Promise.reject(error)
   })
