@@ -17,11 +17,14 @@ class DB::TaskTest < ActiveSupport::TestCase
     assert_not task.persisted?
   end
 
-  should 'set last pos value for new record to be the last in the list' do
+  should 'set last pos value for new record to be the last in the list if pos param is not declared' do
     task = ::FactoryBot.create(:task)
     assert_equal 65_536, task.pos
 
     task = ::FactoryBot.create(:task, list_id: task.list.id)
     assert_equal 65_536 + 1024, task.pos
+
+    task = ::FactoryBot.create(:task, list_id: task.list.id, pos: 1)
+    assert_equal 1, task.pos
   end
 end
