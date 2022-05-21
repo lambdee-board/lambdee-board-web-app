@@ -18,7 +18,7 @@ describe('TaskList', () => {
         .click({ multiple: true })
       cy.get('.TaskList-new-task').should('exist')
       cy.get('.TaskList-new-task-cancel').should('exist').click({ multiple: true })
-      cy.get('.TaskList-new-task-cancel').should('not.exist')
+      cy.get('.TaskList-new-task-cancel').should('not.be.visible')
       cy.get('.TaskList-new-task-button').should('exist').click({ multiple: true })
       cy.get('.TaskList-new-task-button').should('not.exist')
     })
