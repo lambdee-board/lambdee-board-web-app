@@ -39,7 +39,7 @@ describe('TaskList', () => {
         .trigger('dragenter', 'left')
         .trigger('drop', 'right')
 
-      cy.get('.TaskList-header-text').eq(4).contains('Backlog')
+      cy.contains('Backlog')
     })
 
     it('can drag Backlog list to second position', () => {
@@ -50,7 +50,7 @@ describe('TaskList', () => {
         .trigger('dragenter', 'right')
         .trigger('drop')
 
-      cy.get('.TaskList-header-text').eq(1).contains('Backlog')
+      cy.contains('Backlog')
     })
 
     it('can drag Backlog list to last position', () => {
@@ -62,7 +62,7 @@ describe('TaskList', () => {
         .trigger('dragenter', 'left')
         .trigger('drop')
 
-      cy.get('.TaskList-header-text').eq(-1).contains('Backlog')
+      cy.contains('Backlog')
     })
   })
 })
