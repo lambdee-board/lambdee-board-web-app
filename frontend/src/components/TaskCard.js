@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useRef } from 'react'
 import {
   Box,
   Card,
@@ -10,6 +10,9 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon.js'
+import { useDrag, useDrop } from 'react-dnd'
+import { ItemTypes } from '../constants/draggableItems'
+
 import './TaskCard.sass'
 
 const TaskCardSkeleton = () => {
@@ -35,9 +38,60 @@ const TaskCardSkeleton = () => {
 
 
 const TaskCard = (props) => {
+  const dndRef = useRef(null)
+  const [moveTask, updateTaskPos] = props.dndFun
+
+  const [, drop] = useDrop({
+    accept: ItemTypes.TASK,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    drop(item, monitor) {
+      // updateTaskPos(item.index, props.index)
+    },
+    hover(item, monitor)  {
+      if (!dndRef.current) return
+
+      const dragIndex = item.index
+      const hoverIndex = props.index
+
+      if (dragIndex === hoverIndex) return
+
+      const hoveredRect = dndRef.current?.getBoundingClientRect()
+      const hoverMiddleX = (hoveredRect.bottom - hoveredRect.top) / 2
+      const mousePosition = monitor.getClientOffset()
+      const hoverClientX = mousePosition.y - hoveredRect.top
+
+
+      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return
+
+      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return
+
+      moveTask(dragIndex, hoverIndex, props.parentIndex)
+
+      item.index = hoverIndex
+    }
+  })
+
+  const [{ isDragging }, drag, dragPreview] = useDrag({
+    type: ItemTypes.TASKLIST,
+    item: {
+      id: props.id,
+      name: props.taskLabel,
+      index: props.index
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  })
+
+  drag(drop(dndRef))
+
   return (
     <div className='TaskCard'>
-      <Card className='.MuiCard-root'>
+      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }}>
         <Typography>
           {props.taskLabel}
         </Typography>
@@ -69,6 +123,10 @@ TaskCard.defaultProps = {
 }
 
 TaskCard.propTypes = {
+  index: PropTypes.number.isRequired,
+  id: PropTypes.number.isRequired,
+  parentIndex: PropTypes.number.isRequired,
+  dndFun: PropTypes.array.isRequired,
   taskLabel: PropTypes.string.isRequired,
   taskPriority: PropTypes.string,
   taskTags: PropTypes.array.isRequired,

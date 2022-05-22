@@ -216,6 +216,7 @@ TaskList.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
+  tasks: PropTypes.array.isRequired,
   title: PropTypes.string.isRequired,
 }
 

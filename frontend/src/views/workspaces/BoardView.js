@@ -37,6 +37,7 @@ export default function BoardView() {
   useEffect(() => {
     if ((isLoading || isError) !== true) {
       const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      console.log(sortedList)
       setNewTaskListOrder([...sortedList])
     }
   }, [isLoading, isError, taskLists])
@@ -77,6 +78,16 @@ export default function BoardView() {
   },
   [])
 
+  const moveTaskInList = useCallback((dragIndex, hoverIndex, listIndex) => {
+    setNewTaskListOrder((prevState) => update(prevState,
+      { listIndex: { tasks: { $splice: [
+        [dragIndex, 1],
+        [hoverIndex, 0, prevState[dragIndex]],
+      ], } } }))
+  },
+  [])
+
+  const updateTaskPos = () => {}
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -90,7 +101,8 @@ export default function BoardView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList, updateListPos]} >
+              dndFun={[moveList, updateListPos]}
+              tasks={taskList.tasks}>
               {taskList.tasks.map((taskListElement, taskIndex) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}
@@ -98,6 +110,10 @@ export default function BoardView() {
                   taskPriority={taskListElement.priority}
                   assignedUsers={taskListElement.users}
                   taskPoints={taskListElement.points}
+                  index={taskIndex}
+                  id={taskListElement.id}
+                  parentIndex={listIndex}
+                  dndFun={[moveTaskInList, updateTaskPos]}
                 />
               ))}
             </TaskList>))}
