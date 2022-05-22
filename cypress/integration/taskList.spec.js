@@ -30,30 +30,34 @@ describe('TaskList', () => {
         .type('Cypress New Task')
     })
 
-    it('can drag list between to the middle', () => {
+    it('can drag Backlog list to the middle', () => {
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
-      cy.get('.TaskList-header').eq(2).trigger('dragenter', 'right')
-      cy.get('.TaskList-header').eq(2).trigger('drop')
+      cy.get('.TaskList-header').eq(2)
+        .trigger('dragenter', 'right')
+        .trigger('drop', 'right')
 
       cy.get('.TaskList-header-text').eq(2).contains('Backlog')
     })
-    it('can drag list from the middle to first position', () => {
+    it('can drag Backlog list to first position', () => {
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
-      cy.get('.TaskList-header').eq(0).trigger('dragenter', 'left')
-      cy.get('.TaskList-header').eq(0).trigger('drop')
+      cy.get('.TaskList-header').eq(0)
+        .trigger('dragenter', 'left')
+        .trigger('drop', 'left')
 
       cy.get('.TaskList-header-text').eq(0).contains('Backlog')
     })
-    it('can drag list from the middle to last position', () => {
+    it('can drag Backlog list to last position', () => {
+      cy.viewport(1800, 880)
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
-      cy.get('.TaskList-header').eq(-1).trigger('dragenter', 'right')
-      cy.get('.TaskList-header').eq(-1).trigger('drop')
+      cy.get('.TaskList-header').eq(-1)
+        .trigger('dragenter', 'right')
+        .trigger('drop', 'right')
 
       cy.get('.TaskList-header-text').eq(-1).contains('Backlog')
     })
