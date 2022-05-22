@@ -1,9 +1,8 @@
 import './BoardView.sass'
-import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 import { useParams } from 'react-router-dom'
 
-import useTaskLists from '../../api/useTaskLists'
+import useBoard from '../../api/useBoard'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import update from 'immutability-helper'
@@ -17,7 +16,7 @@ function BoardViewSkeleton() {
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper'>
-          {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((index) => (
+          {[0, 1, 2].map((index) => (
             <TaskListSkeleton key={index} />
           ))}
           <div className='TaskLists-spacer'></div>
@@ -31,31 +30,20 @@ function BoardViewSkeleton() {
 export default function BoardView() {
   const { boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
+  const { data: board, isLoading, isError } = useBoard(boardId, { params: { lists: 'visible' } })
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if ((isLoading || isError) !== true) {
-      const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-      console.log(sortedList)
+    if (board) {
+      const sortedList = [...board.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
       setNewTaskListOrder([...sortedList])
     }
-  }, [isLoading, isError, taskLists])
+  }, [board])
 
 
   const updateListPos = useCallback((dragIndex, hoverIndex) => {
-    const updatedTaskLists = [...sortedTaskLists]
-    if (hoverIndex === 0) {
-      updatedTaskLists[dragIndex].pos = sortedTaskLists[0].pos / 2
-    } else if (hoverIndex === sortedTaskLists.length - 1) {
-      updatedTaskLists[dragIndex].pos = sortedTaskLists.at(-1).pos + 1024
-    } else {
-      updatedTaskLists[dragIndex].pos = (sortedTaskLists[hoverIndex].pos + sortedTaskLists[hoverIndex + 1].pos) / 2
-    }
-    setNewTaskListOrder([...updatedTaskLists])
-
-    const listId = updatedTaskLists[dragIndex].id
-    const newPos = updatedTaskLists[dragIndex].pos
+    const listId = sortedTaskLists[dragIndex].id
+    const newPos = sortedTaskLists[dragIndex].pos
 
     const updatedList = {
       id: listId,
@@ -70,24 +58,24 @@ export default function BoardView() {
   }, [dispatch, sortedTaskLists])
 
   const moveList = useCallback((dragIndex, hoverIndex) => {
-    setNewTaskListOrder((prevState) => update(prevState,
-      { $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, prevState[dragIndex]],
-      ], }))
+    setNewTaskListOrder((prevState) => {
+      const newState = update(prevState,
+        { $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevState[dragIndex]],
+        ], })
+
+      if (hoverIndex === 0) {
+        newState[hoverIndex].pos = newState[1].pos / 2
+      } else if (hoverIndex === newState.length - 1) {
+        newState[hoverIndex].pos = newState.at(-2).pos + 1024
+      } else {
+        newState[hoverIndex].pos = (newState[hoverIndex - 1].pos + newState[hoverIndex + 1].pos) / 2
+      }
+      return newState
+    })
   },
   [])
-
-  const moveTaskInList = useCallback((dragIndex, hoverIndex, listIndex) => {
-    setNewTaskListOrder((prevState) => update(prevState,
-      { listIndex: { tasks: { $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, prevState[dragIndex]],
-      ], } } }))
-  },
-  [])
-
-  const updateTaskPos = () => {}
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -101,22 +89,8 @@ export default function BoardView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList, updateListPos]}
-              tasks={taskList.tasks}>
-              {taskList.tasks.map((taskListElement, taskIndex) => (
-                <TaskCard key = {taskListElement.name}
-                  taskLabel = {taskListElement.name}
-                  taskTags={taskListElement.tags}
-                  taskPriority={taskListElement.priority}
-                  assignedUsers={taskListElement.users}
-                  taskPoints={taskListElement.points}
-                  index={taskIndex}
-                  id={taskListElement.id}
-                  parentIndex={listIndex}
-                  dndFun={[moveTaskInList, updateTaskPos]}
-                />
-              ))}
-            </TaskList>))}
+              dndFun={[moveList, updateListPos]} />
+          ))}
           <div className='TaskLists-spacer'></div>
         </div>
       </div>

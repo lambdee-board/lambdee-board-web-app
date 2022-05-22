@@ -96,8 +96,8 @@ const TaskCard = (props) => {
           {props.taskLabel}
         </Typography>
         <Box className='Box-categories'>
-          {props.taskTags.map((taskTag) => (
-            <Chip key={taskTag.name} label={taskTag.name} sx={{ color: taskTag.textColor, bgcolor: taskTag.backgroundColor }} size='small' />
+          {props.taskTags.map((taskTag, index) => (
+            <Chip key={taskTag.name + index} label={taskTag.name} sx={{ color: taskTag.textColor, bgcolor: taskTag.backgroundColor }} size='small' />
           ))}
         </Box>
         <Box className='Box'>
@@ -106,7 +106,7 @@ const TaskCard = (props) => {
             {props.taskPoints ? <Avatar className='Box-priority-avatar'>{props.taskPoints}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
-            {props.assignedUsers.map((assignedUser) => (
+            {props.assignedUsers.map((assignedUser, index) => (
               <Avatar key={assignedUser.id} alt={assignedUser.name} src={assignedUser.avatarUrl} />
             ))}
           </AvatarGroup>
