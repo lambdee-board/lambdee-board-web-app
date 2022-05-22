@@ -3,7 +3,7 @@ import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 
 import useTaskLists from '../../api/useTaskLists'
-import React, { useEffect, useState } from 'react'
+import React, { useCallback, useEffect, useState } from 'react'
 
 import update from 'immutability-helper'
 
@@ -37,31 +37,17 @@ export default function BoardView() {
   }, [isLoading, isError])
 
 
-  const moveList = (dragIndex, hoverIndex) => {
-    console.log(dragIndex, hoverIndex)
-    setNewTaskListOrder((prevState) => update(prevState, {
-      $splice: [
+  const moveList = useCallback((dragIndex, hoverIndex) => {
+    setNewTaskListOrder((prevState) => update(prevState,
+      { $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, prevState[dragIndex]],
-      ],
-    }))
-    console.log('aaaa', sortedTaskLists)
-  }
-
-
-  // const changeListPos = (dragIndex, hoverIndex) => {
-  //   console.log(dragIndex, hoverIndex)
-  //   if (hoverIndex === 0) {
-  //     sortedTaskLists[dragIndex].pos = sortedTaskLists[hoverIndex].pos / 2
-  //   } else if (hoverIndex === sortedTaskLists.length - 1) {
-  //     sortedTaskLists[dragIndex].pos = sortedTaskLists[-1].pos + 1024
-  //   } else {
-  //     sortedTaskLists[dragIndex].pos = (sortedTaskLists[hoverIndex - 1].pos + sortedTaskLists[hoverIndex].pos) / 2
-  //   }
-  //   console.log(sortedTaskLists[dragIndex].pos, sortedTaskLists[dragIndex])
-  // }
+      ], }))
+  },
+  [])
 
   const onTaskDrop = {}
+
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -75,7 +61,7 @@ export default function BoardView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList, onTaskDrop]} >
+              dndFun={[moveList]} >
               {taskList.tasks.map((taskListElement, taskIndex) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}

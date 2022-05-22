@@ -53,7 +53,7 @@ function TaskList(props) {
   const [moveList] = props.dndFun
 
 
-  const [{ handlerId }, drop] = useDrop(() => ({
+  const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.TASKLIST,
     collect(monitor) {
       return {
@@ -69,23 +69,24 @@ function TaskList(props) {
       if (dragIndex === hoverIndex) return
 
 
-      const hoveredRect = ref.current.getBoundingClientRect()
-      const hoverMiddleX = (hoveredRect.left - hoveredRect.right) / 2
+      const hoveredRect = ref.current?.getBoundingClientRect()
+      const hoverMiddleX = (hoveredRect.right - hoveredRect.left) / 2
       const mousePosition = monitor.getClientOffset()
-      const hoverClientX = mousePosition.x - hoveredRect.right
+      const hoverClientX = mousePosition.x - hoveredRect.left
 
-      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return
 
-      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return
+      if (dragIndex < hoverIndex && hoverClientX > hoverMiddleX) return
+
+      if (dragIndex > hoverIndex && hoverClientX < hoverMiddleX) return
 
       moveList(dragIndex, hoverIndex)
       // changeListPos(dragIndex, hoverIndex)
       item.index = hoverIndex
       console.log('list moved', item)
     }
-  }))
+  })
 
-  const [{ isDragging }, drag] = useDrag(() => ({
+  const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.TASKLIST,
     item: {
       id: props.id,
@@ -95,7 +96,7 @@ function TaskList(props) {
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     })
-  }))
+  })
 
   drag(drop(ref))
 
