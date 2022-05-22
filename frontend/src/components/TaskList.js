@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {
   List,
   ListItem,
@@ -8,7 +8,6 @@ import {
   IconButton,
   Button,
   Skeleton,
-  Toolbar,
   Card,
   InputBase
 } from '@mui/material'
@@ -18,9 +17,13 @@ import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import apiClient from '../api/apiClient'
 
+import { useDrag, useDrop } from 'react-dnd'
+import { ItemTypes } from '../constants/draggableItems'
 import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
+import { addAlert } from '../redux/slices/appAlertSlice'
+import { useDispatch } from 'react-redux'
 
 function TaskListSkeleton() {
   return (
@@ -52,12 +55,66 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
+  const ref = useRef(null)
+  const [moveList] = props.dndFun
+
+
+  const [{ handlerId }, drop] = useDrop({
+    accept: ItemTypes.TASKLIST,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    hover(item, monitor)  {
+      if (!ref.current) return
+
+      const dragIndex = item.index
+      const hoverIndex = props.index
+
+      if (dragIndex === hoverIndex) return
+
+
+      const hoveredRect = ref.current?.getBoundingClientRect()
+      const hoverMiddleX = (hoveredRect.right - hoveredRect.left) / 2
+      const mousePosition = monitor.getClientOffset()
+      const hoverClientX = mousePosition.x - hoveredRect.left
+
+
+      if (dragIndex < hoverIndex && hoverClientX > hoverMiddleX) return
+
+      if (dragIndex > hoverIndex && hoverClientX < hoverMiddleX) return
+
+      moveList(dragIndex, hoverIndex)
+      // changeListPos(dragIndex, hoverIndex)
+      item.index = hoverIndex
+    }
+  })
+
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.TASKLIST,
+    item: {
+      id: props.id,
+      name: props.title,
+      index: props.index
+    },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  })
+
+  drag(drop(ref))
+
   const [visible, setVisible] = React.useState(true)
+  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
+  const dispatch = useDispatch()
+
+  const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
   const handleNewTaskClick = () => {
-    setVisible(!visible)
+    toggleNewTaskButton()
     setTimeout(() => {
       if (!listRef.current || !newTaskInputRef.current) return
 
@@ -78,9 +135,11 @@ function TaskList(props) {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
+        dispatch(addAlert({ severity: 'success', message: 'Udało się dodać zadanie!' }))
       })
       .catch((error) => {
         // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
       })
   }
 
@@ -92,15 +151,14 @@ function TaskList(props) {
       break
     case 'Escape':
       e.preventDefault()
-      setVisible(!visible)
+      toggleNewTaskButton()
       break
     }
   }
 
   return (
     <Box className='TaskList-wrapper'>
-      <Toolbar />
-      <Paper className='TaskList-paper'
+      <Paper className='TaskList-paper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List ref={listRef} className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
@@ -116,22 +174,26 @@ function TaskList(props) {
               {item}
             </ListItem>
           ))}
-          <Card style={{ display: visible && 'none' }} className='TaskList-new-task'>
-            <InputBase
-              ref={newTaskInputRef}
-              className='TaskList-new-task-input'
-              fullWidth
-              multiline
-              placeholder='Task Label'
-              onKeyDown={newTaskNameInputOnKey}
-            />
-            <IconButton className='TaskList-new-task-cancel' onClick={() => setVisible(!visible)}>
-              <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
-            </IconButton>
-          </Card>
+          { !newTaskButtonVisible &&
+            <Card // style={{ display: visible && 'none' }}
+              className='TaskList-new-task'>
+              <InputBase
+                ref={newTaskInputRef}
+                className='TaskList-new-task-input'
+                fullWidth
+                multiline
+                placeholder='Task Label'
+                onKeyDown={(e) => newTaskNameInputOnKey(e)}
+                // onBlur={(e) => toggleNewTaskButton()}
+              />
+              <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
+              </IconButton>
+            </Card>
+          }
         </List>
         <Box className='TaskList-new-task-wrapper'>
-          {visible &&
+          {newTaskButtonVisible &&
             <Button onClick={handleNewTaskClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
@@ -144,9 +206,12 @@ function TaskList(props) {
 
 
 TaskList.propTypes = {
-  title: PropTypes.string.isRequired,
   children: PropTypes.array.isRequired,
+  dndFun: PropTypes.array.isRequired,
+  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
+  title: PropTypes.string.isRequired,
 }
 
 export default TaskList
