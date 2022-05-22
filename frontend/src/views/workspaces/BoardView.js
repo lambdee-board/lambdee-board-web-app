@@ -1,6 +1,7 @@
 import './BoardView.sass'
 import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
+import { useParams } from 'react-router-dom'
 
 import useTaskLists from '../../api/useTaskLists'
 import React, { useCallback, useEffect, useState } from 'react'
@@ -25,8 +26,9 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
+  const { workspaceId, boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: taskLists, isLoading, isError } = useTaskLists(1, 'visible')
+  const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
 
   useEffect(() => {
     if ((isLoading || isError) !== true) {

@@ -141,18 +141,42 @@ end
 # %%<RailsAnnotateSolargraph:Start:boards>%%
 
 class DB::Board < ApplicationRecord
-  # Scope `:find_with_preloaded_tasks`.
+  # Scope `:include_tasks`.
   #
-  #     scope :find_with_preloaded_tasks, (lambda do |id|
+  #     scope :include_tasks, -> { includes(lists: { tasks: :users }) }
   #
   # @return [Array<DB::Board>, nil]
-  def self.find_with_preloaded_tasks(id); end
+  def self.include_tasks(); end
+  # Scope `:with_archived_tasks`.
+  #
+  #     scope :with_archived_tasks, -> { include_tasks.where(lists: { deleted: true }) }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.with_archived_tasks(); end
+  # Scope `:with_visible_tasks`.
+  #
+  #     scope :with_visible_tasks, -> { include_tasks.where(lists: { deleted: false }) }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.with_visible_tasks(); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def archived_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def archived_lists; end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
   def lists=(val); end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @return [Array<DB::List>, nil]
   def lists; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def visible_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def visible_lists; end
   # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
   # @param val [DB::Workspace, nil]
   def workspace=(val); end
@@ -189,6 +213,12 @@ class DB::Board < ApplicationRecord
   # Database column `boards.workspace_id`, type: `integer`.
   # @return [Integer, nil]
   def workspace_id; end
+  # Database column `boards.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `boards.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
 end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
@@ -196,12 +226,18 @@ end
 # %%<RailsAnnotateSolargraph:Start:lists>%%
 
 class DB::List < ApplicationRecord
-  # Scope `:not_archived`.
+  # Scope `:archived`.
   #
-  #     scope :not_archived, -> { where(deleted: false) }
+  #     scope :archived, -> { where(deleted: true) }
   #
   # @return [Array<DB::List>, nil]
-  def self.not_archived(); end
+  def self.archived(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.visible(); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -329,6 +365,18 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.author_id`, type: `integer`.
   # @return [Integer, nil]
   def author_id; end
+  # Database column `tasks.priority`, type: `integer`.
+  # @param val [Integer, nil]
+  def priority=(val); end
+  # Database column `tasks.priority`, type: `integer`.
+  # @return [Integer, nil]
+  def priority; end
+  # Database column `tasks.points`, type: `integer`.
+  # @param val [Integer, nil]
+  def points=(val); end
+  # Database column `tasks.points`, type: `integer`.
+  # @return [Integer, nil]
+  def points; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 
