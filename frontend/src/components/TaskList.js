@@ -59,7 +59,6 @@ function TaskList(props) {
   const dndPreviewRef = useRef(null)
   const [moveList, updateListPos] = props.dndFun
 
-  const [visible, setVisible] = React.useState(true)
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
