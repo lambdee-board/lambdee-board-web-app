@@ -81,9 +81,9 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const [open, setOpen] = React.useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
+  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
+  const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
+  const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
   const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
   const dndRef = useRef(null)
@@ -205,7 +205,7 @@ function TaskList(props) {
             </IconButton>
           </ListSubheader>} >
           {taskList ? taskList?.tasks?.map((task, index) => (
-            <ListItem onClick={handleOpen} className='TaskList-item' key={index} >
+            <ListItem onClick={handleOpenTaskCardModal} className='TaskList-item' key={index} >
               <TaskCard key={task.id}
                 taskLabel={task.name}
                 taskTags={task.tags}
@@ -218,8 +218,8 @@ function TaskList(props) {
             <TaskListSkeletonContent />
           )}
           <Modal
-            open={open}
-            onClose={handleClose}
+            open={openTaskCardModal}
+            onClose={handleCloseTaskCardModal}
           >
             <Box sx={style}>
               <TaskCardModal />
