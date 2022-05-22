@@ -235,7 +235,7 @@ function TaskList(props) {
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
-                onBlur={(e) => toggleNewTaskButton()}
+                // onBlur={(e) => toggleNewTaskButton()}
               />
               <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />

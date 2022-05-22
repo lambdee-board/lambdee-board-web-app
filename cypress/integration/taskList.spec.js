@@ -10,50 +10,71 @@ describe('TaskList', () => {
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
   })
-  context('TaskList', () => {
+
+  context('Add new Task', () => {
     // tests for displaying tasklist properly
-    // should be performed before this
+  // should be performed before this
     it('switches between add task button and add task input field', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
       cy.get('.TaskList-new-task').should('exist')
       cy.get('.TaskList-new-task-cancel').should('exist').click({ multiple: true })
       cy.get('.TaskList-new-task-cancel').should('not.exist')
-      cy.get('.TaskList-new-task-button').should('exist').click({ multiple: true })
-      cy.get('.TaskList-new-task-button').should('not.exist')
     })
-    it('inputs string into add task input field', () => {
+
+    it('inputs string into add task input field and cancels', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
-      cy.get('.css-rhrbtd-MuiInputBase-input').should('exist').first()
+      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('Cypress New Task')
+      cy.get('body').type('{esc}')
+      cy.get('.TaskList-new-task-button').should('exist')
     })
 
-    it('can drag list between to the middle', () => {
-      cy.get('.TaskList-header-text').should('exist')
-
-      cy.get('.TaskList-header').eq(0).trigger('dragstart')
-      cy.get('.TaskList-header').eq(2).trigger('dragenter', 'right')
-      cy.get('.TaskList-header').eq(2).trigger('drop')
-
-      cy.get('.TaskList-header-text').eq(2).contains('Backlog')
+    it('adds a new task', () => {
+      cy.get('.TaskList-new-task-button').should('exist')
+        .click({ multiple: true })
+      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
+        .click()
+        .type('New Test Task{enter}')
+      cy.get('.TaskCard').contains('New Test Task')
     })
-    it('can drag list from the middle to first position', () => {
+  })
+
+  context('Drag and Drop', () => {
+    it('can drag Backlog list to the middle', () => {
       cy.get('.TaskList-header-text').should('exist')
 
-      cy.get('.TaskList-header').eq(2).trigger('dragstart')
-      cy.get('.TaskList-header').eq(0).trigger('dragenter', 'left')
-      cy.get('.TaskList-header').eq(0).trigger('drop')
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
+      cy.get('.TaskList-header').eq(3)
+        .trigger('dragenter', 'left')
+        .trigger('drop', 'right')
+
+      cy.contains('Backlog')
     })
-    it('can drag list from the middle to last position', () => {
+
+    it('can drag Backlog list to second position', () => {
       cy.get('.TaskList-header-text').should('exist')
 
-      cy.get('.TaskList-header').eq(0).trigger('dragstart')
-      cy.get('.TaskList-header').eq(-1).trigger('dragenter', 'right')
-      cy.get('.TaskList-header').eq(-1).trigger('drop')
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
+      cy.get('.TaskList-header').eq(0)
+        .trigger('dragenter', 'right')
+        .trigger('drop')
 
-      cy.get('.TaskList-header-text').eq(-1).contains('Backlog')
+      cy.contains('Backlog')
+    })
+
+    it('can drag Backlog list to last position', () => {
+      cy.viewport(1800, 880)
+      cy.get('.TaskList-header-text').should('exist')
+
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
+      cy.get('.TaskList-header').eq(-1)
+        .trigger('dragenter', 'left')
+        .trigger('drop')
+
+      cy.contains('Backlog')
     })
   })
 })
