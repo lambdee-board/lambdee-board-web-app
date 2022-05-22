@@ -19,11 +19,28 @@ import apiClient from '../api/apiClient'
 
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
-import { TaskCardSkeleton } from './TaskCard'
+import { TaskCardSkeleton, TaskCard } from './TaskCard'
+import useList from '../api/useList'
 
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+
+function TaskListSkeletonContent() {
+  return (
+    <>
+      <ListItem className='TaskList-item' >
+        <TaskCardSkeleton />
+      </ListItem>
+      <ListItem className='TaskList-item' >
+        <TaskCardSkeleton />
+      </ListItem>
+      <ListItem className='TaskList-item' >
+        <TaskCardSkeleton />
+      </ListItem>
+    </>
+  )
+}
 
 function TaskListSkeleton() {
   return (
@@ -36,15 +53,7 @@ function TaskListSkeleton() {
             <Skeleton height={36} width={200} variant='text' />
             <Skeleton height={36} width={36} variant='circular' />
           </ListSubheader>} >
-          <ListItem className='TaskList-item' >
-            <TaskCardSkeleton />
-          </ListItem>
-          <ListItem className='TaskList-item' >
-            <TaskCardSkeleton />
-          </ListItem>
-          <ListItem className='TaskList-item' >
-            <TaskCardSkeleton />
-          </ListItem>
+          <TaskListSkeletonContent />
         </List>
         <Box className='TaskList-new-task-wrapper' sx={{ display: 'flex' }}>
           <Skeleton height={36} width={70} variant='text' sx={{ ml: 2, mb: 1 }} />
@@ -55,9 +64,16 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const ref = useRef(null)
-  const [moveList] = props.dndFun
+  const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
+  const dndRef = useRef(null)
+  const dndPreviewRef = useRef(null)
+  const [moveList, updateListPos] = props.dndFun
+
+  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
+  const listRef = React.useRef()
+  const newTaskInputRef = React.useRef()
+  const dispatch = useDispatch()
 
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.TASKLIST,
@@ -66,8 +82,11 @@ function TaskList(props) {
         handlerId: monitor.getHandlerId(),
       }
     },
+    drop(item, monitor) {
+      updateListPos(item.index, props.index)
+    },
     hover(item, monitor)  {
-      if (!ref.current) return
+      if (!dndRef.current) return
 
       const dragIndex = item.index
       const hoverIndex = props.index
@@ -75,7 +94,7 @@ function TaskList(props) {
       if (dragIndex === hoverIndex) return
 
 
-      const hoveredRect = ref.current?.getBoundingClientRect()
+      const hoveredRect = dndRef.current?.getBoundingClientRect()
       const hoverMiddleX = (hoveredRect.right - hoveredRect.left) / 2
       const mousePosition = monitor.getClientOffset()
       const hoverClientX = mousePosition.x - hoveredRect.left
@@ -86,12 +105,12 @@ function TaskList(props) {
       if (dragIndex > hoverIndex && hoverClientX < hoverMiddleX) return
 
       moveList(dragIndex, hoverIndex)
-      // changeListPos(dragIndex, hoverIndex)
+
       item.index = hoverIndex
     }
   })
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, dragPreview] = useDrag({
     type: ItemTypes.TASKLIST,
     item: {
       id: props.id,
@@ -103,13 +122,8 @@ function TaskList(props) {
     })
   })
 
-  drag(drop(ref))
-
-  const [visible, setVisible] = React.useState(true)
-  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
-  const listRef = React.useRef()
-  const newTaskInputRef = React.useRef()
-  const dispatch = useDispatch()
+  drag(drop(dndRef))
+  dragPreview(dndPreviewRef)
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
@@ -118,8 +132,8 @@ function TaskList(props) {
     setTimeout(() => {
       if (!listRef.current || !newTaskInputRef.current) return
 
-      const taskList = listRef.current
-      taskList.scrollTop = taskList.scrollHeight + 200
+      const currentList = listRef.current
+      currentList.scrollTop = currentList.scrollHeight + 200
       const nameInput = newTaskInputRef.current.children[0]
       nameInput.focus()
     }, 25)
@@ -129,17 +143,18 @@ function TaskList(props) {
     const nameInput = newTaskInputRef.current.children[0]
     const newTask = {
       name: nameInput.value,
-      listId: 1, // TODO: these values should be fetched
-      authorId: 1,
+      listId: props.id,
+      authorId: 1, // TODO: these values should be fetched
     }
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
-        dispatch(addAlert({ severity: 'success', message: 'Udało się dodać zadanie!' }))
+        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] })
+        toggleNewTaskButton()
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
 
@@ -158,10 +173,10 @@ function TaskList(props) {
 
   return (
     <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
+      <Paper className='TaskList-paper' ref={dndPreviewRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List ref={listRef} className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
+          subheader={<ListSubheader ref={dndRef} className='TaskList-header' >
             <Typography className='TaskList-header-text' >
               {props.title}
             </Typography>
@@ -169,13 +184,21 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {props.children.map((item, index) => (
+          {taskList ? taskList?.tasks?.map((task, index) => (
             <ListItem className='TaskList-item' key={index} >
-              {item}
+              <TaskCard key={task.id}
+                taskLabel={task.name}
+                taskTags={task.tags}
+                taskPriority={task.priority}
+                assignedUsers={task.users}
+                taskPoints={task.points}
+              />
             </ListItem>
-          ))}
+          )) : (
+            <TaskListSkeletonContent />
+          )}
           { !newTaskButtonVisible &&
-            <Card // style={{ display: visible && 'none' }}
+            <Card
               className='TaskList-new-task'>
               <InputBase
                 ref={newTaskInputRef}
@@ -184,7 +207,7 @@ function TaskList(props) {
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
-                // onBlur={(e) => toggleNewTaskButton()}
+                onBlur={(e) => toggleNewTaskButton()}
               />
               <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
@@ -204,9 +227,7 @@ function TaskList(props) {
   )
 }
 
-
 TaskList.propTypes = {
-  children: PropTypes.array.isRequired,
   dndFun: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,

@@ -1,12 +1,14 @@
 import './BoardView.sass'
-import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 import { useParams } from 'react-router-dom'
 
-import useTaskLists from '../../api/useTaskLists'
+import useBoard from '../../api/useBoard'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import update from 'immutability-helper'
+import apiClient from '../../api/apiClient'
+import { useDispatch } from 'react-redux'
+import { addAlert } from '../../redux/slices/appAlertSlice'
 
 
 function BoardViewSkeleton() {
@@ -14,7 +16,7 @@ function BoardViewSkeleton() {
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper'>
-          {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((index) => (
+          {[0, 1, 2].map((index) => (
             <TaskListSkeleton key={index} />
           ))}
           <div className='TaskLists-spacer'></div>
@@ -26,42 +28,53 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
-  const { workspaceId, boardId } = useParams()
+  const { boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
+  const { data: board, isLoading, isError } = useBoard(boardId, { params: { lists: 'visible' } })
+  const dispatch = useDispatch()
 
   useEffect(() => {
     if ((isLoading || isError) !== true) {
-      const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      const sortedList = [...board.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
       setNewTaskListOrder([...sortedList])
     }
-  }, [isLoading, isError, taskLists])
+  }, [isLoading, isError, board])
 
 
   const updateListPos = useCallback((dragIndex, hoverIndex) => {
-    const updatedList = [...sortedTaskLists]
+    const updatedTaskLists = [...sortedTaskLists]
     if (hoverIndex === 0) {
-      updatedList[dragIndex].pos = sortedTaskLists[0].pos / 2
+      updatedTaskLists[dragIndex].pos = sortedTaskLists[0].pos / 2
     } else if (hoverIndex === sortedTaskLists.length - 1) {
-      updatedList[dragIndex].pos = sortedTaskLists.at(-1).pos + 1024
+      updatedTaskLists[dragIndex].pos = sortedTaskLists.at(-1).pos + 1024
     } else {
-      updatedList[dragIndex].pos = (sortedTaskLists[hoverIndex].pos + sortedTaskLists[hoverIndex + 1].pos) / 2
+      updatedTaskLists[dragIndex].pos = (sortedTaskLists[hoverIndex].pos + sortedTaskLists[hoverIndex + 1].pos) / 2
     }
-    setNewTaskListOrder([...updatedList])
-  }, [sortedTaskLists])
+    setNewTaskListOrder([...updatedTaskLists])
+
+    const listId = updatedTaskLists[dragIndex].id
+    const newPos = updatedTaskLists[dragIndex].pos
+
+    const updatedList = {
+      id: listId,
+      pos: newPos,
+    }
+    apiClient.put(`/api/lists/${listId}`, updatedList)
+      .then((response) => {})
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }, [dispatch, sortedTaskLists])
 
   const moveList = useCallback((dragIndex, hoverIndex) => {
-    updateListPos(dragIndex, hoverIndex)
     setNewTaskListOrder((prevState) => update(prevState,
       { $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, prevState[dragIndex]],
       ], }))
   },
-  [sortedTaskLists])
-
-  const onTaskDrop = {}
-
+  [])
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
@@ -70,22 +83,13 @@ export default function BoardView() {
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper' >
           {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskList key={taskList.name}
+            <TaskList key={`${taskList.name}-${taskList.id}`}
               title={taskList.name}
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList]} >
-              {taskList.tasks.map((taskListElement, taskIndex) => (
-                <TaskCard key = {taskListElement.name}
-                  taskLabel = {taskListElement.name}
-                  taskTags={taskListElement.tags}
-                  taskPriority={taskListElement.priority}
-                  assignedUsers={taskListElement.users}
-                  taskPoints={taskListElement.points}
-                />
-              ))}
-            </TaskList>))}
+              dndFun={[moveList, updateListPos]} />
+          ))}
           <div className='TaskLists-spacer'></div>
         </div>
       </div>

@@ -1,6 +1,6 @@
 import { ThemeProvider } from '@mui/material'
 import { Provider } from 'react-redux'
-import { Outlet, Link } from 'react-router-dom'
+import { Outlet } from 'react-router-dom'
 import { DndProvider } from 'react-dnd'
 import { HTML5Backend } from 'react-dnd-html5-backend'
 

@@ -9,6 +9,7 @@ module Archivable
   end
 
   # Set `deleted: true` and save record with no validation.
+  #
   # @return [Boolean]
   def archive!
     self.deleted = true
@@ -16,9 +17,15 @@ module Archivable
   end
 
   # Check if param `deleted: false`
+  #
   # @return [Boolean]
   def archived?
     deleted
+  end
+
+  # @return [Boolean]
+  def visible?
+    !archived?
   end
 
   alias archived archived?

@@ -15,18 +15,16 @@ class API::BoardsController < ::APIController
   # GET /api/boards/1
   # GET /api/boards/1.json
   def show
-    case params[:tasks].to_s
-    when 'visible'
-      @board = ::DB::Board.find_with_visible_tasks(params[:id])
-    when 'all'
-      @board = ::DB::Board.find_with_all_tasks(params[:id])
-    when 'archived'
-      @board = ::DB::Board.find_with_archived_tasks(params[:id])
+    if params[:tasks]
+      set_board_with_tasks
+    elsif params[:lists]
+      set_board_with_lists
     else
-      return set_board
+      set_board
     end
 
-    render :show_with_tasks
+    return render :show_with_tasks if @with_tasks
+    return render :show_with_lists if @with_lists
   end
 
   # POST /api/boards
@@ -54,12 +52,50 @@ class API::BoardsController < ::APIController
 
   private
 
+  # @return [void]
+  def set_board_with_lists
+    @with_lists = true
+
+    case params[:lists].to_s
+    when 'visible'
+      @board = ::DB::Board.find_with_visible_lists(params[:id])
+    when 'all'
+      @board = ::DB::Board.find_with_all_lists(params[:id])
+    when 'archived'
+      @board = ::DB::Board.find_with_archived_lists(params[:id])
+    else
+      @with_lists = false
+      set_board
+    end
+  end
+
+  # @return [void]
+  def set_board_with_tasks
+    @with_tasks = true
+
+    case params[:tasks].to_s
+    when 'visible'
+      @board = ::DB::Board.find_with_visible_tasks(params[:id])
+    when 'all'
+      @board = ::DB::Board.find_with_all_tasks(params[:id])
+    when 'archived'
+      @board = ::DB::Board.find_with_archived_tasks(params[:id])
+    else
+      @with_tasks = false
+      set_board
+    end
+  end
+
   # Use callbacks to share common setup or constraints between actions.
+  #
+  # @return [DB::Board]
   def set_board
     @board = ::DB::Board.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
+  #
+  # @return [Hash{Symbol => Object}]
   def board_params
     params.require(:board).permit(:name, :colour, :workspace_id)
   end
