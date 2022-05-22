@@ -10,27 +10,39 @@ describe('TaskList', () => {
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
   })
-  context('TaskList', () => {
+
+  context('Add new Task', () => {
     // tests for displaying tasklist properly
-    // should be performed before this
+  // should be performed before this
     it('switches between add task button and add task input field', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
       cy.get('.TaskList-new-task').should('exist')
       cy.get('.TaskList-new-task-cancel').should('exist').click({ multiple: true })
       cy.get('.TaskList-new-task-cancel').should('not.exist')
-      cy.get('.TaskList-new-task-button').should('exist').click({ multiple: true })
-      cy.get('.TaskList-new-task-button').should('not.exist')
     })
 
-    it('inputs string into add task input field', () => {
+    it('inputs string into add task input field and cancels', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
-      cy.get('.css-rhrbtd-MuiInputBase-input').should('exist').first()
+      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('Cypress New Task')
+      cy.get('body').type('{esc}')
+      cy.get('.TaskList-new-task-button').should('exist')
     })
 
+    it('adds a new task', () => {
+      cy.get('.TaskList-new-task-button').should('exist')
+        .click({ multiple: true })
+      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
+        .click()
+        .type('New Test Task{enter}')
+      cy.get('.TaskCard').contains('New Test Task')
+    })
+  })
+
+  context('Drag and Drop', () => {
     it('can drag Backlog list to the middle', () => {
       cy.get('.TaskList-header-text').should('exist')
 
