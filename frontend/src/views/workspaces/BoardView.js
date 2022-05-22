@@ -75,7 +75,7 @@ export default function BoardView() {
         [hoverIndex, 0, prevState[dragIndex]],
       ], }))
   },
-  [updateListPos])
+  [])
 
 
   if (isLoading || isError) return (<BoardViewSkeleton />)
