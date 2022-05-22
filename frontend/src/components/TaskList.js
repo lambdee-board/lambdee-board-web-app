@@ -86,7 +86,7 @@ function TaskList(props) {
       if (dragIndex > hoverIndex && hoverClientX < hoverMiddleX) return
 
       moveList(dragIndex, hoverIndex)
-      // changeListPos(dragIndex, hoverIndex)
+
       item.index = hoverIndex
     }
   })
