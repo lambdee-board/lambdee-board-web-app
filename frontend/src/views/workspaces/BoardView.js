@@ -33,7 +33,6 @@ export default function BoardView() {
   useEffect(() => {
     if ((isLoading || isError) !== true) {
       const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-      console.log('useEffect sorting', sortedList)
       setNewTaskListOrder([...sortedList])
     }
   }, [isLoading, isError])
@@ -58,7 +57,6 @@ export default function BoardView() {
         [dragIndex, 1],
         [hoverIndex, 0, prevState[dragIndex]],
       ], }))
-    console.log(sortedTaskLists)
   },
   [sortedTaskLists])
 
