@@ -105,7 +105,6 @@ function TaskList(props) {
 
   drag(drop(ref))
 
-  const [visible, setVisible] = React.useState(true)
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
@@ -129,8 +128,8 @@ function TaskList(props) {
     const nameInput = newTaskInputRef.current.children[0]
     const newTask = {
       name: nameInput.value,
-      listId: 1, // TODO: these values should be fetched
-      authorId: 1,
+      listId: props.id,
+      authorId: 1, // TODO: these values should be fetched
     }
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
@@ -175,7 +174,7 @@ function TaskList(props) {
             </ListItem>
           ))}
           { !newTaskButtonVisible &&
-            <Card // style={{ display: visible && 'none' }}
+            <Card
               className='TaskList-new-task'>
               <InputBase
                 ref={newTaskInputRef}
@@ -184,7 +183,7 @@ function TaskList(props) {
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
-                // onBlur={(e) => toggleNewTaskButton()}
+                onBlur={(e) => toggleNewTaskButton()}
               />
               <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />

@@ -41,11 +41,12 @@ const apiClient = applyCaseMiddleware(axiosClient, {
 const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
 
 const useAPI = (url, axiosOptions = {}, fetch = true) => {
-  const { data, error } = useSWR(fetch ? [url, axiosOptions] : null, fetcher)
+  const { data, error, mutate } = useSWR(fetch ? [url, axiosOptions] : null, fetcher)
 
   return {
     data,
     error,
+    mutate,
     isLoading: !error && !data,
     isError: Boolean(error),
   }
