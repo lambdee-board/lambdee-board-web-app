@@ -64,7 +64,7 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const { data: taskList, isLoading, isError } = useList(props.id, { params: { tasks: 'all' } })
+  const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
   const dndRef = useRef(null)
   const dndPreviewRef = useRef(null)
@@ -149,11 +149,12 @@ function TaskList(props) {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
-        dispatch(addAlert({ severity: 'success', message: 'Udało się dodać zadanie!' }))
+        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] })
+        toggleNewTaskButton()
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
 
