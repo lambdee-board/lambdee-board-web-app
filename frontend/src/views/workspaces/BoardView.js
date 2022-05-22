@@ -35,7 +35,7 @@ export default function BoardView() {
       const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
       setNewTaskListOrder([...sortedList])
     }
-  }, [isLoading, isError])
+  }, [isLoading, isError, taskLists])
 
 
   const updateListPos = useCallback((dragIndex, hoverIndex) => {
