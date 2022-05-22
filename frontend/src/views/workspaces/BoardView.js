@@ -85,7 +85,7 @@ export default function BoardView() {
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper' >
           {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskList key={taskList.name}
+            <TaskList key={`${taskList.name}-${taskList.id}`}
               title={taskList.name}
               pos={taskList.pos}
               id={taskList.id}
