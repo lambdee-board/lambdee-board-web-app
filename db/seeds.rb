@@ -14,7 +14,7 @@ def create_board(workspace)
     board.lists << list = ::FactoryBot.create(:list)
     rand(5).times do
       list.tasks << task = ::FactoryBot.create(:task)
-      rand(4).times { task.users << ::FactoryBot.create(:user) }
+      rand(4).times { task.users << ::DB::User.order("RANDOM()").first }
     end
   end
 

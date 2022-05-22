@@ -19,8 +19,7 @@ import apiClient from '../api/apiClient'
 
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
-import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useList from '../api/useList'
+import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
@@ -111,10 +110,6 @@ function TaskList(props) {
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
 
-  const { data: taskList, isLoading, isError } = useList(props.id, { params: { tasks: 'all' } })
-
-  if (isLoading || isError) return (<TaskListSkeleton />)
-
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
   const handleNewTaskClick = () => {
@@ -122,8 +117,8 @@ function TaskList(props) {
     setTimeout(() => {
       if (!listRef.current || !newTaskInputRef.current) return
 
-      const currentList = listRef.current
-      currentList.scrollTop = currentList.scrollHeight + 200
+      const taskList = listRef.current
+      taskList.scrollTop = taskList.scrollHeight + 200
       const nameInput = newTaskInputRef.current.children[0]
       nameInput.focus()
     }, 25)
@@ -173,15 +168,9 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList.tasks?.map((task, index) => (
+          {props.children.map((item, index) => (
             <ListItem className='TaskList-item' key={index} >
-              <TaskCard key={task.id}
-                taskLabel={task.name}
-                taskTags={task.tags}
-                taskPriority={task.priority}
-                assignedUsers={task.users}
-                taskPoints={task.points}
-              />
+              {item}
             </ListItem>
           ))}
           { !newTaskButtonVisible &&
@@ -214,7 +203,9 @@ function TaskList(props) {
   )
 }
 
+
 TaskList.propTypes = {
+  children: PropTypes.array.isRequired,
   dndFun: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
