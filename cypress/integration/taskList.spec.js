@@ -22,6 +22,7 @@ describe('TaskList', () => {
       cy.get('.TaskList-new-task-button').should('exist').click({ multiple: true })
       cy.get('.TaskList-new-task-button').should('not.exist')
     })
+
     it('inputs string into add task input field', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
@@ -34,32 +35,34 @@ describe('TaskList', () => {
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
-      cy.get('.TaskList-header').eq(2)
-        .trigger('dragenter', 'right')
+      cy.get('.TaskList-header').eq(3)
+        .trigger('dragenter', 'left')
         .trigger('drop', 'right')
 
-      cy.get('.TaskList-header-text').eq(2).contains('Backlog')
+      cy.get('.TaskList-header-text').eq(3).contains('Backlog')
     })
-    it('can drag Backlog list to first position', () => {
+
+    it('can drag Backlog list to second position', () => {
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
       cy.get('.TaskList-header').eq(0)
-        .trigger('dragenter', 'left')
-        .trigger('drop', 'left')
+        .trigger('dragenter', 'right')
+        .trigger('drop')
 
-      cy.get('.TaskList-header-text').eq(0).contains('Backlog')
+      cy.get('.TaskList-header-text').eq(1).contains('Backlog')
     })
-    it('can drag Backlog list to last position', () => {
+
+    it('can drag Backlog list to second to last position', () => {
       cy.viewport(1800, 880)
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
       cy.get('.TaskList-header').eq(-1)
-        .trigger('dragenter', 'right')
-        .trigger('drop', 'right')
+        .trigger('dragenter', 'left')
+        .trigger('drop')
 
-      cy.get('.TaskList-header-text').eq(-1).contains('Backlog')
+      cy.get('.TaskList-header-text').eq(-2).contains('Backlog')
     })
   })
 })
