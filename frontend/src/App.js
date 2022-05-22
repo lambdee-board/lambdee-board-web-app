@@ -7,6 +7,7 @@ import lambdeeTheme from './lambdeeTheme'
 import store from './redux/store'
 
 import ErrorCounter from './components/ErrorCounter'
+import AppAlert from './components/AppAlert'
 import Navbar from './components/Navbar'
 
 function App() {
@@ -14,6 +15,7 @@ function App() {
     <ThemeProvider theme={lambdeeTheme}>
       <Provider store={store}>
         <div className='App'>
+          <AppAlert />
           <ErrorCounter />
           <Navbar />
           <div className='App-body'>

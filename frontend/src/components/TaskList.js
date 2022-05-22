@@ -8,7 +8,6 @@ import {
   IconButton,
   Button,
   Skeleton,
-  Toolbar,
   Card,
   InputBase
 } from '@mui/material'
@@ -21,6 +20,8 @@ import apiClient from '../api/apiClient'
 import { TaskCardSkeleton } from './TaskCard'
 
 import './TaskList.sass'
+import { addAlert } from '../redux/slices/appAlertSlice'
+import { useDispatch } from 'react-redux'
 
 function TaskListSkeleton() {
   return (
@@ -52,12 +53,15 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const [visible, setVisible] = React.useState(true)
+  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
+  const dispatch = useDispatch()
+
+  const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
   const handleNewTaskClick = () => {
-    setVisible(!visible)
+    toggleNewTaskButton()
     setTimeout(() => {
       if (!listRef.current || !newTaskInputRef.current) return
 
@@ -78,9 +82,11 @@ function TaskList(props) {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
+        dispatch(addAlert({ severity: 'success', message: 'Udało się dodać zadanie!' }))
       })
       .catch((error) => {
         // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
       })
   }
 
@@ -92,14 +98,13 @@ function TaskList(props) {
       break
     case 'Escape':
       e.preventDefault()
-      setVisible(!visible)
+      toggleNewTaskButton()
       break
     }
   }
 
   return (
     <Box className='TaskList-wrapper'>
-      <Toolbar />
       <Paper className='TaskList-paper'
         elevation={5}>
         <List ref={listRef} className='TaskList'
@@ -116,22 +121,26 @@ function TaskList(props) {
               {item}
             </ListItem>
           ))}
-          <Card style={{ display: visible && 'none' }} className='TaskList-new-task'>
-            <InputBase
-              ref={newTaskInputRef}
-              className='TaskList-new-task-input'
-              fullWidth
-              multiline
-              placeholder='Task Label'
-              onKeyDown={newTaskNameInputOnKey}
-            />
-            <IconButton className='TaskList-new-task-cancel' onClick={() => setVisible(!visible)}>
-              <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
-            </IconButton>
-          </Card>
+          { !newTaskButtonVisible &&
+            <Card // style={{ display: visible && 'none' }}
+              className='TaskList-new-task'>
+              <InputBase
+                ref={newTaskInputRef}
+                className='TaskList-new-task-input'
+                fullWidth
+                multiline
+                placeholder='Task Label'
+                onKeyDown={(e) => newTaskNameInputOnKey(e)}
+                // onBlur={(e) => toggleNewTaskButton()}
+              />
+              <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
+              </IconButton>
+            </Card>
+          }
         </List>
         <Box className='TaskList-new-task-wrapper'>
-          {visible &&
+          {newTaskButtonVisible &&
             <Button onClick={handleNewTaskClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
