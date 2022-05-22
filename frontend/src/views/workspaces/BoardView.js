@@ -1,9 +1,8 @@
 import './BoardView.sass'
-import TaskCard from './../../components/TaskCard'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
 import { useParams } from 'react-router-dom'
 
-import useTaskLists from '../../api/useTaskLists'
+import useBoard from '../../api/useBoard'
 import React, { useCallback, useEffect, useState } from 'react'
 
 import update from 'immutability-helper'
@@ -14,7 +13,7 @@ function BoardViewSkeleton() {
     <div className='BoardView'>
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper'>
-          {['Backlog', 'To Do', 'Doing', 'Code Review', 'Done'].map((index) => (
+          {[0, 1, 2].map((index) => (
             <TaskListSkeleton key={index} />
           ))}
           <div className='TaskLists-spacer'></div>
@@ -28,14 +27,14 @@ function BoardViewSkeleton() {
 export default function BoardView() {
   const { workspaceId, boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
+  const { data: board, isLoading, isError } = useBoard(boardId, { params: { lists: 'visible' } })
 
   useEffect(() => {
     if ((isLoading || isError) !== true) {
-      const sortedList = [...taskLists.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      const sortedList = [...board.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
       setNewTaskListOrder([...sortedList])
     }
-  }, [isLoading, isError, taskLists])
+  }, [isLoading, isError, board])
 
 
   const updateListPos = useCallback((dragIndex, hoverIndex) => {
@@ -62,7 +61,6 @@ export default function BoardView() {
 
   const onTaskDrop = {}
 
-
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
   return (
@@ -70,22 +68,13 @@ export default function BoardView() {
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper' >
           {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskList key={taskList.name}
+            <TaskList key={taskList.id}
               title={taskList.name}
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList]} >
-              {taskList.tasks.map((taskListElement, taskIndex) => (
-                <TaskCard key = {taskListElement.name}
-                  taskLabel = {taskListElement.name}
-                  taskTags={taskListElement.tags}
-                  taskPriority={taskListElement.priority}
-                  assignedUsers={taskListElement.users}
-                  taskPoints={taskListElement.points}
-                />
-              ))}
-            </TaskList>))}
+              dndFun={[moveList]} />
+          ))}
           <div className='TaskLists-spacer'></div>
         </div>
       </div>
