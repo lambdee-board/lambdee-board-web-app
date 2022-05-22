@@ -64,12 +64,11 @@ export default function BoardView() {
       .then((response) => {})
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }, [sortedTaskLists])
 
   const moveList = useCallback((dragIndex, hoverIndex) => {
-    updateListPos(dragIndex, hoverIndex)
     setNewTaskListOrder((prevState) => update(prevState,
       { $splice: [
         [dragIndex, 1],
@@ -93,7 +92,7 @@ export default function BoardView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList]} >
+              dndFun={[moveList, updateListPos]} >
               {taskList.tasks.map((taskListElement, taskIndex) => (
                 <TaskCard key = {taskListElement.name}
                   taskLabel = {taskListElement.name}

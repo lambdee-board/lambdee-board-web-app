@@ -55,8 +55,17 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const ref = useRef(null)
-  const [moveList] = props.dndFun
+  const dndRef = useRef(null)
+  const dndPreviewRef = useRef(null)
+  const [moveList, updateListPos] = props.dndFun
+
+  const [visible, setVisible] = React.useState(true)
+  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
+  const listRef = React.useRef()
+  const newTaskInputRef = React.useRef()
+  const dispatch = useDispatch()
+
+  const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
 
   const [{ handlerId }, drop] = useDrop({
@@ -66,8 +75,11 @@ function TaskList(props) {
         handlerId: monitor.getHandlerId(),
       }
     },
+    drop(item, monitor) {
+      updateListPos(item.index, props.index)
+    },
     hover(item, monitor)  {
-      if (!ref.current) return
+      if (!dndRef.current) return
 
       const dragIndex = item.index
       const hoverIndex = props.index
@@ -75,7 +87,7 @@ function TaskList(props) {
       if (dragIndex === hoverIndex) return
 
 
-      const hoveredRect = ref.current?.getBoundingClientRect()
+      const hoveredRect = dndRef.current?.getBoundingClientRect()
       const hoverMiddleX = (hoveredRect.right - hoveredRect.left) / 2
       const mousePosition = monitor.getClientOffset()
       const hoverClientX = mousePosition.x - hoveredRect.left
@@ -91,7 +103,7 @@ function TaskList(props) {
     }
   })
 
-  const [{ isDragging }, drag] = useDrag({
+  const [{ isDragging }, drag, dragPreview] = useDrag({
     type: ItemTypes.TASKLIST,
     item: {
       id: props.id,
@@ -103,15 +115,9 @@ function TaskList(props) {
     })
   })
 
-  drag(drop(ref))
+  drag(drop(dndRef))
+  dragPreview(dndPreviewRef)
 
-  const [visible, setVisible] = React.useState(true)
-  const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
-  const listRef = React.useRef()
-  const newTaskInputRef = React.useRef()
-  const dispatch = useDispatch()
-
-  const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
   const handleNewTaskClick = () => {
     toggleNewTaskButton()
@@ -158,10 +164,10 @@ function TaskList(props) {
 
   return (
     <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper' ref={(ref)} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
+      <Paper className='TaskList-paper' ref={dndPreviewRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List ref={listRef} className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
+          subheader={<ListSubheader ref={dndRef} className='TaskList-header' >
             <Typography className='TaskList-header-text' >
               {props.title}
             </Typography>
