@@ -33,7 +33,7 @@ describe('TaskList', () => {
     it('can drag list between to the middle', () => {
       cy.get('.TaskList-header-text').should('exist')
 
-      cy.get('.TaskList-header').eq(0).trigger('dragstart')
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
       cy.get('.TaskList-header').eq(2).trigger('dragenter', 'right')
       cy.get('.TaskList-header').eq(2).trigger('drop')
 
@@ -42,14 +42,16 @@ describe('TaskList', () => {
     it('can drag list from the middle to first position', () => {
       cy.get('.TaskList-header-text').should('exist')
 
-      cy.get('.TaskList-header').eq(2).trigger('dragstart')
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
       cy.get('.TaskList-header').eq(0).trigger('dragenter', 'left')
       cy.get('.TaskList-header').eq(0).trigger('drop')
+
+      cy.get('.TaskList-header-text').eq(0).contains('Backlog')
     })
     it('can drag list from the middle to last position', () => {
       cy.get('.TaskList-header-text').should('exist')
 
-      cy.get('.TaskList-header').eq(0).trigger('dragstart')
+      cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
       cy.get('.TaskList-header').eq(-1).trigger('dragenter', 'right')
       cy.get('.TaskList-header').eq(-1).trigger('drop')
 
