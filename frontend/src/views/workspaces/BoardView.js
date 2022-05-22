@@ -37,14 +37,28 @@ export default function BoardView() {
   }, [isLoading, isError])
 
 
+  const updateListPos = useCallback((dragIndex, hoverIndex) => {
+    const updatedList = [...sortedTaskLists]
+    if (hoverIndex === 0) {
+      updatedList[dragIndex].pos = sortedTaskLists[0].pos / 2
+    } else if (hoverIndex === sortedTaskLists.length - 1) {
+      updatedList[dragIndex].pos = sortedTaskLists.at(-1).pos + 1024
+    } else {
+      updatedList[dragIndex].pos = (sortedTaskLists[hoverIndex].pos + sortedTaskLists[hoverIndex + 1].pos) / 2
+    }
+    setNewTaskListOrder([...updatedList])
+  }, [sortedTaskLists])
+
   const moveList = useCallback((dragIndex, hoverIndex) => {
+    updateListPos(dragIndex, hoverIndex)
     setNewTaskListOrder((prevState) => update(prevState,
       { $splice: [
         [dragIndex, 1],
         [hoverIndex, 0, prevState[dragIndex]],
       ], }))
+    console.log(sortedTaskLists)
   },
-  [])
+  [sortedTaskLists])
 
   const onTaskDrop = {}
 

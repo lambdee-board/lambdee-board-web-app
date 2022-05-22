@@ -82,7 +82,6 @@ function TaskList(props) {
       moveList(dragIndex, hoverIndex)
       // changeListPos(dragIndex, hoverIndex)
       item.index = hoverIndex
-      console.log('list moved', item)
     }
   })
 
