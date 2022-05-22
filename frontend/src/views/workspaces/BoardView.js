@@ -29,7 +29,7 @@ function BoardViewSkeleton() {
 
 
 export default function BoardView() {
-  const { workspaceId, boardId } = useParams()
+  const { boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
   const { data: taskLists, isLoading, isError } = useTaskLists(boardId, 'visible')
   const dispatch = useDispatch()
@@ -66,7 +66,7 @@ export default function BoardView() {
         // failed or rejected
         dispatch(addAlert({ severity: 'error', message: 'Nie udało się dodać zadanie!' }))
       })
-  }, [sortedTaskLists])
+  }, [dispatch, sortedTaskLists])
 
   const moveList = useCallback((dragIndex, hoverIndex) => {
     updateListPos(dragIndex, hoverIndex)
@@ -76,9 +76,7 @@ export default function BoardView() {
         [hoverIndex, 0, prevState[dragIndex]],
       ], }))
   },
-  [sortedTaskLists])
-
-  const onTaskDrop = {}
+  [updateListPos])
 
 
   if (isLoading || isError) return (<BoardViewSkeleton />)

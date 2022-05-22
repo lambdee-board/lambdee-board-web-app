@@ -105,7 +105,6 @@ function TaskList(props) {
 
   drag(drop(ref))
 
-  const [visible, setVisible] = React.useState(true)
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
