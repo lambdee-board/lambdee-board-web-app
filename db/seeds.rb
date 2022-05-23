@@ -9,11 +9,11 @@
 def create_board(workspace)
   workspace.boards << board = ::FactoryBot.create(:board)
   board.lists << list = ::FactoryBot.create(:list, name: 'Backlog')
-  list.tasks << task = ::FactoryBot.create(:task, name: 'Add a login system', priority: 2, points: 3)
+  task = ::FactoryBot.create(:task, list: list, name: 'Add a login system', priority: 2, points: 3)
   5.times do |i|
     board.lists << list = ::FactoryBot.create(:list)
     rand(5).times do
-      list.tasks << task = ::FactoryBot.create(:task)
+      task = ::FactoryBot.create(:task, list: list)
       rand(4).times { task.users << ::FactoryBot.create(:user) }
     end
   end
