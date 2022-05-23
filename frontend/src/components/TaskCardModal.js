@@ -15,7 +15,7 @@ import './TaskCardModal.sass'
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useCurrentUser from '../api/useCurrentUser'
-
+import ModalComment from './taskcardmodal/ModalComment'
 
 const TaskCardModal = (props) => {
 // TODO: User id should be derived from a Cookie
@@ -58,13 +58,7 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
             </IconButton>
           </Card>
-          <Card className='TaskCardModal-main-comment'>
-            <Box className='TaskCardModal-main-comment-info'>
-              <Avatar className='TaskCardModal-main-avatar'
-                alt={user.name} src={user.avatarUrl}
-              />
-            </Box>
-          </Card>
+          <ModalComment userName={user.name} userAvatar={user.avatarUrl} commentContent='aaa' commentDate='aaa' />
         </Box>
         <Box className='TaskCardModal-side'>
           asdasdas
