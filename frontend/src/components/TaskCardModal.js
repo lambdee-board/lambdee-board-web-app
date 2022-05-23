@@ -39,7 +39,7 @@ const TaskCardModal = (props) => {
             <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
           </Typography>
           <Card className='TaskCardModal-main-description'>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis, in laoreet risus consequat ut. Donec convallis et purus quis gravida. Morbi pretium, eros in dapibus malesuada, ligula sem sodales justo, sit amet aliquam tellus lorem et elit. Aenean luctus interdum orci sit amet facilisis. Aenean orci quam, gravida non luctus vitae, suscipit in erat. Nam ornare turpis id leo pretium, in mollis lacus sagittis. Nullam consequat nunc nec mauris dapibus, a vehicula sapien feugiat. Morbi sed orci eu turpis egestas pellentesque eu quis diam. Vivamus pellentesque porttitor mattis. Morbi dictum suscipit nisi, ut facilisis arcu gravida vitae.
+            <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis.</Typography>
           </Card>
           <Typography variant='h6'>
               Comments
@@ -58,7 +58,7 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
             </IconButton>
           </Card>
-          <ModalComment userName={user.name} userAvatar={user.avatarUrl} userTitle='Manager' commentContent='aaa' commentDate='aaa' />
+          <ModalComment userName={user.name} userAvatar={user.avatarUrl} userTitle='Manager' commentContent='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis.' commentDate='12/06/2017' />
         </Box>
         <Box className='TaskCardModal-side'>
           asdasdas

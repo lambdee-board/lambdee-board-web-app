@@ -1,10 +1,26 @@
 @import '../../styles/base'
 
 .ModalComment
-  min-height: 10 * $unit
+  min-height: 20 * $unit
+  display: flex
+  flex-direction: column
   .ModalComment-info
     display: flex
     flex-direction: row
-    .ModalComment-info-user
-      display: flex
-      flex-direction: columns
+    .ModalComment-info-date
+      margin-right: 2 * $unit
+      margin-left: auto
+      align-self: center
+      color: 	#696969
+  .ModalComment-content
+    padding: 3 * $unit
+  .ModalComment-footer
+    display: flex
+    flex-direction: row
+    padding: 0.5 * $unit
+    .ModalComment-footer-icon
+      padding-right: 1 * $unit
+    .ModalComment-footer-edit
+      color: #1082F3
+    .ModalComment-footer-delete
+      color: #FF0000
