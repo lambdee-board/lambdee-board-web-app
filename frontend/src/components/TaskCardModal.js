@@ -58,7 +58,7 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
             </IconButton>
           </Card>
-          <ModalComment userName={user.name} userAvatar={user.avatarUrl} commentContent='aaa' commentDate='aaa' />
+          <ModalComment userName={user.name} userAvatar={user.avatarUrl} userTitle='Manager' commentContent='aaa' commentDate='aaa' />
         </Box>
         <Box className='TaskCardModal-side'>
           asdasdas

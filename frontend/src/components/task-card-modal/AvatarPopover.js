@@ -8,6 +8,7 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import './AvatarPopover.sass'
+import UserInfo from './UserInfo'
 
 const AvatarPopover = (props) => {
   const [anchorAvatarPopover, setAnchorAvatarPopover] = React.useState(null)
@@ -47,11 +48,7 @@ const AvatarPopover = (props) => {
         onClose={handleAvatarPopoverClose}
         disableRestoreFocus
       >
-        <Stack>
-          <Typography sx={{ pt: 0.5, pl: 0.5, pr: 0.5 }}>{props.userName}</Typography>
-          <Typography sx={{ pb: 0.5, pl: 0.5, pr: 0.5 }} variant='caption'>Manager</Typography>
-        </Stack>
-
+        <UserInfo userName={props.userName} userTitle={props.userTitle} />
       </Popover>
     </Box>
   )
@@ -60,6 +57,7 @@ const AvatarPopover = (props) => {
 AvatarPopover.propTypes = {
   userName: PropTypes.string.isRequired,
   userAvatar: PropTypes.string.isRequired,
+  userTitle: PropTypes.string.isRequired
 }
 
 

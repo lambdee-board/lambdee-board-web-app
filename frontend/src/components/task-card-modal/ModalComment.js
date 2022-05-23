@@ -2,18 +2,22 @@ import * as React from 'react'
 import {
   Box,
   Card,
-  Avatar,
+  Typography,
+  Stack
 } from '@mui/material'
 import PropTypes from 'prop-types'
-
+import './ModalComment.sass'
+import AvatarPopover from './AvatarPopover'
 
 const ModalComment = (props) => {
   return (
     <Card className='ModalComment'>
       <Box className='ModalComment-info'>
-        <Avatar className='ModalComment '
-          alt={props.userName} src={props.userAvatar}
-        />
+        <AvatarPopover userName={props.userName} userAvatar={props.userAvatar} userTitle={props.userTitle} />
+        <Stack>
+          <Typography sx={{ pt: 0.5, pl: 0.5, pr: 0.5 }}>{props.userName}</Typography>
+          <Typography sx={{ pb: 0.5, pl: 0.5, pr: 0.5 }} variant='caption'>Manager</Typography>
+        </Stack>
       </Box>
     </Card>
   )
@@ -21,7 +25,10 @@ const ModalComment = (props) => {
 
 ModalComment.propTypes = {
   userName: PropTypes.string.isRequired,
-  userAvatar: PropTypes.array.isRequired,
+  userAvatar: PropTypes.string.isRequired,
+  userTitle: PropTypes.string.isRequired,
+  commentContent: PropTypes.string.isRequired,
+  commentDate: PropTypes.string.isRequired
 }
 
 
