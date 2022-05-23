@@ -15,7 +15,7 @@ import './TaskCardModal.sass'
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useCurrentUser from '../api/useCurrentUser'
-import ModalComment from './taskcardmodal/ModalComment'
+import ModalComment from './task-card-modal/ModalComment'
 
 const TaskCardModal = (props) => {
 // TODO: User id should be derived from a Cookie
