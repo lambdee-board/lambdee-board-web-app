@@ -3,11 +3,12 @@ import {
   Typography,
   Box
 } from '@mui/material'
+import './TaskCardModal.sass'
 
 
-const TaskListModal = () => {
+const TaskCardModal = () => {
   return (
-    <Box>
+    <Box className='TaskCardModal'>
       <Typography id='modal-modal-title' variant='h6' component='h2'>
         Text in a modal
       </Typography>
@@ -18,4 +19,4 @@ const TaskListModal = () => {
   )
 }
 
-export default TaskListModal
+export default TaskCardModal
