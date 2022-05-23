@@ -41,7 +41,7 @@ const TaskCard = (props) => {
   const dndRef = useRef(null)
   const [moveTaskInList, updateTaskPos] = props.dndFun
 
-  const [{ handlerId }, drop] = useDrop({
+  const [, drop] = useDrop({
     accept: ItemTypes.TASKCARD,
     collect(monitor) {
       return {
@@ -49,7 +49,7 @@ const TaskCard = (props) => {
       }
     },
     drop(item, monitor) {
-      // updateTaskPos(item.index, props.index)
+      updateTaskPos(item.index, props.index)
     },
     hover(item, monitor)  {
       if (!dndRef.current) return
@@ -71,7 +71,6 @@ const TaskCard = (props) => {
 
       moveTaskInList(dragIndex, hoverIndex, props.parentIndex)
 
-      console.log(item)
       item.index = hoverIndex
     }
   })
@@ -92,7 +91,7 @@ const TaskCard = (props) => {
 
   return (
     <div className='TaskCard'>
-      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
+      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }}>
         <Typography>
           {props.taskLabel}
         </Typography>

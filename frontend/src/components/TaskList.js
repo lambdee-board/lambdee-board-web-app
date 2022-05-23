@@ -82,7 +82,6 @@ function TaskList(props) {
     if (taskList) {
       const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
       setNewTaskOrder([...sortedTasksList])
-      console.log(sortedTasksList)
     }
   }, [taskList])
 
@@ -133,11 +132,6 @@ function TaskList(props) {
     })
   })
 
-  const updateTaskPos = () => {}
-
-  drag(drop(dndRef))
-  dragPreview(dndPreviewRef)
-
 
   const moveTaskInList = React.useCallback((dragIndex, hoverIndex, listIndex) => {
     setNewTaskOrder((prevState) => {
@@ -158,6 +152,26 @@ function TaskList(props) {
     })
   },
   [])
+
+  const updateTaskPos = useCallback((dragIndex, hoverIndex) => {
+    const taskId = sortedTasks[dragIndex].id
+    const newPos = sortedTasks[dragIndex].pos
+
+    const updatedTask = {
+      id: taskId,
+      pos: newPos,
+    }
+    apiClient.put(`/api/lists/${taskId}`, updatedTask)
+      .then((response) => {})
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }, [dispatch, sortedTasks])
+
+
+  drag(drop(dndRef))
+  dragPreview(dndPreviewRef)
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
