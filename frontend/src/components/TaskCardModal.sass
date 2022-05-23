@@ -1,8 +1,47 @@
 @import './../styles/base'
 
-.TaskCardModal
-  display: flex
-  justify-content: center
-  align-items: center
-  text-align: center
-  background-color: #FFFFFF
+.TaskCardModal-wrapper
+  .TaskCardModal-paper
+    width: 120 * $unit
+    height: 100 * $unit
+    display: flex
+    flex-direction: row
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    .TaskCardModal-main
+      width: 80 * $unit
+      padding: 4 * $unit
+      display: flex
+      flex-direction: column
+      .TaskCardModal-main-label
+        margin-bottom: 3 * $unit
+      .TaskCardModal-main-icon
+          margin-left: 1 * $unit
+          margin-bottom: 1 * $unit
+          width: 2 * $unit
+          height: 2 * $unit
+      .TaskCardModal-main-description
+        padding: 2 * $unit
+        min-height: 30 * $unit
+        margin-bottom: 3 * $unit
+      .TaskCardModal-main-avatar
+        width: 4 * $unit
+        height: 4 * $unit
+        margin: 1 * $unit
+      .TaskCardModal-main-newComment
+        display: flex
+        flex-direction: row
+        margin-bottom: 1 * $unit
+        .TaskCardModal-main-newComment-cancel
+          color: 	#DCDCDC
+          .TaskCardModal-main-newComment-cancel-icon
+            height: 2 * $unit
+            width: 2 * $unit
+      .TaskCardModal-main-comment
+        margin-bottom: 1 * $unit
+        .TaskCardModal-main-comment-info
+          display: flex
+          flex-direction: row
+          
+    .TaskCardModal-side
+      width: 40 * $unit
+      padding: 4 * $unit

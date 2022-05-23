@@ -6,11 +6,14 @@ import {
   Avatar,
   Chip,
   AvatarGroup,
-  Skeleton
+  Skeleton,
+  Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon.js'
 import './TaskCard.sass'
+import TaskCardModal from './TaskCardModal'
+
 
 const TaskCardSkeleton = () => {
   return (
@@ -35,9 +38,24 @@ const TaskCardSkeleton = () => {
 
 
 const TaskCard = (props) => {
+  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
+  const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
+  const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
   return (
     <div className='TaskCard'>
-      <Card className='.MuiCard-root'>
+      <Modal
+        open={openTaskCardModal}
+        onClose={handleCloseTaskCardModal}
+      >
+        <Box className='TaskList-Modal' sx={{  position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          outline: 0 }}>
+          <TaskCardModal taskId={props.taskId} />
+        </Box>
+      </Modal>
+      <Card onClick={handleOpenTaskCardModal} className='.MuiCard-root'>
         <Typography>
           {props.taskLabel}
         </Typography>
@@ -69,6 +87,7 @@ TaskCard.defaultProps = {
 }
 
 TaskCard.propTypes = {
+  taskId: PropTypes.number.isRequired,
   taskLabel: PropTypes.string.isRequired,
   taskPriority: PropTypes.string,
   taskTags: PropTypes.array.isRequired,

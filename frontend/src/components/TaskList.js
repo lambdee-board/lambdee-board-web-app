@@ -10,7 +10,6 @@ import {
   Skeleton,
   Card,
   InputBase,
-  Modal
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -26,7 +25,6 @@ import useList from '../api/useList'
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
-import TaskCardModal from './TaskCardModal'
 
 
 function TaskListSkeletonContent() {
@@ -67,9 +65,6 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
-  const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
-  const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
   const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
   const dndRef = useRef(null)
@@ -191,8 +186,9 @@ function TaskList(props) {
             </IconButton>
           </ListSubheader>} >
           {taskList ? taskList?.tasks?.map((task, index) => (
-            <ListItem onClick={handleOpenTaskCardModal} className='TaskList-item' key={index} >
+            <ListItem className='TaskList-item' key={index} >
               <TaskCard key={task.id}
+                taskId={task.id}
                 taskLabel={task.name}
                 taskTags={task.tags}
                 taskPriority={task.priority}
@@ -203,14 +199,6 @@ function TaskList(props) {
           )) : (
             <TaskListSkeletonContent />
           )}
-          <Modal
-            open={openTaskCardModal}
-            onClose={handleCloseTaskCardModal}
-          >
-            <Box sx={{ outline: 0 }}>
-              <TaskCardModal />
-            </Box>
-          </Modal>
           { !newTaskButtonVisible &&
             <Card
               className='TaskList-new-task'>
