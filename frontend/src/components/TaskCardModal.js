@@ -29,19 +29,19 @@ const TaskCardModal = (props) => {
       <Box className='TaskCardModal-paper'>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
-            <Typography variant='h5'>
+            <Typography variant='h6'>
               Fix login issue
               <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
             </Typography>
           </Box>
-          <Typography variant='h6'>
+          <Typography>
               Description
             <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
           </Typography>
           <Card className='TaskCardModal-main-description'>
             <Typography>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis.</Typography>
           </Card>
-          <Typography variant='h6'>
+          <Typography>
               Comments
           </Typography>
           <Card className='TaskCardModal-main-newComment'>
