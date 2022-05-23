@@ -39,10 +39,10 @@ const TaskCardSkeleton = () => {
 
 const TaskCard = (props) => {
   const dndRef = useRef(null)
-  const [moveTask, updateTaskPos] = props.dndFun
+  const [moveTaskInList, updateTaskPos] = props.dndFun
 
-  const [, drop] = useDrop({
-    accept: ItemTypes.TASK,
+  const [{ handlerId }, drop] = useDrop({
+    accept: ItemTypes.TASKCARD,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -60,23 +60,24 @@ const TaskCard = (props) => {
       if (dragIndex === hoverIndex) return
 
       const hoveredRect = dndRef.current?.getBoundingClientRect()
-      const hoverMiddleX = (hoveredRect.bottom - hoveredRect.top) / 2
+      const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2
       const mousePosition = monitor.getClientOffset()
-      const hoverClientX = mousePosition.y - hoveredRect.top
+      const hoverClientY = mousePosition.y - hoveredRect.top
 
 
-      if (dragIndex < hoverIndex && hoverClientX < hoverMiddleX) return
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return
 
-      if (dragIndex > hoverIndex && hoverClientX > hoverMiddleX) return
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return
 
-      moveTask(dragIndex, hoverIndex, props.parentIndex)
+      moveTaskInList(dragIndex, hoverIndex, props.parentIndex)
 
+      console.log(item)
       item.index = hoverIndex
     }
   })
 
-  const [{ isDragging }, drag, dragPreview] = useDrag({
-    type: ItemTypes.TASKLIST,
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.TASKCARD,
     item: {
       id: props.id,
       name: props.taskLabel,
@@ -91,7 +92,7 @@ const TaskCard = (props) => {
 
   return (
     <div className='TaskCard'>
-      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }}>
+      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
         <Typography>
           {props.taskLabel}
         </Typography>

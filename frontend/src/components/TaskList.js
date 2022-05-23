@@ -1,4 +1,4 @@
-import React, { useCallback, useRef } from 'react'
+import React, { useCallback, } from 'react'
 import update from 'immutability-helper'
 import {
   List,
@@ -67,14 +67,24 @@ function TaskListSkeleton() {
 function TaskList(props) {
   const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
-  const dndRef = useRef(null)
-  const dndPreviewRef = useRef(null)
+  const [sortedTasks, setNewTaskOrder] = React.useState([])
+  const dndRef = React.useRef(null)
+  const dndPreviewRef = React.useRef(null)
   const [moveList, updateListPos] = props.dndFun
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
+
+
+  React.useEffect(() => {
+    if (taskList) {
+      const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      setNewTaskOrder([...sortedTasksList])
+      console.log(sortedTasksList)
+    }
+  }, [taskList])
 
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.TASKLIST,
@@ -123,21 +133,32 @@ function TaskList(props) {
     })
   })
 
+  const updateTaskPos = () => {}
+
   drag(drop(dndRef))
   dragPreview(dndPreviewRef)
 
-  const setNewTaskOrder = () => {}
 
-  const moveTaskInList = useCallback((dragIndex, hoverIndex, listIndex) => {
-    setNewTaskOrder((prevState) => update(prevState,
-      { listIndex: { tasks: { $splice: [
-        [dragIndex, 1],
-        [hoverIndex, 0, prevState[dragIndex]],
-      ], } } }))
+  const moveTaskInList = React.useCallback((dragIndex, hoverIndex, listIndex) => {
+    setNewTaskOrder((prevState) => {
+      const newState = update(prevState,
+        { $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevState[dragIndex]],
+        ], })
+
+      if (hoverIndex === 0) {
+        newState[hoverIndex].pos = newState[1].pos / 2
+      } else if (hoverIndex === newState.length - 1) {
+        newState[hoverIndex].pos = newState.at(-2).pos + 1024
+      } else {
+        newState[hoverIndex].pos = (newState[hoverIndex - 1].pos + newState[hoverIndex + 1].pos) / 2
+      }
+      return newState
+    })
   },
   [])
 
-  const updateTaskPos = () => {}
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
@@ -198,7 +219,7 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList ? taskList?.tasks?.map((task, taskIndex) => (
+          {taskList ? sortedTasks.map((task, taskIndex) => (
             <ListItem className='TaskList-item' key={taskIndex} >
               <TaskCard key={task.id}
                 id={task.id}
