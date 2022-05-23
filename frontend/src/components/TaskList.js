@@ -21,7 +21,7 @@ import apiClient from '../api/apiClient'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
 import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useList from '../api/useList'
+import useList, { mutateList } from '../api/useList'
 
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
@@ -221,7 +221,7 @@ function TaskList(props) {
   }
 
   return (
-    <Box className='TaskList-wrapper'>
+    <Box onClick={() => { console.log('przeładowuje listę o ID=1'); mutateList(1, { params: { tasks: 'all' } }) }} className='TaskList-wrapper'>
       <Paper className='TaskList-paper' ref={dndPreviewRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List ref={listRef} className='TaskList'
