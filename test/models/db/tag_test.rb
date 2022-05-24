@@ -19,4 +19,15 @@ class DB::TagTest < ActiveSupport::TestCase
     assert_equal 'Colour is too long (maximum is 9 characters)', tag.errors.full_messages.first
     assert_not tag.persisted?
   end
+
+  should 'delete association with task, when tag is destroyed' do
+    tag = ::FactoryBot.create(:tag)
+    task = ::FactoryBot.create(:task)
+    task.tags << tag
+    assert_not_nil task.tags.first
+    assert_not_nil tag.tasks.first
+    tag.destroy
+    assert_nil task.tags.first
+    assert_nil tag.tasks.first
+  end
 end

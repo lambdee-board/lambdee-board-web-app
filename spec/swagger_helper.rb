@@ -66,6 +66,30 @@ end
             },
             required: %w[name email]
           },
+          tag_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              colour: { type: :string },
+              board_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              board_url: { type: :string }
+            },
+            required: %w[id board_id]
+          },
+          tag_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              colour: { type: :string },
+              board_id: { type: :integer },
+              task_id: { type: :integer },
+            },
+            required: %w[]
+          },
           task_response: {
             type: :object,
             properties: {
