@@ -12,12 +12,16 @@
       resources :users do
         get :current, on: :collection
       end
-      resources :boards
+      resources :boards do
+        resources :tags, only: %i[index create]
+      end
       resources :lists
       resources :tasks do
-        resources :tags, only: %i[index]
+        resources :tags, only: %i[index create]
+        post :attach_tag, on: :member
+        post :detach_tag, on: :member
       end
-      resources :tags
+      resources :tags, except: %i[index]
     end
   end
 

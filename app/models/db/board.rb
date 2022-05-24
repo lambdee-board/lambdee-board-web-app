@@ -7,6 +7,7 @@ class DB::Board < ::ApplicationRecord
   has_many :lists
   has_many :visible_lists, -> { visible }, class_name: 'DB::List'
   has_many :archived_lists, -> { archived }, class_name: 'DB::List'
+  has_many :tags
 
   scope :include_tasks, -> { includes(lists: { tasks: :users }) }
 

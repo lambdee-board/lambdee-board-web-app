@@ -171,6 +171,12 @@ class DB::Board < ApplicationRecord
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @return [Array<DB::List>, nil]
   def lists; end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @param val [Array<DB::Tag>, nil]
+  def tags=(val); end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @return [Array<DB::Tag>, nil]
+  def tags; end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
   def visible_lists=(val); end
@@ -305,6 +311,12 @@ class DB::Tag < ApplicationRecord
   # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
   # @return [DB::Board, nil]
   def board; end
+  #
+  # @param val [Object, nil]
+  def tasks=(val); end
+  #
+  # @return [Object, nil]
+  def tasks; end
   # Database column `tags.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -420,11 +432,11 @@ class DB::Task < ApplicationRecord
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @return [DB::List, nil]
   def list; end
-  # `has_many` relation with `DB::Tag`. Database column `tags.task_id`.
-  # @param val [Array<DB::Tag>, nil]
+  #
+  # @param val [Object, nil]
   def tags=(val); end
-  # `has_many` relation with `DB::Tag`. Database column `tags.task_id`.
-  # @return [Array<DB::Tag>, nil]
+  #
+  # @return [Object, nil]
   def tags; end
   #
   # @param val [Object, nil]

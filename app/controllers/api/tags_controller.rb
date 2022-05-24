@@ -5,42 +5,34 @@
 class API::TagsController < ::APIController
   before_action :set_tag, only: %i[show update destroy]
 
-  # GET api/tasks/:task_id/tags
+  # GET api/boards/:board_id/tags or GET api/tasks/:task_id/tags
   def index
-    set_task
-    # @tags = @task.tags
-    @tags = DB::Tag.all
+    @tags = ::DB::Task.find(params[:task_id]).tags if params[:task_id]
+    @tags = ::DB::Board.find(params[:board_id]).tags if params[:board_id]
   end
 
-  # GET /tags/1
-  # GET /tags/1.json
-  def show
-  end
+  # GET api/tags/1
+  def show; end
 
-  # POST /tags
-  # POST /tags.json
+  # POST api/boards/:board_id/tags or api/tasks/:task_id/tags or api/tags
   def create
-    @tag = Tag.new(tag_params)
+    @tag = ::DB::Tag.new(tag_params)
+    @tag.board_id = params[:board_id] if params[:board_id]
+    relate_tag_with_task if params[:task_id]
 
-    if @tag.save
-      render :show, status: :created, location: @tag
-    else
-      render json: @tag.errors, status: :unprocessable_entity
-    end
+    return render :show, status: :created, location: api_tag_url(@tag) if @tag.save
+
+    render json: @tag.errors, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /tags/1
-  # PATCH/PUT /tags/1.json
+  # PATCH/PUT api/tags/1
   def update
-    if @tag.update(tag_params)
-      render :show, status: :ok, location: @tag
-    else
-      render json: @tag.errors, status: :unprocessable_entity
-    end
+    return render :show, status: :ok, location: api_tags_url(@tag) if @tag.update(tag_params)
+
+    render json: @tag.errors, status: :unprocessable_entity
   end
 
-  # DELETE /tags/1
-  # DELETE /tags/1.json
+  # DELETE api/tags/1
   def destroy
     @tag.destroy
   end
@@ -49,7 +41,7 @@ class API::TagsController < ::APIController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_tag
-    @tag = Tag.find(params[:id])
+    @tag = ::DB::Tag.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
@@ -57,7 +49,9 @@ class API::TagsController < ::APIController
     params.require(:tag).permit(:name, :colour, :board_id)
   end
 
-  def set_task
-    @task = ::DB::Task.find(params[:task_id])
+  def relate_tag_with_task
+    task = ::DB::Task.find(params[:task_id])
+    @tag.tasks << task
+    @tag.board_id = task.list.board_id
   end
 end

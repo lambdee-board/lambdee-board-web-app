@@ -6,7 +6,7 @@ class DB::Task < ApplicationRecord
   belongs_to :list
   belongs_to :author, class_name: 'DB::User', foreign_key: :author_id
   has_and_belongs_to_many :users
-  has_many :tags
+  has_and_belongs_to_many :tags
 
   before_create :set_highest_pos_in_list
 
@@ -20,6 +20,11 @@ class DB::Task < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 80 }
   validates :description, length: { maximum: 300 }
+
+  # @return [DB::Board]
+  def board
+    list.board
+  end
 
   # Sets `pos` value to be the last in the list
   def set_highest_pos_in_list

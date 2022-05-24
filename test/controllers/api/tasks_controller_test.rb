@@ -89,4 +89,27 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :no_content
   end
+
+  should 'attach a tag to the task' do
+    tag = ::FactoryBot.create(:tag)
+    post attach_tag_api_task_url(@task), params: { tag_id: tag.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_equal tag.name, @task.tags.first.name
+  end
+
+  should 'detach tag from the task' do
+    tag = ::FactoryBot.create(:tag)
+    @task.tags << tag
+    assert_not_nil @task.tags.first
+
+    post detach_tag_api_task_url(@task), params: { tag_id: tag.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_nil @task.tags.first
+  end
 end
