@@ -7,14 +7,17 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 def create_board(workspace)
+  tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
   board.lists << list = ::FactoryBot.create(:list, name: 'Backlog')
   task = ::FactoryBot.create(:task, list: list, name: 'Add a login system', priority: 2, points: 3)
+  tags_amount.times { ::FactoryBot.create(:tag, board: board) }
   5.times do |i|
     board.lists << list = ::FactoryBot.create(:list)
     rand(5).times do
       task = ::FactoryBot.create(:task, list: list)
       rand(4).times { task.users << ::FactoryBot.create(:user) }
+      task.tags << board.tags.order("RANDOM()").last(rand(tags_amount))
     end
   end
 
