@@ -1,6 +1,6 @@
 require 'swagger_helper'
 
-::RSpec.describe 'api/lists', type: :request do
+::RSpec.describe 'api/tasks', type: :request do
 
   before(:each) do
     ::FactoryBot.create :user
@@ -88,6 +88,46 @@ require 'swagger_helper'
       tags 'Tasks'
       response(204, 'successful') do
         let(:id) { ::FactoryBot.create(:task).id }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/tasks/{id}/attach_tag' do
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
+
+    post('Attach Tag') do
+      tags 'Tasks'
+      parameter name: 'tag', in: :body, schema: { type: :object, properties: { tag_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:tag) { { tag_id: ::FactoryBot.create(:tag).id } }
+        run_test!
+      end
+    end
+  end
+
+
+  path '/api/tasks/{id}/detach_tag' do
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
+
+    post('Detach Tag') do
+      tags 'Tasks'
+      parameter name: 'tag', in: :body, schema: { type: :object, properties: { tag_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:new_tag) { ::FactoryBot.create(:tag) }
+        let(:id) do
+          task = ::FactoryBot.create(:task)
+          task.tags << new_tag
+          task.id
+        end
+        let(:tag) { { tag_id: new_tag.id } }
         run_test!
       end
     end
