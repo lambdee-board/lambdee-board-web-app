@@ -10,6 +10,9 @@ class DB::Task < ApplicationRecord
 
   before_create :set_highest_pos_in_list
 
+  scope :include_associations, -> { includes(:list, :author, :users, :tags) }
+  scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
+
   enum priority: {
     very_low: 0,
     low: 1,
@@ -20,6 +23,10 @@ class DB::Task < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 80 }
   validates :description, length: { maximum: 300 }
+
+  class << self
+    alias with_all_associations include_associations
+  end
 
   # @return [DB::Board]
   def board

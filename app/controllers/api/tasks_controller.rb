@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for tasks
 # through the JSON API.
 class API::TasksController < ::APIController
-  before_action :set_task, only: %i[show update destroy attach_tag detach_tag]
+  before_action :set_task, only: %i[update destroy attach_tag detach_tag]
 
   # GET api/tasks
   def index
@@ -11,7 +11,14 @@ class API::TasksController < ::APIController
   end
 
   # GET api/tasks/1
-  def show; end
+  def show
+    if params[:include_associations] == 'true'
+      @task = ::DB::Task.find_with_all_associations(params[:id])
+      render :show_with_associations and return
+    else
+      set_task
+    end
+  end
 
   # POST api/tasks
   def create

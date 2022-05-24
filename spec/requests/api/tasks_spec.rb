@@ -47,11 +47,30 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}' do
-    parameter name: 'id', in: :path, type: :string, description: 'id'
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     get('Show Taks') do
+      parameter name: 'include_associations', in: :query, type: :string, required: false, description: 'If true, extended object with all associations is returned.'
       tags 'Tasks'
       produces 'application/json'
+
+      response(200, 'successful with `include_associations=true`') do
+        schema '$ref' => '#/components/schemas/task_response'
+
+        let(:id) do
+          task = ::FactoryBot.create(:task)
+          2.times { task.users << ::FactoryBot.create(:user) }
+          3.times { task.tags << ::FactoryBot.create(:tag) }
+          task.id
+        end
+        let(:include_associations) { 'true' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/task_response'
 
