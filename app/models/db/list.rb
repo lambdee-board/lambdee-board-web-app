@@ -8,7 +8,7 @@ class DB::List < ::ApplicationRecord
   belongs_to :board
   has_many :tasks
 
-  scope :include_tasks, -> { includes(tasks: :users) }
+  scope :include_tasks, -> { includes(tasks: %i[tags users]) }
   scope :with_visible_tasks, -> { include_tasks.where(deleted: false) }
   scope :with_archived_tasks, -> { include_tasks.where(deleted: true) }
 

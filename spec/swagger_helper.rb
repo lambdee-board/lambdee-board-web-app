@@ -78,7 +78,7 @@ end
               url: { type: :string },
               board_url: { type: :string }
             },
-            required: %w[id board_id]
+            required: %w[id]
           },
           tag_request: {
             type: :object,
@@ -104,7 +104,8 @@ end
               list_id: { type: :integer },
               list_url: { type: :string },
               url: { type: :string },
-              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true },
+              tags: { type: :array, items: { '$ref' => '#/components/schemas/tag_response' }, nullable: true }
             },
             required: %w[id name pos priority points list_id]
           },
