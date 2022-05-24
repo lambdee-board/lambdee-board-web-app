@@ -7,11 +7,15 @@
     display: flex
     flex-direction: row
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    .TaskCardModal-main-avatar
+      width: 4 * $unit
+      height: 4 * $unit
+      flex-direction: row
+      align-self: center
+      margin-right: 1 * $unit
     .TaskCardModal-main
-      width: 80 * $unit
+      width: 85 * $unit
       padding: 4 * $unit
-      display: flex
-      flex-direction: column
       .TaskCardModal-main-label
         margin-bottom: 4 * $unit
       .TaskCardModal-main-icon
@@ -24,11 +28,8 @@
         padding: 2 * $unit
         min-height: 30 * $unit
         margin-bottom: 3 * $unit
-      .TaskCardModal-main-avatar
-        width: 4 * $unit
-        height: 4 * $unit
-        margin: 1 * $unit
       .TaskCardModal-main-newComment
+        padding: 1 * $unit
         margin-top: 1 * $unit
         display: flex
         flex-direction: row
@@ -39,6 +40,13 @@
             height: 2 * $unit
             width: 2 * $unit
             color: 	#DCDCDC
-    .TaskCardModal-side
-      width: 40 * $unit
+    .TaskCardModal-sidebar
+      width: 35 * $unit
       padding: 4 * $unit
+      .TaskCardModal-sidebar-card
+        height: 88 * $unit
+        padding: 2 * $unit
+        .TaskCardModal-sidebar-card-box
+          display: flex
+
+

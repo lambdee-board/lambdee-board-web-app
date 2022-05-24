@@ -9,13 +9,18 @@ import {
   InputBase,
   IconButton,
   Skeleton,
-  Avatar
+  Avatar,
+  Stack
 } from '@mui/material'
 import './TaskCardModal.sass'
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useCurrentUser from '../api/useCurrentUser'
 import ModalComment from './task-card-modal/ModalComment'
+import UserInfo from './task-card-modal/UserInfo'
+import AvatarPopover from './task-card-modal/AvatarPopover'
+
+const example = ['Manager', 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis.', '12/06/2017' ]
 
 const TaskCardModal = (props) => {
 // TODO: User id should be derived from a Cookie
@@ -58,10 +63,31 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
             </IconButton>
           </Card>
-          <ModalComment userName={user.name} userAvatar={user.avatarUrl} userTitle='Manager' commentContent='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nulla auctor lorem sit amet mi molestie consectetur. Curabitur feugiat lacus turpis.' commentDate='12/06/2017' />
+          <ModalComment userName={user.name} userAvatar={user.avatarUrl} userTitle={example[0]} commentContent={example[1]} commentDate={example[2]} />
         </Box>
-        <Box className='TaskCardModal-side'>
-          asdasdas
+        <Box className='TaskCardModal-sidebar'>
+          <Card className='TaskCardModal-sidebar-card'>
+            <Stack spacing={2}>
+              <Typography>Author</Typography>
+              <Box className='TaskCardModal-sidebar-card-box'>
+                <Avatar className='TaskCardModal-main-avatar'
+                  alt={user.name} src={user.avatarUrl}
+                />
+                <UserInfo className='TaskCardModal-sidebar-card-box-userInfo' userName={user.name} userTitle={example[0]} />
+              </Box>
+              <Typography>Points</Typography>
+              <Typography>Tags</Typography>
+              <Typography>Assigned</Typography>
+              <Box className='TaskCardModal-sidebar-card-box'>
+                <AvatarPopover
+                  userName={user.name} userAvatar={user.avatarUrl} userTitle={example[0]}
+                />
+                <AvatarPopover
+                  userName={user.name} userAvatar={user.avatarUrl} userTitle={example[0]}
+                />
+              </Box>
+            </Stack>
+          </Card>
         </Box>
       </Box>
     </Box>
