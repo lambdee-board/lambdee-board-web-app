@@ -34,7 +34,9 @@
     "reduxjs",
     "Rswag",
     "stylesheet",
-    "TTFB"
+    "TASKLIST",
+    "TTFB",
+    "Xmark"
 ],
   "files.associations": {
     "*.yml.example": "yaml",

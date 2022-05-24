@@ -51,6 +51,72 @@ require 'swagger_helper'
     get('Show List') do
       tags 'Lists'
       produces 'application/json'
+      parameter name: 'tasks',
+                in: :query,
+                type: :string,
+                schema: { '$ref' => '#/components/schemas/include_associated_enum' },
+                required: false
+
+      response(200, 'successful with `tasks=all`') do
+        schema '$ref' => '#/components/schemas/list_response'
+
+        let(:id) do
+          list = ::FactoryBot.create(:list)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+
+          list.id
+        end
+        let(:tasks) { 'all' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with `tasks=visible`') do
+        schema '$ref' => '#/components/schemas/list_response'
+
+        let(:id) do
+          list = ::FactoryBot.create(:list)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+
+          list.id
+        end
+        let(:tasks) { 'visible' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with `tasks=archived`') do
+        schema '$ref' => '#/components/schemas/list_response'
+
+        let(:id) do
+          list = ::FactoryBot.create(:list, deleted: true)
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.users << ::FactoryBot.create(:user)
+          list.tasks << ::FactoryBot.create(:task)
+          list.tasks << ::FactoryBot.create(:task)
+
+          list.id
+        end
+        let(:tasks) { 'archived' }
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/list_response'
 
@@ -61,6 +127,7 @@ require 'swagger_helper'
         end
         run_test!
       end
+
     end
 
     put('Update list') do

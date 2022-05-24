@@ -2,9 +2,10 @@
 
 .TaskList-wrapper
   margin: 2 * $unit
+  margin-top: 8 * $unit
   .TaskList-paper
     width: 40 * $unit
-    max-height: calc(100vh - 150px)
+    max-height: calc(100vh - 180px)
     display: flex
     flex-direction: column
     justify-content: space-between
@@ -22,8 +23,28 @@
       .TaskList-item
         width: 100%
         padding: 0.5 * $unit
+      .TaskList-new-task
+        padding: (.75 * $unit) ($unit)
+        margin: (.75 * $unit) (1 * $unit)
+        display: flex
+        .TaskList-new-task-input
+          margin-right: auto
+        .TaskList-new-task-cancel
+          margin: auto
+          // padding: 1 * $unit
+          color: 	#DCDCDC
+          .TaskList-new-task-cancel-icon
+            height: 2 * $unit
+            width: 2 * $unit
     .TaskList-new-task-wrapper
       .TaskList-new-task-button
         text-transform: none
         justify-content: flex-start
         width: 100%
+    .TaskList-new-task-wrapper-skeleton
+      display: flex
+      flex-direction: row
+      padding: $unit
+      align-items: center
+      .TaskList-new-task-item-skeleton
+        margin: $unit

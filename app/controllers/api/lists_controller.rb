@@ -11,7 +11,15 @@ class API::ListsController < ::APIController
   end
 
   # GET api/lists/1 or GET api/lists/1.json
-  def show; end
+  def show
+    if params[:tasks]
+      set_list_with_tasks
+    else
+      set_list
+    end
+
+    return render :show_with_tasks if @with_tasks
+  end
 
   # POST api/lists or POST api/lists.json
   def create
@@ -34,6 +42,23 @@ class API::ListsController < ::APIController
   end
 
   private
+
+  # @return [void]
+  def set_list_with_tasks
+    @with_tasks = true
+
+    case params[:tasks].to_s
+    when 'visible'
+      @list = ::DB::List.find_with_visible_tasks(params[:id])
+    when 'all'
+      @list = ::DB::List.find_with_all_tasks(params[:id])
+    when 'archived'
+      @list = ::DB::List.find_with_archived_tasks(params[:id])
+    else
+      @with_tasks = false
+      set_list
+    end
+  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_list

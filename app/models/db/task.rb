@@ -28,6 +28,6 @@ class DB::Task < ApplicationRecord
 
   # Sets `pos` value to be the last in the list
   def set_highest_pos_in_list
-    self.pos = list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
+    self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
   end
 end

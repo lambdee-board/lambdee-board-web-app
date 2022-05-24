@@ -10,10 +10,12 @@ class DB::Board < ::ApplicationRecord
   has_many :tags
 
   scope :include_tasks, -> { includes(lists: { tasks: :users }) }
-
   scope :with_visible_tasks, -> { include_tasks.where(lists: { deleted: false }) }
-
   scope :with_archived_tasks, -> { include_tasks.where(lists: { deleted: true }) }
+
+  scope :include_lists, -> { includes(:lists) }
+  scope :with_visible_lists, -> { include_lists.where(lists: { deleted: false }) }
+  scope :with_archived_lists, -> { include_lists.where(lists: { deleted: true }) }
 
   # Module which overrides the `lists`
   # method so it does not execute a DB query.
@@ -26,6 +28,7 @@ class DB::Board < ::ApplicationRecord
 
   class << self
     alias_method :with_all_tasks, :include_tasks
+    alias_method :with_all_lists, :include_lists
 
     # @param id [Integer]
     # @return [self]
@@ -36,19 +39,37 @@ class DB::Board < ::ApplicationRecord
     # @param id [Integer]
     # @return [self]
     def find_with_visible_tasks(id)
-      with_visible_tasks.first || find_with_empty_lists(id)
+      with_visible_tasks.where(id: id).first || find_with_empty_lists(id)
     end
 
     # @param id [Integer]
     # @return [self]
     def find_with_all_tasks(id)
-      with_all_tasks.first || find_with_empty_lists(id)
+      with_all_tasks.where(id: id).first || find_with_empty_lists(id)
     end
 
     # @param id [Integer]
     # @return [self]
     def find_with_archived_tasks(id)
-      with_archived_tasks.first || find_with_empty_lists(id)
+      with_archived_tasks.where(id: id).first || find_with_empty_lists(id)
+    end
+
+    # @param id [Integer]
+    # @return [self]
+    def find_with_visible_lists(id)
+      with_visible_lists.where(id: id).first || find_with_empty_lists(id)
+    end
+
+    # @param id [Integer]
+    # @return [self]
+    def find_with_all_lists(id)
+      with_all_lists.where(id: id).first || find_with_empty_lists(id)
+    end
+
+    # @param id [Integer]
+    # @return [self]
+    def find_with_archived_lists(id)
+      with_archived_lists.where(id: id).first || find_with_empty_lists(id)
     end
   end
 
