@@ -5,6 +5,7 @@
 class DB::Task < ApplicationRecord
   belongs_to :list
   belongs_to :author, class_name: 'DB::User', foreign_key: :author_id
+  has_many :comments
   has_and_belongs_to_many :users
   has_and_belongs_to_many :tags
 

@@ -22,6 +22,7 @@
         post :detach_tag, on: :member
       end
       resources :tags, except: %i[index]
+      resources :comments
     end
   end
 
