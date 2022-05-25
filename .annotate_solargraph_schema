@@ -141,18 +141,36 @@ end
 # %%<RailsAnnotateSolargraph:Start:boards>%%
 
 class DB::Board < ApplicationRecord
+  # Scope `:include_lists`.
+  #
+  #     scope :include_lists, -> { includes(:lists) }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.include_lists(); end
   # Scope `:include_tasks`.
   #
-  #     scope :include_tasks, -> { includes(lists: { tasks: :users }) }
+  #     scope :include_tasks, -> { includes(lists: { tasks: %i[tags users] }) }
   #
   # @return [Array<DB::Board>, nil]
   def self.include_tasks(); end
+  # Scope `:with_archived_lists`.
+  #
+  #     scope :with_archived_lists, -> { include_lists.where(lists: { deleted: true }) }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.with_archived_lists(); end
   # Scope `:with_archived_tasks`.
   #
   #     scope :with_archived_tasks, -> { include_tasks.where(lists: { deleted: true }) }
   #
   # @return [Array<DB::Board>, nil]
   def self.with_archived_tasks(); end
+  # Scope `:with_visible_lists`.
+  #
+  #     scope :with_visible_lists, -> { include_lists.where(lists: { deleted: false }) }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.with_visible_lists(); end
   # Scope `:with_visible_tasks`.
   #
   #     scope :with_visible_tasks, -> { include_tasks.where(lists: { deleted: false }) }
@@ -171,6 +189,12 @@ class DB::Board < ApplicationRecord
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @return [Array<DB::List>, nil]
   def lists; end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @param val [Array<DB::Tag>, nil]
+  def tags=(val); end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @return [Array<DB::Tag>, nil]
+  def tags; end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
   def visible_lists=(val); end
@@ -223,6 +247,67 @@ end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:comments>%%
+
+class DB::Comment < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `comments.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `comments.author_id`.
+  # @return [DB::User, nil]
+  def author; end
+  # `belongs_to` relation with `DB::Task`. Database column `comments.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `comments.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # Database column `comments.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `comments.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `comments.body`, type: `text`.
+  # @param val [String, nil]
+  def body=(val); end
+  # Database column `comments.body`, type: `text`.
+  # @return [String, nil]
+  def body; end
+  # Database column `comments.deleted`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def deleted=(val); end
+  # Database column `comments.deleted`, type: `boolean`.
+  # @return [Boolean, nil]
+  def deleted; end
+  # Database column `comments.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `comments.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `comments.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `comments.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `comments.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `comments.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `comments.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `comments.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:comments>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:lists>%%
 
 class DB::List < ApplicationRecord
@@ -232,12 +317,48 @@ class DB::List < ApplicationRecord
   #
   # @return [Array<DB::List>, nil]
   def self.archived(); end
+  # Scope `:find_with_all_tasks`.
+  #
+  #     scope :find_with_all_tasks, ->(id) { with_all_tasks.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_all_tasks(id); end
+  # Scope `:find_with_archived_tasks`.
+  #
+  #     scope :find_with_archived_tasks, ->(id) { with_archived_tasks.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_archived_tasks(id); end
+  # Scope `:find_with_visible_tasks`.
+  #
+  #     scope :find_with_visible_tasks, ->(id) { with_visible_tasks.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_visible_tasks(id); end
+  # Scope `:include_tasks`.
+  #
+  #     scope :include_tasks, -> { includes(tasks: %i[tags users]) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_tasks(); end
   # Scope `:visible`.
   #
   #     scope :visible, -> { where(deleted: false) }
   #
   # @return [Array<DB::List>, nil]
   def self.visible(); end
+  # Scope `:with_archived_tasks`.
+  #
+  #     scope :with_archived_tasks, -> { include_tasks.where(deleted: true) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.with_archived_tasks(); end
+  # Scope `:with_visible_tasks`.
+  #
+  #     scope :with_visible_tasks, -> { include_tasks.where(deleted: false) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.with_visible_tasks(); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -296,21 +417,160 @@ end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:tags>%%
+
+class DB::Tag < ApplicationRecord
+  # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  #
+  # @param val [Object, nil]
+  def tasks=(val); end
+  #
+  # @return [Object, nil]
+  def tasks; end
+  # Database column `tags.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `tags.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `tags.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `tags.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `tags.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `tags.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
+  # Database column `tags.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `tags.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
+  # Database column `tags.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `tags.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `tags.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `tags.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:tags>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:tasks>%%
 
 class DB::Task < ApplicationRecord
+  # Scope `:find_with_all_associations`.
+  #
+  #     scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.find_with_all_associations(id); end
+  # Scope `:high`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.high(); end
+  # Scope `:include_associations`.
+  #
+  #     scope :include_associations, -> { includes(:list, :author, :users, :tags) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.include_associations(); end
+  # Scope `:low`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.low(); end
+  # Scope `:medium`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.medium(); end
+  # Scope `:not_high`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_high(); end
+  # Scope `:not_low`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_low(); end
+  # Scope `:not_medium`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_medium(); end
+  # Scope `:not_very_high`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_very_high(); end
+  # Scope `:not_very_low`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_very_low(); end
+  # Scope `:very_high`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.very_high(); end
+  # Scope `:very_low`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.very_low(); end
   # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
   # @param val [DB::User, nil]
   def author=(val); end
   # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
   # @return [DB::User, nil]
   def author; end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def comments=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @return [Array<DB::Comment>, nil]
+  def comments; end
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @param val [DB::List, nil]
   def list=(val); end
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @return [DB::List, nil]
   def list; end
+  #
+  # @param val [Object, nil]
+  def tags=(val); end
+  #
+  # @return [Object, nil]
+  def tags; end
   #
   # @param val [Object, nil]
   def users=(val); end

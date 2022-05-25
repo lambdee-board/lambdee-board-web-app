@@ -65,6 +65,8 @@ require 'swagger_helper'
           list.tasks << task = ::FactoryBot.create(:task)
           task.users << ::FactoryBot.create(:user)
           task.users << ::FactoryBot.create(:user)
+          task.tags << ::FactoryBot.create(:tag)
+          task.tags << ::FactoryBot.create(:tag)
           list.tasks << ::FactoryBot.create(:task)
 
           list.id
@@ -85,6 +87,7 @@ require 'swagger_helper'
           list.tasks << task = ::FactoryBot.create(:task)
           task.users << ::FactoryBot.create(:user)
           task.users << ::FactoryBot.create(:user)
+          task.tags << ::FactoryBot.create(:tag)
           list.tasks << ::FactoryBot.create(:task)
 
           list.id
@@ -104,6 +107,7 @@ require 'swagger_helper'
           list = ::FactoryBot.create(:list, deleted: true)
           list.tasks << task = ::FactoryBot.create(:task)
           task.users << ::FactoryBot.create(:user)
+          task.tags << ::FactoryBot.create(:tag)
           list.tasks << ::FactoryBot.create(:task)
           list.tasks << ::FactoryBot.create(:task)
 

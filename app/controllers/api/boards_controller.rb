@@ -6,14 +6,12 @@ class API::BoardsController < ::APIController
   before_action :set_board, only: %i[update destroy]
 
   # GET /api/boards
-  # GET /api/boards.json
   def index
     @boards = ::DB::Board.all
     @boards = @boards.limit(limit) if limit?
   end
 
   # GET /api/boards/1
-  # GET /api/boards/1.json
   def show
     if params[:tasks]
       set_board_with_tasks
@@ -28,7 +26,6 @@ class API::BoardsController < ::APIController
   end
 
   # POST /api/boards
-  # POST /api/boards.json
   def create
     @board = ::DB::Board.new(board_params)
     return render :show, status: :created, location: api_board_url(@board) if @board.save
@@ -37,7 +34,6 @@ class API::BoardsController < ::APIController
   end
 
   # PATCH/PUT /api/boards/1
-  # PATCH/PUT /api/boards/1.json
   def update
     return render :show, status: :ok, location: api_board_url(@board) if @board.update(board_params)
 
@@ -45,7 +41,6 @@ class API::BoardsController < ::APIController
   end
 
   # DELETE /api/boards/1
-  # DELETE /api/boards/1.json
   def destroy
     @board.destroy
   end
