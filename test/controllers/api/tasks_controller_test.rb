@@ -73,6 +73,33 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal @task.pos, json['pos']
   end
 
+  should 'show task with all associations' do
+    @task.users << user = ::FactoryBot.create(:user)
+    @task.tags << tag = ::FactoryBot.create(:tag)
+
+    get api_task_url(@task), as: :json, params: { include_associations: :true }
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @task.name, json['name']
+    assert_equal @task.description, json['description']
+    assert_equal @task.pos, json['pos']
+    assert_equal @task.points, json['points']
+    assert_equal @task.priority, json['priority']
+
+    assert_equal @task.list.name, json['list']['name']
+    assert_equal @task.list.pos, json['list']['pos']
+
+    assert_equal @task.author.name, json['author']['name']
+    assert_equal @task.author.avatar_url, json['author']['avatar_url']
+    assert_equal @task.author.email, json['author']['email']
+
+    assert_equal user.name, json['users'].first['name']
+
+    assert_equal tag.name, json['tags'].first['name']
+    assert_equal tag.colour, json['tags'].first['colour']
+  end
+
   should 'update task' do
     patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json
     assert_response :success
@@ -88,5 +115,28 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+  end
+
+  should 'attach a tag to the task' do
+    tag = ::FactoryBot.create(:tag)
+    post attach_tag_api_task_url(@task), params: { tag_id: tag.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_equal tag.name, @task.tags.first.name
+  end
+
+  should 'detach tag from the task' do
+    tag = ::FactoryBot.create(:tag)
+    @task.tags << tag
+    assert_not_nil @task.tags.first
+
+    post detach_tag_api_task_url(@task), params: { tag_id: tag.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_nil @task.tags.first
   end
 end

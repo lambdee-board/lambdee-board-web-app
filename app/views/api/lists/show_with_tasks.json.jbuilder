@@ -10,5 +10,10 @@ json.tasks do
         json.partial! 'api/users/user', user: user, short: true
       end
     end
+    json.tags do
+      json.array! task.tags do |tag|
+        json.partial! 'api/tags/tag', tag: tag, short: true
+      end
+    end
   end
 end
