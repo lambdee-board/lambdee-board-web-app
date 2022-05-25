@@ -18,6 +18,7 @@ def create_board(workspace)
       task = ::FactoryBot.create(:task, list: list)
       rand(4).times { task.users << ::FactoryBot.create(:user) }
       task.tags << board.tags.order("RANDOM()").last(rand(tags_amount))
+      rand(2).times { task.comments << ::FactoryBot.create(:comment) }
     end
   end
 
