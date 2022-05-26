@@ -102,7 +102,7 @@ const TaskCard = (props) => {
   return (
     <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
       <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId}>
-        <Typography>
+        <Typography className='TaskCard-label'>
           {props.taskLabel}
         </Typography>
         <Box className='Box-categories'>
