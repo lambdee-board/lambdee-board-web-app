@@ -26,7 +26,7 @@ const PriorityIcon = (props) => {
   const priorityObject = PRIORITIES[props.taskPriority]
   if (!priorityObject) return
 
-  return <FontAwesomeIcon className='PriorityIcon' color={priorityObject.color} icon={priorityObject.icon} />
+  return <FontAwesomeIcon color={priorityObject.color} icon={priorityObject.icon} />
 }
 
 PriorityIcon.propTypes = {

@@ -9,7 +9,7 @@ import {
   Button,
   Skeleton,
   Card,
-  InputBase
+  InputBase,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -25,6 +25,7 @@ import useList from '../api/useList'
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+
 
 function TaskListSkeletonContent() {
   return (
@@ -187,6 +188,7 @@ function TaskList(props) {
           {taskList ? taskList?.tasks?.map((task, index) => (
             <ListItem className='TaskList-item' key={index} >
               <TaskCard key={task.id}
+                taskId={task.id}
                 taskLabel={task.name}
                 taskTags={task.tags}
                 taskPriority={task.priority}
