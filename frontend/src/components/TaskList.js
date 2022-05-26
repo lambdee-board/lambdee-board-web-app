@@ -26,6 +26,7 @@ import useList, { mutateList } from '../api/useList'
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+import TaskDropZone from './TaskDropZone'
 
 function TaskListSkeletonContent() {
   return (
@@ -133,7 +134,7 @@ function TaskList(props) {
   })
 
 
-  const moveTaskInList = React.useCallback((dragIndex, hoverIndex, listIndex) => {
+  const moveTaskInList = React.useCallback((dragIndex, hoverIndex) => {
     setNewTaskOrder((prevState) => {
       const newState = update(prevState,
         { $splice: [
@@ -161,7 +162,7 @@ function TaskList(props) {
       id: taskId,
       pos: newPos,
     }
-    apiClient.put(`/api/lists/${taskId}`, updatedTask)
+    apiClient.put(`/api/tasks/${taskId}`, updatedTask)
       .then((response) => {})
       .catch((error) => {
         // failed or rejected
@@ -172,6 +173,24 @@ function TaskList(props) {
 
   drag(drop(dndRef))
   dragPreview(dndPreviewRef)
+
+
+  const assignTaskToNewList = (item, newListId) => {
+    const updateTask = {
+      listId: newListId,
+      // pos
+    }
+    apiClient.put(`/api/tasks/${item.id}`, updateTask)
+      .then((response) => {
+        // successful request
+        mutateList(item.listId, { params: { tasks: 'all' } })
+        mutateList(newListId, { params: { tasks: 'all' } })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
@@ -221,7 +240,7 @@ function TaskList(props) {
   }
 
   return (
-    <Box onClick={() => { console.log('przeładowuje listę o ID=1'); mutateList(1, { params: { tasks: 'all' } }) }} className='TaskList-wrapper'>
+    <Box className='TaskList-wrapper'>
       <Paper className='TaskList-paper' ref={dndPreviewRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}
         elevation={5}>
         <List ref={listRef} className='TaskList'
@@ -233,23 +252,28 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList ? sortedTasks.map((task, taskIndex) => (
-            <ListItem className='TaskList-item' key={taskIndex} >
-              <TaskCard key={task.id}
-                id={task.id}
-                taskLabel={task.name}
-                taskTags={task.tags}
-                taskPriority={task.priority}
-                assignedUsers={task.users}
-                taskPoints={task.points}
-                index={taskIndex}
-                parentIndex={props.index}
-                dndFun={[moveTaskInList, updateTaskPos]}
-              />
-            </ListItem>
-          )) : (
+          {taskList ? (<TaskDropZone listId={props.id} dndFun={[assignTaskToNewList]}>
+            {
+              sortedTasks.map((task, taskIndex) => (
+                <ListItem className='TaskList-item' key={taskIndex} >
+                  <TaskCard key={task.id}
+                    id={task.id}
+                    taskLabel={task.name}
+                    taskTags={task.tags}
+                    taskPriority={task.priority}
+                    assignedUsers={task.users}
+                    taskPoints={task.points}
+                    index={taskIndex}
+                    parentIndex={task.listId}
+                    dndFun={[moveTaskInList, updateTaskPos]}
+                  />
+                </ListItem>
+              ))}
+          </TaskDropZone>
+          ) : (
             <TaskListSkeletonContent />
           )}
+
           { !newTaskButtonVisible &&
             <Card
               className='TaskList-new-task'>
