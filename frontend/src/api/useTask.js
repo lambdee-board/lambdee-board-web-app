@@ -1,4 +1,4 @@
 import { useAPI } from './apiClient'
 
-const useTask = (id)  => useAPI(`/api/tasks/${id}?include_associations=true`)
+const useTask = (id, ...args)  => useAPI(`/api/tasks/${id}`, ...args)
 export default useTask

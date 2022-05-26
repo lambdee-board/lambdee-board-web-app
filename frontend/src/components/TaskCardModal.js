@@ -23,6 +23,39 @@ import useTask from '../api/useTask'
 import PriorityIcon from './PriorityIcon'
 import useCurrentUser from '../api/useCurrentUser'
 
+
+function TaskCardModalSkeleton() {
+  return (
+    <Box className='TaskCardModal-wrapper'>
+      <Box className='TaskCardModal-paper'>
+        <Box className='TaskCardModal-main'>
+          <Skeleton height={50} />
+          <Skeleton height={50} />
+          <Card className='TaskCardModal-main-description'>
+            <Skeleton height={200}></Skeleton>
+          </Card>
+          <Skeleton height={50} />
+          <Card className='TaskCardModal-main-newComment'>
+            <Skeleton variant='circular' className='TaskCardModal-avatar' />
+            <Skeleton width={300} />
+          </Card>
+        </Box>
+        <Box className='TaskCardModal-sidebar'>
+          <Card className='TaskCardModal-sidebar-card'>
+            <Skeleton sx={{ pb: 5 }} />
+            <Skeleton sx={{ pb: 5 }} />
+            <Skeleton sx={{ pb: 5 }} />
+            <Skeleton sx={{ pb: 5 }} />
+            <Skeleton sx={{ pb: 5 }} />
+            <Skeleton sx={{ pb: 5 }} />
+          </Card>
+        </Box>
+      </Box>
+    </Box>
+  )
+}
+
+
 const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
   const { data: currentUser, isCurrentUserLoading, isCurrentUserError } = useCurrentUser()
@@ -32,10 +65,11 @@ const TaskCardModal = (props) => {
     <Skeleton variant='circular' width={40} height={40} />
   )
 
-
   return (
     <Box className='TaskCardModal-wrapper'>
-      {isLoading || isError ? (<Box></Box>) : (
+      {!isLoading || !isError ? (
+        <TaskCardModalSkeleton />
+      ) : (
         <Box className='TaskCardModal-paper'>
           <Box className='TaskCardModal-main'>
             <Box className='TaskCardModal-main-label'>
