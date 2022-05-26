@@ -11,9 +11,26 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
     @task.comments << @comment
   end
 
-  should 'get index' do
-    get api_comments_url, as: :json
+  should 'get comments of task without author' do
+    get api_task_comments_url(@task), as: :json
     assert_response :success
+
+    json = ::JSON.parse(response.body)
+    assert_equal @comment.body, json.first['body']
+    assert_equal @comment.author_id, json.first['author_id']
+    assert_nil json.first['author']
+  end
+
+  should 'get comments of task with nested author' do
+    get api_task_comments_url(@task), as: :json, params: { with_author: :true }
+    assert_response :success
+
+    json = ::JSON.parse(response.body)
+    assert_equal @comment.body, json.first['body']
+    assert_equal @comment.author_id, json.first['author_id']
+    assert_equal @comment.author.name, json.first['author']['name']
+    assert_equal @comment.author.avatar_url, json.first['author']['avatar_url']
+    assert_equal @comment.author.email, json.first['author']['email']
   end
 
   should 'create comment' do

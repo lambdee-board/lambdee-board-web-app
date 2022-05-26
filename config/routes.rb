@@ -20,9 +20,11 @@
         resources :tags, only: %i[index create]
         post :attach_tag, on: :member
         post :detach_tag, on: :member
+
+       resources :comments, only: %i[index]
       end
       resources :tags, except: %i[index]
-      resources :comments
+      resources :comments, except: %i[index]
     end
   end
 

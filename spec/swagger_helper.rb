@@ -66,6 +66,30 @@ end
             },
             required: %w[name email]
           },
+          comment_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              body: { type: :string },
+              deleted: { type: :boolean },
+              author_id: { type: :integer },
+              task_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
+            },
+            required: %w[id body deleted url]
+          },
+          tag_request: {
+            type: :object,
+            properties: {
+              body: { type: :string },
+              author_id: { type: :integer },
+              task_id: { type: :integer },
+            },
+            required: %w[body author_id task_id]
+          },
           tag_response: {
             type: :object,
             properties: {

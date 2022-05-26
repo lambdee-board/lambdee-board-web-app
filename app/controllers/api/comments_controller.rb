@@ -5,9 +5,14 @@
 class API::CommentsController < ::APIController
   before_action :set_comment, only: %i[show update destroy]
 
-  # GET /comments
+  # GET api/tasks/:task_id/comments
   def index
-    @comments = ::DB::Comment.all
+    if params[:with_author] == 'true'
+      @comments = ::DB::Comment.visible.find_with_author_for_task(params[:task_id])
+      @with_author = true
+    else
+      @comments = ::DB::Comment.visible.find_for_task(params[:task_id])
+    end
   end
 
   # GET /comments/1
