@@ -9,7 +9,7 @@ import PropTypes from 'prop-types'
 const UserInfo = (props) => {
   return (
     <Stack>
-      <Typography sx={{ pt: 0.5, pl: 0.5, pr: 0.5 }}>{props.userName}</Typography>
+      <Typography sx={{ pl: 0.5, pr: 0.5 }}>{props.userName}</Typography>
       <Typography sx={{ pb: 0.5, pl: 0.5, pr: 0.5 }} variant='caption'>{props.userTitle}</Typography>
     </Stack>
   )

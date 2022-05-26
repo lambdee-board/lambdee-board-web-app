@@ -14,6 +14,7 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const ModalComment = (props) => {
+  const { data: comments, isLoading, isError } = useComments(props.taskId)
   return (
     <Card className='ModalComment'>
       <Box className='ModalComment-info'>
@@ -44,11 +45,7 @@ const ModalComment = (props) => {
 }
 
 ModalComment.propTypes = {
-  userName: PropTypes.string.isRequired,
-  userAvatar: PropTypes.string.isRequired,
-  userTitle: PropTypes.string.isRequired,
-  commentContent: PropTypes.string.isRequired,
-  commentDate: PropTypes.string.isRequired
+  taskId: PropTypes.number.isRequired,
 }
 
 
