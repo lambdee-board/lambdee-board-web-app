@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-json.extract! user, :id, :name, :avatar_url
+json.extract! user, :id, :name, :avatar_url, :role
 json.url api_user_url(user, format: :json)
 
 return if local_assigns[:short]

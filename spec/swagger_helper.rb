@@ -55,6 +55,7 @@ end
               updated_at: { type: :string, format: :date_time },
               avatar_url: { type: :string },
               url: { type: :string },
+              role: { type: :string },
             },
             required: %w[id name]
           },
@@ -63,6 +64,7 @@ end
             properties: {
               name: { type: :string },
               email: { type: :string },
+              role: { type: :string, enum: %w[guest regular developer admin]},
             },
             required: %w[name email]
           },

@@ -4,5 +4,6 @@
   factory :user, class: 'DB::User' do
     name { ::Faker::Name.name }
     email { |u| "#{u.name.underscore.gsub('.', '').gsub(' ', '_')}.#{::Time.now.to_i}@example.com" }
+    role { rand(4) }
   end
 end
