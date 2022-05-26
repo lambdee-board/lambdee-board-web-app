@@ -19,35 +19,37 @@ const ModalComment = (props) => {
   return (
     <Box>
       {isLoading || isError ? (null) : (
-        <Card className='ModalComment'>
+        <Box>
           {comments.map((comment) => (
-            <Box key={comment.id}>
-              <Box className='ModalComment-info'>
-                <Avatar className='ModalComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
-                <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
-                <Typography variant='caption' className='ModalComment-info-date'>{comment.updatedAt}</Typography>
+            <Card key={comment.id} className='ModalComment'>
+              <Box>
+                <Box className='ModalComment-info'>
+                  <Avatar className='ModalComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
+                  <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
+                  <Typography variant='caption' className='ModalComment-info-date'>{comment.updatedAt}</Typography>
+                </Box>
+                <Divider />
+                <Box className='ModalComment-content'>
+                  <Typography>
+                    {comment.body}
+                  </Typography>
+                </Box>
+                <Box className='ModalComment-footer'>
+                  <Button className='ModalComment-footer-edit'>
+                    <Typography variant='body2'>
+                      <FontAwesomeIcon className='ModalComment-footer-icon' icon={faPencil} />
+                  Edit</Typography>
+                  </Button>
+                  <Button className='ModalComment-footer-delete'>
+                    <Typography variant='body2'>
+                      <FontAwesomeIcon className='ModalComment-footer-icon' icon={faTrash} />
+                  Delete</Typography>
+                  </Button>
+                </Box>
               </Box>
-              <Divider />
-              <Box className='ModalComment-content'>
-                <Typography>
-                  {comment.body}
-                </Typography>
-              </Box>
-              <Box className='ModalComment-footer'>
-                <Button className='ModalComment-footer-edit'>
-                  <Typography variant='body2'>
-                    <FontAwesomeIcon className='ModalComment-footer-icon' icon={faPencil} />
-                Edit</Typography>
-                </Button>
-                <Button className='ModalComment-footer-delete'>
-                  <Typography variant='body2'>
-                    <FontAwesomeIcon className='ModalComment-footer-icon' icon={faTrash} />
-                Delete</Typography>
-                </Button>
-              </Box>
-            </Box>
+            </Card>
           ))}
-        </Card>
+        </Box>
       )}
     </Box>
   )
