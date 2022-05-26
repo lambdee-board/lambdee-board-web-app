@@ -61,7 +61,7 @@ const TaskCardModal = (props) => {
                 <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-            {/* <ModalComment taskId={task.id} /> */}
+            <ModalComment taskId={task.id} />
           </Box>
           <Box className='TaskCardModal-sidebar'>
             <Card className='TaskCardModal-sidebar-card'>
@@ -74,9 +74,10 @@ const TaskCardModal = (props) => {
                   <UserInfo userName={task.author.name} userTitle={'placeholder'} />
                 </Box>
                 <Typography>Priority</Typography>
-                <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
+                {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
                   <PriorityIcon taskPriority={task.priority} />
-                </Box>
+                </Box> : null
+                }
                 <Typography>Points</Typography>
                 {task.points ? <Avatar>{task.points}</Avatar> : null}
                 <Typography>Tags</Typography>
