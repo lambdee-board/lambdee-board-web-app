@@ -96,7 +96,7 @@ const TaskCard = (props) => {
 
   return (
     <div className='TaskCard'>
-      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0.1 : 1 }} data-handler-id={handlerId}>
+      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
         <Typography>
           {props.taskLabel}
         </Typography>
