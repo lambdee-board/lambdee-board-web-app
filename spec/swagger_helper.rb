@@ -64,7 +64,7 @@ end
             properties: {
               name: { type: :string },
               email: { type: :string },
-              role: { type: :string },
+              role: { type: :string, enum: %w[guest regular developer admin]},
             },
             required: %w[name email]
           },
