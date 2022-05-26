@@ -21,11 +21,18 @@ import UserInfo from './task-card-modal/UserInfo'
 import AvatarPopover from './task-card-modal/AvatarPopover'
 import useTask from '../api/useTask'
 import PriorityIcon from './PriorityIcon'
+import useCurrentUser from '../api/useCurrentUser'
 
 const TaskCardModal = (props) => {
-  // // TODO: User id should be derived from a Cookie
-  // const { data: user, isLoading, isError } = useCurrentUser()
+  // TODO: User id should be derived from a Cookie
+  const { data: currentUser, isCurrentUserLoading, isCurrentUserError } = useCurrentUser()
   const { data: task, isLoading, isError } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
+
+  if (isCurrentUserLoading || isCurrentUserError) return (
+    <Skeleton variant='circular' width={40} height={40} />
+  )
+
+
   return (
     <Box className='TaskCardModal-wrapper'>
       {isLoading || isError ? (<Box></Box>) : (
@@ -49,7 +56,7 @@ const TaskCardModal = (props) => {
             </Typography>
             <Card className='TaskCardModal-main-newComment'>
               <Avatar className='TaskCardModal-avatar'
-                // alt={task.name} src={user.avatarUrl}
+                alt={currentUser.name} src={currentUser.avatarUrl}
               />
               <InputBase
                 className='TaskCardModal-main-newComment-input'
