@@ -23,7 +23,7 @@ class DB::Task < ApplicationRecord
   }
 
   validates :name, presence: true, length: { maximum: 80 }
-  validates :description, length: { maximum: 300 }
+  validates :description, length: { maximum: 1000 }
 
   class << self
     alias with_all_associations include_associations
@@ -36,6 +36,8 @@ class DB::Task < ApplicationRecord
 
   # Sets `pos` value to be the last in the list
   def set_highest_pos_in_list
+    return unless list
+
     self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
   end
 end

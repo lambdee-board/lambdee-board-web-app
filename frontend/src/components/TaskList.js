@@ -10,7 +10,7 @@ import {
   Button,
   Skeleton,
   Card,
-  InputBase
+  InputBase,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,6 +27,7 @@ import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskDropZone from './TaskDropZone'
+
 
 function TaskListSkeletonContent() {
   return (

@@ -49,8 +49,6 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 group :development, :test do
-  gem 'better_errors'
-  gem 'binding_of_caller'
   gem 'brakeman'
 
   # Patch-level verification for Bundler
@@ -78,6 +76,9 @@ group :development, :test do
 end
 
 group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+
   # provide better intellisense in IDEs supporting Solargraph
   gem 'rails-annotate-solargraph'
 

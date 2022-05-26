@@ -6,7 +6,8 @@ import {
   Avatar,
   Chip,
   AvatarGroup,
-  Skeleton
+  Skeleton,
+  Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon.js'
@@ -14,6 +15,8 @@ import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
 
 import './TaskCard.sass'
+import TaskCardModal from './TaskCardModal'
+
 
 const TaskCardSkeleton = () => {
   return (
@@ -99,9 +102,25 @@ const TaskCard = (props) => {
 
   drag(drop(dndRef))
 
+  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
+  const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
+  const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
+
   return (
     <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
-      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId}>
+      <Modal
+        open={openTaskCardModal}
+        onClose={handleCloseTaskCardModal}
+      >
+        <Box className='TaskList-Modal' sx={{  position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-50%, -50%)',
+          outline: 0 }}>
+          <TaskCardModal taskId={props.id} />
+        </Box>
+      </Modal>
+      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
         <Typography className='TaskCard-label'>
           {props.taskLabel}
         </Typography>
