@@ -71,7 +71,7 @@ const TaskCardModal = (props) => {
                   <Avatar className='TaskCardModal-main-avatar'
                     alt={task.author.name} src={task.author.avatarUrl}
                   />
-                  <UserInfo userName={task.author.name} userTitle={'placeholder'} />
+                  <UserInfo userName={task.author.name} userTitle={task.author.role} />
                 </Box>
                 <Typography>Priority</Typography>
                 {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
@@ -88,7 +88,7 @@ const TaskCardModal = (props) => {
                 <Box className='TaskCardModal-sidebar-card-box'>
                   {task.users.map((user) => (
                     <AvatarPopover
-                      key={user.id} userName={user.name} userAvatar={user.avatarUrl} userTitle='placeholder'
+                      key={user.id} userName={user.name} userAvatar={user.avatarUrl} userTitle={task.author.role}
                     />
                   ))}
                 </Box>

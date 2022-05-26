@@ -24,7 +24,7 @@ const ModalComment = (props) => {
             <Box key={comment.id}>
               <Box className='ModalComment-info'>
                 <Avatar className='ModalComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
-                <UserInfo userName={comment.author.name} userTitle='placeholder' />
+                <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
                 <Typography variant='caption' className='ModalComment-info-date'>{comment.updatedAt}</Typography>
               </Box>
               <Divider />
