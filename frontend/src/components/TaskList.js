@@ -265,7 +265,7 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList ? (<TaskDropZone listId={props.id} dndFun={[assignTaskToNewList]}>
+          {taskList ? (<TaskDropZone className='TaskList-DropZone' listId={props.id} dndFun={[assignTaskToNewList]}>
             {
               sortedTasks.map((task, taskIndex) => (
                 <ListItem className='TaskList-item' key={taskIndex} >
