@@ -2,7 +2,7 @@
 
 ::FactoryBot.define do
   factory :comment, class: 'DB::Comment' do
-    body { ::Faker::Quotes::Shakespeare.romeo_and_juliet_quote }
+    body { ::Faker::Markdown.sandwich(sentences: rand(1..3)) }
     deleted { false }
     association :author, factory: :user
     association :task

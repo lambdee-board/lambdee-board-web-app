@@ -6,16 +6,38 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
+::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
+::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
+::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
+
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
   board.lists << list = ::FactoryBot.create(:list, name: 'Backlog')
-  task = ::FactoryBot.create(:task, list: list, name: 'Add a login system', priority: 2, points: 3)
-  tags_amount.times { ::FactoryBot.create(:tag, board: board) }
+
+  frontend_tag = ::FactoryBot.create(:tag, name: 'Frontend', board:)
+  backend_tag = ::FactoryBot.create(:tag, name: 'Backend', board:)
+  devops_tag = ::FactoryBot.create(:tag, name: 'DevOps', board:)
+
+  tags_amount.times { ::FactoryBot.create(:tag, board:) }
+  task = ::FactoryBot.create(:task, list:, name: 'Add a login system', priority: :medium, points: 15, description: "## Nostrum\nDeserunt nemo dignissimos. Aliquam voluptas consectetur. Ad dolore eaque. Deserunt enim reprehenderit.\nearum | cumque | totam\n---- | ---- | ----\nquisquam | voluptas | eos\naut | eaque | dolorum")
+  task.tags << frontend_tag
+  task.tags << backend_tag
+  ::FactoryBot.create(:comment, task:, author_id: 1, body: "#### Eaque\nQuasi natus sapiente.\nVero qui eum. Harum iusto accusantium. Ut **exercitationem** sunt.")
+
+  task = ::FactoryBot.create(:task, list:, name: 'Add CI tests', priority: :low, points: 2, description: "#### Molestiae\nLaudantium temporibus repellendus. Enim iste qui. Modi necessitatibus fugiat. Iure recusandae amet.\n###### Praesentium\nId dolorem laborum. Dolorem laudantium quo. Ipsum exercitationem dolorem.\n```ruby\nAut.\n```")
+  task.tags << devops_tag
+  ::FactoryBot.create(:comment, task:, author_id: 3, body: "##### Laborum\nFacilis ullam commodi. Natus molestiae deserunt. Harum omnis maxime.\nmolestiae | excepturi | ab\n---- | ---- | ----\net | iusto | quos\ncum | ea | minima")
+  ::FactoryBot.create(:comment, task:, author_id: 2, body: "# Consequuntur\nLaboriosam voluptas vel. Eveniet delectus deleniti.\n```ruby\nVoluptas.\n```")
+
+  task = ::FactoryBot.create(:task, list:, name: 'Refactor the REST API', priority: :high, points: 10, description: "### Quae\nAmet ex sed. Consequuntur numquam esse. Soluta ab eaque. Dolores veniam laborum. Ipsa assumenda iure.\nQui cupiditate iusto. Doloremque voluptatem in. **Voluptas** dolores quisquam.")
+  task.tags << backend_tag
+
   5.times do |i|
     board.lists << list = ::FactoryBot.create(:list)
     rand(5).times do
-      task = ::FactoryBot.create(:task, list: list)
+      task = ::FactoryBot.create(:task, list:)
       rand(4).times { task.users << ::FactoryBot.create(:user) }
       task.tags << board.tags.order("RANDOM()").last(rand(tags_amount))
       rand(2).times { task.comments << ::FactoryBot.create(:comment) }

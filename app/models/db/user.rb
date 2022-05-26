@@ -12,7 +12,8 @@ class DB::User < ::ApplicationRecord
     guest: 0,
     regular: 1,
     developer: 2,
-    admin: 3
+    admin: 3,
+    manager: 4
   }
 
   validates :name, presence: true, length: { maximum: 50 }
