@@ -21,6 +21,9 @@ if (process.env.NODE_ENV === 'development') {
   }, (error) => {
     // Any status codes that falls outside the range of 2xx cause this function to trigger
     // Do something with response error
+    let responseData = error?.response?.data
+    if (typeof(responseData) === 'string') responseData = { string: responseData }
+
     console.error(
       `
   ${error?.config?.method?.toUpperCase()} ${error?.request?.responseURL}
@@ -28,7 +31,7 @@ if (process.env.NODE_ENV === 'development') {
   Received: HTTP ${error.request.status} %O
       `,
       error.config.data && JSON.parse(error.config.data) || error.config.params || null,
-      error?.response?.data,
+      responseData,
     )
     return Promise.reject(error)
   })
