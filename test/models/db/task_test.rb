@@ -21,10 +21,23 @@ class DB::TaskTest < ActiveSupport::TestCase
     task = ::FactoryBot.create(:task)
     assert_equal 65_536, task.pos
 
-    task = ::FactoryBot.create(:task, list_id: task.list.id)
-    assert_equal 65_536 + 1024, task.pos
+    5.times do |i|
+      task = ::FactoryBot.create(:task, list_id: task.list.id)
+      assert_equal 65_536 + 1024 * (i + 1), task.pos
+    end
 
     task = ::FactoryBot.create(:task, list_id: task.list.id, pos: 1)
     assert_equal 1, task.pos
+  end
+
+  should 'delete association with tag, when task is destroyed' do
+    tag = ::FactoryBot.create(:tag)
+    task = ::FactoryBot.create(:task)
+    task.tags << tag
+    assert_not_nil task.tags.first
+    assert_not_nil tag.tasks.first
+    task.destroy
+    assert_nil task.tags.first
+    assert_nil tag.tasks.first
   end
 end

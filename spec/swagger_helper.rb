@@ -66,6 +66,54 @@ end
             },
             required: %w[name email]
           },
+          comment_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              body: { type: :string },
+              deleted: { type: :boolean },
+              author_id: { type: :integer },
+              task_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
+            },
+            required: %w[id body deleted url]
+          },
+          tag_request: {
+            type: :object,
+            properties: {
+              body: { type: :string },
+              author_id: { type: :integer },
+              task_id: { type: :integer },
+            },
+            required: %w[body author_id task_id]
+          },
+          tag_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              colour: { type: :string },
+              board_id: { type: :integer },
+              created_at: { type: :string, format: :date_time },
+              updated_at: { type: :string, format: :date_time },
+              url: { type: :string },
+              board_url: { type: :string }
+            },
+            required: %w[id]
+          },
+          tag_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              colour: { type: :string },
+              board_id: { type: :integer },
+              task_id: { type: :integer },
+            },
+            required: %w[]
+          },
           task_response: {
             type: :object,
             properties: {
@@ -80,7 +128,8 @@ end
               list_id: { type: :integer },
               list_url: { type: :string },
               url: { type: :string },
-              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
+              users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true },
+              tags: { type: :array, items: { '$ref' => '#/components/schemas/tag_response' }, nullable: true }
             },
             required: %w[id name pos priority points list_id]
           },
