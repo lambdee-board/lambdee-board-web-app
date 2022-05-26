@@ -208,7 +208,7 @@ function TaskList(props) {
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
-  const handleNewTaskClick = () => {
+  const newTaskButtonOnClick = () => {
     toggleNewTaskButton()
     setTimeout(() => {
       if (!listRef.current || !newTaskInputRef.current) return
@@ -235,6 +235,7 @@ function TaskList(props) {
       })
       .catch((error) => {
         // failed or rejected
+        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -308,7 +309,7 @@ function TaskList(props) {
         </List>
         <Box className='TaskList-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button onClick={handleNewTaskClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }

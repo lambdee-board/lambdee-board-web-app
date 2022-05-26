@@ -38,6 +38,7 @@ describe('TaskList', () => {
       cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('New Test Task{enter}')
+      cy.wait(500)
       cy.get('.TaskCard').contains('New Test Task')
     })
   })
