@@ -120,12 +120,8 @@ const TaskCard = (props) => {
           <TaskCardModal taskId={props.id} />
         </Box>
       </Modal>
-      <Card
-        className='.MuiCard-root'
-        onClick={handleOpenTaskCardModal}
-        ref={dndRef}
-        data-handler-id={handlerId}>
-        <Typography>
+      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
+        <Typography className='TaskCard-label'>
           {props.taskLabel}
         </Typography>
         <Box className='Box-tags'>
