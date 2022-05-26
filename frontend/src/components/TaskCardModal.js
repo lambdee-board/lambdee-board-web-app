@@ -67,7 +67,7 @@ const TaskCardModal = (props) => {
 
   return (
     <Box className='TaskCardModal-wrapper'>
-      {!isLoading || !isError ? (
+      {isLoading || isError ? (
         <TaskCardModalSkeleton />
       ) : (
         <Box className='TaskCardModal-paper'>
