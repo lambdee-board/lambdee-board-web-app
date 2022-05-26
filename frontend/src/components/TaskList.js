@@ -1,4 +1,5 @@
-import React, { useRef } from 'react'
+import React, { useCallback, } from 'react'
+import update from 'immutability-helper'
 import {
   List,
   ListItem,
@@ -20,11 +21,12 @@ import apiClient from '../api/apiClient'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
 import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useList from '../api/useList'
+import useList, { mutateList } from '../api/useList'
 
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+import TaskDropZone from './TaskDropZone'
 
 
 function TaskListSkeletonContent() {
@@ -67,14 +69,23 @@ function TaskListSkeleton() {
 function TaskList(props) {
   const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
 
-  const dndRef = useRef(null)
-  const dndPreviewRef = useRef(null)
+  const [sortedTasks, setNewTaskOrder] = React.useState([])
+  const dndRef = React.useRef(null)
+  const dndPreviewRef = React.useRef(null)
   const [moveList, updateListPos] = props.dndFun
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
+
+
+  React.useEffect(() => {
+    if (taskList) {
+      const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+      setNewTaskOrder([...sortedTasksList])
+    }
+  }, [taskList])
 
   const [{ handlerId }, drop] = useDrop({
     accept: ItemTypes.TASKLIST,
@@ -123,8 +134,77 @@ function TaskList(props) {
     })
   })
 
+
+  const moveTaskInList = React.useCallback((dragIndex, hoverIndex) => {
+    setNewTaskOrder((prevState) => {
+      const newState = update(prevState,
+        { $splice: [
+          [dragIndex, 1],
+          [hoverIndex, 0, prevState[dragIndex]],
+        ], })
+
+      if (hoverIndex === 0) {
+        newState[hoverIndex].pos = newState[1].pos / 2
+      } else if (hoverIndex === newState.length - 1) {
+        newState[hoverIndex].pos = newState.at(-2).pos + 1024
+      } else {
+        newState[hoverIndex].pos = (newState[hoverIndex - 1].pos + newState[hoverIndex + 1].pos) / 2
+      }
+      return newState
+    })
+  },
+  [])
+
+  const updateTaskPos = useCallback((dragIndex, hoverIndex) => {
+    const taskId = sortedTasks[dragIndex].id
+    const newPos = sortedTasks[dragIndex].pos
+
+    const updatedTask = {
+      id: taskId,
+      pos: newPos,
+    }
+    apiClient.put(`/api/tasks/${taskId}`, updatedTask)
+      .then((response) => {})
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }, [dispatch, sortedTasks])
+
+
   drag(drop(dndRef))
   dragPreview(dndPreviewRef)
+
+
+  const assignTaskToNewList = (item, newListId) => {
+    const index = item.idxInNewList
+    let newPos = null
+    if (sortedTasks.length > 0) {
+      if (index === 0) {
+        newPos = sortedTasks[0].pos / 2
+      } else if (index === sortedTasks.length - 1) {
+        newPos = sortedTasks.at(-1).pos + 1024
+      } else {
+        newPos = (sortedTasks[index].pos + sortedTasks[index + 1].pos) / 2
+      }
+    }
+
+    const updateTask = {
+      listId: newListId,
+      pos: newPos || item.pos
+    }
+    apiClient.put(`/api/tasks/${item.id}`, updateTask)
+      .then((response) => {
+        // successful request
+        mutateList(item.listId, { params: { tasks: 'all' } })
+        mutateList(newListId, { params: { tasks: 'all' } })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
@@ -185,20 +265,29 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList ? taskList?.tasks?.map((task, index) => (
-            <ListItem className='TaskList-item' key={index} >
-              <TaskCard key={task.id}
-                taskId={task.id}
-                taskLabel={task.name}
-                taskTags={task.tags}
-                taskPriority={task.priority}
-                assignedUsers={task.users}
-                taskPoints={task.points}
-              />
-            </ListItem>
-          )) : (
+          {taskList ? (<TaskDropZone listId={props.id} dndFun={[assignTaskToNewList]}>
+            {
+              sortedTasks.map((task, taskIndex) => (
+                <ListItem className='TaskList-item' key={taskIndex} >
+                  <TaskCard key={`${task.name}-${task.id}`}
+                    id={task.id}
+                    taskLabel={task.name}
+                    taskTags={task.tags}
+                    taskPriority={task.priority}
+                    assignedUsers={task.users}
+                    taskPoints={task.points}
+                    index={taskIndex}
+                    parentIndex={task.listId}
+                    pos={task.pos}
+                    dndFun={[moveTaskInList, updateTaskPos]}
+                  />
+                </ListItem>
+              ))}
+          </TaskDropZone>
+          ) : (
             <TaskListSkeletonContent />
           )}
+
           { !newTaskButtonVisible &&
             <Card
               className='TaskList-new-task'>
@@ -209,7 +298,7 @@ function TaskList(props) {
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
-                // onBlur={(e) => toggleNewTaskButton()}
+                onBlur={(e) => toggleNewTaskButton()}
               />
               <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />

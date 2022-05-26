@@ -6,15 +6,10 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
-::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
-::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
-::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
-::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
-
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
-  board.lists << list = ::FactoryBot.create(:list, name: 'Backlog')
+  list = ::FactoryBot.create(:list, board:, name: 'Backlog')
 
   frontend_tag = ::FactoryBot.create(:tag, name: 'Frontend', board:)
   backend_tag = ::FactoryBot.create(:tag, name: 'Backend', board:)
@@ -35,7 +30,7 @@ def create_board(workspace)
   task.tags << backend_tag
 
   5.times do |i|
-    board.lists << list = ::FactoryBot.create(:list)
+    list = ::FactoryBot.create(:list, board:)
     rand(5).times do
       task = ::FactoryBot.create(:task, list:)
       rand(4).times { task.users << ::FactoryBot.create(:user) }
@@ -48,6 +43,10 @@ def create_board(workspace)
 end
 
 usr = ::FactoryBot.create(:user)
+::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
+::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
+::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
+::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
 wrk = ::FactoryBot.create :workspace
 wrk.users << usr
 2.times { create_board(wrk) }

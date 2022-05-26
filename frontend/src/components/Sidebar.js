@@ -144,7 +144,7 @@ export default function Sidebar() {
                   active={board.id === boardId}
                   label={board.name}
                   onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
-                  icon={<FontAwesomeIcon icon={faClipboardList} color={board.color} />}
+                  icon={<FontAwesomeIcon icon={faClipboardList} color={board.colour} />}
                 />
               ))}
             </List>
