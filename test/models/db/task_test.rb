@@ -10,10 +10,10 @@ class DB::TaskTest < ActiveSupport::TestCase
     assert_not task.persisted?
   end
 
-  should 'not save when description length is longer than 300 characters' do
-    task = ::FactoryBot.build(:task, description: 'a' * 301)
+  should 'not save when description length is longer than 1000 characters' do
+    task = ::FactoryBot.build(:task, description: 'a' * 1001)
     task.save
-    assert_equal 'Description is too long (maximum is 300 characters)', task.errors.full_messages.first
+    assert_equal 'Description is too long (maximum is 1000 characters)', task.errors.full_messages.first
     assert_not task.persisted?
   end
 

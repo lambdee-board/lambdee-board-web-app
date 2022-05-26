@@ -1,3 +1,4 @@
 export const ItemTypes = {
-  TASKLIST: 'TaskList'
+  TASKLIST: 'TaskList',
+  TASKCARD: 'TaskCard',
 }

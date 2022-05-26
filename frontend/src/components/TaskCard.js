@@ -1,4 +1,4 @@
-import * as React from 'react'
+import React, { useRef } from 'react'
 import {
   Box,
   Card,
@@ -11,6 +11,9 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import PriorityIcon from './PriorityIcon.js'
+import { useDrag, useDrop } from 'react-dnd'
+import { ItemTypes } from '../constants/draggableItems'
+
 import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
 
@@ -38,11 +41,73 @@ const TaskCardSkeleton = () => {
 
 
 const TaskCard = (props) => {
+  const dndRef = useRef(null)
+  const [moveTaskInList, updateTaskPos] = props.dndFun
+
+  const [{ handlerId }, drop] = useDrop({
+    accept: ItemTypes.TASKCARD,
+    collect(monitor) {
+      return {
+        handlerId: monitor.getHandlerId(),
+      }
+    },
+    drop(item, monitor) {
+      if (item.listId === props.parentIndex) {
+        updateTaskPos(item.index, props.index)
+      }
+    },
+    hover(item, monitor)  {
+      if (!dndRef.current) return
+
+      if (item.listId !== props.parentIndex) {
+        item.idxInNewList = props.index
+        return
+      }
+
+      const dragIndex = item.index
+      const hoverIndex = props.index
+
+      if (dragIndex === hoverIndex) return
+
+      const hoveredRect = dndRef.current.getBoundingClientRect()
+      const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2
+      const mousePosition = monitor.getClientOffset()
+      const hoverClientY = mousePosition.y - hoveredRect.top
+
+
+      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) return
+
+      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return
+
+      moveTaskInList(dragIndex, hoverIndex)
+
+      item.index = hoverIndex
+    }
+  })
+
+  const [{ isDragging }, drag] = useDrag({
+    type: ItemTypes.TASKCARD,
+    item: {
+      id: props.id,
+      index: props.index,
+      listId: props.parentIndex,
+      pos: props.pos,
+      idxInNewList: 0
+    },
+    isDragging: (monitor) => (props.id === monitor.getItem().id),
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    })
+  })
+
+  drag(drop(dndRef))
+
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
+
   return (
-    <div className='TaskCard'>
+    <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -52,10 +117,14 @@ const TaskCard = (props) => {
           left: '50%',
           transform: 'translate(-50%, -50%)',
           outline: 0 }}>
-          <TaskCardModal taskId={props.taskId} />
+          <TaskCardModal taskId={props.id} />
         </Box>
       </Modal>
-      <Card onClick={handleOpenTaskCardModal} className='.MuiCard-root'>
+      <Card
+        className='.MuiCard-root'
+        onClick={handleOpenTaskCardModal}
+        ref={dndRef}
+        data-handler-id={handlerId}>
         <Typography>
           {props.taskLabel}
         </Typography>
@@ -87,12 +156,16 @@ TaskCard.defaultProps = {
 }
 
 TaskCard.propTypes = {
-  taskId: PropTypes.number.isRequired,
+  assignedUsers: PropTypes.array.isRequired,
+  id: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
+  dndFun: PropTypes.array.isRequired,
+  parentIndex: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
   taskLabel: PropTypes.string.isRequired,
+  taskPoints: PropTypes.number,
   taskPriority: PropTypes.string,
   taskTags: PropTypes.array.isRequired,
-  assignedUsers: PropTypes.array.isRequired,
-  taskPoints: PropTypes.number
 }
 
 export default TaskCard
