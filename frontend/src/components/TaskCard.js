@@ -56,14 +56,17 @@ const TaskCard = (props) => {
     hover(item, monitor)  {
       if (!dndRef.current) return
 
-      if (item.listId !== props.parentIndex) return
+      if (item.listId !== props.parentIndex) {
+        item.idxInNewList = props.index
+        return
+      }
 
       const dragIndex = item.index
       const hoverIndex = props.index
 
       if (dragIndex === hoverIndex) return
 
-      const hoveredRect = dndRef.current?.getBoundingClientRect()
+      const hoveredRect = dndRef.current.getBoundingClientRect()
       const hoverMiddleY = (hoveredRect.bottom - hoveredRect.top) / 2
       const mousePosition = monitor.getClientOffset()
       const hoverClientY = mousePosition.y - hoveredRect.top
@@ -73,20 +76,22 @@ const TaskCard = (props) => {
 
       if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) return
 
-      moveTaskInList(dragIndex, hoverIndex, props.parentIndex)
+      moveTaskInList(dragIndex, hoverIndex)
 
       item.index = hoverIndex
     }
   })
 
-  const [{ isDragging }, drag, dragPreview] = useDrag({
+  const [{ isDragging }, drag] = useDrag({
     type: ItemTypes.TASKCARD,
     item: {
       id: props.id,
-      name: props.taskLabel,
       index: props.index,
-      listId: props.parentIndex
+      listId: props.parentIndex,
+      pos: props.pos,
+      idxInNewList: 0
     },
+    isDragging: (monitor) => (props.id === monitor.getItem().id),
     collect: (monitor) => ({
       isDragging: monitor.isDragging(),
     })
@@ -95,8 +100,8 @@ const TaskCard = (props) => {
   drag(drop(dndRef))
 
   return (
-    <div className='TaskCard'>
-      <Card className='.MuiCard-root' ref={dndRef} sx={{ opacity: isDragging ? 0 : 1 }} data-handler-id={handlerId}>
+    <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
+      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId}>
         <Typography>
           {props.taskLabel}
         </Typography>
@@ -128,15 +133,16 @@ TaskCard.defaultProps = {
 }
 
 TaskCard.propTypes = {
-  index: PropTypes.number.isRequired,
+  assignedUsers: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
-  parentIndex: PropTypes.number.isRequired,
+  index: PropTypes.number.isRequired,
   dndFun: PropTypes.array.isRequired,
+  parentIndex: PropTypes.number.isRequired,
+  pos: PropTypes.number.isRequired,
   taskLabel: PropTypes.string.isRequired,
+  taskPoints: PropTypes.number,
   taskPriority: PropTypes.string,
   taskTags: PropTypes.array.isRequired,
-  assignedUsers: PropTypes.array.isRequired,
-  taskPoints: PropTypes.number
 }
 
 export default TaskCard

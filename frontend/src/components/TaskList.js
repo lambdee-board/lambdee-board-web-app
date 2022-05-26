@@ -176,9 +176,21 @@ function TaskList(props) {
 
 
   const assignTaskToNewList = (item, newListId) => {
+    const index = item.idxInNewList
+    let newPos = null
+    if (sortedTasks.length > 0) {
+      if (index === 0) {
+        newPos = sortedTasks[0].pos / 2
+      } else if (index === sortedTasks.length - 1) {
+        newPos = sortedTasks.at(-1).pos + 1024
+      } else {
+        newPos = (sortedTasks[index].pos + sortedTasks[index + 1].pos) / 2
+      }
+    }
+
     const updateTask = {
       listId: newListId,
-      // pos
+      pos: newPos || item.pos
     }
     apiClient.put(`/api/tasks/${item.id}`, updateTask)
       .then((response) => {
@@ -256,7 +268,7 @@ function TaskList(props) {
             {
               sortedTasks.map((task, taskIndex) => (
                 <ListItem className='TaskList-item' key={taskIndex} >
-                  <TaskCard key={task.id}
+                  <TaskCard key={`${task.name}-${task.id}`}
                     id={task.id}
                     taskLabel={task.name}
                     taskTags={task.tags}
@@ -265,6 +277,7 @@ function TaskList(props) {
                     taskPoints={task.points}
                     index={taskIndex}
                     parentIndex={task.listId}
+                    pos={task.pos}
                     dndFun={[moveTaskInList, updateTaskPos]}
                   />
                 </ListItem>

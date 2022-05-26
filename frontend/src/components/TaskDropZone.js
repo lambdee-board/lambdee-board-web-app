@@ -9,16 +9,19 @@ const TaskDropZone = (props) => {
   const [{ isOver }, drop] = useDrop({
     accept: ItemTypes.TASKCARD,
     drop: (item, monitor) => {
-      console.log(item.listId, props.listId)
-      assignTaskToNewList(item, props.listId)
+      if (item.listId !== props.listId) {
+        console.log(item.idxInNewList)
+        assignTaskToNewList(item, props.listId)
+      }
     },
     collect: (monitor) => ({
       isOver: monitor.isOver(),
     }),
   })
 
+
   return (
-    <div ref={drop} style={{ minHeight: 10, backgroundColor: isOver ? 'yellow' : 'inherit' }}>
+    <div ref={drop} style={{ minHeight: 20, backgroundColor: isOver ? 'yellow' : 'inherit' }}>
       {props.children}
     </div>
   )
