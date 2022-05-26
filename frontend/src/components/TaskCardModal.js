@@ -1,26 +1,27 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Paper,
   Typography,
   Box,
-  Container,
   Card,
   InputBase,
   IconButton,
   Skeleton,
   Avatar,
-  Stack,
-  Chip
+  Stack
 } from '@mui/material'
-import './TaskCardModal.sass'
+
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import './TaskCardModal.sass'
 import ModalComment from './task-card-modal/ModalComment'
 import UserInfo from './task-card-modal/UserInfo'
 import AvatarPopover from './task-card-modal/AvatarPopover'
-import useTask from '../api/useTask'
+import Tag from './Tag'
 import PriorityIcon from './PriorityIcon'
+
+import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
 
 
@@ -123,7 +124,7 @@ const TaskCardModal = (props) => {
                 {task.points ? <Avatar>{task.points}</Avatar> : null}
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
-                  <Chip key={tag.id} label={tag.name} sx={{ bgcolor: tag.colour }} size='small' />
+                  <Tag key={tag.id} name={tag.name} colour={tag.colour} />
                 ))}
                 <Typography>Assigned</Typography>
                 <Box className='TaskCardModal-sidebar-card-box'>

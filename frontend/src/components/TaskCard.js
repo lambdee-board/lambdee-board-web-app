@@ -4,7 +4,6 @@ import {
   Card,
   Typography,
   Avatar,
-  Chip,
   AvatarGroup,
   Skeleton,
   Modal
@@ -16,6 +15,7 @@ import { ItemTypes } from '../constants/draggableItems'
 
 import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
+import Tag from './Tag'
 
 
 const TaskCardSkeleton = () => {
@@ -128,9 +128,9 @@ const TaskCard = (props) => {
         <Typography>
           {props.taskLabel}
         </Typography>
-        <Box className='Box-categories'>
-          {props.taskTags.map((taskTag, index) => (
-            <Chip key={taskTag.name + index} label={taskTag.name} sx={{ color: taskTag.textColor, bgcolor: taskTag.backgroundColor }} size='small' />
+        <Box className='Box-tags'>
+          {props.taskTags.map((tag) => (
+            <Tag key={tag.id} name={tag.name} colour={tag.colour} />
           ))}
         </Box>
         <Box className='Box'>
@@ -139,7 +139,7 @@ const TaskCard = (props) => {
             {props.taskPoints ? <Avatar className='Box-priority-avatar'>{props.taskPoints}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
-            {props.assignedUsers.map((assignedUser, index) => (
+            {props.assignedUsers.map((assignedUser) => (
               <Avatar key={assignedUser.id} alt={assignedUser.name} src={assignedUser.avatarUrl} />
             ))}
           </AvatarGroup>
