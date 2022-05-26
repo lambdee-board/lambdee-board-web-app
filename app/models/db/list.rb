@@ -8,6 +8,8 @@ class DB::List < ::ApplicationRecord
   belongs_to :board
   has_many :tasks
 
+  before_create :set_highest_pos_in_board
+
   scope :include_tasks, -> { includes(tasks: %i[tags users]) }
   scope :with_visible_tasks, -> { include_tasks.where(deleted: false) }
   scope :with_archived_tasks, -> { include_tasks.where(deleted: true) }
@@ -21,4 +23,11 @@ class DB::List < ::ApplicationRecord
   end
 
   validates :name, presence: true, length: { maximum: 50 }
+
+  # Sets `pos` value to be the last in the list
+  def set_highest_pos_in_board
+    return unless board
+
+    self.pos ||= board.lists.order(:pos).last&.pos&.+(1024) || 65_536
+  end
 end

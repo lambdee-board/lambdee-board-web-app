@@ -20,13 +20,15 @@
         resources :tags, only: %i[index create]
         post :attach_tag, on: :member
         post :detach_tag, on: :member
+
+       resources :comments, only: %i[index]
       end
       resources :tags, except: %i[index]
-      resources :comments
+      resources :comments, except: %i[index]
     end
   end
 
   # path to the frontend React app
   root ::ApplicationController::FRONTEND_ACTION, as: :frontend
-  get '/*path', to: ::ApplicationController::FRONTEND_ACTION, format: false
+  get '/*path', to: ::ApplicationController::FRONTEND_ACTION, format: false, constraints: ->(req) { !req.path.match? %r{^/api/} }
 end

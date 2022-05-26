@@ -45,12 +45,12 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should "not create task with a too long description" do
     assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'Task name', pos: 1111, description: 'a' * 1000, list_id: @list.id } }, as: :json
+      post api_tasks_url, params: { task: { name: 'Task name', pos: 1111, description: 'a' * 1001, list_id: @list.id } }, as: :json
     end
 
     assert_response :unprocessable_entity
     json = ::JSON.parse response.body
-    assert_equal 'is too long (maximum is 300 characters)', json.dig('description', 0)
+    assert_equal 'is too long (maximum is 1000 characters)', json.dig('description', 0)
   end
 
   should "not create task without a list" do

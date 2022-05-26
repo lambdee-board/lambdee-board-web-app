@@ -36,7 +36,7 @@ const WorkspacesMenuButton = () => {
   return (
     <DropdownButton label='Workspaces'>
       {workspaces.map((workspace) => (
-        <MenuItem className='Workspace-menu-item' onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.name}>
+        <MenuItem className='Workspace-menu-item' onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.id}>
           <WorkspaceIcon name={workspace.name} size={32} />
           {workspace.name}
         </MenuItem>
