@@ -9,7 +9,11 @@ import {
   ListItemText,
   ListItemIcon,
   Button,
-  Skeleton
+  Skeleton,
+  InputBase,
+  IconButton,
+  Typography,
+  Card
 } from '@mui/material'
 import {
   faClipboardList,
@@ -21,7 +25,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
-
+import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import WorkspaceIcon from './WorkspaceIcon'
 import useWorkspace from '../api/useWorkspace'
 
@@ -98,6 +102,28 @@ function SidebarListSkeleton() {
 }
 
 export default function Sidebar() {
+  const [newBoardButtonVisible, setNewBoardButtonVisible] = React.useState(true)
+  const toggleNewBoardButton = () => setNewBoardButtonVisible(!newBoardButtonVisible)
+  const newBoardInputRef = React.useRef()
+  const newBoardButtonOnClick = () => {
+    toggleNewBoardButton()
+    setTimeout(() => {
+      if (!newBoardInputRef.current) return
+      const nameInput = newBoardInputRef.current.children[0]
+      nameInput.focus()
+    }, 25)
+  }
+  const newBoardNameInputOnKey = (e) => {
+    switch (e.key) {
+    case 'Enter':
+      e.preventDefault()
+      break
+    case 'Escape':
+      e.preventDefault()
+      toggleNewBoardButton()
+      break
+    }
+  }
   const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
@@ -149,6 +175,29 @@ export default function Sidebar() {
               ))}
             </List>
           )}
+          {!newBoardButtonVisible &&
+            <Box className='Sidebar-new-board'>
+              <InputBase
+                ref={newBoardInputRef}
+                className='Sidebar-new-board-input'
+                fullWidth
+                multiline
+                placeholder='Board Label'
+                onKeyDown={(e) => newBoardNameInputOnKey(e)}
+                onBlur={(e) => toggleNewBoardButton()}
+              />
+              <IconButton className='Sidebar-new-board-cancel' onClick={() => toggleNewBoardButton()}>
+                <FontAwesomeIcon className='Sidebar-new-board-cancel-icon' icon={faXmark} />
+              </IconButton>
+            </Box>
+          }
+          <Box className='Sidebar-new-board-wrapper'>
+            {newBoardButtonVisible &&
+            <Button onClick={newBoardButtonOnClick} className='Sidebar-new-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+              <Typography>New Board</Typography>
+            </Button>
+            }
+          </Box>
         </Box>
       </Drawer>
       <SidebarButton
