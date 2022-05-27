@@ -33,9 +33,9 @@ const ModalComment = (props) => {
                 </Box>
                 <Divider />
                 <Box className='ModalComment-content'>
-                  <ReactMarkdown children={comment.body}
-                    remarkPlugins={[remarkGfm]}
-                  />
+                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                    {comment.body}
+                  </ReactMarkdown>
                 </Box>
                 <Box className='ModalComment-footer'>
                   <Button className='ModalComment-footer-edit'>

@@ -87,9 +87,9 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
             </Typography>
             <Card className='TaskCardModal-main-description'>
-              <ReactMarkdown children={task.description}
-                remarkPlugins={[remarkGfm]}
-              />
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {task.description}
+              </ReactMarkdown>
             </Card>
             <Typography>
               Comments
