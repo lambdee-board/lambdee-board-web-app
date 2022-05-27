@@ -20,14 +20,18 @@ import {
   faScroll,
   faGear,
   faUsers,
-  faArrowLeft
+  faArrowLeft,
+  faPlus,
+  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
-import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import WorkspaceIcon from './WorkspaceIcon'
-import useWorkspace from '../api/useWorkspace'
+import useWorkspace, { mutateWorkspace } from '../api/useWorkspace'
+import apiClient from '../api/apiClient'
+import { addAlert } from '../redux/slices/appAlertSlice'
+import { useDispatch } from 'react-redux'
 
 import './Sidebar.sass'
 
@@ -102,6 +106,12 @@ function SidebarListSkeleton() {
 }
 
 export default function Sidebar() {
+  const theme = useTheme()
+  const navigate = useNavigate()
+  const { workspaceId, boardId } = useParams()
+  const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
+  const [isOpen, setOpen] = React.useState(true)
+  const dispatch = useDispatch()
   const [newBoardButtonVisible, setNewBoardButtonVisible] = React.useState(true)
   const toggleNewBoardButton = () => setNewBoardButtonVisible(!newBoardButtonVisible)
   const newBoardInputRef = React.useRef()
@@ -117,6 +127,7 @@ export default function Sidebar() {
     switch (e.key) {
     case 'Enter':
       e.preventDefault()
+      createNewBoard()
       break
     case 'Escape':
       e.preventDefault()
@@ -124,11 +135,24 @@ export default function Sidebar() {
       break
     }
   }
-  const theme = useTheme()
-  const navigate = useNavigate()
-  const { workspaceId, boardId } = useParams()
-  const { data: workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
-  const [isOpen, setOpen] = React.useState(true)
+  const createNewBoard = () => {
+    const nameInput = newBoardInputRef.current.children[0]
+    const newBoard = {
+      name: nameInput.value,
+      workspaceId: workspace.id,
+    }
+    apiClient.post('/api/boards', newBoard)
+      .then((response) => {
+        // successful request
+        mutate({ ...workspace, boards: [...workspace?.boards || [], response.data] })
+        toggleNewBoardButton()
+      })
+      .catch((error) => {
+        // failed or rejected
+        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
   return (
     <Box className='Sidebar-wrapper'>
