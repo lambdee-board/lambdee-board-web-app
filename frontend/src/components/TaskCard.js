@@ -9,19 +9,20 @@ import {
   Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import PriorityIcon from './PriorityIcon.js'
+import PriorityIcon from './PriorityIcon'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
 
 import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
+import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
 
 
 const TaskCardSkeleton = () => {
   return (
-    <div className='TaskCard'>
-      <Card className='.MuiCard-root'>
+    <div className='TaskCard-wrapper'>
+      <Card className='TaskCard'>
         <Typography>
           <Skeleton height={36} width={200} variant='text' />
         </Typography>
@@ -107,7 +108,7 @@ const TaskCard = (props) => {
   const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
 
   return (
-    <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
+    <div className='TaskCard-wrapper' style={{ opacity: isDragging ? 0 : 1 }} >
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -122,7 +123,7 @@ const TaskCard = (props) => {
           <TaskCardModal taskId={props.id} />
         </Box>
       </Modal>
-      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
+      <Card className='TaskCard' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
         <Typography className='TaskCard-label'>
           {props.taskLabel}
         </Typography>
@@ -138,7 +139,11 @@ const TaskCard = (props) => {
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
             {props.assignedUsers.map((assignedUser) => (
-              <Avatar key={assignedUser.id} alt={assignedUser.name} src={assignedUser.avatarUrl} />
+              <AvatarPopover
+                key={assignedUser.id}
+                userName={assignedUser.name}
+                userAvatar={assignedUser.avatarUrl}
+                userTitle={assignedUser.role} />
             ))}
           </AvatarGroup>
         </Box>

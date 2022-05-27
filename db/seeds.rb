@@ -17,12 +17,15 @@ def create_board(workspace)
 
   tags_amount.times { ::FactoryBot.create(:tag, board:) }
   task = ::FactoryBot.create(:task, list:, name: 'Add a login system', priority: :medium, points: 15, description: "## Nostrum\nDeserunt nemo dignissimos. Aliquam voluptas consectetur. Ad dolore eaque. Deserunt enim reprehenderit.\nearum | cumque | totam\n---- | ---- | ----\nquisquam | voluptas | eos\naut | eaque | dolorum")
+  task.users << ::DB::User.find(2)
+  task.users << ::DB::User.find(3)
   task.tags << frontend_tag
   task.tags << backend_tag
   ::FactoryBot.create(:comment, task:, author_id: 1, body: "#### Eaque\nQuasi natus sapiente.\nVero qui eum. Harum iusto accusantium. Ut **exercitationem** sunt.")
 
   task = ::FactoryBot.create(:task, list:, name: 'Add CI tests', priority: :low, points: 2, description: "#### Molestiae\nLaudantium temporibus repellendus. Enim iste qui. Modi necessitatibus fugiat. Iure recusandae amet.\n###### Praesentium\nId dolorem laborum. Dolorem laudantium quo. Ipsum exercitationem dolorem.\n```ruby\nAut.\n```")
   task.tags << devops_tag
+  task.users << ::DB::User.find(1)
   ::FactoryBot.create(:comment, task:, author_id: 3, body: "##### Laborum\nFacilis ullam commodi. Natus molestiae deserunt. Harum omnis maxime.\nmolestiae | excepturi | ab\n---- | ---- | ----\net | iusto | quos\ncum | ea | minima")
   ::FactoryBot.create(:comment, task:, author_id: 2, body: "# Consequuntur\nLaboriosam voluptas vel. Eveniet delectus deleniti.\n```ruby\nVoluptas.\n```")
 

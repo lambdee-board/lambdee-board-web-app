@@ -151,4 +151,44 @@ require 'swagger_helper'
       end
     end
   end
+
+  path '/api/tasks/{id}/assign_user' do
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
+
+    post('Assign User') do
+      tags 'Tasks'
+      parameter name: 'user', in: :body, schema: { type: :object, properties: { user_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:user) { { user_id: ::FactoryBot.create(:user).id } }
+        run_test!
+      end
+    end
+  end
+
+
+  path '/api/tasks/{id}/unassign_user' do
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
+
+    post('Unassign User') do
+      tags 'Tasks'
+      parameter name: 'user', in: :body, schema: { type: :object, properties: { user_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:new_user) { ::FactoryBot.create(:user) }
+        let(:id) do
+          task = ::FactoryBot.create(:task)
+          task.users << new_user
+          task.id
+        end
+        let(:user) { { user_id: new_user.id } }
+        run_test!
+      end
+    end
+  end
 end

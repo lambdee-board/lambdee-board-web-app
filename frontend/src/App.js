@@ -15,7 +15,7 @@ import Navbar from './components/Navbar'
 
 const swrConfig = {
   refreshInterval: process.env.NODE_ENV === 'development' ? null : 15000,
-  revalidateOnFocus: true
+  revalidateOnFocus: process.env.NODE_ENV !== 'development'
 }
 
 function App() {
