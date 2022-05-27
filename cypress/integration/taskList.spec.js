@@ -38,6 +38,7 @@ describe('TaskList', () => {
       cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('New Test Task{enter}')
+      cy.wait(500)
       cy.get('.TaskCard').contains('New Test Task')
     })
   })
@@ -66,7 +67,6 @@ describe('TaskList', () => {
     })
 
     it('can drag Backlog list to last position', () => {
-      cy.viewport(1800, 880)
       cy.get('.TaskList-header-text').should('exist')
 
       cy.get('.TaskList-header').contains('Backlog').trigger('dragstart')
@@ -75,6 +75,19 @@ describe('TaskList', () => {
         .trigger('drop')
 
       cy.contains('Backlog')
+    })
+
+
+    it('can drag task to Backlog list', () => {
+      cy.get('.TaskCard-label').parent().last()
+        .trigger('dragstart')
+
+      cy.get('.TaskList-DropZone').should('exist').eq(0)
+        .trigger('dragenter')
+        .trigger('drop')
+
+      // cy.contains('Backlog').parents('.TaskList').children('.TaskList-DropZone')
+      //   .children() // tasks in backlog
     })
   })
 })

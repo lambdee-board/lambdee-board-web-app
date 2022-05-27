@@ -29,8 +29,8 @@ const RecentMenuButton = () => {
 
   return (
     <DropdownButton label='Recent'>
-      {workspaces.map((workspace) => (
-        <MenuItem onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={workspace.name}>
+      {workspaces.map((workspace, index) => (
+        <MenuItem onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={`${workspace.name}-${index}`}>
           <WorkspaceIcon name={workspace.name} size={32} />
           {workspace.name}
         </MenuItem>

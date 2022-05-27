@@ -21,7 +21,7 @@ const TaskDropZone = (props) => {
 
 
   return (
-    <div ref={drop} style={{ minHeight: 20, backgroundColor: isOver ? 'yellow' : 'inherit' }}>
+    <div ref={drop} className='TaskList-DropZone' style={{ minHeight: 20, backgroundColor: isOver ? 'yellow' : 'inherit' }}>
       {props.children}
     </div>
   )

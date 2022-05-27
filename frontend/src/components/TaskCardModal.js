@@ -1,26 +1,30 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Paper,
   Typography,
   Box,
-  Container,
   Card,
   InputBase,
   IconButton,
   Skeleton,
   Avatar,
-  Stack,
-  Chip
+  Stack
 } from '@mui/material'
-import './TaskCardModal.sass'
+
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ModalComment from './task-card-modal/ModalComment'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
+
+import './TaskCardModal.sass'
+import './task-card-modal/Markdown.sass'
+import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import AvatarPopover from './task-card-modal/AvatarPopover'
-import useTask from '../api/useTask'
+import Tag from './Tag'
 import PriorityIcon from './PriorityIcon'
+
+import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
 
 
@@ -70,7 +74,7 @@ const TaskCardModal = (props) => {
       {isLoading || isError ? (
         <TaskCardModalSkeleton />
       ) : (
-        <Box className='TaskCardModal-paper'>
+        <Card className='TaskCardModal-paper'>
           <Box className='TaskCardModal-main'>
             <Box className='TaskCardModal-main-label'>
               <Typography variant='h6'>
@@ -82,8 +86,10 @@ const TaskCardModal = (props) => {
               Description
               <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
             </Typography>
-            <Card className='TaskCardModal-main-description'>
-              <Typography>{task.description}</Typography>
+            <Card className='TaskCardModal-main-description markdown-text'>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {task.description}
+              </ReactMarkdown>
             </Card>
             <Typography>
               Comments
@@ -102,7 +108,7 @@ const TaskCardModal = (props) => {
                 <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-            <ModalComment taskId={task.id} />
+            <TaskComments taskId={task.id} />
           </Box>
           <Box className='TaskCardModal-sidebar'>
             <Card className='TaskCardModal-sidebar-card'>
@@ -123,7 +129,7 @@ const TaskCardModal = (props) => {
                 {task.points ? <Avatar>{task.points}</Avatar> : null}
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
-                  <Chip key={tag.id} label={tag.name} sx={{ bgcolor: tag.colour }} size='small' />
+                  <Tag key={tag.id} name={tag.name} colour={tag.colour} />
                 ))}
                 <Typography>Assigned</Typography>
                 <Box className='TaskCardModal-sidebar-card-box'>
@@ -136,7 +142,7 @@ const TaskCardModal = (props) => {
               </Stack>
             </Card>
           </Box>
-        </Box>
+        </Card>
       )}
     </Box>
   )
