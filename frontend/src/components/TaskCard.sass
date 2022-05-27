@@ -6,6 +6,11 @@
   .TaskCard
     padding: 1 * $unit
     margin: (.25 * $unit) (.5 * $unit)
+    @include transition
+    cursor: pointer
+
+    &:hover
+      background-color: darken(#fff, 3%)
 
     .Box-tags
       margin-top: calc($unit / 2)

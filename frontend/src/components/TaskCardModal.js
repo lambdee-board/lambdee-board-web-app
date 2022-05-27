@@ -10,7 +10,7 @@ import {
   Stack
 } from '@mui/material'
 
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -19,7 +19,6 @@ import './TaskCardModal.sass'
 import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
-import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
 import PriorityIcon from './PriorityIcon'
 
@@ -172,6 +171,12 @@ const TaskCardModal = (props) => {
                     <UserInfo userName={user.name} userTitle={user.role} />
                   </Box>
                 ))}
+                <Box className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'>
+                  <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                    <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                  </Avatar>
+                  <UserInfo userName='Assign' />
+                </Box>
               </Stack>
             </Stack>
           </Card>

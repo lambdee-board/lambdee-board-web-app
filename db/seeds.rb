@@ -45,13 +45,13 @@ def create_board(workspace)
   board
 end
 
-usr = ::FactoryBot.create(:user)
-::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
-::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
-::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
-::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
 wrk = ::FactoryBot.create :workspace
-wrk.users << usr
+wrk.users << usr = ::FactoryBot.create(:user)
+wrk.users << ::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
+wrk.users << ::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
+wrk.users << ::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
+wrk.users << ::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
+
 2.times { create_board(wrk) }
 
 2.times { ::FactoryBot.create(:board, workspace: wrk) }

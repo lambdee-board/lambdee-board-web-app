@@ -18,11 +18,11 @@ class Priority {
 
 /* eslint-disable camelcase */
 const PRIORITIES = {
-  very_low: new Priority('blue', faAngleDoubleDown),
-  low: new Priority('green', faAngleDown),
-  medium: new Priority('yellow', faMinus),
-  high: new Priority('orange', faAngleUp),
-  very_high: new Priority('red', faAngleDoubleUp),
+  very_low: new Priority('#029FD1', faAngleDoubleDown),
+  low: new Priority('#2FD89B', faAngleDown),
+  medium: new Priority('#FFCA28', faMinus),
+  high: new Priority('#EC662C', faAngleUp),
+  very_high: new Priority('#F34483', faAngleDoubleUp),
 }
 /* eslint-enable camelcase */
 
@@ -30,7 +30,7 @@ const PriorityIcon = (props) => {
   const priorityObject = PRIORITIES[props.taskPriority]
   if (!priorityObject) return
 
-  return <FontAwesomeIcon size={props.size} color={priorityObject.colour} icon={priorityObject.icon} />
+  return <FontAwesomeIcon size={props.size || 'lg'} color={priorityObject.colour} icon={priorityObject.icon} />
 }
 
 PriorityIcon.propTypes = {
