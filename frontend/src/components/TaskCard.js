@@ -9,12 +9,13 @@ import {
   Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import PriorityIcon from './PriorityIcon.js'
+import PriorityIcon from './PriorityIcon'
 import { useDrag, useDrop } from 'react-dnd'
 import { ItemTypes } from '../constants/draggableItems'
 
 import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
+import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
 
 
@@ -138,7 +139,11 @@ const TaskCard = (props) => {
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
             {props.assignedUsers.map((assignedUser) => (
-              <Avatar key={assignedUser.id} alt={assignedUser.name} src={assignedUser.avatarUrl} />
+              <AvatarPopover
+                key={assignedUser.id}
+                userName={assignedUser.name}
+                userAvatar={assignedUser.avatarUrl}
+                userTitle={assignedUser.role} />
             ))}
           </AvatarGroup>
         </Box>

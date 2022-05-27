@@ -21,41 +21,50 @@ import useComments from '../../api/useComments'
 
 const TaskComments = (props) => {
   const { data: comments, isLoading, isError } = useComments(props.taskId, { params: { withAuthor: 'true' } })
+
+  // TODO: Skeleton
+  if (isLoading || isError) return (
+    <Box className='TaskComments-wrapper'>
+    </Box>
+  )
+
   return (
     <Box className='TaskComments-wrapper'>
-      {isLoading || isError ? (null) : (
-        <Box className='TaskComments-loaded-wrapper'>
-          {comments.map((comment) => (
-            <Card key={comment.id} className='TaskComment'>
-              <Box>
-                <Box className='TaskComment-info'>
-                  <Avatar className='TaskComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
-                  <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
-                  <Typography variant='caption' className='TaskComment-info-date'>{comment.updatedAt.split('T')[0]}</Typography>
-                </Box>
-                <Divider />
-                <Box className='TaskComment-content markdown-text'>
-                  <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                    {comment.body}
-                  </ReactMarkdown>
-                </Box>
-                <Box className='TaskComment-footer'>
-                  <Button className='TaskComment-footer-edit'>
-                    <Typography variant='body2'>
-                      <FontAwesomeIcon className='TaskComment-footer-icon' icon={faPencil} />
-                  Edit</Typography>
-                  </Button>
-                  <Button className='TaskComment-footer-delete'>
-                    <Typography variant='body2'>
-                      <FontAwesomeIcon className='TaskComment-footer-icon' icon={faTrash} />
-                  Delete</Typography>
-                  </Button>
-                </Box>
+      <Box className='TaskComments-loaded-wrapper'>
+        {comments?.map((comment) => (
+          <Card key={comment.id} className='TaskComment'>
+            <Box>
+              <Box className='TaskComment-info'>
+                <Avatar className='TaskComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
+                <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
+
+                <Typography variant='caption' className='TaskComment-info-date'>
+                  {/* TODO: proper date parsing and formatting */}
+                  {comment.updatedAt.split('T')[0]}
+                </Typography>
               </Box>
-            </Card>
-          ))}
-        </Box>
-      )}
+              <Divider />
+              <Box className='TaskComment-content markdown-text'>
+                <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                  {comment.body}
+                </ReactMarkdown>
+              </Box>
+              <Box className='TaskComment-footer'>
+                <Button className='TaskComment-footer-edit'>
+                  <Typography variant='body2'>
+                    <FontAwesomeIcon className='TaskComment-footer-icon' icon={faPencil} />
+                  Edit</Typography>
+                </Button>
+                <Button className='TaskComment-footer-delete'>
+                  <Typography variant='body2'>
+                    <FontAwesomeIcon className='TaskComment-footer-icon' icon={faTrash} />
+                  Delete</Typography>
+                </Button>
+              </Box>
+            </Box>
+          </Card>
+        ))}
+      </Box>
     </Box>
   )
 }

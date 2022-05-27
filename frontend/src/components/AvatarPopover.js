@@ -1,26 +1,22 @@
 import * as React from 'react'
 import {
   Avatar,
-  Box,
   Popover
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import './AvatarPopover.sass'
-import UserInfo from './UserInfo'
+
+import UserInfo from './task-card-modal/UserInfo'
 
 const AvatarPopover = (props) => {
   const [anchorAvatarPopover, setAnchorAvatarPopover] = React.useState(null)
 
-  const handleAvatarPopoverOpen = (event) => {
-    setAnchorAvatarPopover(event.currentTarget)
-  }
+  const handleAvatarPopoverOpen = (event) => setAnchorAvatarPopover(event.currentTarget)
+  const handleAvatarPopoverClose = () => setAnchorAvatarPopover(null)
 
-  const handleAvatarPopoverClose = () => {
-    setAnchorAvatarPopover(null)
-  }
   const open = Boolean(anchorAvatarPopover)
+
   return (
-    <Box className='AvatarPopover-wrapper'>
+    <>
       <Avatar
         aria-owns={open ? 'mouse-over-popover' : undefined}
         onMouseEnter={handleAvatarPopoverOpen}
@@ -48,7 +44,7 @@ const AvatarPopover = (props) => {
       >
         <UserInfo userName={props.userName} userTitle={props.userTitle} />
       </Popover>
-    </Box>
+    </>
   )
 }
 

@@ -19,7 +19,7 @@ import './TaskCardModal.sass'
 import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
-import AvatarPopover from './task-card-modal/AvatarPopover'
+import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
 import PriorityIcon from './PriorityIcon'
 
@@ -145,7 +145,7 @@ const TaskCardModal = (props) => {
               <Stack spacing={1}>
                 <Typography>Priority</Typography>
                 {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
-                  <PriorityIcon taskPriority={task.priority} />
+                  <PriorityIcon size='xl' taskPriority={task.priority} />
                 </Box> : null
                 }
               </Stack>
@@ -164,13 +164,14 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
-                <Box className='TaskCardModal-sidebar-card-box'>
-                  {task.users.map((user) => (
-                    <AvatarPopover
-                      key={user.id} userName={user.name} userAvatar={user.avatarUrl} userTitle={task.author.role}
+                {task.users.map((user) => (
+                  <Box className='TaskCardModal-sidebar-card-box' key={user.id}>
+                    <Avatar className='TaskCardModal-main-avatar'
+                      alt={user.name} src={user.avatarUrl}
                     />
-                  ))}
-                </Box>
+                    <UserInfo userName={user.name} userTitle={user.role} />
+                  </Box>
+                ))}
               </Stack>
             </Stack>
           </Card>
