@@ -20,8 +20,8 @@ import Tag from './Tag'
 
 const TaskCardSkeleton = () => {
   return (
-    <div className='TaskCard'>
-      <Card className='.MuiCard-root'>
+    <div className='TaskCard-wrapper'>
+      <Card className='TaskCard'>
         <Typography>
           <Skeleton height={36} width={200} variant='text' />
         </Typography>
@@ -107,7 +107,7 @@ const TaskCard = (props) => {
   const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
 
   return (
-    <div className='TaskCard' style={{ opacity: isDragging ? 0 : 1 }} >
+    <div className='TaskCard-wrapper' style={{ opacity: isDragging ? 0 : 1 }} >
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -122,7 +122,7 @@ const TaskCard = (props) => {
           <TaskCardModal taskId={props.id} />
         </Box>
       </Modal>
-      <Card className='.MuiCard-root' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
+      <Card className='TaskCard' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
         <Typography className='TaskCard-label'>
           {props.taskLabel}
         </Typography>
