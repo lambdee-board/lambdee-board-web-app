@@ -20,6 +20,8 @@
         resources :tags, only: %i[index create]
         post :attach_tag, on: :member
         post :detach_tag, on: :member
+        post :assign_user, on: :member
+        post :unassign_user, on: :member
 
        resources :comments, only: %i[index]
       end

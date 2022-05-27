@@ -127,7 +127,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     assert_equal tag.name, @task.tags.first.name
   end
 
-  should 'detach tag from the task' do
+  should 'detach a tag from the task' do
     tag = ::FactoryBot.create(:tag)
     @task.tags << tag
     assert_not_nil @task.tags.first
@@ -138,5 +138,28 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
     @task.reload
     assert_nil @task.tags.first
+  end
+
+  should 'assign a user to the task' do
+    user = ::FactoryBot.create(:user)
+    post assign_user_api_task_url(@task), params: { user_id: user.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_equal user.name, @task.users.first.name
+  end
+
+  should 'unassign a user from the task' do
+    user = ::FactoryBot.create(:user)
+    @task.users << user
+    assert_not_nil @task.users.first
+
+    post unassign_user_api_task_url(@task), params: { user_id: user.id }
+
+    assert_response :no_content
+
+    @task.reload
+    assert_nil @task.users.first
   end
 end

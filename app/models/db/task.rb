@@ -29,6 +29,11 @@ class DB::Task < ApplicationRecord
     alias with_all_associations include_associations
   end
 
+  # @return [Array<DB::User>]
+  def assignees
+    users
+  end
+
   # @return [DB::Board]
   def board
     list.board
