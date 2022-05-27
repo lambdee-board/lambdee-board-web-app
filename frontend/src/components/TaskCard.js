@@ -112,11 +112,13 @@ const TaskCard = (props) => {
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
       >
-        <Box className='TaskList-Modal' sx={{  position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          outline: 0 }}>
+        <Box
+          className='TaskList-Modal'
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
           <TaskCardModal taskId={props.id} />
         </Box>
       </Modal>
