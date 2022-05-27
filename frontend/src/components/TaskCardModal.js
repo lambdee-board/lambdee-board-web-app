@@ -14,6 +14,7 @@ import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+import { useDispatch } from 'react-redux'
 
 import './TaskCardModal.sass'
 import './task-card-modal/Markdown.sass'
@@ -21,10 +22,12 @@ import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
 import PriorityIcon from './PriorityIcon'
+import AssignUserSelect from './task-card-modal/AssignUserSelect'
 
+import { addAlert } from '../redux/slices/appAlertSlice'
 import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
-
+import apiClient from '../api/apiClient'
 
 function TaskCardModalSkeleton() {
   return (
@@ -87,7 +90,42 @@ function TaskCardModalSkeleton() {
 const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
   const { data: currentUser, isLoading: isCurrentUserLoading, isError: isCurrentUserError } = useCurrentUser()
-  const { data: task, isLoading: isTaskLoading, isError: isTaskError } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
+  const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
+  const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
+  const dispatch = useDispatch()
+
+  const assignUserButtonOnClick = () => {
+    setAssignUserSelectVisible(true)
+    setTimeout(() => {
+      document.getElementById('assign-user-to-task-select').focus()
+    }, 50)
+  }
+
+  const assignUserSelectOnBlur = () => {
+    setAssignUserSelectVisible(false)
+  }
+
+  const assignUserSelectOnChange = (e, user) => {
+    assignUser(user)
+    setAssignUserSelectVisible(false)
+  }
+
+  const assignUser = (user) => {
+    const payload = {
+      userId: user.id,
+    }
+    apiClient.post(`/api/tasks/${props.taskId}/assign_user`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, users: [...task?.users || [], user] })
+        // toggleNewTaskButton()
+      })
+      .catch((error) => {
+        // failed or rejected
+        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
   if (isTaskLoading || isTaskError || isCurrentUserLoading || isCurrentUserError) return (
     <TaskCardModalSkeleton />
@@ -171,12 +209,22 @@ const TaskCardModal = (props) => {
                     <UserInfo userName={user.name} userTitle={user.role} />
                   </Box>
                 ))}
-                <Box className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'>
-                  <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
-                    <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
-                  </Avatar>
-                  <UserInfo userName='Assign' />
-                </Box>
+
+                {assignUserSelectVisible ? (
+                  <AssignUserSelect
+                    onBlur={assignUserSelectOnBlur}
+                    onChange={assignUserSelectOnChange} />
+                ) : (
+                  <Box
+                    className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
+                    onClick={assignUserButtonOnClick}
+                  >
+                    <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                      <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                    </Avatar>
+                    <UserInfo userName='Assign' />
+                  </Box>
+                )}
               </Stack>
             </Stack>
           </Card>
