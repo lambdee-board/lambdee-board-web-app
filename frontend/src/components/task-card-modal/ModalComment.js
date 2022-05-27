@@ -9,17 +9,20 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import './ModalComment.sass'
+import './Markdown.sass'
 import UserInfo from './UserInfo'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 import useComments from '../../api/useComments'
 
 const ModalComment = (props) => {
   const { data: comments, isLoading, isError } = useComments(props.taskId, { params: { withAuthor: 'true' } })
   return (
-    <Box>
+    <Box className='ModalComment-wrapper'>
       {isLoading || isError ? (null) : (
-        <Box>
+        <Box className='ModalComment-loaded-wrapper' sx={{ overflow: 'hidden' }}>
           {comments.map((comment) => (
             <Card key={comment.id} className='ModalComment'>
               <Box>
@@ -30,9 +33,9 @@ const ModalComment = (props) => {
                 </Box>
                 <Divider />
                 <Box className='ModalComment-content'>
-                  <Typography>
-                    {comment.body}
-                  </Typography>
+                  <ReactMarkdown children={comment.body}
+                    remarkPlugins={[remarkGfm]}
+                  />
                 </Box>
                 <Box className='ModalComment-footer'>
                   <Button className='ModalComment-footer-edit'>

@@ -13,8 +13,11 @@ import {
 
 import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import ReactMarkdown from 'react-markdown'
+import remarkGfm from 'remark-gfm'
 
 import './TaskCardModal.sass'
+import './task-card-modal/Markdown.sass'
 import ModalComment from './task-card-modal/ModalComment'
 import UserInfo from './task-card-modal/UserInfo'
 import AvatarPopover from './task-card-modal/AvatarPopover'
@@ -84,7 +87,9 @@ const TaskCardModal = (props) => {
               <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
             </Typography>
             <Card className='TaskCardModal-main-description'>
-              <Typography>{task.description}</Typography>
+              <ReactMarkdown children={task.description}
+                remarkPlugins={[remarkGfm]}
+              />
             </Card>
             <Typography>
               Comments
