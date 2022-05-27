@@ -8,44 +8,46 @@ import {
   Avatar
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import './ModalComment.sass'
-import './Markdown.sass'
-import UserInfo from './UserInfo'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
+
+import './TaskComments.sass'
+import './Markdown.sass'
+
+import UserInfo from './UserInfo'
 import useComments from '../../api/useComments'
 
-const ModalComment = (props) => {
+const TaskComments = (props) => {
   const { data: comments, isLoading, isError } = useComments(props.taskId, { params: { withAuthor: 'true' } })
   return (
-    <Box className='ModalComment-wrapper'>
+    <Box className='TaskComments-wrapper'>
       {isLoading || isError ? (null) : (
-        <Box className='ModalComment-loaded-wrapper' sx={{ overflow: 'hidden' }}>
+        <Box className='TaskComments-loaded-wrapper'>
           {comments.map((comment) => (
-            <Card key={comment.id} className='ModalComment'>
+            <Card key={comment.id} className='TaskComment'>
               <Box>
-                <Box className='ModalComment-info'>
-                  <Avatar className='ModalComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
+                <Box className='TaskComment-info'>
+                  <Avatar className='TaskComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
                   <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
-                  <Typography variant='caption' className='ModalComment-info-date'>{comment.updatedAt.split('T')[0]}</Typography>
+                  <Typography variant='caption' className='TaskComment-info-date'>{comment.updatedAt.split('T')[0]}</Typography>
                 </Box>
                 <Divider />
-                <Box className='ModalComment-content'>
+                <Box className='TaskComment-content markdown-text'>
                   <ReactMarkdown remarkPlugins={[remarkGfm]}>
                     {comment.body}
                   </ReactMarkdown>
                 </Box>
-                <Box className='ModalComment-footer'>
-                  <Button className='ModalComment-footer-edit'>
+                <Box className='TaskComment-footer'>
+                  <Button className='TaskComment-footer-edit'>
                     <Typography variant='body2'>
-                      <FontAwesomeIcon className='ModalComment-footer-icon' icon={faPencil} />
+                      <FontAwesomeIcon className='TaskComment-footer-icon' icon={faPencil} />
                   Edit</Typography>
                   </Button>
-                  <Button className='ModalComment-footer-delete'>
+                  <Button className='TaskComment-footer-delete'>
                     <Typography variant='body2'>
-                      <FontAwesomeIcon className='ModalComment-footer-icon' icon={faTrash} />
+                      <FontAwesomeIcon className='TaskComment-footer-icon' icon={faTrash} />
                   Delete</Typography>
                   </Button>
                 </Box>
@@ -58,9 +60,9 @@ const ModalComment = (props) => {
   )
 }
 
-ModalComment.propTypes = {
+TaskComments.propTypes = {
   taskId: PropTypes.number.isRequired,
 }
 
 
-export default ModalComment
+export default TaskComments

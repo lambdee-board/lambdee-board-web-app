@@ -1,12 +1,23 @@
 @import './../styles/base'
 
 .TaskCardModal-wrapper
+  overflow-y: scroll
+  -ms-overflow-style: none // for Internet Explorer, Edge
+  scrollbar-width: none // for Firefox
+  &::-webkit-scrollbar
+    display: none // for Chrome, Safari, and Opera
+  max-height: calc(100vh)
   .TaskCardModal-paper
-    width: 120 * $unit
-    height: 100 * $unit
+    margin-top: 3 * $unit
+    margin-bottom: 3 * $unit
+    width: calc(100vw - 5 * $unit)
+    max-width: 1100px
     display: flex
     flex-direction: row
+    align-content: flex-start
+    justify-content: space-between
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+
     .TaskCardModal-avatar
       width: 4 * $unit
       height: 4 * $unit
@@ -14,9 +25,8 @@
       align-self: center
       margin-right: 1 * $unit
     .TaskCardModal-main
-      width: 85 * $unit
+      width: 100%
       margin: 4 * $unit
-      overflow: hidden
       .TaskCardModal-main-label
         margin-bottom: 4 * $unit
       .TaskCardModal-main-icon
@@ -37,7 +47,7 @@
         margin-top: 1 * $unit
         display: flex
         flex-direction: row
-        margin-bottom: 1 * $unit
+        margin-bottom: 2 * $unit
         .TaskCardModal-main-newComment-cancel
           margin: auto
           .TaskCardModal-main-newComment-cancel-icon
@@ -48,7 +58,6 @@
       width: 35 * $unit
       padding: 4 * $unit
       .TaskCardModal-sidebar-card
-        height: 88 * $unit
         padding: 2 * $unit
         .TaskCardModal-sidebar-card-box
           display: flex

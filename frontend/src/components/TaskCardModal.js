@@ -18,7 +18,7 @@ import remarkGfm from 'remark-gfm'
 
 import './TaskCardModal.sass'
 import './task-card-modal/Markdown.sass'
-import ModalComment from './task-card-modal/ModalComment'
+import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import AvatarPopover from './task-card-modal/AvatarPopover'
 import Tag from './Tag'
@@ -74,7 +74,7 @@ const TaskCardModal = (props) => {
       {isLoading || isError ? (
         <TaskCardModalSkeleton />
       ) : (
-        <Box className='TaskCardModal-paper'>
+        <Card className='TaskCardModal-paper'>
           <Box className='TaskCardModal-main'>
             <Box className='TaskCardModal-main-label'>
               <Typography variant='h6'>
@@ -86,7 +86,7 @@ const TaskCardModal = (props) => {
               Description
               <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
             </Typography>
-            <Card className='TaskCardModal-main-description'>
+            <Card className='TaskCardModal-main-description markdown-text'>
               <ReactMarkdown remarkPlugins={[remarkGfm]}>
                 {task.description}
               </ReactMarkdown>
@@ -108,7 +108,7 @@ const TaskCardModal = (props) => {
                 <FontAwesomeIcon className='TaskCardModal-main-newComment-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-            <ModalComment taskId={task.id} />
+            <TaskComments taskId={task.id} />
           </Box>
           <Box className='TaskCardModal-sidebar'>
             <Card className='TaskCardModal-sidebar-card'>
@@ -142,7 +142,7 @@ const TaskCardModal = (props) => {
               </Stack>
             </Card>
           </Box>
-        </Box>
+        </Card>
       )}
     </Box>
   )

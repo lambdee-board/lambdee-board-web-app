@@ -1,40 +1,38 @@
 @import '../../styles/base'
-.ModalComment-wrapper
-  max-height: 33 * $unit
-  overflow: auto
-  .ModalComment-loaded-wrapper
-    overflow: auto
-    .ModalComment
+
+.TaskComments-wrapper
+  .TaskComments-loaded-wrapper
+    .TaskComment
       min-height: 20 * $unit
       display: flex
       flex-direction: column
-      margin-bottom: $unit
-      .ModalComment-info
+      margin-bottom: 2 * $unit
+      .TaskComment-info
         display: flex
         flex-direction: row
         align-items: center
         padding-left: 1 * $unit
         padding-right: 1 * $unit
-        .ModalComment-info-avatar
+        .TaskComment-info-avatar
           width: 4 * $unit
           height: 4 * $unit
-        .ModalComment-info-date
+        .TaskComment-info-date
           margin-right: 2 * $unit
           margin-left: auto
           align-self: center
           color: #696969
-      .ModalComment-content
+      .TaskComment-content
         padding-top: $unit
         padding-right: 3 * $unit
         padding-bottom: $unit
         padding-left: 3 * $unit
-      .ModalComment-footer
+      .TaskComment-footer
         display: flex
         flex-direction: row
         padding: 0.5 * $unit
-        .ModalComment-footer-icon
+        .TaskComment-footer-icon
           padding-right: 1 * $unit
-        .ModalComment-footer-edit
+        .TaskComment-footer-edit
           color: #1082F3
-        .ModalComment-footer-delete
+        .TaskComment-footer-delete
           color: #FF0000

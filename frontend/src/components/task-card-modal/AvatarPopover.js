@@ -2,9 +2,7 @@ import * as React from 'react'
 import {
   Avatar,
   Box,
-  Popover,
-  Typography,
-  Stack
+  Popover
 } from '@mui/material'
 import PropTypes from 'prop-types'
 import './AvatarPopover.sass'
