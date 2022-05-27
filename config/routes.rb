@@ -8,22 +8,32 @@
   # backend API endpoints
   namespace :api do
     defaults format: :json do
-      resources :workspaces
+      resources :workspaces do
+        resources :users, only: %i[index]
+      end
+
       resources :users do
         get :current, on: :collection
       end
+
       resources :boards do
         resources :tags, only: %i[index create]
       end
+
       resources :lists
+
       resources :tasks do
         resources :tags, only: %i[index create]
         post :attach_tag, on: :member
         post :detach_tag, on: :member
+        post :assign_user, on: :member
+        post :unassign_user, on: :member
 
        resources :comments, only: %i[index]
       end
+
       resources :tags, except: %i[index]
+
       resources :comments, except: %i[index]
     end
   end

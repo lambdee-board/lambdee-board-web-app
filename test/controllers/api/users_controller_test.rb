@@ -19,6 +19,22 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  should 'get users of a workspace' do
+    wrk = ::FactoryBot.create :workspace
+    3.times { |i| wrk.users << ::FactoryBot.create(:user, name: "Person#{i}") }
+    5.times { ::FactoryBot.create :user }
+
+    get "/api/workspaces/#{wrk.id}/users"
+    assert_response 200
+    json = ::JSON.parse(response.body)
+
+    assert_equal 3, json.length
+    assert_not_equal @user.name, json.dig(0, 'name')
+    3.times do |i|
+      assert_equal "Person#{i}", json.dig(i, 'name')
+    end
+  end
+
   should "not create user with taken email" do
     assert_no_difference("DB::User.count") do
       post api_users_url, params: {

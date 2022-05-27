@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for tasks
 # through the JSON API.
 class API::TasksController < ::APIController
-  before_action :set_task, only: %i[update destroy attach_tag detach_tag]
+  before_action :set_task, only: %i[update destroy attach_tag detach_tag assign_user unassign_user]
 
   # GET api/tasks
   def index
@@ -49,6 +49,18 @@ class API::TasksController < ::APIController
   # POST api/tasks/:task_id/detach_tag
   def detach_tag
     @task.tags.delete(params[:tag_id])
+    head :no_content
+  end
+
+  # POST api/tasks/:task_id/assign_user
+  def assign_user
+    @task.users << ::DB::User.find(params[:user_id])
+    head :no_content
+  end
+
+  # POST api/tasks/:task_id/unassign_user
+  def unassign_user
+    @task.users.delete(params[:user_id])
     head :no_content
   end
 
