@@ -13,7 +13,7 @@ import {
   InputBase,
   IconButton,
   Typography,
-  Card
+  ClickAwayListener
 } from '@mui/material'
 import {
   faClipboardList,
@@ -28,10 +28,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 import WorkspaceIcon from './WorkspaceIcon'
-import useWorkspace, { mutateWorkspace } from '../api/useWorkspace'
+import useWorkspace from '../api/useWorkspace'
 import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+import ColorPickerPopover from './ColorPickerPopover'
 
 import './Sidebar.sass'
 
@@ -199,22 +200,26 @@ export default function Sidebar() {
               ))}
             </List>
           )}
+
           {!newBoardButtonVisible &&
-            <Box className='Sidebar-new-board'>
-              <InputBase
-                ref={newBoardInputRef}
-                className='Sidebar-new-board-input'
-                fullWidth
-                multiline
-                placeholder='Board Label'
-                onKeyDown={(e) => newBoardNameInputOnKey(e)}
-                onBlur={(e) => toggleNewBoardButton()}
-              />
-              <IconButton className='Sidebar-new-board-cancel' onClick={() => toggleNewBoardButton()}>
-                <FontAwesomeIcon className='Sidebar-new-board-cancel-icon' icon={faXmark} />
-              </IconButton>
-            </Box>
+            <ClickAwayListener onClickAway={toggleNewBoardButton}>
+              <Box className='Sidebar-new-board'>
+                <ColorPickerPopover />
+                <InputBase
+                  ref={newBoardInputRef}
+                  className='Sidebar-new-board-input'
+                  fullWidth
+                  multiline
+                  placeholder='Board Label'
+                  onKeyDown={(e) => newBoardNameInputOnKey(e)}
+                />
+                <IconButton className='Sidebar-new-board-cancel' onClick={() => toggleNewBoardButton()}>
+                  <FontAwesomeIcon className='Sidebar-new-board-cancel-icon' icon={faXmark} />
+                </IconButton>
+              </Box>
+            </ClickAwayListener>
           }
+
           <Box className='Sidebar-new-board-wrapper'>
             {newBoardButtonVisible &&
             <Button onClick={newBoardButtonOnClick} className='Sidebar-new-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>

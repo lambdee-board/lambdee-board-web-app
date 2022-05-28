@@ -41,6 +41,7 @@
     "panic-overlay": "^1.0.51",
     "prop-types": "^15.8.1",
     "react": "^18.1.0",
+    "react-colorful": "^5.5.1",
     "react-dnd": "^16.0.1",
     "react-dnd-html5-backend": "^16.0.1",
     "react-dom": "^18.1.0",
