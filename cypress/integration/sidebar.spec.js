@@ -28,7 +28,7 @@ describe('Sidebar', () => {
       cy.get('.Sidebar-new-board-button').should('exist')
     })
 
-    it('adds a new task', () => {
+    it('adds a new board', () => {
       cy.get('.Sidebar-new-board-button').should('exist')
         .click()
       cy.get('.Sidebar-new-board textarea.MuiInputBase-input').should('exist').first()
