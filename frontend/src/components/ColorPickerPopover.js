@@ -1,8 +1,6 @@
 import * as React from 'react'
 import { Box, Popover, IconButton, Typography } from '@mui/material'
 import { HexColorPicker } from 'react-colorful'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 
 
