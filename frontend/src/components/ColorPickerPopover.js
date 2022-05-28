@@ -23,8 +23,10 @@ export default function ColorPickerPopover({ color, onChange }) {
   return (
     <Box>
 
-      <IconButton size='small' sx={{ mr: 2 }} onClick={handleClick}>
-        <FontAwesomeIcon icon={faClipboardList} color={color} />
+      <IconButton size='small' sx={{ mr: 1 }} onClick={handleClick}>
+        <Box
+          sx={{ width: 20, height: 20, bgcolor: color }}
+        />
       </IconButton>
       <Popover
         id={id}
