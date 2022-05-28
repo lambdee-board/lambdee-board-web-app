@@ -2,11 +2,11 @@ import * as React from 'react'
 import { Box, Popover, IconButton, Typography } from '@mui/material'
 import { HexColorPicker } from 'react-colorful'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faDroplet } from '@fortawesome/free-solid-svg-icons'
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
+import PropTypes from 'prop-types'
 
 
-export default function ColorPickerPopover() {
-  const [color, setColor] = React.useState('#1082F3')
+export default function ColorPickerPopover({ color, onChange }) {
   const [anchorColorPickerPopover, setAnchorColorPickerPopover] = React.useState(null)
 
   const handleClick = (event) => {
@@ -22,8 +22,9 @@ export default function ColorPickerPopover() {
 
   return (
     <Box>
-      <IconButton size='small' color='primary' sx={{ mr: 2 }} onClick={handleClick}>
-        <FontAwesomeIcon icon={faDroplet} />
+
+      <IconButton size='small' sx={{ mr: 2 }} onClick={handleClick}>
+        <FontAwesomeIcon icon={faClipboardList} color={color} />
       </IconButton>
       <Popover
         id={id}
@@ -31,13 +32,24 @@ export default function ColorPickerPopover() {
         anchorEl={anchorColorPickerPopover}
         onClose={handleClose}
         anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'left',
+        }}
+        transformOrigin={{
           vertical: 'bottom',
           horizontal: 'left',
         }}
       >
-        <HexColorPicker color={color} onChange={setColor} />
-        <Typography color={color} sx={{ p: 1 }}>{color}</Typography>
+        <HexColorPicker color={color} onChange={onChange} />
+        <Typography color={color} sx={{ p: 1 }}>
+          {color}
+        </Typography>
       </Popover>
     </Box>
   )
+}
+
+ColorPickerPopover.propTypes = {
+  color: PropTypes.string.isRequired,
+  onChange: PropTypes.func.isRequired,
 }

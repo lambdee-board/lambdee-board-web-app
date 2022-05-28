@@ -107,6 +107,7 @@ function SidebarListSkeleton() {
 }
 
 export default function Sidebar() {
+  const [color, setColor] = React.useState('#1082F3')
   const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
@@ -141,6 +142,7 @@ export default function Sidebar() {
     const newBoard = {
       name: nameInput.value,
       workspaceId: workspace.id,
+      colour: color,
     }
     apiClient.post('/api/boards', newBoard)
       .then((response) => {
@@ -204,7 +206,7 @@ export default function Sidebar() {
           {!newBoardButtonVisible &&
             <ClickAwayListener onClickAway={toggleNewBoardButton}>
               <Box className='Sidebar-new-board'>
-                <ColorPickerPopover />
+                <ColorPickerPopover color={color} onChange={setColor} />
                 <InputBase
                   ref={newBoardInputRef}
                   className='Sidebar-new-board-input'
