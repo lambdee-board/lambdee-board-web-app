@@ -145,7 +145,7 @@ const TaskCardModal = (props) => {
               Description
             <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
           </Typography>
-          <Card className='TaskCardModal-main-description-markdown-text'>
+          <Card className='TaskCardModal-main-description markdown-text'>
             <ReactMarkdown remarkPlugins={[remarkGfm]}>
               {task.description}
             </ReactMarkdown>
@@ -189,15 +189,13 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Points</Typography>
-                {task.points ? <Avatar className='TaskCardModal-sidebar-card-box-points'>{task.points}</Avatar> : null}
+                {task.points ? <Avatar>{task.points}</Avatar> : null}
               </Stack>
 
               <Stack spacing={1}>
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
-                  <Box key={tag.id} className='TaskCardModal-sidebar-card-box-tags'>
-                    <Tag name={tag.name} colour={tag.colour} />
-                  </Box>
+                  <Tag key={tag.id} name={tag.name} colour={tag.colour} />
                 ))}
               </Stack>
 
