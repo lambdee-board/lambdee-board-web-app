@@ -17,6 +17,7 @@ import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
 import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
+import useList, { mutateList } from '../api/useList'
 
 
 const TaskCardSkeleton = () => {
@@ -105,8 +106,10 @@ const TaskCard = (props) => {
 
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
-  const handleCloseTaskCardModal = () => setOpenTaskCardModal(false)
-
+  const handleCloseTaskCardModal = () => {
+    mutateList(props.parentIndex, { params: { tasks: 'all' } })
+    setOpenTaskCardModal(false)
+  }
   return (
     <div className='TaskCard-wrapper' style={{ opacity: isDragging ? 0 : 1 }} >
       <Modal
@@ -120,7 +123,7 @@ const TaskCard = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} />
+          <TaskCardModal taskId={props.id} parentIndex={props.parentIndex} />
         </Box>
       </Modal>
       <Card className='TaskCard' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
