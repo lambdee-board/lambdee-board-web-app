@@ -28,6 +28,7 @@ import { addAlert } from '../redux/slices/appAlertSlice'
 import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
 import apiClient from '../api/apiClient'
+import TaskLabel from './task-card-modal/TaskLabel'
 
 function TaskCardModalSkeleton() {
   return (
@@ -136,10 +137,7 @@ const TaskCardModal = (props) => {
       <Card className='TaskCardModal-paper'>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
-            <Typography variant='h6'>
-              {task.name}
-              <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
-            </Typography>
+            <TaskLabel task={task} mutate={mutateTask} />
           </Box>
           <Typography>
               Description
