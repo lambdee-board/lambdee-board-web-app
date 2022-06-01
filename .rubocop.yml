@@ -10,6 +10,10 @@ Metrics/ClassLength:
 Metrics/CyclomaticComplexity:
   Max: 12
 
+Metrics/BlockLength:
+  Exclude:
+    - 'app/admin/**/*'
+
 Layout/RedundantLineBreak:
   Enabled: false
 
@@ -130,6 +134,7 @@ Style/DocumentationMethod:
     - 'app/helpers/**/*'
     - 'app/validators/**/*'
     - 'app/controllers/**/*'
+    - 'app/admin/**/*'
 
 Style/Copyright:
   Enabled: false
@@ -147,6 +152,9 @@ Layout/FirstMethodArgumentLineBreak:
   Enabled: false
 
 Style/ConstantVisibility:
+  Enabled: false
+
+Style/MultilineIfModifier:
   Enabled: false
 
 Layout/FirstArrayElementLineBreak:

@@ -7,7 +7,8 @@ Trestle.resource(:account, model: DB::User, scope: Auth, singular: true) do
 
   remove_action :new, :edit, :destroy
 
-  form do |user|
+  form do
+    text_field :name
     text_field :email
 
     row do
@@ -33,6 +34,6 @@ Trestle.resource(:account, model: DB::User, scope: Auth, singular: true) do
 
   # Limit the parameters that are permitted to be updated by the user
   params do |params|
-    params.require(:account).permit(:email, :password, :password_confirmation)
+    params.require(:account).permit(:name, :email, :password, :password_confirmation)
   end
 end
