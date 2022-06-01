@@ -8,9 +8,10 @@ import {
   Skeleton,
   Avatar,
   Stack,
+  IconButton,
 } from '@mui/material'
 
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -128,6 +129,22 @@ const TaskCardModal = (props) => {
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
+  const unassignUser = (user) => {
+    const payload = {
+      userId: user,
+    }
+    apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, users: [...task?.users || [], response.data] })
+        // toggleNewTaskButton()
+      })
+      .catch((error) => {
+        // failed or rejected
+        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
   if (isTaskLoading || isTaskError || isCurrentUserLoading || isCurrentUserError) return (
     <TaskCardModalSkeleton />
@@ -200,11 +217,15 @@ const TaskCardModal = (props) => {
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
                 {task.users.map((user) => (
-                  <Box className='TaskCardModal-sidebar-card-box' key={user.id}>
+                  <Box className='TaskCardModal-sidebar-card-box'
+                    key={user.id}>
                     <Avatar className='TaskCardModal-main-avatar'
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
+                    <IconButton onClick={() => unassignUser(user.id)} className='TaskCardModal-sidebar-user-unassinged'>
+                      <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                    </IconButton>
                   </Box>
                 ))}
 

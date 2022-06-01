@@ -90,7 +90,7 @@ function TaskPriority({ task, mutate }) {
             onBlur={toggleEditPriorityButton}
             options={priority}
             renderInput={(params) => (
-              <TextField {...params} label='Priority' />
+              <TextField {...params} label='Add' />
             )}
           />)
         }
@@ -117,7 +117,7 @@ function TaskPriority({ task, mutate }) {
               onBlur={toggleEditPriorityButton}
               options={priority}
               renderInput={(params) => (
-                <TextField {...params} label='Priority' />
+                <TextField {...params} label='Add' />
               )}
             />)
           }
