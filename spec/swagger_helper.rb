@@ -83,15 +83,6 @@ end
             },
             required: %w[id body deleted url]
           },
-          tag_request: {
-            type: :object,
-            properties: {
-              body: { type: :string },
-              author_id: { type: :integer },
-              task_id: { type: :integer },
-            },
-            required: %w[body author_id task_id]
-          },
           tag_response: {
             type: :object,
             properties: {
@@ -144,7 +135,7 @@ end
                 type: :number,
                 format: :float,
                 description: 'If not given, value will be set as for the last item in the list.' },
-              priority: { type: :number, format: :float },
+              priority: { type: :string, enum: %w[very_low low medium high very_high] },
               points: { type: :number, format: :float },
               list_id: { type: :integer },
               author_id: { type: :integer },
