@@ -43,7 +43,7 @@ class API::UsersController < ::APIController
 
   # DELETE /api/users/1
   def destroy
-    @user.destroy
+    @user.archive!
   end
 
   private

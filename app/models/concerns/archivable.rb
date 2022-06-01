@@ -23,12 +23,12 @@ module Archivable
     deleted
   end
 
+  alias archived archived?
+
   # @return [Boolean]
   def visible?
     !archived?
   end
-
-  alias archived archived?
 
   # Set `deleted: false` and save record with no validation.
   # @return [Boolean]

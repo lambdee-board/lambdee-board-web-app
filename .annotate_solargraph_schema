@@ -250,6 +250,54 @@ end
 # %%<RailsAnnotateSolargraph:Start:comments>%%
 
 class DB::Comment < ApplicationRecord
+  # Scope `:archived`.
+  #
+  #     scope :archived, -> { where(deleted: true) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.archived(); end
+  # Scope `:archived`.
+  #
+  #     scope :archived, -> { where(deleted: true) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.archived(); end
+  # Scope `:find_for_task`.
+  #
+  #     scope :find_for_task, ->(id) { where(task_id: id) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.find_for_task(id); end
+  # Scope `:find_with_author`.
+  #
+  #     scope :find_with_author, ->(id) { include_author.find(id) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.find_with_author(id); end
+  # Scope `:find_with_author_for_task`.
+  #
+  #     scope :find_with_author_for_task, ->(id) { include_author.where(task_id: id) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.find_with_author_for_task(id); end
+  # Scope `:include_author`.
+  #
+  #     scope :include_author, -> { includes(:author) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.include_author(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.visible(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.visible(); end
   # `belongs_to` relation with `DB::User`. Database column `comments.author_id`.
   # @param val [DB::User, nil]
   def author=(val); end
@@ -420,6 +468,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:tags>%%
 
 class DB::Tag < ApplicationRecord
+  # Scope `:find_for_board`.
+  #
+  #     scope :find_for_board, ->(id) { where(board: id) }
+  #
+  # @return [Array<DB::Tag>, nil]
+  def self.find_for_board(id); end
   # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -650,6 +704,12 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.admin(); end
+  # Scope `:archived`.
+  #
+  #     scope :archived, -> { where(deleted: true) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.archived(); end
   # Scope `:developer`.
   #
   #     klass.scope value_method_name, -> { where(name => value) }
@@ -662,6 +722,12 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.guest(); end
+  # Scope `:manager`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.manager(); end
   # Scope `:not_admin`.
   #
   #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
@@ -680,6 +746,12 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.not_guest(); end
+  # Scope `:not_manager`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_manager(); end
   # Scope `:not_regular`.
   #
   #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
@@ -692,6 +764,18 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.regular(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.visible(); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def comments=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # @return [Array<DB::Comment>, nil]
+  def comments; end
   # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
   # @param val [Array<DB::Task>, nil]
   def created_tasks=(val); end
@@ -752,6 +836,12 @@ class DB::User < ApplicationRecord
   # Database column `users.role`, type: `integer`.
   # @return [Integer, nil]
   def role; end
+  # Database column `users.deleted`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def deleted=(val); end
+  # Database column `users.deleted`, type: `boolean`.
+  # @return [Boolean, nil]
+  def deleted; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
