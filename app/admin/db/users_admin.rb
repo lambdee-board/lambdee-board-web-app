@@ -4,7 +4,7 @@ Trestle.resource(:users, scope: DB) do
   remove_action :destroy
 
   menu do
-    item :users, icon: 'fa fa-user'
+    item :users, icon: 'fa fa-users'
   end
 
   table do
@@ -23,7 +23,7 @@ Trestle.resource(:users, scope: DB) do
       status_tag(user.role, { 'admin' => :danger, 'manager' => :primary, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }[user.role] || :default)
     end
     actions align: :center do |toolbar, user|
-      toolbar.link 'Deactivate', user, action: :deactivate, method: :post, style: :danger if user.active?
+      toolbar.link 'Deactivate', user, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
       toolbar.link 'Activate', user, action: :activate, method: :post, style: :success if user.deactivated?
     end
   end
@@ -32,6 +32,10 @@ Trestle.resource(:users, scope: DB) do
     text_field :name
     text_field :email
     select :role, ::DB::User.roles.keys
+    row do
+      col(sm: 6) { password_field :password }
+      col(sm: 6) { password_field :password_confirmation }
+    end
   end
 
   controller do
@@ -54,4 +58,19 @@ Trestle.resource(:users, scope: DB) do
     post :deactivate, on: :member
     post :activate, on: :member
   end
+
+  # Ignore the password parameters if they are blank
+  update_instance do |instance, attrs|
+    if attrs[:password].blank?
+      attrs.delete(:password)
+      attrs.delete(:password_confirmation) if attrs[:password_confirmation].blank?
+    end
+
+    instance.assign_attributes(attrs)
+  end
+
+  # Log the current user back in if their password was changed
+  after_action on: :update do
+    login!(instance) if instance == current_user && instance.encrypted_password_previously_changed?
+  end if ::Devise.sign_in_after_reset_password
 end

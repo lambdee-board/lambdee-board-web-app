@@ -381,6 +381,9 @@ GEM
       kaminari (>= 1.1.0)
       railties (>= 4.2.0)
       sprockets-rails (>= 2.0.0)
+    trestle-auth (0.4.4)
+      bcrypt (~> 3.1.7)
+      trestle (~> 0.9.0, >= 0.9.3)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.1.0)
@@ -442,6 +445,7 @@ DEPENDENCIES
   solargraph
   sprockets-rails
   trestle
+  trestle-auth
   tzinfo-data
   webdrivers
   yard

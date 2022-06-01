@@ -9,7 +9,7 @@ Trestle.configure do |config|
   # expanded/desktop navigation. These images should be placed within your
   # asset paths, e.g. app/assets/images.
   #
-  # config.site_logo = "logo.png"
+  # config.site_logo = 'lambdee-logo.svg'
 
   # Specify a custom image to be used for the collapsed/tablet navigation.
   #
@@ -130,4 +130,97 @@ Trestle.configure do |config|
   # Enable debugging of form errors. Defaults to true in development mode.
   #
   # config.debug_form_errors = true
+
+  # == Authentication Options
+  #
+  # Set the authentication backend to use Devise.
+  #
+  config.auth.backend = :devise
+
+  # Specify the Devise/Warden mapping/scope.
+  #
+  config.auth.warden.scope = :user
+
+  # Specify the user class to be used by trestle-auth.
+  #
+  config.auth.user_class = -> { ::DB::User }
+
+  # Specify the Trestle admin for managing the current user (My Account).
+  #
+  config.auth.user_admin = -> { :"auth/account" }
+
+  # Specify the parameter (along with a password) to be used to
+  # authenticate an administrator. Defaults to :email if not specified below.
+  #
+  config.auth.authenticate_with = -> { Devise.authentication_keys.first }
+
+  # Customize the rendering of user avatars. Can be disabled by setting to false.
+  # Defaults to the Gravatar based on the user's email address.
+  #
+  # config.auth.avatar = ->(user) {
+  #   avatar(fallback: user.initials) do
+  #     image_tag(user.avatar_url, alt: user.name) if user.avatar_url?
+  #   end
+  # }
+
+  # Customize the rendering of the current user's name in the main header.
+  # Defaults to the user's #first_name and #last_name (last name in bold),
+  # with a fallback to `display(user)` if those methods aren't defined.
+  #
+  config.auth.format_user_name = ->(user) {
+    content_tag(:strong, user.name)
+  }
+
+  # Customize the method for determining the user's locale.
+  # Defaults to user.locale (if the method is defined).
+  #
+  # config.auth.locale = ->(user) {
+  #   user.locale if user.respond_to?(:locale)
+  # }
+
+  # Customize the method for determining the user's time zone.
+  # Defaults to user.time_zone (if the method is defined).
+  #
+  # config.auth.time_zone = ->(user) {
+  #   user.time_zone if user.respond_to?(:time_zone)
+  # }
+
+  # Specify the redirect location after a successful login.
+  # Defaults to the main Trestle admin path.
+  #
+  # config.auth.redirect_on_login = -> {
+  #   if admin = Trestle.lookup(Trestle.config.auth.user_admin)
+  #     admin.instance_path(current_user)
+  #   else
+  #     Trestle.config.path
+  #   end
+  # }
+
+  # Specify the redirect location after logging out.
+  # Defaults to the trestle-auth new login path.
+  #
+  # config.auth.redirect_on_logout = -> { "/" }
+
+  # Enable or disable the built-in login/logout form and actions. Defaults to true.
+  # You may wish to disable these if you are using a custom backend and
+  # handling authentication entirely within your main application.
+  #
+  # config.auth.enable_login = true
+  # config.auth.enable_logout = true
+
+  # Specify the path to redirect to when login is required.
+  # Defaults to the trestle-auth login page. You may wish to change
+  # this if you have also disabled the login form/action above.
+  #
+  # config.auth.login_url = -> { "/users/sign_in" }
+
+  # Specify the logo used on the login form.
+  # If not specified, will fall back to config.site_logo,
+  # config.site_logo_small or config.site_title.
+  #
+  config.auth.logo = 'lambdee-logo.svg'
+
+  # Enable or disable remember me functionality. Defaults to true.
+  #
+  # config.auth.remember.enabled = false
 end
