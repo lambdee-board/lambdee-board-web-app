@@ -76,6 +76,7 @@ function TaskPoints({ task, mutate }) {
         ) : (
           <Box className='TaskPoints-add-button'>
             <Avatar className='TaskPoints-avatar' alt='Add points'>
+              {/* TODO - make input align itself to center of avatar */}
               <InputBase
                 ref={editPointsRef}
                 className='TaskPoints-input-text'
@@ -100,6 +101,7 @@ function TaskPoints({ task, mutate }) {
           ) : (
             <Box className='TaskPoints-add-button'>
               <Avatar className='TaskPoints-avatar' alt='Add points'>
+                {/* TODO - make input align itself to center of avatar */}
                 <InputBase
                   ref={editPointsRef}
                   className='TaskPoints-input-text'

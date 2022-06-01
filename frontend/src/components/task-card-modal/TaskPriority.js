@@ -6,7 +6,9 @@ import {
   Typography,
   InputBase,
   Card,
-  Avatar
+  Avatar,
+  Autocomplete,
+  TextField
 } from '@mui/material'
 import { faPencil, faXmark, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -16,71 +18,102 @@ import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import PriorityIcon from './../PriorityIcon'
 import UserInfo from './../task-card-modal/UserInfo'
+import { useParams } from 'react-router-dom'
 
 
 function TaskPriority({ task, mutate }) {
-  // const dispatch = useDispatch()
+  const priority = [
+    'very_low',
+    'low',
+    'medium',
+    'high',
+    'very_high'
+  ]
+  const dispatch = useDispatch()
   const [editPriorityVisible, setEditPriorityVisible] = React.useState(false)
 
-  // const toggleEditTaskLabelButton = () => setEditTaskLabelVisible(!editTaskLabelButtonVisible)
-  // const editTaskLabelRef = React.useRef()
+  const toggleEditPriorityButton = () => setEditPriorityVisible(!editPriorityVisible)
 
-  // const editTaskLabelOnClick = () => {
-  //   toggleEditTaskLabelButton()
-  //   setTimeout(() => {
-  //     if (!editTaskLabelRef.current) return
+  const editPriorityOnClick = () => {
+    setEditPriorityVisible(true)
+    setTimeout(() => {
+      document.getElementById('priority-select').focus()
+    }, 50)
+  }
+  const editPriorityOnChange = (e, newPriority) => {
+    editPriority(newPriority)
+    setEditPriorityVisible(false)
+  }
 
-  //     const nameInput = editTaskLabelRef.current.children[0]
-  //     nameInput.focus()
-  //   }, 25)
-  // }
+  const editPriority = (newPriority) => {
+    const payload = {
+      priority: newPriority,
+    }
+    apiClient.put(`/api/tasks/${task.id}`, payload)
+      .then((response) => {
+        // successful request
+        mutate({ ...task, priorities: [...task?.priority || [], response.data] })
+      })
+      .catch((error) => {
+        // failed or rejected
+        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
-  // const editTaskLabel = () => {
-  //   const newLabel = editTaskLabelRef.current.children[0]
-  //   const updatedLabel = {
-  //     name: newLabel.value,
 
-  //   }
-  //   apiClient.put(`/api/tasks/${task.id}`, updatedLabel)
-  //     .then((response) => {
-  //       // successful request
-  //       mutate({ ...task, names: [...task?.name || [], response.data] })
-  //       toggleEditTaskLabelButton()
-  //     })
-  //     .catch((error) => {
-  //       // failed or rejected
-  //       console.log(error)
-  //       dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-  //     })
-  // }
-
-  // const editTaskLabelInputOnKey = (e) => {
-  //   switch (e.key) {
-  //   case 'Enter':
-  //     e.preventDefault()
-  //     editTaskLabel()
-  //     break
-  //   case 'Escape':
-  //     e.preventDefault()
-  //     toggleEditTaskLabelButton()
-  //     break
-  //   }
-  // }
   return (
     <Box className='TaskPriority'>
       {task.priority ? <Box>
         {!editPriorityVisible ? (
-          <IconButton className='TaskPriority-button'>
+          <IconButton onClick={editPriorityOnClick} className='TaskPriority-button'>
             <PriorityIcon size='xl' taskPriority={task.priority} />
           </IconButton>
-        ) : (<Box />)
+        ) : (
+          <Autocomplete
+            id='priority-select'
+            open={true}
+            onChange={editPriorityOnChange}
+            onOpen={() => {
+              setEditPriorityVisible(true)
+            }}
+            onClose={() => {
+              setEditPriorityVisible(false)
+            }}
+            onBlur={toggleEditPriorityButton}
+            options={priority}
+            renderInput={(params) => (
+              <TextField {...params} label='Priority' />
+            )}
+          />)
         }
       </Box> :
-        <Box className='TaskPriority-add-button'>
-          <Avatar className='TaskPriority-avatar' alt='Add priority'>
-            <FontAwesomeIcon icon={faPlus} />
-          </Avatar>
-          <UserInfo userName='Add' />
+        <Box>
+          {!editPriorityVisible ? (
+            <Box onClick={editPriorityOnClick} className='TaskPriority-add-button'>
+              <Avatar className='TaskPriority-avatar' alt='Add priority'>
+                <FontAwesomeIcon icon={faPlus} />
+              </Avatar>
+              <UserInfo userName='Add' />
+            </Box>
+          ) : (
+            <Autocomplete
+              id='priority-select'
+              open={true}
+              onChange={editPriorityOnChange}
+              onOpen={() => {
+                setEditPriorityVisible(true)
+              }}
+              onClose={() => {
+                setEditPriorityVisible(false)
+              }}
+              onBlur={toggleEditPriorityButton}
+              options={priority}
+              renderInput={(params) => (
+                <TextField {...params} label='Priority' />
+              )}
+            />)
+          }
         </Box>
       }
     </Box>
