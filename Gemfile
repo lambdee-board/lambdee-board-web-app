@@ -51,6 +51,7 @@ gem 'bootsnap', require: false
 gem 'devise'
 gem 'sass-rails'
 gem 'trestle'
+gem 'trestle-auth'
 
 group :development, :test do
   gem 'brakeman'

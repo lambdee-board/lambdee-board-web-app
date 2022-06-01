@@ -5,6 +5,11 @@
 class DB::User < ::ApplicationRecord
   include ::Archivable
 
+  # Include default devise modules. Others available are:
+  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  devise :database_authenticatable, :registerable,
+         :recoverable, :rememberable, :validatable
+
   has_many :user_workspaces
   has_many :workspaces, through: :user_workspaces
   has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id

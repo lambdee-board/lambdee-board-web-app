@@ -842,6 +842,30 @@ class DB::User < ApplicationRecord
   # Database column `users.deleted`, type: `boolean`.
   # @return [Boolean, nil]
   def deleted; end
+  # Database column `users.encrypted_password`, type: `string`.
+  # @param val [String, nil]
+  def encrypted_password=(val); end
+  # Database column `users.encrypted_password`, type: `string`.
+  # @return [String, nil]
+  def encrypted_password; end
+  # Database column `users.reset_password_token`, type: `string`.
+  # @param val [String, nil]
+  def reset_password_token=(val); end
+  # Database column `users.reset_password_token`, type: `string`.
+  # @return [String, nil]
+  def reset_password_token; end
+  # Database column `users.reset_password_sent_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def reset_password_sent_at=(val); end
+  # Database column `users.reset_password_sent_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def reset_password_sent_at; end
+  # Database column `users.remember_created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def remember_created_at=(val); end
+  # Database column `users.remember_created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def remember_created_at; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
