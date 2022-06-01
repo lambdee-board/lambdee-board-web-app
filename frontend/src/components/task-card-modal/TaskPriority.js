@@ -3,14 +3,11 @@ import PropTypes from 'prop-types'
 import {
   Box,
   IconButton,
-  Typography,
-  InputBase,
-  Card,
   Avatar,
   Autocomplete,
   TextField
 } from '@mui/material'
-import { faPencil, faXmark, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './TaskPriority.sass'
 import { useDispatch } from 'react-redux'
@@ -18,7 +15,6 @@ import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import PriorityIcon from './../PriorityIcon'
 import UserInfo from './../task-card-modal/UserInfo'
-import { useParams } from 'react-router-dom'
 
 
 function TaskPriority({ task, mutate }) {

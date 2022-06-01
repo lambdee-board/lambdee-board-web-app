@@ -8,7 +8,6 @@ import {
   Skeleton,
   Avatar,
   Stack,
-  IconButton
 } from '@mui/material'
 
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -22,7 +21,6 @@ import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
-import PriorityIcon from './PriorityIcon'
 import AssignUserSelect from './task-card-modal/AssignUserSelect'
 
 import { addAlert } from '../redux/slices/appAlertSlice'

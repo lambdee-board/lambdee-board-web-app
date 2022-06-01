@@ -3,18 +3,16 @@ import PropTypes from 'prop-types'
 import {
   Box,
   IconButton,
-  Typography,
   InputBase,
-  Card,
   Avatar
 } from '@mui/material'
-import { faPencil, faXmark, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import './TaskPoints.sass'
 import { useDispatch } from 'react-redux'
 import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
-import PriorityIcon from '../PriorityIcon'
+
 import UserInfo from './UserInfo'
 
 
