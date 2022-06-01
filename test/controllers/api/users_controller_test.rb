@@ -93,11 +93,12 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'new_email@example.com', json['email']
   end
 
-  should "destroy user" do
-    assert_difference("DB::User.count", -1) do
+  should "archive user" do
+    assert_no_difference("DB::User.count") do
       delete api_user_url(@user), as: :json
     end
 
     assert_response :no_content
+    assert @user.reload.deactivated?
   end
 end
