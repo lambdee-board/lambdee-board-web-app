@@ -7,7 +7,8 @@ import {
   InputBase,
   Skeleton,
   Avatar,
-  Stack
+  Stack,
+  IconButton
 } from '@mui/material'
 
 import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +30,8 @@ import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
 import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
+import TaskPriority from './task-card-modal/TaskPriority'
+import TaskPoints from './task-card-modal/TaskPoints'
 
 function TaskCardModalSkeleton() {
   return (
@@ -179,15 +182,12 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Priority</Typography>
-                {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
-                  <PriorityIcon size='xl' taskPriority={task.priority} />
-                </Box> : null
-                }
+                <TaskPriority task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>
                 <Typography>Points</Typography>
-                {task.points ? <Avatar className='TaskCardModal-sidebar-card-box-points'>{task.points}</Avatar> : null}
+                <TaskPoints task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>

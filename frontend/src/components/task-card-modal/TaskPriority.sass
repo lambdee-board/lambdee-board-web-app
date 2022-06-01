@@ -1,0 +1,17 @@
+@import '../../styles/base'
+
+.TaskPriority
+  padding: 0
+  margin: 0
+  .TaskPriority-button
+    width: 6 * $unit
+    height: 6 * $unit
+  .TaskPriority-add-button
+    color: #7d7b7b
+    cursor: pointer
+    @include transition
+    display: flex
+    align-items: center
+
+    &:hover
+      opacity: .8
