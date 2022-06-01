@@ -19,11 +19,11 @@ import UserInfo from './../task-card-modal/UserInfo'
 
 function TaskPriority({ task, mutate }) {
   const priority = [
-    'very_low',
-    'low',
-    'medium',
-    'high',
-    'very_high'
+    'Very Low',
+    'Low',
+    'Medium',
+    'High',
+    'Very High'
   ]
   const dispatch = useDispatch()
   const [editPriorityVisible, setEditPriorityVisible] = React.useState(false)
@@ -37,6 +37,17 @@ function TaskPriority({ task, mutate }) {
     }, 50)
   }
   const editPriorityOnChange = (e, newPriority) => {
+    switch (newPriority) {
+    case 'Very Low':
+      newPriority = 'very_low'
+      break
+    case 'Very High':
+      newPriority = 'very_high'
+      break
+    default:
+      newPriority = newPriority.toLowerCase()
+    }
+
     editPriority(newPriority)
     setEditPriorityVisible(false)
   }
