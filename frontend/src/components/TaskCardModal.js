@@ -121,11 +121,9 @@ const TaskCardModal = (props) => {
       .then((response) => {
         // successful request
         mutateTask({ ...task, users: [...task?.users || [], user] })
-        // toggleNewTaskButton()
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -136,12 +134,18 @@ const TaskCardModal = (props) => {
     apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
       .then((response) => {
         // successful request
-        mutateTask({ ...task, users: [...task?.users || [], user] })
-        // toggleNewTaskButton()
+        const userIndex = task?.users?.findIndex((arrayUser) => arrayUser.id === user.id)
+        if (userIndex == null || userIndex === -1) { // unassigned user is not present in the list of assigned users
+          mutateTask()
+          return
+        }
+
+        const newTaskUsers = [...task.users]
+        newTaskUsers.splice(userIndex, 1) // delete the unassigned user from the list
+        mutateTask({ ...task, users: newTaskUsers })
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }

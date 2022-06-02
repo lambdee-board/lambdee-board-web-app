@@ -12,6 +12,7 @@ class API::TasksController < ::APIController
 
   # GET api/tasks/1
   def show
+    debugger
     if params[:include_associations] == 'true'
       @task = ::DB::Task.find_with_all_associations(params[:id])
       render :show_with_associations and return
@@ -60,6 +61,7 @@ class API::TasksController < ::APIController
 
   # POST api/tasks/:task_id/unassign_user
   def unassign_user
+    debugger
     @task.users.delete(params[:user_id])
     head :no_content
   end
