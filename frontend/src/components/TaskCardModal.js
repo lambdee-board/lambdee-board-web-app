@@ -7,10 +7,11 @@ import {
   InputBase,
   Skeleton,
   Avatar,
-  Stack
+  Stack,
+  IconButton,
 } from '@mui/material'
 
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import ReactMarkdown from 'react-markdown'
 import remarkGfm from 'remark-gfm'
@@ -21,7 +22,6 @@ import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
-import PriorityIcon from './PriorityIcon'
 import AssignUserSelect from './task-card-modal/AssignUserSelect'
 
 import { addAlert } from '../redux/slices/appAlertSlice'
@@ -29,6 +29,8 @@ import useTask from '../api/useTask'
 import useCurrentUser from '../api/useCurrentUser'
 import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
+import TaskPriority from './task-card-modal/TaskPriority'
+import TaskPoints from './task-card-modal/TaskPoints'
 
 function TaskCardModalSkeleton() {
   return (
@@ -119,11 +121,31 @@ const TaskCardModal = (props) => {
       .then((response) => {
         // successful request
         mutateTask({ ...task, users: [...task?.users || [], user] })
-        // toggleNewTaskButton()
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+  const unassignUser = (user) => {
+    const payload = {
+      userId: user.id,
+    }
+    apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
+      .then((response) => {
+        // successful request
+        const userIndex = task?.users?.findIndex((arrayUser) => arrayUser.id === user.id)
+        if (userIndex == null || userIndex === -1) { // unassigned user is not present in the list of assigned users
+          mutateTask()
+          return
+        }
+
+        const newTaskUsers = [...task.users]
+        newTaskUsers.splice(userIndex, 1) // delete the unassigned user from the list
+        mutateTask({ ...task, users: newTaskUsers })
+      })
+      .catch((error) => {
+        // failed or rejected
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -179,15 +201,12 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Priority</Typography>
-                {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
-                  <PriorityIcon size='xl' taskPriority={task.priority} />
-                </Box> : null
-                }
+                <TaskPriority task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>
                 <Typography>Points</Typography>
-                {task.points ? <Avatar className='TaskCardModal-sidebar-card-box-points'>{task.points}</Avatar> : null}
+                <TaskPoints task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>
@@ -201,12 +220,16 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
-                {task.users.map((user) => (
-                  <Box className='TaskCardModal-sidebar-card-box' key={user.id}>
+                {task.users.map((user, userId) => (
+                  <Box className='TaskCardModal-sidebar-card-box'
+                    key={userId}>
                     <Avatar className='TaskCardModal-main-avatar'
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
+                    <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
+                      <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                    </IconButton>
                   </Box>
                 ))}
 

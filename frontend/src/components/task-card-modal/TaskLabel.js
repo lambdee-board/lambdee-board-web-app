@@ -34,19 +34,15 @@ function TaskLabel({ task, mutate }) {
 
   const editTaskLabel = () => {
     const newLabel = editTaskLabelRef.current.children[0]
-    const updatedLabel = {
-      name: newLabel.value,
-
-    }
+    const updatedLabel = { name: newLabel.value }
     apiClient.put(`/api/tasks/${task.id}`, updatedLabel)
       .then((response) => {
         // successful request
-        mutate({ ...task, names: [...task?.name || [], response.data] })
+        mutate({ ...task, name: newLabel.value })
         toggleEditTaskLabelButton()
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -63,6 +59,7 @@ function TaskLabel({ task, mutate }) {
       break
     }
   }
+
   return (
     <Box>
       {editTaskLabelButtonVisible &&
