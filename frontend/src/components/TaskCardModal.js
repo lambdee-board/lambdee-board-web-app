@@ -131,12 +131,12 @@ const TaskCardModal = (props) => {
   }
   const unassignUser = (user) => {
     const payload = {
-      userId: user,
+      userId: user.id,
     }
     apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
       .then((response) => {
         // successful request
-        mutateTask({ ...task, users: [...task?.users || [], response.data] })
+        mutateTask({ ...task, users: [...task?.users || [], user] })
         // toggleNewTaskButton()
       })
       .catch((error) => {
@@ -216,14 +216,14 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
-                {task.users.map((user) => (
+                {task.users.map((user, userId) => (
                   <Box className='TaskCardModal-sidebar-card-box'
-                    key={user.id}>
+                    key={userId}>
                     <Avatar className='TaskCardModal-main-avatar'
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
-                    <IconButton onClick={() => unassignUser(user.id)} className='TaskCardModal-sidebar-user-unassinged'>
+                    <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
                       <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
                     </IconButton>
                   </Box>
