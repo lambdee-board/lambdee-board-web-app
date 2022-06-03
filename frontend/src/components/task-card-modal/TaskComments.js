@@ -10,11 +10,10 @@ import {
 import PropTypes from 'prop-types'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import MDEditor from '@uiw/react-md-editor'
+import rehypeSanitize from 'rehype-sanitize'
 
 import './TaskComments.sass'
-import './Markdown.sass'
 
 import UserInfo from './UserInfo'
 import useComments from '../../api/useComments'
@@ -44,10 +43,11 @@ const TaskComments = (props) => {
                 </Typography>
               </Box>
               <Divider />
-              <Box className='TaskComment-content markdown-text'>
-                <ReactMarkdown remarkPlugins={[remarkGfm]}>
-                  {comment.body}
-                </ReactMarkdown>
+              <Box className='TaskComment-content markdown-text' data-color-mode='light'>
+                <MDEditor.Markdown
+                  source={comment.body}
+                  rehypePlugins={[[rehypeSanitize]]}
+                />
               </Box>
               <Box className='TaskComment-footer'>
                 <Button className='TaskComment-footer-edit'>

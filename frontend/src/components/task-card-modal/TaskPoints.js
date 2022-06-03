@@ -35,14 +35,12 @@ function TaskPoints({ task, mutate }) {
 
   const editPoints = () => {
     const newPoints = editPointsRef.current.children[0]
-    const updatedPoints = {
-      points: newPoints.value,
+    const updatedPoints = { points: newPoints.value }
 
-    }
     apiClient.put(`/api/tasks/${task.id}`, updatedPoints)
       .then((response) => {
         // successful request
-        mutate({ ...task, names: [...task?.name || [], response.data] })
+        mutate({ ...task, points: newPoints.value })
         toggleEditPointsButton()
       })
       .catch((error) => {
@@ -64,6 +62,7 @@ function TaskPoints({ task, mutate }) {
       break
     }
   }
+
   return (
     <Box className='TaskPoints'>
       {task.points ? (<Box>

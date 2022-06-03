@@ -9,16 +9,16 @@ import {
   Avatar,
   Stack,
   IconButton,
+  Button,
 } from '@mui/material'
 
-import { faPencil, faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import MDEditor from '@uiw/react-md-editor'
+import rehypeSanitize from 'rehype-sanitize'
 import { useDispatch } from 'react-redux'
 
 import './TaskCardModal.sass'
-import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
@@ -96,6 +96,21 @@ const TaskCardModal = (props) => {
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
+  const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
+  const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
+  const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
+
+  const updateTaskDescriptionDraft = (val) => {
+    setTaskDescriptionDraft(val)
+    setUnsavedDescriptionDraft(true)
+  }
+
+  const taskDescriptionOnClick = () => {
+    setDescriptionEditorVisible(true)
+    setTimeout(() => {
+      document.querySelector('.TaskCardModal-task-description-editor textarea').focus()
+    }, 50)
+  }
 
   const assignUserButtonOnClick = () => {
     setAssignUserSelectVisible(true)
@@ -154,22 +169,79 @@ const TaskCardModal = (props) => {
     <TaskCardModalSkeleton />
   )
 
+  const editTaskDescription = () => {
+    const payload = {
+      description: taskDescriptionDraft,
+    }
+    apiClient.put(`/api/tasks/${props.taskId}`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, description: taskDescriptionDraft })
+        setDescriptionEditorVisible(false)
+        setUnsavedDescriptionDraft(false)
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+
+  if (taskDescriptionDraft == null && task?.description != null) setTaskDescriptionDraft(task.description)
+
   return (
-    <Box className='TaskCardModal-wrapper'>
+    <Box className='TaskCardModal-wrapper' data-color-mode='light'>
       <Card className='TaskCardModal-paper'>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
             <TaskLabel task={task} mutate={mutateTask} />
           </Box>
-          <Typography>
+          <div className='TaskCardModal-description-label'>
+            <Typography>
               Description
-            <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
-          </Typography>
-          <Card className='TaskCardModal-main-description-markdown-text'>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {task.description}
-            </ReactMarkdown>
-          </Card>
+            </Typography>
+            {unsavedDescriptionDraft ? (
+              <Typography className='TaskCardModal-description-label-unsaved-changes' variant='caption'>
+                Unsaved Changes
+              </Typography>
+            ) : null}
+          </div>
+          {descriptionEditorVisible ? (
+            <div className='TaskCardModal-task-description-editor'>
+              <MDEditor
+                value={taskDescriptionDraft}
+                onChange={(val) => { updateTaskDescriptionDraft(val) }}
+                previewOptions={{
+                  rehypePlugins: [[rehypeSanitize]],
+                }}
+              />
+              <div className='buttons'>
+                <Button
+                  variant='contained'
+                  onClick={() => editTaskDescription()}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant='text'
+                  color='secondary'
+                  onClick={() => setDescriptionEditorVisible(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Card
+              className='TaskCardModal-main-description'
+              onClick={taskDescriptionOnClick}
+            >
+              <MDEditor.Markdown
+                source={task.description || '###### Add a description...'}
+                rehypePlugins={[[rehypeSanitize]]}
+              />
+            </Card>
+          )}
           <Typography>
               Comments
           </Typography>
