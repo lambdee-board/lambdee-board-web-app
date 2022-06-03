@@ -170,9 +170,8 @@ const TaskCardModal = (props) => {
   )
 
   const editTaskDescription = () => {
-    const payload = {
-      description: taskDescriptionDraft,
-    }
+    const payload = { description: taskDescriptionDraft }
+
     apiClient.put(`/api/tasks/${props.taskId}`, payload)
       .then((response) => {
         // successful request

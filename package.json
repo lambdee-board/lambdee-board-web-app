@@ -34,6 +34,7 @@
     "axios-case-converter": "^0.9.0",
     "chokidar": "^3.5.3",
     "classnames": "^2.3.1",
+    "dateformat": "^5.0.3",
     "esbuild": "^0.14.38",
     "esbuild-sass-plugin": "^2.2.6",
     "humps": "^2.0.1",
