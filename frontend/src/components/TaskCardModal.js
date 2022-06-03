@@ -308,7 +308,9 @@ const TaskCardModal = (props) => {
                 {assignUserSelectVisible ? (
                   <AssignUserSelect
                     onBlur={assignUserSelectOnBlur}
-                    onChange={assignUserSelectOnChange} />
+                    onChange={assignUserSelectOnChange}
+                    assignedUsers={task.users}
+                  />
                 ) : (
                   <Box
                     className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
