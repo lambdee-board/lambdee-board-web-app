@@ -212,7 +212,7 @@ const TaskCardModal = (props) => {
                 value={taskDescriptionDraft}
                 onChange={(val) => { updateTaskDescriptionDraft(val) }}
                 previewOptions={{
-                  rehypePlugins: [[rehypeSanitize]],
+                  rehypePlugins: [[rehypeSanitize]]
                 }}
               />
               <div className='buttons'>
