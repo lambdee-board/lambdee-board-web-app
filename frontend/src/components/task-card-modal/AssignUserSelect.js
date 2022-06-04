@@ -18,8 +18,8 @@ function AssignUserSelect(props) {
   React.useEffect(() => {
     if (!users) return
 
-    const assignedUserIds = props.assignedUsers.map((user) => user.id)
-    const newUsersToAssign = users.filter((user) => !assignedUserIds.includes(user.id))
+    const assignedUserIds = Object.fromEntries(props.assignedUsers.map((user) => [user.id, true]))
+    const newUsersToAssign = users.filter((user) => !Object.prototype.hasOwnProperty.call(assignedUserIds, user.id))
     setUsersToAssign(newUsersToAssign)
   }, [users, props.assignedUsers])
 
