@@ -2,51 +2,62 @@
 
 .TaskComments-wrapper
 
-  .TaskComments-loaded-wrapper
+  .TaskComments-newComment
+    padding: 1 * $unit
+    margin-top: 1 * $unit
+    margin-bottom: 2 * $unit
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: flex-start
+    align-content: center
+    flex-wrap: wrap
 
-    .TaskComment
-      min-height: 20 * $unit
+    .TaskComments-newComment-placeholder
+      color: #696969
+
+  .TaskComment
+    display: flex
+    flex-direction: column
+    margin-bottom: 2 * $unit
+
+    .TaskComment-info
       display: flex
-      flex-direction: column
-      margin-bottom: 2 * $unit
+      flex-direction: row
+      align-items: center
+      padding-left: 1 * $unit
+      padding-right: 1 * $unit
 
-      .TaskComment-info
-        display: flex
-        flex-direction: row
-        align-items: center
-        padding-left: 1 * $unit
+      .TaskComment-info-avatar
+        width: 4 * $unit
+        height: 4 * $unit
+
+      .TaskComment-info-date
+        margin-right: 2 * $unit
+        margin-left: auto
+        align-self: center
+        color: #696969
+
+    .TaskComment-content
+      padding-top: $unit
+      padding-right: 3 * $unit
+      padding-bottom: $unit
+      padding-left: 3 * $unit
+
+      .TaskComment-editor
+        width: 100%
+        height: 100%
+
+    .TaskComment-footer
+      display: flex
+      flex-direction: row
+      padding: 0.5 * $unit
+
+      .TaskComment-footer-icon
         padding-right: 1 * $unit
 
-        .TaskComment-info-avatar
-          width: 4 * $unit
-          height: 4 * $unit
+      .TaskComment-footer-edit
+        color: #1082F3
 
-        .TaskComment-info-date
-          margin-right: 2 * $unit
-          margin-left: auto
-          align-self: center
-          color: #696969
-
-      .TaskComment-content
-        padding-top: $unit
-        padding-right: 3 * $unit
-        padding-bottom: $unit
-        padding-left: 3 * $unit
-
-        .TaskComment-editor
-          width: 100%
-          height: 100%
-
-      .TaskComment-footer
-        display: flex
-        flex-direction: row
-        padding: 0.5 * $unit
-
-        .TaskComment-footer-icon
-          padding-right: 1 * $unit
-
-        .TaskComment-footer-edit
-          color: #1082F3
-
-        .TaskComment-footer-delete
-          color: #FF0000
+      .TaskComment-footer-delete
+        color: #FF0000

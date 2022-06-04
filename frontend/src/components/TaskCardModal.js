@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   Card,
-  InputBase,
   Skeleton,
   Avatar,
   Stack,
@@ -26,7 +25,6 @@ import AssignUserSelect from './task-card-modal/AssignUserSelect'
 
 import { addAlert } from '../redux/slices/appAlertSlice'
 import useTask from '../api/useTask'
-import useCurrentUser from '../api/useCurrentUser'
 import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
@@ -92,7 +90,6 @@ function TaskCardModalSkeleton() {
 
 const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
-  const { data: currentUser, isLoading: isCurrentUserLoading, isError: isCurrentUserError } = useCurrentUser()
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
@@ -129,9 +126,8 @@ const TaskCardModal = (props) => {
   }
 
   const assignUser = (user) => {
-    const payload = {
-      userId: user.id,
-    }
+    const payload = { userId: user.id }
+
     apiClient.post(`/api/tasks/${props.taskId}/assign_user`, payload)
       .then((response) => {
         // successful request
@@ -143,9 +139,8 @@ const TaskCardModal = (props) => {
       })
   }
   const unassignUser = (user) => {
-    const payload = {
-      userId: user.id,
-    }
+    const payload = { userId: user.id }
+
     apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
       .then((response) => {
         // successful request
@@ -165,7 +160,7 @@ const TaskCardModal = (props) => {
       })
   }
 
-  if (isTaskLoading || isTaskError || isCurrentUserLoading || isCurrentUserError) return (
+  if (isTaskLoading || isTaskError) return (
     <TaskCardModalSkeleton />
   )
 
@@ -244,17 +239,6 @@ const TaskCardModal = (props) => {
           <Typography>
               Comments
           </Typography>
-          <Card className='TaskCardModal-main-newComment'>
-            <Avatar className='TaskCardModal-avatar'
-              alt={currentUser.name} src={currentUser.avatarUrl}
-            />
-            <InputBase
-              className='TaskCardModal-main-newComment-input'
-              fullWidth
-              multiline
-              placeholder='Write a comment...'
-            />
-          </Card>
           <TaskComments taskId={task.id} />
         </Box>
         <Box className='TaskCardModal-sidebar'>
