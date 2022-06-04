@@ -13,15 +13,12 @@ import './TaskListModal.sass'
 
 export default function TaskListModal(props) {
   const { boardId } = useParams()
-  const [editingListTitle, changeEditingListTitle] = React.useState(false)
+  const [editingListTitle, setEditingListTitle] = React.useState(false)
   const editListTitleRef = React.useRef()
   const dispatch = useDispatch()
-  const toggleListTitleEditing = () => {
-    changeEditingListTitle(!editingListTitle)
-  }
 
   const editListTitleOnClick = () => {
-    toggleListTitleEditing()
+    setEditingListTitle(true)
     setTimeout(() => {
       if (!editListTitleRef.current) return
 
@@ -32,36 +29,35 @@ export default function TaskListModal(props) {
 
   const editListTitle = () => {
     const nameInput = editListTitleRef.current.children[0]
-    const editedList = {
-      name: nameInput.value,
+    if (!nameInput.value) {
+      setEditingListTitle(false)
+      return
     }
+
+    const editedList = { name: nameInput.value }
+
     apiClient.put(`/api/lists/${props.listId}`, editedList)
       .then((response) => {
         // successful request
         mutateList(props.listId, { params: { tasks: 'all' } })
         mutateBoard(boardId, { params: { lists: 'visible' } })
-        toggleListTitleEditing()
+        setEditingListTitle(false)
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
 
   const deleteTaskList = () => {
-    const deleteList = {
-      deleted: true,
-    }
-    apiClient.delete(`/api/lists/${props.listId}`, deleteList)
+    apiClient.delete(`/api/lists/${props.listId}`)
       .then((response) => {
         // successful request
-        mutateBoard(1, { params: { lists: 'visible' } })
+        mutateBoard(boardId, { params: { lists: 'visible' } })
         dispatch(addAlert({ severity: 'success', message: 'List deleted!' }))
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -75,7 +71,7 @@ export default function TaskListModal(props) {
       break
     case 'Escape':
       e.preventDefault()
-      toggleListTitleEditing()
+      setEditingListTitle(false)
       break
     }
   }
@@ -93,7 +89,7 @@ export default function TaskListModal(props) {
               </Typography>
             }
             { editingListTitle &&
-              <ClickAwayListener onClickAway={toggleListTitleEditing}>
+              <ClickAwayListener onClickAway={() => setEditingListTitle(false)}>
                 <FilledInput
                   ref={editListTitleRef}
                   variant='filled'
@@ -106,7 +102,7 @@ export default function TaskListModal(props) {
                   endAdornment={
                     <IconButton
                       className='TaskListModal-edit-title-cancel'
-                      onClick={() => toggleListTitleEditing()}>
+                      onClick={() => setEditingListTitle(false)}>
                       <FontAwesomeIcon icon={faXmark} />
                     </IconButton>
                   }
@@ -128,6 +124,7 @@ export default function TaskListModal(props) {
     </div>
   )
 }
+
 TaskListModal.propTypes = {
   listId: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,

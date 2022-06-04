@@ -13,14 +13,12 @@ import './BoardToolbar.sass'
 
 export default function BoardToolbar(props) {
   const { boardId } = useParams()
-  const [newLitButtonVisible, setNewListButton] = React.useState(true)
+  const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
 
-  const toggleNewListButton = () => setNewListButton(!newLitButtonVisible)
-
   const newListButtonOnClick = () => {
-    toggleNewListButton()
+    setNewListButtonVisible(false)
     setTimeout(() => {
       if (!newListInputRef.current) return
 
@@ -31,6 +29,11 @@ export default function BoardToolbar(props) {
 
   const createNewList = () => {
     const nameInput = newListInputRef.current.children[0]
+    if (!nameInput.value) {
+      setNewListButtonVisible(true)
+      return
+    }
+
     const newList = {
       name: nameInput.value,
       boardId
@@ -41,11 +44,10 @@ export default function BoardToolbar(props) {
         // successful request
         mutateBoard(boardId, { params: { lists: 'visible' } })
         dispatch(addAlert({ severity: 'success', message: 'New List Created!' }))
-        toggleNewListButton()
+        setNewListButtonVisible(true)
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -59,7 +61,7 @@ export default function BoardToolbar(props) {
       break
     case 'Escape':
       e.preventDefault()
-      toggleNewListButton()
+      setNewListButtonVisible(true)
       break
     }
   }
@@ -67,17 +69,18 @@ export default function BoardToolbar(props) {
   return (
     <div className='Toolbar-wrapper'>
       <Toolbar className='Toolbar'>
-        { newLitButtonVisible &&
+        { newListButtonVisible &&
           <Button onClick={() => newListButtonOnClick()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
-            startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            startIcon={<FontAwesomeIcon icon={faPlus} />}
+          >
             <Typography>Create New List</Typography>
           </Button>
         }
-        { !newLitButtonVisible &&
-        <ClickAwayListener onClickAway={toggleNewListButton}>
+        { !newListButtonVisible &&
+        <ClickAwayListener onClickAway={() => setNewListButtonVisible(true)}>
           <OutlinedInput
             ref={newListInputRef}
             variant='standard'
@@ -88,7 +91,7 @@ export default function BoardToolbar(props) {
             endAdornment={
               <IconButton
                 className='Toolbar-new-list-cancel'
-                onClick={() => toggleNewListButton()}>
+                onClick={() => setNewListButtonVisible(true)}>
                 <FontAwesomeIcon icon={faXmark} />
               </IconButton>
             }
