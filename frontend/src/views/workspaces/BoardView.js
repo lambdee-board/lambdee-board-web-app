@@ -9,6 +9,7 @@ import update from 'immutability-helper'
 import apiClient from '../../api/apiClient'
 import { useDispatch } from 'react-redux'
 import { addAlert } from '../../redux/slices/appAlertSlice'
+import BoardToolbar from '../../components/BoardToolbar'
 
 
 function BoardViewSkeleton() {
@@ -81,6 +82,7 @@ export default function BoardView() {
 
   return (
     <div className='BoardView'>
+      <BoardToolbar />
       <div className='TaskLists-scrollable' >
         <div className='TaskLists-wrapper' >
           {sortedTaskLists.map((taskList, listIndex) => (
