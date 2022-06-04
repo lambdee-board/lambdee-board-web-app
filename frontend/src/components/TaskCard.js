@@ -17,7 +17,7 @@ import './TaskCard.sass'
 import TaskCardModal from './TaskCardModal'
 import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
-import useList, { mutateList } from '../api/useList'
+import { mutateList } from '../api/useList'
 
 
 const TaskCardSkeleton = () => {
