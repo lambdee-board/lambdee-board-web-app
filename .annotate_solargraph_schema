@@ -922,6 +922,18 @@ end
 # %%<RailsAnnotateSolargraph:Start:workspaces>%%
 
 class DB::Workspace < ApplicationRecord
+  # Scope `:archived`.
+  #
+  #     scope :archived, -> { where(deleted: true) }
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.archived(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, -> { where(deleted: false) }
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.visible(); end
   # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
   # @param val [Array<DB::Board>, nil]
   def boards=(val); end
@@ -964,6 +976,12 @@ class DB::Workspace < ApplicationRecord
   # Database column `workspaces.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `workspaces.deleted`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def deleted=(val); end
+  # Database column `workspaces.deleted`, type: `boolean`.
+  # @return [Boolean, nil]
+  def deleted; end
 end
 # %%<RailsAnnotateSolargraph:End:workspaces>%%
 

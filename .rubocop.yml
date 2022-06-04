@@ -72,6 +72,10 @@ Style/RedundantArgument:
 Style/Alias:
   Enabled: false
 
+Style/IpAddresses:
+  Exclude:
+   - 'app/admin/trestle_extensions/**/*'
+
 Lint/MissingSuper:
   Enabled: false
 

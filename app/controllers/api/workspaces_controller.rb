@@ -6,7 +6,6 @@ class API::WorkspacesController < ::APIController
   before_action :set_workspace, only: %i[show update destroy]
 
   # GET /api/workspaces
-  # GET /api/workspaces.json
   def index
     @workspaces = if current_user.admin?
                     ::DB::Workspace.all
@@ -18,11 +17,9 @@ class API::WorkspacesController < ::APIController
   end
 
   # GET /api/workspaces/1
-  # GET /api/workspaces/1.json
   def show; end
 
   # POST /api/workspaces
-  # POST /api/workspaces.json
   def create
     @workspace = ::DB::Workspace.new(workspace_params)
     return render :show, status: :created, location: api_workspace_url(@workspace) if @workspace.save
@@ -31,7 +28,6 @@ class API::WorkspacesController < ::APIController
   end
 
   # PATCH/PUT /api/workspaces/1
-  # PATCH/PUT /api/workspaces/1.json
   def update
     return render :show, status: :ok, location: api_workspace_url(@workspace) if @workspace.update(workspace_params)
 
@@ -39,9 +35,8 @@ class API::WorkspacesController < ::APIController
   end
 
   # DELETE /api/workspaces/1
-  # DELETE /api/workspaces/1.json
   def destroy
-    @workspace.destroy
+    @workspace.archive!
   end
 
   private
