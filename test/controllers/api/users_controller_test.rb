@@ -56,13 +56,13 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_response :unprocessable_entity
     json = ::JSON.parse response.body
-    assert_equal 'is not an email', json.dig('email', 0)
+    assert_equal 'is invalid', json.dig('email', 0)
   end
 
   should "create user" do
     assert_difference("DB::User.count") do
       post api_users_url, params: {
-        user: { name: 'Andy McKee', email: 'andy.mckee@example.com' }
+        user: { name: 'Andy McKee', email: 'andy.mckee@example.com', password: 'secret', password_confirmation: 'secret' }
       }, as: :json
     end
 

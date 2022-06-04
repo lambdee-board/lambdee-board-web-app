@@ -6,6 +6,7 @@
   "editor.tabSize": 2,
   "cSpell.words": [
     "Archivable",
+    "authenticatable",
     "bgcolor",
     "camelcase",
     "Cyclomatic",
@@ -29,6 +30,7 @@
     "nonblock",
     "noscript",
     "nowrap",
+    "omniauthable",
     "openapi",
     "outfile",
     "paren",
@@ -40,7 +42,9 @@
     "Rswag",
     "stylesheet",
     "TASKLIST",
+    "timeoutable",
     "TTFB",
+    "validatable",
     "Xmark"
 ],
   "files.associations": {
