@@ -81,10 +81,10 @@ function TaskList(props) {
 
 
   React.useEffect(() => {
-    if (taskList) {
-      const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-      setNewTaskOrder([...sortedTasksList])
-    }
+    if (!taskList) return
+
+    const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    setNewTaskOrder([...sortedTasksList])
   }, [taskList])
 
   const [{ handlerId }, drop] = useDrop({

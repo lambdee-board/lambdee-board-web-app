@@ -1,14 +1,35 @@
 @import '../../styles/base'
 
-.TaskLabel-icon
-  width: 2 * $unit
-  color: #000000
-  height: 2 * $unit
-.TaskLabel-edit-input
-  padding: (.75 * $unit) ($unit)
-  display: flex
-  .TaskLabel-edit-input-cancel
-    color: 	#DCDCDC
-    .TaskLabel-edit-input-cancel-icon
-      height: 2 * $unit
-      width: 2 * $unit
+.TaskLabel
+  .TaskLabel-typography
+    display: block
+    width: fit-content
+    padding: calc($unit / 4) calc($unit / 2)
+    margin-left: calc($unit / -2)
+    margin-right: calc($unit / -2)
+    cursor: pointer
+    @include transition
+
+    &:hover
+      background-color: #DCDCDC
+      border-radius: $unit
+
+  .TaskLabel-edit-input-text
+    margin-top: 6px
+
+    textarea
+      padding-top: $unit
+      padding-bottom: 2px
+      font-size: 1.25rem
+      font-weight: 500
+      line-height: 0.0075em
+
+  .TaskLabel-edit-input
+    margin: (-0.75 * $unit) (-$unit)
+    padding: (.75 * $unit) ($unit)
+    display: flex
+    .TaskLabel-edit-input-cancel
+      color: 	#DCDCDC
+      .TaskLabel-edit-input-cancel-icon
+        height: 2 * $unit
+        width: 2 * $unit

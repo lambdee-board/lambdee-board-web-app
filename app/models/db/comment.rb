@@ -7,6 +7,8 @@ class DB::Comment < ApplicationRecord
   belongs_to :author, class_name: 'DB::User', foreign_key: :author_id
   belongs_to :task
 
+  default_scope { order(id: :desc) }
+
   scope :include_author, -> { includes(:author) }
   scope :visible, -> { where(deleted: false) }
   scope :archived, -> { where(deleted: true) }

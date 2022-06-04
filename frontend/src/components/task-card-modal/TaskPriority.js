@@ -9,22 +9,19 @@ import {
 } from '@mui/material'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './TaskPriority.sass'
 import { useDispatch } from 'react-redux'
+
+import './TaskPriority.sass'
+
 import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import PriorityIcon from './../PriorityIcon'
 import UserInfo from './../task-card-modal/UserInfo'
 
+import priorities from '../../constants/priorities'
+
 
 function TaskPriority({ task, mutate }) {
-  const priority = [
-    'Very Low',
-    'Low',
-    'Medium',
-    'High',
-    'Very High'
-  ]
   const dispatch = useDispatch()
   const [editPriorityVisible, setEditPriorityVisible] = React.useState(false)
 
@@ -36,91 +33,55 @@ function TaskPriority({ task, mutate }) {
       document.getElementById('priority-select').focus()
     }, 50)
   }
-  const editPriorityOnChange = (e, newPriority) => {
-    switch (newPriority) {
-    case 'Very Low':
-      newPriority = 'very_low'
-      break
-    case 'Very High':
-      newPriority = 'very_high'
-      break
-    default:
-      newPriority = newPriority.toLowerCase()
-    }
 
-    editPriority(newPriority)
-    setEditPriorityVisible(false)
-  }
+  const editPriority = (e, newPriority) => {
+    const payload = { priority: newPriority?.symbol }
 
-  const editPriority = (newPriority) => {
-    const payload = {
-      priority: newPriority,
-    }
+    console.log(payload, newPriority)
     apiClient.put(`/api/tasks/${task.id}`, payload)
       .then((response) => {
         // successful request
-        mutate({ ...task, priorities: [...task?.priority || [], response.data] })
+        mutate({ ...task, priority: payload.priority })
+        setEditPriorityVisible(false)
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
 
+  if (editPriorityVisible) return (
+    <Autocomplete
+      id='priority-select'
+      open={true}
+      onChange={editPriority}
+      onOpen={() => setEditPriorityVisible(true) }
+      onClose={() => setEditPriorityVisible(false)}
+      isOptionEqualToValue={(option, other) => option.symbol === other.symbol}
+      getOptionLabel={(option) => option.name}
+      onBlur={toggleEditPriorityButton}
+      options={priorities}
+      renderInput={(params) => (
+        <TextField {...params} label='Add' />
+      )}
+    />
+  )
+
 
   return (
     <Box className='TaskPriority'>
-      {task.priority ? <Box>
-        {!editPriorityVisible ? (
-          <IconButton onClick={editPriorityOnClick} className='TaskPriority-button'>
-            <PriorityIcon size='xl' taskPriority={task.priority} />
-          </IconButton>
-        ) : (
-          <Autocomplete
-            id='priority-select'
-            open={true}
-            onChange={editPriorityOnChange}
-            onOpen={() => {
-              setEditPriorityVisible(true)
-            }}
-            onClose={() => {
-              setEditPriorityVisible(false)
-            }}
-            onBlur={toggleEditPriorityButton}
-            options={priority}
-            renderInput={(params) => (
-              <TextField {...params} label='Add' />
-            )}
-          />)
-        }
-      </Box> :
+      {task.priority ? (<Box>
+        <IconButton onClick={editPriorityOnClick} className='TaskPriority-button'>
+          <PriorityIcon size='xl' taskPriority={task.priority} />
+        </IconButton>
+      </Box>) :
         <Box>
-          {!editPriorityVisible ? (
-            <Box onClick={editPriorityOnClick} className='TaskPriority-add-button'>
-              <Avatar className='TaskPriority-avatar' alt='Add priority'>
-                <FontAwesomeIcon icon={faPlus} />
-              </Avatar>
-              <UserInfo userName='Add' />
-            </Box>
-          ) : (
-            <Autocomplete
-              id='priority-select'
-              open={true}
-              onChange={editPriorityOnChange}
-              onOpen={() => {
-                setEditPriorityVisible(true)
-              }}
-              onClose={() => {
-                setEditPriorityVisible(false)
-              }}
-              onBlur={toggleEditPriorityButton}
-              options={priority}
-              renderInput={(params) => (
-                <TextField {...params} label='Add' />
-              )}
-            />)
-          }
+          <Box onClick={editPriorityOnClick} className='TaskPriority-add-button'>
+            <Avatar className='TaskPriority-avatar' alt='Add priority'>
+              <FontAwesomeIcon icon={faPlus} />
+            </Avatar>
+            <UserInfo userName='Add' />
+          </Box>
         </Box>
       }
     </Box>
