@@ -24,7 +24,7 @@ class DB::Task < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 80 }
   validates :description, length: { maximum: 1000 }
-  validates :points, numericality: { in: 0..99 }, if: ->(task) { task.points.present? }
+  validates :points, numericality: { in: 0..99 }, allow_blank: true
 
   class << self
     alias with_all_associations include_associations
