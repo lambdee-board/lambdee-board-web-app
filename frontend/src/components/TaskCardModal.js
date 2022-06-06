@@ -203,7 +203,7 @@ const TaskCardModal = (props) => {
           {descriptionEditorVisible ? (
             <div className='TaskCardModal-task-description-editor'>
               <MDEditor
-                value={taskDescriptionDraft}
+                value={taskDescriptionDraft || ''}
                 onChange={(val) => { updateTaskDescriptionDraft(val) }}
                 previewOptions={{
                   rehypePlugins: [[rehypeSanitize]]

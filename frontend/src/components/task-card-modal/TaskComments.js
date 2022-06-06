@@ -194,7 +194,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
         {commentEditorVisible ? (
           <div className='TaskComment-editor'>
             <MDEditor
-              value={commentDraft}
+              value={commentDraft || ''}
               onChange={(val) => { setCommentDraft(val) }}
               previewOptions={{
                 rehypePlugins: [[rehypeSanitize]]
