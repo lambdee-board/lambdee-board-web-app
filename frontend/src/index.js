@@ -1,4 +1,5 @@
 import './init/configurePanicOverlay'
+import './init/configurePrism'
 import './init/initializeConsole'
 
 import React from 'react'
@@ -11,9 +12,10 @@ import {
 } from 'react-router-dom'
 
 import './init/listenToConsoleErrors'
+import reportWebVitals from './init/reportWebVitals'
 
 import App from './App'
-import reportWebVitals from './init/reportWebVitals'
+import ConsoleView from './views/ConsoleView'
 import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/BoardView'
@@ -28,6 +30,7 @@ root.render(
             <Route path='boards/:boardId' element={<BoardView />} />
           </Route>
           <Route path='workspaces' element={<WorkspacesView />} />
+          <Route path='console' element={<ConsoleView />} />
         </Route>
       </Routes>
     </BrowserRouter>

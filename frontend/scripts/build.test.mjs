@@ -1,5 +1,6 @@
 import esbuild from 'esbuild'
 import { sassPlugin } from 'esbuild-sass-plugin'
+import { prismjsPlugin } from 'esbuild-plugin-prismjs'
 
 import erbCompilationPlugin from './erbCompilationPlugin.mjs'
 
@@ -27,7 +28,19 @@ esbuild.build({
   },
   plugins: [
     erbCompilationPlugin,
-    sassPlugin()
+    sassPlugin(),
+    prismjsPlugin({
+      inline: true,
+      languages: ['typescript', 'javascript', 'ruby', 'markup'],
+      plugins: [
+        'line-highlight',
+        'line-numbers',
+        'show-language',
+        'copy-to-clipboard',
+      ],
+      theme: 'okaidia',
+      css: true,
+    }),
   ],
   sourcemap: true,
   define: {
@@ -37,5 +50,8 @@ esbuild.build({
     '__dirname': JSON.stringify(`${__dirname}/..`),
     'process.path.sep': JSON.stringify(sep)
   },
-  inject: [`${__dirname}/../react-shim.js`]
+  inject: [
+    `${__dirname}/../react-shim.js`,
+    `${__dirname}/../polyfill.js`,
+  ]
 })
