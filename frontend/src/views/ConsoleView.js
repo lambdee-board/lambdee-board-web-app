@@ -34,8 +34,10 @@ const ConsoleView = () => {
   const [selectedHistoryEntry, setSelectedHistoryEntry] = React.useState(0)
   const [codeDraft, setCodeDraft] = React.useState(`class Ruby
   def initialize
-    @dupa = :cool
+    @is = :cool
   end
+
+  attr_reader :is
 end
 
 ruby = Ruby.new
@@ -103,7 +105,13 @@ puts ruby`)
 
     switch (e.key) {
     case 'Enter':
-      if (e.shiftKey === true) return
+      if (e.shiftKey === true) {
+        setTimeout(() => {
+          const view = document.querySelector('.ConsoleView')
+          view.scrollTop = view.scrollHeight
+        }, 50)
+        return
+      }
       e.preventDefault()
       sendCode()
       break
