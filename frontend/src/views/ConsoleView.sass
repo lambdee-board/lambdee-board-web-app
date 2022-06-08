@@ -1,0 +1,45 @@
+@import './../styles/base'
+
+.ConsoleView
+  overflow-y: scroll
+  overflow-x: scroll
+  font-family: "Fira code", "Fira Mono", monospace
+  background-color: #032b3a
+  width: 100vw
+  height: calc(100vh - (8 * $unit))
+  color: #fff
+
+  .ConsoleView-prompt-wrapper
+    padding-left: $unit
+    padding-right: $unit
+    display: flex
+    display: flex
+    flex-wrap: nowrap
+    flex-direction: row
+    align-content: flex-start
+    justify-content: flex-start
+    align-items: flex-start
+
+    .ConsoleView-command-time
+      margin: $unit * 2.3
+
+    pre
+      font-family: "Fira code", "Fira Mono", monospace
+      margin: 0
+      margin-top: calc($unit / 2)
+
+    pre.ConsoleView-editor
+      margin: $unit * 2.3
+
+    .ConsoleView-editor
+      width: 100%
+      border-radius: $unit
+      margin: $unit
+
+      textarea
+        width: 100%
+        border-radius: $unit
+
+  .ConsoleView-output
+    margin: 0 $unit
+

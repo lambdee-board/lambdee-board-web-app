@@ -37,13 +37,13 @@ if (process.env.NODE_ENV === 'development') {
   })
 }
 
-const apiClient = applyCaseMiddleware(axiosClient, {
+export const apiClient = applyCaseMiddleware(axiosClient, {
   ignoreHeaders: true
 })
 
-const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
+export const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
 
-const useAPI = (url, axiosOptions = {}, fetch = true) => {
+export const useAPI = (url, axiosOptions = {}, fetch = true) => {
   const { data, error, mutate } = useSWR(fetch ? [url, axiosOptions] : null, fetcher)
 
   return {
@@ -55,7 +55,6 @@ const useAPI = (url, axiosOptions = {}, fetch = true) => {
   }
 }
 
-const mutateAPI = (url, axiosOptions) => swrMutate([url, axiosOptions])
+export const mutateAPI = (url, axiosOptions) => swrMutate([url, axiosOptions])
 
-export { apiClient, fetcher, useAPI, mutateAPI }
 export default apiClient

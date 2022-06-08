@@ -8,6 +8,7 @@ import {
   Container,
   MenuItem,
   Divider,
+  Button
 } from '@mui/material'
 import DropdownButton from './DropdownButton'
 
@@ -16,10 +17,12 @@ import WorkspacesMenuButton from './navbar/WorkspacesMenuButton'
 import RecentMenuButton from './navbar/RecentMenuButton'
 
 import './Navbar.sass'
+import { useNavigate } from 'react-router-dom'
 
 
 const Navbar = () => {
   const actions = ['Delete old task', 'Delete blocked user']
+  const navigate = useNavigate()
 
   return (
     <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
@@ -38,15 +41,15 @@ const Navbar = () => {
           <Box className='Box-dropdown-button-group'>
             <WorkspacesMenuButton />
             <RecentMenuButton />
-            <DropdownButton label='Actions'>
-              {actions.map((action) => (
-                <MenuItem key={action}>{action}</MenuItem>
-              ))}
-              <Divider />
-              <MenuItem>
-                <Typography color='primary'>More...</Typography>
-              </MenuItem>
-            </DropdownButton>
+            <Button
+              className='Button'
+              id='dropdown-button'
+              onClick={() => navigate('/console')}
+            >
+              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
+                Console
+              </Typography>
+            </Button>
           </Box>
           <AccountMenuButton />
         </Toolbar>
