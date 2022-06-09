@@ -29,6 +29,7 @@ const ConsolePrompt = () => {
 
 const scrollToBottom = () => {
   const view = document.querySelector('.ConsoleView')
+  if (!view) return
   view.scrollTop = view.scrollHeight
 }
 
@@ -36,7 +37,7 @@ const getCodeEditor = () => {
   return document.querySelector('.ConsoleView-editor textarea')
 }
 
-const focusCodeEditor = () => getCodeEditor().focus()
+const focusCodeEditor = () => getCodeEditor()?.focus()
 
 const ConsoleView = () => {
   const [webSocket, setWebSocket] = React.useState(null)
