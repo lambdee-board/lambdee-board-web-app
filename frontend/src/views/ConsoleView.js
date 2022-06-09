@@ -27,6 +27,17 @@ const ConsolePrompt = () => {
   )
 }
 
+const scrollToBottom = () => {
+  const view = document.querySelector('.ConsoleView')
+  view.scrollTop = view.scrollHeight
+}
+
+const getCodeEditor = () => {
+  return document.querySelector('.ConsoleView-editor textarea')
+}
+
+const focusCodeEditor = () => getCodeEditor().focus()
+
 const ConsoleView = () => {
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
@@ -56,10 +67,8 @@ puts ruby`)
       setResponseReceived(true)
       setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory, entry])
       setTimeout(() => {
-        const view = document.querySelector('.ConsoleView')
-        view.scrollTop = view.scrollHeight
-        const codeEditor = document.querySelector('.ConsoleView-editor textarea')
-        codeEditor.focus()
+        scrollToBottom()
+        focusCodeEditor()
       }, 50)
     }
 
@@ -93,8 +102,7 @@ puts ruby`)
     setConsoleInputHistory((old) => [...old, entry])
     setResponseReceived(false)
     setTimeout(() => {
-      const view = document.querySelector('.ConsoleView')
-      view.scrollTop = view.scrollHeight
+      scrollToBottom()
     }, 50)
   }
 
@@ -109,15 +117,8 @@ puts ruby`)
     setSelectedHistoryEntry(0)
   }
 
-  const scrollToBottom = () => {
-    setTimeout(() => {
-      const view = document.querySelector('.ConsoleView')
-      view.scrollTop = view.scrollHeight
-    }, 50)
-  }
-
   const editorOnKeyDown = (e) => {
-    const codeEditor = document.querySelector('.ConsoleView-editor textarea')
+    const codeEditor = getCodeEditor()
     let newSelectedHistoryEntry, lineBreak
 
     switch (e.key) {
@@ -142,7 +143,9 @@ puts ruby`)
       setSelectedHistoryEntry(newSelectedHistoryEntry)
       setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
       setNewInputProvided(false)
-      scrollToBottom()
+      setTimeout(() => {
+        scrollToBottom()
+      }, 50)
       break
     case 'ArrowDown':
       if (newInputProvided && codeDraft !== '') return
@@ -162,7 +165,9 @@ puts ruby`)
       setSelectedHistoryEntry(newSelectedHistoryEntry)
       setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
       setNewInputProvided(false)
-      scrollToBottom()
+      setTimeout(() => {
+        scrollToBottom()
+      }, 50)
       break
     }
   }
