@@ -109,6 +109,13 @@ puts ruby`)
     setSelectedHistoryEntry(0)
   }
 
+  const scrollToBottom = () => {
+    setTimeout(() => {
+      const view = document.querySelector('.ConsoleView')
+      view.scrollTop = view.scrollHeight
+    }, 50)
+  }
+
   const editorOnKeyDown = (e) => {
     const codeEditor = document.querySelector('.ConsoleView-editor textarea')
     let newSelectedHistoryEntry, lineBreak
@@ -116,10 +123,7 @@ puts ruby`)
     switch (e.key) {
     case 'Enter':
       if (e.shiftKey === true) {
-        setTimeout(() => {
-          const view = document.querySelector('.ConsoleView')
-          view.scrollTop = view.scrollHeight
-        }, 50)
+        scrollToBottom()
         return
       }
       e.preventDefault()
@@ -138,6 +142,7 @@ puts ruby`)
       setSelectedHistoryEntry(newSelectedHistoryEntry)
       setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
       setNewInputProvided(false)
+      scrollToBottom()
       break
     case 'ArrowDown':
       if (newInputProvided && codeDraft !== '') return
@@ -157,6 +162,7 @@ puts ruby`)
       setSelectedHistoryEntry(newSelectedHistoryEntry)
       setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
       setNewInputProvided(false)
+      scrollToBottom()
       break
     }
   }
