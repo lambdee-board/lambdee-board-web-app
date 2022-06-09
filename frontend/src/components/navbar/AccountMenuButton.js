@@ -9,13 +9,15 @@ import {
   Skeleton
 } from '@mui/material'
 
+import { generatePath, useNavigate } from 'react-router'
 import useCurrentUser from '../../api/useCurrentUser'
 
 const AccountMenuButton = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   // TODO: User id should be derived from a Cookie
   const { data: user, isLoading, isError } = useCurrentUser()
-  const settings = ['Account', 'Logout']
+
+  const navigate = useNavigate()
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget)
@@ -40,11 +42,13 @@ const AccountMenuButton = () => {
         open={Boolean(anchorElUser)}
         onClose={handleCloseUserMenu}
       >
-        {settings.map((setting, index) => (
-          <MenuItem key={`${setting}-${index}`} onClick={handleCloseUserMenu}>
-            <Typography textAlign='center'>{setting}</Typography>
-          </MenuItem>
-        ))}
+        <MenuItem key={'user-account'}
+          onClick={() => navigate(generatePath('account'))} >
+          <Typography textAlign='center'>Account</Typography>
+        </MenuItem>
+        <MenuItem key={'logout'} onClick={handleCloseUserMenu}>
+          <Typography textAlign='center'>Logout</Typography>
+        </MenuItem>
       </Menu>
     </Box>
   )
