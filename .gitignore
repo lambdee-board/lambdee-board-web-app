@@ -33,6 +33,11 @@
 /.annotate_solargraph_schema
 /.solargraph.yml
 
+# Binaries
+*.so
+*.deb
+*.bundle
+
 # Ignore YARD documentation
 /doc
 /.yardoc

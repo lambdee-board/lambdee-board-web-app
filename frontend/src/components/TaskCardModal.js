@@ -4,31 +4,31 @@ import {
   Typography,
   Box,
   Card,
-  InputBase,
   Skeleton,
   Avatar,
-  Stack
+  Stack,
+  IconButton,
+  Button,
 } from '@mui/material'
 
-import { faPencil, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import ReactMarkdown from 'react-markdown'
-import remarkGfm from 'remark-gfm'
+import MDEditor from '@uiw/react-md-editor'
+import rehypeSanitize from 'rehype-sanitize'
 import { useDispatch } from 'react-redux'
 
 import './TaskCardModal.sass'
-import './task-card-modal/Markdown.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
-import PriorityIcon from './PriorityIcon'
 import AssignUserSelect from './task-card-modal/AssignUserSelect'
 
 import { addAlert } from '../redux/slices/appAlertSlice'
 import useTask from '../api/useTask'
-import useCurrentUser from '../api/useCurrentUser'
 import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
+import TaskPriority from './task-card-modal/TaskPriority'
+import TaskPoints from './task-card-modal/TaskPoints'
 
 function TaskCardModalSkeleton() {
   return (
@@ -90,10 +90,24 @@ function TaskCardModalSkeleton() {
 
 const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
-  const { data: currentUser, isLoading: isCurrentUserLoading, isError: isCurrentUserError } = useCurrentUser()
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
+  const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
+  const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
+  const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
+
+  const updateTaskDescriptionDraft = (val) => {
+    setTaskDescriptionDraft(val)
+    setUnsavedDescriptionDraft(true)
+  }
+
+  const taskDescriptionOnClick = () => {
+    setDescriptionEditorVisible(true)
+    setTimeout(() => {
+      document.querySelector('.TaskCardModal-task-description-editor textarea').focus()
+    }, 50)
+  }
 
   const assignUserButtonOnClick = () => {
     setAssignUserSelectVisible(true)
@@ -112,56 +126,119 @@ const TaskCardModal = (props) => {
   }
 
   const assignUser = (user) => {
-    const payload = {
-      userId: user.id,
-    }
+    const payload = { userId: user.id }
+
     apiClient.post(`/api/tasks/${props.taskId}/assign_user`, payload)
       .then((response) => {
         // successful request
         mutateTask({ ...task, users: [...task?.users || [], user] })
-        // toggleNewTaskButton()
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+  const unassignUser = (user) => {
+    const payload = { userId: user.id }
+
+    apiClient.post(`/api/tasks/${props.taskId}/unassign_user`, payload)
+      .then((response) => {
+        // successful request
+        const userIndex = task?.users?.findIndex((arrayUser) => arrayUser.id === user.id)
+        if (userIndex == null || userIndex === -1) { // unassigned user is not present in the list of assigned users
+          mutateTask()
+          return
+        }
+
+        const newTaskUsers = [...task.users]
+        newTaskUsers.splice(userIndex, 1) // delete the unassigned user from the list
+        mutateTask({ ...task, users: newTaskUsers })
+      })
+      .catch((error) => {
+        // failed or rejected
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
 
-  if (isTaskLoading || isTaskError || isCurrentUserLoading || isCurrentUserError) return (
+  if (isTaskLoading || isTaskError) return (
     <TaskCardModalSkeleton />
   )
 
+  const editTaskDescription = () => {
+    const payload = { description: taskDescriptionDraft }
+
+    apiClient.put(`/api/tasks/${props.taskId}`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, description: taskDescriptionDraft })
+        setDescriptionEditorVisible(false)
+        setUnsavedDescriptionDraft(false)
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+
+  if (taskDescriptionDraft == null && task?.description != null) setTaskDescriptionDraft(task.description)
+
   return (
-    <Box className='TaskCardModal-wrapper'>
+    <Box className='TaskCardModal-wrapper' data-color-mode='light'>
       <Card className='TaskCardModal-paper'>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
             <TaskLabel task={task} mutate={mutateTask} />
           </Box>
-          <Typography>
+          <div className='TaskCardModal-description-label'>
+            <Typography>
               Description
-            <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPencil} />
-          </Typography>
-          <Card className='TaskCardModal-main-description-markdown-text'>
-            <ReactMarkdown remarkPlugins={[remarkGfm]}>
-              {task.description}
-            </ReactMarkdown>
-          </Card>
+            </Typography>
+            {unsavedDescriptionDraft ? (
+              <Typography className='TaskCardModal-description-label-unsaved-changes' variant='caption'>
+                Unsaved Changes
+              </Typography>
+            ) : null}
+          </div>
+          {descriptionEditorVisible ? (
+            <div className='TaskCardModal-task-description-editor'>
+              <MDEditor
+                value={taskDescriptionDraft || ''}
+                onChange={(val) => { updateTaskDescriptionDraft(val) }}
+                previewOptions={{
+                  rehypePlugins: [[rehypeSanitize]]
+                }}
+              />
+              <div className='buttons'>
+                <Button
+                  variant='contained'
+                  onClick={() => editTaskDescription()}
+                >
+                  Save
+                </Button>
+                <Button
+                  variant='text'
+                  color='secondary'
+                  onClick={() => setDescriptionEditorVisible(false)}
+                >
+                  Cancel
+                </Button>
+              </div>
+            </div>
+          ) : (
+            <Card
+              className='TaskCardModal-main-description'
+              onClick={taskDescriptionOnClick}
+            >
+              <MDEditor.Markdown
+                source={task.description || '###### Add a description...'}
+                rehypePlugins={[[rehypeSanitize]]}
+              />
+            </Card>
+          )}
           <Typography>
               Comments
           </Typography>
-          <Card className='TaskCardModal-main-newComment'>
-            <Avatar className='TaskCardModal-avatar'
-              alt={currentUser.name} src={currentUser.avatarUrl}
-            />
-            <InputBase
-              className='TaskCardModal-main-newComment-input'
-              fullWidth
-              multiline
-              placeholder='Write a comment...'
-            />
-          </Card>
           <TaskComments taskId={task.id} />
         </Box>
         <Box className='TaskCardModal-sidebar'>
@@ -179,15 +256,12 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Priority</Typography>
-                {task.priority ? <Box className='TaskCardModal-sidebar-card-box-taskPriority'>
-                  <PriorityIcon size='xl' taskPriority={task.priority} />
-                </Box> : null
-                }
+                <TaskPriority task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>
                 <Typography>Points</Typography>
-                {task.points ? <Avatar className='TaskCardModal-sidebar-card-box-points'>{task.points}</Avatar> : null}
+                <TaskPoints task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>
@@ -201,19 +275,25 @@ const TaskCardModal = (props) => {
 
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
-                {task.users.map((user) => (
-                  <Box className='TaskCardModal-sidebar-card-box' key={user.id}>
+                {task.users.map((user, userId) => (
+                  <Box className='TaskCardModal-sidebar-card-box'
+                    key={userId}>
                     <Avatar className='TaskCardModal-main-avatar'
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
+                    <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
+                      <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                    </IconButton>
                   </Box>
                 ))}
 
                 {assignUserSelectVisible ? (
                   <AssignUserSelect
                     onBlur={assignUserSelectOnBlur}
-                    onChange={assignUserSelectOnChange} />
+                    onChange={assignUserSelectOnChange}
+                    assignedUsers={task.users}
+                  />
                 ) : (
                   <Box
                     className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'

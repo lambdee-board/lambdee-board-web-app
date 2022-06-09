@@ -208,6 +208,17 @@ export default Logo;
 
 ## Problems
 
+### Ubuntu
+
+> LoadError: libffi.so.8: cannot open shared object file
+
+```sh
+$ curl -LO https://launchpad.net/ubuntu/+archive/primary/+files/libffi8_3.4.2-4_amd64.deb
+$ sudo dpkg -i libffi8_3.4.2-4_amd64.deb
+```
+
+### Mainly MacOS
+
 **eventmachine**
 
 > In file included from binder.cpp:20:

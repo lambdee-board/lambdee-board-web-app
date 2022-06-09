@@ -114,8 +114,6 @@ rules:
   linebreak-style:
     - warn
     - unix
-  lines-between-class-members:
-    - warn
   quotes:
     - warn
     - single

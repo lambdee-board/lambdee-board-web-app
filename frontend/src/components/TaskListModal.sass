@@ -1,0 +1,30 @@
+@import './../styles/base'
+
+.TaskListModal-wrapper
+  width: 50 * $unit
+  .TaskListModal-card
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+
+    .TaskListModal-main
+      height: 20 * $unit
+      margin: 3 * $unit
+      display: flex
+      flex-direction: column
+      justify-content: space-between
+
+      .TaskListModal-main-header
+        .TaskListModal-main-header-text
+          font-size: 4 * $unit
+          text-align: center
+          &:hover
+            cursor: pointer
+            background-color: #77777710
+        .TaskListModal-edit-title-input
+          .MuiFilledInput-input
+            font-size: 3 * $unit
+            padding: 0 $unit
+
+      .TaskListModal-main-item
+        margin: $unit 0
+        .TaskListModal-main-delete-button
+          width: 100%

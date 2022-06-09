@@ -1,4 +1,4 @@
-import React, { useCallback, } from 'react'
+import React, { useCallback, useState, } from 'react'
 import update from 'immutability-helper'
 import {
   List,
@@ -11,6 +11,7 @@ import {
   Skeleton,
   Card,
   InputBase,
+  Modal,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -27,6 +28,7 @@ import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskDropZone from './TaskDropZone'
+import TaskListModal from './TaskListModal'
 
 
 function TaskListSkeletonContent() {
@@ -79,12 +81,17 @@ function TaskList(props) {
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
 
+  const [taskListModalState, setTaskListModalState] = useState(false)
+  const toggleTaskListModalState = () => {
+    setTaskListModalState(!taskListModalState)
+  }
+
 
   React.useEffect(() => {
-    if (taskList) {
-      const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-      setNewTaskOrder([...sortedTasksList])
-    }
+    if (!taskList) return
+
+    const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    setNewTaskOrder([...sortedTasksList])
   }, [taskList])
 
   const [{ handlerId }, drop] = useDrop({
@@ -262,7 +269,7 @@ function TaskList(props) {
             <Typography className='TaskList-header-text' >
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary'>
+            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
@@ -315,6 +322,17 @@ function TaskList(props) {
           }
         </Box>
       </Paper>
+      {taskList &&
+      <Modal
+        open={taskListModalState}
+        onClose={toggleTaskListModalState}
+        className='TaskList-modal-wrapper'
+      >
+        <div className='TaskList-modal'>
+          <TaskListModal listId={props.id} title={props.title} />
+        </div>
+      </Modal>
+      }
     </Box>
   )
 }

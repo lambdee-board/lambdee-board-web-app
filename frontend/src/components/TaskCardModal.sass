@@ -37,30 +37,56 @@
         margin-bottom: 1 * $unit
         width: 2 * $unit
         height: 2 * $unit
-      .TaskCardModal-main-description-markdown-text
+
+      .TaskCardModal-description-label
+        display: flex
+        align-items: center
+        justify-content: flex-start
+        align-content: center
+        flex-wrap: wrap
+        flex-direction: row
+        margin-left: -$unit
+        margin-right: -$unit
+
+        p
+          margin-left: $unit
+          margin-right: $unit
+
+        .TaskCardModal-description-label-unsaved-changes
+          color: #7d7b7b
+
+      .TaskCardModal-main-description
         margin-top: 1 * $unit
-        padding-top: $unit
-        padding-right: 2 * $unit
-        padding-left: 2 * $unit
+        padding: $unit 2 * $unit
         min-height: 20 * $unit
         margin-bottom: 5 * $unit
-      .TaskCardModal-main-newComment
-        padding: 1 * $unit
+        cursor: pointer
+        @include transition
+
+        &:hover
+          opacity: .8
+      .TaskCardModal-task-description-editor
         margin-top: 1 * $unit
-        display: flex
-        flex-direction: row
-        margin-bottom: 2 * $unit
+        margin-bottom: 5 * $unit
 
-        .TaskCardModal-main-newComment-cancel
-          margin: auto
+        .buttons
+          display: flex
+          align-items: center
+          justify-content: flex-start
+          align-content: flex-start
+          flex-wrap: nowrap
+          flex-direction: row
+          padding-top: $unit
+          padding-bottom: $unit
+          margin-left: calc(-1 * $unit / 2)
+          margin-right: calc(-1 * $unit / 2)
 
-          .TaskCardModal-main-newComment-cancel-icon
-            height: 2 * $unit
-            width: 2 * $unit
-            color: #DCDCDC
+          button
+            margin-left: calc($unit / 2)
+            margin-right: calc($unit / 2)
 
     .TaskCardModal-sidebar
-      width: 35 * $unit
+      width: 45 * $unit
       padding: 4 * $unit
 
       .TaskCardModal-sidebar-card
@@ -77,6 +103,14 @@
         .TaskCardModal-sidebar-card-box
           display: flex
           align-items: center
-
+          .TaskCardModal-sidebar-user-unassinged
+            margin-left: auto
+            .TaskCardModal-sidebar-user-unassigned-icon
+              width: 2 * $unit
+              height: 2 * $unit
+              color: #FF0000
           .TaskCardModal-sidebar-card-box-taskPriority
             align-items: flex-start
+            width: 6 * $unit
+            height: 6 * $unit
+

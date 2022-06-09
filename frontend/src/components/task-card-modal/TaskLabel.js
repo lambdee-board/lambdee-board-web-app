@@ -34,19 +34,20 @@ function TaskLabel({ task, mutate }) {
 
   const editTaskLabel = () => {
     const newLabel = editTaskLabelRef.current.children[0]
-    const updatedLabel = {
-      name: newLabel.value,
-
+    const updatedTask = { name: newLabel.value }
+    if (!updatedTask.name) {
+      setEditTaskLabelVisible(true)
+      return
     }
-    apiClient.put(`/api/tasks/${task.id}`, updatedLabel)
+
+    apiClient.put(`/api/tasks/${task.id}`, updatedTask)
       .then((response) => {
         // successful request
-        mutate({ ...task, names: [...task?.name || [], response.data] })
+        mutate({ ...task, name: newLabel.value })
         toggleEditTaskLabelButton()
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -63,34 +64,37 @@ function TaskLabel({ task, mutate }) {
       break
     }
   }
-  return (
-    <Box>
-      {editTaskLabelButtonVisible &&
-      <Typography variant='h6'>
-        {task.name}
-        <IconButton onClick={editTaskLabelOnClick}>
-          <FontAwesomeIcon className='TaskLabel-icon' icon={faPencil} />
-        </IconButton>
-      </Typography>
-      }
 
-      {!editTaskLabelButtonVisible &&
-          <Card className='TaskLabel-edit-input'>
-            <InputBase
-              ref={editTaskLabelRef}
-              className='TaskLabel-edit-input-text'
-              fullWidth
-              multiline
-              defaultValue={task.name}
-              onKeyDown={(e) => editTaskLabelInputOnKey(e)}
-              onBlur={(e) => toggleEditTaskLabelButton()}
-            />
-            <IconButton className='TaskLabel-edit-input-cancel' onClick={() => toggleEditTaskLabelButton()}>
-              <FontAwesomeIcon className='TaskLabel-edit-input-cancel-icon' icon={faXmark} />
-            </IconButton>
-          </Card>
-      }
-    </Box>
+  if (editTaskLabelButtonVisible) return (
+    <div className='TaskLabel'>
+      <Typography
+        variant='h6'
+        onClick={editTaskLabelOnClick}
+        className='TaskLabel-typography'
+      >
+        {task.name}
+      </Typography>
+    </div>
+  )
+
+  return (
+    <div className='TaskLabel'>
+      <Card className='TaskLabel-edit-input'>
+        <InputBase
+          ref={editTaskLabelRef}
+          className='TaskLabel-edit-input-text'
+          fullWidth
+          multiline
+          size='medium'
+          defaultValue={task.name}
+          onKeyDown={(e) => editTaskLabelInputOnKey(e)}
+          onBlur={(e) => toggleEditTaskLabelButton()}
+        />
+        <IconButton className='TaskLabel-edit-input-cancel' onClick={() => toggleEditTaskLabelButton()}>
+          <FontAwesomeIcon className='TaskLabel-edit-input-cancel-icon' icon={faXmark} />
+        </IconButton>
+      </Card>
+    </div>
   )
 }
 
