@@ -1,5 +1,6 @@
 import * as React from 'react'
 
+import { LinearProgress } from '@mui/material'
 import { languages, highlight } from 'prismjs/components/prism-core'
 import Editor from 'react-simple-code-editor'
 import { strip } from 'ansicolor'
@@ -31,6 +32,7 @@ const ConsoleView = () => {
   const [newInputProvided, setNewInputProvided] = React.useState(false)
   const [consoleHistory, setConsoleHistory] = React.useState([])
   const [consoleInputHistory, setConsoleInputHistory] = React.useState([])
+  const [responseReceived, setResponseReceived] = React.useState(false)
   const [selectedHistoryEntry, setSelectedHistoryEntry] = React.useState(0)
   const [codeDraft, setCodeDraft] = React.useState(`class Ruby
   def initialize
@@ -51,10 +53,13 @@ puts ruby`)
         content,
         time: new Date(),
       }
+      setResponseReceived(true)
       setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory, entry])
       setTimeout(() => {
         const view = document.querySelector('.ConsoleView')
         view.scrollTop = view.scrollHeight
+        const codeEditor = document.querySelector('.ConsoleView-editor textarea')
+        codeEditor.focus()
       }, 50)
     }
 
@@ -86,6 +91,11 @@ puts ruby`)
     }
     setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory, entry])
     setConsoleInputHistory((old) => [...old, entry])
+    setResponseReceived(false)
+    setTimeout(() => {
+      const view = document.querySelector('.ConsoleView')
+      view.scrollTop = view.scrollHeight
+    }, 50)
   }
 
   const sendCode = () => {
@@ -176,7 +186,7 @@ puts ruby`)
       )))}
       <div className='ConsoleView-prompt-wrapper'>
         <ConsolePrompt />
-        {webSocket && webSocket.readyState !== WebSocket.CLOSED ? (
+        {responseReceived && webSocket && webSocket.readyState !== WebSocket.CLOSED ? (
           <Editor
             className='ConsoleView-editor'
             value={codeDraft}
@@ -185,7 +195,11 @@ puts ruby`)
             padding={10}
             onKeyDown={editorOnKeyDown}
           />
-        ) : null}
+        ) : (
+          <div className='ConsoleView-progress-bar'>
+            <LinearProgress color='inherit' />
+          </div>
+        )}
       </div>
     </div>
   )
