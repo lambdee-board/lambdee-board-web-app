@@ -19,6 +19,7 @@ import ConsoleView from './views/ConsoleView'
 import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/BoardView'
+import UserSettingsView from './views/workspaces/UserSettingsView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -31,6 +32,7 @@ root.render(
           </Route>
           <Route path='workspaces' element={<WorkspacesView />} />
           <Route path='console' element={<ConsoleView />} />
+          <Route path='account' element={<UserSettingsView />} />
         </Route>
       </Routes>
     </BrowserRouter>
