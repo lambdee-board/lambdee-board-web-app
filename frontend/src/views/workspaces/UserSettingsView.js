@@ -13,7 +13,6 @@ import {
 } from '@mui/material'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { capitalize } from 'lodash'
 import { useDispatch } from 'react-redux'
 
 import apiClient from '../../api/apiClient'
@@ -48,7 +47,7 @@ export default function UserSettingsView() {
     return string.replace(/(?:^|\s)\S/g, (a) => { return a.toUpperCase() })
   }
 
-  const mutateUserData = (requestBody) => {
+  const updateUserData = (requestBody) => {
     apiClient.put(`/api/users/${user.id}`, requestBody)
       .then((response) => {
         // successful request
@@ -66,13 +65,23 @@ export default function UserSettingsView() {
     switch (e.key) {
     case 'Enter':
       e.preventDefault()
-      if (type === 'name') mutateUserData({ name })
-      else mutateUserData({ email })
+
+      switch (type) {
+      case 'name':
+        if (name) updateUserData({ name })
+        else dispatch(addAlert({ severity: 'error', message: 'Cannot send empty value!' }))
+        break
+      case 'email':
+        if (email) updateUserData({ email })
+        else dispatch(addAlert({ severity: 'error', message: 'Cannot send empty value!' }))
+        break
+      }
       break
+
     case 'Escape':
       e.preventDefault()
-      if (type === 'name') setNewName(user.name)
-      else setNewEmail(user.email)
+      setNewName(user.name)
+      setNewEmail(user.email)
       break
     }
   }
@@ -122,8 +131,7 @@ export default function UserSettingsView() {
               disabled
               value={capitalizeWords(user.role)}
               variant='standard'
-              fullWidth
-              sx={{ textTransform: capitalize }} />
+              fullWidth />
           </ListItem>
           <ListItem className='userSettings-item' key='user-reset-password' >
             <Button onClick={() => { console.log('reset-pass-TODO') }}
