@@ -180,6 +180,18 @@ const TaskCardModal = (props) => {
       })
   }
 
+  const deleteTask = () => {
+    apiClient.delete(`/api/tasks/${props.taskId}`)
+      .then((response) => {
+        dispatch(addAlert({ severity: 'success', message: 'Task deleted!' }))
+        props.closeModal()
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
 
   if (taskDescriptionDraft == null && task?.description != null) setTaskDescriptionDraft(task.description)
 
@@ -308,6 +320,13 @@ const TaskCardModal = (props) => {
               </Stack>
             </Stack>
           </Card>
+          <Button
+            className='TaskCardModal-delete-task'
+            variant='contained'
+            color='error'
+            onClick={() => deleteTask()}>
+            <Typography>Delete Task</Typography>
+          </Button>
         </Box>
       </Card>
     </Box>
@@ -320,6 +339,7 @@ export default TaskCardModal
 
 TaskCardModal.propTypes = {
   taskId: PropTypes.number.isRequired,
+  closeModal: PropTypes.func.isRequired
 }
 
 

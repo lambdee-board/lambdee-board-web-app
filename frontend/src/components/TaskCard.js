@@ -123,7 +123,7 @@ const TaskCard = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} parentIndex={props.parentIndex} />
+          <TaskCardModal taskId={props.id} parentIndex={props.parentIndex} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <Card className='TaskCard' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
