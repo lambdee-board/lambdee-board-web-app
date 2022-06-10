@@ -15,18 +15,18 @@
 #
 # and, you'll have to watch "config/Guardfile" instead of "Guardfile"
 
-guard 'livereload', grace_period: 1 do
-  asset_extensions = %i[css js erb png gif svg jpg jpeg].join '|'
+# guard 'livereload', grace_period: 1 do
+#   asset_extensions = %i[css js erb png gif svg jpg jpeg].join '|'
 
-  # file types LiveReload may optimize refresh for
-  watch(%r{public/.+\.(#{asset_extensions})})
+#   # file types LiveReload may optimize refresh for
+#   watch(%r{public/.+\.(#{asset_extensions})})
 
-  # Rails Assets Pipeline
-  # watch(%r{(app|vendor)(/assets/builds/(.+\.(#{asset_extensions}))).*}) { |m| "/assets/builds/#{m[3]}" }
+#   # Rails Assets Pipeline
+#   # watch(%r{(app|vendor)(/assets/builds/(.+\.(#{asset_extensions}))).*}) { |m| "/assets/builds/#{m[3]}" }
 
-  # Frontend
-  watch(%r{frontend(/build/(.+\.(#{asset_extensions}))).*})
+#   # Frontend
+#   watch(%r{frontend(/build/(.+\.(#{asset_extensions}))).*})
 
-  # file needing a full reload of the page anyway
-  watch(%r{app/views/.+\.erb$})
-end
+#   # file needing a full reload of the page anyway
+#   watch(%r{app/views/.+\.erb$})
+# end
