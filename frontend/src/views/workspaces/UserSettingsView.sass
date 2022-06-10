@@ -1,4 +1,38 @@
 @import './../../styles/base'
 
-div
-  margin-left: 29 * $unit
+.userSettings-wrapper
+  background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+  width: calc(100vw - (2 * $unit))
+  height: calc(100vh - (10 * $unit))
+  margin: $unit
+  border-radius: $unit
+  display: inline-flex
+  flex-flow: row
+
+  .userSettings-leftCol
+    width: calc(60vw - (8 * $unit))
+    margin: 4 * $unit
+
+    .userSettings-list
+      .userSettings-header
+        background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+
+        .userSettings-header-text
+          font-size: 8 * $unit
+
+      .userSettings-item
+        margin: (2 * $unit) 0
+        .userSettings-reset-password-button
+          width: 35 * $unit
+          padding: $unit
+          .userSettings-reset-password-button-text
+            font-size: 0.8rem
+
+  .userSettings-rightCol
+    width: calc(40vw - (8 * $unit))
+    margin: 4 * $unit
+    .userSettings-avatar-wrapper
+      margin-top: 5 * $unit
+      .userSettings-avatar
+        width: 16 * $unit
+        height: 16 * $unit
