@@ -1,8 +1,19 @@
+import React from 'react'
+import {
+  Avatar,
+  Button,
+  Divider,
+  IconButton,
+  List,
+  ListItem,
+  ListSubheader,
+  Skeleton,
+  TextField,
+  Typography,
+} from '@mui/material'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Avatar, Button, Divider, IconButton, List, ListItem, ListSubheader, Skeleton, TextField, Typography } from '@mui/material'
 import { capitalize } from 'lodash'
-import React from 'react'
 import { useDispatch } from 'react-redux'
 
 import apiClient from '../../api/apiClient'
@@ -22,10 +33,50 @@ function UserSettingsSkeleton() {
 
 export default function UserSettingsView() {
   const { data: user, isLoading, isError, mutate } = useCurrentUser()
+  const dispatch = useDispatch()
+  const [name, setNewName] = React.useState('')
+  const [email, setNewEmail] = React.useState('')
 
-  function capitalizeWords(string) {
+  React.useEffect(() => {
+    if (user) {
+      setNewName(user.name)
+      setNewEmail(user.email)
+    }
+  }, [user])
+
+  const capitalizeWords = (string) => {
     return string.replace(/(?:^|\s)\S/g, (a) => { return a.toUpperCase() })
   }
+
+  const mutateUserData = (requestBody) => {
+    apiClient.put(`/api/users/${user.id}`, requestBody)
+      .then((response) => {
+        // successful request
+        mutate()
+        dispatch(addAlert({ severity: 'success', message: 'Saved!' }))
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+
+  const inputOnKeyEvent = (e, type) => {
+    switch (e.key) {
+    case 'Enter':
+      e.preventDefault()
+      if (type === 'name') mutateUserData({ name })
+      else mutateUserData({ email })
+      break
+    case 'Escape':
+      e.preventDefault()
+      if (type === 'name') setNewName(user.name)
+      else setNewEmail(user.email)
+      break
+    }
+  }
+
 
   if (isLoading || isError) return (
     <UserSettingsSkeleton  />
@@ -44,25 +95,32 @@ export default function UserSettingsView() {
           <ListItem className='userSettings-item' key='user-name-input' >
             <TextField
               label='Name'
-              defaultValue={user.name}
+              value={name}
+              onChange={(e) => setNewName(e.target.value)}
+              onKeyDown={(e) => inputOnKeyEvent(e, 'name')}
+              onBlur={() => setNewName(user.name)}
               placeholder='Your name'
               variant='standard'
               fullWidth
-            />
+              autoComplete='off' />
           </ListItem>
           <ListItem className='userSettings-item' key='user-email-input' >
             <TextField
               label='Email'
-              defaultValue={user.email}
+              value={email}
+              onChange={(e) => setNewEmail(e.target.value)}
+              onKeyDown={(e) => inputOnKeyEvent(e, 'email')}
+              onBlur={() => setNewEmail(user.email)}
               placeholder='Your email'
               variant='standard'
-              fullWidth />
+              fullWidth
+              autoComplete='off' />
           </ListItem>
           <ListItem className='userSettings-item' key='user-role-input' >
             <TextField
               label='Role'
               disabled
-              defaultValue={capitalizeWords(user.role)}
+              value={capitalizeWords(user.role)}
               variant='standard'
               fullWidth
               sx={{ textTransform: capitalize }} />
