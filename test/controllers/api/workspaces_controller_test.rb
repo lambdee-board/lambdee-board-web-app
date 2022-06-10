@@ -65,10 +65,12 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should "destroy workspace" do
-    assert_difference("DB::Workspace.count", -1) do
+    assert_no_difference("DB::Workspace.count") do
       delete api_workspace_url(@workspace), as: :json
     end
 
     assert_response :no_content
+
+    assert @workspace.reload.archived?
   end
 end

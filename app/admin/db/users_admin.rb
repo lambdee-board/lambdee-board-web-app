@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Trestle.resource(:users, scope: DB) do
-  remove_action :destroy
+  instance_eval(&::TrestleExtensions::Archiver::ENDPOINTS)
 
   menu do
     item :users, icon: 'fa fa-users'
@@ -23,8 +23,8 @@ Trestle.resource(:users, scope: DB) do
       status_tag(user.role, { 'admin' => :danger, 'manager' => :primary, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }[user.role] || :default)
     end
     actions align: :center do |toolbar, user|
-      toolbar.link 'Deactivate', user, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
-      toolbar.link 'Activate', user, action: :activate, method: :post, style: :success if user.deactivated?
+      toolbar.link 'Deactivate', user, admin: admin, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
+      toolbar.link 'Activate', user, admin: admin, action: :activate, method: :post, style: :success if user.deactivated?
     end
   end
 
@@ -36,27 +36,6 @@ Trestle.resource(:users, scope: DB) do
       col(sm: 6) { password_field :password }
       col(sm: 6) { password_field :password_confirmation }
     end
-  end
-
-  controller do
-    def deactivate
-      user = admin.find_instance(params)
-      user.deactivate!
-      flash[:message] = 'User has been deactivated'
-      redirect_to admin.path(:index)
-    end
-
-    def activate
-      user = admin.find_instance(params)
-      user.activate!
-      flash[:message] = 'User has been activated'
-      redirect_to admin.path(:index)
-    end
-  end
-
-  routes do
-    post :deactivate, on: :member
-    post :activate, on: :member
   end
 
   # Ignore the password parameters if they are blank

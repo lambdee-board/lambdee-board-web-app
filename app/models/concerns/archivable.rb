@@ -16,6 +16,13 @@ module Archivable
     save(validate: false)
   end
 
+  # Set `deleted: false` and save record with no validation.
+  # @return [Boolean]
+  def restore!
+    self.deleted = false
+    save(validate: false)
+  end
+
   # Check if param `deleted: false`
   #
   # @return [Boolean]
@@ -28,12 +35,5 @@ module Archivable
   # @return [Boolean]
   def visible?
     !archived?
-  end
-
-  # Set `deleted: false` and save record with no validation.
-  # @return [Boolean]
-  def restore!
-    self.deleted = false
-    save(validate: false)
   end
 end
