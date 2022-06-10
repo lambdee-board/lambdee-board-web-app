@@ -33,6 +33,21 @@
     margin: 4 * $unit
     .userSettings-avatar-wrapper
       margin-top: 5 * $unit
-      .userSettings-avatar
-        width: 16 * $unit
-        height: 16 * $unit
+      margin-left: 5 * $unit
+      .userSettings-user-avatar-button
+        .userSettings-avatar
+          width: 24 * $unit
+          height: 24 * $unit
+          transition: .3s all
+        .userSettings-avatar-edit
+          color: #444
+          position: absolute
+          font-size: 8 * $unit
+          opacity: 0
+          transition: .3s all
+      .userSettings-user-avatar-button:hover
+        .userSettings-avatar
+          -webkit-filter: blur(6px)
+          filter: blur(6px)
+        .userSettings-avatar-edit
+          opacity: 1

@@ -1,4 +1,6 @@
-import { Avatar, Button, Divider, List, ListItem, ListSubheader, Skeleton, TextField, Typography } from '@mui/material'
+import { faPencil } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Avatar, Button, Divider, IconButton, List, ListItem, ListSubheader, Skeleton, TextField, Typography } from '@mui/material'
 import { capitalize } from 'lodash'
 import React from 'react'
 import { useDispatch } from 'react-redux'
@@ -66,7 +68,7 @@ export default function UserSettingsView() {
               sx={{ textTransform: capitalize }} />
           </ListItem>
           <ListItem className='userSettings-item' key='user-reset-password' >
-            <Button onClick={() => { console.log('TODO') }}
+            <Button onClick={() => { console.log('reset-pass-TODO') }}
               className='userSettings-reset-password-button'
               color='primary'
               variant='contained' >
@@ -79,11 +81,15 @@ export default function UserSettingsView() {
       </div>
       <div className='userSettings-rightCol'>
         <div className='userSettings-avatar-wrapper'>
-          <Avatar
-            className='userSettings-avatar'
-            alt={`${user.name.replace(' ', '-')}-avatar`}
-            src={user.avatarUrl}
-          />
+          <IconButton className='userSettings-user-avatar-button'
+            onClick={() => { console.log('avatar-TODO') }} >
+            <Avatar
+              className='userSettings-avatar'
+              alt={`${user.name.replace(' ', '-')}-avatar`}
+              src={user.avatarUrl} />
+            <FontAwesomeIcon className='userSettings-avatar-edit'
+              icon={faPencil} />
+          </IconButton>
         </div>
       </div>
     </div>
