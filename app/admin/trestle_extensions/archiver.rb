@@ -4,17 +4,19 @@
 # for soft deleting records in admin panel.
 module TrestleExtensions::Archiver
   ENDPOINTS = proc do
+    remove_action :destroy
+
     controller do
       def deactivate
         entity = admin.find_instance(params)
-        entity.deactivate!
+        entity.archive!
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been archived"
         redirect_to admin.path(:index)
       end
 
       def activate
         entity = admin.find_instance(params)
-        entity.activate!
+        entity.restore!
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been restored"
         redirect_to admin.path(:index)
       end

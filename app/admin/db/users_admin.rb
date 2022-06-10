@@ -23,8 +23,8 @@ Trestle.resource(:users, scope: DB) do
       status_tag(user.role, { 'admin' => :danger, 'manager' => :primary, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }[user.role] || :default)
     end
     actions align: :center do |toolbar, user|
-      toolbar.link 'Deactivate', user, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
-      toolbar.link 'Activate', user, action: :activate, method: :post, style: :success if user.deactivated?
+      toolbar.link 'Deactivate', user, admin: admin, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
+      toolbar.link 'Activate', user, admin: admin, action: :activate, method: :post, style: :success if user.deactivated?
     end
   end
 
