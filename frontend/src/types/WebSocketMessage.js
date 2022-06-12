@@ -2,6 +2,7 @@ export default class WebSocketMessage {
   static types = {
     consoleInput: 'console_input',
     consoleOutput: 'console_output',
+    consoleOutputEnd: 'console_output_end',
   }
 
   type

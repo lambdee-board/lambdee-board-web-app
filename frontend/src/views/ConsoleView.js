@@ -19,6 +19,9 @@ import CodeHighlighter from '../components/CodeHighlighter'
 
 import WebSocketMessage from '../types/WebSocketMessage'
 
+const HISTORY_BUFFER_SIZE = 200
+const INPUT_HISTORY_BUFFER_SIZE = HISTORY_BUFFER_SIZE / 2
+
 const ConsolePrompt = () => {
   return (
     <pre style={{ marginTop: 18.4, marginBottom: 18.4 }}>
@@ -65,8 +68,7 @@ puts ruby`)
         content,
         time: new Date(),
       }
-      setResponseReceived(true)
-      setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory, entry])
+      setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory.slice(-HISTORY_BUFFER_SIZE), entry])
       setTimeout(() => {
         scrollToBottom()
         focusCodeEditor()
@@ -74,11 +76,15 @@ puts ruby`)
     }
 
     const newWebSocket = new WebSocket('ws://localhost:3001/')
-    newWebSocket.onmessage = (event) => {
+    newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {
       case WebSocketMessage.types.consoleOutput:
         addToConsoleHistory(message.payload?.output)
+        break
+      case WebSocketMessage.types.consoleOutputEnd:
+        if (message.payload?.output) addToConsoleHistory(message.payload?.output)
+        setResponseReceived(true)
         break
       }
     }
@@ -99,8 +105,8 @@ puts ruby`)
       content,
       time: new Date(),
     }
-    setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory, entry])
-    setConsoleInputHistory((old) => [...old, entry])
+    setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory.slice(-HISTORY_BUFFER_SIZE), entry])
+    setConsoleInputHistory((old) => [...old.slice(-INPUT_HISTORY_BUFFER_SIZE), entry])
     setResponseReceived(false)
     setTimeout(() => {
       scrollToBottom()
