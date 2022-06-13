@@ -80,10 +80,10 @@ puts ruby`)
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {
       case WebSocketMessage.types.consoleOutput:
-        addToConsoleHistory(message.payload?.output)
+        addToConsoleHistory(message.payload)
         break
       case WebSocketMessage.types.consoleOutputEnd:
-        if (message.payload?.output) addToConsoleHistory(message.payload?.output)
+        if (message.payload) addToConsoleHistory(message.payload)
         setResponseReceived(true)
         break
       }
