@@ -1,32 +1,19 @@
 import * as React from 'react'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import {
   Box,
-  Drawer,
-  Toolbar,
-  List,
-  ListItem,
-  ListItemText,
-  ListItemIcon,
   Button,
-  Skeleton,
   InputBase,
   IconButton,
   Typography,
   ClickAwayListener
 } from '@mui/material'
 import {
-  faClipboardList,
-  faScroll,
-  faGear,
-  faUsers,
-  faArrowLeft,
   faPlus,
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { styled, useTheme } from '@mui/material/styles'
-import PropTypes from 'prop-types'
+
 import useWorkspace from '../api/useWorkspace'
 import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
@@ -39,7 +26,7 @@ import './NewBoardButton.sass'
 export default function NewBoardButton() {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
-  const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
+  const { data: workspace, mutate } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
   const [color, setColor] = React.useState('#1082F3')
   const [newBoardButtonVisible, setNewBoardButtonVisible] = React.useState(true)
   const toggleNewBoardButton = () => setNewBoardButtonVisible(!newBoardButtonVisible)
@@ -89,26 +76,26 @@ export default function NewBoardButton() {
     <Box>
       {!newBoardButtonVisible &&
         <ClickAwayListener onClickAway={toggleNewBoardButton}>
-          <Box className='Sidebar-new-board'>
+          <Box className='New-board'>
             <ColorPickerPopover color={color} onChange={setColor} />
             <InputBase
               ref={newBoardInputRef}
-              className='Sidebar-new-board-input'
+              className='New-board-input'
               fullWidth
               multiline
               placeholder='Board Label'
               onKeyDown={(e) => newBoardNameInputOnKey(e)}
             />
-            <IconButton className='Sidebar-new-board-cancel' onClick={() => toggleNewBoardButton()}>
-              <FontAwesomeIcon className='Sidebar-new-board-cancel-icon' icon={faXmark} />
+            <IconButton className='New-board-cancel' onClick={() => toggleNewBoardButton()}>
+              <FontAwesomeIcon className='New-board-cancel-icon' icon={faXmark} />
             </IconButton>
           </Box>
         </ClickAwayListener>
       }
 
-      <Box className='Sidebar-new-board-wrapper'>
+      <Box className='New-board-wrapper'>
         {newBoardButtonVisible &&
-      <Button onClick={newBoardButtonOnClick} className='Sidebar-new-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+      <Button onClick={newBoardButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
         <Typography>New Board</Typography>
       </Button>
         }
