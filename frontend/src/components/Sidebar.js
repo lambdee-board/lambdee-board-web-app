@@ -33,6 +33,7 @@ import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import ColorPickerPopover from './ColorPickerPopover'
+import { generatePath } from 'react-router'
 
 import './Sidebar.sass'
 
@@ -183,6 +184,7 @@ export default function Sidebar() {
               <SidebarListItem
                 active={false}
                 label='Settings'
+                onClick={() => navigate(generatePath('workspace-settings'))}
                 icon={<FontAwesomeIcon icon={faGear} />}
               />
               <SidebarListItem

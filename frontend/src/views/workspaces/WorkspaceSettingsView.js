@@ -10,7 +10,7 @@ import {
   IconButton,
   Button,
 } from '@mui/material'
-import './WorkspaceSettings.sass'
+import './WorkspaceSettingsView.sass'
 
 
 const WorkspaceSettings = () => {

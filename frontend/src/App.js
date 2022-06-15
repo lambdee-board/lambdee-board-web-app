@@ -12,7 +12,6 @@ import store from './redux/store'
 import ErrorCounter from './components/ErrorCounter'
 import AppAlert from './components/AppAlert'
 import Navbar from './components/Navbar'
-import WorkspaceSettings from './components/WorkspaceSettings'
 
 const swrConfig = {
   refreshInterval: process.env.NODE_ENV === 'development' ? null : 15000,
@@ -33,7 +32,6 @@ function App() {
               <Navbar />
               <div className='App-body'>
                 <Outlet />
-                <WorkspaceSettings />
               </div>
             </div>
           </DndProvider>
