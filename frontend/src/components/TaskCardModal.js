@@ -30,6 +30,7 @@ import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
+import { useParams } from 'react-router-dom'
 
 function TaskCardModalSkeleton() {
   return (
@@ -98,6 +99,8 @@ const TaskCardModal = (props) => {
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
+
+  const { boardId } = useParams()
 
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
@@ -196,7 +199,6 @@ const TaskCardModal = (props) => {
   const detachTag = (e, tag) => {
     const payload = { tagId: tag.id }
 
-
     apiClient.post(`/api/tasks/${props.taskId}/detach_tag`, payload)
       .then((response) => {
         // successful request
@@ -209,6 +211,20 @@ const TaskCardModal = (props) => {
         const newTaskTags = [...task.tags]
         newTaskTags.splice(tagsIndex, 1)
         mutateTask({ ...task, tags: newTaskTags })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const createAttachTag = (newTagPayload) => {
+    const payload = { ...newTagPayload, boardId, taskId: props.taskId }
+
+    apiClient.post(`/api/tasks/${props.taskId}/tags`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, tags: [...task?.tags || [], payload] })
       })
       .catch((error) => {
         // failed or rejected
@@ -348,6 +364,7 @@ const TaskCardModal = (props) => {
                   <AttachTagSelect
                     onBlur={attachTagSelectOnBlur}
                     onChange={attachTagSelectOnChange}
+                    createTag={createAttachTag}
                     addedTags={task.tags}
                   />
                 ) : (

@@ -50,7 +50,7 @@ function AttachTagSelect(props) {
 
   const handleSubmit = (event) => {
     event.preventDefault()
-    // create and attach tag to board/task
+    props.createTag(newCreatedTag)
     handleClose()
     props.onBlur()
   }
@@ -101,7 +101,7 @@ function AttachTagSelect(props) {
           return option.name
         }}
         renderOption={(params, option) => (
-          <li {...params}>
+          <li {...params} key={option.id}>
             <div
               style={{ width: '16px',
                 height: '16px',
@@ -167,7 +167,6 @@ function AttachTagSelect(props) {
               type='text'
               variant='standard'
             />
-            {console.log(newCreatedTag.colour)}
             <ColorPickerPopover
               width={32}
               height={32}
@@ -191,6 +190,7 @@ function AttachTagSelect(props) {
 AttachTagSelect.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
+  createTag: PropTypes.func,
   addedTags: PropTypes.arrayOf(PropTypes.object)
 }
 
