@@ -41,5 +41,5 @@
 
   # path to the frontend React app
   root ::ApplicationController::FRONTEND_ACTION, as: :frontend
-  get '/*path', to: ::ApplicationController::FRONTEND_ACTION, format: false, constraints: ->(req) { !req.path.match? %r{^/api/} }
+  get '/*path', to: ::ApplicationController::FRONTEND_ACTION, format: false, constraints: ->(req) { !req.path.match? %r{^(/api/)|(/admin/)} }
 end
