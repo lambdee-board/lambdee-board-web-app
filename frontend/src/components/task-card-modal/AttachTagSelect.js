@@ -7,6 +7,7 @@ import {
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import useBoardTags from '../../api/useBoardTags'
+import { Box } from '@mui/system'
 
 
 function AttachTagSelect(props) {
@@ -35,6 +36,20 @@ function AttachTagSelect(props) {
       getOptionLabel={(option) => option.name}
       options={tagsToAdd}
       loading={isLoading || isError}
+      renderOption={(params, option, { selected }) => (
+        <li {...params}>
+          <div
+            style={{ width: '16px',
+              height: '16px',
+              borderRadius: '3px',
+              marginRight: '4px',
+              backgroundColor: option.colour }}
+          />
+          <div>
+            {option.name}
+          </div>
+        </li>
+      )}
       renderInput={(params) => (
         <TextField
           {...params}

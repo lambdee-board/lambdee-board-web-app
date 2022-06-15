@@ -30,7 +30,6 @@ import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
-import { isError } from 'lodash'
 
 function TaskCardModalSkeleton() {
   return (
