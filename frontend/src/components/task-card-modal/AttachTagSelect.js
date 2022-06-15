@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 import useBoardTags from '../../api/useBoardTags'
 
 
-function AddTagSelect(props) {
+function AttachTagSelect(props) {
   const { boardId } = useParams()
   const { data: tags, isLoading, isError } = useBoardTags(boardId)
   const [open, setOpen] = React.useState(true)
@@ -25,7 +25,7 @@ function AddTagSelect(props) {
 
   return (
     <Autocomplete
-      id='assign-user-to-task-select'
+      id='attach-tag-to-task-select'
       open={open}
       onChange={props.onChange}
       onOpen={() => setOpen(true) }
@@ -54,10 +54,10 @@ function AddTagSelect(props) {
   )
 }
 
-AddTagSelect.propTypes = {
+AttachTagSelect.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   addedTags: PropTypes.arrayOf(PropTypes.object)
 }
 
-export default AddTagSelect
+export default AttachTagSelect

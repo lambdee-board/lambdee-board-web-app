@@ -29,7 +29,7 @@ import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
-import AddTagSelect from './task-card-modal/AddTagSelect'
+import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import { isError } from 'lodash'
 
 function TaskCardModalSkeleton() {
@@ -94,7 +94,7 @@ const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
-  const [addTagSelectVisible, setTagSelectVisible] = React.useState(false)
+  const [attachTagSelectVisible, setTagSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
@@ -164,18 +164,18 @@ const TaskCardModal = (props) => {
   }
 
 
-  const addTagButtonOnClick = () => {
+  const attachTagButtonOnClick = () => {
     setTagSelectVisible(true)
     setTimeout(() => {
-      document.getElementById('assign-user-to-task-select').focus()
+      document.getElementById('attach-tag-to-task-select').focus()
     }, 50)
   }
 
-  const addTagSelectOnBlur = () => {
+  const attachTagSelectOnBlur = () => {
     setTagSelectVisible(false)
   }
 
-  const addTagSelectOnChange = (e, tag) => {
+  const attachTagSelectOnChange = (e, tag) => {
     attachTag(tag)
     setTagSelectVisible(false)
   }
@@ -345,16 +345,16 @@ const TaskCardModal = (props) => {
                   </Box>
                 ))}
 
-                {addTagSelectVisible ? (
-                  <AddTagSelect
-                    onBlur={addTagSelectOnBlur}
-                    onChange={addTagSelectOnChange}
+                {attachTagSelectVisible ? (
+                  <AttachTagSelect
+                    onBlur={attachTagSelectOnBlur}
+                    onChange={attachTagSelectOnChange}
                     addedTags={task.tags}
                   />
                 ) : (
                   <Box
                     className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
-                    onClick={addTagButtonOnClick}
+                    onClick={attachTagButtonOnClick}
                   >
                     <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
                       <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
