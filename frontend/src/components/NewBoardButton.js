@@ -83,7 +83,7 @@ export default function NewBoardButton() {
               className='New-board-input'
               fullWidth
               multiline
-              placeholder='Board Label'
+              placeholder='New Board Name'
               onKeyDown={(e) => newBoardNameInputOnKey(e)}
             />
             <IconButton className='New-board-cancel' onClick={() => toggleNewBoardButton()}>
@@ -96,7 +96,7 @@ export default function NewBoardButton() {
       <Box className='New-board-wrapper'>
         {newBoardButtonVisible &&
       <Button onClick={newBoardButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-        <Typography>New Board</Typography>
+        <Typography>Add New Board</Typography>
       </Button>
         }
       </Box>

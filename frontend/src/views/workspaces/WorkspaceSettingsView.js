@@ -18,6 +18,7 @@ import { useParams } from 'react-router-dom'
 import useWorkspace from '../../api/useWorkspace'
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
 import NewBoardButton from '../../components/NewBoardButton'
+import WorkspaceIcon from '../../components/WorkspaceIcon'
 import './WorkspaceSettingsView.sass'
 
 
@@ -30,7 +31,6 @@ function BoardListItem(props) {
         </ListItemIcon>
         <ListItemText primary={props.label} />
       </ListItem>
-      <Divider />
     </Box>
   )
 }
@@ -41,7 +41,6 @@ function UserListItem(props) {
         <Avatar src={props.icon} />
         <ListItemText primary={props.label} />
       </ListItem>
-      <Divider />
     </Box>
   )
 }
@@ -54,11 +53,16 @@ const WorkspaceSettings = () => {
   return (
 
     <Box className='WorkspaceSettings-wrapper'>
-      <NewBoardButton />
+
       {isLoading || isError ? (
         <Box></Box>
       ) : (
         <List>
+          <BoardListItem className='ListItem-workspace'
+            label={workspace.name}
+            icon={<WorkspaceIcon name={workspace.name} size={48} />}
+          />
+          <NewBoardButton />
           {workspace.boards?.map((board, index) => (
             <BoardListItem
               key={board.name + index}
@@ -66,6 +70,7 @@ const WorkspaceSettings = () => {
               icon={<FontAwesomeIcon icon={faClipboardList} color={board.colour} />}
             />
           ))}
+          <NewBoardButton />
           {users?.map((user, index) => (
             <UserListItem
               key={user.name + index}
@@ -83,3 +88,12 @@ const WorkspaceSettings = () => {
 export default WorkspaceSettings
 
 
+BoardListItem.propTypes = {
+  icon: PropTypes.object.isRequired,
+  label: PropTypes.string.isRequired,
+}
+
+UserListItem.propTypes = {
+  icon: PropTypes.string.isRequired,
+  label: PropTypes.string.isRequired,
+}
