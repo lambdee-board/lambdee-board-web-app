@@ -7,7 +7,6 @@ import {
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
 import useBoardTags from '../../api/useBoardTags'
-import { Box } from '@mui/system'
 
 
 function AttachTagSelect(props) {
