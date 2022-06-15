@@ -195,7 +195,26 @@ const TaskCardModal = (props) => {
   }
 
   const detachTag = (e, tag) => {
-    console.log(tag)
+    const payload = { tagId: tag.id }
+
+
+    apiClient.post(`/api/tasks/${props.taskId}/detach_tag`, payload)
+      .then((response) => {
+        // successful request
+        const tagsIndex = task?.tags?.findIndex((arrayTag) => arrayTag.id === tag.id)
+        if (tagsIndex == null || tagsIndex === -1) {
+          mutateTask()
+          return
+        }
+
+        const newTaskTags = [...task.tags]
+        newTaskTags.splice(tagsIndex, 1)
+        mutateTask({ ...task, tags: newTaskTags })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
   }
 
   if (isTaskLoading || isTaskError) return (
