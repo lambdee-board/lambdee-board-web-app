@@ -29,6 +29,8 @@ import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
+import AddTagSelect from './task-card-modal/AddTagSelect'
+import { isError } from 'lodash'
 
 function TaskCardModalSkeleton() {
   return (
@@ -92,6 +94,7 @@ const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
+  const [addTagSelectVisible, setTagSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
@@ -158,6 +161,41 @@ const TaskCardModal = (props) => {
         // failed or rejected
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
+  }
+
+
+  const addTagButtonOnClick = () => {
+    setTagSelectVisible(true)
+    setTimeout(() => {
+      document.getElementById('assign-user-to-task-select').focus()
+    }, 50)
+  }
+
+  const addTagSelectOnBlur = () => {
+    setTagSelectVisible(false)
+  }
+
+  const addTagSelectOnChange = (e, tag) => {
+    attachTag(tag)
+    setTagSelectVisible(false)
+  }
+
+  const attachTag = (tag) => {
+    const payload = { tagId: tag.id }
+
+    apiClient.post(`/api/tasks/${props.taskId}/attach_tag`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, tags: [...task?.tags || [], tag] })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const detachTag = (e, tag) => {
+    console.log(tag)
   }
 
   if (isTaskLoading || isTaskError) return (
@@ -280,9 +318,32 @@ const TaskCardModal = (props) => {
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
                   <Box key={tag.id} className='TaskCardModal-sidebar-card-box-tags'>
-                    <Tag name={tag.name} colour={tag.colour} />
+                    <Tag
+                      name={tag.name}
+                      colour={tag.colour}
+                      deletable={true}
+                      onDelete={(event) => detachTag(event, tag)} />
                   </Box>
                 ))}
+
+                {addTagSelectVisible ? (
+                  <AddTagSelect
+                    onBlur={addTagSelectOnBlur}
+                    onChange={addTagSelectOnChange}
+                    addedTags={task.tags}
+                  />
+                ) : (
+                  <Box
+                    className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
+                    onClick={addTagButtonOnClick}
+                  >
+                    <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                      <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                    </Avatar>
+                    <UserInfo userName='Add tag' />
+                  </Box>
+                )}
+
               </Stack>
 
               <Stack spacing={1}>
