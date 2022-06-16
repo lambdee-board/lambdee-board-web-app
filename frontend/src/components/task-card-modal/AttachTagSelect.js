@@ -160,7 +160,7 @@ function AttachTagSelect(props) {
             <TextField
               autoFocus
               margin='dense'
-              id='name'
+              id='create-tag-name-input'
               value={newCreatedTag.name}
               onChange={(event) => setNewCreatedTag({
                 ...newCreatedTag,
@@ -179,7 +179,7 @@ function AttachTagSelect(props) {
                 colour: newColour,
               })} />
           </DialogContent>
-          <DialogActions>
+          <DialogActions className='create-tag-buttons'>
             <Button onClick={handleClose}>Cancel</Button>
             <Button type='submit'>Create</Button>
           </DialogActions>

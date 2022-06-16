@@ -370,7 +370,7 @@ const TaskCardModal = (props) => {
                   />
                 ) : (
                   <Box
-                    className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
+                    className='TaskCardModal-sidebar-card-box TaskCardModal-add-tag-btn TaskCardModal-assign-user-btn'
                     onClick={attachTagButtonOnClick}
                   >
                     <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
