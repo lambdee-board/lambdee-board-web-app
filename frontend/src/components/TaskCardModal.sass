@@ -2,16 +2,16 @@
 
 .TaskCardModal-wrapper
   overflow-y: scroll
+  max-height: 100vh
   -ms-overflow-style: none // for Internet Explorer, Edge
   scrollbar-width: none // for Firefox
 
   &::-webkit-scrollbar
     display: none // for Chrome, Safari, and Opera
-    max-height: calc(100vh)
 
   .TaskCardModal-paper
-    margin-top: 3 * $unit
-    margin-bottom: 3 * $unit
+    // margin-top: 3 * $unit
+    // margin-bottom: 3 * $unit
     width: calc(100vw - 5 * $unit)
     max-width: 1100px
     display: flex
