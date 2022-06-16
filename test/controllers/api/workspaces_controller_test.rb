@@ -73,4 +73,26 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
     assert @workspace.reload.archived?
   end
+
+  should 'assign user to workspace' do
+    post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+
+    assert_response :no_content
+
+    assert_equal @user.id, @workspace.reload.users.last.id
+  end
+
+  should 'unassign user to workspace' do
+    user2 = ::FactoryBot.create :user
+    @workspace.users << @user
+    @workspace.users << user2
+    assert_equal 2, @workspace.users.size
+
+    post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+
+    assert_response :no_content
+
+    assert_equal 1, @workspace.reload.users.size
+    assert_equal user2.id, @workspace.reload.users.first.id
+  end
 end

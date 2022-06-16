@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for workspaces
 # through the JSON API.
 class API::WorkspacesController < ::APIController
-  before_action :set_workspace, only: %i[show update destroy]
+  before_action :set_workspace, only: %i[show update destroy assign_user unassign_user]
 
   # GET /api/workspaces
   def index
@@ -37,6 +37,18 @@ class API::WorkspacesController < ::APIController
   # DELETE /api/workspaces/1
   def destroy
     @workspace.archive!
+  end
+
+  # POST api/workspaces/:id/assign_user
+  def assign_user
+    @workspace.users << ::DB::User.find(params[:user_id])
+    head :no_content
+  end
+
+  # POST api/workspaces/:id/unassign_user
+  def unassign_user
+    @workspace.users.delete(params[:user_id])
+    head :no_content
   end
 
   private

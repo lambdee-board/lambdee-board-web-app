@@ -30,7 +30,7 @@ require 'swagger_helper'
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/user_request' }
       response(201, 'successful') do
         schema '$ref' => '#/components/schemas/user_response'
-        let(:user) { { name: 'New User', email: 'new_user@example.com', role: 'developer' } }
+        let(:user) { { name: 'New User', email: 'new_user@example.com', role: 'developer', password: 's3cr3t_p4ssw0rd' } }
 
         after do |example|
           save_response(example, response)
