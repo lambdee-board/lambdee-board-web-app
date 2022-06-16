@@ -83,7 +83,7 @@ export default function NewBoardButton() {
               className='New-board-input'
               fullWidth
               multiline
-              placeholder='New Board Name'
+              placeholder='Board Name'
               onKeyDown={(e) => newBoardNameInputOnKey(e)}
             />
             <IconButton className='New-board-cancel' onClick={() => toggleNewBoardButton()}>

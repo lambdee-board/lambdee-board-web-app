@@ -2,6 +2,11 @@ import * as React from 'react'
 import { Box, Popover, IconButton, Typography } from '@mui/material'
 import { HexColorPicker } from 'react-colorful'
 import PropTypes from 'prop-types'
+import {
+  faDroplet,
+
+} from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 export default function ColorPickerPopover({ color, onChange }) {
@@ -22,9 +27,7 @@ export default function ColorPickerPopover({ color, onChange }) {
     <Box>
 
       <IconButton size='small' sx={{ mr: 1 }} onClick={handleClick}>
-        <Box
-          sx={{ width: 20, height: 20, bgcolor: color }}
-        />
+        <FontAwesomeIcon icon={faDroplet} color={color} style={{ width: '24px', height: '24px' }}  />
       </IconButton>
       <Popover
         id={id}
