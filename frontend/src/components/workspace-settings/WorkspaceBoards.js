@@ -19,10 +19,10 @@ import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import apiClient from '../../api/apiClient'
 import ColorPickerPopover from '../../components/ColorPickerPopover'
-import './BoardListItem.sass'
+import './WorkspaceBoards.sass'
 
 
-const BoardListItem = (props) => {
+const WorkspaceBoards = (props) => {
   const [editBoardVisible, setEditBoardVisible] = React.useState(true)
   const [color, setColor] = React.useState()
   const editBoardRef = React.useRef()
@@ -126,10 +126,10 @@ const BoardListItem = (props) => {
     </Box>
   )
 }
-export default BoardListItem
+export default WorkspaceBoards
 
 
-BoardListItem.propTypes = {
+WorkspaceBoards.propTypes = {
   icon: PropTypes.object.isRequired,
   boardId: PropTypes.number,
   boardName: PropTypes.string.isRequired,

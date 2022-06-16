@@ -5,31 +5,22 @@ import {
   List,
   ListItem,
   ListItemText,
-
-  ListItemIcon,
-  ClickAwayListener,
-  Divider,
-  InputBase,
   Avatar,
-  IconButton
 } from '@mui/material'
 import {
   faClipboardList,
-  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useParams } from 'react-router-dom'
-import { addAlert } from '../../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
-import apiClient from '../../api/apiClient'
+
 import useWorkspace from '../../api/useWorkspace'
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
+import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
 import NewBoardButton from '../../components/NewBoardButton'
-import BoardListItem from '../../components/workspace-settings/BoardListItem'
-import WorkspaceIcon from '../../components/WorkspaceIcon'
-import ColorPickerPopover from '../../components/ColorPickerPopover'
-import './WorkspaceSettingsView.sass'
+import WorkspaceBoards from '../../components/workspace-settings/WorkspaceBoards'
 
+
+import './WorkspaceSettingsView.sass'
 
 function UserListItem(props) {
   return (
@@ -47,6 +38,7 @@ const WorkspaceSettings = () => {
   const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
   const { data: users } = useWorkspaceUsers(workspaceId)
 
+
   return (
 
     <Box className='WorkspaceSettings-wrapper'>
@@ -55,20 +47,20 @@ const WorkspaceSettings = () => {
         <Box></Box>
       ) : (
         <List className='List'>
-          {/* <BoardListItem className='ListItem-workspace'
-            label={workspace.name}
-            icon={<WorkspaceIcon name={workspace.name} size={48} />}
-          /> */}
+          <WorkspaceLabel
+            workspace={workspace}
+            mutate={mutate}
+          />
           <NewBoardButton />
           {workspace.boards?.map((board) => (
-            <BoardListItem
+            <WorkspaceBoards
               key={board.id}
               boardId={board.id}
               boardName={board.name}
               boardColor={board.colour}
               workspace={workspace}
               mutate={mutate}
-              icon={<FontAwesomeIcon className='BoardListItem-icon' icon={faClipboardList} color={board.colour} />}
+              icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.colour} />}
             />
           ))}
           <NewBoardButton />
@@ -88,15 +80,6 @@ const WorkspaceSettings = () => {
 
 export default WorkspaceSettings
 
-
-BoardListItem.propTypes = {
-  icon: PropTypes.object.isRequired,
-  boardId: PropTypes.number,
-  boardName: PropTypes.string.isRequired,
-  boardColor: PropTypes.string,
-  workspace: PropTypes.object,
-  mutate: PropTypes.func
-}
 
 UserListItem.propTypes = {
   icon: PropTypes.string.isRequired,

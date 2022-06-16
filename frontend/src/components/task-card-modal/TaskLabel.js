@@ -1,18 +1,17 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
-  Box,
   IconButton,
   Typography,
   InputBase,
   Card
 } from '@mui/material'
-import { faPencil, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './TaskLabel.sass'
 import { useDispatch } from 'react-redux'
 import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
+import './TaskLabel.sass'
 
 
 function TaskLabel({ task, mutate }) {
