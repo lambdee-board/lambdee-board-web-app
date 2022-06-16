@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -20,6 +20,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.datetime "updated_at", null: false
     t.bigint "workspace_id"
     t.string "colour", limit: 9
+    t.datetime "deleted_at"
     t.index ["workspace_id"], name: "index_boards_on_workspace_id"
   end
 
@@ -30,6 +31,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.bigint "task_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["task_id"], name: "index_comments_on_task_id"
   end
@@ -41,6 +43,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "deleted_at"
     t.index ["board_id"], name: "index_lists_on_board_id"
   end
 
@@ -68,6 +71,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.bigint "author_id"
     t.integer "priority"
     t.integer "points"
+    t.datetime "deleted_at"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
@@ -97,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
+    t.datetime "deleted_at"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
@@ -106,7 +111,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_03_152726) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "deleted", default: false
+    t.boolean "deleted"
+    t.datetime "deleted_at"
   end
 
   add_foreign_key "comments", "tasks"

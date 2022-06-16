@@ -36,7 +36,7 @@ class API::WorkspacesController < ::APIController
 
   # DELETE /api/workspaces/1
   def destroy
-    @workspace.archive!
+    @workspace.destroy
   end
 
   private

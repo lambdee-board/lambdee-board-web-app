@@ -9,14 +9,14 @@ module TrestleExtensions::Archiver
     controller do
       def deactivate
         entity = admin.find_instance(params)
-        entity.archive!
+        entity.delete
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been archived"
         redirect_to admin.path(:index)
       end
 
       def activate
-        entity = admin.find_instance(params)
-        entity.restore!
+        entity = admin.class.model.with_deleted.find(params[:id])
+        entity.recover
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been restored"
         redirect_to admin.path(:index)
       end
@@ -30,8 +30,8 @@ module TrestleExtensions::Archiver
 
   BUTTONS = proc do
     actions align: :center do |toolbar, entity|
-      toolbar.link 'Archive', entity, action: :deactivate, method: :post, style: :danger if entity.visible?
-      toolbar.link 'Restore', entity, action: :activate, method: :post, style: :success if entity.archived?
+      toolbar.link 'Archive', entity, action: :deactivate, method: :post, style: :danger unless entity.deleted?
+      toolbar.link 'Restore', entity, action: :activate, method: :post, style: :success if entity.deleted?
     end
   end
 end

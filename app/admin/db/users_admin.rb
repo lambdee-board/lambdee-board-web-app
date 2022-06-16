@@ -7,6 +7,10 @@ Trestle.resource(:users, scope: DB) do
     item :users, icon: 'fa fa-users'
   end
 
+  collection do
+    model.with_deleted
+  end
+
   table do
     column :gravatar_url, header: nil, align: :center do |user|
       admin_link_to(image_tag(user.avatar_url(size: 35)), user)

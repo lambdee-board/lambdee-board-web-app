@@ -243,6 +243,12 @@ class DB::Board < ApplicationRecord
   # Database column `boards.colour`, type: `string`.
   # @return [String, nil]
   def colour; end
+  # Database column `boards.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `boards.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
@@ -352,6 +358,12 @@ class DB::Comment < ApplicationRecord
   # Database column `comments.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `comments.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `comments.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:comments>%%
 
@@ -461,6 +473,12 @@ class DB::List < ApplicationRecord
   # Database column `lists.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `lists.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `lists.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
@@ -691,6 +709,12 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.points`, type: `integer`.
   # @return [Integer, nil]
   def points; end
+  # Database column `tasks.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `tasks.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 
@@ -866,6 +890,12 @@ class DB::User < ApplicationRecord
   # Database column `users.remember_created_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def remember_created_at; end
+  # Database column `users.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `users.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
@@ -922,18 +952,24 @@ end
 # %%<RailsAnnotateSolargraph:Start:workspaces>%%
 
 class DB::Workspace < ApplicationRecord
-  # Scope `:archived`.
+  # Scope `:deleted_after_time`.
   #
-  #     scope :archived, -> { where(deleted: true) }
-  #
-  # @return [Array<DB::Workspace>, nil]
-  def self.archived(); end
-  # Scope `:visible`.
-  #
-  #     scope :visible, -> { where(deleted: false) }
+  #     scope :deleted_after_time, lambda { |time|
   #
   # @return [Array<DB::Workspace>, nil]
-  def self.visible(); end
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.deleted_inside_time_window(time, window); end
   # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
   # @param val [Array<DB::Board>, nil]
   def boards=(val); end
@@ -982,6 +1018,12 @@ class DB::Workspace < ApplicationRecord
   # Database column `workspaces.deleted`, type: `boolean`.
   # @return [Boolean, nil]
   def deleted; end
+  # Database column `workspaces.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `workspaces.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
 end
 # %%<RailsAnnotateSolargraph:End:workspaces>%%
 

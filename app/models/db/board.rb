@@ -3,8 +3,10 @@
 # Contains the data of an individual Board
 # which can contain lists of tasks.
 class DB::Board < ::ApplicationRecord
+  acts_as_paranoid double_tap_destroys_fully: false
+
   belongs_to :workspace
-  has_many :lists
+  has_many :lists, dependent: :destroy
   has_many :visible_lists, -> { visible }, class_name: 'DB::List'
   has_many :archived_lists, -> { archived }, class_name: 'DB::List'
   has_many :tags

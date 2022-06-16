@@ -94,11 +94,12 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   should "archive user" do
-    assert_no_difference("DB::User.count") do
+    assert_difference('DB::User.count', -1) do
       delete api_user_url(@user), as: :json
     end
 
     assert_response :no_content
-    assert @user.reload.deactivated?
+    assert @user.reload.deleted?
+    assert_not @user.reload.deleted_fully?
   end
 end

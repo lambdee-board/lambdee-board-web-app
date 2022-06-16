@@ -3,7 +3,7 @@
 # Contains the data of a user
 # of the frontend interface.
 class DB::User < ::ApplicationRecord
-  include ::Archivable
+  acts_as_paranoid double_tap_destroys_fully: false
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
@@ -29,10 +29,14 @@ class DB::User < ::ApplicationRecord
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true, email: true, length: { maximum: 70 }
 
-  alias active? visible?
-  alias deactivated? archived?
-  alias deactivate! archive!
-  alias activate! restore!
+  alias deactivated? deleted?
+  alias deactivate! destroy!
+  alias activate! recover!
+
+  # @return [Boolean]
+  def active?
+    !deleted?
+  end
 
   # @return [String]
   def gravatar_url
