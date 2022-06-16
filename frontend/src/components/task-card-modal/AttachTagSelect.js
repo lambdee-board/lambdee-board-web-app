@@ -101,7 +101,7 @@ function AttachTagSelect(props) {
           return option.name
         }}
         renderOption={(params, option) => (
-          <li {...params} key={option.id}>
+          <li {...params} key={option.name + option.id || option.name }>
             <div
               style={{ width: '16px',
                 height: '16px',
