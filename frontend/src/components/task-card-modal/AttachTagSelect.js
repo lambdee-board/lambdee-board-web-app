@@ -66,7 +66,9 @@ function AttachTagSelect(props) {
         open={openTagsPopup}
         onOpen={() => setTagsPopup(true) }
         onClose={() => setTagsPopup(false) }
+        onBlur={openNewTagDial ? null : props.onBlur}
         selectOnFocus
+        clearOnEscape
         clearOnBlur
         handleHomeEndKeys
         freeSolo
@@ -101,7 +103,8 @@ function AttachTagSelect(props) {
           return option.name
         }}
         renderOption={(params, option) => (
-          <li {...params} key={option.name + option.id || option.name }>
+          <li {...params}
+            key={option.name + option.id || option.name }>
             <div
               style={{ width: '16px',
                 height: '16px',

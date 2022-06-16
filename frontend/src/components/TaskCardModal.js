@@ -224,7 +224,8 @@ const TaskCardModal = (props) => {
     apiClient.post(`/api/tasks/${props.taskId}/tags`, payload)
       .then((response) => {
         // successful request
-        mutateTask({ ...task, tags: [...task?.tags || [], payload] })
+        const tagWithTempId = { ...payload, id: 99999999999 }
+        mutateTask({ ...task, tags: [...task?.tags || [], tagWithTempId] })
       })
       .catch((error) => {
         // failed or rejected
