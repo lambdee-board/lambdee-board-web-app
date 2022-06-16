@@ -10,6 +10,9 @@
   namespace :api do
     defaults format: :json do
       resources :workspaces do
+        post :assign_user, on: :member
+        post :unassign_user, on: :member
+
         resources :users, only: %i[index]
       end
 
