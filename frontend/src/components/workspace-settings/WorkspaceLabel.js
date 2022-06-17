@@ -13,7 +13,7 @@ import WorkspaceIcon from '../../components/WorkspaceIcon'
 import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 
-const WorkspaceLabel = ({ workspace, mutate }) => {
+const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
   const dispatch = useDispatch()
   const [editWorkspaceLabelButton, setEditWorkspaceLabel] = React.useState(true)
 
@@ -41,6 +41,7 @@ const WorkspaceLabel = ({ workspace, mutate }) => {
       .then((response) => {
         // successful request
         mutate()
+        mutateWorkspaces()
         toggleEditWorkspaceLabelButton()
       })
       .catch((error) => {
@@ -89,6 +90,7 @@ export default WorkspaceLabel
 WorkspaceLabel.propTypes = {
   workspace: PropTypes.object.isRequired,
   mutate: PropTypes.func.isRequired,
+  mutateWorkspaces: PropTypes.func.isRequired
 }
 
 

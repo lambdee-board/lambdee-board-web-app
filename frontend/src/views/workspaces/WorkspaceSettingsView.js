@@ -15,13 +15,13 @@ import { useDispatch } from 'react-redux'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import useWorkspace from '../../api/useWorkspace'
+import useWorkspaces from '../../api/useWorkspaces'
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
 import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
 import NewBoardButton from '../../components/NewBoardButton'
 import WorkspaceBoards from '../../components/workspace-settings/WorkspaceBoards'
 import WorkspaceUsers from '../../components/workspace-settings/WorkspaceUsers'
 import WorkspaceAssignUserSelect from '../../components/workspace-settings/WorkspaceAssignUserSelect'
-import UserInfo from '../../components/task-card-modal/UserInfo'
 
 
 import './WorkspaceSettingsView.sass'
@@ -30,6 +30,7 @@ import './WorkspaceSettingsView.sass'
 const WorkspaceSettings = () => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
+  const { mutate: mutateWorkspaces } = useWorkspaces(5)
   const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
   const { data: users, mutate: mutateUsers } = useWorkspaceUsers(workspaceId)
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
@@ -75,6 +76,7 @@ const WorkspaceSettings = () => {
           <WorkspaceLabel
             workspace={workspace}
             mutate={mutate}
+            mutateWorkspaces={mutateWorkspaces}
           />
           <NewBoardButton />
           <Box className='WorkspaceBoards'>
