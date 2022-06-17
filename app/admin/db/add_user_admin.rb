@@ -8,27 +8,14 @@ Trestle.resource(:add_user, model: ::DB::User, scope: DB) do
   end
 
   table do
-    column :gravatar_url, header: nil, align: :center do |user|
-      admin_link_to(image_tag(user.avatar_url(size: 35)), user)
-    end
-    column :id
-    column :name
-    column :email
-    column :created_at, align: :center
-    column :updated_at, align: :center, header: 'Last update at'
-    column :active, sort: :role, align: :center, header: 'Active?' do |user|
-      status_tag(user.activity_status, { true => :success, false => :default }[user.active?] || :default)
-    end
-    column :role, sort: :role, align: :center do |user|
-      status_tag(user.role, { 'admin' => :danger, 'manager' => :primary, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }[user.role] || :default)
-    end
+    instance_eval(&TrestleConcerns::User::COLUMNS)
+
     actions align: :center, header: 'Add to WS' do |toolbar, user|
       toolbar.link 'Add', user, action: :add_to_workspace, method: :post, style: :success, params: { workspace_id: params[:id] }
     end
   end
 
-  form dialog: true do
-  end
+  form dialog: true, &TrestleConcerns::User::FORM
 
   controller do
     def add_to_workspace

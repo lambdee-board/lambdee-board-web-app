@@ -9,13 +9,16 @@ function Tag(props) {
       className='Tag'
       label={props.name}
       sx={{ color: textColour(props.colour), bgcolor: props.colour }}
-      size='small' />
+      size='small'
+      onDelete={props.deletable || false ? props.onDelete : undefined} />
   )
 }
 
 Tag.propTypes = {
   name: PropTypes.string.isRequired,
   colour: PropTypes.string.isRequired,
+  deletable: PropTypes.bool,
+  onDelete: PropTypes.func,
 }
 
 export default Tag

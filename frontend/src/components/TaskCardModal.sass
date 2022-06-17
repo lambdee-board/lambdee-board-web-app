@@ -2,12 +2,12 @@
 
 .TaskCardModal-wrapper
   overflow-y: scroll
+  max-height: 100vh
   -ms-overflow-style: none // for Internet Explorer, Edge
   scrollbar-width: none // for Firefox
 
   &::-webkit-scrollbar
     display: none // for Chrome, Safari, and Opera
-  max-height: calc(100vh)
 
   .TaskCardModal-paper
     margin-top: 3 * $unit
@@ -91,6 +91,11 @@
 
       .TaskCardModal-sidebar-card
         padding: 2 * $unit
+        .TaskCardModal-sidebar-card-box-tags
+          margin-top: 0
+          margin-bottom: $unit
+          .Tag
+            font-size: 1rem
 
         .TaskCardModal-assign-user-btn
           color: #7d7b7b

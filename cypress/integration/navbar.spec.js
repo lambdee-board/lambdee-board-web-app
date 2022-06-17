@@ -23,11 +23,11 @@ describe('Navbar', () => {
     cy.get('div.MuiModal-root').should('exist')
     cy.get('div.MuiBackdrop-root').first().click()
 
-    // Actions
-    cy.get('div.MuiModal-root').should('not.exist')
-    cy.contains('Actions').click()
-    cy.get('div.MuiModal-root').should('exist')
-    cy.get('div.MuiBackdrop-root').first().click()
+    // // Actions - deleted?
+    // cy.get('div.MuiModal-root').should('not.exist')
+    // cy.contains('Actions').click()
+    // cy.get('div.MuiModal-root').should('exist')
+    // cy.get('div.MuiBackdrop-root').first().click()
 
     // My account avatar
     cy.get('div.MuiModal-root').should('not.exist')

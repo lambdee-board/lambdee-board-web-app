@@ -10,6 +10,5 @@ Trestle.resource(:limited_board, model: ::DB::Board, scope: DB) do
     column :created_at, align: :center
   end
 
-  form dialog: true do
-  end
+  form dialog: true
 end
