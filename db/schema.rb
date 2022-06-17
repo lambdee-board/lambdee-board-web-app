@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
+ActiveRecord::Schema[7.0].define(version: 2022_06_17_154549) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
@@ -26,7 +26,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
 
   create_table "comments", force: :cascade do |t|
     t.text "body"
-    t.boolean "deleted", default: false
     t.bigint "author_id", null: false
     t.bigint "task_id", null: false
     t.datetime "created_at", null: false
@@ -39,7 +38,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
   create_table "lists", force: :cascade do |t|
     t.string "name"
     t.float "pos"
-    t.boolean "deleted", default: false
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -96,7 +94,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
     t.datetime "updated_at", null: false
     t.string "email"
     t.integer "role"
-    t.boolean "deleted", default: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
     t.datetime "reset_password_sent_at"
@@ -111,7 +108,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_06_15_204920) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "deleted"
     t.datetime "deleted_at"
   end
 
