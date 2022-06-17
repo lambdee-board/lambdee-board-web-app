@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Trestle.resource(:workspaces, scope: DB) do
-  instance_eval(&::TrestleExtensions::Archiver::ENDPOINTS)
+  instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
     item :workspaces, icon: 'fa fa-briefcase'
@@ -22,7 +22,8 @@ Trestle.resource(:workspaces, scope: DB) do
     end
     column :created_at, align: :center
     column :updated_at, align: :center, header: 'Last update at'
-    instance_eval(&::TrestleExtensions::Archiver::BUTTONS)
+
+    instance_eval(&::TrestleConcerns::Archiver::BUTTONS)
   end
 
   form do |ws|

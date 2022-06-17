@@ -27,6 +27,7 @@ Lambdee - Scriptable Agile Board
   - `open` -- open cypress for testing during development
   - `run` -- run cypress tests headless (without a browser window)
 - `bin/doc` -- generate the YARD docs and open them in your browser
+- `brakeman -I` -- inspect backend security warnings and decide what to do with them
 
 ### Architecture
 
