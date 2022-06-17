@@ -30,14 +30,10 @@ class DB::TaskTest < ActiveSupport::TestCase
     assert_equal 1, task.pos
   end
 
-  should 'delete association with tag, when task is destroyed' do
-    tag = ::FactoryBot.create(:tag)
+  should 'get author of task even if author is soft deleted' do
     task = ::FactoryBot.create(:task)
-    task.tags << tag
-    assert_not_nil task.tags.first
-    assert_not_nil tag.tasks.first
-    task.destroy
-    assert_nil task.tags.first
-    assert_nil tag.tasks.first
+    assert_not_nil task.author
+    task.author.destroy
+    assert_not_nil task.reload.author
   end
 end

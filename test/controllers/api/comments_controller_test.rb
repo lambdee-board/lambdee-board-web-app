@@ -52,11 +52,13 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'archive comment' do
-    assert_no_difference('DB::Comment.count') do
+    assert_difference('DB::Comment.count', -1) do
       delete api_comment_url(@comment), as: :json
     end
 
     assert_response :no_content
-    assert_equal true, @comment.reload.deleted
+
+    assert @comment.reload.deleted?
+    assert_not @comment.reload.deleted_fully?
   end
 end

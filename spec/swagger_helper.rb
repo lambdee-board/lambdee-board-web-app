@@ -74,7 +74,7 @@ end
             properties: {
               id: { type: :integer },
               body: { type: :string },
-              deleted: { type: :boolean },
+              deleted_at: { type: %i[string null], format: :date_time },
               author_id: { type: :integer },
               task_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
@@ -82,7 +82,7 @@ end
               url: { type: :string },
               users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true }
             },
-            required: %w[id body deleted url]
+            required: %w[id body deleted_at url]
           },
           tag_response: {
             type: :object,
@@ -119,13 +119,14 @@ end
               points: { type: %i[number null], format: :float },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
+              deleted_at: { type: %i[string null], format: :date_time },
               list_id: { type: :integer },
               list_url: { type: :string },
               url: { type: :string },
               users: { type: :array, items: { '$ref' => '#/components/schemas/user_response' }, nullable: true },
               tags: { type: :array, items: { '$ref' => '#/components/schemas/tag_response' }, nullable: true }
             },
-            required: %w[id name pos priority points list_id]
+            required: %w[id name pos priority points list_id deleted_at]
           },
           task_request: {
             type: :object,
@@ -149,7 +150,7 @@ end
               id: { type: :integer },
               name: { type: :string },
               pos: { type: :number, format: :float },
-              deleted: { type: :boolean },
+              deleted_at: { type: %i[string null], format: :date_time },
               board_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
@@ -157,15 +158,14 @@ end
               board_url: { type: :string },
               tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' }, nullable: true }
             },
-            required: %w[id name board_id]
+            required: %w[id name board_id created_at updated_at deleted_at]
           },
           list_request: {
             type: :object,
             properties: {
               name: { type: :string },
               pos: { type: :number, format: :float },
-              deleted: { type: :boolean },
-              board_id: { type: :integer },
+              board_id: { type: :integer }
             },
             required: %w[name board_id]
           },
@@ -177,11 +177,12 @@ end
               workspace_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
+              deleted_at: { type: %i[string null], format: :date_time },
               url: { type: :string },
               workspace_url: { type: :string },
               lists: { type: :array, items: { '$ref' => '#/components/schemas/list_response' }, nullable: true  }
             },
-            required: %w[id name workspace_id]
+            required: %w[id name workspace_id created_at updated_at deleted_at]
           },
           board_request: {
             type: :object,
@@ -198,6 +199,7 @@ end
               name: { type: :string },
               created_at: { type: :string, format: :date_time },
               updated_at: { type: :string, format: :date_time },
+              deleted_at: { type: %i[string null], format: :date_time },
               url: { type: :string },
               boards: {
                 type: :array,
@@ -205,7 +207,7 @@ end
                 nullable: true,
               }
             },
-            required: %w[id name]
+            required: %w[id name created_at updated_at deleted_at]
           },
           workspace_request: {
             type: :object,

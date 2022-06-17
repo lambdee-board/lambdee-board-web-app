@@ -65,6 +65,51 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @board.name, json['name']
   end
 
+  should 'show board with lists' do
+    @board.lists << list = ::FactoryBot.create(:list)
+    @board.lists << deleted_list = ::FactoryBot.create(:list)
+    deleted_list.destroy
+    get api_board_url(@board), as: :json, params: { lists: :visible }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @board.name, json['name']
+    assert_equal 1, json['lists'].size
+    assert_equal list.name, json['lists'].first['name']
+  end
+
+  should 'show board with lists including deleted' do
+    @board.lists << list = ::FactoryBot.create(:list)
+    @board.lists << deleted_list = ::FactoryBot.create(:list)
+    deleted_list.destroy
+    get api_board_url(@board), as: :json, params: { lists: :all }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @board.name, json['name']
+    assert_equal 2, json['lists'].size
+    assert_equal list.name, json['lists'].first['name']
+    assert_nil json['lists'].first['deleted_at']
+    assert_not_nil json['lists'].second['deleted_at']
+  end
+
+  should 'show board with deleted lists' do
+    @board.lists << list = ::FactoryBot.create(:list)
+    @board.lists << deleted_list = ::FactoryBot.create(:list)
+    deleted_list.destroy
+    get api_board_url(@board), as: :json, params: { lists: :archived }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @board.name, json['name']
+    assert_equal 1, json['lists'].size
+    assert_equal deleted_list.name, json['lists'].first['name']
+    assert_not_nil json['lists'].first['deleted_at']
+  end
+
   should "update board" do
     patch api_board_url(@board), params: {
       board: { name: 'New Name' }
@@ -82,5 +127,8 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+
+    assert @board.reload.deleted?
+    assert_not @board.reload.deleted_fully?
   end
 end

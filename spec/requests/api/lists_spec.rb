@@ -67,8 +67,8 @@ require 'swagger_helper'
           task.users << ::FactoryBot.create(:user)
           task.tags << ::FactoryBot.create(:tag)
           task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.destroy
           list.id
         end
         let(:tasks) { 'all' }
@@ -104,12 +104,13 @@ require 'swagger_helper'
         schema '$ref' => '#/components/schemas/list_response'
 
         let(:id) do
-          list = ::FactoryBot.create(:list, deleted: true)
+          list = ::FactoryBot.create(:list)
           list.tasks << task = ::FactoryBot.create(:task)
+          task.destroy
+          list.tasks << task = ::FactoryBot.create(:task)
+          task.destroy
           task.users << ::FactoryBot.create(:user)
           task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-          list.tasks << ::FactoryBot.create(:task)
 
           list.id
         end
@@ -131,7 +132,6 @@ require 'swagger_helper'
         end
         run_test!
       end
-
     end
 
     put('Update list') do

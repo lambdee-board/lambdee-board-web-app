@@ -8,8 +8,8 @@ class DB::Workspace < ApplicationRecord
   has_many :boards, dependent: :destroy
   has_many :boards_including_deleted, -> { with_deleted }, class_name: 'DB::Board'
   has_many :deleted_boards, -> { only_deleted }, class_name: 'DB::Board'
-  has_many :users, through: :user_workspaces
   has_many :user_workspaces
+  has_many :users, through: :user_workspaces
 
   default_scope { order(:id) }
 

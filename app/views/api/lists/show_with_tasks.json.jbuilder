@@ -3,7 +3,7 @@
 json.partial! 'api/lists/list', list: @list
 
 json.tasks do
-  json.array! @list.tasks do |task|
+  json.array! @list.public_send(tasks) do |task|
     json.partial! 'api/tasks/task', task: task, short: true
     json.users do
       json.array! task.users do |user|

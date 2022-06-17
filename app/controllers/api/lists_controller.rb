@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for lists
 # through the JSON API.
 class API::ListsController < ::APIController
-  before_action :set_list, only: %i[show update destroy]
+  before_action :set_list, only: %i[update destroy]
 
   # GET api/lists
   def index
@@ -12,13 +12,9 @@ class API::ListsController < ::APIController
 
   # GET api/lists/1
   def show
-    if params[:tasks]
-      set_list_with_tasks
-    else
-      set_list
-    end
+    set_list_and_tasks_scope
 
-    return render :show_with_tasks if @with_tasks
+    return render :show_with_tasks, locals: { tasks: @tasks_scope } if @tasks_scope
   end
 
   # POST api/lists
@@ -38,26 +34,23 @@ class API::ListsController < ::APIController
 
   # DELETE api/lists/1
   def destroy
-    @list.archive!
+    @list.destroy
   end
 
   private
 
   # @return [void]
-  def set_list_with_tasks
-    @with_tasks = true
-
-    case params[:tasks].to_s
-    when 'visible'
-      @list = ::DB::List.find_with_visible_tasks(params[:id])
-    when 'all'
-      @list = ::DB::List.find_with_all_tasks(params[:id])
-    when 'archived'
-      @list = ::DB::List.find_with_archived_tasks(params[:id])
-    else
-      @with_tasks = false
-      set_list
-    end
+  def set_list_and_tasks_scope
+    @list, @tasks_scope = case params[:tasks].to_s
+                          when 'visible'
+                            [::DB::List.find_with_tasks(params[:id]), :tasks]
+                          when 'all'
+                            [::DB::List.find_with_tasks_including_deleted(params[:id]), :tasks_including_deleted]
+                          when 'archived'
+                            [::DB::List.find_with_deleted_tasks(params[:id]), :deleted_tasks]
+                          else
+                            [set_list, nil]
+                          end
   end
 
   # Use callbacks to share common setup or constraints between actions.

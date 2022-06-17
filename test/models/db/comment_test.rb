@@ -9,4 +9,11 @@ class DB::CommentTest < ActiveSupport::TestCase
     assert_equal 'Body is too long (maximum is 500 characters)', comment.errors.full_messages.first
     assert_not comment.persisted?
   end
+
+  should 'get author of comment even if author is soft deleted' do
+    comment = ::FactoryBot.create(:comment)
+    assert_not_nil comment.author
+    comment.author.destroy
+    assert_not_nil comment.reload.author
+  end
 end
