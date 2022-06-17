@@ -29,6 +29,8 @@ import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
+import AttachTagSelect from './task-card-modal/AttachTagSelect'
+import { useParams } from 'react-router-dom'
 
 function TaskCardModalSkeleton() {
   return (
@@ -92,10 +94,13 @@ const TaskCardModal = (props) => {
   // TODO: User id should be derived from a Cookie
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask(props.taskId, { params: { includeAssociations: 'true' } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
+  const [attachTagSelectVisible, setTagSelectVisible] = React.useState(false)
   const dispatch = useDispatch()
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
+
+  const { boardId } = useParams()
 
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
@@ -153,6 +158,74 @@ const TaskCardModal = (props) => {
         const newTaskUsers = [...task.users]
         newTaskUsers.splice(userIndex, 1) // delete the unassigned user from the list
         mutateTask({ ...task, users: newTaskUsers })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+
+  const attachTagButtonOnClick = () => {
+    setTagSelectVisible(true)
+    setTimeout(() => {
+      document.getElementById('attach-tag-to-task-select').focus()
+    }, 50)
+  }
+
+  const attachTagSelectOnBlur = () => {
+    setTagSelectVisible(false)
+  }
+
+  const attachTagSelectOnChange = (e, tag) => {
+    attachTag(tag)
+    setTagSelectVisible(false)
+  }
+
+  const attachTag = (tag) => {
+    const payload = { tagId: tag.id }
+
+    apiClient.post(`/api/tasks/${props.taskId}/attach_tag`, payload)
+      .then((response) => {
+        // successful request
+        mutateTask({ ...task, tags: [...task?.tags || [], tag] })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const detachTag = (e, tag) => {
+    const payload = { tagId: tag.id }
+
+    apiClient.post(`/api/tasks/${props.taskId}/detach_tag`, payload)
+      .then((response) => {
+        // successful request
+        const tagsIndex = task?.tags?.findIndex((arrayTag) => arrayTag.id === tag.id)
+        if (tagsIndex == null || tagsIndex === -1) {
+          mutateTask()
+          return
+        }
+
+        const newTaskTags = [...task.tags]
+        newTaskTags.splice(tagsIndex, 1)
+        mutateTask({ ...task, tags: newTaskTags })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const createAttachTag = (newTagPayload) => {
+    const payload = { ...newTagPayload, boardId, taskId: props.taskId }
+
+    apiClient.post(`/api/tasks/${props.taskId}/tags`, payload)
+      .then((response) => {
+        // successful request
+        const tagWithTempId = { ...payload, id: 99999999999 }
+        mutateTask({ ...task, tags: [...task?.tags || [], tagWithTempId] })
       })
       .catch((error) => {
         // failed or rejected
@@ -280,9 +353,33 @@ const TaskCardModal = (props) => {
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
                   <Box key={tag.id} className='TaskCardModal-sidebar-card-box-tags'>
-                    <Tag name={tag.name} colour={tag.colour} />
+                    <Tag
+                      name={tag.name}
+                      colour={tag.colour}
+                      deletable={true}
+                      onDelete={(event) => detachTag(event, tag)} />
                   </Box>
                 ))}
+
+                {attachTagSelectVisible ? (
+                  <AttachTagSelect
+                    onBlur={attachTagSelectOnBlur}
+                    onChange={attachTagSelectOnChange}
+                    createTag={createAttachTag}
+                    addedTags={task.tags}
+                  />
+                ) : (
+                  <Box
+                    className='TaskCardModal-sidebar-card-box TaskCardModal-add-tag-btn TaskCardModal-assign-user-btn'
+                    onClick={attachTagButtonOnClick}
+                  >
+                    <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                      <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                    </Avatar>
+                    <UserInfo userName='Add tag' />
+                  </Box>
+                )}
+
               </Stack>
 
               <Stack spacing={1}>

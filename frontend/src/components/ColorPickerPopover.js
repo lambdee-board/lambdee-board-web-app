@@ -4,7 +4,7 @@ import { HexColorPicker } from 'react-colorful'
 import PropTypes from 'prop-types'
 
 
-export default function ColorPickerPopover({ color, onChange }) {
+export default function ColorPickerPopover(props) {
   const [anchorColorPickerPopover, setAnchorColorPickerPopover] = React.useState(null)
 
   const handleClick = (event) => {
@@ -20,10 +20,9 @@ export default function ColorPickerPopover({ color, onChange }) {
 
   return (
     <Box>
-
       <IconButton size='small' sx={{ mr: 1 }} onClick={handleClick}>
         <Box
-          sx={{ width: 20, height: 20, bgcolor: color }}
+          sx={{ width: props.width || 20, height: props.height || 20, bgcolor: props.color, borderRadius: 1 }}
         />
       </IconButton>
       <Popover
@@ -40,9 +39,9 @@ export default function ColorPickerPopover({ color, onChange }) {
           horizontal: 'left',
         }}
       >
-        <HexColorPicker color={color} onChange={onChange} />
-        <Typography color={color} sx={{ p: 1 }}>
-          {color}
+        <HexColorPicker color={props.color} onChange={props.onChange} />
+        <Typography color={props.color} sx={{ p: 1 }}>
+          {props.color}
         </Typography>
       </Popover>
     </Box>
@@ -52,4 +51,6 @@ export default function ColorPickerPopover({ color, onChange }) {
 ColorPickerPopover.propTypes = {
   color: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number
 }
