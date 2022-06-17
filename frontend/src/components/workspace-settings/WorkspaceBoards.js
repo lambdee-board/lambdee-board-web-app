@@ -44,11 +44,11 @@ const WorkspaceBoards = (props) => {
 
   const editBoard = () => {
     const editInput = editBoardRef.current.children[0]
-    const payload = {
+    const editedBoard = {
       name: editInput.value,
       colour: color,
     }
-    apiClient.put(`/api/boards/${props.boardId}`, payload)
+    apiClient.put(`/api/boards/${props.boardId}`, editedBoard)
       .then((response) => {
       // successful request
         props.mutate()

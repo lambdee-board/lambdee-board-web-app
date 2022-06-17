@@ -6,6 +6,8 @@ import {
   InputBase
 } from '@mui/material'
 
+import './WorkspaceLabel.sass'
+
 import { useDispatch } from 'react-redux'
 import WorkspaceIcon from '../../components/WorkspaceIcon'
 import apiClient from '../../api/apiClient'
@@ -60,11 +62,10 @@ const WorkspaceLabel = ({ workspace, mutate }) => {
     }
   }
   return (
-    <ListItem className='ListItem-workspace'>
+    <ListItem >
       <WorkspaceIcon name={workspace.name} size={64} />
       {editWorkspaceLabelButton ? (
-        <Typography variant='h4'
-          onClick={editWorkspaceLabelOnClick}
+        <Typography className='Workspace-Label' onClick={editWorkspaceLabelOnClick} variant='h4'
         >{workspace.name}</Typography>
       ) : (
         <div>
