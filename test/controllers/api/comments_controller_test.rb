@@ -35,7 +35,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create comment' do
     assert_difference('DB::Comment.count') do
-      post api_comments_url, params: { comment: { body: @comment.body, deleted: @comment.deleted, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
+      post api_comments_url, params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
     end
 
     assert_response :created
@@ -47,7 +47,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'update comment' do
-    patch api_comment_url(@comment), params: { comment: { body: @comment.body, deleted: @comment.deleted, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
+    patch api_comment_url(@comment), params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
     assert_response :success
   end
 

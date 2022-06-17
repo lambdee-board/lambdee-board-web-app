@@ -3,7 +3,6 @@
 ::FactoryBot.define do
   factory :list, class: 'DB::List' do
     name { ::Faker::Color.color_name }
-    deleted { false }
     association :board
 
     trait :random_pos do
