@@ -9,7 +9,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
-export default function ColorPickerPopover({ color, onChange }) {
+export default function ColorPickerPopover(props) {
   const [anchorColorPickerPopover, setAnchorColorPickerPopover] = React.useState(null)
 
   const handleClick = (event) => {
@@ -25,9 +25,8 @@ export default function ColorPickerPopover({ color, onChange }) {
 
   return (
     <Box>
-
       <IconButton size='small' sx={{ mr: 1 }} onClick={handleClick}>
-        <FontAwesomeIcon icon={faDroplet} color={color} style={{ width: '24px', height: '24px' }}  />
+        <FontAwesomeIcon icon={faDroplet} color={props.color} style={{ width: '24px', height: '24px' }}  />
       </IconButton>
       <Popover
         id={id}
@@ -43,9 +42,9 @@ export default function ColorPickerPopover({ color, onChange }) {
           horizontal: 'left',
         }}
       >
-        <HexColorPicker color={color} onChange={onChange} />
-        <Typography color={color} sx={{ p: 1 }}>
-          {color}
+        <HexColorPicker color={props.color} onChange={props.onChange} />
+        <Typography color={props.color} sx={{ p: 1 }}>
+          {props.color}
         </Typography>
       </Popover>
     </Box>
@@ -55,4 +54,6 @@ export default function ColorPickerPopover({ color, onChange }) {
 ColorPickerPopover.propTypes = {
   color: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  width: PropTypes.number,
+  height: PropTypes.number
 }

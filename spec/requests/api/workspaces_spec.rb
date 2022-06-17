@@ -159,4 +159,43 @@ require 'swagger_helper'
       end
     end
   end
+
+  path '/api/workspaces/{id}/assign_user' do
+    parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
+
+    post('Assign User') do
+      tags 'Workspaces'
+      parameter name: 'user', in: :body, schema: { type: :object, properties: { user_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:id) { ::FactoryBot.create(:workspace).id }
+        let(:user) { { user_id: ::FactoryBot.create(:user).id } }
+        run_test!
+      end
+    end
+  end
+
+  path '/api/workspaces/{id}/unassign_user' do
+    parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
+
+    post('Unassign User') do
+      tags 'Workspaces'
+      parameter name: 'user', in: :body, schema: { type: :object, properties: { user_id: { type: :integer } } }
+
+      consumes 'application/json'
+
+      response(204, 'successful') do
+        let(:new_user) { ::FactoryBot.create(:user) }
+        let(:id) do
+          workspace = ::FactoryBot.create(:workspace)
+          workspace.users << new_user
+          workspace.id
+        end
+        let(:user) { { user_id: new_user.id } }
+        run_test!
+      end
+    end
+  end
 end
