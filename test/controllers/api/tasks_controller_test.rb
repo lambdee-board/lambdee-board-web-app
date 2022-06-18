@@ -115,6 +115,9 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+
+    assert @task.reload.deleted?
+    assert_not @task.reload.deleted_fully?
   end
 
   should 'attach a tag to the task' do

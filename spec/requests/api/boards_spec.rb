@@ -63,87 +63,14 @@ require 'swagger_helper'
                 schema: { '$ref' => '#/components/schemas/include_associated_enum' },
                 required: false
 
-      response(200, 'successful with `tasks=all`') do
-        schema '$ref' => '#/components/schemas/board_response'
-
-        let(:id) do
-          board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list)
-          list.tasks << task = ::FactoryBot.create(:task)
-          task.users << ::FactoryBot.create(:user)
-          task.users << ::FactoryBot.create(:user)
-          task.tags << ::FactoryBot.create(:tag)
-          task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
-          list.tasks << task = ::FactoryBot.create(:task)
-          task.users << ::FactoryBot.create(:user)
-          task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-          list.tasks << ::FactoryBot.create(:task)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
-          list.tasks << ::FactoryBot.create(:task)
-          board.id
-        end
-        let(:tasks) { 'all' }
-
-        after do |example|
-          save_response(example, response)
-        end
-        run_test!
-      end
-
-      response(200, 'successful with `tasks=visible`') do
-        schema '$ref' => '#/components/schemas/board_response'
-
-        let(:id) do
-          board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list)
-          list.tasks << task = ::FactoryBot.create(:task)
-          task.users << ::FactoryBot.create(:user)
-          task.users << ::FactoryBot.create(:user)
-          task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-          board.id
-        end
-        let(:tasks) { 'visible' }
-
-        after do |example|
-          save_response(example, response)
-        end
-        run_test!
-      end
-
-      response(200, 'successful with `tasks=archived`') do
-        schema '$ref' => '#/components/schemas/board_response'
-
-        let(:id) do
-          board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
-          list.tasks << task = ::FactoryBot.create(:task)
-          task.users << ::FactoryBot.create(:user)
-          task.tags << ::FactoryBot.create(:tag)
-          list.tasks << ::FactoryBot.create(:task)
-          list.tasks << ::FactoryBot.create(:task)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
-          list.tasks << ::FactoryBot.create(:task)
-          board.id
-        end
-        let(:tasks) { 'archived' }
-
-        after do |example|
-          save_response(example, response)
-        end
-        run_test!
-      end
-
       response(200, 'successful with `lists=all`') do
         schema '$ref' => '#/components/schemas/board_response'
 
         let(:id) do
           board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list, deleted: false)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          board.lists << list = ::FactoryBot.create(:list)
+          list.destroy
+          board.lists << list = ::FactoryBot.create(:list)
           board.id
         end
         let(:lists) { 'all' }
@@ -159,7 +86,7 @@ require 'swagger_helper'
 
         let(:id) do
           board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list, deleted: false)
+          board.lists << list = ::FactoryBot.create(:list)
           board.id
         end
         let(:lists) { 'visible' }
@@ -175,11 +102,13 @@ require 'swagger_helper'
 
         let(:id) do
           board = ::FactoryBot.create(:board)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
-          board.lists << list = ::FactoryBot.create(:list, deleted: true)
+          board.lists << list = ::FactoryBot.create(:list)
+          list.destroy
+          board.lists << list = ::FactoryBot.create(:list)
+          list.destroy
           board.id
         end
-        let(:tasks) { 'archived' }
+        let(:lists) { 'archived' }
 
         after do |example|
           save_response(example, response)

@@ -3,9 +3,13 @@
 # Contains the data of a task,
 # which can contain multiple comments.
 class DB::Task < ApplicationRecord
+  acts_as_paranoid double_tap_destroys_fully: false
+
   belongs_to :list
-  belongs_to :author, class_name: 'DB::User', foreign_key: :author_id
-  has_many :comments
+  belongs_to :author, -> { with_deleted }, class_name: 'DB::User', foreign_key: :author_id
+  has_many :comments, dependent: :destroy
+  has_many :comments_including_deleted, -> { with_deleted }, class_name: 'DB::Comment'
+  has_many :deleted_comments, -> { only_deleted }, class_name: 'DB::Comment'
   has_and_belongs_to_many :users
   has_and_belongs_to_many :tags
 

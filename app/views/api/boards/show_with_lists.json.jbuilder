@@ -3,7 +3,7 @@
 json.partial! 'api/boards/board', board: @board
 
 json.lists do
-  json.array! @board.lists do |list|
+  json.array! @board.public_send(lists) do |list|
     json.partial! 'api/lists/list', list: list
   end
 end

@@ -8,7 +8,7 @@ Trestle.resource(:workspaces, scope: DB) do
   end
 
   collection do
-    model.includes(:users, :boards)
+    model.with_deleted.includes(:users, :boards)
   end
 
   table do

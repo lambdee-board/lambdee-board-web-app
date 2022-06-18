@@ -9,7 +9,7 @@ module TrestleConcerns::Archiver
     controller do
       def deactivate
         entity = admin.find_instance(params)
-        entity.archive!
+        entity.delete
         # rubocop:disable Style/IpAddresses
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been archived"
         # rubocop:enable Style/IpAddresses
@@ -17,8 +17,8 @@ module TrestleConcerns::Archiver
       end
 
       def activate
-        entity = admin.find_instance(params)
-        entity.restore!
+        entity = admin.class.model.with_deleted.find(params[:id])
+        entity.recover
         # rubocop:disable Style/IpAddresses
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been restored"
         # rubocop:enable Style/IpAddresses
@@ -34,8 +34,8 @@ module TrestleConcerns::Archiver
 
   BUTTONS = proc do
     actions align: :center do |toolbar, entity|
-      toolbar.link 'Archive', entity, action: :deactivate, method: :post, style: :danger if entity.visible?
-      toolbar.link 'Restore', entity, action: :activate, method: :post, style: :success if entity.archived?
+      toolbar.link 'Archive', entity, action: :deactivate, method: :post, style: :danger unless entity.deleted?
+      toolbar.link 'Restore', entity, action: :activate, method: :post, style: :success if entity.deleted?
     end
   end
 end

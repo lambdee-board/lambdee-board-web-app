@@ -7,6 +7,10 @@ Trestle.resource(:users, scope: DB) do
     item :users, icon: 'fa fa-users'
   end
 
+  collection do
+    model.with_deleted
+  end
+
   table do
     instance_eval(&TrestleConcerns::User::COLUMNS)
 

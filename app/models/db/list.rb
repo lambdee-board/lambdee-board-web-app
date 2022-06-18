@@ -3,24 +3,22 @@
 # Contains the data of a list,
 # which can contain multiple tasks.
 class DB::List < ::ApplicationRecord
-  include ::Archivable
+  acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :board
-  has_many :tasks
+  has_many :tasks, dependent: :destroy
+  has_many :tasks_including_deleted, -> { with_deleted }, class_name: 'DB::Task'
+  has_many :deleted_tasks, -> { only_deleted }, class_name: 'DB::Task'
 
   before_create :set_highest_pos_in_board
 
   scope :include_tasks, -> { includes(tasks: %i[tags users]) }
-  scope :with_visible_tasks, -> { include_tasks.where(deleted: false) }
-  scope :with_archived_tasks, -> { include_tasks.where(deleted: true) }
+  scope :include_tasks_containing_deleted, -> { includes(tasks_including_deleted: %i[tags users]) }
+  scope :include_deleted_tasks, -> { includes(deleted_tasks: %i[tags users]) }
 
-  scope :find_with_all_tasks, ->(id) { with_all_tasks.find(id) }
-  scope :find_with_visible_tasks, ->(id) { with_visible_tasks.find(id) }
-  scope :find_with_archived_tasks, ->(id) { with_archived_tasks.find(id) }
-
-  class << self
-    alias_method :with_all_tasks, :include_tasks
-  end
+  scope :find_with_tasks, ->(id) { include_tasks.find(id) }
+  scope :find_with_tasks_including_deleted, ->(id) { include_tasks_containing_deleted.find(id) }
+  scope :find_with_deleted_tasks, ->(id) { include_deleted_tasks.find(id) }
 
   validates :name, presence: true, length: { maximum: 50 }
 

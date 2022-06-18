@@ -59,6 +59,55 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @list.name, json['name']
   end
 
+  should 'show list with tasks' do
+    @list.tasks << task = ::FactoryBot.create(:task)
+    task.users << user = ::FactoryBot.create(:user)
+    task.tags << tag =  ::FactoryBot.create(:tag)
+    @list.tasks << deleted_task = ::FactoryBot.create(:task)
+    deleted_task.destroy
+    get api_list_url(@list), as: :json, params: { tasks: :visible }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @list.name, json['name']
+    assert_equal 1, json['tasks'].size
+    assert_equal task.name, json['tasks'].first['name']
+    assert_equal user.name, json['tasks'].first['users'].first['name']
+    assert_equal tag.name, json['tasks'].first['tags'].first['name']
+  end
+
+  should 'show list with tasks including deleted' do
+    @list.tasks << task = ::FactoryBot.create(:task)
+    @list.tasks << deleted_task = ::FactoryBot.create(:task)
+    deleted_task.destroy
+    get api_list_url(@list), as: :json, params: { tasks: :all }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @list.name, json['name']
+    assert_equal 2, json['tasks'].size
+    assert_equal task.name, json['tasks'].first['name']
+    assert_nil json['tasks'].first['deleted_at']
+    assert_not_nil json['tasks'].second['deleted_at']
+  end
+
+  should 'show list with deleted tasks' do
+    @list.tasks << task = ::FactoryBot.create(:task)
+    @list.tasks << deleted_task = ::FactoryBot.create(:task)
+    deleted_task.destroy
+    get api_list_url(@list), as: :json, params: { tasks: :archived }
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @list.name, json['name']
+    assert_equal 1, json['tasks'].size
+    assert_equal deleted_task.name, json['tasks'].first['name']
+    assert_not_nil json['tasks'].first['deleted_at']
+  end
+
   should 'update list' do
     patch api_list_url(@list), params: { list: { name: 'New name' } }, as: :json
     assert_response :success
@@ -68,12 +117,13 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'destroy list' do
-    assert_no_difference('DB::List.count') do
+    assert_difference('DB::List.count', -1) do
       delete api_list_url(@list), as: :json
     end
 
-    assert true, ::DB::List.last.archived?
-
     assert_response :no_content
+
+    assert @list.reload.deleted?
+    assert_not @list.reload.deleted_fully?
   end
 end
