@@ -2,6 +2,31 @@ require 'swagger_helper'
 
 ::RSpec.describe 'api/users', type: :request do
 
+  path '/api/workspaces/{id}/users' do
+    get('List users of workspace') do
+      tags 'Users'
+      produces 'application/json'
+      parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+
+      response(200, 'successful') do
+        schema type: :array,
+          items: { '$ref' => '#/components/schemas/user_response' }
+
+        let(:id) do
+          workspace = ::FactoryBot.create(:workspace)
+          3.times { workspace.users << ::FactoryBot.create(:user) }
+          workspace.id
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+    end
+  end
+
   path '/api/users' do
     get('List users') do
       tags 'Users'
