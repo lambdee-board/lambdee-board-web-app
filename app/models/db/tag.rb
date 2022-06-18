@@ -6,6 +6,8 @@ class DB::Tag < ApplicationRecord
   belongs_to :board
   has_and_belongs_to_many :tasks
 
+  default_scope { order(:id) }
+
   scope :find_for_board, ->(id) { where(board: id) }
 
   validates :name, length: { maximum: 30 }

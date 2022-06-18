@@ -15,6 +15,8 @@ class DB::Task < ApplicationRecord
 
   before_create :set_highest_pos_in_list
 
+  default_scope { order(:id) }
+
   scope :include_associations, -> { includes(:list, :author, :users, :tags) }
   scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
 

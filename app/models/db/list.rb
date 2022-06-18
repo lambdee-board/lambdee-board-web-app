@@ -12,6 +12,8 @@ class DB::List < ::ApplicationRecord
 
   before_create :set_highest_pos_in_board
 
+  default_scope { order(:id) }
+
   scope :include_tasks, -> { includes(tasks: %i[tags users]) }
   scope :include_tasks_containing_deleted, -> { includes(tasks_including_deleted: %i[tags users]) }
   scope :include_deleted_tasks, -> { includes(deleted_tasks: %i[tags users]) }
