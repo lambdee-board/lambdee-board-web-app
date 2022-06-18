@@ -7,8 +7,11 @@ class API::WorkspacesController < ::APIController
 
   # GET /api/workspaces
   def index
-    # @todo User should not see all workspaces!
-    @workspaces = ::DB::Workspace.all
+    @workspaces = if current_user.admin?
+                    ::DB::Workspace.all
+                  else
+                    current_user.workspaces
+                  end
 
     @workspaces = @workspaces.limit(limit) if limit?
   end
