@@ -44,10 +44,18 @@ const WorkspaceBoards = (props) => {
 
   const editBoard = () => {
     const editInput = editBoardRef.current.children[0]
-    const editedBoard = {
-      name: editInput.value,
-      colour: color,
+    const editedBoard = {}
+    if ((!editInput.value || editInput.value === props.boardName) && props.boardColor === color) {
+      setEditBoardVisible(true)
+      return
     }
+    if (editInput.value && editInput.value !== props.boardName) {
+      editedBoard.name = editInput.value
+    }
+    if (props.boardColor !== color) {
+      editedBoard.colour = color
+    }
+
     apiClient.put(`/api/boards/${props.boardId}`, editedBoard)
       .then((response) => {
       // successful request

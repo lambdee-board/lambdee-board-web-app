@@ -54,6 +54,10 @@ export default function NewBoardButton() {
   }
   const createNewBoard = () => {
     const nameInput = newBoardInputRef.current.children[0]
+    if (!nameInput.value) {
+      toggleNewBoardButton()
+      return
+    }
     const newBoard = {
       name: nameInput.value,
       workspaceId: workspace.id,

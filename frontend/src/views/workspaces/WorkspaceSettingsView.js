@@ -68,55 +68,55 @@ const WorkspaceSettings = () => {
   return (
 
     <Box className='WorkspaceSettings-wrapper'>
+      <Box className='WorkspaceSettings' >
+        {isLoading || isError ? (
+          <Box></Box>
+        ) : (
+          <List className='List'>
+            <WorkspaceLabel
+              workspace={workspace}
+              mutate={mutate}
+              mutateWorkspaces={mutateWorkspaces}
+            />
+            <NewBoardButton />
+            <Box className='WorkspaceBoards'>
+              {workspace.boards?.map((board) => (
+                <WorkspaceBoards
+                  key={board.id}
+                  boardId={board.id}
+                  boardName={board.name}
+                  boardColor={board.colour}
+                  workspace={workspace}
+                  mutate={mutate}
+                  icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.colour} />}
+                />
 
-      {isLoading || isError ? (
-        <Box></Box>
-      ) : (
-        <List className='List'>
-          <WorkspaceLabel
-            workspace={workspace}
-            mutate={mutate}
-            mutateWorkspaces={mutateWorkspaces}
-          />
-          <NewBoardButton />
-          <Box className='WorkspaceBoards'>
-            {workspace.boards?.map((board) => (
-              <WorkspaceBoards
-                key={board.id}
-                boardId={board.id}
-                boardName={board.name}
-                boardColor={board.colour}
-                workspace={workspace}
-                mutate={mutate}
-                icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.colour} />}
+              ))}
+            </Box>
+            {assignUserSelectVisible ? (
+              <WorkspaceAssignUserSelect
+                onBlur={assignUserSelectOnBlur}
+                onChange={assignUserSelectOnChange}
+                assignedUsers={users}
               />
-
+            ) : (
+              <Button onClick={assignUserButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+                <Typography>Assign New User</Typography>
+              </Button>
+            )}
+            {users?.map((user, index) => (
+              <WorkspaceUsers
+                key={user.name + index}
+                userId={user.id}
+                userName={user.name}
+                userTitle={user.role}
+                userAvatarUrl={user.avatarUrl}
+                mutate={mutateUsers}
+              />
             ))}
-          </Box>
-          {assignUserSelectVisible ? (
-            <WorkspaceAssignUserSelect
-              onBlur={assignUserSelectOnBlur}
-              onChange={assignUserSelectOnChange}
-              assignedUsers={users}
-            />
-          ) : (
-            <Button onClick={assignUserButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-              <Typography>Assign New User</Typography>
-            </Button>
-          )}
-          {users?.map((user, index) => (
-            <WorkspaceUsers
-              key={user.name + index}
-              userId={user.id}
-              userName={user.name}
-              userTitle={user.role}
-              userAvatarUrl={user.avatarUrl}
-              mutate={mutateUsers}
-            />
-          ))}
-        </List>
-
-      )}
+          </List>
+        )}
+      </Box>
     </Box>
   )
 }

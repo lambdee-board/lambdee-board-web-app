@@ -31,6 +31,10 @@ const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
 
   const editWorkspaceLabel = () => {
     const newLabel = editWorkspaceLabelRef.current.children[0]
+    if (!newLabel.value || newLabel.value === workspace.name) {
+      toggleEditWorkspaceLabelButton()
+      return
+    }
     const updatedLabel = { name: newLabel.value }
     if (!updatedLabel.name) {
       setEditWorkspaceLabel(true)
