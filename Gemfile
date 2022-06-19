@@ -49,6 +49,7 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'acts_as_paranoid'
+gem 'csv'
 gem 'devise'
 gem 'sass-rails'
 gem 'trestle'

@@ -22,6 +22,27 @@ Trestle.resource(:users, scope: DB) do
 
   form dialog: true, &TrestleConcerns::User::FORM
 
+  controller do
+    def index
+      toolbar(:primary) do |t|
+        t.link('Import from CSV', admin.path(:import), class: 'btn btn-primary', data: { behavior: 'dialog' })
+      end
+    end
+
+    def import
+      render 'admin/db/users/import' and return if request.get?
+
+      importer = ::UserImporter.new(params[:users_csv], params[:deactivated])
+      importer.run
+      importer.file_error? ? flash[:error] = importer.file_error_message : flash[:message] = importer.full_message
+      redirect_to admin.path(:index)
+    end
+  end
+
+  routes do
+    match :import, on: :collection, via: %i[get post]
+  end
+
   # Ignore the password parameters if they are blank
   update_instance do |instance, attrs|
     if attrs[:password].blank?

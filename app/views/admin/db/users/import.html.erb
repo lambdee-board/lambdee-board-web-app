@@ -1,0 +1,23 @@
+<% content_for(:title, 'Import users from CSV file') %>
+<% toolbar(:primary) do |t| %>
+  <%= t.button 'Import', style: :success %>
+<% end %>
+
+<%= form_with(url: 'users/import', multipart: true, method: :post, remote: false, builder: ::Trestle::Form::Builder) do |f| %>
+  <%= render layout: "trestle/application/dialog" do %>
+    <p>
+      <b>File format: "name, email, role"</b><br>
+      <ul>
+        <li>Maximum <b>name</b> length is 50 characters</li>
+        <li>Maximum <b>email</b> length is 70 characters</li>
+        <li>If an email already exists in the database, row will be omitted</li>
+        <li>Value in the column <b>role</b> should be one of these: <b>guest|regular|developer|admin|manager</b></li>
+        <li>If not given, default role is setting as <b>guest</b>.</li>
+        <li>Default password set for every user is <b>temporary_password</b></li>
+      </ul>
+    </p>
+    <%= f.file_field :users_csv, label: false %>
+    <%= f.check_box :deactivated, label: 'Check if the users have to be deactivated' %>
+    <%= f.hidden_field :authenticity_token, value: form_authenticity_token %>
+  <% end %>
+<% end %>
