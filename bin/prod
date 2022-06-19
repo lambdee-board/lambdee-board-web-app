@@ -1,0 +1,10 @@
+#!/bin/sh
+
+if [ -f tmp/pids/server.pid ]; then
+  rm -f tmp/pids/server.pid
+fi
+
+# Runs migrations if any pending
+rails db:migrate
+
+rails s

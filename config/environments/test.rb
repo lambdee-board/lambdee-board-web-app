@@ -53,6 +53,8 @@ require "active_support/core_ext/integer/time"
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
+  config.hosts << "lambdee-web-app"
+
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
 

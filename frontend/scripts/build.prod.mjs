@@ -12,10 +12,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url))
 esbuild.build({
   entryPoints: [`${__dirname}/../build/index.js`],
   bundle: true,
+  sourcemap: false,
+  minify: true,
   outfile: `${__dirname}/../../app/assets/builds/frontend.js`,
   assetNames: '[name]',
   logLevel: 'info',
-  sourcemap: true,
+  target: ['es6'],
   loader: {
     '.woff': 'dataurl',
     '.woff2': 'dataurl',
@@ -44,9 +46,9 @@ esbuild.build({
     }),
   ],
   define: {
-    'process.env.NODE_ENV': JSON.stringify('test'),
-    'process.env.LAMBDEE_HOST': JSON.stringify(process.env.LAMBDEE_HOST || 'localhost:3000'),
-    'process.env.LAMBDEE_PROTOCOL': JSON.stringify(process.env.LAMBDEE_PROTOCOL || 'http'),
+    'process.env.NODE_ENV': JSON.stringify('production'),
+    'process.env.LAMBDEE_HOST': JSON.stringify(process.env.LAMBDEE_HOST),
+    'process.env.LAMBDEE_PROTOCOL': JSON.stringify(process.env.LAMBDEE_PROTOCOL),
     '__dirname': JSON.stringify(`${__dirname}/..`),
     'process.path.sep': JSON.stringify(sep)
   },
