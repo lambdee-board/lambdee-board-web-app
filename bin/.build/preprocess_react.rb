@@ -37,8 +37,8 @@ src_dir = ::Rails.root.join('frontend', 'src')
 ::FileUtils.cp_r src_dir, build_dir
 
 asset_build_dir = ::Rails.root.join('app', 'assets', 'builds')
-asset_source_dir = ::File.join src_dir, 'assets'
-::FileUtils.rm_rf asset_build_dir
+asset_source_dir = ::File.join src_dir, 'assets/'
+::FileUtils.rm_rf asset_build_dir unless ::Rails.env.production?
 ::FileUtils.cp_r asset_source_dir, asset_build_dir
 
 ::Dir[::File.join(build_dir, '**', '*.erb')].each do |file_name|
