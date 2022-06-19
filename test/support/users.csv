@@ -1,0 +1,5 @@
+name,email,role
+michal,example@example.com,developer
+michal_again,example@example.com,guest
+jacob,guest@xd.pl
+filip,bad_role@example.pl,admins

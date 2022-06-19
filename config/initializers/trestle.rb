@@ -17,7 +17,7 @@ Trestle.configure do |config|
 
   # Specify a favicon to be used within the admin.
   #
-  # config.favicon = "favicon.ico"
+  config.favicon = 'lambdee-logo.svg'
 
   # Set the text shown in the page footer within the admin.
   # Defaults to 'Powered by Trestle'.
