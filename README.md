@@ -13,7 +13,7 @@ Lambdee - Scriptable Agile Board
 
 ### Commands
 
-- `bin/setup` -- install/update node.js, mysql, ruby and run `bin/install`
+- `bin/setup` -- install/update node.js, postgresql, ruby and run `bin/install`
 - `bin/install` -- install missing gems, create missing config files, execute pending migrations
 - `bin/dev` -- run the app with all the necessary processes in one terminal window
   - `--ng` or `--no-guard` -- run the app without automatic page refreshing on file changes
@@ -235,31 +235,6 @@ $ sudo dpkg -i libffi8_3.4.2-4_amd64.deb
   ```sh
   $ gem install eventmachine -- --with-openssl-dir=/opt/homebrew/Cellar/openssl@1.1/1.1.1n/
   ```
-
-**mysql2**
-
-> == Preparing database ==
->
-> dyld: lazy symbol binding failed: Symbol not found: _mysql_server_init
->   Referenced from: /Users/mateuszdrewniak/.rvm/gems/ruby-3.1.0@snippetz-app/gems/mysql2-0.5.3/lib/mysql2/mysql2.bundle
->   Expected in: flat namespace
->
-> dyld: Symbol not found: _mysql_server_init
->   Referenced from: /Users/mateuszdrewniak/.rvm/gems/ruby-3.1.0@snippetz-app/gems/mysql2-0.5.3/lib/mysql2/mysql2.bundle
->   Expected in: flat namespace
->
-> == Command ["bin/rails db:prepare"] failed ==
-
-```sh
-$ gem install mysql2 -V -- --with-ldflags=-L/usr/local/opt/openssl/lib --with-cppflags=-I/usr/local/opt/openssl/include
-```
-
-or
-
-```sh
-export LIBRARY_PATH=$LIBRARY_PATH:$(brew --prefix zstd)/lib/
-brew install shared-mime-info
-```
 
 **puma**
 
