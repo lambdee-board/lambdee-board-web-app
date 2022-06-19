@@ -11,27 +11,27 @@ describe('Sidebar', () => {
   // tests for displaying sidebar properly should be performed before this
   context('Add new Board', () => {
     it('switches between add board button and add board input field', () => {
-      cy.get('.Sidebar-new-board-button').should('exist')
+      cy.get('.New-board-button').should('exist')
         .click()
-      cy.get('.Sidebar-new-board').should('exist')
-      cy.get('.Sidebar-new-board-cancel').should('exist').click()
-      cy.get('.Sidebar-new-board-cancel').should('not.exist')
+      cy.get('.New-board').should('exist')
+      cy.get('.New-board-cancel').should('exist').click()
+      cy.get('.New-board-cancel').should('not.exist')
     })
 
     it('inputs string into add board input field and cancels', () => {
-      cy.get('.Sidebar-new-board-button').should('exist')
+      cy.get('.New-board-button').should('exist')
         .click({ multiple: true })
-      cy.get('.Sidebar-new-board textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.New-board textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('Cypress New Task')
       cy.get('body').type('{esc}')
-      cy.get('.Sidebar-new-board-button').should('exist')
+      cy.get('.New-board-button').should('exist')
     })
 
     it('adds a new board', () => {
-      cy.get('.Sidebar-new-board-button').should('exist')
+      cy.get('.New-board-button').should('exist')
         .click()
-      cy.get('.Sidebar-new-board textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.New-board textarea.MuiInputBase-input').should('exist').first()
         .click()
         .type('New Board Board{enter}')
       cy.wait(500)

@@ -10,10 +10,6 @@ import {
   ListItemIcon,
   Button,
   Skeleton,
-  InputBase,
-  IconButton,
-  Typography,
-  ClickAwayListener
 } from '@mui/material'
 import {
   faClipboardList,
@@ -21,18 +17,14 @@ import {
   faGear,
   faUsers,
   faArrowLeft,
-  faPlus,
-  faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 import WorkspaceIcon from './WorkspaceIcon'
 import useWorkspace from '../api/useWorkspace'
-import apiClient from '../api/apiClient'
-import { addAlert } from '../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
-import ColorPickerPopover from './ColorPickerPopover'
+import NewBoardButton from './NewBoardButton'
+
 
 import './Sidebar.sass'
 
@@ -107,55 +99,11 @@ function SidebarListSkeleton() {
 }
 
 export default function Sidebar() {
-  const [color, setColor] = React.useState('#1082F3')
   const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
-  const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
+  const { data: workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
   const [isOpen, setOpen] = React.useState(true)
-  const dispatch = useDispatch()
-  const [newBoardButtonVisible, setNewBoardButtonVisible] = React.useState(true)
-  const toggleNewBoardButton = () => setNewBoardButtonVisible(!newBoardButtonVisible)
-  const newBoardInputRef = React.useRef()
-  const newBoardButtonOnClick = () => {
-    toggleNewBoardButton()
-    setTimeout(() => {
-      if (!newBoardInputRef.current) return
-      const nameInput = newBoardInputRef.current.children[0]
-      nameInput.focus()
-    }, 25)
-  }
-  const newBoardNameInputOnKey = (e) => {
-    switch (e.key) {
-    case 'Enter':
-      e.preventDefault()
-      createNewBoard()
-      break
-    case 'Escape':
-      e.preventDefault()
-      toggleNewBoardButton()
-      break
-    }
-  }
-  const createNewBoard = () => {
-    const nameInput = newBoardInputRef.current.children[0]
-    const newBoard = {
-      name: nameInput.value,
-      workspaceId: workspace.id,
-      colour: color,
-    }
-    apiClient.post('/api/boards', newBoard)
-      .then((response) => {
-        // successful request
-        mutate({ ...workspace, boards: [...workspace?.boards || [], response.data] })
-        toggleNewBoardButton()
-      })
-      .catch((error) => {
-        // failed or rejected
-        console.log(error)
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-      })
-  }
 
   return (
     <Box className='Sidebar-wrapper'>
@@ -183,6 +131,7 @@ export default function Sidebar() {
               <SidebarListItem
                 active={false}
                 label='Settings'
+                onClick={() => navigate(`/workspaces/${workspaceId}/workspace-settings`)}
                 icon={<FontAwesomeIcon icon={faGear} />}
               />
               <SidebarListItem
@@ -197,38 +146,13 @@ export default function Sidebar() {
                   active={board.id === boardId}
                   label={board.name}
                   onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
-                  icon={<FontAwesomeIcon icon={faClipboardList} color={board.colour} />}
+                  icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}
                 />
               ))}
             </List>
           )}
 
-          {!newBoardButtonVisible &&
-            <ClickAwayListener onClickAway={toggleNewBoardButton}>
-              <Box className='Sidebar-new-board'>
-                <ColorPickerPopover color={color} onChange={setColor} />
-                <InputBase
-                  ref={newBoardInputRef}
-                  className='Sidebar-new-board-input'
-                  fullWidth
-                  multiline
-                  placeholder='Board Label'
-                  onKeyDown={(e) => newBoardNameInputOnKey(e)}
-                />
-                <IconButton className='Sidebar-new-board-cancel' onClick={() => toggleNewBoardButton()}>
-                  <FontAwesomeIcon className='Sidebar-new-board-cancel-icon' icon={faXmark} />
-                </IconButton>
-              </Box>
-            </ClickAwayListener>
-          }
-
-          <Box className='Sidebar-new-board-wrapper'>
-            {newBoardButtonVisible &&
-            <Button onClick={newBoardButtonOnClick} className='Sidebar-new-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-              <Typography>New Board</Typography>
-            </Button>
-            }
-          </Box>
+          <NewBoardButton />
         </Box>
       </Drawer>
       <SidebarButton

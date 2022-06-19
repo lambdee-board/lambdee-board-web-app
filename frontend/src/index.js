@@ -20,6 +20,7 @@ import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/BoardView'
 import UserSettingsView from './views/workspaces/UserSettingsView'
+import WorkspaceSettingsView from './views/workspaces/WorkspaceSettingsView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -28,6 +29,7 @@ root.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
+            <Route path='workspace-settings' element={<WorkspaceSettingsView />} />
             <Route path='boards/:boardId' element={<BoardView />} />
           </Route>
           <Route path='workspaces' element={<WorkspacesView />} />
