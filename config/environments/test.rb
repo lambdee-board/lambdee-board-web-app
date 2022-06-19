@@ -54,6 +54,7 @@ require "active_support/core_ext/integer/time"
   config.active_support.disallowed_deprecation_warnings = []
 
   config.hosts << "lambdee-web-app"
+  config.hosts << "localhost"
 
   # Raises error for missing translations.
   # config.i18n.raise_on_missing_translations = true
