@@ -2,10 +2,8 @@ version: "3.9"
 services:
 
   postgres:
-    # build: ./docker/postgres
     image: postgres
     environment:
-      # - APP_NAME=lambdee_board_web_app
       POSTGRES_USER: lambdee_board_web_app_production
       POSTGRES_PASSWORD: HasloPostgres123
     ports:
@@ -19,6 +17,8 @@ services:
     build: https://github.com/lambdee-board/lambdee-board-script-service.git#main
     ports:
       - "3001:3001"
+    environment:
+      RACK_ENV: production
     networks:
       - backend
 
