@@ -5,7 +5,7 @@ require 'test_helper'
 class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   setup do
     @workspace = ::FactoryBot.create :workspace
-    @user = ::FactoryBot.create :user
+    @user = ::FactoryBot.create :user, role: :developer
   end
 
   should 'get index' do
