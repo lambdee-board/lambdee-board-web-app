@@ -49,6 +49,8 @@ esbuild.build({
     'process.env.NODE_ENV': JSON.stringify('production'),
     'process.env.LAMBDEE_HOST': JSON.stringify(process.env.LAMBDEE_HOST),
     'process.env.LAMBDEE_PROTOCOL': JSON.stringify(process.env.LAMBDEE_PROTOCOL),
+    'process.env.SCRIPT_SERVICE_HOST': JSON.stringify(process.env.SCRIPT_SERVICE_HOST),
+    'process.env.WS_PROTOCOL': JSON.stringify(process.env.WS_PROTOCOL),
     '__dirname': JSON.stringify(`${__dirname}/..`),
     'process.path.sep': JSON.stringify(sep)
   },

@@ -3,69 +3,70 @@ services:
 
   postgres:
     image: postgres
-    platform: linux/amd64
+    # platform: linux/amd64
     environment:
-      POSTGRES_USER: lambdee_board_web_app_production
-      POSTGRES_PASSWORD: HasloPostgres123
-    ports:
-      - '5431:5432'
+      POSTGRES_USER: ${DB_NAME:-lambdee_board_web_app_production}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-HasloPostgres123}
+    expose:
+      - '5432'
     volumes:
       - lambdee-postgres:/var/lib/postgresql/data
     networks:
-      - backend
+      - db
+    restart: always
 
-  script_service:
-    build: https://github.com/lambdee-board/lambdee-board-script-service.git#main
-    platform: linux/amd64
-    ports:
-      - "3001:3001"
+  script-service:
+    image: lambdee-board-web-app_script-service
+    # platform: linux/amd64
+    expose:
+      - "3001"
     environment:
       RACK_ENV: production
     networks:
-      - backend
+      - web
+    restart: always
 
-  lambdee-web-app:
-    container_name: lambdee-web-app
-    platform: linux/amd64
-    build:
-      context: .
-      dockerfile: ./docker/app/Dockerfile
-    volumes:
-      - compiled_public_files:/var/www/lambdee-web-app/public
-    ports:
-      - "3006:3000"
-    stdin_open: true
-    tty: true
+  rails:
+    # platform: linux/amd64
+    image: lambdee-board-web-app_rails
+    expose:
+      - "3000"
     environment:
       DB_HOST: postgres
       PORT: 3000
-      SECRET_KEY_BASE: 22e0fc31bebdffb37576ed32310e8f3e7a2cf1fa8c2a209d1542b6f54bed4654343a7b870933b88e4647e79e55a3ad25200e5c9242b7b5accec67b16d0aeec0c
-      LAMBDEE_HOST: localhost:3000
-      LAMBDEE_PROTOCOL: http
+      RAILS_ENV: production
+      RACK_ENV: production
+      NODE_ENV: production
+      DB_NAME: ${DB_NAME:-lambdee_board_web_app_production}
+      DB_PASSWORD: ${DB_PASSWORD:-HasloPostgres123}
+      SECRET_KEY_BASE: ${SECRET_KEY_BASE:-22e0fc31bebdffb37576ed32310e8f3e7a2cf1fa8c2a209d1542b6f54bed4654343a7b870933b88e4647e79e55a3ad25200e5c9242b7b5accec67b16d0aeec0c}
+      LAMBDEE_HOST: ${LAMBDEE_HOST:-localhost:3000}
+      LAMBDEE_PROTOCOL: ${LAMBDEE_PROTOCOL:-http}
+      SCRIPT_SERVICE_HOST: ${LAMBDEE_HOST:-localhost:3000}/script_service
+      WS_PROTOCOL: ${WS_PROTOCOL:-ws}
     depends_on:
       - postgres
-      - script_service
+      - script-service
     networks:
-      - backend
-    restart: on-failure
+      - web
+      - db
+    restart: always
 
   nginx:
-    build:
-      context: .
-      dockerfile: docker/nginx/Dockerfile
-    platform: linux/amd64
-    volumes:
-      - compiled_public_files:/var/www/lambdee-web-app/public
+    image: lambdee-board-web-app_nginx
+    # platform: linux/amd64
     ports:
-      - '3000:80'
+      - '${NGINX_HTTP_PORT:-80}:80'
+      - '${NGINX_HTTPS_PORT:-443}:443'
     depends_on:
-      - lambdee-web-app
+      - rails
     networks:
-      - backend
+      - web
+    restart: always
 
 volumes:
   lambdee-postgres:
-  compiled_public_files:
 
 networks:
-  backend:
+  web:
+  db:

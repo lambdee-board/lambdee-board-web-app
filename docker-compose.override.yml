@@ -1,0 +1,18 @@
+version: "3.9"
+services:
+
+  script-service:
+    build: https://github.com/lambdee-board/lambdee-board-script-service.git#main
+    # platform: linux/amd64
+
+  rails:
+    # platform: linux/amd64
+    build:
+      context: .
+      dockerfile: ./docker/app/Dockerfile
+
+  nginx:
+    build:
+      context: .
+      dockerfile: docker/nginx/Dockerfile
+    # platform: linux/amd64

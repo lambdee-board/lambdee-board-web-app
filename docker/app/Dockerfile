@@ -28,8 +28,12 @@ COPY Gemfile Gemfile.lock ./
 RUN bundle config set --local without 'development test'
 RUN bundle install --jobs 20 --retry 5
 
-
 COPY . .
+# delete `public/assets` if it exists and supress the error
+RUN ls public/assets && rm -r public/assets || true
+# delete `app/assets/builds` if it exists and supress the error
+RUN ls app/assets/builds && rm -r app/assets/builds/* || true
+
 RUN cp -r frontend/src/assets/* app/assets/builds
 # precompile static assets like .svg, .png
 RUN bundle exec rake assets:precompile

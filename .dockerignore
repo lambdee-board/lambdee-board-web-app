@@ -25,7 +25,7 @@
 !/tmp/storage/
 !/tmp/storage/.keep
 
-/public/assets
+# /public/assets
 /.annotate_solargraph_schema
 /.solargraph.yml
 
