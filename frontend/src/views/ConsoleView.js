@@ -75,7 +75,7 @@ puts ruby`)
       }, 50)
     }
 
-    const newWebSocket = new WebSocket('ws://localhost:3001/')
+    const newWebSocket = new WebSocket(`ws://${process.env.LAMBDEE_HOST}/`)
     newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {
