@@ -52,6 +52,10 @@ gem 'bootsnap', require: false
 gem 'acts_as_paranoid'
 gem 'csv'
 gem 'devise'
+gem 'factory_bot_rails'
+# Easier Model record factories for tests
+# Generate fake data for tests and seeding
+gem 'faker'
 gem 'sass-rails'
 gem 'trestle'
 gem 'trestle-auth'
@@ -65,11 +69,6 @@ group :development, :test do
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
-
-  # Easier Model record factories for tests
-  gem 'factory_bot_rails'
-  # Generate fake data for tests and seeding
-  gem 'faker'
 
   # for running and managing many process at once (Procfile)
   gem 'foreman'

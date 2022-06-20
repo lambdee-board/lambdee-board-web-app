@@ -8,7 +8,6 @@ require "rails/all"
 Bundler.require(*Rails.groups)
 
 puts "RAILS_ENV: #{Rails.env}"
-require 'debug' if ::Rails.env.test? || ::Rails.env.development?
 
 module LambdeeBoardWebApp
   class Application < Rails::Application

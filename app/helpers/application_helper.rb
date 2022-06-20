@@ -24,6 +24,8 @@ module ApplicationHelper
 
   # @return [Boolean]
   def react_not_built?
+    return false if ::Rails.env.production
+
     !asset_exists?('builds', 'frontend.js')
   end
 end

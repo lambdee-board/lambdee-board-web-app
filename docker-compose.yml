@@ -3,6 +3,7 @@ services:
 
   postgres:
     image: postgres
+    platform: linux/amd64
     environment:
       POSTGRES_USER: lambdee_board_web_app_production
       POSTGRES_PASSWORD: HasloPostgres123
@@ -15,6 +16,7 @@ services:
 
   script_service:
     build: https://github.com/lambdee-board/lambdee-board-script-service.git#main
+    platform: linux/amd64
     ports:
       - "3001:3001"
     environment:
@@ -24,6 +26,7 @@ services:
 
   lambdee-web-app:
     container_name: lambdee-web-app
+    platform: linux/amd64
     build:
       context: .
       dockerfile: ./docker/app/Dockerfile
@@ -50,6 +53,7 @@ services:
     build:
       context: .
       dockerfile: docker/nginx/Dockerfile
+    platform: linux/amd64
     volumes:
       - compiled_public_files:/var/www/lambdee-web-app/public
     ports:
