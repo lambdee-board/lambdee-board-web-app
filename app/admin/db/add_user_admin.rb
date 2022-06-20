@@ -11,7 +11,7 @@ Trestle.resource(:add_user, model: ::DB::User, scope: DB) do
     instance_eval(&TrestleConcerns::User::COLUMNS)
 
     actions align: :center, header: 'Add to WS' do |toolbar, user|
-      toolbar.link 'Add', user, action: :add_to_workspace, method: :post, style: :success, params: { workspace_id: params[:id] }
+      toolbar.link 'Add', user, admin: ::DB::AddUserAdmin, action: :add_to_workspace, method: :post, style: :success, params: { workspace_id: params[:id] }
     end
   end
 
