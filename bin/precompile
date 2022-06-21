@@ -1,4 +1,9 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+. $script_dir/shell_helper "$@"
+
+title "Precompiling assets"
 
 # delete `public/assets` if it exists and supress the error
 ls public/assets && rm -r public/assets || true
