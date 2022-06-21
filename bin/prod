@@ -8,7 +8,7 @@ DB_VERSION=$(rails db:version | tail -n1 | sed 's/Current version: //g')
 if [ "$DB_VERSION" = "0" ]; then
   title "Loading the Database Schema"
   rails db:schema:load
-  rails db:seed
+  $script_dir/seed
 else
   title "Running migrations"
   # Runs migrations if any pending
