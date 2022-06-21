@@ -6,6 +6,15 @@
 #   movies = Movie.create([{ name: "Star Wars" }, { name: "Lord of the Rings" }])
 #   Character.create(name: "Luke", movie: movies.first)
 
+using ::ScriptRefinement
+
+title 'Seeding the database'
+
+if ::Rails.env.production?
+  require_relative 'seeds.prod'
+  exit
+end
+
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)

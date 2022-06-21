@@ -13,8 +13,6 @@ COPY docker/nginx/nginx.conf /tmp/docker.nginx
 # put the final config in its place
 RUN envsubst '$RAILS_ROOT' < /tmp/docker.nginx > /etc/nginx/conf.d/default.conf
 
-COPY public ${RAILS_ROOT}/public
-
 EXPOSE 80
 
 STOPSIGNAL SIGTERM

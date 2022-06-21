@@ -49,6 +49,8 @@ ignore.*
 
 # builds
 /app/assets/builds/*
+/public/assets/*
+/public/dev-assets/*
 
 # dependencies
 node_modules

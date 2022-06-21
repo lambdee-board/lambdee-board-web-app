@@ -1,10 +1,21 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
-if [ -f tmp/pids/server.pid ]; then
-  rm -f tmp/pids/server.pid
+script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+. $script_dir/shell_helper "$@"
+
+DB_VERSION=$(rails db:version | tail -n1 | sed 's/Current version: //g')
+
+if [ "$DB_VERSION" = "0" ]; then
+  title "Loading the Database Schema"
+  rails db:schema:load
+  rails db:seed
+else
+  title "Running migrations"
+  # Runs migrations if any pending
+  rails db:migrate
 fi
 
-# Runs migrations if any pending
-rails db:migrate
+$script_dir/precompile
 
-rails s
+title "Starting the Rails Server"
+bundle exec puma -C $script_dir/../config/puma.rb
