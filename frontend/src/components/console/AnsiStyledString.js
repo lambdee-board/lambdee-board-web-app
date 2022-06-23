@@ -21,6 +21,8 @@ const convertStylesStringToObject = (stringStyles) => (typeof stringStyles === '
   }, {}) : {})
 
 const AnsiStyledString = ({ text }) => {
+  if (text == null) return
+
   const parsedSpans = [...parse(text).spans]
 
   return (
