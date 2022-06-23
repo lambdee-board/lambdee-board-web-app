@@ -13,11 +13,11 @@ import {
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useDispatch } from 'react-redux'
 
 import useWorkspace from '../api/useWorkspace'
 import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
 
 import ColorPickerPopover from './ColorPickerPopover'
 
@@ -98,9 +98,9 @@ export default function NewBoardButton() {
 
       <Box className='New-board-wrapper'>
         {newBoardButtonVisible &&
-      <Button onClick={newBoardButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-        <Typography>Add New Board</Typography>
-      </Button>
+          <Button onClick={newBoardButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Typography>Add New Board</Typography>
+          </Button>
         }
       </Box>
     </Box>

@@ -11,25 +11,29 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+
+import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
-import UserInfo from './../task-card-modal/UserInfo'
+import { mutateWorkspaceUsers } from '../../api/useWorkspaceUsers'
 
-import './WorkspaceUsers.sass'
+import './WorkspaceUser.sass'
+import UserInfo from '../task-card-modal/UserInfo'
 
-
-const WorkspaceUsers = (props) => {
+const WorkspaceUser = (props) => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
+
   const deleteUser = () => {
-    const unnasignedUser = {
-      userId: props.userId
-    }
+    const unnasignedUser = { userId: props.userId }
+
     apiClient.post(`/api/workspaces/${workspaceId}/unassign_user`, unnasignedUser)
       .then((response) => {
         dispatch(addAlert({ severity: 'success', message: 'User unassigned!' }))
-        props.mutate()
+        mutateWorkspaceUsers({
+          id: workspaceId,
+          data: (currentUsers) => currentUsers.filter((user) => user !== props.userId)
+        })
       })
       .catch((error) => {
         // failed or rejected
@@ -54,12 +58,11 @@ const WorkspaceUsers = (props) => {
   )
 }
 
-export default WorkspaceUsers
+export default WorkspaceUser
 
-WorkspaceUsers.propTypes = {
+WorkspaceUser.propTypes = {
   userId: PropTypes.number.isRequired,
   userAvatarUrl: PropTypes.string.isRequired,
   userName: PropTypes.string.isRequired,
   userTitle: PropTypes.string,
-  mutate: PropTypes.func.isRequired
 }

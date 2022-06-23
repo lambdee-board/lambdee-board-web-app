@@ -1,4 +1,4 @@
-import { useAPI } from './apiClient'
+import { useAPI, mutateAPI } from './apiClient'
 
 const requestPath = (id) => `/api/workspaces/${id}/users`
 
@@ -11,4 +11,6 @@ const getterKey = (id, axiosOptions = undefined) => {
 
 
 export const useWorkspaceUsers = ({ id, axiosOptions, options })  => useAPI(getterKey(id, axiosOptions), options)
+export const mutateWorkspaceUsers = ({ id, axiosOptions, data, options })  => mutateAPI(getterKey(id, axiosOptions), data, options)
+
 export default useWorkspaceUsers

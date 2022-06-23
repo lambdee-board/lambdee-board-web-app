@@ -12,28 +12,27 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
+
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import useWorkspace from '../../api/useWorkspace'
-import useWorkspaces from '../../api/useWorkspaces'
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
-import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
-import NewBoardButton from '../../components/NewBoardButton'
-import WorkspaceBoards from '../../components/workspace-settings/WorkspaceBoards'
-import WorkspaceUsers from '../../components/workspace-settings/WorkspaceUsers'
-import WorkspaceAssignUserSelect from '../../components/workspace-settings/WorkspaceAssignUserSelect'
-
 
 import './WorkspaceSettingsView.sass'
 
+import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
+import NewBoardButton from '../../components/NewBoardButton'
+import WorkspaceBoard from '../../components/workspace-settings/WorkspaceBoard'
+import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
+import WorkspaceAssignUserSelect from '../../components/workspace-settings/WorkspaceAssignUserSelect'
 
 const WorkspaceSettings = () => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
-  const { mutate: mutateWorkspaces } = useWorkspaces({ limit: 5 })
-  const { data: workspace, mutate, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  const { data: users, mutate: mutateUsers } = useWorkspaceUsers({ id: workspaceId })
+  const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
+  const { data: users, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
+
   const assignUserButtonOnClick = () => {
     setAssignUserSelectVisible(true)
     setTimeout(() => {
@@ -56,7 +55,7 @@ const WorkspaceSettings = () => {
     apiClient.post(`/api/workspaces/${workspaceId}/assign_user`, payload)
       .then((response) => {
         // successful request
-        mutateUsers()
+        mutateWorkspaceUsers((currentUsers) => ([...currentUsers, user]))
       })
       .catch((error) => {
         // failed or rejected
@@ -75,19 +74,15 @@ const WorkspaceSettings = () => {
           <List className='List'>
             <WorkspaceLabel
               workspace={workspace}
-              mutate={mutate}
-              mutateWorkspaces={mutateWorkspaces}
             />
             <NewBoardButton />
             <Box className='WorkspaceBoards'>
               {workspace.boards?.map((board) => (
-                <WorkspaceBoards
+                <WorkspaceBoard
                   key={board.id}
                   boardId={board.id}
                   boardName={board.name}
                   boardColor={board.colour}
-                  workspace={workspace}
-                  mutate={mutate}
                   icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.colour} />}
                 />
 
@@ -105,13 +100,12 @@ const WorkspaceSettings = () => {
               </Button>
             )}
             {users?.map((user, index) => (
-              <WorkspaceUsers
+              <WorkspaceUser
                 key={user.name + index}
                 userId={user.id}
                 userName={user.name}
                 userTitle={user.role}
                 userAvatarUrl={user.avatarUrl}
-                mutate={mutateUsers}
               />
             ))}
           </List>

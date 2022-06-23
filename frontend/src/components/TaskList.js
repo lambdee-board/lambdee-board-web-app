@@ -29,6 +29,7 @@ import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskDropZone from './TaskDropZone'
 import TaskListModal from './TaskListModal'
+import { assign } from 'lodash'
 
 
 function TaskListSkeletonContent() {
@@ -196,15 +197,33 @@ function TaskList(props) {
       }
     }
 
-    const updateTask = {
+    const updatedTask = {
       listId: newListId,
       pos: newPos || item.pos
     }
-    apiClient.put(`/api/tasks/${item.id}`, updateTask)
+    apiClient.put(`/api/tasks/${item.id}`, updatedTask)
       .then((response) => {
         // successful request
-        mutateList({ id: item.listId, axiosOptions: { params: { tasks: 'all' } } })
-        mutateList({ id: newListId, axiosOptions: { params: { tasks: 'all' } } })
+        mutateList({
+          id: item.listId,
+          axiosOptions: { params: { tasks: 'all' } },
+          data: (list) => {
+            const updatedTasks = list.tasks.filter((task) => task.id !== item.id)
+            return { ...list, tasks: [...updatedTasks] }
+          }
+        })
+
+        mutateList({
+          id: newListId,
+          axiosOptions: { params: { tasks: 'all' } },
+          data: (list) => {
+            const newTaskData = {}
+            assign(newTaskData, item, updatedTask)
+
+            const updatedTasks = [...list.tasks, newTaskData].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+            return { ...list, tasks: updatedTasks  }
+          }
+        })
       })
       .catch((error) => {
         // failed or rejected

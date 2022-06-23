@@ -1,13 +1,15 @@
-import { useAPI } from './apiClient'
+import { useAPI, mutateAPI } from './apiClient'
 
 const requestPath = '/api/workspaces'
 
-const getterKey = (axiosOptions) => {
+const getterKey = (limit) => {
   let key = requestPath
-  if (axiosOptions != null) key = [key, axiosOptions]
+  if (limit != null) key = [key, { params: { limit } }]
 
   return key
 }
 
-const useWorkspaces = ({ limit, options })  => useAPI(getterKey({ params: { limit } }), options)
+export const useWorkspaces = ({ limit, options })  => useAPI(getterKey(limit), options)
+export const mutateWorkspaces =  ({ limit, data, options }) => mutateAPI(getterKey(limit), data, options)
+
 export default useWorkspaces

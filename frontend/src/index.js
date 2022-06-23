@@ -29,7 +29,7 @@ root.render(
       <Routes>
         <Route path='/' element={<App />}>
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
-            <Route path='workspace-settings' element={<WorkspaceSettingsView />} />
+            <Route path='settings' element={<WorkspaceSettingsView />} />
             <Route path='boards/:boardId' element={<BoardView />} />
           </Route>
           <Route path='workspaces' element={<WorkspacesView />} />

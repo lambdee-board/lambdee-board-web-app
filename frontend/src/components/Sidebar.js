@@ -21,13 +21,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
-import WorkspaceIcon from './WorkspaceIcon'
-import useWorkspace from '../api/useWorkspace'
-import NewBoardButton from './NewBoardButton'
 
+import useWorkspace from '../api/useWorkspace'
 
 import './Sidebar.sass'
-
+import WorkspaceIcon from './WorkspaceIcon'
+import NewBoardButton from './NewBoardButton'
 
 const drawerWidth = 240
 
@@ -131,7 +130,7 @@ export default function Sidebar() {
               <SidebarListItem
                 active={false}
                 label='Settings'
-                onClick={() => navigate(`/workspaces/${workspaceId}/workspace-settings`)}
+                onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
                 icon={<FontAwesomeIcon icon={faGear} />}
               />
               <SidebarListItem
@@ -143,7 +142,7 @@ export default function Sidebar() {
                 <SidebarListItem
                   className='ListItem-board'
                   key={board.name + index}
-                  active={board.id === boardId}
+                  active={board.id == boardId}
                   label={board.name}
                   onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
                   icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}
@@ -172,7 +171,4 @@ export default function Sidebar() {
 }
 
 Sidebar.propTypes = {
-  workspaceName: PropTypes.string.isRequired,
-  boardNameColor: PropTypes.array.isRequired,
-  activeTab: PropTypes.string.isRequired,
 }

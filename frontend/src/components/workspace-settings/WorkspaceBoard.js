@@ -15,14 +15,20 @@ import {
   faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
+import { useParams } from 'react-router-dom'
+import { assign } from 'lodash'
+
+import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
-import ColorPickerPopover from '../../components/ColorPickerPopover'
-import './WorkspaceBoards.sass'
+import { mutateWorkspace } from '../../api/useWorkspace'
+
+import './WorkspaceBoard.sass'
+import ColorPickerPopover from '../ColorPickerPopover'
 
 
-const WorkspaceBoards = (props) => {
+const WorkspaceBoard = (props) => {
+  const { workspaceId } = useParams()
   const [editBoardVisible, setEditBoardVisible] = React.useState(true)
   const [color, setColor] = React.useState()
   const editBoardRef = React.useRef()
@@ -59,7 +65,16 @@ const WorkspaceBoards = (props) => {
     apiClient.put(`/api/boards/${props.boardId}`, editedBoard)
       .then((response) => {
       // successful request
-        props.mutate()
+        mutateWorkspace({
+          id: workspaceId,
+          axiosOptions: { params: { boards: 'visible' } },
+          data: (currentWorkspace) => {
+            currentWorkspace = { ...currentWorkspace, boards: [...currentWorkspace.boards] }
+            const currentBoard = currentWorkspace.boards.find((board) => board.id === props.boardId)
+            assign(currentBoard, editedBoard) // mutating `currentBoard` with updated data!
+            return currentWorkspace
+          }
+        })
         toggleEditBoard()
       })
       .catch((error) => {
@@ -85,7 +100,14 @@ const WorkspaceBoards = (props) => {
     apiClient.delete(`/api/boards/${props.boardId}`)
       .then((response) => {
         dispatch(addAlert({ severity: 'success', message: 'Board deleted!' }))
-        props.mutate()
+        mutateWorkspace({
+          id: workspaceId,
+          axiosOptions: { params: { boards: 'visible' } },
+          data: (currentWorkspace) => {
+            const updatedBoards = currentWorkspace.boards.filter((board) => board.id !== props.boardId)
+            return { ...currentWorkspace, boards: [...updatedBoards] }
+          }
+        })
       })
       .catch((error) => {
         // failed or rejected
@@ -97,25 +119,25 @@ const WorkspaceBoards = (props) => {
   return (
     <Box>
       {!editBoardVisible &&
-            <ClickAwayListener onClickAway={toggleEditBoard}>
-              <Box>
-                <Box className='New-board'>
-                  <ColorPickerPopover color={color} onChange={setColor} />
-                  <InputBase
-                    ref={editBoardRef}
-                    className='New-board-input'
-                    fullWidth
-                    multiline
-                    defaultValue={props.boardName}
-                    onKeyDown={(e) => editBoardInputOnKey(e)}
-                  />
-                  <IconButton className='New-board-cancel' onClick={() => toggleEditBoard()}>
-                    <FontAwesomeIcon className='New-board-cancel-icon' icon={faXmark} />
-                  </IconButton>
-                </Box>
-                <Divider />
-              </Box>
-            </ClickAwayListener>
+        <ClickAwayListener onClickAway={toggleEditBoard}>
+          <Box>
+            <Box className='New-board'>
+              <ColorPickerPopover color={color} onChange={setColor} />
+              <InputBase
+                ref={editBoardRef}
+                className='New-board-input'
+                fullWidth
+                multiline
+                defaultValue={props.boardName}
+                onKeyDown={(e) => editBoardInputOnKey(e)}
+              />
+              <IconButton className='New-board-cancel' onClick={() => toggleEditBoard()}>
+                <FontAwesomeIcon className='New-board-cancel-icon' icon={faXmark} />
+              </IconButton>
+            </Box>
+            <Divider />
+          </Box>
+        </ClickAwayListener>
       }
       {editBoardVisible &&
         <ListItem button divider>
@@ -133,14 +155,12 @@ const WorkspaceBoards = (props) => {
     </Box>
   )
 }
-export default WorkspaceBoards
+export default WorkspaceBoard
 
 
-WorkspaceBoards.propTypes = {
+WorkspaceBoard.propTypes = {
   icon: PropTypes.object.isRequired,
   boardId: PropTypes.number,
   boardName: PropTypes.string.isRequired,
   boardColor: PropTypes.string,
-  workspace: PropTypes.object,
-  mutate: PropTypes.func
 }

@@ -5,15 +5,17 @@ import {
   Typography,
   InputBase
 } from '@mui/material'
-
-import './WorkspaceLabel.sass'
-
 import { useDispatch } from 'react-redux'
-import WorkspaceIcon from '../../components/WorkspaceIcon'
+
 import apiClient from '../../api/apiClient'
+import { mutateWorkspaces } from '../../api/useWorkspaces'
+import { mutateWorkspace } from '../../api/useWorkspace'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 
-const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
+import './WorkspaceLabel.sass'
+import WorkspaceIcon from '../../components/WorkspaceIcon'
+
+const WorkspaceLabel = ({ workspace }) => {
   const dispatch = useDispatch()
   const [editWorkspaceLabelButton, setEditWorkspaceLabel] = React.useState(true)
 
@@ -35,17 +37,22 @@ const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
       toggleEditWorkspaceLabelButton()
       return
     }
-    const updatedLabel = { name: newLabel.value }
-    if (!updatedLabel.name) {
+
+    const updatedWorkspace = { name: newLabel.value }
+    if (!updatedWorkspace.name) {
       setEditWorkspaceLabel(true)
       return
     }
 
-    apiClient.put(`/api/workspaces/${workspace.id}`, updatedLabel)
+    apiClient.put(`/api/workspaces/${workspace.id}`, updatedWorkspace)
       .then((response) => {
         // successful request
-        mutate()
-        mutateWorkspaces()
+        mutateWorkspace({
+          id: workspace.id,
+          axiosOptions: { params: { boards: 'visible' } },
+          data: (currentWorkspace) => ({ ...currentWorkspace, name: updatedWorkspace.name })
+        })
+        mutateWorkspaces({ limit: 5 })
         toggleEditWorkspaceLabelButton()
       })
       .catch((error) => {
@@ -70,8 +77,13 @@ const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
     <ListItem >
       <WorkspaceIcon name={workspace.name} size={64} />
       {editWorkspaceLabelButton ? (
-        <Typography className='Workspace-Label' onClick={editWorkspaceLabelOnClick} variant='h4'
-        >{workspace.name}</Typography>
+        <Typography
+          className='Workspace-Label'
+          onClick={editWorkspaceLabelOnClick}
+          variant='h4'
+        >
+          {workspace.name}
+        </Typography>
       ) : (
         <div>
           <InputBase
@@ -92,9 +104,7 @@ const WorkspaceLabel = ({ workspace, mutate, mutateWorkspaces }) => {
 export default WorkspaceLabel
 
 WorkspaceLabel.propTypes = {
-  workspace: PropTypes.object.isRequired,
-  mutate: PropTypes.func.isRequired,
-  mutateWorkspaces: PropTypes.func.isRequired
+  workspace: PropTypes.object.isRequired
 }
 
 
