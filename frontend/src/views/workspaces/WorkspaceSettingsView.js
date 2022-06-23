@@ -30,9 +30,9 @@ import './WorkspaceSettingsView.sass'
 const WorkspaceSettings = () => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
-  const { mutate: mutateWorkspaces } = useWorkspaces(5)
-  const { data: workspace, mutate, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
-  const { data: users, mutate: mutateUsers } = useWorkspaceUsers(workspaceId)
+  const { mutate: mutateWorkspaces } = useWorkspaces({ limit: 5 })
+  const { data: workspace, mutate, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
+  const { data: users, mutate: mutateUsers } = useWorkspaceUsers({ id: workspaceId })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const assignUserButtonOnClick = () => {
     setAssignUserSelectVisible(true)

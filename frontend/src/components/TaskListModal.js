@@ -39,8 +39,8 @@ export default function TaskListModal(props) {
     apiClient.put(`/api/lists/${props.listId}`, editedList)
       .then((response) => {
         // successful request
-        mutateList(props.listId, { params: { tasks: 'all' } })
-        mutateBoard(boardId, { params: { lists: 'visible' } })
+        mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'all' } } })
+        mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
         setEditingListTitle(false)
       })
       .catch((error) => {
@@ -53,7 +53,7 @@ export default function TaskListModal(props) {
     apiClient.delete(`/api/lists/${props.listId}`)
       .then((response) => {
         // successful request
-        mutateBoard(boardId, { params: { lists: 'visible' } })
+        mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
         dispatch(addAlert({ severity: 'success', message: 'List deleted!' }))
       })
       .catch((error) => {

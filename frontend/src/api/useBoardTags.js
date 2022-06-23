@@ -1,5 +1,13 @@
 import { useAPI } from './apiClient'
 
-const useBoardTags = (id, ...args)  => useAPI(`/api/boards/${id}/tags`, ...args)
+const requestPath = (id) => `/api/boards/${id}/tags`
 
+const getterKey = (id, axiosOptions = undefined) => {
+  let key = requestPath(id)
+  if (axiosOptions != null) key = [key, axiosOptions]
+
+  return key
+}
+
+export const useBoardTags = ({ id, axiosOptions, options })  => useAPI(getterKey(id, axiosOptions), options)
 export default useBoardTags

@@ -43,8 +43,8 @@ export const apiClient = applyCaseMiddleware(axiosClient, {
 
 export const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
 
-export const useAPI = (url, axiosOptions = {}, fetch = true) => {
-  const { data, error, mutate } = useSWR(fetch ? [url, axiosOptions] : null, fetcher)
+export const useAPI = (key, options = undefined) => {
+  const { data, error, mutate } = useSWR(key, fetcher, options)
 
   return {
     data,
@@ -55,6 +55,9 @@ export const useAPI = (url, axiosOptions = {}, fetch = true) => {
   }
 }
 
-export const mutateAPI = (url, axiosOptions) => swrMutate([url, axiosOptions])
+export const mutateAPI = (key, data, options) => {
+  if (data || options) return swrMutate(key, data, options)
+  return swrMutate(key)
+}
 
 export default apiClient

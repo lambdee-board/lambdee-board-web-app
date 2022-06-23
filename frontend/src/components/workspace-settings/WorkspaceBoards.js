@@ -64,7 +64,6 @@ const WorkspaceBoards = (props) => {
       })
       .catch((error) => {
       // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }

@@ -21,7 +21,7 @@ const filter = createFilterOptions()
 
 function AttachTagSelect(props) {
   const { boardId } = useParams()
-  const { data: tags, isLoading, isError } = useBoardTags(boardId)
+  const { data: tags, isLoading, isError } = useBoardTags({ id: boardId })
   const [openTagsPopup, setTagsPopup] = React.useState(true)
   const [openNewTagDial, setNewTagDial] = React.useState(false)
   const [tagsToAdd, setTagsToAdd] = React.useState([])

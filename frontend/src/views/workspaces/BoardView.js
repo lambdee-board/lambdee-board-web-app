@@ -31,7 +31,7 @@ function BoardViewSkeleton() {
 export default function BoardView() {
   const { boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: board, isLoading, isError } = useBoard(boardId, { params: { lists: 'visible' } })
+  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
   const dispatch = useDispatch()
 
   useEffect(() => {

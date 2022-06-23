@@ -1,4 +1,13 @@
 import { useAPI } from './apiClient'
 
-const useUser = (id, ...args)  => useAPI(`/api/users/${id}`, ...args)
+const requestPath = (id) => `/api/users/${id}`
+
+const getterKey = (id, axiosOptions = undefined) => {
+  let key = requestPath(id)
+  if (axiosOptions != null) key = [key, axiosOptions]
+
+  return key
+}
+
+export const useUser = ({ id, axiosOptions, options })  => useAPI(getterKey(id, axiosOptions), options)
 export default useUser

@@ -69,7 +69,7 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const { data: taskList, mutate } = useList(props.id, { params: { tasks: 'all' } })
+  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'all' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
   const dndRef = React.useRef(null)
@@ -95,7 +95,7 @@ function TaskList(props) {
   }, [taskList])
 
   const [{ handlerId }, drop] = useDrop({
-    accept: ItemTypes.TASKLIST,
+    accept: ItemTypes.TASK_LIST,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -130,7 +130,7 @@ function TaskList(props) {
   })
 
   const [{ isDragging }, drag, dragPreview] = useDrag({
-    type: ItemTypes.TASKLIST,
+    type: ItemTypes.TASK_LIST,
     item: {
       id: props.id,
       name: props.title,
@@ -203,8 +203,8 @@ function TaskList(props) {
     apiClient.put(`/api/tasks/${item.id}`, updateTask)
       .then((response) => {
         // successful request
-        mutateList(item.listId, { params: { tasks: 'all' } })
-        mutateList(newListId, { params: { tasks: 'all' } })
+        mutateList({ id: item.listId, axiosOptions: { params: { tasks: 'all' } } })
+        mutateList({ id: newListId, axiosOptions: { params: { tasks: 'all' } } })
       })
       .catch((error) => {
         // failed or rejected

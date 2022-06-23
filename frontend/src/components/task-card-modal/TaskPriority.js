@@ -37,7 +37,6 @@ function TaskPriority({ task, mutate }) {
   const editPriority = (e, newPriority) => {
     const payload = { priority: newPriority?.symbol }
 
-    console.log(payload, newPriority)
     apiClient.put(`/api/tasks/${task.id}`, payload)
       .then((response) => {
         // successful request

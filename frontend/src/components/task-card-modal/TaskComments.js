@@ -264,7 +264,7 @@ TaskComment.propTypes = {
 }
 
 const TaskComments = (props) => {
-  const { data: comments, isLoading, isError, mutate: mutateComments } = useComments(props.taskId, { params: { withAuthor: 'true' } })
+  const { data: comments, isLoading, isError, mutate: mutateComments } = useComments({ id: props.taskId, axiosOptions: { params: { withAuthor: 'true' } } })
   const { data: currentUser, isLoading: isCurrentUserLoading, isError: isCurrentUserError } = useCurrentUser()
 
   // TODO: Skeleton

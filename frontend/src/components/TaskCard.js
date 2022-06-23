@@ -47,7 +47,7 @@ const TaskCard = (props) => {
   const [moveTaskInList, updateTaskPos] = props.dndFun
 
   const [{ handlerId }, drop] = useDrop({
-    accept: ItemTypes.TASKCARD,
+    accept: ItemTypes.TASK_CARD,
     collect(monitor) {
       return {
         handlerId: monitor.getHandlerId(),
@@ -88,7 +88,7 @@ const TaskCard = (props) => {
   })
 
   const [{ isDragging }, drag] = useDrag({
-    type: ItemTypes.TASKCARD,
+    type: ItemTypes.TASK_CARD,
     item: {
       id: props.id,
       index: props.index,
@@ -107,7 +107,7 @@ const TaskCard = (props) => {
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList(props.parentIndex, { params: { tasks: 'all' } })
+    mutateList({ id: props.parentIndex, axiosOptions: { params: { tasks: 'all' } } })
     setOpenTaskCardModal(false)
   }
   return (

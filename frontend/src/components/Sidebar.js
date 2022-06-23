@@ -102,7 +102,7 @@ export default function Sidebar() {
   const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
-  const { data: workspace, isLoading, isError } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
+  const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
   const [isOpen, setOpen] = React.useState(true)
 
   return (

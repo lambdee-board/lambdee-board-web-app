@@ -7,10 +7,9 @@ const TaskDropZone = (props) => {
   const [assignTaskToNewList] = props.dndFun
 
   const [{ isOver }, drop] = useDrop({
-    accept: ItemTypes.TASKCARD,
+    accept: ItemTypes.TASK_CARD,
     drop: (item, monitor) => {
       if (item.listId !== props.listId) {
-        console.log(item.idxInNewList)
         assignTaskToNewList(item, props.listId)
       }
     },

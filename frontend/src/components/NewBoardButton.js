@@ -26,7 +26,7 @@ import './NewBoardButton.sass'
 export default function NewBoardButton() {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
-  const { data: workspace, mutate } = useWorkspace(workspaceId, { params: { boards: 'visible' } })
+  const { data: workspace, mutate } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
   const [color, setColor] = React.useState('#1082F3')
   const [newBoardButtonVisible, setNewBoardButtonVisible] = React.useState(true)
   const toggleNewBoardButton = () => setNewBoardButtonVisible(!newBoardButtonVisible)
@@ -71,7 +71,6 @@ export default function NewBoardButton() {
       })
       .catch((error) => {
         // failed or rejected
-        console.log(error)
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
