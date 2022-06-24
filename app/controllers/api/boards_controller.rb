@@ -14,7 +14,7 @@ class API::BoardsController < ::APIController
   def show
     set_lists_scope if params[:lists]
 
-    return render :show_with_lists, locals: { lists: @lists_scope } if @lists_scope
+    return render :show_with_lists, locals: { lists_scope: @lists_scope } if @lists_scope
   end
 
   # POST /api/boards
