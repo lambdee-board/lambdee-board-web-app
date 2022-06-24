@@ -1,5 +1,4 @@
-import React, { useCallback, useState, } from 'react'
-import update from 'immutability-helper'
+import React, { useState } from 'react'
 import {
   List,
   ListItem,
@@ -17,18 +16,17 @@ import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
-import { assign } from 'lodash'
 import { ReactSortable } from 'react-sortablejs'
 
 import apiClient from '../api/apiClient'
 import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useList, { mutateList } from '../api/useList'
+import useList from '../api/useList'
+import { calculatePos } from '../constants/componentPositionService'
 
 import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskListModal from './TaskListModal'
-
 
 function TaskListSkeletonContent() {
   return (
@@ -86,8 +84,8 @@ function TaskList(props) {
   React.useEffect(() => {
     if (!taskList) return
 
-    const sortedTasksList = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
-    setNewTaskOrder([...sortedTasksList])
+    const newSortedTasks = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    setNewTaskOrder([...newSortedTasks])
   }, [taskList])
 
 
@@ -137,6 +135,60 @@ function TaskList(props) {
     }
   }
 
+  const updateTaskPos = (id, newPos, updatedTasks) => {
+    setNewTaskOrder(updatedTasks)
+
+    const updatedTask = {
+      id,
+      listId: props.id,
+      pos: newPos,
+    }
+
+    apiClient.put(`/api/tasks/${id}`, updatedTask)
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+      .finally(() => {
+        console.log(updatedTasks)
+        mutate((listData) => ({ ...listData, tasks: updatedTasks }))
+      })
+  }
+
+  const updateTaskOrder = (updatedTasks) => {
+    // Check if there are any changes to the order of elements
+    // if the current task list has the same number
+    // of elements as the updated list
+    if (updatedTasks.length === sortedTasks.length) {
+      let tasksAreEqual = true
+      for (let i = 0; i < sortedTasks.length; i++) {
+        if (sortedTasks[i].id !== updatedTasks[i].id) {
+          tasksAreEqual = false
+          break
+        }
+      }
+
+      // if there are no changes just skip it
+      if (tasksAreEqual) return
+    }
+
+    const currentTaskIndex = updatedTasks.findIndex((list) => list.chosen !== undefined)
+
+    // if the dragged task is no longer in this list, just remove it and return
+    if (currentTaskIndex === -1) {
+      setNewTaskOrder(updatedTasks)
+      mutate((listData) => ({ ...listData, tasks: updatedTasks }))
+      return
+    }
+
+    const newUpdatedTasks = [...updatedTasks]
+    const newUpdatedTask = { ...newUpdatedTasks[currentTaskIndex] }
+    newUpdatedTask.pos = calculatePos(currentTaskIndex, updatedTasks)
+    newUpdatedTasks[currentTaskIndex] = newUpdatedTask
+
+    updateTaskPos(newUpdatedTask.id, newUpdatedTask.pos, newUpdatedTasks)
+  }
+
   return (
     <Box className='TaskList-wrapper'>
       <Paper className='TaskList-paper'
@@ -150,24 +202,36 @@ function TaskList(props) {
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
-          {taskList ? (<ReactSortable list={sortedTasks} setList={setNewTaskOrder}>
-            {
-              sortedTasks.map((task, taskIndex) => (
-                <ListItem className='TaskList-item' key={taskIndex} >
-                  <TaskCard key={`${task.name}-${task.id}`}
-                    id={task.id}
-                    label={task.name}
-                    tags={task.tags}
-                    priority={task.priority}
-                    assignedUsers={task.users}
-                    points={task.points}
-                    pos={task.pos}
-                    index={taskIndex}
-                    listId={task.listId}
-                  />
-                </ListItem>
-              ))}
-          </ReactSortable>
+          {taskList ? (
+            <ReactSortable
+              list={sortedTasks}
+              setList={updateTaskOrder}
+              group='TaskCardList'
+              delay={1}
+              animation={50}
+              ghostClass='translucent'
+              selectedClass='translucent'
+              direction='vertical'
+              // multiDrag
+              scroll
+            >
+              {
+                sortedTasks.map((task, taskIndex) => (
+                  <ListItem className='TaskList-item' key={taskIndex} >
+                    <TaskCard key={`${task.name}-${task.id}`}
+                      id={task.id}
+                      label={task.name}
+                      tags={task.tags}
+                      priority={task.priority}
+                      assignedUsers={task.users}
+                      points={task.points}
+                      pos={task.pos}
+                      index={taskIndex}
+                      listId={task.listId}
+                    />
+                  </ListItem>
+                ))}
+            </ReactSortable>
           ) : (
             <TaskListSkeletonContent />
           )}

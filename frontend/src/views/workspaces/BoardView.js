@@ -1,7 +1,6 @@
 import { useParams } from 'react-router-dom'
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
-import update from 'immutability-helper'
 import { useDispatch } from 'react-redux'
 import { ReactSortable } from 'react-sortablejs'
 
@@ -11,6 +10,7 @@ import useBoard from '../../api/useBoard'
 import apiClient from '../../api/apiClient'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import BoardToolbar from '../../components/BoardToolbar'
+import { calculatePos } from '../../constants/componentPositionService'
 
 
 function BoardViewSkeleton() {
@@ -65,17 +65,13 @@ export default function BoardView() {
     if (listsAreEqual) return
 
     const currentListIndex = updatedLists.findIndex((list) => list.chosen !== undefined)
-    const currentList = updatedLists[currentListIndex]
 
-    if (currentListIndex === 0) {
-      currentList.pos = updatedLists[1].pos / 2
-    } else if (currentListIndex === updatedLists.length - 1) {
-      currentList.pos = updatedLists.at(-2).pos + 1024
-    } else {
-      currentList.pos = (updatedLists[currentListIndex - 1].pos + updatedLists[currentListIndex + 1].pos) / 2
-    }
+    const newUpdatedLists = [...updatedLists]
+    const newUpdatedList = { ...newUpdatedLists[currentListIndex] }
+    newUpdatedList.pos = calculatePos(currentListIndex, updatedLists)
+    newUpdatedLists[currentListIndex] = newUpdatedList
 
-    updateListPos(currentList.id, currentList.pos, updatedLists)
+    updateListPos(newUpdatedList.id, newUpdatedList.pos, newUpdatedLists)
   }
 
   useEffect(() => {
@@ -95,7 +91,12 @@ export default function BoardView() {
           className='TaskLists-wrapper'
           list={sortedTaskLists}
           setList={updateTaskListOrder}
-          s
+          scroll
+          ghostClass='translucent'
+          direction='horizontal'
+          multiDrag
+          delay={1}
+          animation={50}
         >
           {sortedTaskLists.map((taskList, listIndex) => (
             <TaskList key={taskList.id}

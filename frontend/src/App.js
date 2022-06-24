@@ -1,9 +1,8 @@
 import { ThemeProvider } from '@mui/material'
 import { Provider } from 'react-redux'
 import { Outlet } from 'react-router-dom'
-import { DndProvider } from 'react-dnd'
-import { HTML5Backend } from 'react-dnd-html5-backend'
 import { SWRConfig } from 'swr'
+import { Sortable, MultiDrag, AutoScroll } from 'sortablejs/modular/sortable.core.esm.js'
 
 import './App.sass'
 import lambdeeTheme from './lambdeeTheme'
@@ -12,6 +11,8 @@ import store from './redux/store'
 import ErrorCounter from './components/ErrorCounter'
 import AppAlert from './components/AppAlert'
 import Navbar from './components/Navbar'
+
+Sortable.mount(new MultiDrag(), new AutoScroll())
 
 const swrConfig = {
   refreshInterval: process.env.NODE_ENV === 'development' ? null : 15000,
@@ -25,16 +26,14 @@ function App() {
         value={swrConfig}
       >
         <Provider store={store}>
-          <DndProvider backend={HTML5Backend} >
-            <div className='App'>
-              <AppAlert />
-              <ErrorCounter />
-              <Navbar />
-              <div className='App-body'>
-                <Outlet />
-              </div>
+          <div className='App'>
+            <AppAlert />
+            <ErrorCounter />
+            <Navbar />
+            <div className='App-body'>
+              <Outlet />
             </div>
-          </DndProvider>
+          </div>
         </Provider>
       </SWRConfig>
     </ThemeProvider>
