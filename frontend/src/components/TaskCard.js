@@ -54,14 +54,14 @@ const TaskCard = (props) => {
       }
     },
     drop(item, monitor) {
-      if (item.listId === props.parentIndex) {
+      if (item.listId === props.listId) {
         updateTaskPos(item.index, props.index)
       }
     },
     hover(item, monitor)  {
       if (!dndRef.current) return
 
-      if (item.listId !== props.parentIndex) {
+      if (item.listId !== props.listId) {
         item.idxInNewList = props.index
         return
       }
@@ -91,10 +91,15 @@ const TaskCard = (props) => {
     type: ItemTypes.TASK_CARD,
     item: {
       id: props.id,
-      index: props.index,
-      listId: props.parentIndex,
       pos: props.pos,
-      idxInNewList: 0
+      label: props.label,
+      points: props.points,
+      priority: props.priority,
+      tags: props.tags,
+      listId: props.listId,
+      users: props.assignedUsers,
+      index: props.index,
+      idxInNewList: 0,
     },
     isDragging: (monitor) => (props.id === monitor.getItem().id),
     collect: (monitor) => ({
@@ -107,7 +112,7 @@ const TaskCard = (props) => {
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.parentIndex, axiosOptions: { params: { tasks: 'all' } } })
+    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'all' } } })
     setOpenTaskCardModal(false)
   }
   return (
@@ -123,22 +128,22 @@ const TaskCard = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} parentIndex={props.parentIndex} closeModal={handleCloseTaskCardModal} />
+          <TaskCardModal taskId={props.id} listId={props.listId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <Card className='TaskCard' ref={dndRef} data-handler-id={handlerId} onClick={handleOpenTaskCardModal}>
         <Typography className='TaskCard-label'>
-          {props.taskLabel}
+          {props.label}
         </Typography>
         <Box className='Box-tags'>
-          {props.taskTags.map((tag) => (
+          {props.tags.map((tag) => (
             <Tag key={tag.id} name={tag.name} colour={tag.colour} />
           ))}
         </Box>
         <Box className='Box'>
           <Box className='Box-priority'>
-            <PriorityIcon taskPriority={props.taskPriority} />
-            {props.taskPoints ? <Avatar className='Box-priority-avatar'>{props.taskPoints}</Avatar> : null}
+            <PriorityIcon priority={props.priority} />
+            {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
             {props.assignedUsers.map((assignedUser) => (
@@ -156,22 +161,22 @@ const TaskCard = (props) => {
 }
 
 TaskCard.defaultProps = {
-  taskLabel: '',
-  taskTags: [],
+  label: '',
+  tags: [],
   assignedUsers: [],
 }
 
 TaskCard.propTypes = {
   assignedUsers: PropTypes.array.isRequired,
   id: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
-  dndFun: PropTypes.array.isRequired,
-  parentIndex: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
-  taskLabel: PropTypes.string.isRequired,
-  taskPoints: PropTypes.number,
-  taskPriority: PropTypes.string,
-  taskTags: PropTypes.array.isRequired,
+  label: PropTypes.string.isRequired,
+  points: PropTypes.number,
+  priority: PropTypes.string,
+  tags: PropTypes.array.isRequired,
+  listId: PropTypes.number.isRequired,
+  dndFun: PropTypes.array.isRequired,
+  index: PropTypes.number.isRequired,
 }
 
 export default TaskCard

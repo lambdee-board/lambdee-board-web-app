@@ -207,7 +207,7 @@ function TaskList(props) {
         mutateList({
           id: item.listId,
           axiosOptions: { params: { tasks: 'all' } },
-          data: (list) => {
+          data(list) {
             const updatedTasks = list.tasks.filter((task) => task.id !== item.id)
             return { ...list, tasks: [...updatedTasks] }
           }
@@ -216,7 +216,7 @@ function TaskList(props) {
         mutateList({
           id: newListId,
           axiosOptions: { params: { tasks: 'all' } },
-          data: (list) => {
+          data(list) {
             const newTaskData = {}
             assign(newTaskData, item, updatedTask)
 
@@ -297,14 +297,14 @@ function TaskList(props) {
                 <ListItem className='TaskList-item' key={taskIndex} >
                   <TaskCard key={`${task.name}-${task.id}`}
                     id={task.id}
-                    taskLabel={task.name}
-                    taskTags={task.tags}
-                    taskPriority={task.priority}
+                    label={task.name}
+                    tags={task.tags}
+                    priority={task.priority}
                     assignedUsers={task.users}
-                    taskPoints={task.points}
-                    index={taskIndex}
-                    parentIndex={task.listId}
+                    points={task.points}
                     pos={task.pos}
+                    index={taskIndex}
+                    listId={task.listId}
                     dndFun={[moveTaskInList, updateTaskPos]}
                   />
                 </ListItem>

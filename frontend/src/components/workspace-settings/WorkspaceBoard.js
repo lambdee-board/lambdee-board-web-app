@@ -68,7 +68,7 @@ const WorkspaceBoard = (props) => {
         mutateWorkspace({
           id: workspaceId,
           axiosOptions: { params: { boards: 'visible' } },
-          data: (currentWorkspace) => {
+          data(currentWorkspace) {
             currentWorkspace = { ...currentWorkspace, boards: [...currentWorkspace.boards] }
             const currentBoard = currentWorkspace.boards.find((board) => board.id === props.boardId)
             assign(currentBoard, editedBoard) // mutating `currentBoard` with updated data!
@@ -103,7 +103,7 @@ const WorkspaceBoard = (props) => {
         mutateWorkspace({
           id: workspaceId,
           axiosOptions: { params: { boards: 'visible' } },
-          data: (currentWorkspace) => {
+          data(currentWorkspace) {
             const updatedBoards = currentWorkspace.boards.filter((board) => board.id !== props.boardId)
             return { ...currentWorkspace, boards: [...updatedBoards] }
           }
