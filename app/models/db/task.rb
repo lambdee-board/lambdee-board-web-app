@@ -17,6 +17,7 @@ class DB::Task < ApplicationRecord
 
   default_scope { order(:id) }
 
+  scope :pos_order, -> { reorder(pos: :asc) }
   scope :include_associations, -> { includes(:list, :author, :users, :tags) }
   scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
 

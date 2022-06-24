@@ -1,15 +1,16 @@
+import { useParams } from 'react-router-dom'
+import React, { useEffect, useState } from 'react'
+
+import { useDispatch } from 'react-redux'
+import { ReactSortable } from 'react-sortablejs'
+
 import './BoardView.sass'
 import TaskList, { TaskListSkeleton } from './../../components/TaskList'
-import { useParams } from 'react-router-dom'
-
 import useBoard from '../../api/useBoard'
-import React, { useCallback, useEffect, useState } from 'react'
-
-import update from 'immutability-helper'
 import apiClient from '../../api/apiClient'
-import { useDispatch } from 'react-redux'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import BoardToolbar from '../../components/BoardToolbar'
+import { calculatePos } from '../../constants/componentPositionService'
 
 
 function BoardViewSkeleton() {
@@ -31,8 +32,47 @@ function BoardViewSkeleton() {
 export default function BoardView() {
   const { boardId } = useParams()
   const [sortedTaskLists, setNewTaskListOrder] = useState([])
-  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
+  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
   const dispatch = useDispatch()
+
+  const updateListPos = (id, newPos, updatedLists) => {
+    setNewTaskListOrder(updatedLists)
+
+    const updatedList = {
+      id,
+      pos: newPos,
+    }
+
+    apiClient.put(`/api/lists/${id}`, updatedList)
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+      .finally(() => {
+        mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }))
+      })
+  }
+
+  const updateTaskListOrder = (updatedLists, ...rest) => {
+    let listsAreEqual = true
+    for (let i = 0; i < sortedTaskLists.length; i++) {
+      if (sortedTaskLists[i].id !== updatedLists[i].id) {
+        listsAreEqual = false
+        break
+      }
+    }
+
+    if (listsAreEqual) return
+
+    const currentListIndex = updatedLists.findIndex((list) => list.chosen !== undefined)
+
+    const newUpdatedLists = [...updatedLists]
+    const newUpdatedList = { ...newUpdatedLists[currentListIndex] }
+    newUpdatedList.pos = calculatePos(currentListIndex, updatedLists)
+    newUpdatedLists[currentListIndex] = newUpdatedList
+
+    updateListPos(newUpdatedList.id, newUpdatedList.pos, newUpdatedLists)
+  }
 
   useEffect(() => {
     if (board) {
@@ -41,60 +81,33 @@ export default function BoardView() {
     }
   }, [board])
 
-
-  const updateListPos = useCallback((dragIndex, hoverIndex) => {
-    const listId = sortedTaskLists[dragIndex].id
-    const newPos = sortedTaskLists[dragIndex].pos
-
-    const updatedList = {
-      id: listId,
-      pos: newPos,
-    }
-    apiClient.put(`/api/lists/${listId}`, updatedList)
-      .then((response) => {})
-      .catch((error) => {
-        // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-      })
-  }, [dispatch, sortedTaskLists])
-
-  const moveList = useCallback((dragIndex, hoverIndex) => {
-    setNewTaskListOrder((prevState) => {
-      const newState = update(prevState,
-        { $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevState[dragIndex]],
-        ], })
-
-      if (hoverIndex === 0) {
-        newState[hoverIndex].pos = newState[1].pos / 2
-      } else if (hoverIndex === newState.length - 1) {
-        newState[hoverIndex].pos = newState.at(-2).pos + 1024
-      } else {
-        newState[hoverIndex].pos = (newState[hoverIndex - 1].pos + newState[hoverIndex + 1].pos) / 2
-      }
-      return newState
-    })
-  },
-  [])
-
   if (isLoading || isError) return (<BoardViewSkeleton />)
 
   return (
     <div className='BoardView'>
       <BoardToolbar />
       <div className='TaskLists-scrollable' >
-        <div className='TaskLists-wrapper' >
+        <ReactSortable
+          className='TaskLists-wrapper'
+          list={sortedTaskLists}
+          setList={updateTaskListOrder}
+          scroll
+          ghostClass='translucent'
+          direction='horizontal'
+          multiDrag
+          delay={1}
+          animation={50}
+        >
           {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskList key={`${taskList.name}-${taskList.id}`}
+            <TaskList key={taskList.id}
               title={taskList.name}
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
-              dndFun={[moveList, updateListPos]} />
+            />
           ))}
           <div className='TaskLists-spacer'></div>
-        </div>
+        </ReactSortable>
       </div>
     </div>
   )

@@ -14,6 +14,8 @@ class DB::List < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  scope :pos_order, -> { reorder(pos: :asc) }
+
   scope :include_tasks, -> { includes(tasks: %i[tags users]) }
   scope :include_tasks_containing_deleted, -> { includes(tasks_including_deleted: %i[tags users]) }
   scope :include_deleted_tasks, -> { includes(deleted_tasks: %i[tags users]) }
