@@ -227,14 +227,22 @@ $ sudo dpkg -i libffi8_3.4.2-4_amd64.deb
 > #include <openssl/ssl.h>
 >          ^~~~~~~~~~~~~~~
 > 1 error generated.
-- intel
-  ```sh
-  $ gem install eventmachine -- --with-openssl-dir=/usr/local/Cellar/openssl@1.1/1.1.1n/
-  ```
-- m1/arm
-  ```sh
-  $ gem install eventmachine -- --with-openssl-dir=/opt/homebrew/Cellar/openssl@1.1/1.1.1n/
-  ```
+
+1. Install openssl
+```sh
+$ brew install openssl
+```
+2. Check the installation path
+```sh
+$ brew info openssl
+...
+/opt/homebrew/Cellar/openssl@3/3.0.4_1 (6,442 files, 27.9MB) *
+...
+```
+3. Install gem giving a path from above
+```sh
+$ gem install eventmachine -- --with-openssl-dir=/opt/homebrew/Cellar/openssl@3/3.0.4_1
+```
 
 **puma**
 
