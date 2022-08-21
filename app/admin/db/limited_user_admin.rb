@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-::Trestle.resource(:limited_user, model: ::DB::User, scope: DB) do
+::Trestle.resource(:limited_user, model: ::DB::User, scope: ::DB) do
   remove_action :destroy
 
   table do

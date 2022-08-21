@@ -63,6 +63,9 @@ gem 'trestle-auth'
 group :development, :test do
   gem 'brakeman'
 
+  # The Bullet gem is designed to help increase application's performance by reducing the number of queries it makes.
+  gem 'bullet'
+
   # Patch-level verification for Bundler
   gem 'bundler-audit'
   gem 'cypress-rails'
@@ -99,9 +102,6 @@ group :development do
   gem 'guard'
   gem 'guard-livereload', require: false
   gem 'rack-livereload'
-
-  # The Bullet gem is designed to help increase application's performance by reducing the number of queries it makes.
-  gem 'bullet'
 
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"

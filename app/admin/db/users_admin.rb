@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-::Trestle.resource(:users, scope: DB) do
+::Trestle.resource(:users, scope: ::DB) do
   instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
