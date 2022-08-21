@@ -14,7 +14,7 @@ class UserImporter
   def run
     @file_error_message = 'An error occurred. File has not been uploaded.' and return unless @csv
 
-    ::CSV.foreach(@csv, headers: true) do |row|
+    ::CSV.foreach(@csv, headers: true, header_converters: ->(v) { v.strip }) do |row|
       row = row.to_hash
       row['password'] = 'temporary_password'
       row['role'] = 'guest' if row['role'].blank?
@@ -24,7 +24,7 @@ class UserImporter
     rescue ::ActiveRecord::RecordInvalid, ::ArgumentError => e
       @failed_rows << "Name: #{row['name']}, Email: #{row['email']}, Error: #{e.message}"
     end
-  rescue ::CSV::MalformedCSVError => e
+  rescue => e
     @file_error_message = "An error occurred. Couldn't import users. Error: #{e}"
   end
 

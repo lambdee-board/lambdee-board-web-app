@@ -6,7 +6,7 @@
 <%= form_with(url: 'users/import', multipart: true, method: :post, remote: false, builder: ::Trestle::Form::Builder) do |f| %>
   <%= render layout: "trestle/application/dialog" do %>
     <p>
-      <b>File format: "name, email, role"</b><br>
+      <b>File format: "name,email,role"</b><br>
       <ul>
         <li>Maximum <b>name</b> length is 50 characters</li>
         <li>Maximum <b>email</b> length is 70 characters</li>
