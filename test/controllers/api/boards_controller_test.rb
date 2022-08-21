@@ -45,7 +45,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'must exist', json.dig('workspace', 0)
   end
 
-  should "create board" do
+  should 'create board' do
     assert_difference("DB::Board.count") do
       post api_boards_url, params: {
         board: { name: 'Team 1', workspace_id: @workspace.id }
@@ -55,14 +55,18 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Team 1', json['name']
+
+    assert_equal [json['id'].to_s], @user.reload.recent_boards
   end
 
-  should "show board" do
+  should 'show board' do
     get api_board_url(@board), as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
     assert_equal @board.name, json['name']
+
+    assert_equal [@board.id.to_s], @user.reload.recent_boards
   end
 
   should 'show board with lists' do

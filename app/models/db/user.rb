@@ -53,4 +53,22 @@ class DB::User < ::ApplicationRecord
   def activity_status
     active? ? 'active' : 'inactive'
   end
+
+  # Prepends an user's array containing last viewed
+  # boards with the `id` of given `DB::Board` and
+  # saves the user record.
+  #
+  # @param board [DB::Board]
+  # return [Void]
+  def last_viewed_board=(board)
+    return unless board.id
+
+    board_id = board.id.to_s
+    return if recent_boards.first == board_id
+
+    recent_boards.delete(board_id)
+    recent_boards.prepend(board_id)
+    self.recent_boards = recent_boards.first(5)
+    save(validate: false)
+  end
 end

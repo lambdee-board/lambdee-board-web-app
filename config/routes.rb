@@ -22,6 +22,7 @@
 
       resources :boards do
         resources :tags, only: %i[index create]
+        get :recently_viewed, on: :collection
       end
 
       resources :lists
