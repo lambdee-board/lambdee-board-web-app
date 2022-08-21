@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Trestle.resource(:users, scope: DB) do
+::Trestle.resource(:users, scope: DB) do
   instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
@@ -12,7 +12,7 @@ Trestle.resource(:users, scope: DB) do
   end
 
   table do
-    instance_eval(&TrestleConcerns::User::COLUMNS)
+    instance_eval(&::TrestleConcerns::User::COLUMNS)
 
     actions align: :center do |toolbar, user|
       toolbar.link 'Deactivate', user, admin: admin, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
@@ -20,7 +20,7 @@ Trestle.resource(:users, scope: DB) do
     end
   end
 
-  form dialog: true, &TrestleConcerns::User::FORM
+  form dialog: true, &::TrestleConcerns::User::FORM
 
   controller do
     def index

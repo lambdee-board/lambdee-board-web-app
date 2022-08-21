@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-Trestle.resource(:account, model: DB::User, scope: Auth, singular: true) do
+::Trestle.resource(:account, model: ::DB::User, scope: Auth, singular: true) do
   instance do
     current_user
   end
@@ -30,7 +30,7 @@ Trestle.resource(:account, model: DB::User, scope: Auth, singular: true) do
   # Log the current user back in if their password was changed
   after_action on: :update do
     login!(instance) if instance.encrypted_password_previously_changed?
-  end if Devise.sign_in_after_reset_password
+  end if ::Devise.sign_in_after_reset_password
 
   # Limit the parameters that are permitted to be updated by the user
   params do |params|

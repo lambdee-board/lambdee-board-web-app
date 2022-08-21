@@ -74,7 +74,7 @@ Style/Alias:
 
 Style/IpAddresses:
   Exclude:
-   - 'app/admin/trestle_extensions/**/*'
+   - 'app/admin/trestle_concerns/**/*'
 
 Lint/MissingSuper:
   Enabled: false

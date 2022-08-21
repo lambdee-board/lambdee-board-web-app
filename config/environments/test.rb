@@ -65,4 +65,11 @@ require "active_support/core_ext/integer/time"
 
   # Annotate rendered view with file names.
   # config.action_view.annotate_rendered_view_with_filenames = true
+
+  # Bullet gem configuration
+  config.after_initialize do
+    ::Bullet.enable        = false
+    ::Bullet.bullet_logger = false
+    ::Bullet.raise         = false # raise an error if n+1 query occurs
+  end
 end

@@ -72,6 +72,16 @@ require "active_support/core_ext/integer/time"
 
   config.hosts << "lambdee-web-app"
 
+  # Bullet gem configuration
+  config.after_initialize do
+    ::Bullet.enable        = true
+    ::Bullet.alert         = false
+    ::Bullet.bullet_logger = false
+    ::Bullet.console       = true
+    ::Bullet.rails_logger  = true
+    ::Bullet.add_footer    = true
+  end
+
   if ::ENV['GUARD']
     config.middleware.insert_after ::ActionDispatch::Static, ::Rack::LiveReload
   end

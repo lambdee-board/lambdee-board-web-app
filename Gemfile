@@ -100,6 +100,9 @@ group :development do
   gem 'guard-livereload', require: false
   gem 'rack-livereload'
 
+  # The Bullet gem is designed to help increase application's performance by reducing the number of queries it makes.
+  gem 'bullet'
+
   # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
   # gem "rack-mini-profiler"
 

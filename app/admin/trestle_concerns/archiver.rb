@@ -10,18 +10,14 @@ module TrestleConcerns::Archiver
       def deactivate
         entity = admin.find_instance(params)
         entity.delete
-        # rubocop:disable Style/IpAddresses
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been archived"
-        # rubocop:enable Style/IpAddresses
         redirect_to admin.path(:index)
       end
 
       def activate
         entity = admin.class.model.with_deleted.find(params[:id])
         entity.recover
-        # rubocop:disable Style/IpAddresses
         flash[:message] = "#{entity.class.to_s.gsub('DB::', '')} has been restored"
-        # rubocop:enable Style/IpAddresses
         redirect_to admin.path(:index)
       end
     end
