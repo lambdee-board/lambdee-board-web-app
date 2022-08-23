@@ -156,4 +156,28 @@ require 'swagger_helper'
       end
     end
   end
+
+  path '/api/boards/recently_viewed' do
+    get('list current user recently viewed boards (max 5)') do
+      tags 'Boards'
+      produces 'application/json'
+
+      response(200, 'successful') do
+        schema type: :array,
+          items: { '$ref' => '#/components/schemas/board_response' }
+
+        before do
+          5.times { ::FactoryBot.create :board }
+          user = ::DB::User.first
+          user.recent_boards = ::DB::Board.first(5).pluck(:id)
+          user.save
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+    end
+  end
 end
