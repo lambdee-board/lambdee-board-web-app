@@ -56,6 +56,8 @@ gem 'factory_bot_rails'
 # Easier Model record factories for tests
 # Generate fake data for tests and seeding
 gem 'faker'
+gem 'has_scope'
+gem 'kaminari'
 gem 'sass-rails'
 gem 'trestle'
 gem 'trestle-auth'

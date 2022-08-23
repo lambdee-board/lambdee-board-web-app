@@ -7,6 +7,13 @@ require 'swagger_helper'
       tags 'Users'
       produces 'application/json'
       parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
+      parameter name: 'role', in: 'query', schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
+      parameter name: 'created_at_from', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'created_at_to', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'search', in: 'query', type: 'string', description: 'Searches for users by name and e-mail.', example: 'michael'
+      parameter name: 'page', in: 'query', type: 'integer', description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'per', in: 'query', type: 'integer', description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned.', example: 3
       parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
@@ -31,7 +38,14 @@ require 'swagger_helper'
     get('List users') do
       tags 'Users'
       produces 'application/json'
-      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+      parameter name: 'role', in: 'query', schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
+      parameter name: 'created_at_from', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'created_at_to', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'workspace_id', in: 'query', type: 'integer', example: 1
+      parameter name: 'search', in: 'query', type: 'string', description: 'Searches for users by name and e-mail.', example: 'michael'
+      parameter name: 'page', in: 'query', type: 'integer', description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'per', in: 'query', type: 'integer', description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
+      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned.', example: 3
 
       response(200, 'successful') do
         schema type: :array,
