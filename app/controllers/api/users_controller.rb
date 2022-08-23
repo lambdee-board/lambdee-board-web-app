@@ -55,8 +55,4 @@ class API::UsersController < ::APIController
   def user_params
     params.require(:user).permit(:name, :email, :role, :password, :password_confirmation)
   end
-
-  def validate_params!
-
-  end
 end
