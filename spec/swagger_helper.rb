@@ -65,7 +65,7 @@ end
               name: { type: :string },
               email: { type: :string },
               password: { type: :string },
-              role: { type: :string, enum: %w[guest regular developer admin]},
+              role: { type: :string, enum: %w[guest regular developer admin manager]},
             },
             required: %w[name email]
           },

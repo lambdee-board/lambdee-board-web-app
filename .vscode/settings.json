@@ -26,6 +26,7 @@
     "jbuilder",
     "jdenticon",
     "jsonapi",
+    "Kaminari",
     "katex",
     "Lambdee",
     "linebreak",

@@ -18,6 +18,12 @@ class DB::User < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  scope :role, ->(role) { where(role: role) }
+  scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
+  scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
+  scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
+  scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
+
   enum role: {
     guest: 0,
     regular: 1,

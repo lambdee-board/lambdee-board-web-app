@@ -19,6 +19,95 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  should 'get index with role param' do
+    ::FactoryBot.create(:user, role: :guest,)
+    ::FactoryBot.create(:user, role: :regular)
+    get '/api/users?role=guest'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 1, json.size
+    assert_equal 'guest', json.first['role']
+  end
+
+  should 'get index with created_at param' do
+    ::FactoryBot.create(:user, name: 'old', created_at: ::Time.parse('12.01.2000'))
+    ::FactoryBot.create(:user, name: 'ok', created_at: ::Time.parse('12.01.2010 16:00'))
+    ::FactoryBot.create(:user, name: 'ok2', created_at: ::Time.parse('20.10.2015 16:00'))
+    ::FactoryBot.create(:user, name: 'young', created_at: ::Time.parse('12.01.2020'))
+    get '/api/users?created_at_from=2010.01.12&created_at_to=2015.10.20'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 2, json.size
+    assert_equal 'ok', json.first['name']
+    assert_equal 'ok2', json.second['name']
+  end
+
+  should 'get index with workspace_id param' do
+    ok_user = ::FactoryBot.create(:user, name: 'ok')
+    ::FactoryBot.create(:user)
+    workspace = ::FactoryBot.create(:workspace)
+    workspace.users << ok_user
+
+    get "/api/users?workspace_id=#{workspace.id}"
+    json = ::JSON.parse(response.body)
+
+    assert_equal 1, json.size
+    assert_equal 'ok', json.first['name']
+  end
+
+  should 'get index with pagination' do
+    10.times { |i| ::FactoryBot.create(:user, name: "tom_jerry#{i}") }
+    get '/api/users?page=2&per=3'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 3, json.size
+    assert_equal 'tom_jerry2', json.first['name']
+    assert_equal 'tom_jerry3', json.second['name']
+    assert_equal 'tom_jerry4', json.third['name']
+  end
+
+  should 'get index with search param' do
+    ::FactoryBot.create(:user, name: 'tom_jerry')
+    ::FactoryBot.create(:user, email: 'jerry11@example.com')
+    ::FactoryBot.create(:user, email: 'tom@example.com')
+    get '/api/users?search=jerry'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 2, json.size
+    assert_equal 'tom_jerry', json.first['name']
+    assert_equal 'jerry11@example.com', json.second['email']
+  end
+
+  should 'get index with limit param' do
+    3.times { ::FactoryBot.create(:user) }
+    get '/api/users?limit=2'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 2, json.size
+  end
+
+  should 'return error when per param is given, but page param is not' do
+    get '/api/users?per=5'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 'page parameter is required', json['per'].first
+  end
+
+  should 'return error if limit param is not valid integer' do
+    get '/api/users?limit=tom'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 'should be an Integer', json['limit'].first
+  end
+
+  should 'return error if date format is invalid' do
+    get '/api/users?created_at_from=22.02.2024&created_at_to=may'
+    json = ::JSON.parse(response.body)
+
+    assert_equal 'invalid date format (YYYY.MM.DD required)', json['created_at_from'].first
+    assert_equal 'invalid date format (YYYY.MM.DD required)', json['created_at_to'].first
+  end
+
   should 'get users of a workspace' do
     wrk = ::FactoryBot.create :workspace
     3.times { |i| wrk.users << ::FactoryBot.create(:user, name: "Person#{i}") }

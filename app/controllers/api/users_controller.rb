@@ -5,17 +5,17 @@
 class API::UsersController < ::APIController
   skip_before_action :authorize_user!, only: %i[create]
   before_action :set_user, only: %i[show edit update destroy]
+  has_scope :role, :workspace_id, :search, :page, :per, :limit, :created_at_from, :created_at_to
 
   # GET /api/users
   # GET /api/workspaces/:workspace_id/users
   def index
-    if params[:workspace_id]
-      @users = ::DB::Workspace.find(params[:workspace_id]).users
-      return
+    filter_parameters = ::FilterParameters.new(params)
+    if filter_parameters.validate
+      @users = apply_scopes(::DB::User).all
+    else
+      render json: filter_parameters.errors, status: :unprocessable_entity
     end
-
-    @users = ::DB::User.all
-    @users = @users.limit(limit) if limit?
   end
 
   # GET /api/users/1
@@ -48,12 +48,10 @@ class API::UsersController < ::APIController
 
   private
 
-  # Use callbacks to share common setup or constraints between actions.
   def set_user
     @user = ::DB::User.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
   def user_params
     params.require(:user).permit(:name, :email, :role, :password, :password_confirmation)
   end
