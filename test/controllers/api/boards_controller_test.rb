@@ -45,7 +45,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'must exist', json.dig('workspace', 0)
   end
 
-  should "create board" do
+  should 'create board' do
     assert_difference("DB::Board.count") do
       post api_boards_url, params: {
         board: { name: 'Team 1', workspace_id: @workspace.id }
@@ -55,14 +55,18 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Team 1', json['name']
+
+    assert_equal [json['id'].to_s], @user.reload.recent_boards
   end
 
-  should "show board" do
+  should 'show board' do
     get api_board_url(@board), as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
     assert_equal @board.name, json['name']
+
+    assert_equal [@board.id.to_s], @user.reload.recent_boards
   end
 
   should 'show board with lists' do
@@ -130,5 +134,20 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
 
     assert @board.reload.deleted?
     assert_not @board.reload.deleted_fully?
+  end
+
+  should 'get recent boards' do
+    @user.recent_boards = [@board.id]
+    @user.save
+    get '/api/boards/recently_viewed'
+
+    assert_response :ok
+
+    json = ::JSON.parse(response.body)
+    assert_equal @board.id, json.first['id']
+    assert_equal @board.name, json.first['name']
+    assert_equal @board.colour, json.first['colour']
+    assert_equal @board.workspace_id, json.first['workspace_id']
+    assert_nil json.first['deleted_at']
   end
 end

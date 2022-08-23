@@ -383,6 +383,12 @@ class DB::List < ApplicationRecord
   #
   # @return [Array<DB::List>, nil]
   def self.include_tasks_containing_deleted(); end
+  # Scope `:pos_order`.
+  #
+  #     scope :pos_order, -> { reorder(pos: :asc) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.pos_order(); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -595,6 +601,12 @@ class DB::Task < ApplicationRecord
   #
   # @return [Array<DB::Task>, nil]
   def self.not_very_low(); end
+  # Scope `:pos_order`.
+  #
+  #     scope :pos_order, -> { reorder(pos: :asc) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.pos_order(); end
   # Scope `:very_high`.
   #
   #     klass.scope value_method_name, -> { where(name => value) }
@@ -896,6 +908,12 @@ class DB::User < ApplicationRecord
   # Database column `users.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `users.recent_boards`, type: `text`.
+  # @param val [String, nil]
+  def recent_boards=(val); end
+  # Database column `users.recent_boards`, type: `text`.
+  # @return [String, nil]
+  def recent_boards; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 

@@ -4,6 +4,7 @@
 # through the JSON API.
 class API::BoardsController < ::APIController
   before_action :set_board, only: %i[update show destroy]
+  after_action :set_last_viewed_board_for_user, only: %i[show create]
 
   # GET /api/boards
   def index
@@ -11,6 +12,7 @@ class API::BoardsController < ::APIController
     @boards = @boards.limit(limit) if limit?
   end
 
+  # GET api/boards/1
   def show
     set_lists_scope if params[:lists]
 
@@ -37,6 +39,12 @@ class API::BoardsController < ::APIController
     @board.destroy
   end
 
+  # GET /api/boards/recently_viewed
+  def recently_viewed
+    @boards = ::DB::Board.with_deleted.includes(:workspace).find(current_user.recent_boards)
+    render :index
+  end
+
   private
 
   # @return [void]
@@ -48,17 +56,17 @@ class API::BoardsController < ::APIController
     }[params[:lists].to_s]
   end
 
-  # Use callbacks to share common setup or constraints between actions.
-  #
   # @return [DB::Board]
   def set_board
     @board = ::DB::Board.find(params[:id])
   end
 
-  # Only allow a list of trusted parameters through.
-  #
   # @return [Hash{Symbol => Object}]
   def board_params
     params.require(:board).permit(:name, :colour, :workspace_id)
+  end
+
+  def set_last_viewed_board_for_user
+    current_user.update_last_viewed_board(@board)
   end
 end
