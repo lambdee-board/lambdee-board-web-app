@@ -21,30 +21,23 @@ class DB::UserTest < ActiveSupport::TestCase
       @board = ::FactoryBot.create(:board)
     end
 
-    should 'do not save an object, when given board already is first in an array' do
-      @user.recent_boards = [@board.id.to_s, '222', '333']
-      @user.last_viewed_board = @board
-      assert_equal [@board.id.to_s, '222', '333'], @user.recent_boards
-      assert @user.new_record?
-    end
-
     should 'prepend recent_boards array with id for an empty array' do
       assert_equal [], @user.recent_boards
-      @user.last_viewed_board = @board
+      @user.update_last_viewed_board(@board)
       assert_equal [@board.id.to_s], @user.recent_boards
       assert @user.persisted?
     end
 
     should 'prepend recent_boards array with id and delete this id from other positions' do
       @user.recent_boards = ['111', '222', @board.id.to_s, '333', '444']
-      @user.last_viewed_board = @board
+      @user.update_last_viewed_board(@board)
       assert_equal [ @board.id.to_s, '111', '222', '333', '444'], @user.recent_boards
       assert @user.persisted?
     end
 
     should 'left only last 5 ids' do
       @user.recent_boards = ['111', '222', '333', '444', '555']
-      @user.last_viewed_board = @board
+      @user.update_last_viewed_board(@board)
       assert_equal [ @board.id.to_s, '111', '222', '333', '444'], @user.recent_boards
       assert @user.persisted?
     end
@@ -52,9 +45,8 @@ class DB::UserTest < ActiveSupport::TestCase
     should 'work with an unsaved board' do
       board = ::FactoryBot.build(:board)
       assert_equal [], @user.recent_boards
-      @user.last_viewed_board = board
+      @user.update_last_viewed_board  board
       assert_equal [], @user.recent_boards
-      assert @user.new_record?
     end
   end
 end

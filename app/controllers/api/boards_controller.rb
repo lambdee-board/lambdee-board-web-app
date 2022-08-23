@@ -67,6 +67,6 @@ class API::BoardsController < ::APIController
   end
 
   def set_last_viewed_board_for_user
-    current_user.last_viewed_board = @board
+    current_user.update_last_viewed_board(@board)
   end
 end

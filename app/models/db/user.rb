@@ -60,6 +60,16 @@ class DB::User < ::ApplicationRecord
   #
   # @param board [DB::Board]
   # return [Void]
+  def update_last_viewed_board(board)
+    self.last_viewed_board = board
+    save(validate: false)
+  end
+
+  # Prepends an user's array containing last viewed
+  # boards with the `id` of given `DB::Board`.
+  #
+  # @param board [DB::Board]
+  # return [Void]
   def last_viewed_board=(board)
     return unless board.id
 
@@ -69,6 +79,5 @@ class DB::User < ::ApplicationRecord
     recent_boards.delete(board_id)
     recent_boards.prepend(board_id)
     self.recent_boards = recent_boards.first(5)
-    save(validate: false)
   end
 end
