@@ -1,7 +1,6 @@
 # frozen_string_literal: true
 
-# Class for checking proper format of
-# the sent filter parameters.
+# Class using to validate filter parameters.
 class FilterParameters
   include ::ActiveModel::Validations
 
