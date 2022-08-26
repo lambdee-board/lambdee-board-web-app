@@ -211,6 +211,12 @@ export default Logo;
 
 ### Ubuntu
 
+> An error occurred while installing pg (1.3.5)
+
+```sh
+$ sudo apt install libpq-dev
+```
+
 > LoadError: libffi.so.8: cannot open shared object file
 
 ```sh
