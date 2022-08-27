@@ -25,8 +25,8 @@ export default function WorkspaceMembersView() {
   const dispatch = useDispatch()
   const [page, setPage] = React.useState(1)
   const { workspaceId } = useParams()
-  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 10 } } }
-  const { data: users } = useWorkspaceUsers(requestParams)
+  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 1 } } }
+  const { data: usersData } = useWorkspaceUsers(requestParams)
 
   const changeRole = (userId, payload) => {
     apiClient.put(`/api/users/${userId}`, payload)
@@ -57,7 +57,7 @@ export default function WorkspaceMembersView() {
           </Button>
         </div>
         <List className='List'>
-          {users?.map((user, index) => (
+          {usersData?.users?.map((user, index) => (
             <WorkspaceUser
               key={user.name + index}
               userId={user.id}
@@ -71,7 +71,7 @@ export default function WorkspaceMembersView() {
             />
           ))}
         </List>
-        <Pagination className='Pagination-bar' count={10} color='primary' onChange={fetchNextUserPage} size='large' />
+        <Pagination className='Pagination-bar' count={usersData?.totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
       </div>
     </div>
   )
