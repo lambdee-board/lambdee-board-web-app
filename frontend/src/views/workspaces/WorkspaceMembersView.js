@@ -11,9 +11,7 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 
-import { addAlert } from '../../redux/slices/appAlertSlice'
-import apiClient from '../../api/apiClient'
-import useWorkspace from '../../api/useWorkspace'
+
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
 
 import './WorkspaceMembersView.sass'
@@ -22,7 +20,7 @@ import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
 
 export default function WorkspaceMembersView() {
   const { workspaceId } = useParams()
-  const { data: users, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
+  const { data: users } = useWorkspaceUsers({ id: workspaceId })
 
   return (
 
