@@ -51,17 +51,8 @@ const WorkspaceUser = (props) => {
   }
 
   const updateUserRole = (event) => {
-    console.log(event.target.value)
     const payload = { role: event.target.value }
-    apiClient.put(`/api/users/${props.userId}`, payload)
-      .then((response) => {
-        // successful request
-        props.onRoleChange()
-      })
-      .catch((error) => {
-        // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-      })
+    props.onRoleChange(props.userId, payload)
   }
 
   return (

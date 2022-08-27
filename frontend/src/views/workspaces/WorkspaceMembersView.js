@@ -16,16 +16,33 @@ import useWorkspaceUsers, { mutateWorkspaceUsers }  from '../../api/useWorkspace
 import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
 
 import './WorkspaceMembersView.sass'
+import apiClient from '../../api/apiClient'
+import { useDispatch } from 'react-redux'
+import { addAlert } from '../../redux/slices/appAlertSlice'
 
 
 export default function WorkspaceMembersView() {
+  const dispatch = useDispatch()
   const [page, setPage] = React.useState(1)
   const { workspaceId } = useParams()
-  const { data: users } = useWorkspaceUsers({ id: workspaceId, axiosOptions: { params: { page, per: 10 } } })
+  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 10 } } }
+  const { data: users } = useWorkspaceUsers(requestParams)
+
+  const changeRole = (userId, payload) => {
+    apiClient.put(`/api/users/${userId}`, payload)
+      .then((response) => {
+      // successful request
+        mutateWorkspaceUsers(requestParams)
+      })
+      .catch((error) => {
+      // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
 
   const fetchNextUserPage = (event, value) => {
     setPage(value)
-    mutateWorkspaceUsers({ id: workspaceId, axiosOptions: { params: { page, per: 10 } } })
+    mutateWorkspaceUsers(requestParams)
   }
 
   return (
@@ -50,7 +67,7 @@ export default function WorkspaceMembersView() {
               userRegisterDate={user.createdAt}
               userLoginDate={user.createdAt}
               userRole={user.role}
-              onRoleChange={mutateWorkspaceUsers}
+              onRoleChange={changeRole}
             />
           ))}
         </List>
