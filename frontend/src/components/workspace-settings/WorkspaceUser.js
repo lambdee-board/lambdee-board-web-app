@@ -66,7 +66,7 @@ const WorkspaceUser = (props) => {
 
   return (
     <Box>
-      <ListItem button divider>
+      <ListItem divider>
         <Box className='UserListItem'>
           <div className='UserListItem-base'>
             <Avatar className='UserListItem-avatar' src={props.userAvatarUrl} />

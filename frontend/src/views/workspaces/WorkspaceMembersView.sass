@@ -1,9 +1,6 @@
 @import './../../styles/base'
 
 .WorkspaceMembers-wrapper
-  overflow: hidden
-  -ms-overflow-style: none // for Internet Explorer, Edge
-  scrollbar-width: none // for Firefox
   padding-top: $unit
   padding-left: 2.4 * $unit
   padding-right: 1.6 * $unit
@@ -15,15 +12,18 @@
     border-radius: $unit
     width: calc(100%)
     min-height: calc(100vh - (10 * $unit))
+    .button-row
+      display: flex
+      justify-content: flex-end
+      .WorkspaceMembers-button
+        padding: $unit
     .List
+      height: 50 * $unit
       padding-bottom: 0
       margin-bottom: 0
       .ListItem-workspace
         padding: 3 * $unit
-      #active
-        background-color: #d6d6d6
-      .New-user-button
-        justify-content: flex-start
-        width: 100%
-        padding: 1.4 * $unit
-        padding-left: 2 * $unit
+  .Pagination-bar
+    padding-top: 2 * $unit
+    display: flex
+    justify-content: center
