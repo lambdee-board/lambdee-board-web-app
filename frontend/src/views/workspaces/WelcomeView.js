@@ -8,7 +8,8 @@ import {
 import useCurrentUser from '../../api/useCurrentUser'
 import useBoard from '../../api/useBoard'
 import useWorkspaces from '../../api/useWorkspaces'
-import useUsers from '../../api/useUsers'
+import WorkspaceButton from '../../components/welcome-view/WorkspaceButton'
+import WorkspaceBoardButton from '../../components/welcome-view/WorkspaceBoardButton'
 
 import './WelcomeView.sass'
 
@@ -45,7 +46,7 @@ export default function WelcomeView() {
             {board?.map((recentBoard) => (
               <Grid item xs={6} md={2} key={recentBoard.id}>
                 <div className='welcomeView-recents-button'>
-                  {recentBoard.name}
+                  <WorkspaceBoardButton boardId={recentBoard.id} boardName={recentBoard.name} workspaceId={recentBoard.workspaceId} />
                 </div>
               </Grid>
             ))}
@@ -61,7 +62,7 @@ export default function WelcomeView() {
             {workspaces?.map((workspace) => (
               <Grid item xs={6} md={2} key={workspace.id}>
                 <div>
-                  {workspace.name}
+                  <WorkspaceButton workspaceId={workspace.id} workspaceName={workspace.name} />
                 </div>
               </Grid>
             ))}
