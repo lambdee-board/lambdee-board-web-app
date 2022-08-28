@@ -25,7 +25,7 @@ export default function WorkspaceMembersView() {
   const dispatch = useDispatch()
   const [page, setPage] = React.useState(1)
   const { workspaceId } = useParams()
-  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 1 } } }
+  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 10 } } }
   const { data: usersData } = useWorkspaceUsers(requestParams)
 
   const changeRole = (userId, payload) => {
