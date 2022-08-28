@@ -12,7 +12,7 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 
-import useWorkspaceUsers, { mutateWorkspaceUsers }  from '../../api/useWorkspaceUsers'
+import useWorkspaceUsers from '../../api/useWorkspaceUsers'
 import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
 
 import './WorkspaceMembersView.sass'
@@ -24,9 +24,16 @@ import { addAlert } from '../../redux/slices/appAlertSlice'
 export default function WorkspaceMembersView() {
   const dispatch = useDispatch()
   const [page, setPage] = React.useState(1)
+  const [totalPages, setTotalPages] = React.useState(0)
   const { workspaceId } = useParams()
-  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 10 } } }
-  const { data: usersData } = useWorkspaceUsers(requestParams)
+  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 2 } } }
+  const { data: usersData, mutate: mutateWorkspaceUsers } = useWorkspaceUsers(requestParams)
+
+  React.useEffect(() => {
+    if (!usersData?.totalPages) return
+
+    setTotalPages(usersData?.totalPages)
+  }, [usersData?.totalPages])
 
   const changeRole = (userId, payload) => {
     apiClient.put(`/api/users/${userId}`, payload)
@@ -71,7 +78,7 @@ export default function WorkspaceMembersView() {
             />
           ))}
         </List>
-        <Pagination className='Pagination-bar' count={usersData?.totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
+        <Pagination className='Pagination-bar' count={totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
       </div>
     </div>
   )
