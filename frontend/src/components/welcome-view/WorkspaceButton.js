@@ -1,20 +1,20 @@
 import * as React from 'react'
-import {
-
-} from '@mui/material'
+import { Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
 import WorkspaceIcon from '../WorkspaceIcon'
+import './WorkspaceButton.sass'
 
-
-const WorkspaceButton = ({ workspaceId, workspaceName }) => {
+const WorkspaceButton = ({ workspaceName }) => {
   return (
-    <WorkspaceIcon name={workspaceName} size={64} />
+    <div className='workspaceButton'>
+      <WorkspaceIcon name={workspaceName} size={64} />
+      <Typography>{workspaceName}</Typography>
+    </div>
   )
 }
 
 WorkspaceButton.propTypes = {
-  workspaceId: PropTypes.number.isRequired,
   workspaceName: PropTypes.string.isRequired,
 }
 

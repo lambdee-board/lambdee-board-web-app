@@ -40,14 +40,10 @@ export default function WelcomeView() {
       <div className='welcomeView-recents'>
         <Typography color='primary' fontSize={24}>Recents</Typography>
         <div className='welcomeView-recents-buttons'>
-          <Grid container spacing={0}
-            justifyContent='space-evenly'
-          >
+          <Grid container spacing={0}>
             {board?.map((recentBoard) => (
-              <Grid item xs={6} md={2} key={recentBoard.id}>
-                <div className='welcomeView-recents-button'>
-                  <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
-                </div>
+              <Grid item sm={6} md={4} lg={2} key={recentBoard.id}>
+                <RecentBoardButton boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
               </Grid>
             ))}
           </Grid>
@@ -56,14 +52,10 @@ export default function WelcomeView() {
       <div className='welcomeView-workspaces'>
         <Typography color='primary' fontSize={24}>Workspaces</Typography>
         <div className='welcomeView-workspaces-buttons'>
-          <Grid container spacing={0}
-            justifyContent='space-evenly'
-          >
+          <Grid container spacing={0}>
             {workspaces?.map((workspace) => (
-              <Grid item xs={6} md={2} key={workspace.id}>
-                <div>
-                  <WorkspaceButton workspaceId={workspace.id} workspaceName={workspace.name} />
-                </div>
+              <Grid item xs={6} sm={6} md={4} lg={2} key={workspace.id}>
+                <WorkspaceButton workspaceName={workspace.name} />
               </Grid>
             ))}
           </Grid>
