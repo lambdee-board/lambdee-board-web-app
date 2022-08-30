@@ -14,7 +14,7 @@ const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }) => 
 
 
   if (isLoading || isError) return (
-    'xd'
+    <div></div>
   )
 
 
