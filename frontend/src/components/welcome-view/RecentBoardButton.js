@@ -21,7 +21,7 @@ const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }) => 
   return (
     <Box textAlign='center' >
       <Button fullWidth sx={{ textTransform: 'none ' }} className='recentBoardButton' onClick={() => navigate(`/workspaces/${workspaceId}/boards/${boardId}`)}>
-        <RecentBoardIcon name={workspace.name} size={64} colour={boardColour} />
+        <RecentBoardIcon name={workspace.name} size={64} colour={boardColour} iconSize='40' />
         <Typography color='black'>{workspace.name}/{boardName}</Typography>
       </Button>
     </Box>
