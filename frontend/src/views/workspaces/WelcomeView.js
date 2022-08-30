@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Skeleton,
   Typography,
@@ -28,6 +29,7 @@ export default function WelcomeView() {
   const { data: board, isBoardLoading, isBoardError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
   const { data: workspaces,  isWorkspacesLoading, isWorkspacesError } = useWorkspaces({ limit: null })
 
+
   if (isLoading || isError || isBoardLoading || isBoardError || isWorkspacesError || isWorkspacesLoading) return (
     <WelcomeViewSkeleton />
   )
@@ -43,7 +45,7 @@ export default function WelcomeView() {
           <Grid container spacing={0}>
             {board?.map((recentBoard) => (
               <Grid item sm={6} md={4} lg={2} key={recentBoard.id}>
-                <RecentBoardButton boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
+                <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
               </Grid>
             ))}
           </Grid>
@@ -55,7 +57,7 @@ export default function WelcomeView() {
           <Grid container spacing={0}>
             {workspaces?.map((workspace) => (
               <Grid item xs={6} sm={6} md={4} lg={2} key={workspace.id}>
-                <WorkspaceButton workspaceName={workspace.name} />
+                <WorkspaceButton workspaceId={workspace.id} workspaceName={workspace.name} />
               </Grid>
             ))}
           </Grid>

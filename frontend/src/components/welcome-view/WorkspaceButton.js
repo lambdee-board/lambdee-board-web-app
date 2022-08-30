@@ -1,21 +1,26 @@
 import * as React from 'react'
-import { Typography } from '@mui/material'
+import { Typography, Button, Box } from '@mui/material'
+import { useNavigate, generatePath,  } from 'react-router-dom'
 import PropTypes from 'prop-types'
 
 import WorkspaceIcon from '../WorkspaceIcon'
 import './WorkspaceButton.sass'
 
-const WorkspaceButton = ({ workspaceName }) => {
+const WorkspaceButton = ({ workspaceId, workspaceName }) => {
+  const navigate = useNavigate()
   return (
-    <div className='workspaceButton'>
-      <WorkspaceIcon name={workspaceName} size={64} />
-      <Typography>{workspaceName}</Typography>
-    </div>
+    <Box textAlign='center'>
+      <Button fullWidth sx={{ textTransform: 'none ' }} className='workspaceButton' onClick={() => navigate(generatePath('workspaces/:id', { id: workspaceId }))} key={`${workspaceId}`}>
+        <WorkspaceIcon name={workspaceName} size={64} />
+        <Typography color='black'>{workspaceName}</Typography>
+      </Button>
+    </Box>
   )
 }
 
 WorkspaceButton.propTypes = {
-  workspaceName: PropTypes.string.isRequired,
+  workspaceId: PropTypes.number.isRequired,
+  workspaceName: PropTypes.string.isRequired
 }
 
 
