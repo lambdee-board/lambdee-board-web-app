@@ -44,7 +44,7 @@ export default function WelcomeView() {
         <div className='welcomeView-recents-buttons'>
           <Grid container spacing={0}>
             {board?.map((recentBoard) => (
-              <Grid item sm={6} md={4} lg={2} key={recentBoard.id}>
+              <Grid item xs={12} sm={6} md={4} lg={2} key={recentBoard.id}>
                 <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
               </Grid>
             ))}

@@ -35,10 +35,10 @@ class DB::UserTest < ActiveSupport::TestCase
       assert @user.persisted?
     end
 
-    should 'left only last 5 ids' do
-      @user.recent_boards = ['111', '222', '333', '444', '555']
+    should 'left only last 6 ids' do
+      @user.recent_boards = ['111', '222', '333', '444', '555', '666']
       @user.update_last_viewed_board(@board)
-      assert_equal [ @board.id.to_s, '111', '222', '333', '444'], @user.recent_boards
+      assert_equal [ @board.id.to_s, '111', '222', '333', '444', '555'], @user.recent_boards
       assert @user.persisted?
     end
 
