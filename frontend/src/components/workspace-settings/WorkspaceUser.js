@@ -8,7 +8,8 @@ import {
   FormControl,
   InputLabel,
   Select,
-  MenuItem
+  MenuItem,
+  Skeleton
 } from '@mui/material'
 import {
   faTrash
@@ -25,11 +26,34 @@ import './WorkspaceUser.sass'
 import UserInfo from '../task-card-modal/UserInfo'
 import LabeledData from '../LabeledData'
 
+
+const WorkspaceUserSkeleton = (props) => {
+  return (
+    <div>
+      <ListItem divider>
+        <div className='UserListItem'>
+          <div className='UserListItem-base'>
+            <Avatar className='UserListItem-avatar' />
+            <Skeleton height={36} width={36} variant='circular' className='UserListItem-avatar' />
+            <Skeleton height={36} width={200} variant='text' />
+          </div>
+          <Skeleton height={36} width={100} variant='text' />
+          <Skeleton height={36} width={100} variant='text' />
+          <Skeleton height={36} width={100} variant='text' />
+        </div>
+        <IconButton>
+          <Skeleton height={36} width={36} variant='circular' className='DeleteUser-icon' />
+        </IconButton>
+      </ListItem>
+    </div>
+  )
+}
+
 const WorkspaceUser = (props) => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
 
-  const deleteUser = () => {
+  const removeUserFromWorkspace = () => {
     const unnasignedUser = { userId: props.userId }
 
     apiClient.post(`/api/workspaces/${workspaceId}/unassign_user`, unnasignedUser)
@@ -44,6 +68,10 @@ const WorkspaceUser = (props) => {
         // failed or rejected
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
+  }
+
+  const deleteFunc = () => {
+    props.onDelete(props.userId)
   }
 
   const formatDate = (dateString) => {
@@ -83,7 +111,7 @@ const WorkspaceUser = (props) => {
             </FormControl>
           }
         </Box>
-        <IconButton onClick={deleteUser}>
+        <IconButton onClick={deleteFunc || removeUserFromWorkspace}>
           <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
         </IconButton>
       </ListItem>
@@ -92,6 +120,7 @@ const WorkspaceUser = (props) => {
 }
 
 export default WorkspaceUser
+export { WorkspaceUserSkeleton }
 
 WorkspaceUser.propTypes = {
   userId: PropTypes.number.isRequired,
@@ -102,4 +131,5 @@ WorkspaceUser.propTypes = {
   userLoginDate: PropTypes.string,
   userRole: PropTypes.string,
   onRoleChange: PropTypes.func,
+  onDelete: PropTypes.func,
 }

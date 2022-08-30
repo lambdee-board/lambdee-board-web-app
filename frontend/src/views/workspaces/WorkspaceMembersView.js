@@ -8,12 +8,11 @@ import {
 import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
-  faFileImport,
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 
 import useWorkspaceUsers from '../../api/useWorkspaceUsers'
-import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
+import WorkspaceUser, { WorkspaceUserSkeleton } from '../../components/workspace-settings/WorkspaceUser'
 
 import './WorkspaceMembersView.sass'
 import apiClient from '../../api/apiClient'
@@ -27,7 +26,7 @@ export default function WorkspaceMembersView() {
   const [totalPages, setTotalPages] = React.useState(0)
   const { workspaceId } = useParams()
   const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 2 } } }
-  const { data: usersData, mutate: mutateWorkspaceUsers } = useWorkspaceUsers(requestParams)
+  const { data: usersData, mutate: mutateWorkspaceUsers, isLoading, isError } = useWorkspaceUsers(requestParams)
 
   React.useEffect(() => {
     if (!usersData?.totalPages) return
@@ -47,7 +46,22 @@ export default function WorkspaceMembersView() {
       })
   }
 
+  const deleteUser = (userId) => {
+    apiClient.delete(`/api/users/${userId}`)
+      .then((response) => {
+      // successful request
+        mutateWorkspaceUsers(requestParams)
+        dispatch(addAlert({ severity: 'success', message: 'User deactivated!' }))
+      })
+      .catch((error) => {
+      // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
   const fetchNextUserPage = (event, value) => {
+    if (page === value) return
+
     setPage(value)
     mutateWorkspaceUsers(requestParams)
   }
@@ -59,12 +73,9 @@ export default function WorkspaceMembersView() {
           <Button onClick={() => console.log('add user')} className='WorkspaceMembers-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
             <Typography>Add New User</Typography>
           </Button>
-          <Button onClick={() => console.log('import users')} className='WorkspaceMembers-button' color='primary' startIcon={<FontAwesomeIcon icon={faFileImport} />}>
-            <Typography>Import From CSV</Typography>
-          </Button>
         </div>
         <List className='List'>
-          {usersData?.users?.map((user, index) => (
+          { !(isLoading || isError) ? usersData?.users?.map((user, index) => (
             <WorkspaceUser
               key={user.name + index}
               userId={user.id}
@@ -75,8 +86,9 @@ export default function WorkspaceMembersView() {
               userLoginDate={user.createdAt}
               userRole={user.role}
               onRoleChange={changeRole}
-            />
-          ))}
+              onDelete={deleteUser}
+            />)) : (<WorkspaceUserSkeleton />)
+          }
         </List>
         <Pagination className='Pagination-bar' count={totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
       </div>
