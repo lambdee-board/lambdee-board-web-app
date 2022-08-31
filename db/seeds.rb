@@ -57,6 +57,8 @@ wrk.users << ::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
 wrk.users << ::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
 wrk.users << ::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
 
+10.times { |index| wrk.users <<  ::FactoryBot.create(:user, name: "Abcdef #{index}", role: :admin)}
+
 2.times { create_board(wrk) }
 
 2.times { ::FactoryBot.create(:board, workspace: wrk) }

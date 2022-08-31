@@ -25,7 +25,7 @@ export default function WorkspaceMembersView() {
   const [page, setPage] = React.useState(1)
   const [totalPages, setTotalPages] = React.useState(0)
   const { workspaceId } = useParams()
-  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 2 } } }
+  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 5 } } }
   const { data: usersData, mutate: mutateWorkspaceUsers, isLoading, isError } = useWorkspaceUsers(requestParams)
 
   React.useEffect(() => {
@@ -38,7 +38,8 @@ export default function WorkspaceMembersView() {
     apiClient.put(`/api/users/${userId}`, payload)
       .then((response) => {
       // successful request
-        mutateWorkspaceUsers(requestParams)
+        // mutateWorkspaceUsers(requestParams)
+        mutateWorkspaceUsers({ ...usersData, users: [...usersData?.users || [], response.data] }, requestParams)
       })
       .catch((error) => {
       // failed or rejected
@@ -50,7 +51,7 @@ export default function WorkspaceMembersView() {
     apiClient.delete(`/api/users/${userId}`)
       .then((response) => {
       // successful request
-        mutateWorkspaceUsers(requestParams)
+        mutateWorkspaceUsers({ ...usersData?.users, users: [...usersData?.users || []] }, requestParams)
         dispatch(addAlert({ severity: 'success', message: 'User deactivated!' }))
       })
       .catch((error) => {
@@ -87,8 +88,13 @@ export default function WorkspaceMembersView() {
               userRole={user.role}
               onRoleChange={changeRole}
               onDelete={deleteUser}
-            />)) : (<WorkspaceUserSkeleton />)
-          }
+            />
+          )) : (
+            [...Array(5)].map((val, idx) => {
+              console.log(idx)
+              return <WorkspaceUserSkeleton key={idx} />
+            })
+          )}
         </List>
         <Pagination className='Pagination-bar' count={totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
       </div>

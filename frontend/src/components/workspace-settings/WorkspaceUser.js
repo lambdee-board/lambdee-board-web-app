@@ -61,7 +61,7 @@ const WorkspaceUser = (props) => {
         dispatch(addAlert({ severity: 'success', message: 'User unassigned!' }))
         mutateWorkspaceUsers({
           id: workspaceId,
-          data: (currentUsers) => currentUsers.filter((user) => user !== props.userId)
+          data: (currentUsers) => currentUsers?.users?.filter((user) => user !== props.userId)
         })
       })
       .catch((error) => {
