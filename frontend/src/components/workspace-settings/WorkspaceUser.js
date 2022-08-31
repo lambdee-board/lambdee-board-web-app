@@ -70,10 +70,6 @@ const WorkspaceUser = (props) => {
       })
   }
 
-  const deleteFunc = () => {
-    props.onDelete(props.userId)
-  }
-
   const formatDate = (dateString) => {
     return `${Intl.DateTimeFormat('pl-PL').format(new Date(dateString))}`
   }
@@ -111,7 +107,7 @@ const WorkspaceUser = (props) => {
             </FormControl>
           }
         </Box>
-        <IconButton onClick={deleteFunc || removeUserFromWorkspace}>
+        <IconButton onClick={props.onDelete ? () => props.onDelete(props.userId) : removeUserFromWorkspace}>
           <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
         </IconButton>
       </ListItem>
