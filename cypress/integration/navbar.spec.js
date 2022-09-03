@@ -61,7 +61,6 @@ describe('Navbar', () => {
     cy.contains('Lambdee').click()
     cy.contains('Recents')
     cy.contains('Recent')
-    cy.get('div.MuiModal-root').should('not.exist')
     cy.contains('Recent').click()
     cy.get('.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-fkgbok-MuiButtonBase-root-MuiMenuItem-root').first().click()
   })
