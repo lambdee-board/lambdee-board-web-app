@@ -83,7 +83,7 @@ export default function WelcomeView() {
       <div className='welcomeView-message'>
         <WelcomeViewMessage userName={user.name} />
       </div>
-      {board &&
+      {typeof board !== 'undefined' && board.length > 0 &&
         <div className='welcomeView-recents'>
           <Typography color='primary' fontSize={24}>Recents</Typography>
           <div className='welcomeView-recents-buttons'>
@@ -97,7 +97,7 @@ export default function WelcomeView() {
           </div>
         </div>
       }
-      {workspaces &&
+      {typeof workspaces !== 'undefined' && workspaces.length > 0 &&
         <div className='welcomeView-workspaces'>
           <Typography color='primary' fontSize={24}>Workspaces</Typography>
           <div className='welcomeView-workspaces-buttons'>

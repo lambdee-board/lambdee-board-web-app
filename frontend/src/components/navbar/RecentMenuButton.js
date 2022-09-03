@@ -43,11 +43,16 @@ const RecentMenuButton = () => {
   )
 
   return (
-    <DropdownButton label='Recent'>
-      {board.map((recentBoard) => (
-        <RecentBoard key={recentBoard.id} boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
-      ))}
-    </DropdownButton>
+    <div>
+      {typeof board !== 'undefined' && board.length > 0 &&
+      <DropdownButton label='Recent'>
+        {board.map((recentBoard) => (
+          <RecentBoard key={recentBoard.id} boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
+        ))}
+      </DropdownButton>
+      }
+    </div>
+
   )
 }
 
