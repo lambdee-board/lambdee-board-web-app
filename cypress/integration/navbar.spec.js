@@ -30,11 +30,11 @@ describe('Navbar', () => {
     cy.get('div.MuiModal-root').should('exist')
     cy.get('div.MuiBackdrop-root').first().click()
   })
-  it('does not show Recents', () => {
+  it('does not show Recent', () => {
     cy.get('div.MuiModal-root').should('not.exist')
     cy.contains('Recent').should('not.exist')
   })
-  it('show Recents after adding a recent', () => {
+  it('show Recent after adding a recent', () => {
     cy.get('div.MuiModal-root').should('not.exist')
     cy.contains('Workspaces').click()
     cy.get('div.MuiModal-root').should('exist')
@@ -48,7 +48,7 @@ describe('Navbar', () => {
     cy.contains('Recent')
     cy.contains('Recents')
   })
-  it('navigate to recent', () => {
+  it('navigate to Recent', () => {
     cy.get('div.MuiModal-root').should('not.exist')
     cy.contains('Workspaces').click()
     cy.get('div.MuiModal-root').should('exist')
