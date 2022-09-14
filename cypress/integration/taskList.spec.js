@@ -3,7 +3,7 @@ describe('TaskList', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/')
+    cy.visit('/WelcomeView')
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()
     cy.get('body').first().click()

@@ -4,7 +4,7 @@ describe('WelcomeView', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/')
+    cy.visit('/WelcomeView')
   })
   context('Recent', () => {
     it('does not show any recents', () => {

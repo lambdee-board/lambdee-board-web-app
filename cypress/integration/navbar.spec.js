@@ -3,7 +3,7 @@ describe('Navbar', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/')
+    cy.visit('/WelcomeView')
   })
 
   it('displays the navbar with the logo', () => {
