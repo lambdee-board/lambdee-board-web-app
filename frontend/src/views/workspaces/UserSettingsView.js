@@ -1,4 +1,5 @@
 import React from 'react'
+import { useNavigate } from 'react-router-dom'
 import {
   Avatar,
   Button,
@@ -35,6 +36,7 @@ export default function UserSettingsView() {
   const dispatch = useDispatch()
   const [name, setNewName] = React.useState('')
   const [email, setNewEmail] = React.useState('')
+  const navigate = useNavigate()
 
   React.useEffect(() => {
     if (user) {
@@ -138,7 +140,7 @@ export default function UserSettingsView() {
               className='userSettings-reset-password-button'
               color='primary'
               variant='contained' >
-              <Typography className='userSettings-reset-password-button-text' >
+              <Typography onClick={() => navigate('/resetPasswordView')} className='userSettings-reset-password-button-text' >
                 Reset Password
               </Typography>
             </Button>
