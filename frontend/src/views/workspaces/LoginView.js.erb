@@ -1,0 +1,42 @@
+import React from 'react'
+
+import {
+  Box,
+  Card,
+  Link,
+  Skeleton,
+  TextField,
+  Typography,
+  Grid,
+  Button
+} from '@mui/material'
+import PropTypes from 'prop-types'
+
+import useCurrentUser from '../../api/useCurrentUser'
+import useBoard from '../../api/useBoard'
+import useWorkspaces from '../../api/useWorkspaces'
+import WorkspaceButton from '../../components/welcome-view/WorkspaceButton'
+import RecentBoardButton from '../../components/welcome-view/RecentBoardButton'
+
+import './LoginView.sass'
+
+
+export default function LoginView() {
+  return (
+    <div className='loginView-wrapper'>
+      <img
+        className='logo'
+        src="<%= asset_path('lambdee-logo.svg') %>"
+      />
+      <Card className='loginView-card'>
+        <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
+        <TextField className='loginView-card-input' label='Login' variant='outlined' />
+        <TextField className='loginView-card-input' label='Password' variant='outlined' />
+        <Link component='button' className='loginView-card-reset' underline='none' variant='body2'>Forgot password?</Link>
+        <Button className='loginView-card-button' variant='contained'>Login</Button>
+      </Card>
+    </div>
+  )
+}
+
+
