@@ -27,7 +27,7 @@ import UserInfo from '../task-card-modal/UserInfo'
 import LabeledData from '../LabeledData'
 
 
-const WorkspaceUserSkeleton = (props) => {
+const WorkspaceUserSkeleton = () => {
   return (
     <div>
       <ListItem divider>

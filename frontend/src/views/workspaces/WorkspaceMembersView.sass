@@ -6,7 +6,6 @@
   padding-right: 1.6 * $unit
   padding-bottom: $unit
   .WorkspaceMembers
-    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
     display: inline-flex
     flex-flow: column
     border-radius: $unit
@@ -17,12 +16,15 @@
       justify-content: flex-end
       .WorkspaceMembers-button
         padding: 2 * $unit
-    .List
-      height: 50 * $unit
-      padding-bottom: 0
-      margin-bottom: 0
-      .ListItem-workspace
-        padding: 3 * $unit
+    .content-row
+      display: flex
+      flex-flow: row
+      .List
+        width: 100%
+        padding-bottom: 0
+        margin-bottom: 0
+        .ListItem-workspace
+          padding: 3 * $unit
   .Pagination-bar
     padding-top: 2 * $unit
     display: flex

@@ -18,14 +18,16 @@ import './WorkspaceMembersView.sass'
 import apiClient from '../../api/apiClient'
 import { useDispatch } from 'react-redux'
 import { addAlert } from '../../redux/slices/appAlertSlice'
+import UsersFilter from '../../components/UsersFilter'
 
 
 export default function WorkspaceMembersView() {
   const dispatch = useDispatch()
   const [page, setPage] = React.useState(1)
+  const [filter, setFilter] = React.useState({ page, per: 5 })
   const [totalPages, setTotalPages] = React.useState(0)
   const { workspaceId } = useParams()
-  const requestParams = { id: workspaceId, axiosOptions: { params: { page, per: 5 } } }
+  const requestParams = { id: workspaceId, axiosOptions: { params: filter } }
   const { data: usersData, mutate: mutateWorkspaceUsers, isLoading, isError } = useWorkspaceUsers(requestParams)
 
   React.useEffect(() => {
@@ -75,27 +77,30 @@ export default function WorkspaceMembersView() {
             <Typography>Add New User</Typography>
           </Button>
         </div>
-        <List className='List'>
-          { !(isLoading || isError) ? usersData?.users?.map((user, index) => (
-            <WorkspaceUser
-              key={user.name + index}
-              userId={user.id}
-              userName={user.name}
-              userTitle={user.role}
-              userAvatarUrl={user.avatarUrl}
-              userRegisterDate={user.createdAt}
-              userLoginDate={user.createdAt}
-              userRole={user.role}
-              onRoleChange={changeRole}
-              onDelete={deleteUser}
-            />
-          )) : (
-            [...Array(5)].map((val, idx) => {
-              console.log(idx)
-              return <WorkspaceUserSkeleton key={idx} />
-            })
-          )}
-        </List>
+        <div className='content-row'>
+          <List className='List'>
+            { !(isLoading || isError) ? usersData?.users?.map((user, index) => (
+              <WorkspaceUser
+                key={user.name + index}
+                userId={user.id}
+                userName={user.name}
+                userTitle={user.role}
+                userAvatarUrl={user.avatarUrl}
+                userRegisterDate={user.createdAt}
+                userLoginDate={user.createdAt}
+                userRole={user.role}
+                onRoleChange={changeRole}
+                onDelete={deleteUser}
+              />
+            )) : (
+              [...Array(5)].map((val, idx) => {
+                console.log(idx)
+                return <WorkspaceUserSkeleton key={idx} />
+              })
+            )}
+          </List>
+          <UsersFilter />
+        </div>
         <Pagination className='Pagination-bar' count={totalPages || 0} color='primary' onChange={fetchNextUserPage} size='large' />
       </div>
     </div>
