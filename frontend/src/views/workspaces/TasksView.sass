@@ -1,0 +1,31 @@
+@import './../../styles/base'
+
+.tasksView-wrapper
+  background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+  position: absolute
+  height: 92%
+  width: 99%
+  border-radius: $unit
+  margin: $unit
+  .tasksView-workspaces
+    display: flex
+    flex-direction: row
+    padding: 2 * $unit
+    align-items: center
+    .tasksView-workspaces-card
+      display: flex
+      flex-direction: column
+      width: 38 * $unit
+      height: 34 * $unit
+      margin-right: 4 * $unit
+      .tasksView-workspaces-card-title
+        display: flex
+        flex-direction: row
+        width: 100%
+        height: 30%
+        align-items: center
+        justify-content: center
+      .tasksView-workspaces-card-board
+        display: flex
+        flex-direction: column
+        align-items: center

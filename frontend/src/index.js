@@ -21,6 +21,7 @@ import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/BoardView'
 import UserSettingsView from './views/workspaces/UserSettingsView'
 import WorkspaceSettingsView from './views/workspaces/WorkspaceSettingsView'
+import TasksView from './views/workspaces/TasksView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -35,6 +36,7 @@ root.render(
           <Route path='workspaces' element={<WorkspacesView />} />
           <Route path='console' element={<ConsoleView />} />
           <Route path='account' element={<UserSettingsView />} />
+          <Route path='tasks' element={<TasksView />} />
         </Route>
       </Routes>
     </BrowserRouter>
