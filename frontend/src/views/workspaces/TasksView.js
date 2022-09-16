@@ -10,13 +10,11 @@ import {
   faClipboardList
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
 
-import apiClient from '../../api/apiClient'
-import useCurrentUser from '../../api/useCurrentUser'
+
 import WorkspaceIcon from '../../components/WorkspaceIcon'
 import useWorkspaces from '../../api/useWorkspaces'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+
 import './TasksView.sass'
 import UserTasks from '../../components/tasks-view/UserTasks'
 
@@ -58,13 +56,11 @@ export default function TasksView() {
       </div>
       <Divider />
       {pickedWorkspace &&
-        <div>
+        <div className='tasksView-userTasks'>
           {pickedWorkspace.boards?.map((board) => (
             <UserTasks key={board.id} boardId={board.id} />
           ))}
         </div>
-
-
       }
     </div>
   )

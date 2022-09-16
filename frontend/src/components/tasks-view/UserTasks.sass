@@ -1,0 +1,34 @@
+@import './../../styles/base'
+
+.userTasks-card
+  display: flex
+  flex-direction: column
+  width: 38 * $unit
+  height: 60 * $unit
+  margin: 2 * $unit
+  .userTasks-card-title
+    display: flex
+    flex-direction: row
+    width: 100%
+    height: 15%
+    align-items: center
+    justify-content: center
+    .userTasks-card-title-icon
+      width: 4 * $unit
+      height: 4 * $unit
+  .userTasks-card-list
+    display: flex
+    flex-direction: column
+    .userTasks-card-list-title
+      display: flex
+      flex-direction: row
+      margin-top: 2 * $unit
+      margin-bottom: $unit
+      margin-left: $unit
+    .userTasks-card-list-task
+      display: flex
+      flex-direction: row
+      margin: $unit
+      margin-left: 3 * $unit
+      .userTasks-card-list-task-title
+        margin-left: $unit
