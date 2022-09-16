@@ -3,7 +3,8 @@ describe('Sidebar', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/WelcomeView')
+    cy.visit('/')
+    cy.contains('Login').click()
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()
     cy.get('body').first().click()

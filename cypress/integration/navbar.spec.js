@@ -3,7 +3,8 @@ describe('Navbar', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/WelcomeView')
+    cy.visit('/')
+    cy.contains('Login').click()
   })
 
   it('displays the navbar with the logo', () => {
@@ -40,7 +41,6 @@ describe('Navbar', () => {
     cy.get('div.MuiModal-root').should('exist')
     cy.get('div.MuiBackdrop-root').first().click()
     cy.get('.Workspace-menu-item').first().click()
-    cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
     cy.wait(1000)
@@ -54,7 +54,6 @@ describe('Navbar', () => {
     cy.get('div.MuiModal-root').should('exist')
     cy.get('div.MuiBackdrop-root').first().click()
     cy.get('.Workspace-menu-item').first().click()
-    cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
     cy.wait(1000)
