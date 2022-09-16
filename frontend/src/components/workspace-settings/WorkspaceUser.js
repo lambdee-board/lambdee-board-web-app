@@ -5,10 +5,6 @@ import {
   ListItem,
   IconButton,
   Avatar,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
   Skeleton
 } from '@mui/material'
 import {
@@ -34,16 +30,11 @@ const WorkspaceUserSkeleton = () => {
         <div className='UserListItem'>
           <div className='UserListItem-base'>
             <Avatar className='UserListItem-avatar' />
-            <Skeleton height={36} width={36} variant='circular' className='UserListItem-avatar' />
             <Skeleton height={36} width={200} variant='text' />
           </div>
           <Skeleton height={36} width={100} variant='text' />
           <Skeleton height={36} width={100} variant='text' />
-          <Skeleton height={36} width={100} variant='text' />
         </div>
-        <IconButton>
-          <Skeleton height={36} width={36} variant='circular' className='DeleteUser-icon' />
-        </IconButton>
       </ListItem>
     </div>
   )
@@ -74,11 +65,6 @@ const WorkspaceUser = (props) => {
     return `${Intl.DateTimeFormat('pl-PL').format(new Date(dateString))}`
   }
 
-  const updateUserRole = (event) => {
-    const payload = { role: event.target.value }
-    props.onRoleChange(props.userId, payload)
-  }
-
   return (
     <Box>
       <ListItem divider>
@@ -89,27 +75,12 @@ const WorkspaceUser = (props) => {
           </div>
           { props.userLoginDate && <LabeledData label='Last Login' data={formatDate(props.userLoginDate)} />}
           { props.userRegisterDate && <LabeledData label='Registered' data={formatDate(props.userRegisterDate)} />}
-          { props.userRole &&
-            <FormControl variant='standard' className='xd'>
-              <InputLabel id='UserListItem-role-label'>Role</InputLabel>
-              <Select
-                id='UserListItem-select'
-                value={props.userRole}
-                label='Role'
-                onChange={updateUserRole}
-              >
-                <MenuItem value='guest'>Guest</MenuItem>
-                <MenuItem value='regular'>Regular</MenuItem>
-                <MenuItem value='developer'>Developer</MenuItem>
-                <MenuItem value='admin'>Admin</MenuItem>
-                <MenuItem value='manager'>Manager</MenuItem>
-              </Select>
-            </FormControl>
-          }
         </Box>
-        <IconButton onClick={props.onDelete ? () => props.onDelete(props.userId) : removeUserFromWorkspace}>
-          <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
-        </IconButton>
+        { !props.hideDelete &&
+          <IconButton onClick={removeUserFromWorkspace}>
+            <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
+          </IconButton>
+        }
       </ListItem>
     </Box>
   )
@@ -126,6 +97,5 @@ WorkspaceUser.propTypes = {
   userRegisterDate: PropTypes.string,
   userLoginDate: PropTypes.string,
   userRole: PropTypes.string,
-  onRoleChange: PropTypes.func,
-  onDelete: PropTypes.func,
+  hideDelete: PropTypes.bool
 }
