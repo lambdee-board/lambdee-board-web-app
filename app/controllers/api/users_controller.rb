@@ -11,11 +11,11 @@ class API::UsersController < ::APIController
   # GET /api/users
   # GET /api/workspaces/:workspace_id/users
   def index
-    filter_parameters = ::FilterParameters.new(params)
-    if filter_parameters.validate
+    filters = ::FilterParameters::Universal.new(params)
+    if filters.valid?(params)
       @users = apply_scopes(::DB::User).all
     else
-      render json: filter_parameters.errors, status: :unprocessable_entity
+      render json: filters.errors, status: :unprocessable_entity
     end
   end
 
