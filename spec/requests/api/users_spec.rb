@@ -38,6 +38,15 @@ require 'swagger_helper'
     get('List users') do
       tags 'Users'
       produces 'application/json'
+      parameter(
+        name: 'role_collection',
+        in: 'query',
+        schema: {
+          type: :array,
+          items: { '$ref' => '#/components/schemas/user_request/properties/role' }
+        },
+        example: ["admin"]
+      )
       parameter name: 'role', in: 'query', schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
       parameter name: 'created_at_from', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
       parameter name: 'created_at_to', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'

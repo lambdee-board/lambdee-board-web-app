@@ -6,6 +6,7 @@ class API::UsersController < ::APIController
   skip_before_action :authorize_user!, only: %i[create]
   before_action :set_user, only: %i[show edit update destroy]
   has_scope :role, :workspace_id, :search, :page, :per, :limit, :created_at_from, :created_at_to
+  has_scope :role_collection, type: :array
 
   # GET /api/users
   # GET /api/workspaces/:workspace_id/users
