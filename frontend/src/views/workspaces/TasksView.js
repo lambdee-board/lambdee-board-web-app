@@ -4,7 +4,7 @@ import {
   Typography,
   Divider,
   Grid,
-  Link
+  Button
 } from '@mui/material'
 import {
   faClipboardList
@@ -32,7 +32,7 @@ export default function TasksView() {
     <div className='tasksView-wrapper'>
       <div className='tasksView-workspaces'>
         {workspaces.map((workspace) => (
-          <Link component='button' underline='none' key={workspace.id} sx={{ transform: 'none' }} onClick={() => setWorkspaceId(workspace)}>
+          <Button sx={{ textTransform: 'none' }} key={workspace.id} onClick={() => setWorkspaceId(workspace)}>
             <Card className='tasksView-workspaces-card' >
               <div className='tasksView-workspaces-card-title'>
                 <WorkspaceIcon name={workspace.name} size={52} />
@@ -51,14 +51,14 @@ export default function TasksView() {
                 ))}
               </Grid>
             </Card>
-          </Link>
+          </Button>
         ))}
       </div>
       <Divider />
       {pickedWorkspace &&
         <div className='tasksView-userTasks'>
           {pickedWorkspace.boards?.map((board) => (
-            <UserTasks key={board.id} boardId={board.id} />
+            <UserTasks key={board.id} workspaceId={pickedWorkspace.id} boardId={board.id} />
           ))}
         </div>
       }

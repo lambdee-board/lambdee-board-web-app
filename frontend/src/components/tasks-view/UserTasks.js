@@ -1,38 +1,36 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
 import {
-  IconButton,
   Typography,
-  InputBase,
   Card,
-  Divider
+  Divider,
+  Button
 } from '@mui/material'
 import {
   faClipboardList
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { useNavigate } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux'
-import apiClient from '../../api/apiClient'
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import useUserTasks from '../../api/useUserTasks'
 import './UserTasks.sass'
 import PriorityIcon from '../PriorityIcon'
 
 
-function UserTasks({ boardId }) {
+function UserTasks({ boardId, workspaceId }) {
+  const navigate = useNavigate()
   const { data: board, isBoardLoading, isBoardError } = useUserTasks({ id: boardId })
-  console.log(board)
   return (
     <div>
       {board &&
         <Card className='userTasks-card' >
-          <div className='userTasks-card-title'>
+          <Button sx={{ textTransform: 'none' }} className='userTasks-card-title' onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
+            icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}>
             <FontAwesomeIcon className='userTasks-card-title-icon' icon={faClipboardList} color={board.colour} />
             <Typography sx={{ ml: '10px' }}>
               {board.name}
             </Typography>
-          </div>
+          </Button>
           <Divider />
           <div>
             {board.lists?.map((list) => (
@@ -42,15 +40,14 @@ function UserTasks({ boardId }) {
                 </div>
                 {list.tasks?.map((task) => (
                   <div key={task.id}>
-                    <div className='userTasks-card-list-task'>
+                    <Button sx={{ textTransform: 'none' }} className='userTasks-card-list-task'>
                       <div className='userTasks-card-list-task-priority'>
                         <PriorityIcon size='lg' taskPriority={task.priority} />
                       </div>
                       <div className='userTasks-card-list-task-title'>
                         <Typography variant='caption'>{task.name}</Typography>
                       </div>
-
-                    </div>
+                    </Button>
                   </div>
                 ))}
               </div>
@@ -64,6 +61,7 @@ function UserTasks({ boardId }) {
 
 UserTasks.propTypes = {
   boardId: PropTypes.number.isRequired,
+  workspaceId: PropTypes.number.isRequired
 }
 
 export default UserTasks
