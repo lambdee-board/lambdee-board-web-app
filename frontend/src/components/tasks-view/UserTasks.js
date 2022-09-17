@@ -1,6 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
-import { mutateList } from '../../api/useList'
+import { useNavigate } from 'react-router-dom'
 import {
   Typography,
   Card,
@@ -13,19 +13,23 @@ import {
   faClipboardList
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useNavigate } from 'react-router-dom'
 
-import useUserTasks from '../../api/useUserTasks'
-import './UserTasks.sass'
+import { useUserTasks, mutateUserTasks } from '../../api/useUserTasks'
 import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
 
+import './UserTasks.sass'
+
 function UserTasks({ boardId, workspaceId }) {
   const navigate = useNavigate()
-  const { data: board, isBoardLoading, isBoardError } = useUserTasks({ id: boardId })
+  const { data: board, isLoading, isError } = useUserTasks({ id: boardId })
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const [pickedTask, setPickedTask] = React.useState(false)
   const [pickedList, setPickedList] = React.useState(false)
+
+  if (isLoading || isError) return (
+    <div></div>
+  )
 
   const handleOpenTaskCardModal = (props) => {
     setPickedTask(props.id)
@@ -33,9 +37,10 @@ function UserTasks({ boardId, workspaceId }) {
     setOpenTaskCardModal(true)
   }
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: pickedList, axiosOptions: { params: { tasks: 'all' } } })
+    mutateUserTasks({ id: boardId })
     setOpenTaskCardModal(false)
   }
+
   return (
     <div>
       {openTaskCardModal &&
@@ -93,7 +98,9 @@ function UserTasks({ boardId, workspaceId }) {
 
 UserTasks.propTypes = {
   boardId: PropTypes.number.isRequired,
-  workspaceId: PropTypes.number.isRequired
+  workspaceId: PropTypes.number.isRequired,
+  listId: PropTypes.number,
+  id: PropTypes.number
 }
 
 export default UserTasks
