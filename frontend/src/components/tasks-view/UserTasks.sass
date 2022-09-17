@@ -10,13 +10,20 @@
     display: flex
     flex-direction: row
     width: 100%
-    height: 15%
+    height: 8 * $unit
     color: black
     align-items: center
     justify-content: center
     .userTasks-card-title-icon
       width: 4 * $unit
       height: 4 * $unit
+.userTasks-card-lists::-webkit-scrollbar
+  display: none
+.userTasks-card-lists
+  height: 52 * $unit
+  -ms-overflow-style: none
+  scrollbar-width: none
+  overflow: scroll
   .userTasks-card-list
     display: flex
     flex-direction: column
@@ -31,5 +38,11 @@
       color: black
       width: 100%
       align-items: flex-start
-      .userTasks-card-list-task-title
-        margin-left: $unit
+      .userTasks-card-list-task-wrapper
+        display: flex
+        flex-direction: row
+        width: 100%
+        align-items: center
+        padding-left: 2 * $unit
+        .userTasks-card-list-task-title
+          margin-left: $unit

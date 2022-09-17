@@ -1,10 +1,13 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { mutateList } from '../../api/useList'
 import {
   Typography,
   Card,
   Divider,
-  Button
+  Button,
+  Modal,
+  Box
 } from '@mui/material'
 import {
   faClipboardList
@@ -15,14 +18,42 @@ import { useNavigate } from 'react-router-dom'
 import useUserTasks from '../../api/useUserTasks'
 import './UserTasks.sass'
 import PriorityIcon from '../PriorityIcon'
-
+import TaskCardModal from '../TaskCardModal'
 
 function UserTasks({ boardId, workspaceId }) {
   const navigate = useNavigate()
   const { data: board, isBoardLoading, isBoardError } = useUserTasks({ id: boardId })
+  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
+  const [pickedTask, setPickedTask] = React.useState(false)
+  const [pickedList, setPickedList] = React.useState(false)
+
+  const handleOpenTaskCardModal = (props) => {
+    setPickedTask(props.id)
+    setPickedList(props.listId)
+    setOpenTaskCardModal(true)
+  }
+  const handleCloseTaskCardModal = () => {
+    mutateList({ id: pickedList, axiosOptions: { params: { tasks: 'all' } } })
+    setOpenTaskCardModal(false)
+  }
   return (
     <div>
-      {board &&
+      {openTaskCardModal &&
+        <Modal
+          open={openTaskCardModal}
+          onClose={handleCloseTaskCardModal}
+        >
+          <Box
+            sx={{  position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              outline: 0 }}>
+            <TaskCardModal taskId={pickedTask} listId={pickedList} closeModal={handleCloseTaskCardModal} />
+          </Box>
+        </Modal>
+      }
+      {typeof board !== 'undefined' && board.lists.length > 0 &&
         <Card className='userTasks-card' >
           <Button sx={{ textTransform: 'none' }} className='userTasks-card-title' onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
             icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}>
@@ -32,7 +63,7 @@ function UserTasks({ boardId, workspaceId }) {
             </Typography>
           </Button>
           <Divider />
-          <div>
+          <div className='userTasks-card-lists'>
             {board.lists?.map((list) => (
               <div key={list.id} className='userTasks-card-list'>
                 <div className='userTasks-card-list-title'>
@@ -40,12 +71,13 @@ function UserTasks({ boardId, workspaceId }) {
                 </div>
                 {list.tasks?.map((task) => (
                   <div key={task.id}>
-                    <Button sx={{ textTransform: 'none' }} className='userTasks-card-list-task'>
-                      <div className='userTasks-card-list-task-priority'>
-                        <PriorityIcon size='lg' taskPriority={task.priority} />
-                      </div>
-                      <div className='userTasks-card-list-task-title'>
-                        <Typography variant='caption'>{task.name}</Typography>
+                    <Button sx={{ textTransform: 'none' }} className='userTasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
+                      <div className='userTasks-card-list-task-wrapper'>
+                        <div className='userTasks-card-list-task-priority'>
+                          <PriorityIcon size='lg' taskPriority={task.priority} />
+                        </div>
+
+                        <Typography className='userTasks-card-list-task-title' variant='caption'>{task.name}</Typography>
                       </div>
                     </Button>
                   </div>

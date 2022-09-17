@@ -21,7 +21,7 @@ import UserTasks from '../../components/tasks-view/UserTasks'
 
 export default function TasksView() {
   const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { boards: 'visible' } } })
-  const [pickedWorkspace, setWorkspaceId] = React.useState(false)
+  const [pickedWorkspace, setPickedWorkspace] = React.useState(false)
 
 
   if (isLoading || isError) return (
@@ -32,7 +32,7 @@ export default function TasksView() {
     <div className='tasksView-wrapper'>
       <div className='tasksView-workspaces'>
         {workspaces.map((workspace) => (
-          <Button sx={{ textTransform: 'none' }} key={workspace.id} onClick={() => setWorkspaceId(workspace)}>
+          <Button sx={{ textTransform: 'none' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>
             <Card className='tasksView-workspaces-card' >
               <div className='tasksView-workspaces-card-title'>
                 <WorkspaceIcon name={workspace.name} size={52} />
