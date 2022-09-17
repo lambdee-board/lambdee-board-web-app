@@ -7,7 +7,8 @@ import {
   Divider,
   Button,
   Modal,
-  Box
+  Box,
+  Skeleton
 } from '@mui/material'
 import {
   faClipboardList
@@ -27,8 +28,37 @@ function UserTasks({ boardId, workspaceId }) {
   const [pickedTask, setPickedTask] = React.useState(false)
   const [pickedList, setPickedList] = React.useState(false)
 
-  if (isLoading || isError) return (
-    <div></div>
+  if (!isLoading || !isError) return (
+    <Card className='userTasks-card' >
+      <div className='userTasks-card-title'>
+        <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
+      </div>
+      <Divider />
+      <div className='userTasks-card-lists'>
+        <div className='userTasks-card-list'>
+          <div className='userTasks-card-list-task'>
+            <div className='userTasks-card-list-task-wrapper'>
+              <Skeleton width={270} height={40} />
+            </div>
+          </div>
+          <div className='userTasks-card-list-task'>
+            <div className='userTasks-card-list-task-wrapper'>
+              <Skeleton width={270} height={40} />
+            </div>
+          </div>
+          <div className='userTasks-card-list-task'>
+            <div className='userTasks-card-list-task-wrapper'>
+              <Skeleton width={270} height={40} />
+            </div>
+          </div>
+          <div className='userTasks-card-list-task'>
+            <div className='userTasks-card-list-task-wrapper'>
+              <Skeleton width={270} height={40} />
+            </div>
+          </div>
+        </div>
+      </div>
+    </Card>
   )
 
   const handleOpenTaskCardModal = (props) => {
