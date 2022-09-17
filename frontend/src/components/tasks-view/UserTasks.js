@@ -28,7 +28,7 @@ function UserTasks({ boardId, workspaceId }) {
   const [pickedTask, setPickedTask] = React.useState(false)
   const [pickedList, setPickedList] = React.useState(false)
 
-  if (!isLoading || !isError) return (
+  if (isLoading || isError) return (
     <Card className='userTasks-card' >
       <div className='userTasks-card-title'>
         <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
