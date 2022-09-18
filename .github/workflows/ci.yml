@@ -96,11 +96,16 @@ jobs:
           style: flat
           label: Backend Code Coverage
           message: ${{ env.COVERAGE }}%
-          logoColor: e5534d
+          logoColor: EB222F
           namedLogo: ruby
           valColorRange: ${{ env.COVERAGE }}
           maxColorRange: 100
           minColorRange: 0
+      - name: Archive code coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code_coverage
+          path: coverage
       - name: Archive test artifacts
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}
