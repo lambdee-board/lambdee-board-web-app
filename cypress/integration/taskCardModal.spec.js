@@ -67,7 +67,7 @@ describe('TaskCardModal', () => {
       cy.contains('Add CI tests')
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
-      cy.get('div.TaskCardModal-main-description').should('exist').contains('Enim iste qui')
+      cy.contains('temporibus')
     })
     it('Display task Comment', () => {
       cy.contains('Add CI tests')

@@ -24,16 +24,20 @@ const Navbar = () => {
     <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth='false'>
         <Toolbar disableGutters>
-          <img
-            className='logo'
-            src="<%= asset_path('lambdee-logo.svg') %>"
-          />
-          <Typography
-            className='Typography-logo-title'
-            variant='h6'
-          >
+          <Button onClick={() => navigate('/')}>
+            <img
+              className='logo'
+              src="<%= asset_path('lambdee-logo.svg') %>"
+            />
+            <Typography
+              className='Typography-logo-title'
+              sx={{ textTransform: 'none ' }}
+              color='white'
+              variant='h6'
+            >
             Lambdee
-          </Typography>
+            </Typography>
+          </Button>
           <Box className='Box-dropdown-button-group'>
             <WorkspacesMenuButton />
             <RecentMenuButton />

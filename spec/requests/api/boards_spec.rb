@@ -185,7 +185,7 @@ require 'swagger_helper'
   end
 
   path '/api/boards/recently_viewed' do
-    get('list current user recently viewed boards (max 5)') do
+    get('list current user recently viewed boards (max 6)') do
       tags 'Boards'
       produces 'application/json'
 
@@ -194,9 +194,9 @@ require 'swagger_helper'
           items: { '$ref' => '#/components/schemas/board_response' }
 
         before do
-          5.times { ::FactoryBot.create :board }
+          6.times { ::FactoryBot.create :board }
           user = ::DB::User.first
-          user.recent_boards = ::DB::Board.first(5).pluck(:id)
+          user.recent_boards = ::DB::Board.first(6).pluck(:id)
           user.save
         end
 

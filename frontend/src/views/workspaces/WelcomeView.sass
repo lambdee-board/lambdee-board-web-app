@@ -1,0 +1,34 @@
+@import './../../styles/base'
+
+.welcomeView-wrapper
+  background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+  width: calc(100vw - (2vh))
+  min-height: calc(100vh - (8vh))
+  margin-top: 9 * $unit
+  margin-left: $unit
+  border-radius: $unit
+  .welcomeView-message
+    display: flex
+    justify-content: center
+    align-items: center
+    padding-top: 18 * $unit
+    padding-bottom: 18 * $unit
+  .welcomeView-recents
+    display: flex
+    flex-flow: column
+    justify-content: start
+    align-items: center
+    .welcomeView-recents-buttons
+      display: flex
+      width: calc(60%)
+      padding-bottom: 5 * $unit
+  .welcomeView-workspaces
+    display: flex
+    flex-flow: column
+    justify-content: start
+    align-items: center
+    .welcomeView-workspaces-buttons
+      display: flex
+      width: calc(60%)
+      padding-bottom: 10 * $unit
+
