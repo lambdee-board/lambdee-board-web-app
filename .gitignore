@@ -60,7 +60,7 @@ ignore.*
 /config/master.key
 
 # VSCode
-.vscode
+.vscode/**/*
 .VSCodeCounter
 
 # FRONTEND
@@ -89,3 +89,12 @@ frontend/build
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# === NEGATIONS ===
+# add these files to source control
+
+# extension recommendations viewable in VSCode
+!.vscode/extensions.json
+!.vscode/launch.json
+
+# === END NEGATIONS ===

@@ -150,4 +150,30 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @board.workspace_id, json.first['workspace_id']
     assert_nil json.first['deleted_at']
   end
+
+  should 'get current user tasks' do
+    ok_list = ::FactoryBot.create(:list, name: 'ok_list', board: @board)
+    bad_list = ::FactoryBot.create(:list, name: 'bad_list', board: @board)
+
+    ok_task = ::FactoryBot.create(:task, name: 'ok_task', list: ok_list, author: @user)
+    bad_task1 = ::FactoryBot.create(:task, name: 'bad_task1', list: ok_list)
+    bad_task2 = ::FactoryBot.create(:task, name: 'bad_task2', list: bad_list)
+
+    ok_task.users << @user
+    ok_task.tags << tag = ::FactoryBot.create(:tag)
+
+    get "/api/boards/#{@board.id}/user_tasks"
+
+    assert_response :ok
+
+    json = ::JSON.parse(response.body)
+    assert_equal @board.name, json['name']
+    assert_equal 1, json['lists'].size
+    assert_equal 'ok_list', json['lists'].first['name']
+    assert_equal 1, json['lists'].first['tasks'].size
+    assert_equal 'ok_task', json['lists'].first['tasks'].first['name']
+    assert_equal @user.name, json['lists'].first['tasks'].first['users'].first['name']
+    assert_equal tag.name, json['lists'].first['tasks'].first['tags'].first['name']
+    assert_equal @user.name, json['lists'].first['tasks'].first['author']['name']
+  end
 end

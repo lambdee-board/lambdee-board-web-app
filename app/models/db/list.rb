@@ -16,9 +16,10 @@ class DB::List < ::ApplicationRecord
 
   scope :pos_order, -> { reorder(pos: :asc) }
 
-  scope :include_tasks, -> { includes(tasks: %i[tags users]) }
+  scope :include_tasks, -> { includes(tasks: %i[tags users author]) }
   scope :include_tasks_containing_deleted, -> { includes(tasks_including_deleted: %i[tags users]) }
   scope :include_deleted_tasks, -> { includes(deleted_tasks: %i[tags users]) }
+  scope :include_user_tasks, ->(user) { include_tasks.where(users: { id: user.id }) }
 
   scope :find_with_tasks, ->(id) { include_tasks.find(id) }
   scope :find_with_tasks_including_deleted, ->(id) { include_tasks_containing_deleted.find(id) }

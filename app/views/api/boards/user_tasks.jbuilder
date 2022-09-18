@@ -3,7 +3,7 @@
 json.partial! 'api/boards/board', board: @board
 
 json.lists do
-  json.array! @board.lists do |list|
+  json.array! @board.lists.include_user_tasks(current_user) do |list|
     json.partial! 'api/lists/list', list: list
     json.tasks do
       json.array! list.tasks do |task|
@@ -17,6 +17,9 @@ json.lists do
           json.array! task.tags do |tag|
             json.partial! 'api/tags/tag', tag: tag, short: true
           end
+        end
+        json.author do
+          json.partial! 'api/users/user', user: task.author, short: true
         end
       end
     end
