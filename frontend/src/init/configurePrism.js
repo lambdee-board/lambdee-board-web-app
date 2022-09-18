@@ -1,4 +1,3 @@
-import Prism from 'prismjs'
 import { languages } from 'prismjs/components/prism-core'
 
 import 'prismjs/components/prism-clike'

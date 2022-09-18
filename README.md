@@ -226,6 +226,19 @@ $ sudo dpkg -i libffi8_3.4.2-4_amd64.deb
 
 ### Mainly MacOS
 
+**postgresql**
+
+> LoadError: dlopen(/Users/mateuszdrewniak/.rvm/gems/ruby-3.1.2@lambdee-board-web-app/gems/pg-1.3.5/lib/pg_ext.bundle, 9): Library not loaded: /opt/homebrew/opt/postgresql/lib/libpq.5.dylib
+> Referenced from: /Users/mateuszdrewniak/.rvm/gems/ruby-3.1.2@lambdee-board-web-app/gems/pg-1.3.5/lib/pg_ext.bundle
+> Reason: image not found - /Users/mateuszdrewniak/.rvm/gems/ruby-3.1.2@lambdee-board-web-app/gems/pg-1.3.5/lib/pg_ext.bundle
+
+Works on MacBook M1
+
+```sh
+$ sudo ln -s /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.14.dylib /opt/homebrew/opt/postgresql/libpq.5.dylib
+$ sudo ln -s /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.14.dylib /opt/homebrew/opt/postgresql/lib/libpq.5.dylib
+```
+
 **eventmachine**
 
 > In file included from binder.cpp:20:

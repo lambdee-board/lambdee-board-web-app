@@ -1,0 +1,7 @@
+{
+  "recommendations": [
+    "dbaeumer.vscode-eslint",
+    "mateuszdrewniak.rails-full-stack-extension-pack",
+    "KoichiSasada.vscode-rdbg"
+  ]
+}

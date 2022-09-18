@@ -64,7 +64,7 @@ describe('Workspace View', () => {
       cy.get('.Toolbar').should('exist')
       cy.get('.Toolbar-create-list-button').click()
       cy.get('.Toolbar-new-list-input').should('exist')
-      cy.get('.logo').click()
+      cy.get('body').click(0, 0)
       cy.get('.Toolbar-create-list-button').should('exist')
     })
 

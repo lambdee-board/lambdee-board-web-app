@@ -18,6 +18,7 @@ class DB::User < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  scope :role_collection, ->(roles) { where(role: roles) }
   scope :role, ->(role) { where(role: role) }
   scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
   scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
@@ -84,6 +85,6 @@ class DB::User < ::ApplicationRecord
 
     recent_boards.delete(board_id)
     recent_boards.prepend(board_id)
-    self.recent_boards = recent_boards.first(5)
+    self.recent_boards = recent_boards.first(6)
   end
 end

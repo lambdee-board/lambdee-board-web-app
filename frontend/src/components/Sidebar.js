@@ -143,7 +143,7 @@ export default function Sidebar() {
                 <SidebarListItem
                   className='ListItem-board'
                   key={board.name + index}
-                  active={board.id == boardId}
+                  active={board.id === boardId}
                   label={board.name}
                   onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
                   icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}
