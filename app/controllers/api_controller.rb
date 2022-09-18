@@ -9,6 +9,8 @@ class APIController < ::ApplicationController
 
   before_action :authorize_user!
 
+  helper_method :current_user
+
   protected
 
   def authorize_user!
