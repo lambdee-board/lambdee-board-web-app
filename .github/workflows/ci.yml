@@ -9,6 +9,7 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    types: [ opened ]
     branches: [ main ]
 jobs:
   tests:
@@ -23,6 +24,7 @@ jobs:
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
     env:
+      COVERAGE: true
       CI: true
       RAILS_ENV: test
       DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
@@ -65,6 +67,30 @@ jobs:
           bin/build
       - name: Run cypress tests
         run: bin/cypress run
+      - name: Backend Code Coverage report
+        uses: 5monkeys/cobertura-action@master
+        with:
+          path: coverage/coverage.xml
+          minimum_coverage: 75
+      - name: Prepare data for a Code Coverage badge
+        run: |
+          echo "COVERAGE=$(./bin/code_coverage)" >> $GITHUB_ENV
+          REF=${{ github.ref }}
+          echo "github.ref: $REF"
+          IFS='/' read -ra PATHS <<< "$REF"
+          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          echo $BRANCH_NAME
+          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+      - name: Create the Coverage Badge
+        uses: schneegans/dynamic-badges-action@v1.0.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 9a8c8388655c06d65286da59107df2d2
+          filename: lambdee_board_web_app__${{ env.BRANCH }}.json
+          label: Test Coverage
+          message: ${{ env.COVERAGE }}
+          color: success
+          namedLogo: ruby
       - name: Archive test artifacts
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}

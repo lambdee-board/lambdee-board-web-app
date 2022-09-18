@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'fileutils'
+require 'json'
+
+ROOT = ::File.expand_path('..', __dir__)
+
+::FileUtils.chdir ::ROOT do
+  json = ::JSON.parse ::File.read(::File.join('coverage', '.last_run.json')), symbolize_names: true
+  coverage = json.dig(:result, :line)
+  puts "#{coverage}%"
+rescue ::Errno::ENOENT
+  puts "NULL"
+end

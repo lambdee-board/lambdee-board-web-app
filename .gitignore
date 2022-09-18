@@ -44,6 +44,9 @@
 /doc
 /.yardoc
 
+# code coverage
+/coverage
+
 .byebug_history
 ignore.*
 

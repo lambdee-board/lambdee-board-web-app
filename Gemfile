@@ -118,4 +118,10 @@ group :test do
   gem 'selenium-webdriver'
   gem 'shoulda'
   gem 'webdrivers'
+
+  # for generating test coverage
+  gem 'simplecov', require: false
+
+  # for live test coverage in Gitlab Merge Requests
+  gem 'simplecov-cobertura', require: false
 end

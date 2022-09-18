@@ -25,8 +25,9 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?role=guest'
     json = ::JSON.parse(response.body)
 
-    assert_equal 1, json.size
-    assert_equal 'guest', json.first['role']
+    json.each do |user|
+      assert_equal 'guest', user['role']
+    end
   end
 
   should 'get index with role_collection param' do
