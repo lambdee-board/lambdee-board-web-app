@@ -1,24 +1,5 @@
-# Load SimpleCov for code coverage if
-# the `COVERAGE` environment variable is set
-#
-# SimpleCov has to be the first thing that is loaded
-if ::ENV['COVERAGE'].present?
-  require 'simplecov'
-  require 'simplecov-cobertura'
-
-  ::SimpleCov.formatter = ::SimpleCov::Formatter::MultiFormatter.new([
-    ::SimpleCov::Formatter::HTMLFormatter,
-    ::SimpleCov::Formatter::CoberturaFormatter
-  ])
-
-  ::SimpleCov.start 'rails' do
-    add_filter '/test/'
-    add_filter '/app/admin/'
-    add_filter '/frontend/'
-    add_filter '/lib/'
-    add_filter '/vendor/'
-  end
-end
+require_relative 'simple_cov_initializer'
+::SimpleCovInitializer.call 'test:unittest'
 
 ::ENV['RAILS_ENV'] ||= 'test'
 

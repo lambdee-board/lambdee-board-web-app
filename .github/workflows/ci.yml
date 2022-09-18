@@ -30,7 +30,6 @@ jobs:
           POSTGRES_USER: rails
           POSTGRES_PASSWORD: password
     env:
-      COVERAGE: true
       CI: true
       RAILS_ENV: test
       DATABASE_URL: "postgres://rails:password@localhost:5432/rails_test"
@@ -64,9 +63,9 @@ jobs:
         run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Backend unit tests
-        run: bin/rails test
+        run: COVERAGE=true bin/rails test
       - name: Backend spec tests
-        run: bundle exec rspec
+        run: COVERAGE=true bundle exec rspec
       - name: Build the frontend
         run: |
           BUILD=true bin/rails runner bin/.build/preprocess_react.rb
@@ -94,7 +93,7 @@ jobs:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 9a8c8388655c06d65286da59107df2d2
           filename: lambdee_board_web_app__${{ env.BRANCH }}.json
-          label: Test Coverage
+          label: Backend Code Coverage
           message: ${{ env.COVERAGE }}
           color: success
           namedLogo: ruby
