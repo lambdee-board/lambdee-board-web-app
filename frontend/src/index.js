@@ -16,12 +16,13 @@ import reportWebVitals from './init/reportWebVitals'
 
 import App from './App'
 import ConsoleView from './views/ConsoleView'
-import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
-import BoardView from './views/workspaces/BoardView'
-import UserSettingsView from './views/workspaces/UserSettingsView'
+import BoardView from './views/workspaces/boards/BoardView'
+import BoardPlanningView from './views/workspaces/boards/BoardPlanningView'
+import BoardWorkView from './views/workspaces/boards/BoardWorkView'
+import UserSettingsView from './views/UserSettingsView'
 import WorkspaceSettingsView from './views/workspaces/WorkspaceSettingsView'
-import WelcomeView from './views/workspaces/WelcomeView'
+import WelcomeView from './views/WelcomeView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -29,12 +30,14 @@ root.render(
     <BrowserRouter>
       <Routes>
         <Route path='/' element={<App />}>
-          <Route path='/' element={<WelcomeView />} />
+          <Route path='' element={<WelcomeView />} />
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
             <Route path='settings' element={<WorkspaceSettingsView />} />
-            <Route path='boards/:boardId' element={<BoardView />} />
+            <Route path='boards/:boardId' element={<BoardView />}>
+              <Route path='' element={<BoardWorkView />} />
+              <Route path='planning' element={<BoardPlanningView />} />
+            </Route>
           </Route>
-          <Route path='workspaces' element={<WorkspacesView />} />
           <Route path='console' element={<ConsoleView />} />
           <Route path='account' element={<UserSettingsView />} />
         </Route>

@@ -5,12 +5,12 @@ import { useDispatch } from 'react-redux'
 import { ReactSortable } from 'react-sortablejs'
 
 import './BoardView.sass'
-import TaskList, { TaskListSkeleton } from './../../components/TaskList'
-import useBoard from '../../api/useBoard'
-import apiClient from '../../api/apiClient'
-import { addAlert } from '../../redux/slices/appAlertSlice'
-import BoardToolbar from '../../components/BoardToolbar'
-import { calculatePos } from '../../constants/componentPositionService'
+import TaskList, { TaskListSkeleton } from '../../../components/TaskList'
+import useBoard from '../../../api/useBoard'
+import apiClient from '../../../api/apiClient'
+import { addAlert } from '../../../redux/slices/appAlertSlice'
+import BoardToolbar from '../../../components/BoardToolbar'
+import { calculatePos } from '../../../constants/componentPositionService'
 
 
 function BoardViewSkeleton() {
@@ -27,7 +27,6 @@ function BoardViewSkeleton() {
     </div>
   )
 }
-
 
 export default function BoardView() {
   const { boardId } = useParams()

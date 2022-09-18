@@ -7,11 +7,11 @@ import {
 } from '@mui/material'
 import PropTypes from 'prop-types'
 
-import useCurrentUser from '../../api/useCurrentUser'
-import useBoard from '../../api/useBoard'
-import useWorkspaces from '../../api/useWorkspaces'
-import WorkspaceButton from '../../components/welcome-view/WorkspaceButton'
-import RecentBoardButton from '../../components/welcome-view/RecentBoardButton'
+import useCurrentUser from '../api/useCurrentUser'
+import useBoard from '../api/useBoard'
+import useWorkspaces from '../api/useWorkspaces'
+import WorkspaceButton from '../components/welcome-view/WorkspaceButton'
+import RecentBoardButton from '../components/welcome-view/RecentBoardButton'
 
 import './WelcomeView.sass'
 
