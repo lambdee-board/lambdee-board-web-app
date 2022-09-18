@@ -88,15 +88,19 @@ jobs:
           echo $BRANCH_NAME
           echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
       - name: Create the Coverage Badge
-        uses: schneegans/dynamic-badges-action@v1.0.0
+        uses: schneegans/dynamic-badges-action@v1.4.0
         with:
           auth: ${{ secrets.GIST_SECRET }}
           gistID: 9a8c8388655c06d65286da59107df2d2
           filename: lambdee_board_web_app__${{ env.BRANCH }}.json
+          style: flat
           label: Backend Code Coverage
-          message: ${{ env.COVERAGE }}
-          color: success
+          message: ${{ env.COVERAGE }}%
+          logoColor: e5534d
           namedLogo: ruby
+          valColorRange: ${{ env.COVERAGE }}
+          maxColorRange: 100
+          minColorRange: 0
       - name: Archive test artifacts
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}
