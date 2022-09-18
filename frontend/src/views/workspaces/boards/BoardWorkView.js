@@ -4,7 +4,8 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { ReactSortable } from 'react-sortablejs'
 
-import './BoardView.sass'
+import './BoardWorkView.sass'
+
 import TaskList from '../../../components/TaskList'
 import apiClient from '../../../api/apiClient'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
@@ -55,28 +56,30 @@ export default function BoardWorkView() {
   }
 
   return (
-    <div className='TaskLists-scrollable' >
-      <ReactSortable
-        className='TaskLists-wrapper'
-        list={sortedTaskLists}
-        setList={updateTaskListOrder}
-        scroll
-        ghostClass='translucent'
-        direction='horizontal'
-        multiDrag
-        delay={1}
-        animation={50}
-      >
-        {sortedTaskLists.map((taskList, listIndex) => (
-          <TaskList key={taskList.id}
-            title={taskList.name}
-            pos={taskList.pos}
-            id={taskList.id}
-            index={listIndex}
-          />
-        ))}
-        <div className='TaskLists-spacer'></div>
-      </ReactSortable>
+    <div className='BoardWorkView'>
+      <div className='TaskLists-scrollable' >
+        <ReactSortable
+          className='TaskLists-wrapper'
+          list={sortedTaskLists}
+          setList={updateTaskListOrder}
+          scroll
+          ghostClass='translucent'
+          direction='horizontal'
+          multiDrag
+          delay={1}
+          animation={50}
+        >
+          {sortedTaskLists.map((taskList, listIndex) => (
+            <TaskList key={taskList.id}
+              title={taskList.name}
+              pos={taskList.pos}
+              id={taskList.id}
+              index={listIndex}
+            />
+          ))}
+          <div className='TaskLists-spacer'></div>
+        </ReactSortable>
+      </div>
     </div>
   )
 }

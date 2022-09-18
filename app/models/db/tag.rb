@@ -8,7 +8,7 @@ class DB::Tag < ApplicationRecord
 
   default_scope { order(:id) }
 
-  scope :find_for_board, ->(id) { where(board: id) }
+  scope :for_board, ->(id) { where(board: id) }
 
   validates :name, length: { maximum: 30 }
   validates :colour, length: { minimum: 7, maximum: 9 }, allow_blank: true

@@ -1,7 +1,6 @@
 import { Outlet, useParams } from 'react-router-dom'
 import React, { useEffect, useState } from 'react'
 
-import './BoardView.sass'
 import useBoard from '../../../api/useBoard'
 import BoardToolbar from '../../../components/BoardToolbar'
 import { TaskListSkeleton } from '../../../components/TaskList'
@@ -9,12 +8,14 @@ import { TaskListSkeleton } from '../../../components/TaskList'
 function BoardWorkViewSkeleton() {
   return (
     <div className='BoardView'>
-      <div className='TaskLists-scrollable' >
-        <div className='TaskLists-wrapper'>
-          {[0, 1, 2].map((index) => (
-            <TaskListSkeleton key={index} />
-          ))}
-          <div className='TaskLists-spacer'></div>
+      <div className='BoardWorkView'>
+        <div className='TaskLists-scrollable' >
+          <div className='TaskLists-wrapper'>
+            {[0, 1, 2].map((index) => (
+              <TaskListSkeleton key={index} />
+            ))}
+            <div className='TaskLists-spacer'></div>
+          </div>
         </div>
       </div>
     </div>
