@@ -25,8 +25,6 @@ module SimpleCovInitializer
     ::SimpleCov.start 'rails' do
       add_filter '/test/'
       add_filter '/app/admin/'
-      add_filter '/app/helpers/'
-      add_filter '/app/jobs/'
       add_filter '/frontend/'
       add_filter '/lib/'
       add_filter '/vendor/'
