@@ -85,6 +85,6 @@ class DB::User < ::ApplicationRecord
 
     recent_boards.delete(board_id)
     recent_boards.prepend(board_id)
-    self.recent_boards = recent_boards.first(5)
+    self.recent_boards = recent_boards.first(6)
   end
 end
