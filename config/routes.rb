@@ -23,6 +23,7 @@
       resources :boards do
         resources :tags, only: %i[index create]
         get :recently_viewed, on: :collection
+        get :user_tasks, on: :member
       end
 
       resources :lists

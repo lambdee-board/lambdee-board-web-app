@@ -29,6 +29,19 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'guest', json.first['role']
   end
 
+  should 'get index with role_collection param' do
+    ::FactoryBot.create(:user, role: :guest,)
+    ::FactoryBot.create(:user, role: :regular)
+    ::FactoryBot.create(:user, role: :admin)
+    # /api/users?role_collection[]=guest&role_collection[]=regular
+    get '/api/users?role_collection%5B%5D=guest&role_collection%5B%5D=regular'
+    json = ::JSON.parse(response.body)
+
+    json.each do |user|
+      assert %w[guest regular].include?(user['role']), "Returned user with incorrect role `#{user['role'].inspect}`"
+    end
+  end
+
   should 'get index with created_at param' do
     ::FactoryBot.create(:user, name: 'old', created_at: ::Time.parse('12.01.2000'))
     ::FactoryBot.create(:user, name: 'ok', created_at: ::Time.parse('12.01.2010 16:00'))

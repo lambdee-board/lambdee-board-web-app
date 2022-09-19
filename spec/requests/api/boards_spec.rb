@@ -157,6 +157,33 @@ require 'swagger_helper'
     end
   end
 
+  path '/api/boards/{id}/user_tasks' do
+    parameter name: 'id', in: :path, type: :string, description: 'id'
+    get('list current user tasks including board, lists, tags, users and author') do
+      tags 'Boards'
+      produces 'application/json'
+
+      response(200, 'successful') do
+        schema '$ref' => '#/components/schemas/board_response'
+
+        let(:id) do
+          user = ::DB::User.first
+          board = ::FactoryBot.create(:board)
+          list = ::FactoryBot.create(:list, board: board)
+          task = ::FactoryBot.create(:task, list: list, author: user)
+          task.tags << ::FactoryBot.create(:tag)
+          task.users << user
+          board.id
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+    end
+  end
+
   path '/api/boards/recently_viewed' do
     get('list current user recently viewed boards (max 6)') do
       tags 'Boards'

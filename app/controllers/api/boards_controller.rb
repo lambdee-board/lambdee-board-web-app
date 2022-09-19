@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for boards
 # through the JSON API.
 class API::BoardsController < ::APIController
-  before_action :set_board, only: %i[update show destroy]
+  before_action :set_board, only: %i[update show destroy user_tasks]
   after_action :set_last_viewed_board_for_user, only: %i[show create]
 
   # GET /api/boards
@@ -18,6 +18,9 @@ class API::BoardsController < ::APIController
 
     return render :show_with_lists, locals: { lists_scope: @lists_scope } if @lists_scope
   end
+
+  # GET api/boards/1/user_tasks
+  def user_tasks; end
 
   # POST /api/boards
   def create

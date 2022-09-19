@@ -24,10 +24,7 @@ function RecentBoard({ boardId, boardName, boardColour, workspaceId }) {
 }
 
 const RecentMenuButton = () => {
-  const { data: board, isLoading, isError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
-
-  const navigate = useNavigate()
-  // isLoading = true
+  const { data: boards, isLoading, isError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
 
   if (isLoading || isError) return (
     <DropdownButton label='Recent'>
@@ -44,12 +41,18 @@ const RecentMenuButton = () => {
 
   return (
     <div>
-      {typeof board !== 'undefined' && board.length > 0 &&
-      <DropdownButton label='Recent'>
-        {board.map((recentBoard) => (
-          <RecentBoard key={recentBoard.id} boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
-        ))}
-      </DropdownButton>
+      {boards?.length > 0 &&
+        <DropdownButton label='Recent'>
+          {boards.map((recentBoard) => (
+            <RecentBoard
+              key={recentBoard.id}
+              boardId={recentBoard.id}
+              boardName={recentBoard.name}
+              boardColour={recentBoard.colour}
+              workspaceId={recentBoard.workspaceId}
+            />
+          ))}
+        </DropdownButton>
       }
     </div>
 
