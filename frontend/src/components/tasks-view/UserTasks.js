@@ -51,11 +51,6 @@ function UserTasks({ boardId, workspaceId }) {
               <Skeleton width={270} height={40} />
             </div>
           </div>
-          <div className='userTasks-card-list-task'>
-            <div className='userTasks-card-list-task-wrapper'>
-              <Skeleton width={270} height={40} />
-            </div>
-          </div>
         </div>
       </div>
     </Card>
@@ -88,9 +83,10 @@ function UserTasks({ boardId, workspaceId }) {
           </Box>
         </Modal>
       }
-      {typeof board !== 'undefined' && board.lists.length > 0 &&
+      {board?.lists.length > 0 &&
         <Card className='userTasks-card' >
-          <Button sx={{ textTransform: 'none' }} className='userTasks-card-title' onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
+          <Button sx={{ textTransform: 'none' }} className='userTasks-card-title'
+            onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
             icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}>
             <FontAwesomeIcon className='userTasks-card-title-icon' icon={faClipboardList} color={board.colour} />
             <Typography sx={{ ml: '10px' }}>

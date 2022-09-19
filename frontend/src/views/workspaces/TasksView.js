@@ -41,12 +41,6 @@ export default function TasksView() {
             <Grid item xs={4} className='tasksView-workspaces-card-board'>
               <Skeleton variant='rectangular' width={60} height={60} />
             </Grid>
-            <Grid item xs={4} className='tasksView-workspaces-card-board'>
-              <Skeleton variant='rectangular' width={60} height={60} />
-            </Grid>
-            <Grid item xs={4} className='tasksView-workspaces-card-board'>
-              <Skeleton variant='rectangular' width={60} height={60} />
-            </Grid>
           </Grid>
         </Card>
         <Card className='tasksView-workspaces-card' >
@@ -59,22 +53,10 @@ export default function TasksView() {
             <Grid item xs={4} className='tasksView-workspaces-card-board'>
               <Skeleton variant='rectangular' width={60} height={60} />
             </Grid>
-            <Grid item xs={4} className='tasksView-workspaces-card-board'>
-              <Skeleton variant='rectangular' width={60} height={60} />
-            </Grid>
-            <Grid item xs={4} className='tasksView-workspaces-card-board'>
-              <Skeleton variant='rectangular' width={60} height={60} />
-            </Grid>
-            <Grid item xs={4} className='tasksView-workspaces-card-board'>
-              <Skeleton variant='rectangular' width={60} height={60} />
-            </Grid>
           </Grid>
         </Card>
       </div>
       <Divider />
-      <div className='tasksView-userTasks'>
-        <Skeleton variant='rectangular' width={210} height={60} />
-      </div>
     </div>
   )
 
