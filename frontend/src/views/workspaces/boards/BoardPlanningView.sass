@@ -1,7 +1,11 @@
 @import './../../../styles/base'
 
 .BoardPlanningView
-  .TaskLists-wrapper
-    margin-top: 5 * $unit
-    margin-left: 5 * $unit
-    margin-right: 3.5 * $unit
+  .TaskLists-scrollable
+
+    .TaskLists-wrapper
+      width: 100%
+      display: flex
+      flex-direction: column
+      margin-left: 2.5 * $unit
+
