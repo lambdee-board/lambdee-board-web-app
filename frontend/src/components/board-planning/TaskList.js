@@ -11,6 +11,7 @@ import {
   Card,
   InputBase,
   Modal,
+  Divider
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -19,7 +20,7 @@ import PropTypes from 'prop-types'
 import { ReactSortable } from 'react-sortablejs'
 
 import apiClient from '../../api/apiClient'
-import { TaskCardSkeleton, TaskCard } from '../TaskCard'
+import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
 import { calculatePos } from '../../constants/componentPositionService'
 
@@ -30,17 +31,7 @@ import TaskListModal from '../TaskListModal'
 
 function TaskListSkeletonContent() {
   return (
-    <>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-    </>
+    <div></div>
   )
 }
 
@@ -206,16 +197,16 @@ function TaskList(props) {
             <div>
               <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
                 {listVisibility ?
-                  <FontAwesomeIcon icon={faEye} /> :
-                  <FontAwesomeIcon icon={faEyeSlash} />
+                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
+                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
                 }
               </IconButton>
               <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-                <FontAwesomeIcon icon={faPencil} />
+                <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faPencil} />
               </IconButton>
             </div>
           </ListSubheader>} >
-          <div>
+          <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px'  }}>
             {taskList ? (
               <ReactSortable
                 list={sortedTasks}
@@ -229,27 +220,33 @@ function TaskList(props) {
                 // multiDrag
                 scroll
               >
+
                 {
                   sortedTasks.map((task, taskIndex) => (
-                    <ListItem className='TaskListPlanning-item' key={taskIndex} >
-                      <TaskCard key={`${task.name}-${task.id}`}
-                        id={task.id}
-                        label={task.name}
-                        tags={task.tags}
-                        priority={task.priority}
-                        assignedUsers={task.users}
-                        points={task.points}
-                        pos={task.pos}
-                        index={taskIndex}
-                        listId={task.listId}
-                      />
-                    </ListItem>
+                    <div key={taskIndex}>
+                      <ListItem className='TaskListPlanning-item' >
+                        <TaskListItem key={`${task.name}-${task.id}`}
+                          id={task.id}
+                          label={task.name}
+                          tags={task.tags}
+                          priority={task.priority}
+                          assignedUsers={task.users}
+                          points={task.points}
+                          pos={task.pos}
+                          index={taskIndex}
+                          listId={task.listId}
+                        />
+                      </ListItem>
+                      <Divider />
+                    </div>
                   ))}
+
               </ReactSortable>
+
             ) : (
               <TaskListSkeletonContent />
             )}
-          </div>
+          </Card>
 
           { !newTaskButtonVisible &&
             <Card
@@ -271,7 +268,7 @@ function TaskList(props) {
         </List>
         <Box className='TaskListPlanning-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }

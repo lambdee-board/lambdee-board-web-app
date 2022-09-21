@@ -1,4 +1,35 @@
 @import '../../styles/base'
 
-.TaskListItem
-  background-color: #fff
+.TaskListItem-wrapper
+  width: 100%
+
+  .TaskListItem
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: center
+    padding: 0.5 * $unit
+    @include transition
+    cursor: pointer
+
+    &:hover
+      background-color: darken(#fff, 3%)
+    .TaskListItem-properties
+      width: 50%
+      display: flex
+      justify-content: space-between
+      align-items: center
+      .TaskListItem-properties-tags
+        width: 70%
+      .TaskListItem-properties-priority
+        width: 10%
+      .TaskListItem-properties-avatars
+        width: 10%
+      .Box-priority-avatar
+        width: 3 * $unit
+        height: 3 * $unit
+        font-size: 2 * $unit
+    .MuiAvatar-root
+      width: 3.2 * $unit
+      height: 3.2 * $unit
+      font-size: 2 * $unit
