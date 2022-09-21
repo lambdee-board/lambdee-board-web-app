@@ -70,11 +70,15 @@ const TaskListItem = (props) => {
           {props.label}
         </Typography>
         <Box className='TaskListItem-properties'>
+
           <Box className='TaskListItem-properties-tags'>
-            {props.tags.map((tag) => (
-              <Tag key={tag.id} name={tag.name} colour={tag.colour} />
-            ))}
+            <AvatarGroup max={(4)} >
+              {props.tags.map((tag) => (
+                <Tag name={tag.name} colour={tag.colour} key={tag.id} />
+              ))}
+            </AvatarGroup>
           </Box>
+
           <Box className='TaskListItem-properties-priority'>
             <PriorityIcon priority={props.priority} />
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
