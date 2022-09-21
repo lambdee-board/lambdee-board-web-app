@@ -84,7 +84,7 @@ const TaskListItem = (props) => {
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
           <Box className='TaskListItem-properties-avatars'>
-            <AvatarGroup max={4} className='.MuiAvatar-root'>
+            <AvatarGroup max={3} className='.MuiAvatar-root'>
               {props.assignedUsers.map((assignedUser) => (
                 <AvatarPopover
                   key={assignedUser.id}
