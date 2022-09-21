@@ -191,7 +191,7 @@ function TaskList(props) {
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
-            <Typography className='TaskListPlanning-header-text' >
+            <Typography className='TaskListPlanning-header-text'   >
               {props.title}
             </Typography>
             <div>
