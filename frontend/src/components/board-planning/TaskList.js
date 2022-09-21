@@ -11,11 +11,10 @@ import {
   Card,
   InputBase,
   Modal,
-  Divider,
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import { ReactSortable } from 'react-sortablejs'
 
@@ -72,6 +71,8 @@ function TaskList(props) {
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
+  // visibility should part of props
+  const [listVisibility, setlistVisibility] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -91,6 +92,10 @@ function TaskList(props) {
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
+
+  const toggleListVisibility = () => {
+    setlistVisibility(!listVisibility)
+  }
 
   const newTaskButtonOnClick = () => {
     toggleNewTaskButton()
@@ -190,17 +195,25 @@ function TaskList(props) {
     updateTaskPos(newUpdatedTask.id, newUpdatedTask.pos, newUpdatedTasks)
   }
   return (
-    <Box className='TaskListPlanning-wrapper' sx={props.title === 'Backlog' ? { mt: '60px' } : { mt: '20px' }}>
-      <Paper className='TaskListPlanning-paper'
+    <Box className='TaskListPlanning-wrapper'>
+      <Paper className='TaskListPlanning-paper' sx = {!listVisibility ? { opacity: '0.4' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
             <Typography className='TaskListPlanning-header-text' >
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-              <FontAwesomeIcon icon={faPencil} />
-            </IconButton>
+            <div>
+              <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
+                {listVisibility ?
+                  <FontAwesomeIcon icon={faEye} /> :
+                  <FontAwesomeIcon icon={faEyeSlash} />
+                }
+              </IconButton>
+              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+                <FontAwesomeIcon icon={faPencil} />
+              </IconButton>
+            </div>
           </ListSubheader>} >
           <div>
             {taskList ? (
@@ -240,25 +253,25 @@ function TaskList(props) {
 
           { !newTaskButtonVisible &&
             <Card
-              className='TaskListPlanning -new-task'>
+              className='TaskListPlanning-new-task'>
               <InputBase
                 ref={newTaskInputRef}
-                className='TaskListPlanning -new-task-input'
+                className='TaskListPlanning-new-task-input'
                 fullWidth
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
                 onBlur={(e) => toggleNewTaskButton()}
               />
-              <IconButton className='TaskListPlanning -new-task-cancel' onClick={() => toggleNewTaskButton()}>
-                <FontAwesomeIcon className='TaskListPlanning -new-task-cancel-icon' icon={faXmark} />
+              <IconButton className='TaskListPlanning-new-task-cancel' onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon className='TaskListPlanning-new-task-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
           }
         </List>
-        <Box className='TaskListPlanning -new-task-wrapper'>
+        <Box className='TaskListPlanning-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskListPlanning -new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }
@@ -268,15 +281,12 @@ function TaskList(props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskListPlanning -modal-wrapper'
+        className='TaskListPlanning-modal-wrapper'
       >
-        <div className='TaskListPlanning -modal'>
+        <div className='TaskListPlanning-modal'>
           <TaskListModal listId={props.id} title={props.title} />
         </div>
       </Modal>
-      }
-      {props.title === 'Backlog' &&
-        <Divider sx={{ mt: '32px', borderBottomWidth: 2, display: 'flex' }} />
       }
     </Box>
   )
