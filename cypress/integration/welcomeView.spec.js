@@ -5,6 +5,7 @@ describe('WelcomeView', () => {
     cy.request('/cypress_rails_reset_state')
 
     cy.visit('/')
+    cy.contains('Login').click()
   })
   context('Recent', () => {
     it('does not show any recents', () => {
