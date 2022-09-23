@@ -44,12 +44,22 @@ const Navbar = () => {
             <Button
               className='Button'
               id='dropdown-button'
+              onClick={() => navigate('/tasks')}
+            >
+              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
+                Tasks
+              </Typography>
+            </Button>
+            <Button
+              className='Button'
+              id='dropdown-button'
               onClick={() => navigate('/console')}
             >
               <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
                 Console
               </Typography>
             </Button>
+
           </Box>
           <AccountMenuButton />
         </Toolbar>
