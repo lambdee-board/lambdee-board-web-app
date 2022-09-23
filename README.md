@@ -1,3 +1,7 @@
+[![license](https://img.shields.io/badge/License-MIT-purple.svg)](LICENSE)
+[![CI](https://github.com/lambdee-board/lambdee-board-web-app/actions/workflows/ci.yml/badge.svg)](https://github.com/lambdee-board/lambdee-board-web-app/actions/workflows/ci.yml)
+[![Backend Coverage Badge](https://img.shields.io/endpoint?url=https://gist.githubusercontent.com/Verseth/9a8c8388655c06d65286da59107df2d2/raw/lambdee_board_web_app__heads_main.json)](https://github.com/lambdee-board/lambdee-board-web-app/actions/workflows/ci.yml)
+
 # Lambdee Web App
 
 Lambdee - Scriptable Agile Board

@@ -4,6 +4,7 @@ describe('TaskCardModal', () => {
     cy.request('/cypress_rails_reset_state')
 
     cy.visit('/')
+    cy.contains('Login').click()
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()
     cy.get('body').first().click()
@@ -73,7 +74,7 @@ describe('TaskCardModal', () => {
       cy.contains('Add CI tests')
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
-      cy.get('div.TaskComments-wrapper').should('exist').contains('Facilis ullam commodi')
+      cy.contains('temporibus')
     })
   })
   context('Edit task label', () => {

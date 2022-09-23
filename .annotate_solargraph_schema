@@ -144,18 +144,26 @@ class DB::Board < ApplicationRecord
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::Board>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::Board>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::Board>, nil]
   def self.deleted_inside_time_window(time, window); end
@@ -241,18 +249,26 @@ class DB::Comment < ApplicationRecord
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::Comment>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::Comment>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::Comment>, nil]
   def self.deleted_inside_time_window(time, window); end
@@ -332,18 +348,26 @@ class DB::List < ApplicationRecord
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::List>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::List>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::List>, nil]
   def self.deleted_inside_time_window(time, window); end
@@ -373,7 +397,7 @@ class DB::List < ApplicationRecord
   def self.include_deleted_tasks(); end
   # Scope `:include_tasks`.
   #
-  #     scope :include_tasks, -> { includes(tasks: %i[tags users]) }
+  #     scope :include_tasks, -> { includes(tasks: %i[tags users author]) }
   #
   # @return [Array<DB::List>, nil]
   def self.include_tasks(); end
@@ -383,12 +407,24 @@ class DB::List < ApplicationRecord
   #
   # @return [Array<DB::List>, nil]
   def self.include_tasks_containing_deleted(); end
+  # Scope `:include_user_tasks`.
+  #
+  #     scope :include_user_tasks, ->(user) { include_tasks.where(users: { id: user.id }) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_user_tasks(user); end
   # Scope `:pos_order`.
   #
   #     scope :pos_order, -> { reorder(pos: :asc) }
   #
   # @return [Array<DB::List>, nil]
   def self.pos_order(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, ->(visible) { where(visible:) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.visible(visible); end
   # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -455,6 +491,12 @@ class DB::List < ApplicationRecord
   # Database column `lists.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `lists.visible`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def visible=(val); end
+  # Database column `lists.visible`, type: `boolean`.
+  # @return [Boolean, nil]
+  def visible; end
 end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
@@ -526,18 +568,26 @@ class DB::Task < ApplicationRecord
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::Task>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::Task>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::Task>, nil]
   def self.deleted_inside_time_window(time, window); end
@@ -740,21 +790,41 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.admin(); end
+  # Scope `:created_at_from`.
+  #
+  #     scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.created_at_from(created_at); end
+  # Scope `:created_at_to`.
+  #
+  #     scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.created_at_to(created_at); end
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::User>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::User>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::User>, nil]
   def self.deleted_inside_time_window(time, window); end
@@ -812,6 +882,30 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.regular(); end
+  # Scope `:role`.
+  #
+  #     scope :role, ->(role) { where(role: role) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.role(role); end
+  # Scope `:role_collection`.
+  #
+  #     scope :role_collection, ->(roles) { where(role: roles) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.role_collection(roles); end
+  # Scope `:search`.
+  #
+  #     scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.search(string); end
+  # Scope `:workspace_id`.
+  #
+  #     scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.workspace_id(workspace_id); end
   # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
   # @param val [Array<DB::Comment>, nil]
   def comments=(val); end
@@ -973,18 +1067,26 @@ class DB::Workspace < ApplicationRecord
   # Scope `:deleted_after_time`.
   #
   #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
   #
   # @return [Array<DB::Workspace>, nil]
   def self.deleted_after_time(time); end
   # Scope `:deleted_before_time`.
   #
   #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
   #
   # @return [Array<DB::Workspace>, nil]
   def self.deleted_before_time(time); end
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
   #
   # @return [Array<DB::Workspace>, nil]
   def self.deleted_inside_time_window(time, window); end
