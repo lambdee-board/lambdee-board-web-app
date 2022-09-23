@@ -13,7 +13,6 @@ import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
 import { calculateTaskListOrder } from '../../../constants/componentPositionService'
 
-
 export default function BoardWorkView() {
   const dispatch = useDispatch()
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
