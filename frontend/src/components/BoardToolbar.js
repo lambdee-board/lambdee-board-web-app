@@ -36,13 +36,15 @@ export default function BoardToolbar(props) {
 
     const newList = {
       name: nameInput.value,
-      boardId
+      boardId,
+      visible: true
     }
 
     apiClient.post('/api/lists', newList)
       .then((response) => {
         // successful request
         mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
+        mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
         dispatch(addAlert({ severity: 'success', message: 'New List Created!' }))
         setNewListButtonVisible(true)
       })
