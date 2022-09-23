@@ -168,7 +168,7 @@ describe('TaskCardModal', () => {
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
       cy.get('.TaskCardModal-sidebar-card-box-tags .Tag svg').first().click()
-      cy.get('.TaskCardModal-sidebar-card-box-tags .Tag').first()
+      cy.get('.TaskCardModal-sidebar-card-box-tags').first()
         .should('not.have.text', 'Database')
     })
     it('opens new tag dialog, then closes dialog/autocomplete input', () => {
