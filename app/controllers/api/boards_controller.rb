@@ -45,7 +45,7 @@ class API::BoardsController < ::APIController
   # GET /api/boards/recently_viewed
   def recently_viewed
     @boards = ::DB::Board.with_deleted.includes(:workspace).find(current_user.recent_boards)
-    render :index
+    render :recently_viewed
   end
 
   private
