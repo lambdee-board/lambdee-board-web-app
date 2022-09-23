@@ -5,8 +5,6 @@ describe('TasksView', () => {
     cy.request('/cypress_rails_reset_state')
 
     cy.visit('/tasks')
-    // uncomment after merging to account for LoginView
-    // cy.contains('Login').click()
   })
   context('TasksView', () => {
     it('shows TasksView', () => {
