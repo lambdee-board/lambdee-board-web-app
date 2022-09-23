@@ -11,36 +11,27 @@ import {
   Card,
   InputBase,
   Modal,
+  Divider
 } from '@mui/material'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
+import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import PropTypes from 'prop-types'
 import { ReactSortable } from 'react-sortablejs'
 
-import apiClient from '../api/apiClient'
-import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useList from '../api/useList'
-import { calculatePos } from '../constants/componentPositionService'
+import apiClient from '../../api/apiClient'
+import TaskListItem from './TaskListItem'
+import useList from '../../api/useList'
+import { calculatePos } from '../../constants/componentPositionService'
 
 import './TaskList.sass'
-import { addAlert } from '../redux/slices/appAlertSlice'
+import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
-import TaskListModal from './TaskListModal'
+import TaskListModal from '../TaskListModal'
 
 function TaskListSkeletonContent() {
   return (
-    <>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-      <ListItem className='TaskList-item' >
-        <TaskCardSkeleton />
-      </ListItem>
-    </>
+    <div></div>
   )
 }
 
@@ -71,6 +62,8 @@ function TaskList(props) {
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
+  // visibility should part of props
+  const [listVisibility, setlistVisibility] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -90,6 +83,10 @@ function TaskList(props) {
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
+
+  const toggleListVisibility = () => {
+    setlistVisibility(!listVisibility)
+  }
 
   const newTaskButtonOnClick = () => {
     toggleNewTaskButton()
@@ -188,75 +185,90 @@ function TaskList(props) {
 
     updateTaskPos(newUpdatedTask.id, newUpdatedTask.pos, newUpdatedTasks)
   }
-
   return (
-    <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper'
+    <Box className='TaskListPlanning-wrapper'>
+      <Paper className='TaskListPlanning-paper' sx = {!listVisibility ? { opacity: '0.6' } : null}
         elevation={5}>
-        <List ref={listRef} className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
-            <Typography className='TaskList-header-text' >
+        <List ref={listRef} className='TaskListPlanning'
+          subheader={<ListSubheader className='TaskListPlanning-header' >
+            <Typography className='TaskListPlanning-header-text'   >
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-              <FontAwesomeIcon icon={faPencil} />
-            </IconButton>
+            <div>
+              <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
+                {listVisibility ?
+                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
+                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
+                }
+              </IconButton>
+              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+                <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faPencil} />
+              </IconButton>
+            </div>
           </ListSubheader>} >
-          {taskList ? (
-            <ReactSortable
-              list={sortedTasks}
-              setList={updateTaskOrder}
-              group='TaskCardList'
-              delay={1}
-              animation={50}
-              ghostClass='translucent'
-              selectedClass='translucent'
-              direction='vertical'
-              // multiDrag
-              scroll
-            >
-              {
-                sortedTasks.map((task, taskIndex) => (
-                  <ListItem className='TaskList-item' key={taskIndex} >
-                    <TaskCard key={`${task.name}-${task.id}`}
-                      id={task.id}
-                      label={task.name}
-                      tags={task.tags}
-                      priority={task.priority}
-                      assignedUsers={task.users}
-                      points={task.points}
-                      pos={task.pos}
-                      index={taskIndex}
-                      listId={task.listId}
-                    />
-                  </ListItem>
-                ))}
-            </ReactSortable>
-          ) : (
-            <TaskListSkeletonContent />
-          )}
+          <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px'  }}>
+            {taskList ? (
+              <ReactSortable
+                list={sortedTasks}
+                setList={updateTaskOrder}
+                group='TaskCardList'
+                delay={1}
+                animation={50}
+                ghostClass='translucent'
+                selectedClass='translucent'
+                direction='vertical'
+                // multiDrag
+                scroll
+              >
+
+                {
+                  sortedTasks.map((task, taskIndex) => (
+                    <div key={taskIndex}>
+                      <ListItem className='TaskListPlanning-item' >
+                        <TaskListItem key={`${task.name}-${task.id}`}
+                          id={task.id}
+                          label={task.name}
+                          tags={task.tags}
+                          priority={task.priority}
+                          assignedUsers={task.users}
+                          points={task.points}
+                          pos={task.pos}
+                          index={taskIndex}
+                          listId={task.listId}
+                        />
+                      </ListItem>
+                      <Divider />
+                    </div>
+                  ))}
+
+              </ReactSortable>
+
+            ) : (
+              <TaskListSkeletonContent />
+            )}
+          </Card>
 
           { !newTaskButtonVisible &&
             <Card
-              className='TaskList-new-task'>
+              className='TaskListPlanning-new-task'>
               <InputBase
                 ref={newTaskInputRef}
-                className='TaskList-new-task-input'
+                className='TaskListPlanning-new-task-input'
                 fullWidth
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
                 onBlur={(e) => toggleNewTaskButton()}
               />
-              <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
-                <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
+              <IconButton className='TaskListPlanning-new-task-cancel' onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon className='TaskListPlanning-new-task-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
           }
         </List>
-        <Box className='TaskList-new-task-wrapper'>
+        <Box className='TaskListPlanning-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }
@@ -266,9 +278,9 @@ function TaskList(props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskList-modal-wrapper'
+        className='TaskListPlanning-modal-wrapper'
       >
-        <div className='TaskList-modal'>
+        <div className='TaskListPlanning-modal'>
           <TaskListModal listId={props.id} title={props.title} />
         </div>
       </Modal>

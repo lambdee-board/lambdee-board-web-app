@@ -8,17 +8,15 @@ import PropTypes from 'prop-types'
 
 import RecentBoardIcon from '../RecentBoardIcon'
 import DropdownButton from '../DropdownButton'
-import useWorkspace from '../../api/useWorkspace'
 import useBoard from '../../api/useBoard'
 
-function RecentBoard({ boardId, boardName, boardColour, workspaceId }) {
+function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName }) {
   const navigate = useNavigate()
-  const { data: workspace } = useWorkspace({ id: workspaceId, axiosOptions: null })
 
   return (
     <MenuItem onClick={() => navigate(`/workspaces/${workspaceId}/boards/${boardId}`)}>
-      <RecentBoardIcon name={workspace.name} size={32} colour={boardColour} iconSize='20' />
-      {workspace.name}/{boardName}
+      <RecentBoardIcon name={workspaceName} size={32} colour={boardColour} iconSize='20' />
+      {workspaceName}/{boardName}
     </MenuItem>
   )
 }
@@ -50,6 +48,7 @@ const RecentMenuButton = () => {
               boardName={recentBoard.name}
               boardColour={recentBoard.colour}
               workspaceId={recentBoard.workspaceId}
+              workspaceName={recentBoard.workspaceName}
             />
           ))}
         </DropdownButton>
@@ -63,6 +62,7 @@ RecentBoard.propTypes = {
   boardId: PropTypes.number.isRequired,
   boardName: PropTypes.string.isRequired,
   workspaceId: PropTypes.number.isRequired,
+  workspaceName: PropTypes.string.isRequired,
   boardColour: PropTypes.string.isRequired
 }
 

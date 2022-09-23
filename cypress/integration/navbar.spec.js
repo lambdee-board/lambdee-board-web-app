@@ -4,7 +4,6 @@ describe('Navbar', () => {
     cy.request('/cypress_rails_reset_state')
 
     cy.visit('/')
-    cy.contains('Login').click()
   })
 
   it('displays the navbar with the logo', () => {
@@ -17,13 +16,6 @@ describe('Navbar', () => {
     cy.contains('Workspaces').click()
     cy.get('div.MuiModal-root').should('exist')
     cy.get('div.MuiBackdrop-root').first().click()
-
-
-    // // Actions - deleted?
-    // cy.get('div.MuiModal-root').should('not.exist')
-    // cy.contains('Actions').click()
-    // cy.get('div.MuiModal-root').should('exist')
-    // cy.get('div.MuiBackdrop-root').first().click()
 
     // My account avatar
     cy.get('div.MuiModal-root').should('not.exist')

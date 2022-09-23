@@ -7,8 +7,13 @@ class API::TagsController < ::APIController
 
   # GET api/boards/:board_id/tags or GET api/tasks/:task_id/tags
   def index
-    @tags = ::DB::Task.find(params[:task_id]).tags if params[:task_id]
-    @tags = ::DB::Tag.find_for_board(params[:board_id]) if params[:board_id]
+    @tags = if params[:task_id]
+              ::DB::Task.find(params[:task_id]).tags
+            elsif params[:board_id]
+              ::DB::Tag.for_board(params[:board_id])
+            else
+              ::DB::Tag.all
+            end
   end
 
   # GET api/tags/1

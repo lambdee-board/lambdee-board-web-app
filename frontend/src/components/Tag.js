@@ -8,7 +8,7 @@ function Tag(props) {
     <Chip
       className='Tag'
       label={props.name}
-      sx={{ color: textColour(props.colour), bgcolor: props.colour }}
+      sx={{ color: textColour(props.colour), bgcolor: props.colour, display: 'flex', alignSelf: 'center' }}
       size='small'
       onDelete={props.deletable || false ? props.onDelete : undefined} />
   )

@@ -7,12 +7,22 @@ class API::TasksController < ::APIController
 
   # GET api/tasks
   def index
-    @tasks = ::DB::Task.all
+    @tasks = if params[:list_id]
+               ::DB::Task.for_list(params[:list_id])
+             else
+               ::DB::Task.all
+             end
+
+    return unless params[:include_associations] == 'true'
+
+    @tasks = @tasks.with_users_and_tags
+    render :index_with_associations
   end
 
   # GET api/tasks/1
   def show
-    if params[:include_associations] == 'true'
+    case params[:include_associations]
+    when 'true'
       @task = ::DB::Task.find_with_all_associations(params[:id])
       render :show_with_associations and return
     else
