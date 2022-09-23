@@ -14,7 +14,7 @@ end
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
-  list = ::FactoryBot.create(:list, board:, name: 'Backlog')
+  list = ::FactoryBot.create(:list, board:, name: 'Backlog', visible: true)
 
   frontend_tag = ::FactoryBot.create(:tag, name: 'Frontend', board:)
   backend_tag = ::FactoryBot.create(:tag, name: 'Backend', board:)
@@ -37,6 +37,7 @@ def create_board(workspace)
   task = ::FactoryBot.create(:task, list:, name: 'Refactor the REST API', priority: :high, points: 10, description: "### Quae\nAmet ex sed. Consequuntur numquam esse. Soluta ab eaque. Dolores veniam laborum. Ipsa assumenda iure.\nQui cupiditate iusto. Doloremque voluptatem in. **Voluptas** dolores quisquam.")
   task.tags << backend_tag
 
+  ::FactoryBot.create(:list, board:, name: 'Hidden', visible: false)
   5.times do |i|
     list = ::FactoryBot.create(:list, board:, visible: true)
     rand(5).times do
