@@ -45,7 +45,7 @@ class API::BoardsController < ::APIController
   # GET /api/boards/recently_viewed
   def recently_viewed
     @boards = ::DB::Board.with_deleted.includes(:workspace).find(current_user.recent_boards)
-    render :index
+    render :recently_viewed
   end
 
   private
@@ -53,7 +53,9 @@ class API::BoardsController < ::APIController
   # @return [void]
   def set_lists_scope
     @lists_scope = {
-      'visible' => :lists,
+      'visible' => :visible_lists,
+      'invisible' => :invisible_lists,
+      'non-archived' => :lists,
       'all' => :lists_including_deleted,
       'archived' => :deleted_lists
     }[params[:lists].to_s]

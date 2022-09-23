@@ -41,6 +41,8 @@ end
             type: :string,
             enum: [
               'visible',
+              'invisible',
+              'non-archived',
               'archived',
               'all'
             ]

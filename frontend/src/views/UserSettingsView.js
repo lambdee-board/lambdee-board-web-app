@@ -16,9 +16,9 @@ import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
 
-import apiClient from '../../api/apiClient'
-import useCurrentUser from '../../api/useCurrentUser'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+import apiClient from '../api/apiClient'
+import useCurrentUser from '../api/useCurrentUser'
+import { addAlert } from '../redux/slices/appAlertSlice'
 import './UserSettingsView.sass'
 
 

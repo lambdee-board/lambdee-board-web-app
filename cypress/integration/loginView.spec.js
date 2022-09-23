@@ -4,7 +4,7 @@ describe('LoginView', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/')
+    cy.visit('/login')
   })
   context('Login', () => {
     it('shows LoginView', () => {

@@ -4,5 +4,6 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 . $script_dir/shell_helper "$@"
 
 title "Opening cypress"
+export CYPRESS="true"
 
 rake cypress:$1
