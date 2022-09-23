@@ -14,6 +14,9 @@
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
 
+require_relative '../test/simple_cov_initializer'
+::SimpleCovInitializer.call 'test:spec'
+
 require 'debug'
 
 RSpec.configure do |config|

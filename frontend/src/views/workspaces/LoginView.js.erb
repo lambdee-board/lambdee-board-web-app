@@ -1,0 +1,39 @@
+import React from 'react'
+import { useNavigate } from 'react-router-dom'
+import {
+  Card,
+  Link,
+  TextField,
+  Typography,
+  Button
+} from '@mui/material'
+
+
+import './LoginView.sass'
+
+
+export default function LoginView() {
+  const navigate = useNavigate()
+  return (
+    <div className='loginView-wrapper'>
+      <img
+        className='logo'
+        src="<%= asset_path('lambdee-logo.svg') %>"
+      />
+      <Card className='loginView-card'>
+        <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
+        <TextField className='loginView-card-input' label='Email' variant='outlined' />
+        <TextField type='password' className='loginView-card-input' label='Password' variant='outlined' />
+        <Link
+          onClick={() => navigate('/forgotPasswordView')}
+          component='button'
+          className='loginView-card-reset'
+          underline='none'
+          variant='body2'>Forgot password?</Link>
+        <Button onClick={() => navigate('/welcomeView')} className='loginView-card-button' variant='contained'>Login</Button>
+      </Card>
+    </div>
+  )
+}
+
+

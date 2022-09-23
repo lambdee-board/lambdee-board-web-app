@@ -9,7 +9,14 @@ on:
   push:
     branches: [ main ]
   pull_request:
+    types: [ opened ]
     branches: [ main ]
+permissions:
+  actions: read
+  checks: write
+  contents: read
+  pull-requests: write
+  statuses: read
 jobs:
   tests:
     runs-on: ubuntu-latest
@@ -56,15 +63,49 @@ jobs:
         run: bin/rails db:schema:load
       # Add or replace test runners here
       - name: Backend unit tests
-        run: bin/rake
+        run: COVERAGE=true bin/rails test
       - name: Backend spec tests
-        run: bundle exec rspec
+        run: COVERAGE=true bundle exec rspec
       - name: Build the frontend
         run: |
           BUILD=true bin/rails runner bin/.build/preprocess_react.rb
           bin/build
       - name: Run cypress tests
         run: bin/cypress run
+      - name: Backend Code Coverage report
+        uses: 5monkeys/cobertura-action@master
+        with:
+          path: coverage/coverage.xml
+          minimum_coverage: 75
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+      - name: Prepare data for a Code Coverage badge
+        run: |
+          echo "COVERAGE=$(./bin/code_coverage)" >> $GITHUB_ENV
+          REF=${{ github.ref }}
+          echo "github.ref: $REF"
+          IFS='/' read -ra PATHS <<< "$REF"
+          BRANCH_NAME="${PATHS[1]}_${PATHS[2]}"
+          echo $BRANCH_NAME
+          echo "BRANCH=$(echo ${BRANCH_NAME})" >> $GITHUB_ENV
+      - name: Create the Coverage Badge
+        uses: schneegans/dynamic-badges-action@v1.4.0
+        with:
+          auth: ${{ secrets.GIST_SECRET }}
+          gistID: 9a8c8388655c06d65286da59107df2d2
+          filename: lambdee_board_web_app__${{ env.BRANCH }}.json
+          style: flat
+          label: Backend Code Coverage
+          message: ${{ env.COVERAGE }}%
+          logoColor: EB222F
+          namedLogo: ruby
+          valColorRange: ${{ env.COVERAGE }}
+          maxColorRange: 100
+          minColorRange: 0
+      - name: Archive code coverage artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: code_coverage
+          path: coverage
       - name: Archive test artifacts
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}

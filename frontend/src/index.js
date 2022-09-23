@@ -23,14 +23,20 @@ import UserSettingsView from './views/workspaces/UserSettingsView'
 import WorkspaceSettingsView from './views/workspaces/WorkspaceSettingsView'
 import WelcomeView from './views/workspaces/WelcomeView'
 import TasksView from './views/workspaces/TasksView'
+import LoginView from './views/workspaces/LoginView.js'
+import ForgotPasswordView from './views/workspaces/ForgotPasswordView.js'
+import ResetPasswordView from './views/workspaces/ResetPasswordView.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path='/' element={<LoginView />} />
+        <Route path='/forgotPasswordView' element={<ForgotPasswordView />} />
+        <Route path='/resetPasswordView' element={<ResetPasswordView />} />
         <Route path='/' element={<App />}>
-          <Route path='/' element={<WelcomeView />} />
+          <Route path='welcomeView' element={<WelcomeView />} />
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
             <Route path='settings' element={<WorkspaceSettingsView />} />
             <Route path='boards/:boardId' element={<BoardView />} />

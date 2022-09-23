@@ -4,6 +4,7 @@ describe('Navbar', () => {
     cy.request('/cypress_rails_reset_state')
 
     cy.visit('/')
+    cy.contains('Login').click()
   })
 
   it('displays the navbar with the logo', () => {
