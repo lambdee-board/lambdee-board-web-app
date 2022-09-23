@@ -23,12 +23,42 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create list' do
     assert_difference('DB::List.count') do
-      post api_lists_url, params: { list: { name: 'Backlog', pos: @list.pos, board_id: @board.id } }, as: :json
+      post api_lists_url, params: {
+        list: {
+          name: 'Backlog',
+          visible: true,
+          pos: @list.pos,
+          board_id: @board.id,
+          inexistent_field: :lol
+        }
+      }, as: :json
     end
 
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Backlog', json['name']
+    assert_equal true, json['visible']
+    assert_equal @list.pos, json['pos']
+    assert_equal @board.id, json['board_id']
+    assert_nil json['inexistent_field']
+  end
+
+  should 'create list with default params' do
+    assert_difference('DB::List.count') do
+      post api_lists_url, params: {
+        list: {
+          name: 'Backlog',
+          board_id: @board.id,
+        }
+      }, as: :json
+    end
+
+    assert_response :created
+    json = ::JSON.parse response.body
+    assert_equal 'Backlog', json['name']
+    assert_equal @board.id, json['board_id']
+    assert_equal false, json['visible']
+    assert json['pos'].is_a?(::Float)
   end
 
   should "not create list with a too long name" do
@@ -109,11 +139,23 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'update list' do
-    patch api_list_url(@list), params: { list: { name: 'New name' } }, as: :json
+    assert_not_equal 'New name', @list.name
+    assert_not_equal true, @list.visible
+    assert_not_equal 123.123, @list.pos
+
+    patch api_list_url(@list), params: {
+      list: {
+        name: 'New name',
+        visible: true,
+        pos: 123.123
+      }
+    }, as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
     assert_equal 'New name', json['name']
+    assert_equal true, json['visible']
+    assert_equal 123.123, json['pos']
   end
 
   should 'destroy list' do

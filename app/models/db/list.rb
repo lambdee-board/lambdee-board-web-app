@@ -14,6 +14,7 @@ class DB::List < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  scope :visible, ->(visible) { where(visible:) }
   scope :pos_order, -> { reorder(pos: :asc) }
 
   scope :include_tasks, -> { includes(tasks: %i[tags users author]) }

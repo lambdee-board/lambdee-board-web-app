@@ -60,6 +60,6 @@ class API::ListsController < ::APIController
 
   # Only allow a list of trusted parameters through.
   def list_params
-    params.require(:list).permit(:name, :pos, :deleted, :board_id)
+    params.require(:list).permit(:name, :pos, :visible, :deleted, :board_id)
   end
 end
