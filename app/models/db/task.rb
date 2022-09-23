@@ -32,7 +32,7 @@ class DB::Task < ApplicationRecord
   }
 
   validates :name, presence: true, length: { maximum: 80 }
-  validates :description, length: { maximum: 1000 }
+  validates :description, length: { maximum: 10_000 }
   validates :points, numericality: { in: 0..99 }, allow_blank: true
 
   class << self

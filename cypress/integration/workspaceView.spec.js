@@ -17,7 +17,7 @@ describe('Workspace View', () => {
 
     it('shows the board', () => {
       cy.get('.TaskLists-wrapper').should('exist')
-      cy.contains('Backlog')
+      cy.contains('To do')
     })
 
     it('shows all list elements', () => {
