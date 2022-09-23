@@ -4,7 +4,7 @@ describe('TasksView', () => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
 
-    cy.visit('/')
+    cy.visit('/tasks')
     // uncomment after merging to account for LoginView
     // cy.contains('Login').click()
   })
