@@ -25,12 +25,12 @@ export default function LoginView() {
         <TextField className='loginView-card-input' label='Email' variant='outlined' />
         <TextField type='password' className='loginView-card-input' label='Password' variant='outlined' />
         <Link
-          onClick={() => navigate('/forgotPasswordView')}
+          onClick={() => navigate('/login/forgot-password')}
           component='button'
           className='loginView-card-reset'
           underline='none'
           variant='body2'>Forgot password?</Link>
-        <Button onClick={() => navigate('/welcomeView')} className='loginView-card-button' variant='contained'>Login</Button>
+        <Button onClick={() => navigate('/')} className='loginView-card-button' variant='contained'>Login</Button>
       </Card>
     </div>
   )
