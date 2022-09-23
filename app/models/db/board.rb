@@ -7,6 +7,8 @@ class DB::Board < ::ApplicationRecord
 
   belongs_to :workspace
   has_many :lists, dependent: :destroy
+  has_many :visible_lists, -> { visible(true) }, class_name: 'DB::List'
+  has_many :invisible_lists, -> { visible(false) }, class_name: 'DB::List'
   has_many :lists_including_deleted, -> { with_deleted }, class_name: 'DB::List'
   has_many :deleted_lists, -> { only_deleted }, class_name: 'DB::List'
   has_many :tags

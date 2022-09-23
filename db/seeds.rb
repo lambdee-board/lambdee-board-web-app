@@ -38,7 +38,7 @@ def create_board(workspace)
   task.tags << backend_tag
 
   5.times do |i|
-    list = ::FactoryBot.create(:list, board:)
+    list = ::FactoryBot.create(:list, board:, visible: true)
     rand(5).times do
       task = ::FactoryBot.create(:task, list:)
       rand(4).times { task.users << ::FactoryBot.create(:user) }

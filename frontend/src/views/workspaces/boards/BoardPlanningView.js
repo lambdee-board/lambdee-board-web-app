@@ -1,4 +1,4 @@
-import { useOutletContext } from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import React from 'react'
 
 import { useDispatch } from 'react-redux'
@@ -6,15 +6,19 @@ import { ReactSortable } from 'react-sortablejs'
 
 import './BoardPlanningView.sass'
 
-import TaskList from '../../../components//board-planning/TaskList'
+import { BoardWorkViewSkeleton } from './BoardView'
+import TaskList from '../../../components/board-planning/TaskList'
 import apiClient from '../../../api/apiClient'
+import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
-import { calculatePos } from '../../../constants/componentPositionService'
+import { calculateTaskListOrder } from '../../../constants/componentPositionService'
 
 
 export default function BoardWorkView() {
   const dispatch = useDispatch()
-  const [board, mutateBoard, sortedTaskLists, setNewTaskListOrder] = useOutletContext()
+  const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
+  const { boardId } = useParams()
+  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
 
   const updateListPos = (id, newPos, updatedLists) => {
     setNewTaskListOrder(updatedLists)
@@ -35,25 +39,20 @@ export default function BoardWorkView() {
   }
 
   const updateTaskListOrder = (updatedLists, ...rest) => {
-    let listsAreEqual = true
-    for (let i = 0; i < sortedTaskLists.length; i++) {
-      if (sortedTaskLists[i].id !== updatedLists[i].id) {
-        listsAreEqual = false
-        break
-      }
-    }
+    const [updatedElementId, updatedElementPos, reorderedLists] = calculateTaskListOrder(sortedTaskLists, updatedLists)
+    if ((updatedElementId ?? true) === true) return
 
-    if (listsAreEqual) return
-
-    const currentListIndex = updatedLists.findIndex((list) => list.chosen !== undefined)
-
-    const newUpdatedLists = [...updatedLists]
-    const newUpdatedList = { ...newUpdatedLists[currentListIndex] }
-    newUpdatedList.pos = calculatePos(currentListIndex, updatedLists)
-    newUpdatedLists[currentListIndex] = newUpdatedList
-
-    updateListPos(newUpdatedList.id, newUpdatedList.pos, newUpdatedLists)
+    updateListPos(updatedElementId, updatedElementPos, reorderedLists)
   }
+
+  React.useEffect(() => {
+    if (!board) return
+
+    const sortedList = [...board.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    setNewTaskListOrder([...sortedList])
+  }, [board])
+
+  if (isLoading || isError) return (<BoardWorkViewSkeleton />)
 
   return (
     <div className='BoardPlanningView'>
@@ -65,7 +64,6 @@ export default function BoardWorkView() {
           scroll
           ghostClass='translucent'
           direction='vertical'
-          multiDrag
           delay={1}
           animation={50}
         >

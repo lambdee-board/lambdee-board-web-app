@@ -53,7 +53,9 @@ class API::BoardsController < ::APIController
   # @return [void]
   def set_lists_scope
     @lists_scope = {
-      'visible' => :lists,
+      'visible' => :visible_lists,
+      'invisible' => :invisible_lists,
+      'non-archived' => :lists,
       'all' => :lists_including_deleted,
       'archived' => :deleted_lists
     }[params[:lists].to_s]
