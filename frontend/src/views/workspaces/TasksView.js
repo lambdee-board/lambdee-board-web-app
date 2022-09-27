@@ -64,8 +64,8 @@ export default function TasksView() {
     <div className='tasksView-wrapper'>
       <div className='tasksView-workspaces'>
         {workspaces.map((workspace) => (
-          <Button sx={{ textTransform: 'none' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>
-            <Card className='tasksView-workspaces-card' >
+          <Button sx={{ textTransform: 'none', flexShrink: '0' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>
+            <Card className='tasksView-workspaces-card' sx={ pickedWorkspace.id === workspace.id ? { boxSizing: 'border-box', border: '2px solid #1082F3', } : null}>
               <div className='tasksView-workspaces-card-title'>
                 <WorkspaceIcon name={workspace.name} size={52} />
                 <Typography sx={{ ml: '10px' }}>
