@@ -1,17 +1,21 @@
 @import './../../styles/base'
 
+
 .tasksView-wrapper
   background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
-  position: absolute
-  height: 92%
-  min-width: 99%
-  border-radius: $unit
+  width: calc(100% - (2 * $unit))
+  height: calc(100vh - (10 * $unit))
   margin: $unit
+  border-radius: $unit
+  display: inline-flex
+  flex-direction: column
   .tasksView-workspaces
     display: flex
+    overflow-x: auto
     flex-direction: row
-    padding-top: $unit
     align-items: center
+    padding-top: $unit
+    min-height: 40 * $unit
     .tasksView-workspaces-card
       display: flex
       flex-direction: column
@@ -30,6 +34,7 @@
         flex-direction: column
         align-items: center
   .tasksView-userTasks
+    overflow-x: auto
     display: flex
     flex-direction: row
-    margin-top: 2 * $unit
+    padding-top: $unit

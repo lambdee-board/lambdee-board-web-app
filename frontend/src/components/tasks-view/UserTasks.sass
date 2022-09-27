@@ -4,7 +4,8 @@
   display: flex
   flex-direction: column
   width: 38 * $unit
-  height: 60 * $unit
+  min-height: 34 * $unit
+  max-height: 92%
   margin: 3 * $unit
   .userTasks-card-title
     display: flex
@@ -17,13 +18,8 @@
     .userTasks-card-title-icon
       width: 4 * $unit
       height: 4 * $unit
-.userTasks-card-lists::-webkit-scrollbar
-  display: none
 .userTasks-card-lists
-  height: 52 * $unit
-  -ms-overflow-style: none
-  scrollbar-width: none
-  overflow: scroll
+  overflow-y: auto
   .userTasks-card-list
     display: flex
     flex-direction: column
