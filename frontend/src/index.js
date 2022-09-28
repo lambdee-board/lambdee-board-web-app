@@ -41,7 +41,7 @@ root.render(
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
             <Route path='settings' element={<WorkspaceSettingsView />} />
             <Route path='boards/:boardId' element={<BoardView />}>
-              <Route path='' element={<BoardWorkView />} />
+              <Route path='work' element={<BoardWorkView />} />
               <Route path='planning' element={<BoardPlanningView />} />
             </Route>
           </Route>
