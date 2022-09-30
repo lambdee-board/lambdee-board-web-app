@@ -66,7 +66,7 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
+  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'all' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
