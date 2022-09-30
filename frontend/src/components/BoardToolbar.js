@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
+import useCookie, { getCookie } from 'react-use-cookie'
 import { faPlus, faXmark, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput } from '@mui/material'
+
 
 import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
@@ -15,20 +17,20 @@ export default function BoardToolbar(props) {
   const { boardId, workspaceId } = useParams()
   const navigate = useNavigate()
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
-  const [boardView, setBoardView] = React.useState(false)
+  const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
 
 
   const setBoardPlanningView = () => {
-    setBoardView(!boardView)
+    setBoardView('0')
   }
   const setBoardWorkView = () => {
-    setBoardView(!boardView)
+    setBoardView('1')
   }
 
   useEffect(() => {
-    if (boardView) {
+    if (boardView === '1') {
       { navigate(`/workspaces/${workspaceId}/boards/${boardId}/work`) }
     } else {
       { navigate(`/workspaces/${workspaceId}/boards/${boardId}/planning`) }
@@ -118,7 +120,7 @@ export default function BoardToolbar(props) {
           />
         </ClickAwayListener>
         }
-        {boardView ?
+        {boardView === '1' ?
           <div>
 
             <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}

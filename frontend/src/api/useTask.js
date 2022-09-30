@@ -1,4 +1,4 @@
-import { useAPI } from './apiClient'
+import { useAPI, mutateAPI } from './apiClient'
 
 const requestPath = (id) => `/api/tasks/${id}`
 
@@ -10,4 +10,7 @@ const getterKey = (id, axiosOptions = undefined) => {
 }
 
 const useTask = ({ id, axiosOptions, options })  => useAPI(getterKey(id, axiosOptions), options)
+const mutateTask = ({ id, axiosOptions, data, options }) => mutateAPI(getterKey(id, axiosOptions), data, options)
+
 export default useTask
+export { useTask, mutateTask }
