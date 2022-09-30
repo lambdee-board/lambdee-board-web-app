@@ -24,7 +24,7 @@ import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
 import { calculatePos } from '../../constants/componentPositionService'
 
-import './TaskList.sass'
+import './TaskPlanningList.sass'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskListModal from '../TaskListModal'
@@ -56,7 +56,7 @@ function TaskListSkeleton() {
   )
 }
 
-function TaskList(props) {
+function TaskPlanningList(props) {
   const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
@@ -186,7 +186,9 @@ function TaskList(props) {
     updateTaskPos(newUpdatedTask.id, newUpdatedTask.pos, newUpdatedTasks)
   }
   return (
+
     <Box className='TaskListPlanning-wrapper'>
+
       <Paper className='TaskListPlanning-paper' sx = {!listVisibility ? { opacity: '0.6' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
@@ -216,7 +218,7 @@ function TaskList(props) {
                 animation={50}
                 ghostClass='translucent'
                 selectedClass='translucent'
-                direction='vertical'
+                direction='horizontal'
                 // multiDrag
                 scroll
               >
@@ -278,9 +280,9 @@ function TaskList(props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskListPlanning-modal-wrapper'
+        className='TaskList-modal-wrapper'
       >
-        <div className='TaskListPlanning-modal'>
+        <div className='TaskList-modal'>
           <TaskListModal listId={props.id} title={props.title} />
         </div>
       </Modal>
@@ -289,12 +291,12 @@ function TaskList(props) {
   )
 }
 
-TaskList.propTypes = {
+TaskPlanningList.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
 }
 
-export default TaskList
-export { TaskList, TaskListSkeleton }
+export default TaskPlanningList
+export { TaskPlanningList, TaskListSkeleton }

@@ -7,7 +7,7 @@ import { ReactSortable } from 'react-sortablejs'
 import './BoardPlanningView.sass'
 
 import { BoardWorkViewSkeleton } from './BoardView'
-import TaskList from '../../../components/board-planning/TaskList'
+import TaskPlanningList from '../../../components/board-planning/TaskPlanningList'
 import apiClient from '../../../api/apiClient'
 import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
@@ -67,7 +67,7 @@ export default function BoardWorkView() {
           animation={50}
         >
           {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskList key={taskList.id}
+            <TaskPlanningList key={taskList.id}
               title={taskList.name}
               pos={taskList.pos}
               id={taskList.id}

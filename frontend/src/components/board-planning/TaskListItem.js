@@ -18,28 +18,6 @@ import Tag from '../Tag'
 import { mutateList } from '../../api/useList'
 
 
-const TaskCardSkeleton = () => {
-  return (
-    <div className='TaskCard-wrapper'>
-      <Card className='TaskCard'>
-        <Typography>
-          <Skeleton height={36} width={200} variant='text' />
-        </Typography>
-        <Box className='Box-categories'>
-          <Skeleton height={24} width={65} variant='rectangular' />
-        </Box>
-        <Box className='Box'>
-          <Box className='Box-priority' />
-          <AvatarGroup max={4} className='.MuiAvatar-root'>
-            <Skeleton height={24} width={24} variant='circular' />
-          </AvatarGroup>
-        </Box>
-      </Card>
-    </div>
-  )
-}
-
-
 const TaskListItem = (props) => {
   const dndRef = useRef(null)
 
@@ -80,7 +58,10 @@ const TaskListItem = (props) => {
           </Box>
 
           <Box className='TaskListItem-properties-priority'>
-            <PriorityIcon priority={props.priority} />
+            <PriorityIcon size='xl' taskPriority={props.priority} />
+
+          </Box>
+          <Box className='TaskListItem-properties-points'>
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
           <Box className='TaskListItem-properties-avatars'>
