@@ -46,7 +46,7 @@ const TaskCard = (props) => {
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'all' } } })
+    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
   return (

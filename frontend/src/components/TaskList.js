@@ -66,7 +66,7 @@ function TaskListSkeleton() {
 }
 
 function TaskList(props) {
-  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'all' } } })
+  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
@@ -269,7 +269,7 @@ function TaskList(props) {
         className='TaskList-modal-wrapper'
       >
         <div className='TaskList-modal'>
-          <TaskListModal listId={props.id} title={props.title} />
+          <TaskListModal listId={props.id} title={props.title} listVisibility={'visible'} />
         </div>
       </Modal>
       }

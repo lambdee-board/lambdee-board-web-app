@@ -35,29 +35,9 @@ function TaskListSkeletonContent() {
   )
 }
 
-function TaskListSkeleton() {
-  return (
-
-    <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper'
-        elevation={5}>
-        <List className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
-            <Skeleton height={36} width={200} variant='text' />
-            <Skeleton height={36} width={36} variant='circular' />
-          </ListSubheader>} >
-          <TaskListSkeletonContent />
-        </List>
-        <Box className='TaskList-new-task-wrapper' sx={{ display: 'flex' }}>
-          <Skeleton height={36} width={70} variant='text' sx={{ ml: 2, mb: 1 }} />
-        </Box>
-      </Paper>
-    </Box>
-  )
-}
 
 function TaskPlanningList(props) {
-  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'all' } } })
+  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
@@ -283,7 +263,7 @@ function TaskPlanningList(props) {
         className='TaskList-modal-wrapper'
       >
         <div className='TaskList-modal'>
-          <TaskListModal listId={props.id} title={props.title} />
+          <TaskListModal listId={props.id} title={props.title} listVisibility={'non-archived'}  />
         </div>
       </Modal>
       }
@@ -299,4 +279,3 @@ TaskPlanningList.propTypes = {
 }
 
 export default TaskPlanningList
-export { TaskPlanningList, TaskListSkeleton }
