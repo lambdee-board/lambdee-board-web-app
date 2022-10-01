@@ -14,17 +14,12 @@ import useWorkspaceUsers from '../../api/useWorkspaceUsers'
 import WorkspaceUser, { WorkspaceUserSkeleton } from '../../components/workspace-settings/WorkspaceUser'
 
 import './WorkspaceMembersView.sass'
-import apiClient from '../../api/apiClient'
-import { useDispatch } from 'react-redux'
-import { addAlert } from '../../redux/slices/appAlertSlice'
 
 import UsersFilter from '../../components/UsersFilter'
 import useWorkspaces from '../../api/useWorkspaces'
 
 
 export default function WorkspaceMembersView() {
-  const dispatch = useDispatch()
-
   const [page, setPage] = React.useState(1)
   const [filter, setFilter] = React.useState({ page, per: 5 })
   const requestParams = { id: 1, axiosOptions: { params: filter } }
