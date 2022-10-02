@@ -4,13 +4,15 @@
   background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
   padding: 2 * $unit
   border-radius: $unit
-  width: 55 * $unit
+  width: 65 * $unit
   .UserFilter-title
     font-size: 24px
-    margin-botton: $unit
+    margin-bottom: $unit
   .formControls
     width: 100%
     margin: 2 * $unit 0
+    .form-label
+      margin-bottom: $unit
     #UserFilter-select-label
       height: 4 * $unit
       display: flex
@@ -19,3 +21,15 @@
       display: flex
       flex-wrap: wrap
       justify-content: space-evenly
+    .date-wrapper
+      display: flex
+      flex-direction: row
+      justify-content: space-between
+      .date-block
+        display: flex
+        flex-direction: column
+        .date-label
+          color: rgba(170, 170, 170, 0.6)
+          margin-right: $unit
+        #UserFilter-date-start, #UserFilter-date-end
+          width: 16 * $unit

@@ -1,11 +1,9 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { IconButton, InputAdornment, FormControl, MenuItem, OutlinedInput, Select, Typography, Stack } from '@mui/material'
+import { FormControl, MenuItem, OutlinedInput, Select, Typography, Stack, InputLabel } from '@mui/material'
 
 import WorkspaceIcon from './WorkspaceIcon'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 import './UsersFilter.sass'
 import RoleChip from './RoleChip'
 
@@ -13,6 +11,8 @@ import RoleChip from './RoleChip'
 const UsersFilter = (props) => {
   const [searchFiled, setSearchField] = React.useState('')
   const [workspaceFiled, setWorkspaceField] = React.useState('')
+  const [startDate, setStartDate] = React.useState('')
+  const [endDate, setEndDate] = React.useState('')
   const defaultRoles = ['Admin', 'Manager', 'Developer', 'Regular', 'Guest']
   const [roles, setRoles] = React.useState(defaultRoles)
   const colors = [
@@ -39,31 +39,24 @@ const UsersFilter = (props) => {
         Filters
       </Typography>
       <FormControl className='formControls'>
-        <Typography>User</Typography>
+        <InputLabel htmlFor='UserFilter-search-input' shrink >User name</InputLabel>
         <OutlinedInput
           id='UserFilter-search-input'
           value={searchFiled}
-          placeholder='Search'
+          label='User name'
+          notched
+          placeholder='John Doe'
           onChange={(event) => setSearchField(event.target.value)}
-          endAdornment={
-            <InputAdornment position='end'>
-              <IconButton
-                aria-label='search'
-                onClick={() => console.log('click')}
-                edge='end'
-              >
-                <FontAwesomeIcon className='UserFilter-search-icon' icon={faMagnifyingGlass} />
-              </IconButton>
-            </InputAdornment>
-          }
         />
       </FormControl>
       <FormControl className='formControls'>
-        <Typography>Workspace</Typography>
+        <InputLabel htmlFor='UserFilter-select-label' shrink >Workspace</InputLabel>
         <Select
           id='UserFilter-select-label'
           value={workspaceFiled}
           displayEmpty
+          label='Workspace'
+          notched
           onChange={(event) => setWorkspaceField(event.target.value)}
         >
           <MenuItem value=''>None</MenuItem>
@@ -81,7 +74,7 @@ const UsersFilter = (props) => {
         </Select>
       </FormControl>
       <FormControl className='formControls'>
-        <Typography>Roles</Typography>
+        <Typography className='form-label'>Roles</Typography>
         <Stack className='chipStack' direction='row'>
           {defaultRoles.map((role, idx) => (
             <RoleChip
@@ -93,6 +86,33 @@ const UsersFilter = (props) => {
           ))}
         </Stack>
       </FormControl>
+      <div className='formControls'>
+        <Typography className='form-label'>Account creation date</Typography>
+        <div className='date-wrapper'>
+          <FormControl className='date-block'>
+            <InputLabel htmlFor='UserFilter-date-start' shrink >From</InputLabel>
+            <OutlinedInput
+              id='UserFilter-date-start'
+              type='date'
+              label='From'
+              notched
+              value={startDate}
+              onChange={(event) => setStartDate(event.target.value)}
+            />
+          </FormControl>
+          <FormControl className='date-block'>
+            <InputLabel htmlFor='UserFilter-date-end' shrink>To</InputLabel>
+            <OutlinedInput
+              id='UserFilter-date-end'
+              type='date'
+              label='To'
+              notched
+              value={endDate}
+              onChange={(event) => setEndDate(event.target.value)}
+            />
+          </FormControl>
+        </div>
+      </div>
     </div>
   )
 }

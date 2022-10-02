@@ -22,7 +22,15 @@ export default function RoleChip(props) {
   }
 
   return (
-    <Chip onClick={toggleRoleChip} className='RoleChip' label={props.name} ref={chipRef} sx={{ background: props.color, color: 'white', mb: 1 }} />
+    <Chip
+      onClick={toggleRoleChip}
+      className='RoleChip'
+      label={props.name}
+      ref={chipRef}
+      sx={{ background: props.color,
+        color: 'white',
+        mb: 1,
+        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;' }} />
   )
 }
 
