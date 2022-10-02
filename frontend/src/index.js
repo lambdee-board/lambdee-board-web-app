@@ -47,6 +47,7 @@ root.render(
             </Route>
             <Route path='members' element={<WorkspaceMembersView />} />
           </Route>
+          <Route path='members' element={<WorkspaceMembersView />} />
           <Route path='console' element={<ConsoleView />} />
           <Route path='account' element={<UserSettingsView />} />
           <Route path='tasks' element={<TasksView />} />

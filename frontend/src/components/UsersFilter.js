@@ -52,7 +52,7 @@ const UsersFilter = (props) => {
   })
 
   React.useEffect(() => {
-    if (!props.dataLoadingOrError && props?.workspaces.length > 0) {
+    if (!props.dataLoadingOrError && props?.workspaces.length > 0 && workspaceId) {
       setWorkspaceField(Number.parseInt(workspaceId))
     }
   }, [props.dataLoadingOrError, props.workspaces.length, workspaceId])
