@@ -3,6 +3,8 @@
 # Contains the data of a user
 # of the frontend interface.
 class DB::User < ::ApplicationRecord
+  include ::PgSearch::Model
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   # Include default devise modules. Others available are:
@@ -16,6 +18,15 @@ class DB::User < ::ApplicationRecord
   has_many :comments, class_name: 'DB::Comment', foreign_key: :author_id
   has_and_belongs_to_many :tasks
 
+  pg_search_scope :search,
+                  against: %i[name email],
+                  ignoring: :accents,
+                  using: {
+                    tsearch: {
+                      prefix: true
+                    }
+                  }
+
   default_scope { order(:id) }
 
   scope :role_collection, ->(roles) { where(role: roles) }
@@ -23,7 +34,6 @@ class DB::User < ::ApplicationRecord
   scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
   scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
   scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
-  scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
 
   enum role: {
     guest: 0,

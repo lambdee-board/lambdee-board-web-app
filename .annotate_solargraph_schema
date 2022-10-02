@@ -175,6 +175,12 @@ class DB::Board < ApplicationRecord
   def deleted_lists; end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
+  def invisible_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def invisible_lists; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
   def lists=(val); end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @return [Array<DB::List>, nil]
@@ -191,6 +197,12 @@ class DB::Board < ApplicationRecord
   # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
   # @return [Array<DB::Tag>, nil]
   def tags; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def visible_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def visible_lists; end
   # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
   # @param val [DB::Workspace, nil]
   def workspace=(val); end
@@ -504,12 +516,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:tags>%%
 
 class DB::Tag < ApplicationRecord
-  # Scope `:find_for_board`.
+  # Scope `:for_board`.
   #
-  #     scope :find_for_board, ->(id) { where(board: id) }
+  #     scope :for_board, ->(id) { where(board: id) }
   #
   # @return [Array<DB::Tag>, nil]
-  def self.find_for_board(id); end
+  def self.for_board(id); end
   # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
   # @param val [DB::Board, nil]
   def board=(val); end
@@ -597,6 +609,12 @@ class DB::Task < ApplicationRecord
   #
   # @return [Array<DB::Task>, nil]
   def self.find_with_all_associations(id); end
+  # Scope `:for_list`.
+  #
+  #     scope :for_list, ->(id) { where(list_id: id) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.for_list(id); end
   # Scope `:high`.
   #
   #     klass.scope value_method_name, -> { where(name => value) }
@@ -669,6 +687,12 @@ class DB::Task < ApplicationRecord
   #
   # @return [Array<DB::Task>, nil]
   def self.very_low(); end
+  # Scope `:with_users_and_tags`.
+  #
+  #     scope :with_users_and_tags, -> { includes(:users, :tags) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.with_users_and_tags(); end
   # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
   # @param val [DB::User, nil]
   def author=(val); end
@@ -894,12 +918,6 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.role_collection(roles); end
-  # Scope `:search`.
-  #
-  #     scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
-  #
-  # @return [Array<DB::User>, nil]
-  def self.search(string); end
   # Scope `:workspace_id`.
   #
   #     scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
