@@ -8,11 +8,13 @@ import './UsersFilter.sass'
 import RoleChip from './RoleChip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
+import { useParams } from 'react-router-dom'
 
 
 const UsersFilter = (props) => {
+  const { workspaceId } = useParams()
   const [nameSearch, setNameSearch] = React.useState('')
-  const [workspaceFiled, setWorkspaceField] = React.useState('')
+  const [workspaceField, setWorkspaceField] = React.useState(0)
   const [startDate, setStartDate] = React.useState('')
   const [endDate, setEndDate] = React.useState('')
 
@@ -43,12 +45,22 @@ const UsersFilter = (props) => {
       roleCollection: roles,
       createdAtTo: formattedEndDate,
       createdAtFrom: formattedStartDate,
-      workspaceId: workspaceFiled,
+      workspaceId: workspaceField,
       search: nameSearch
     }
     props.updateFilters(newFilters)
   })
 
+  React.useEffect(() => {
+    if (!props.dataLoadingOrError && props?.workspaces.length > 0) {
+      setWorkspaceField(Number.parseInt(workspaceId))
+    }
+  }, [props.dataLoadingOrError, props.workspaces.length, workspaceId])
+
+  React.useEffect(() => {
+    getFilters()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [workspaceField])
 
   const enterPressed = (e) => {
     if (e.key === 'Enter') {
@@ -79,13 +91,13 @@ const UsersFilter = (props) => {
         <InputLabel htmlFor='UserFilter-select-label' shrink >Workspace</InputLabel>
         <Select
           id='UserFilter-select-label'
-          value={workspaceFiled}
+          value={workspaceField}
           displayEmpty
           label='Workspace'
           notched
           onChange={(event) => setWorkspaceField(event.target.value)}
         >
-          <MenuItem value=''>None</MenuItem>
+          <MenuItem value={0}>None</MenuItem>
           { !props.dataLoadingOrError && props?.workspaces.map((workspace, idx) => (
             <MenuItem
               value={workspace.id}
