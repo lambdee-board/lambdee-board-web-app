@@ -69,7 +69,7 @@ export default function WorkspaceMembersView() {
         />
       ))
     }
-    return <Typography>No users found</Typography>
+    return <Typography className='no-users-text'>No users found</Typography>
   }
 
   return (
