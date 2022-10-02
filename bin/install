@@ -1,64 +1,73 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ruby
+require 'fileutils'
+require 'set'
 
-script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
-. $script_dir/shell_helper "$@"
+# path to your application root.
+APP_ROOT = ::File.expand_path('..', __dir__)
 
-bundle_install_script="$script_dir/bundle_install $1"
+require ::File.join(::APP_ROOT, 'app', 'internal', 'script_refinement')
 
-if [[ $RAILS_ENV == "test" ]] ; then
-  $bundle_install_script
-  exit 0
-fi
+using ::ScriptRefinement
 
-if command -v brew &> /dev/null; then
-  title 'Upgrading brew casks'
-  brew upgrade
-fi
+# @return [void]
+def copy_example_files
+  title 'Copying example config files'
 
-title "Installing dependencies"
+  ::Dir.each_child('config') { copy_example_file ::File.join('config', _1) }
+  ::Dir.each_child('frontend') { copy_example_file ::File.join('frontend', _1) }
+  ::Dir.each_child('.') { copy_example_file _1 }
+end
 
-# Load RVM into a shell session *as a function*
-if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
-  # First try to load from a user install
-  source "$HOME/.rvm/scripts/rvm"
-elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
-  # Then try to load from a root install
-  source "/usr/local/rvm/scripts/rvm"
-else
-  error "No RVM installation was found"
-  title "Installing RVM"
-  curl -sSL https://rvm.io/mpapis.asc | gpg --import -
-  curl -sSL https://rvm.io/pkuczynski.asc | gpg --import -
-  \curl -sSL https://get.rvm.io | bash -s stable
+# @param name [String]
+# @return [Boolean]
+def copy_example_file(name)
+  return false unless name.match?(/.*\.example$/)
 
-  if [[ -s "$HOME/.rvm/scripts/rvm" ]] ; then
-    # First try to load from a user install
-    source "$HOME/.rvm/scripts/rvm"
-  elif [[ -s "/usr/local/rvm/scripts/rvm" ]] ; then
-    # Then try to load from a root install
-    source "/usr/local/rvm/scripts/rvm"
-  fi
-fi
+  copy_file_if_does_not_exist(name, name.delete_suffix('.example'))
+end
 
-title "Checking your Ruby version"
+# @param original_name [String]
+# @param new_name [String]
+# @return [Boolean]
+def copy_file_if_does_not_exist(original_name, new_name)
+  return false if ::File.exist?(new_name) || ::Dir.exist?(new_name)
 
-required_version=$(cat $script_dir/../.ruby-version)
-gemset=$(cat $script_dir/../.ruby-gemset)
-current_version=$(ruby -e "puts ::RUBY_VERSION")
+  if ::Dir.exist?(original_name)
+    ::FileUtils.cp_r original_name, new_name
+    puts "#{'copy'.rjust(12, ' ').with_styles(:green, :bold)}  #{original_name}"
+    return true
+  end
 
-if [[ "$required_version" == "$current_version" ]]; then
-  echo "Ruby version is correct - ${required_version}"
-  $bundle_install_script
-else
-  rvm install $required_version
-  rvm use $required_version
-  # only load the gemset on MacOS sic!
-  if [ "$(uname)" == "Darwin" ]; then
-    rvm gemset use $gemset --create
-  fi
+  ::FileUtils.cp original_name, new_name
+  puts "#{'copy'.rjust(12, ' ').with_styles(:green, :bold)}  #{original_name}"
+  true
+end
 
-  $bundle_install_script
-  if [[ $DONT_RELOAD_SHELL != "true" ]] ; then
-    $SHELL
-  fi
-fi
+::FileUtils.chdir ::APP_ROOT do
+  # This script is a way to set up or update your development environment automatically.
+  # This script is idempotent, so that you can run it at any time and get an expectable outcome.
+  # Add necessary setup steps to this file.
+
+  title 'Installing backend dependencies'
+  `gem install bundler --conservative`
+  system('bundle check') || `bundle install`
+
+  copy_example_files
+
+  if ::ENV['RAILS_ENV'] != 'test' && !::ENV['CI']
+    title 'Preparing the database'
+
+    `bin/rails db:setup`
+  end
+
+  title 'Installing frontend dependencies'
+  `npm install`
+
+  if ::ENV['RAILS_ENV'] != 'production' && !::ENV['SETUP'] && !::ENV['CI']
+    title 'Removing old logs and tempfiles'
+    `bin/rails log:clear tmp:clear`
+
+    title 'Restarting the application server'
+    `bin/rails restart`
+  end
+end
