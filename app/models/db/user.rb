@@ -29,12 +29,19 @@ class DB::User < ::ApplicationRecord
     guest: 0,
     regular: 1,
     developer: 2,
-    admin: 3,
-    manager: 4
+    manager: 3,
+    admin: 4
   }
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true, email: true, length: { maximum: 70 }
+
+  delegate :can?, :cannot?, to: :ability
+
+  # @return [Ability]
+  def ability
+    @ability ||= ::Ability.new(self)
+  end
 
   alias deactivated? deleted?
   alias deactivate! destroy!

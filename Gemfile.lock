@@ -91,6 +91,7 @@ GEM
     bundler-audit (0.9.0.1)
       bundler (>= 1.2.0, < 3)
       thor (~> 1.0)
+    cancancan (3.4.0)
     capybara (3.36.0)
       addressable
       matrix
@@ -205,6 +206,7 @@ GEM
     matrix (0.4.2)
     method_source (1.0.0)
     mini_mime (1.1.2)
+    mini_portile2 (2.8.0)
     minitest (5.16.3)
     msgpack (1.5.1)
     multi_json (1.15.0)
@@ -224,6 +226,9 @@ GEM
       net-protocol
       timeout
     nio4r (2.5.8)
+    nokogiri (1.13.8)
+      mini_portile2 (~> 2.8.0)
+      racc (~> 1.4)
     nokogiri (1.13.8-aarch64-linux)
       racc (~> 1.4)
     nokogiri (1.13.8-arm64-darwin)
@@ -430,6 +435,7 @@ PLATFORMS
   aarch64-linux
   arm64-darwin-20
   arm64-darwin-21
+  ruby
   x86_64-darwin-21
   x86_64-linux
 
@@ -441,6 +447,7 @@ DEPENDENCIES
   brakeman
   bullet
   bundler-audit
+  cancancan (~> 3.4)
   capybara
   csv
   cypress-rails

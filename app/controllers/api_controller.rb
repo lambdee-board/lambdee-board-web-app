@@ -6,6 +6,7 @@ class APIController < ::ApplicationController
   skip_forgery_protection
 
   rescue_from ::ActiveRecord::RecordNotFound, with: :not_found
+  rescue_from ::CanCan::AccessDenied, with: :unauthorized
 
   before_action :authorize_user!
 
@@ -14,7 +15,7 @@ class APIController < ::ApplicationController
   protected
 
   def authorize_user!
-    head(:unauthorized) unless user_signed_in?
+    unauthorized unless user_signed_in?
   end
 
   # @return [Integer, nil]
@@ -41,5 +42,9 @@ class APIController < ::ApplicationController
 
   def not_found
     head :not_found
+  end
+
+  def unauthorized
+    head(:unauthorized)
   end
 end
