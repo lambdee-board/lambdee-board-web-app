@@ -14,7 +14,7 @@ import { useParams } from 'react-router-dom'
 const UsersFilter = (props) => {
   const { workspaceId } = useParams()
   const [nameSearch, setNameSearch] = React.useState('')
-  const [workspaceField, setWorkspaceField] = React.useState(0)
+  const [workspaceField, setWorkspaceField] = React.useState('')
   const [startDate, setStartDate] = React.useState('')
   const [endDate, setEndDate] = React.useState('')
 
@@ -62,21 +62,6 @@ const UsersFilter = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceField])
 
-  React.useEffect(() => {
-    const params = new URLSearchParams(location.search)
-
-    const urlFilter = {
-      roleCollection: params.get('roleCollection') || '',
-      createdAtTo: params.get('createdAtTo') || '',
-      createdAtFrom: params.get('createdAtFrom') || '',
-      workspaceId: params.get('workspaceId') || '',
-      search: params.get('search') || '',
-      per: params.get('per') || 7,
-      page: params.get('page') || 1
-    }
-    console.log('siema', urlFilter)
-  })
-
   const enterPressed = (e) => {
     if (e.key === 'Enter') {
       console.log(e.key)
@@ -112,7 +97,7 @@ const UsersFilter = (props) => {
           notched
           onChange={(event) => setWorkspaceField(event.target.value)}
         >
-          <MenuItem value={0}>None</MenuItem>
+          <MenuItem value=''>None</MenuItem>
           { !props.dataLoadingOrError && props?.workspaces.map((workspace, idx) => (
             <MenuItem
               value={workspace.id}
