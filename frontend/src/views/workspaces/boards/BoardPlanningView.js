@@ -72,6 +72,7 @@ export default function BoardWorkView() {
               pos={taskList.pos}
               id={taskList.id}
               index={listIndex}
+              visible={taskList.visible}
             />
           ))}
           <div className='TaskLists-spacer'></div>

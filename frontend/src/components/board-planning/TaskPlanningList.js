@@ -22,6 +22,7 @@ import { ReactSortable } from 'react-sortablejs'
 import apiClient from '../../api/apiClient'
 import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
+
 import { calculatePos } from '../../constants/componentPositionService'
 
 import './TaskPlanningList.sass'
@@ -43,7 +44,6 @@ function TaskPlanningList(props) {
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   // visibility should part of props
-  const [listVisibility, setlistVisibility] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -57,15 +57,25 @@ function TaskPlanningList(props) {
   React.useEffect(() => {
     if (!taskList) return
 
-    const newSortedTasks = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const newSortedTasks = [...taskList.tasks]?.sort((a, b) => (a.pos > b.pos ? 1 : -1))
     setNewTaskOrder([...newSortedTasks])
   }, [taskList])
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
-  const toggleListVisibility = () => {
-    setlistVisibility(!listVisibility)
+  const toggleListVisibility = (e) => {
+    const payload = { visible: !taskList.visible }
+
+    apiClient.put(`/api/lists/${props.id}`, payload)
+      .then((response) => {
+        // successful request
+        mutate({ ...taskList, visible: payload.visible })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
   }
 
   const newTaskButtonOnClick = () => {
@@ -169,7 +179,7 @@ function TaskPlanningList(props) {
 
     <Box className='TaskListPlanning-wrapper'>
 
-      <Paper className='TaskListPlanning-paper' sx = {!listVisibility ? { opacity: '0.6' } : null}
+      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.6' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
@@ -178,7 +188,7 @@ function TaskPlanningList(props) {
             </Typography>
             <div>
               <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
-                {listVisibility ?
+                {taskList?.visible ?
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
                 }
@@ -276,6 +286,7 @@ TaskPlanningList.propTypes = {
   index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired
 }
 
 export default TaskPlanningList
