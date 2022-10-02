@@ -11,21 +11,24 @@
     border-radius: $unit
     width: calc(100%)
     min-height: calc(100vh - (10 * $unit))
-    .button-row
-      display: flex
-      justify-content: flex-end
-      .WorkspaceMembers-button
-        padding: 2 * $unit
+    .filter-wrapper
+      max-width: 45 * $unit
+      margin-left: $unit
+      .add-user-button
+        margin-top: 2 * $unit
+        width: 100%
     .content-row
       display: flex
       flex-flow: row
-      .List
+      .list-wrapper
         width: 100%
-        padding-bottom: 0
-        margin-bottom: 0
-        .ListItem-workspace
-          padding: 3 * $unit
-  .Pagination-bar
-    padding-top: 2 * $unit
-    display: flex
-    justify-content: center
+        .List
+          width: 100%
+          padding-bottom: 0
+          margin-bottom: 0
+          .ListItem-workspace
+            padding: 3 * $unit
+      .Pagination-bar
+        padding-top: 2 * $unit
+        display: flex
+        justify-content: center

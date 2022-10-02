@@ -1,19 +1,22 @@
 import React from 'react'
 import PropTypes from 'prop-types'
-import { FormControl, MenuItem, OutlinedInput, Select, Typography, Stack, InputLabel } from '@mui/material'
+import { FormControl, MenuItem, OutlinedInput, Select, Typography, Stack, InputLabel, Button } from '@mui/material'
 
 import WorkspaceIcon from './WorkspaceIcon'
 
 import './UsersFilter.sass'
 import RoleChip from './RoleChip'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
 
 
 const UsersFilter = (props) => {
-  const [searchFiled, setSearchField] = React.useState('')
+  const [nameSearch, setNameSearch] = React.useState('')
   const [workspaceFiled, setWorkspaceField] = React.useState('')
   const [startDate, setStartDate] = React.useState('')
   const [endDate, setEndDate] = React.useState('')
-  const defaultRoles = ['Admin', 'Manager', 'Developer', 'Regular', 'Guest']
+
+  const defaultRoles = ['admin', 'manager', 'developer', 'regular', 'guest']
   const [roles, setRoles] = React.useState(defaultRoles)
   const colors = [
     'linear-gradient(248.86deg, #F34483 -15.19%, #EB2149 115.06%)',
@@ -33,6 +36,28 @@ const UsersFilter = (props) => {
     setRoles(newRoles)
   }
 
+  const getFilters = (() => {
+    const formattedEndDate = endDate.replaceAll('-', '.')
+    const formattedStartDate = startDate.replaceAll('-', '.')
+    const newFilters = {
+      roleCollection: roles,
+      createdAtTo: formattedEndDate,
+      createdAtFrom: formattedStartDate,
+      workspaceId: workspaceFiled,
+      search: nameSearch
+    }
+    props.updateFilters(newFilters)
+  })
+
+
+  const enterPressed = (e) => {
+    if (e.key === 'Enter') {
+      console.log(e.key)
+      getFilters()
+    }
+  }
+
+
   return (
     <div className='UsersFilter-wrapper'>
       <Typography className='UserFilter-title'>
@@ -42,11 +67,12 @@ const UsersFilter = (props) => {
         <InputLabel htmlFor='UserFilter-search-input' shrink >User name</InputLabel>
         <OutlinedInput
           id='UserFilter-search-input'
-          value={searchFiled}
+          value={nameSearch}
           label='User name'
           notched
           placeholder='John Doe'
-          onChange={(event) => setSearchField(event.target.value)}
+          onKeyDown={enterPressed}
+          onChange={(event) => setNameSearch(event.target.value)}
         />
       </FormControl>
       <FormControl className='formControls'>
@@ -62,7 +88,7 @@ const UsersFilter = (props) => {
           <MenuItem value=''>None</MenuItem>
           { !props.dataLoadingOrError && props?.workspaces.map((workspace, idx) => (
             <MenuItem
-              value={workspace.name}
+              value={workspace.id}
               key={`${workspace.name}-${idx}`}
               className='UserFilter-select-item'
             >
@@ -97,6 +123,7 @@ const UsersFilter = (props) => {
               label='From'
               notched
               value={startDate}
+              onKeyDown={enterPressed}
               onChange={(event) => setStartDate(event.target.value)}
             />
           </FormControl>
@@ -108,11 +135,22 @@ const UsersFilter = (props) => {
               label='To'
               notched
               value={endDate}
+              onKeyDown={enterPressed}
               onChange={(event) => setEndDate(event.target.value)}
             />
           </FormControl>
         </div>
       </div>
+      <Button
+        onClick={getFilters}
+        className='userSettings-reset-password-button'
+        color='primary'
+        variant='contained'
+        fullWidth
+        startIcon={<FontAwesomeIcon icon={faMagnifyingGlass} />}
+      >
+          Search
+      </Button>
     </div>
   )
 }
@@ -120,7 +158,7 @@ const UsersFilter = (props) => {
 UsersFilter.propTypes = {
   workspaces: PropTypes.array.isRequired,
   dataLoadingOrError: PropTypes.bool.isRequired,
-  filters: PropTypes.object
+  updateFilters: PropTypes.func.isRequired
 }
 
 export default UsersFilter

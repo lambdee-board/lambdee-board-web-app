@@ -16,8 +16,6 @@ export default function RoleChip(props) {
 
     toggleChipState(!chipState)
 
-    console.log(chipRef)
-
     props.onClickFunc(props.name)
   }
 
