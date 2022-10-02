@@ -6,4 +6,4 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 title "Opening cypress"
 export CYPRESS="true"
 
-rake cypress:$1
+bundle exec rake cypress:$1

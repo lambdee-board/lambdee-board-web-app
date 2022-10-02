@@ -5,4 +5,4 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 title "Generating OpenAPI documentation"
 
-SWAGGER_DRY_RUN=0 rake rswag:specs:swaggerize
+SWAGGER_DRY_RUN=0 bundle exec rake rswag:specs:swaggerize
