@@ -62,6 +62,21 @@ const UsersFilter = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [workspaceField])
 
+  React.useEffect(() => {
+    const params = new URLSearchParams(location.search)
+
+    const urlFilter = {
+      roleCollection: params.get('roleCollection') || '',
+      createdAtTo: params.get('createdAtTo') || '',
+      createdAtFrom: params.get('createdAtFrom') || '',
+      workspaceId: params.get('workspaceId') || '',
+      search: params.get('search') || '',
+      per: params.get('per') || 7,
+      page: params.get('page') || 1
+    }
+    console.log('siema', urlFilter)
+  })
+
   const enterPressed = (e) => {
     if (e.key === 'Enter') {
       console.log(e.key)

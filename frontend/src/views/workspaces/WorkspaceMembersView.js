@@ -18,6 +18,7 @@ import './WorkspaceMembersView.sass'
 import UsersFilter from '../../components/UsersFilter'
 import useWorkspaces from '../../api/useWorkspaces'
 import useUsers, { mutateUsers } from '../../api/useUsers'
+import { createBrowserHistory } from 'history'
 
 
 export default function WorkspaceMembersView() {
@@ -51,6 +52,11 @@ export default function WorkspaceMembersView() {
 
     console.log(validFilter)
     setFilter(validFilter)
+
+    createBrowserHistory().push({
+      pathname: location.pathname,
+      search: new URLSearchParams(validFilter).toString()
+    })
   }
 
   const checkIfAnyUsers = () => {
