@@ -1,0 +1,55 @@
+@import '../../styles/base'
+
+.TaskListPlanning-wrapper
+  width: 192 * $unit
+  margin: 2 * $unit
+  margin-top: 2 * $unit
+  &:first-of-type
+    margin-top: 8 * $unit
+  .TaskListPlanning-paper
+    width: 192 * $unit
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    .TaskListPlanning
+      overflow-y: auto
+      .TaskListPlanning-header
+        display: flex
+        justify-content: space-between
+        align-content: center
+        line-height: 0px
+        background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+        .TaskListPlanning-header-text
+          font-size: 2 * $unit
+          padding-top: 0.8 * $unit
+        .TaskListPlanning-header-icon
+          height: 2.5 * $unit
+          width: 2.5 * $unit
+      .TaskListPlanning-item
+        width: 100%
+        padding: 0.5 * $unit
+      .TaskListPlanning-new-task
+        display: flex
+        .TaskListPlanning-new-task-input
+          margin-right: auto
+        .TaskListPlanning-new-task-cancel
+          margin: auto
+          // padding: 1 * $unit
+          color: #DCDCDC
+          .TaskListPlanning-new-task-cancel-icon
+            height: 2 * $unit
+            width: 2 * $unit
+    .TaskListPlanning-new-task-wrapper
+      .TaskListPlanning-new-task-button
+        text-transform: none
+        justify-content: flex-start
+        width: 100%
+
+.MuiModal-root
+  .TaskListPlanning-modal
+    position: absolute,
+    top: 50%,
+    left: 50%,
+    transform: translate(-50%, -50%),
+    outline: 0

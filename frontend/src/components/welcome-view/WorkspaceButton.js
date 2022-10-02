@@ -11,7 +11,7 @@ const WorkspaceButton = ({ workspaceId, workspaceName }) => {
   return (
     <Box textAlign='center'>
       <Button fullWidth sx={{ textTransform: 'none ' }} className='workspaceButton' onClick={() => navigate(generatePath('workspaces/:id', { id: workspaceId }))} key={`${workspaceId}`}>
-        <WorkspaceIcon name={workspaceName} size={64} />
+        <WorkspaceIcon name={workspaceName} size={52} />
         <Typography color='black'>{workspaceName}</Typography>
       </Button>
     </Box>

@@ -69,9 +69,10 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_equal [@board.id.to_s], @user.reload.recent_boards
   end
 
-  should 'show board with lists' do
-    @board.lists << list = ::FactoryBot.create(:list)
-    @board.lists << deleted_list = ::FactoryBot.create(:list)
+  should 'show board with visible lists' do
+    @board.lists << ::FactoryBot.create(:list)
+    @board.lists << list = ::FactoryBot.create(:list, visible: true)
+    @board.lists << deleted_list = ::FactoryBot.create(:list, visible: true)
     deleted_list.destroy
     get api_board_url(@board), as: :json, params: { lists: :visible }
 

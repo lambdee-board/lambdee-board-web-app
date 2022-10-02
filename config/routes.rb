@@ -26,7 +26,9 @@
         get :user_tasks, on: :member
       end
 
-      resources :lists
+      resources :lists do
+        resources :tasks, only: %i[index create]
+      end
 
       resources :tasks do
         resources :tags, only: %i[index create]

@@ -16,27 +16,38 @@ import reportWebVitals from './init/reportWebVitals'
 
 import App from './App'
 import ConsoleView from './views/ConsoleView'
-import WorkspacesView from './views/workspaces/WorkspacesView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
-import BoardView from './views/workspaces/BoardView'
-import UserSettingsView from './views/workspaces/UserSettingsView'
+import BoardView from './views/workspaces/boards/BoardView'
+import BoardPlanningView from './views/workspaces/boards/BoardPlanningView'
+import BoardWorkView from './views/workspaces/boards/BoardWorkView'
+import UserSettingsView from './views/UserSettingsView'
 import WorkspaceSettingsView from './views/workspaces/WorkspaceSettingsView'
-import WelcomeView from './views/workspaces/WelcomeView'
+import WelcomeView from './views/WelcomeView'
+import TasksView from './views/workspaces/TasksView'
+import LoginView from './views/login/LoginView.js'
+import ForgotPasswordView from './views/login/ForgotPasswordView.js'
+import ResetPasswordView from './views/login/ResetPasswordView.js'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
+        <Route path='/login' element={<LoginView />} />
+        <Route path='/login/forgot-password' element={<ForgotPasswordView />} />
+        <Route path='/login/reset-password' element={<ResetPasswordView />} />
         <Route path='/' element={<App />}>
-          <Route path='/' element={<WelcomeView />} />
+          <Route path='' element={<WelcomeView />} />
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
             <Route path='settings' element={<WorkspaceSettingsView />} />
-            <Route path='boards/:boardId' element={<BoardView />} />
+            <Route path='boards/:boardId' element={<BoardView />}>
+              <Route path='' element={<BoardWorkView />} />
+              <Route path='planning' element={<BoardPlanningView />} />
+            </Route>
           </Route>
-          <Route path='workspaces' element={<WorkspacesView />} />
           <Route path='console' element={<ConsoleView />} />
           <Route path='account' element={<UserSettingsView />} />
+          <Route path='tasks' element={<TasksView />} />
         </Route>
       </Routes>
     </BrowserRouter>

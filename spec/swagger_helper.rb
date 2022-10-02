@@ -41,6 +41,8 @@ end
             type: :string,
             enum: [
               'visible',
+              'invisible',
+              'non-archived',
               'archived',
               'all'
             ]
@@ -151,6 +153,7 @@ end
               id: { type: :integer },
               name: { type: :string },
               pos: { type: :number, format: :float },
+              visible: { type: %i[boolean null] },
               deleted_at: { type: %i[string null], format: :date_time },
               board_id: { type: :integer },
               created_at: { type: :string, format: :date_time },
@@ -159,13 +162,14 @@ end
               board_url: { type: :string },
               tasks: { type: :array, items: { '$ref' => '#/components/schemas/task_response' }, nullable: true }
             },
-            required: %w[id name board_id created_at updated_at deleted_at]
+            required: %w[id name pos visible board_id created_at updated_at deleted_at]
           },
           list_request: {
             type: :object,
             properties: {
               name: { type: :string },
               pos: { type: :number, format: :float },
+              visible: { type: :boolean },
               board_id: { type: :integer }
             },
             required: %w[name board_id]
