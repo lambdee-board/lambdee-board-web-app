@@ -49,7 +49,7 @@ const TaskListItem = (props) => {
         </Typography>
         <Box className='TaskListItem-properties'>
 
-          <Box className='TaskListItem-properties-tags'>
+          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} className='TaskListItem-properties-tags'>
             <AvatarGroup max={(4)} >
               {props.tags.map((tag) => (
                 <Tag name={tag.name} colour={tag.colour} key={tag.id} />
