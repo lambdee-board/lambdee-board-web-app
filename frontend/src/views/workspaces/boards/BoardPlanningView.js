@@ -6,8 +6,7 @@ import { ReactSortable } from 'react-sortablejs'
 
 import './BoardPlanningView.sass'
 
-import { BoardWorkViewSkeleton } from './BoardView'
-import TaskPlanningList from '../../../components/board-planning/TaskPlanningList'
+import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
 import apiClient from '../../../api/apiClient'
 import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
@@ -51,7 +50,17 @@ export default function BoardWorkView() {
     setNewTaskListOrder([...sortedList])
   }, [board])
 
-  if (isLoading || isError) return (<BoardWorkViewSkeleton />)
+  if (isLoading || isError) return (
+    <div className='BoardPlanningView'>
+      <div className='TaskLists-scrollable' >
+        <div className='TaskLists-wrapper'>
+          {[0, 1, 2, 3, 4].map((index) => (
+            <TaskPlanningListSkeleton key={index} />
+          ))}
+          <div className='TaskLists-spacer'></div>
+        </div>
+      </div>
+    </div>)
 
   return (
     <div className='BoardPlanningView'>
