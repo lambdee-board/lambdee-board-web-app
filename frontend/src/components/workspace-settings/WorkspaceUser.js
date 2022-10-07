@@ -73,8 +73,10 @@ const WorkspaceUser = (props) => {
             <Avatar className='UserListItem-avatar' src={props.userAvatarUrl} />
             <UserInfo userName={props.userName} userTitle={props.userTitle} />
           </div>
-          { props.userLoginDate && <LabeledData label='Last Login' data={formatDate(props.userLoginDate)} />}
-          { props.userRegisterDate && <LabeledData label='Registered' data={formatDate(props.userRegisterDate)} />}
+          <div className='UserListItem-dates'>
+            { props.userLoginDate && <LabeledData label='Last Login' data={formatDate(props.userLoginDate)} />}
+            { props.userRegisterDate && <LabeledData label='Registered' data={formatDate(props.userRegisterDate)} />}
+          </div>
         </Box>
         { !props.hideDelete &&
           <IconButton onClick={removeUserFromWorkspace}>

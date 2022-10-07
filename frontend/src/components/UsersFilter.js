@@ -155,7 +155,7 @@ const UsersFilter = (props) => {
       </div>
       <Button
         onClick={getFilters}
-        className='userSettings-reset-password-button'
+        className='UserFilter-search-button'
         color='primary'
         variant='contained'
         fullWidth

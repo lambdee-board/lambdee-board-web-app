@@ -74,17 +74,16 @@ export default function WorkspaceMembersView() {
   return (
     <div className='WorkspaceMembers-wrapper'>
       <div className='WorkspaceMembers' >
-        <div className='content-row'>
-          <div className='list-wrapper'>
-            <List className='List' sx={{ height: `${perPage * 70}px` }}>
-              { !(isLoading || isError) ?
-                checkIfAnyUsers() :
-                [...Array(5)].map((val, idx) => {
-                  return <WorkspaceUserSkeleton key={idx} />
-                })
-              }
-            </List>
-            { usersData?.totalPages > 1 &&
+        <div className='list-wrapper'>
+          <List className='List' sx={{ height: `${perPage * 70}px` }}>
+            { !(isLoading || isError) ?
+              checkIfAnyUsers() :
+              [...Array(5)].map((val, idx) => {
+                return <WorkspaceUserSkeleton key={idx} />
+              })
+            }
+          </List>
+          { usersData?.totalPages > 1 &&
               <Pagination
                 className='Pagination-bar'
                 count={totalPages || 0}
@@ -92,23 +91,22 @@ export default function WorkspaceMembersView() {
                 onChange={fetchNextUserPage}
                 size='large'
                 page={filter.page} />
-            }
-          </div>
-          <div className='filter-wrapper'>
-            <UsersFilter
-              workspaces={workspaces || []}
-              dataLoadingOrError={!!(workspacesLoading || workspacesError)}
-              updateFilters={updateFilters}
-            />
-            <Button
-              onClick={() => console.log('add user')}
-              variant='outlined'
-              color='primary'
-              className='add-user-button'
-              startIcon={<FontAwesomeIcon icon={faPlus} />}>
+          }
+        </div>
+        <div className='filter-wrapper'>
+          <UsersFilter
+            workspaces={workspaces || []}
+            dataLoadingOrError={!!(workspacesLoading || workspacesError)}
+            updateFilters={updateFilters}
+          />
+          <Button
+            onClick={() => console.log('add user')}
+            variant='outlined'
+            color='primary'
+            className='add-user-button'
+            startIcon={<FontAwesomeIcon icon={faPlus} />}>
                 Add New User
-            </Button>
-          </div>
+          </Button>
         </div>
       </div>
     </div>
