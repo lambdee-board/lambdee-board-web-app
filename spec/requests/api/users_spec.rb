@@ -17,7 +17,7 @@ require 'swagger_helper'
       parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
-        schema type: :array,
+        schema type: :object,
           items: { '$ref' => '#/components/schemas/user_response' }
 
         let(:id) do
@@ -57,8 +57,8 @@ require 'swagger_helper'
       parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned.', example: 3
 
       response(200, 'successful') do
-        schema type: :array,
-          items: { '$ref' => '#/components/schemas/user_response' }
+        schema type: :object,
+          items: { '$ref' => '#/components/schemas/user_pages_response' }
 
         before do
           5.times { ::FactoryBot.create :user }

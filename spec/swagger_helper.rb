@@ -47,6 +47,14 @@ end
               'all'
             ]
           },
+          user_pages_response: {
+            type: :object,
+            properties: {
+              users: { type: :array, items: { '$ref' => '#components/schemas/user_response'}},
+              total_pages: { type: :integer },
+            },
+            required: %w[total_pages users]
+          },
           user_response: {
             type: :object,
             properties: {
