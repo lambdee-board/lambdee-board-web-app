@@ -801,6 +801,18 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `tasks.spent_time`, type: `integer`.
+  # @param val [Integer, nil]
+  def spent_time=(val); end
+  # Database column `tasks.spent_time`, type: `integer`.
+  # @return [Integer, nil]
+  def spent_time; end
+  # Database column `tasks.start_time`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def start_time=(val); end
+  # Database column `tasks.start_time`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def start_time; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_02_144215) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_02_182313) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -73,6 +73,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_02_144215) do
     t.integer "priority"
     t.integer "points"
     t.datetime "deleted_at"
+    t.integer "spent_time", default: 0
+    t.datetime "start_time"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
