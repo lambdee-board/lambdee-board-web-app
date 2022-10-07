@@ -55,7 +55,7 @@ const WorkspaceSettings = () => {
     apiClient.post(`/api/workspaces/${workspaceId}/assign_user`, payload)
       .then((response) => {
         // successful request
-        mutateWorkspaceUsers((currentUsers) => ([...currentUsers, user]))
+        mutateWorkspaceUsers((currentUsers) => ([...currentUsers.users, user]))
       })
       .catch((error) => {
         // failed or rejected
