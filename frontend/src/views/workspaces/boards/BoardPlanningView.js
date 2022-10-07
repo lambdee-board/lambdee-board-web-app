@@ -32,7 +32,6 @@ export default function BoardWorkView() {
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
       .finally(() => {
-        mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }))
       })
   }
 
@@ -71,7 +70,7 @@ export default function BoardWorkView() {
           setList={updateTaskListOrder}
           scroll
           ghostClass='translucent'
-          direction='vertical'
+          direction='horizontal'
           delay={1}
           animation={50}
         >

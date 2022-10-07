@@ -182,7 +182,6 @@ function TaskPlanningList(props) {
     // if the dragged task is no longer in this list, just remove it and return
     if (currentTaskIndex === -1) {
       setNewTaskOrder(updatedTasks)
-      mutate((listData) => ({ ...listData, tasks: updatedTasks }))
       return
     }
 
