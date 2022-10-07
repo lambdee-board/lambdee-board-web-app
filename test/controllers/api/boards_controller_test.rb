@@ -95,7 +95,6 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     json = ::JSON.parse response.body
     assert_equal @board.name, json['name']
     assert_equal 2, json['lists'].size
-    assert_equal list.name, json['lists'].first['name']
     assert_nil json['lists'].first['deleted_at']
     assert_not_nil json['lists'].second['deleted_at']
   end
