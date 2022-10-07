@@ -7,19 +7,34 @@ require 'swagger_helper'
       tags 'Users'
       produces 'application/json'
       parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
-      parameter name: 'role', in: 'query', schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
-      parameter name: 'created_at_from', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
-      parameter name: 'created_at_to', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
-      parameter name: 'search', in: 'query', type: 'string', description: 'Searches for users by name and e-mail.', example: 'michael'
-      parameter name: 'page', in: 'query', type: 'integer', description: 'Decides which result page should be returned.', example: 2
-      parameter name: 'per', in: 'query', type: 'integer', description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
-      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned.', example: 3
-      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned', example: 3
+      parameter name: 'page', in: :query, type: :integer, required: false, description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'role', in: :query, required: false, schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
+      parameter name: 'created_at_from', in: :query, type: :string, required: false, description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'created_at_to', in: :query, type: :string, required: false, description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'search', in: :query, type: :string, required: false, description: 'Searches for users by name and e-mail.', example: 'michael'
+      parameter name: 'per', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
+      parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned.', example: 3
+      parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
-        schema type: :object,
-          items: { '$ref' => '#/components/schemas/user_response' }
+        schema '$ref' => '#/components/schemas/user_pages_response'
 
+        let(:id) do
+          workspace = ::FactoryBot.create(:workspace)
+          3.times { workspace.users << ::FactoryBot.create(:user) }
+          workspace.id
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with pages') do
+        schema '$ref' => '#/components/schemas/user_pages_response'
+
+        let(:page) { 0 }
         let(:id) do
           workspace = ::FactoryBot.create(:workspace)
           3.times { workspace.users << ::FactoryBot.create(:user) }
@@ -47,19 +62,32 @@ require 'swagger_helper'
         },
         example: ["admin"]
       )
-      parameter name: 'role', in: 'query', schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
-      parameter name: 'created_at_from', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
-      parameter name: 'created_at_to', in: 'query', type: 'string', description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
-      parameter name: 'workspace_id', in: 'query', type: 'integer', example: 1
-      parameter name: 'search', in: 'query', type: 'string', description: 'Searches for users by name and e-mail.', example: 'michael'
-      parameter name: 'page', in: 'query', type: 'integer', description: 'Decides which result page should be returned.', example: 2
-      parameter name: 'per', in: 'query', type: 'integer', description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
-      parameter name: 'limit', in: 'query', type: 'integer', description: 'Decides how many entities should be returned.', example: 3
+      parameter name: 'role', in: :query, required: false, schema: { '$ref' => '#/components/schemas/user_request/properties/role' }, example: 'admin'
+      parameter name: 'created_at_from', in: :query, type: :string, required: false, description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'created_at_to', in: :query, type: :string, required: false, description: 'Date with format YYYY.MM.DD', example: '2010.01.25'
+      parameter name: 'workspace_id', in: :query, type: :integer, required: false, example: 1
+      parameter name: 'search', in: :query, type: :string, required: false, description: 'Searches for users by name and e-mail.', example: 'michael'
+      parameter name: 'page', in: :query, type: :integer, required: false, description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'per', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
+      parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned.', example: 3
 
       response(200, 'successful') do
-        schema type: :object,
-          items: { '$ref' => '#/components/schemas/user_pages_response' }
+        schema '$ref' => '#/components/schemas/user_pages_response'
 
+        before do
+          5.times { ::FactoryBot.create :user }
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(200, 'successful with pages') do
+        schema '$ref' => '#/components/schemas/user_pages_response'
+
+        let(:page) { 0 }
         before do
           5.times { ::FactoryBot.create :user }
         end

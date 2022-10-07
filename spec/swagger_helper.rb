@@ -53,7 +53,7 @@ end
               users: { type: :array, items: { '$ref' => '#components/schemas/user_response'}},
               total_pages: { type: :integer },
             },
-            required: %w[total_pages users]
+            required: %w[users]
           },
           user_response: {
             type: :object,
