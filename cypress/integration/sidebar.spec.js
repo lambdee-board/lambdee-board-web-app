@@ -2,7 +2,8 @@ describe('Sidebar', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/')
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()

@@ -21,7 +21,7 @@ export default function BoardWorkView() {
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const [invisibleLists, setInvisibleList] = React.useState([])
   const { boardId } = useParams()
-  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
 
   const Visibility = (arr) => {
     const visible = arr.filter((el) => el.visible === true)

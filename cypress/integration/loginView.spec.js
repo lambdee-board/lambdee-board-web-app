@@ -3,7 +3,8 @@ describe('LoginView', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/login')
   })
   context('Login', () => {
