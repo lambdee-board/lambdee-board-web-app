@@ -16,7 +16,13 @@ export default function BoardWorkView() {
   const dispatch = useDispatch()
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const { boardId } = useParams()
-  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+
+  const isVisible = (arr) => {
+    const visible = arr.filter((el) => el.visible === true)
+    const invisible = arr.filter((el) => !el.visible === true)
+    return [visible, invisible]
+  }
 
   const updateListPos = (id, newPos, updatedLists) => {
     setNewTaskListOrder(updatedLists)
@@ -45,7 +51,9 @@ export default function BoardWorkView() {
   React.useEffect(() => {
     if (!board) return
 
-    const sortedList = [...board.lists].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const [visible, invisible] = isVisible(board.lists)
+
+    const sortedList = [...invisible].sort((a, b) => (a.pos > b.pos ? 1 : -1))
     setNewTaskListOrder([...sortedList])
   }, [board])
 
@@ -74,6 +82,7 @@ export default function BoardWorkView() {
           delay={1}
           animation={50}
         >
+
           {sortedTaskLists.map((taskList, listIndex) => (
             <TaskPlanningList key={taskList.id}
               title={taskList.name}
