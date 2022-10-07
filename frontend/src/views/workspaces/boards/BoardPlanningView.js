@@ -4,6 +4,10 @@ import React from 'react'
 import { useDispatch } from 'react-redux'
 import { ReactSortable } from 'react-sortablejs'
 
+import {
+  Divider, Typography
+} from '@mui/material'
+
 import './BoardPlanningView.sass'
 
 import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
@@ -15,10 +19,11 @@ import { calculateTaskListOrder } from '../../../constants/componentPositionServ
 export default function BoardWorkView() {
   const dispatch = useDispatch()
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
+  const [invisibleLists, setInvisibleList] = React.useState([])
   const { boardId } = useParams()
-  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
 
-  const isVisible = (arr) => {
+  const Visibility = (arr) => {
     const visible = arr.filter((el) => el.visible === true)
     const invisible = arr.filter((el) => !el.visible === true)
     return [visible, invisible]
@@ -51,10 +56,10 @@ export default function BoardWorkView() {
   React.useEffect(() => {
     if (!board) return
 
-    const [visible, invisible] = isVisible(board.lists)
-
-    const sortedList = [...invisible].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const [visible, invisible] = Visibility(board.lists)
+    const sortedList = [...visible].sort((a, b) => (a.pos > b.pos ? 1 : -1))
     setNewTaskListOrder([...sortedList])
+    setInvisibleList([...invisible])
   }, [board])
 
   if (isLoading || isError) return (
@@ -92,8 +97,19 @@ export default function BoardWorkView() {
               visible={taskList.visible}
             />
           ))}
-          <div className='TaskLists-spacer'></div>
         </ReactSortable>
+        <Divider><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
+        <div className='TaskLists-wrapper'>
+          {invisibleLists.map((taskList, listIndex) => (
+            <TaskPlanningList key={taskList.id}
+              title={taskList.name}
+              pos={taskList.pos}
+              id={taskList.id}
+              index={listIndex}
+              visible={taskList.visible}
+            />
+          ))}
+        </div>
       </div>
     </div>
   )

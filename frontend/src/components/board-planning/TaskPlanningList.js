@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   List,
   ListItem,
@@ -22,6 +23,7 @@ import { ReactSortable } from 'react-sortablejs'
 import apiClient from '../../api/apiClient'
 import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
+import { mutateBoard } from '../../api/useBoard'
 
 import { calculatePos } from '../../constants/componentPositionService'
 
@@ -56,10 +58,11 @@ function TaskPlanningListSkeleton() {
 
 
 function TaskPlanningList(props) {
+  const { boardId } = useParams()
   const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
-  const [sortedTasks, setNewTaskOrder] = React.useState([])
 
+  const [sortedTasks, setNewTaskOrder] = React.useState([])
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   // visibility should part of props
   const listRef = React.useRef()
@@ -89,6 +92,7 @@ function TaskPlanningList(props) {
       .then((response) => {
         // successful request
         mutate({ ...taskList, visible: payload.visible })
+        mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
       })
       .catch((error) => {
         // failed or rejected
@@ -196,7 +200,7 @@ function TaskPlanningList(props) {
 
     <Box className='TaskListPlanning-wrapper'>
 
-      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.4' } : null}
+      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.6' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
