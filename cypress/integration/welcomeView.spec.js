@@ -20,7 +20,7 @@ describe('WelcomeView', () => {
       cy.get('.Workspace-menu-item').first().click()
       cy.get('div.Sidebar-wrapper').should('exist')
       cy.get('div.ListItem-board').first().click()
-      cy.wait(1000)
+      cy.wait(2000)
       cy.contains('Lambdee').click()
       cy.contains('Recent')
       cy.contains('Recents')
