@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
 import {
   Box,
-  Card,
   Typography,
   Avatar,
   AvatarGroup,
-  Skeleton,
   Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'

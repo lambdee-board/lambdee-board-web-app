@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import useCookie, { getCookie } from 'react-use-cookie'
+import useCookie from 'react-use-cookie'
 import { faPlus, faXmark, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput } from '@mui/material'
