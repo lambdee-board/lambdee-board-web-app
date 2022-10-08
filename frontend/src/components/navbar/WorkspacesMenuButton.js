@@ -42,7 +42,7 @@ const WorkspacesMenuButton = () => {
         </MenuItem>
       ))}
       <Divider />
-      <MenuItem>
+      <MenuItem onClick={() => navigate('/')}>
         <Typography color='primary'>More...</Typography>
       </MenuItem>
     </DropdownButton>
