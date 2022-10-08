@@ -1075,18 +1075,6 @@ class DB::UserWorkspace < ApplicationRecord
   # Database column `user_workspaces.workspace_id`, type: `integer`.
   # @return [Integer, nil]
   def workspace_id; end
-  # Database column `user_workspaces.created_at`, type: `datetime`.
-  # @param val [ActiveSupport::TimeWithZone, nil]
-  def created_at=(val); end
-  # Database column `user_workspaces.created_at`, type: `datetime`.
-  # @return [ActiveSupport::TimeWithZone, nil]
-  def created_at; end
-  # Database column `user_workspaces.updated_at`, type: `datetime`.
-  # @param val [ActiveSupport::TimeWithZone, nil]
-  def updated_at=(val); end
-  # Database column `user_workspaces.updated_at`, type: `datetime`.
-  # @return [ActiveSupport::TimeWithZone, nil]
-  def updated_at; end
 end
 # %%<RailsAnnotateSolargraph:End:user_workspaces>%%
 
