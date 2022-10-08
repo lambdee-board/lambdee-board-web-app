@@ -23,9 +23,9 @@ export default function BoardWorkView() {
   const { boardId } = useParams()
   const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
 
-  const Visibility = (arr) => {
-    const visible = arr.filter((el) => el.visible === true)
-    const invisible = arr.filter((el) => !el.visible === true)
+  const Visibility = (lists) => {
+    const visible = lists.filter((el) => el.visible === true)
+    const invisible = lists.filter((el) => !el.visible === true)
     return [visible, invisible]
   }
 
