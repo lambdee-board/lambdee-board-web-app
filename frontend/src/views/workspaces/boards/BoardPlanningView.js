@@ -98,7 +98,7 @@ export default function BoardWorkView() {
             />
           ))}
         </ReactSortable>
-        <Divider><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
+        <Divider sx={{ mt: '48px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
         <div className='TaskLists-wrapper'>
           {invisibleLists.map((taskList, listIndex) => (
             <TaskPlanningList key={taskList.id}
