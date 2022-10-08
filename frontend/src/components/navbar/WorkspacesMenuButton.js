@@ -12,7 +12,7 @@ import DropdownButton from '../DropdownButton'
 import useWorkspaces from '../../api/useWorkspaces'
 
 const WorkspacesMenuButton = () => {
-  const { data: workspaces, isLoading, isError } = useWorkspaces({ limit: 5 })
+  const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { limit: '5' } } })
   const navigate = useNavigate()
   // isLoading = true
 
