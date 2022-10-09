@@ -15,7 +15,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
     board2 = ::FactoryBot.create(:board)
     ::FactoryBot.create(:tag, board_id: board2.id)
 
-    get api_board_tags_url(@board.id), as: :json
+    get api_board_tags_url(@board.id), headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 1, json.size
@@ -26,7 +26,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
     task2 = ::FactoryBot.create(:task)
     task2.tags << ::FactoryBot.create(:tag, board_id: @board.id)
 
-    get api_task_tags_url(@task.id), as: :json
+    get api_task_tags_url(@task.id), headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 1, json.size
@@ -35,7 +35,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create tag without task given' do
     assert_difference('DB::Tag.count') do
-      post api_tags_url(@board), params: { tag: { colour: @tag.colour, name: @tag.name, board_id: @board.id } }, as: :json
+      post api_tags_url(@board), params: { tag: { colour: @tag.colour, name: @tag.name, board_id: @board.id } }, headers: auth_headers(@user), as: :json
     end
 
     assert_response :created
@@ -47,7 +47,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create tag without task_id given on /api/boards/:board_id/tags' do
     assert_difference('DB::Tag.count') do
-      post api_board_tags_url(@board), params: { tag: { colour: @tag.colour, name: @tag.name } }, as: :json
+      post api_board_tags_url(@board), params: { tag: { colour: @tag.colour, name: @tag.name } }, headers: auth_headers(@user), as: :json
     end
 
     assert_response :created
@@ -59,7 +59,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create tag without task_id given on /api/boards/:task_id/tags' do
     assert_difference('DB::Tag.count') do
-      post api_task_tags_url(@task), params: { tag: { colour: @tag.colour, name: @tag.name } }, as: :json
+      post api_task_tags_url(@task), params: { tag: { colour: @tag.colour, name: @tag.name } }, headers: auth_headers(@user), as: :json
     end
 
     assert_response :created
@@ -72,14 +72,14 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
   should 'ignore board_id if task_id is given' do
     board2 = ::FactoryBot.create(:board)
 
-    post api_task_tags_url(@task), params: { tag: { colour: @tag.colour, name: @tag.name, board_id: board2.id  } }, as: :json
+    post api_task_tags_url(@task), params: { tag: { colour: @tag.colour, name: @tag.name, board_id: board2.id  } }, headers: auth_headers(@user), as: :json
 
     json = ::JSON.parse(response.body)
     assert_equal @board.id, json['board_id']
   end
 
   should 'show tag' do
-    get api_tag_url(@tag), as: :json
+    get api_tag_url(@tag), headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse(response.body)
@@ -89,7 +89,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'update tag' do
-    patch api_tag_url(@tag), params: { tag: { board_id: @tag.board_id, colour: @tag.colour, name: 'val de larmes' } }, as: :json
+    patch api_tag_url(@tag), params: { tag: { board_id: @tag.board_id, colour: @tag.colour, name: 'val de larmes' } }, headers: auth_headers(@user), as: :json
     assert_response :success
 
     json = ::JSON.parse(response.body)
@@ -100,7 +100,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
   should 'destroy tag' do
     assert_difference('DB::Tag.count', -1) do
-      delete api_tag_url(@tag), as: :json
+      delete api_tag_url(@tag), headers: auth_headers(@user)
     end
 
     assert_response :no_content

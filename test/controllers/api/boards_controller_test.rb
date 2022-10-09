@@ -11,7 +11,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
 
   should 'get index' do
     3.times { |i| ::FactoryBot.create(:board, name: "Board#{i}") }
-    get '/api/boards'
+    get '/api/boards', headers: auth_headers(@user)
     assert_response 200
     json = ::JSON.parse(response.body)
 
@@ -25,7 +25,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference("DB::Board.count") do
       post api_boards_url, params: {
         board: { name: 'd' * 150, workspace_id: @workspace.id }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -37,7 +37,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_no_difference("DB::Board.count") do
       post api_boards_url, params: {
         board: { name: 'My board' }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -49,7 +49,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     assert_difference("DB::Board.count") do
       post api_boards_url, params: {
         board: { name: 'Team 1', workspace_id: @workspace.id }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -60,7 +60,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'show board' do
-    get api_board_url(@board), as: :json
+    get api_board_url(@board), as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -74,7 +74,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     @board.lists << list = ::FactoryBot.create(:list, visible: true)
     @board.lists << deleted_list = ::FactoryBot.create(:list, visible: true)
     deleted_list.destroy
-    get api_board_url(@board), as: :json, params: { lists: :visible }
+    get api_board_url(@board), as: :json, params: { lists: :visible }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -88,7 +88,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     @board.lists << list = ::FactoryBot.create(:list)
     @board.lists << deleted_list = ::FactoryBot.create(:list)
     deleted_list.destroy
-    get api_board_url(@board), as: :json, params: { lists: :all }
+    get api_board_url(@board), as: :json, params: { lists: :all }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -104,7 +104,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     @board.lists << list = ::FactoryBot.create(:list)
     @board.lists << deleted_list = ::FactoryBot.create(:list)
     deleted_list.destroy
-    get api_board_url(@board), as: :json, params: { lists: :archived }
+    get api_board_url(@board), as: :json, params: { lists: :archived }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -118,7 +118,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
   should "update board" do
     patch api_board_url(@board), params: {
       board: { name: 'New Name' }
-    }, as: :json
+    }, as: :json, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -128,7 +128,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
 
   should "destroy board" do
     assert_difference("DB::Board.count", -1) do
-      delete api_board_url(@board), as: :json
+      delete api_board_url(@board), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content
@@ -140,7 +140,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
   should 'get recent boards' do
     @user.recent_boards = [@board.id]
     @user.save
-    get '/api/boards/recently_viewed'
+    get '/api/boards/recently_viewed', headers: auth_headers(@user)
 
     assert_response :ok
 
@@ -163,7 +163,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     ok_task.users << @user
     ok_task.tags << tag = ::FactoryBot.create(:tag)
 
-    get "/api/boards/#{@board.id}/user_tasks"
+    get "/api/boards/#{@board.id}/user_tasks", headers: auth_headers(@user)
 
     assert_response :ok
 

@@ -11,7 +11,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'get index' do
     3.times { |i| ::FactoryBot.create(:task, name: "Task#{i}") }
-    get '/api/tasks'
+    get '/api/tasks', headers: auth_headers(@user)
     assert_response 200
     json = ::JSON.parse(response.body)
     assert_equal @task.name, json.dig(0, 'name')
@@ -21,8 +21,9 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'create task' do
+    params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }
     assert_difference('DB::Task.count') do
-      post api_tasks_url, params: { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }, as: :json
+      post api_tasks_url, params: , as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -34,8 +35,9 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   should "not create task with a too long name" do
+    params = { task: { name: 'a' * 150, pos: 1111, description: 'description', list_id: @list.id } }
     assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'a' * 150, pos: 1111, description: 'description', list_id: @list.id } }, as: :json
+      post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -44,8 +46,9 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   should "not create task with a too long description" do
+    params = { task: { name: 'Task name', pos: 1111, description: 'a' * 10_001, list_id: @list.id } }
     assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'Task name', pos: 1111, description: 'a' * 10_001, list_id: @list.id } }, as: :json
+      post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -55,7 +58,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should "not create task without a list" do
     assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'New task' } }, as: :json
+      post api_tasks_url, params: { task: { name: 'New task' } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -64,7 +67,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'show task' do
-    get api_task_url(@task), as: :json
+    get api_task_url(@task), as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -77,7 +80,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     @task.users << user = ::FactoryBot.create(:user)
     @task.tags << tag = ::FactoryBot.create(:tag)
 
-    get api_task_url(@task), as: :json, params: { include_associations: :true }
+    get api_task_url(@task), as: :json, params: { include_associations: :true }, headers: auth_headers(user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -101,7 +104,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'update task' do
-    patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json
+    patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -111,7 +114,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'destroy task' do
     assert_difference('DB::Task.count', -1) do
-      delete api_task_url(@task), as: :json
+      delete api_task_url(@task), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content
@@ -122,7 +125,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'attach a tag to the task' do
     tag = ::FactoryBot.create(:tag)
-    post attach_tag_api_task_url(@task), params: { tag_id: tag.id }
+    post attach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
 
     assert_response :no_content
 
@@ -135,7 +138,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     @task.tags << tag
     assert_not_nil @task.tags.first
 
-    post detach_tag_api_task_url(@task), params: { tag_id: tag.id }
+    post detach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
 
     assert_response :no_content
 
@@ -145,7 +148,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   should 'assign a user to the task' do
     user = ::FactoryBot.create(:user)
-    post assign_user_api_task_url(@task), params: { user_id: user.id }
+    post assign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(user), as: :json
 
     assert_response :no_content
 
@@ -158,7 +161,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     @task.users << user
     assert_not_nil @task.users.first
 
-    post unassign_user_api_task_url(@task), params: { user_id: user.id }
+    post unassign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(user), as: :json
 
     assert_response :no_content
 

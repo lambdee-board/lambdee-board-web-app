@@ -11,7 +11,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
   should 'get index' do
     3.times { |i| ::FactoryBot.create(:list, name: "List#{i}") }
-    get '/api/lists'
+    get '/api/lists', headers: auth_headers(@user)
     assert_response 200
     json = ::JSON.parse(response.body)
 
@@ -31,7 +31,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
           board_id: @board.id,
           inexistent_field: :lol
         }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -50,7 +50,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
           name: 'Backlog',
           board_id: @board.id,
         }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -63,7 +63,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
   should "not create list with a too long name" do
     assert_no_difference("DB::List.count") do
-      post api_lists_url, params: { list: { name: 'd' * 150, board_id: @board.id } }, as: :json
+      post api_lists_url, params: { list: { name: 'd' * 150, board_id: @board.id } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -73,7 +73,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
   should "not create list without a board" do
     assert_no_difference("DB::List.count") do
-      post api_lists_url, params: { list: { name: 'Done' } }, as: :json
+      post api_lists_url, params: { list: { name: 'Done' } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -82,7 +82,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'show list' do
-    get api_list_url(@list), as: :json
+    get api_list_url(@list), as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -95,7 +95,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
     task.tags << tag =  ::FactoryBot.create(:tag)
     @list.tasks << deleted_task = ::FactoryBot.create(:task)
     deleted_task.destroy
-    get api_list_url(@list), as: :json, params: { tasks: :visible }
+    get api_list_url(@list), as: :json, params: { tasks: :visible }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -111,7 +111,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
     @list.tasks << task = ::FactoryBot.create(:task)
     @list.tasks << deleted_task = ::FactoryBot.create(:task)
     deleted_task.destroy
-    get api_list_url(@list), as: :json, params: { tasks: :all }
+    get api_list_url(@list), as: :json, params: { tasks: :all }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -127,7 +127,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
     @list.tasks << task = ::FactoryBot.create(:task)
     @list.tasks << deleted_task = ::FactoryBot.create(:task)
     deleted_task.destroy
-    get api_list_url(@list), as: :json, params: { tasks: :archived }
+    get api_list_url(@list), as: :json, params: { tasks: :archived }, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -149,7 +149,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
         visible: true,
         pos: 123.123
       }
-    }, as: :json
+    }, as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -160,7 +160,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
   should 'destroy list' do
     assert_difference('DB::List.count', -1) do
-      delete api_list_url(@list), as: :json
+      delete api_list_url(@list), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content

@@ -30,6 +30,8 @@ class Ability
     #
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/blob/develop/docs/define_check_abilities.md
+    return unless user
+
     @user = user
     set_guest_abilities if user.guest?
     set_regular_abilities if user.regular?
@@ -62,12 +64,13 @@ class Ability
   # @param actions [Symbol, Array<Symbol>]
   # @return [void]
   def abilities_for_basic_models(actions)
-    can actions, ::DB::Workspace, users: { id: @user.id }
-    can actions, ::DB::Board,     workspace: { users: { id: @user.id } }
-    can actions, ::DB::List,      board: { workspace: { users: { id: @user.id } } }
-    can actions, ::DB::Tag,       board: { workspace: { users: { id: @user.id } } }
-    can actions, ::DB::Task,      list: { board: { workspace: { users: { id: @user.id } } } }
-    can :read,   ::DB::Comment,   task: { list: { board: { workspace: { users: { id: @user.id } } } } }
-    can :manage, ::DB::Comment,   author: @user
+    can actions,         ::DB::Workspace, users: { id: @user.id }
+    can actions,         ::DB::Board,     workspace: { users: { id: @user.id } }
+    can actions,         ::DB::List,      board: { workspace: { users: { id: @user.id } } }
+    can actions,         ::DB::Tag,       board: { workspace: { users: { id: @user.id } } }
+    can actions,         ::DB::Task,      list: { board: { workspace: { users: { id: @user.id } } } }
+    can :read,           ::DB::Comment,   task: { list: { board: { workspace: { users: { id: @user.id } } } } }
+    can :manage,         ::DB::Comment,   author: @user
+    can %i[read update], ::DB::User,      id: @user.id
   end
 end

@@ -53,6 +53,7 @@ gem 'acts_as_paranoid'
 gem 'cancancan', '~> 3.4'
 gem 'csv'
 gem 'devise'
+gem 'devise-jwt'
 gem 'factory_bot_rails'
 # Easier Model record factories for tests
 # Generate fake data for tests and seeding

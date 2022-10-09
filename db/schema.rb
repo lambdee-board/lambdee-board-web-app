@@ -10,9 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_09_23_091423) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_09_150618) do
   # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_trgm"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
 
   create_table "boards", force: :cascade do |t|
     t.string "name"
@@ -33,6 +35,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_091423) do
     t.datetime "deleted_at"
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["task_id"], name: "index_comments_on_task_id"
+  end
+
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
   create_table "lists", force: :cascade do |t|
@@ -71,6 +79,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_091423) do
     t.integer "priority"
     t.integer "points"
     t.datetime "deleted_at"
+    t.integer "spent_time", default: 0
+    t.datetime "start_time"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
@@ -83,8 +93,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_09_23_091423) do
   create_table "user_workspaces", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "workspace_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_user_workspaces_on_user_id"
     t.index ["workspace_id"], name: "index_user_workspaces_on_workspace_id"
   end

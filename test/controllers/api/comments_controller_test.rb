@@ -12,7 +12,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'get comments of task without author' do
-    get api_task_comments_url(@task), as: :json
+    get api_task_comments_url(@task), as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse(response.body)
@@ -22,7 +22,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'get comments of task with nested author' do
-    get api_task_comments_url(@task), as: :json, params: { with_author: :true }
+    get api_task_comments_url(@task), as: :json, params: { with_author: :true }, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse(response.body)
@@ -35,25 +35,25 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
 
   should 'create comment' do
     assert_difference('DB::Comment.count') do
-      post api_comments_url, params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
+      post api_comments_url, params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
   end
 
   should 'show comment' do
-    get api_comment_url(@comment), as: :json
+    get api_comment_url(@comment), as: :json, headers: auth_headers(@user)
     assert_response :success
   end
 
   should 'update comment' do
-    patch api_comment_url(@comment), params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json
+    patch api_comment_url(@comment), params: { comment: { body: @comment.body, task_id: @comment.task_id, author_id: @comment.author_id } }, as: :json, headers: auth_headers(@user)
     assert_response :success
   end
 
   should 'archive comment' do
     assert_difference('DB::Comment.count', -1) do
-      delete api_comment_url(@comment), as: :json
+      delete api_comment_url(@comment), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content

@@ -10,7 +10,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'get index' do
     3.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}").users << @user }
-    get '/api/workspaces'
+    get '/api/workspaces', headers: auth_headers(@user)
     assert_response 200
     json = ::JSON.parse(response.body)
     assert_equal 3, json.length
@@ -23,7 +23,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
     assert_no_difference('DB::Workspace.count') do
       post api_workspaces_url, params: {
         workspace: { name: 'd' * 50 }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :unprocessable_entity
@@ -35,7 +35,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
     assert_difference('DB::Workspace.count') do
       post api_workspaces_url, params: {
         workspace: { name: 'Workspace 1' }
-      }, as: :json
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -44,7 +44,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'show workspace' do
-    get api_workspace_url(@workspace), as: :json
+    get api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -54,7 +54,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   should 'update workspace' do
     patch api_workspace_url(@workspace), params: {
       workspace: { name: 'New Name' }
-    }, as: :json
+    }, as: :json, headers: auth_headers(@user)
 
     assert_response :success
 
@@ -64,7 +64,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'destroy workspace' do
     assert_difference('DB::Workspace.count', -1) do
-      delete api_workspace_url(@workspace), as: :json
+      delete api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content
@@ -74,20 +74,20 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'assign user to workspace' do
-    post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+    post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
 
     assert_response :no_content
 
     assert_equal @user.id, @workspace.reload.users.last.id
   end
 
-  should 'unassign user to workspace' do
+  should 'unassign user from workspace' do
     user2 = ::FactoryBot.create :user
     @workspace.users << @user
     @workspace.users << user2
     assert_equal 2, @workspace.users.size
 
-    post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+    post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
 
     assert_response :no_content
 
