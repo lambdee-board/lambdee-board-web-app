@@ -28,6 +28,7 @@ class DB::TagTest < ActiveSupport::TestCase
     assert_not_nil tag.tasks.first
     tag.destroy
     assert_nil task.tags.first
+    assert_nil task.task_tags.first
     assert_nil tag.tasks.first
   end
 end

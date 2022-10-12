@@ -12,11 +12,12 @@ class DB::User < ::ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable
 
-  has_many :user_workspaces
-  has_many :workspaces, through: :user_workspaces
   has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id
-  has_many :comments, class_name: 'DB::Comment', foreign_key: :author_id
-  has_and_belongs_to_many :tasks
+  has_many :comments, class_name: 'DB::Comment'
+  has_many :user_workspaces, dependent: :destroy
+  has_many :task_users, class_name: 'DB::TaskUser', dependent: :destroy
+  has_many :workspaces, through: :user_workspaces
+  has_many :tasks, through: :task_users
 
   pg_search_scope :search,
                   against: %i[name email],
@@ -76,7 +77,7 @@ class DB::User < ::ApplicationRecord
   # saves the user record.
   #
   # @param board [DB::Board]
-  # return [Void]
+  # return [void]
   def update_last_viewed_board(board)
     self.last_viewed_board = board
     save(validate: false)
@@ -86,7 +87,7 @@ class DB::User < ::ApplicationRecord
   # boards with the `id` of given `DB::Board`.
   #
   # @param board [DB::Board]
-  # return [Void]
+  # return [void]
   def last_viewed_board=(board)
     return unless board.id
 
