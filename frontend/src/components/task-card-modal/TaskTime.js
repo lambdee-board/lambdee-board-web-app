@@ -19,19 +19,19 @@ function TaskTime({ task, mutate }) {
     if (!userTime) return
 
     const timeToAdd = getTimeInSeconds(userTime)
-    console.log(timeToAdd)
-    console.log(wrongFormat)
-    if (wrongFormat || timeToAdd === 0) {
-      console.log(timeToAdd)
+    console.log('1', timeToAdd)
+    if (timeToAdd === null || timeToAdd === 0) {
+      console.log('3', timeToAdd)
       return
     }
 
-    const payload = { spentTime: timeToAdd }
-
+    const payload = { time: timeToAdd }
+    console.log(payload)
     apiClient.put(`/api/tasks/${task.id}/add_time`, payload)
       .then((response) => {
         // successful request
         mutate({ ...task, spentTime: task.spentTime + timeToAdd })
+        handleDialClose()
       })
       .catch((error) => {
         // failed or rejected
@@ -43,6 +43,7 @@ function TaskTime({ task, mutate }) {
     if (addTimeToTask()) handleDialClose(e)
     else e.preventDefault()
   }
+
   const handleDialClose = (e) => {
     setUserTime('')
     setTimeDial(false)
@@ -51,50 +52,51 @@ function TaskTime({ task, mutate }) {
   const getTimeInSeconds = () => {
     const userTimeSplit = userTime.split(' ')
     let userTimeSeconds = 0
+    setWrongFormat(false)
 
-    userTimeSplit.forEach((item, index) => {
+    for (const item of userTimeSplit) {
+      if (!item) continue
+
       switch (true) {
-      case /\d+d/.test(item):
+      case /^\d+d$/.test(item):
         userTimeSeconds += parseInt(item) * 24 * 3600
         break
 
-      case /\d+h/.test(item):
+      case /^\d+h$/.test(item):
         userTimeSeconds += parseInt(item) * 3600
         break
 
-      case /\d+m/.test(item):
-        userTimeSeconds += parseInt(item)
+      case /^\d+m$/.test(item):
+        userTimeSeconds += parseInt(item) * 60
         break
 
       default:
         setWrongFormat(true)
-        break
+        return null
       }
-    })
+    }
     return userTimeSeconds
   }
   const getFormattedTime = () => {
-    const w = Math.floor(task.spentTime / (3600 * 24 * 7))
-    const d = Math.floor(task.spentTime % (3600 * 24 * 7) / (3600 * 24))
+    const d = Math.floor(task.spentTime / (3600 * 24))
     const h = Math.floor(task.spentTime % (3600 * 24) / 3600)
     const m = Math.floor(task.spentTime % 3600 / 60)
 
-    const wDisplay = w > 0 ? `${w}w ` : ''
     const dDisplay = d > 0 ? `${d}d ` : ''
     const hDisplay = h > 0 ? `${h}h ` : ''
     const mDisplay = m > 0 ? `${m}m` : ''
-    return wDisplay + dDisplay + hDisplay + mDisplay
+    return dDisplay + hDisplay + mDisplay
   }
 
   return (
     <div className='TaskTime'>
       <div className='TaskTime-progress' onClick={() => setTimeDial(true)}>
         <div>
-          <LinearProgress variant='determinate' value={task.spentTime / 6048 || 0} />
+          <LinearProgress variant='determinate' value={task.spentTime > 604800 ? 100 : task.spentTime / 6048} />
         </div>
         <div>
           <Typography variant='body2' color='text.secondary'>
-            {getFormattedTime(task.spentTime)}
+            {task.spentTime === 0 ? 'No time registered' : getFormattedTime(task.spentTime)}
           </Typography>
         </div>
       </div>
@@ -103,7 +105,6 @@ function TaskTime({ task, mutate }) {
         className='TaskTime-dialog'
         open={openTimeDial}
         onClose={handleDialClose}
-        // maxWidth='xs'
       >
         <form onSubmit={handleDialSubmit}>
           <DialogTitle>
@@ -128,7 +129,7 @@ function TaskTime({ task, mutate }) {
               variant='standard'
               error={wrongFormat}
             />
-            <DialogContentText>ex. 1w 3d 14h 43m</DialogContentText>
+            <DialogContentText>ex. 3d 14h 43m</DialogContentText>
             <DialogContentText sx={{ fontSize: '0.6rem' }}>Make sure that digits and letters are connected</DialogContentText>
           </DialogContent>
           <DialogActions className='create-tag-buttons'>
