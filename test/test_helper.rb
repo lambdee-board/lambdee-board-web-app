@@ -15,13 +15,13 @@ class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
   parallelize(workers: :number_of_processors) unless ::ENV['COVERAGE'].present?
 
-  # Add more helper methods to be used by all tests here...
-
   # Generates a JWT token for given user.
   # Returns all needed headers for authentication.
-  # @example Test GET controller action:
-  #   user = ::FactoryBot.create(:user)
-  #   get 'api/boards/1', headers: auth_headers(user)
+  # **Example:** Test GET controller action:
+  # ```
+  # user = ::FactoryBot.create(:user)
+  # get 'api/boards/1', headers: auth_headers(user)
+  # ```
   #
   # @param user[DB::User]
   # @return [Hash]

@@ -13,7 +13,7 @@ class ::API::Devise::RegistrationsController < ::Devise::RegistrationsController
   #   super
   # end
 
-  # POST /api/users
+  # POST /resource
   # def create
   #   super
   # end

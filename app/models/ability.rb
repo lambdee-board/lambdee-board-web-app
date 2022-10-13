@@ -35,7 +35,8 @@ class Ability
     @user = user
     set_guest_abilities if user.guest?
     set_regular_abilities if user.regular?
-    set_developer_abilities if user.developer? || user.manager?
+    set_developer_abilities if user.developer?
+    set_manager_abilities if user.manager?
     set_admin_abilities if user.admin?
   end
 
@@ -43,16 +44,25 @@ class Ability
 
   # @return [void]
   def set_guest_abilities
+    abilities_for_workspaces(:read)
     abilities_for_basic_models(:read)
   end
 
   # @return [void]
   def set_regular_abilities
+    abilities_for_workspaces(:read)
     abilities_for_basic_models(%i[read create update])
   end
 
   # @return [void]
   def set_developer_abilities
+    abilities_for_workspaces(:read)
+    abilities_for_basic_models(:manage)
+  end
+
+  # @return [void]
+  def set_manager_abilities
+    abilities_for_workspaces(:manage)
     abilities_for_basic_models(:manage)
   end
 
@@ -63,14 +73,20 @@ class Ability
 
   # @param actions [Symbol, Array<Symbol>]
   # @return [void]
+  def abilities_for_workspaces(actions)
+    can actions, ::DB::Workspace, users: { id: @user.id }
+  end
+
+  # @param actions [Symbol, Array<Symbol>]
+  # @return [void]
   def abilities_for_basic_models(actions)
-    can actions,         ::DB::Workspace, users: { id: @user.id }
     can actions,         ::DB::Board,     workspace: { users: { id: @user.id } }
     can actions,         ::DB::List,      board: { workspace: { users: { id: @user.id } } }
     can actions,         ::DB::Tag,       board: { workspace: { users: { id: @user.id } } }
     can actions,         ::DB::Task,      list: { board: { workspace: { users: { id: @user.id } } } }
     can :read,           ::DB::Comment,   task: { list: { board: { workspace: { users: { id: @user.id } } } } }
     can :manage,         ::DB::Comment,   author: @user
-    can %i[read update], ::DB::User,      id: @user.id
+    can :read,           ::DB::User
+    can :update,         ::DB::User,      id: @user.id
   end
 end

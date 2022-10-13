@@ -4,6 +4,7 @@
 # through the JSON API.
 class API::TagsController < ::APIController
   before_action :set_tag, only: %i[show update destroy]
+  authorize_resource only: %i[show update destroy]
 
   # GET api/boards/:board_id/tags or GET api/tasks/:task_id/tags
   def index
@@ -14,6 +15,7 @@ class API::TagsController < ::APIController
             else
               ::DB::Tag.all
             end
+    @tags = @tags.accessible_by(current_ability)
   end
 
   # GET api/tags/1

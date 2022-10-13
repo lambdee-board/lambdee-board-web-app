@@ -4,15 +4,11 @@
 # through the JSON API.
 class API::WorkspacesController < ::APIController
   before_action :set_workspace, only: %i[show update destroy assign_user unassign_user]
+  authorize_resource except: %i[index create]
 
   # GET /api/workspaces
   def index
-    @workspaces = if current_user.admin?
-                    ::DB::Workspace.all
-                  else
-                    current_user.workspaces
-                  end
-
+    @workspaces = ::DB::Workspace.accessible_by(current_ability)
     @workspaces = @workspaces.limit(limit) if limit?
   end
 
@@ -21,10 +17,14 @@ class API::WorkspacesController < ::APIController
 
   # POST /api/workspaces
   def create
+    authorize! :create, ::DB::Workspace
     @workspace = ::DB::Workspace.new(workspace_params)
-    return render :show, status: :created, location: api_workspace_url(@workspace) if @workspace.save
-
-    render json: @workspace.errors, status: :unprocessable_entity
+    if @workspace.save
+      current_user.workspaces << @workspace
+      render :show, status: :created, location: api_workspace_url(@workspace)
+    else
+      render json: @workspace.errors, status: :unprocessable_entity
+    end
   end
 
   # PATCH/PUT /api/workspaces/1
@@ -41,12 +41,14 @@ class API::WorkspacesController < ::APIController
 
   # POST api/workspaces/:id/assign_user
   def assign_user
+    authorize! :update, @workspace
     @workspace.users << ::DB::User.find(params[:user_id])
     head :no_content
   end
 
   # POST api/workspaces/:id/unassign_user
   def unassign_user
+    authorize! :update, @workspace
     @workspace.users.delete(params[:user_id])
     head :no_content
   end

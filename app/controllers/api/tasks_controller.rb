@@ -4,6 +4,7 @@
 # through the JSON API.
 class API::TasksController < ::APIController
   before_action :set_task, only: %i[update destroy attach_tag detach_tag assign_user unassign_user]
+  authorize_resource only: %i[update destroy]
 
   # GET api/tasks
   def index
@@ -12,7 +13,7 @@ class API::TasksController < ::APIController
              else
                ::DB::Task.all
              end
-
+    @tasks = @tasks.accessible_by(current_ability)
     return unless params[:include_associations] == 'true'
 
     @tasks = @tasks.with_users_and_tags
@@ -28,11 +29,13 @@ class API::TasksController < ::APIController
     else
       set_task
     end
+    authorize! :show, @task
   end
 
   # POST api/tasks
   def create
     @task = ::DB::Task.new(task_params)
+    authorize! :create, @task
     return render :show, status: :created, location: api_task_url(@task) if @task.save
 
     render json: @task.errors, status: :unprocessable_entity
@@ -52,24 +55,28 @@ class API::TasksController < ::APIController
 
   # POST api/tasks/:task_id/attach_tag
   def attach_tag
+    authorize! :update, @task
     @task.tags << ::DB::Tag.find(params[:tag_id])
     head :no_content
   end
 
   # POST api/tasks/:task_id/detach_tag
   def detach_tag
+    authorize! :update, @task
     @task.tags.delete(params[:tag_id])
     head :no_content
   end
 
   # POST api/tasks/:task_id/assign_user
   def assign_user
+    authorize! :update, @task
     @task.users << ::DB::User.find(params[:user_id])
     head :no_content
   end
 
   # POST api/tasks/:task_id/unassign_user
   def unassign_user
+    authorize! :update, @task
     @task.users.delete(params[:user_id])
     head :no_content
   end

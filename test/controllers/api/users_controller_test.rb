@@ -183,4 +183,13 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal @user.name, json['name']
     assert_equal @user.email, json['email']
   end
+
+  should 'update user' do
+    patch '/api/users', params: {
+      user: { id: @user.id, name: 'new name', current_password: 's3cr4t_p4ss'}
+    }, as: :json, headers: auth_headers(@user)
+    assert_response :success
+
+    assert_equal 'new name', @user.reload.name
+  end
 end
