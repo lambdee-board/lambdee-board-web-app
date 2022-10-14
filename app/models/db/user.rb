@@ -13,7 +13,7 @@ class DB::User < ::ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id
-  has_many :comments, class_name: 'DB::Comment'
+  has_many :comments, class_name: 'DB::Comment', foreign_key: :author_id
   has_many :user_workspaces, dependent: :destroy
   has_many :task_users, class_name: 'DB::TaskUser', dependent: :destroy
   has_many :workspaces, through: :user_workspaces

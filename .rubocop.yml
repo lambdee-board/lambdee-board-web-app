@@ -17,6 +17,9 @@ Metrics/BlockLength:
 Layout/RedundantLineBreak:
   Enabled: false
 
+Style/RegexpLiteral:
+  Enabled: false
+
 Style/HashSyntax:
   EnforcedShorthandSyntax: either
 
@@ -190,3 +193,6 @@ AllCops:
     - 'spec/**/*'
     - 'test/**/*'
     - 'script/**/*'
+
+Layout/HashAlignment:
+  Enabled: false

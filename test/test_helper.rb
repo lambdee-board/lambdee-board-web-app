@@ -15,4 +15,12 @@ class ActiveSupport::TestCase
   parallelize(workers: :number_of_processors) unless ::ENV['COVERAGE'].present?
 
   # Add more helper methods to be used by all tests here...
+
+  setup do
+    DatabaseCleaner.start # usually this is called in setup of a test
+  end
+
+  teardown do
+    DatabaseCleaner.clean # cleanup of the test
+  end
 end
