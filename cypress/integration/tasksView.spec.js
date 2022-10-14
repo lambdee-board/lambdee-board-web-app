@@ -3,7 +3,8 @@ describe('TasksView', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/tasks')
   })
   context('TasksView', () => {

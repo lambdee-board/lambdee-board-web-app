@@ -1,11 +1,9 @@
 import React, { useRef } from 'react'
 import {
   Box,
-  Card,
   Typography,
   Avatar,
   AvatarGroup,
-  Skeleton,
   Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
@@ -18,35 +16,13 @@ import Tag from '../Tag'
 import { mutateList } from '../../api/useList'
 
 
-const TaskCardSkeleton = () => {
-  return (
-    <div className='TaskCard-wrapper'>
-      <Card className='TaskCard'>
-        <Typography>
-          <Skeleton height={36} width={200} variant='text' />
-        </Typography>
-        <Box className='Box-categories'>
-          <Skeleton height={24} width={65} variant='rectangular' />
-        </Box>
-        <Box className='Box'>
-          <Box className='Box-priority' />
-          <AvatarGroup max={4} className='.MuiAvatar-root'>
-            <Skeleton height={24} width={24} variant='circular' />
-          </AvatarGroup>
-        </Box>
-      </Card>
-    </div>
-  )
-}
-
-
 const TaskListItem = (props) => {
   const dndRef = useRef(null)
 
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'all' } } })
+    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
   return (
@@ -71,7 +47,7 @@ const TaskListItem = (props) => {
         </Typography>
         <Box className='TaskListItem-properties'>
 
-          <Box className='TaskListItem-properties-tags'>
+          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} className='TaskListItem-properties-tags'>
             <AvatarGroup max={(4)} >
               {props.tags.map((tag) => (
                 <Tag name={tag.name} colour={tag.colour} key={tag.id} />
@@ -80,7 +56,10 @@ const TaskListItem = (props) => {
           </Box>
 
           <Box className='TaskListItem-properties-priority'>
-            <PriorityIcon priority={props.priority} />
+            <PriorityIcon size='xl' taskPriority={props.priority} />
+
+          </Box>
+          <Box className='TaskListItem-properties-points'>
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
           <Box className='TaskListItem-properties-avatars'>

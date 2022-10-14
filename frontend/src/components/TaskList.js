@@ -269,7 +269,7 @@ function TaskList(props) {
         className='TaskList-modal-wrapper'
       >
         <div className='TaskList-modal'>
-          <TaskListModal listId={props.id} title={props.title} />
+          <TaskListModal listId={props.id} title={props.title} listVisibility={'visible'} />
         </div>
       </Modal>
       }

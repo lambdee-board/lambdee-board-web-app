@@ -2,13 +2,15 @@ describe('TaskCardModal', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/')
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()
     cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
+    cy.contains('Planning View').click()
   })
   context('Shows task card modal with task information', () => {
     it('Display and close task card modal', () => {
@@ -32,7 +34,7 @@ describe('TaskCardModal', () => {
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
       cy.get('div.TaskCardModal-sidebar').should('exist')
-      cy.get('.svg-inline--fa.fa-angle-down.fa-xl').should('exist').click()
+      cy.get('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.TaskPriority-button.css-78trlr-MuiButtonBase-root-MuiIconButton-root').should('exist').click()
     })
     it('Display task Points', () => {
       cy.contains('Implement the User API')
@@ -110,17 +112,17 @@ describe('TaskCardModal', () => {
       cy.contains('Implement the User API')
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
-      cy.get('.svg-inline--fa.fa-angle-down.fa-xl').should('exist').click()
-      cy.get('.svg-inline--fa.fa-angle-down.fa-xl').should('not.exist')
+      cy.get('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.TaskPriority-button.css-78trlr-MuiButtonBase-root-MuiIconButton-root').should('exist').click()
+      cy.get('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.TaskPriority-button.css-78trlr-MuiButtonBase-root-MuiIconButton-root').should('not.exist')
     })
     it('changes priority', () => {
       cy.contains('Implement the User API')
         .click()
       cy.get('div.TaskCardModal-wrapper').should('exist')
-      cy.get('.svg-inline--fa.fa-angle-down.fa-xl').should('exist').click()
+      cy.get('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.TaskPriority-button.css-78trlr-MuiButtonBase-root-MuiIconButton-root').should('exist').click()
       cy.contains('Very Low').click()
       cy.wait(500)
-      cy.get('.svg-inline--fa.fa-angles-down.fa-xl').should('exist').click()
+      cy.get('.MuiButtonBase-root.MuiIconButton-root.MuiIconButton-sizeMedium.TaskPriority-button.css-78trlr-MuiButtonBase-root-MuiIconButton-root').should('exist').click()
     })
   })
   context('Edit task points', () => {

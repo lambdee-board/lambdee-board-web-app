@@ -3,7 +3,8 @@ describe('WelcomeView', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/')
   })
   context('Recent', () => {
@@ -20,7 +21,7 @@ describe('WelcomeView', () => {
       cy.get('.Workspace-menu-item').first().click()
       cy.get('div.Sidebar-wrapper').should('exist')
       cy.get('div.ListItem-board').first().click()
-      cy.wait(2000)
+      cy.reload()
       cy.contains('Lambdee').click()
       cy.contains('Recent')
       cy.contains('Recents')
@@ -33,7 +34,7 @@ describe('WelcomeView', () => {
       cy.get('.Workspace-menu-item').first().click()
       cy.get('div.Sidebar-wrapper').should('exist')
       cy.get('div.ListItem-board').first().click()
-      cy.wait(2000)
+      cy.reload()
       cy.contains('Lambdee').click()
       cy.contains('Recent')
       cy.contains('Recents')
