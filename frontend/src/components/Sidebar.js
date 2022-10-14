@@ -136,6 +136,7 @@ export default function Sidebar() {
               <SidebarListItem
                 active={false}
                 label='Members'
+                onClick={() => navigate(`/workspaces/${workspaceId}/members`)}
                 icon={<FontAwesomeIcon icon={faUsers} />}
               />
               {workspace.boards?.map((board, index) => (

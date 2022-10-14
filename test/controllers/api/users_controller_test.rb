@@ -13,9 +13,9 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     json = ::JSON.parse(response.body)
 
-    assert_equal @user.name, json.dig(0, 'name')
+    assert_equal @user.name, json.dig('users', 0, 'name')
     3.times do |i|
-      assert_equal "Person#{i}", json.dig(i + 1, 'name')
+      assert_equal "Person#{i}", json.dig('users', i + 1, 'name')
     end
   end
 
@@ -25,7 +25,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?role=guest'
     json = ::JSON.parse(response.body)
 
-    json.each do |user|
+    json['users'].each do |user|
       assert_equal 'guest', user['role']
     end
   end
@@ -38,7 +38,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?role_collection%5B%5D=guest&role_collection%5B%5D=regular'
     json = ::JSON.parse(response.body)
 
-    json.each do |user|
+    json['users'].each do |user|
       assert %w[guest regular].include?(user['role']), "Returned user with incorrect role `#{user['role'].inspect}`"
     end
   end
@@ -51,9 +51,9 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?created_at_from=2010.01.12&created_at_to=2015.10.20'
     json = ::JSON.parse(response.body)
 
-    assert_equal 2, json.size
-    assert_equal 'ok', json.first['name']
-    assert_equal 'ok2', json.second['name']
+    assert_equal 2, json['users'].size
+    assert_equal 'ok', json['users'].first['name']
+    assert_equal 'ok2', json['users'].second['name']
   end
 
   should 'get index with workspace_id param' do
@@ -65,8 +65,8 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get "/api/users?workspace_id=#{workspace.id}"
     json = ::JSON.parse(response.body)
 
-    assert_equal 1, json.size
-    assert_equal 'ok', json.first['name']
+    assert_equal 1, json['users'].size
+    assert_equal 'ok', json['users'].first['name']
   end
 
   should 'get index with pagination' do
@@ -74,10 +74,10 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?page=2&per=3'
     json = ::JSON.parse(response.body)
 
-    assert_equal 3, json.size
-    assert_equal 'tom_jerry2', json.first['name']
-    assert_equal 'tom_jerry3', json.second['name']
-    assert_equal 'tom_jerry4', json.third['name']
+    assert_equal 3, json['users'].size
+    assert_equal 'tom_jerry2', json['users'].first['name']
+    assert_equal 'tom_jerry3', json['users'].second['name']
+    assert_equal 'tom_jerry4', json['users'].third['name']
   end
 
   should 'get index with search param' do
@@ -87,9 +87,9 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?search=jerry'
     json = ::JSON.parse(response.body)
 
-    assert_equal 2, json.size
-    assert_equal 'tom_jerry', json.first['name']
-    assert_equal 'jerry11@example.com', json.second['email']
+    assert_equal 2, json['users'].size
+    assert_equal 'tom_jerry', json['users'].first['name']
+    assert_equal 'jerry11@example.com', json['users'].second['email']
   end
 
   should 'get index with limit param' do
@@ -97,7 +97,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     get '/api/users?limit=2'
     json = ::JSON.parse(response.body)
 
-    assert_equal 2, json.size
+    assert_equal 2, json['users'].size
   end
 
   should 'return error when per param is given, but page param is not' do
@@ -131,10 +131,10 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_response 200
     json = ::JSON.parse(response.body)
 
-    assert_equal 3, json.length
-    assert_not_equal @user.name, json.dig(0, 'name')
+    assert_equal 3, json['users'].length
+    assert_not_equal @user.name, json.dig('users', 0, 'name')
     3.times do |i|
-      assert_equal "Person#{i}", json.dig(i, 'name')
+      assert_equal "Person#{i}", json.dig('users', i, 'name')
     end
   end
 

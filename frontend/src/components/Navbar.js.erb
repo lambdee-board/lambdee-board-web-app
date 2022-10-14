@@ -55,11 +55,19 @@ const Navbar = () => {
               id='dropdown-button'
               onClick={() => navigate('/console')}
             >
-              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
+              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
                 Console
               </Typography>
             </Button>
-
+            <Button
+              className='Button'
+              id='dropdown-button'
+              onClick={() => navigate('/members')}
+            >
+              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+                Members
+              </Typography>
+            </Button>
           </Box>
           <AccountMenuButton />
         </Toolbar>
