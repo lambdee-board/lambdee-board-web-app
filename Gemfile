@@ -60,6 +60,7 @@ gem 'has_scope'
 gem 'kaminari'
 gem 'pg_search'
 gem 'sass-rails'
+gem 'shale' # object mapper and serializer for JSON and other formats
 gem 'trestle'
 gem 'trestle-auth'
 
