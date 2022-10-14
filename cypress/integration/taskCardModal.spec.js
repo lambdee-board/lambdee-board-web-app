@@ -196,4 +196,47 @@ describe('TaskCardModal', () => {
       cy.get('.TaskCardModal-sidebar-card-box-tags').contains('New Tag')
     })
   })
+  context('Edit task time', () => {
+    it('can open and close TaskTime dialog', () => {
+      cy.contains('Implement the User API').click()
+
+      cy.get('div.TaskCardModal-wrapper').should('exist')
+      cy.contains('.TaskTime-progress p', 'No time registered').should('exist')
+      cy.get('.TaskTime').should('exist').click()
+
+      cy.get('.TaskTime-dialog-content').should('exist')
+      cy.contains('Cancel').click()
+
+      cy.get('.TaskTime-dialog-content').should('not.exist')
+    })
+    it('can add time to task when format is valid', () => {
+      cy.contains('Implement the User API').click()
+
+      cy.get('div.TaskCardModal-wrapper').should('exist')
+      cy.contains('.TaskTime-progress p', 'No time registered').should('exist')
+      cy.get('.TaskTime').should('exist').click()
+
+      cy.get('input#formatted-task-time').click().type('1d 1h 1m')
+      cy.contains('Add time').click()
+
+      cy.contains('.TaskTime-progress p', 'No time registered').should('not.exist')
+      cy.contains('.TaskTime-progress p', '1d 1h 1m').should('exist')
+    })
+    it('cannot add time to task when format is invalid', () => {
+      cy.contains('Implement the User API').click()
+
+      cy.get('div.TaskCardModal-wrapper').should('exist')
+      cy.contains('.TaskTime-progress p', 'No time registered').should('exist')
+      cy.get('.TaskTime').should('exist').click()
+
+      cy.get('input#formatted-task-time').click().type('1dupa 1ham 1mieszanina')
+      cy.contains('Add time').click()
+
+      cy.get('input#formatted-task-time').parent().should('have.class', 'Mui-error')
+      cy.contains('Cancel').click()
+
+      cy.contains('.TaskTime-progress p', 'No time registered').should('exist')
+      cy.contains('.TaskTime-progress p', '1d 1h 1m').should('not.exist')
+    })
+  })
 })
