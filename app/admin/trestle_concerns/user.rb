@@ -4,6 +4,9 @@
 # which encapsulate common settings for all
 # user related views.
 module TrestleConcerns::User
+  # @return [Hash]
+  COLOURS_PER_ROLE = { 'admin' => :danger, 'manager' => :dark, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }.freeze
+
   COLUMNS = proc do
     column :gravatar_url, header: nil, align: :center do |user|
       admin_link_to(image_tag(user.avatar_url(size: 35)), user)
@@ -17,7 +20,7 @@ module TrestleConcerns::User
       status_tag(user.activity_status, { true => :success, false => :default }[user.active?] || :default)
     end
     column :role, sort: :role, align: :center do |user|
-      status_tag(user.role, { 'admin' => :danger, 'manager' => :primary, 'developer' => :warning, 'regular' => :info, 'guest' => :secondary }[user.role] || :default)
+      status_tag(user.role, COLOURS_PER_ROLE[user.role] || :default)
     end
   end
 

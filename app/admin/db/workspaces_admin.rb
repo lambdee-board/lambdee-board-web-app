@@ -17,9 +17,11 @@
     column :boards, format: :tags do |ws|
       ws.boards.map(&:name)
     end
-    column :users, header: :PMs, format: :tags, class: 'info' do |ws|
+
+    column :users, header: :PMs, format: :tags do |ws|
       ws.users.map(&:name)
     end
+
     column :created_at, align: :center
     column :updated_at, align: :center, header: 'Last update at'
 
@@ -34,6 +36,7 @@
     tab :users, badge: ws.users.count do
       table ::DB::LimitedUserAdmin.table, collection: ws.users
     end
+
     tab :add_users, badge: ::DB::User.all.count do
       table ::DB::AddUserAdmin.table, collection: ::DB::User.all - ws.users
     end

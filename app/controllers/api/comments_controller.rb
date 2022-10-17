@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-
+require 'debug'
 # Controller which provides a full CRUD for comments
 # through the JSON API.
 class API::CommentsController < ::APIController
@@ -7,6 +7,7 @@ class API::CommentsController < ::APIController
 
   # GET api/tasks/:task_id/comments
   def index
+    debugger
     if params[:with_author] == 'true'
       @comments = ::DB::Comment.find_with_author_for_task(params[:task_id])
       @with_author = true

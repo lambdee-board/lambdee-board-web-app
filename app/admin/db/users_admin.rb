@@ -11,8 +11,16 @@
     model.with_deleted
   end
 
+  search do |query|
+    query ? collection.search(query) : collection
+  end
+
   table do
     instance_eval(&::TrestleConcerns::User::COLUMNS)
+    column :last_sign_in_at
+    column :last_sign_in_ip
+    column :current_sign_in_at
+    column :current_sign_in_ip
 
     actions align: :center do |toolbar, user|
       toolbar.link 'Deactivate', user, admin: admin, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user
@@ -25,7 +33,13 @@
   controller do
     def index
       toolbar(:primary) do |t|
-        t.link('Import from CSV', admin.path(:import), class: 'btn btn-primary', data: { behavior: 'dialog' })
+        t.link('Import from CSV', admin.path(:import), style: 'primary', data: { behavior: 'dialog' })
+      end
+
+      ::TrestleConcerns::User::COLOURS_PER_ROLE.each do |role, style|
+        toolbar(:secondary) do |t|
+          t.link("#{role}s", "users?q=#{::DB::User.roles[role]}", style: style)
+        end
       end
     end
 
