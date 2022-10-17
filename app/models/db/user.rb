@@ -45,6 +45,11 @@ class DB::User < ::ApplicationRecord
     @ability ||= ::Ability.new(self)
   end
 
+  # @return [Hash]
+  def jwt_payload
+    { role: role }
+  end
+
   alias deactivated? deleted?
   alias deactivate! destroy!
   alias activate! recover!
