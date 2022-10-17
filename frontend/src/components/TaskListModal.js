@@ -95,7 +95,7 @@ export default function TaskListModal(props) {
                   variant='filled'
                   fullWidth
                   className='TaskListModal-edit-title-input'
-                  color='secondary'
+                  color='primary'
                   placeholder='New List Name'
                   defaultValue={props.title}
                   onKeyDown={(e) => editListTitleOnKey(e)}

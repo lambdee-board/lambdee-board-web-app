@@ -204,17 +204,17 @@ function TaskPlanningList(props) {
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
-            <Typography className='TaskListPlanning-header-text'   >
+            <Typography className='TaskListPlanning-header-text' variant='h2' fontSize={18}   >
               {props.title}
             </Typography>
             <div>
-              <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
+              <IconButton aria-label='Visibility' color='primary' onClick={toggleListVisibility}>
                 {taskList?.visible ?
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
                 }
               </IconButton>
-              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+              <IconButton aria-label='Edit' color='primary' onClick={toggleTaskListModalState}>
                 <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faPencil} />
               </IconButton>
             </div>
@@ -281,7 +281,7 @@ function TaskPlanningList(props) {
         </List>
         <Box className='TaskListPlanning-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }

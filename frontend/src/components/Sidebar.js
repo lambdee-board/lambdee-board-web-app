@@ -125,6 +125,7 @@ export default function Sidebar() {
               <SidebarListItem
                 active={false}
                 label='Scripts'
+                onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
                 icon={<FontAwesomeIcon icon={faScroll} />}
               />
               <SidebarListItem
@@ -158,7 +159,7 @@ export default function Sidebar() {
       <SidebarButton
         className='toggle-button'
         variant='contained'
-        color='secondary'
+        color='primary'
         sx={{ top: theme.mixins.toolbar.minHeight + 32, left: drawerWidth, zIndex: theme.zIndex.drawer + 1 }}
         onClick={() => setOpen(!isOpen)}
         open={isOpen} >

@@ -1,0 +1,28 @@
+@import './../../styles/base'
+
+.ScriptsView-wrapper
+  overflow: hidden
+  -ms-overflow-style: none // for Internet Explorer, Edge
+  scrollbar-width: none // for Firefox
+  padding-top: $unit
+  padding-left: 2.4 * $unit
+  padding-right: 1.6 * $unit
+  padding-bottom: $unit
+  .ScriptsView
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    display: flex
+    flex-flow: row
+    width: calc(100%)
+    min-height: calc(100vh - (10 * $unit))
+    border-radius: $unit
+    .ScriptsView-card
+      flex: 1
+      height: 50%
+      margin: 6 * $unit
+      .Add-script-button
+        text-transform: none
+        justify-content: flex-start
+        width: 30%
+        margin: 2 * $unit
+        padding: 1.4 * $unit
+        padding-left: 2 * $unit

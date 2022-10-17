@@ -195,10 +195,10 @@ function TaskList(props) {
         elevation={5}>
         <List ref={listRef} className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
-            <Typography className='TaskList-header-text' >
+            <Typography className='TaskList-header-text' variant='h2'>
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+            <IconButton aria-label='Edit' color='primary' onClick={toggleTaskListModalState}>
               <FontAwesomeIcon icon={faPencil} />
             </IconButton>
           </ListSubheader>} >
@@ -256,7 +256,7 @@ function TaskList(props) {
         </List>
         <Box className='TaskList-new-task-wrapper'>
           {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
           }

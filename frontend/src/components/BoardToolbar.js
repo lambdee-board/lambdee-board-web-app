@@ -94,7 +94,7 @@ export default function BoardToolbar(props) {
         { newListButtonVisible &&
           <Button onClick={() => newListButtonOnClick()}
             className='Toolbar-create-list-button'
-            color='secondary'
+            color='primary'
             variant='outlined'
             startIcon={<FontAwesomeIcon icon={faPlus} />}
           >
@@ -107,7 +107,7 @@ export default function BoardToolbar(props) {
             ref={newListInputRef}
             variant='standard'
             className='Toolbar-new-list-input'
-            color='secondary'
+            color='primary'
             placeholder='New List Name'
             onKeyDown={(e) => newListNameInputOnKey(e)}
             endAdornment={
@@ -125,7 +125,7 @@ export default function BoardToolbar(props) {
 
             <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
               className='Toolbar-create-list-button'
-              color='secondary'
+              color='primary'
               variant='outlined'
               startIcon={<FontAwesomeIcon icon={faList} />}
             >
@@ -134,7 +134,7 @@ export default function BoardToolbar(props) {
           </div>      :
           <Button sx={{ ml: '8px' }} onClick={() => setBoardWorkView()}
             className='Toolbar-create-list-button'
-            color='secondary'
+            color='primary'
             variant='contained'
             startIcon={<FontAwesomeIcon icon={faList} />}
           >
