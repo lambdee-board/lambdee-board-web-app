@@ -8,12 +8,35 @@ import {
   Button
 } from '@mui/material'
 
+import apiClient from './../../api/apiClient'
+
 
 import './LoginView.sass'
 
 
 export default function LoginView() {
+  const emailRef = React.useRef()
+  const passwordRef = React.useRef()
   const navigate = useNavigate()
+
+
+  const login = () => {
+    const emailInput = 'test_logowanie@example.com'
+    const passwordInput = '111111'
+    const credentials = {
+      user: { email: 'test_logowanie@example.com', password: '111111' }
+
+    }
+
+    apiClient.post('/api/users/sign_in.json', credentials)
+      .then((response) => {
+        response.headers
+      })
+      .catch((error) => {
+        console.log(error)
+      })
+  }
+
   return (
     <div className='loginView-wrapper'>
       <img
@@ -22,15 +45,15 @@ export default function LoginView() {
       />
       <Card className='loginView-card'>
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
-        <TextField className='loginView-card-input' label='Email' variant='outlined' />
-        <TextField type='password' className='loginView-card-input' label='Password' variant='outlined' />
+        <TextField ref={emailRef} className='loginView-card-input' label='Email' variant='outlined' />
+        <TextField ref={passwordRef} type='password' className='loginView-card-input' label='Password' variant='outlined' />
         <Link
           onClick={() => navigate('/login/forgot-password')}
           component='button'
           className='loginView-card-reset'
           underline='none'
           variant='body2'>Forgot password?</Link>
-        <Button onClick={() => navigate('/')} className='loginView-card-button' variant='contained'>Login</Button>
+        <Button onClick={() => login()} className='loginView-card-button' variant='contained'>Login</Button>
       </Card>
     </div>
   )
