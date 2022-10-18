@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 ::Rails.application.routes.draw do
-  devise_for :users, class_name: 'DB::User', path: 'api/users', defaults: { format: 'json' }, controllers: {
+  devise_for :users, class_name: 'DB::User', path: 'api/users', defaults: { format: :json }, controllers: {
     sessions: 'api/devise/sessions',
     registrations: 'api/devise/registrations',
     passwords: 'api/devise/passwords'
