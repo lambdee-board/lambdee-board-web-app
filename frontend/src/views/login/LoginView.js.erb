@@ -10,7 +10,6 @@ import {
 
 import apiClient from './../../api/apiClient'
 
-
 import './LoginView.sass'
 
 
@@ -18,7 +17,6 @@ export default function LoginView() {
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
   const navigate = useNavigate()
-
 
   const login = () => {
     const emailInput = 'test_logowanie@example.com'
@@ -28,9 +26,15 @@ export default function LoginView() {
 
     }
 
-    apiClient.post('/api/users/sign_in.json', credentials)
+    apiClient.post('/api/users/sign_in', credentials, {
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      }
+    })
       .then((response) => {
-        response.headers
+        localStorage.setItem('token', response.headers.authorization)
+        navigate('/')
       })
       .catch((error) => {
         console.log(error)
