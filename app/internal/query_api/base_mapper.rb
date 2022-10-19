@@ -4,12 +4,13 @@ module QueryAPI
   # @abstract Subclass to define new parameters
   #   in the query API.
   class BaseMapper < ::Shale::Mapper
+    include ::ActiveModel::Validations
     extend Forwardable
     extend NestedValidations::ClassMethods
     include NestedValidations::InstanceMethods
-    include ::ActiveModel::Validations
 
     class << self
+      # @param params [Hash{String => Object}]
       # @return [self]
       def of_hash(params, *args, **kwargs)
         instance = model.new
@@ -34,10 +35,10 @@ module QueryAPI
             key = key.to_s
             next unless (val = params[key])
 
-            val = params[key] = { 'value' => val } if val.is_a?(::String) || val.is_a?(::Numeric)
-            next unless val.is_a?(::Hash)
+            params[key] = { 'value' => val } if val.is_a?(::String) || val.is_a?(::Numeric)
+            next unless params[key].is_a?(::Hash)
 
-            val[forwarded.as.to_s] = forwarded_val
+            params[key][forwarded.as.to_s] = forwarded_val
           end
         end
 

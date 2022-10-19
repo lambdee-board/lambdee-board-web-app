@@ -5,29 +5,48 @@ module QueryAPI
     # Type that wraps and validates a `join` or `left_outer_join`
     # clause in a query.
     class Join < BaseMapper
-      class << self
-        # @return [self]
-        def of_hash(value, *args, **kwargs)
-          super if value.is_a?(::Hash)
-
-          new(value:)
-        end
-      end
-
       attribute :value, ::Shale::Type::Value
       attribute :model, ::Shale::Type::Value
 
       validates :value, presence: true
-      # TODO
-      # validate :validate_value
+      validate :validate_value
 
       # @param val [Object, Array]
       def value=(val)
-        @value = val.is_a?(::Array) ? val : [val]
+        super symbolize_value(val)
       end
 
       private
 
+      # @param val [Hash, Array, String, nil]
+      # @return [Hash, Array, Symbol, nil]
+      def symbolize_value(val)
+        return symbolize_hash_value(val) if val.is_a?(::Hash)
+        return symbolize_array_value(val) if val.is_a?(::Array)
+
+        symbolize_string_value(val)
+      end
+
+      # @param val [Hash{String => Hash, Array, String}]
+      # @return [Hash{String => Hash, Array, Symbol}]
+      def symbolize_hash_value(val)
+        val.transform_keys(&:to_sym)
+           .transform_values! { symbolize_value(_1) }
+      end
+
+      # @param val [Array<Hash, String>]
+      # @return [Array<Hash, Symbol>]
+      def symbolize_array_value(val)
+        val.map { symbolize_value(_1) }
+      end
+
+      # @param val [String, nil]
+      # @return [Symbol, nil]
+      def symbolize_string_value(val)
+        val&.to_sym
+      end
+
+      # @return [void]
       def validate_value
         invalid = catch :invalid do
           validate_associations(model, value)
@@ -55,7 +74,7 @@ module QueryAPI
       def validate_hash_association(klass, associations)
         associations.each do |key, val|
           validate_associations(klass, key)
-          associated_klass = klass._reflections[key].klass
+          associated_klass = klass._reflections[key.to_s]&.klass
           validate_associations(associated_klass, val)
         end
 

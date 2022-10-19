@@ -8,7 +8,7 @@ module QueryAPI
     ForwardedAttribute = ::Struct.new(:name, :as, :to, keyword_init: true) do
       # @param name [Symbol]
       # @param as [Symbol]
-      # @param to [Symbol]
+      # @param to [Array<Symbol>, Symbol]
       def initialize(name:, as:, to:)
         to = *to
         super(name:, as:, to:)
@@ -25,9 +25,7 @@ module QueryAPI
     def forward(name, to:, as: name)
       to = *to
       @forwarded_attributes ||= {}
-      to.each do |element|
-        @forwarded_attributes[name] = ForwardedAttribute.new name:, as:, to: element
-      end
+      @forwarded_attributes[name] = ForwardedAttribute.new name:, as:, to:
     end
   end
 end

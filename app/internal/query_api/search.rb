@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'debug'
-
 module QueryAPI
   # Contains classes which handle searching
   # through the Query API.
@@ -17,57 +15,37 @@ module QueryAPI
 
     forward :type, to: :query, as: :model
 
-    validates :type, presence: true
+    validates :type, presence: { message: 'does not exist!' }
     validates :query, presence: true
 
     # @return [ActiveRecord::Relation]
     def execute
-      relation = type
-
-      if query.where
-        relation = apply_where(relation)
-      end
-
-      if query.distinct
-        relation = relation.distinct
-      end
-
-      if query.join
-        relation = relation.joins(query.join.value.to_sym)
-      end
-
-      if query.limit
-        relation = relation.limit(query.limit)
-      end
-
-      if query.offset
-        relation = relation.offset(query.offset)
-      end
-
-      if query.group_by
-        relation = relation.group(query.group_by.value)
-      end
-
-      if query.count
-        relation = relation.count
-      end
+      relation = type.all
+      relation = apply_where(relation) if query.where
+      relation = relation.distinct if query.distinct
+      relation = relation.joins(query.join.value) if query.join
+      relation = relation.limit(query.limit) if query.limit
+      relation = relation.offset(query.offset) if query.offset
+      relation = relation.group(query.group_by.value) if query.group_by
+      relation = relation.count if query.count
 
       relation.load
     end
 
     private
 
+    # @param relation [ActiveRecord::Relation]
+    # @return [ActiveRecord::Relation]
     def apply_where(relation)
-      result = build_where(relation, query.where)
-      result
+      build_where(relation, query.where)
     end
 
+    # @param relation [ActiveRecord]
     def build_where(relation, where, logical: :and)
       first_iteration = true
       where.dynamic_attribute_names.each do |attr_name|
         value = where.public_send(attr_name)
         nested_relation = type.where(where_argument(attr_name, value))
-        # debugger
         if first_iteration
           relation = nested_relation
           first_iteration = false
@@ -77,13 +55,8 @@ module QueryAPI
         relation = relation.public_send(logical, nested_relation)
       end
 
-      if where.or
-        relation = relation.public_send(logical, build_where(relation, where.or, logical: :or))
-      end
-
-      if where.and
-        relation = relation.public_send(logical, build_where(relation, where.and, logical: :and))
-      end
+      relation = relation.public_send(logical, build_where(relation, where.or, logical: :or)) if where.or
+      relation = relation.public_send(logical, build_where(relation, where.and, logical: :and)) if where.and
 
       relation
     end
@@ -93,24 +66,24 @@ module QueryAPI
     # @return [Array, Hash]
     def where_argument(attr_name, value)
       case value
-      in like: like
+      in like:
         [
           %("#{attr_name}" LIKE :like),
           {
             like:
           }
         ]
-      in greater_than: gt
-        { attr_name => gt.. }
-      in less_than: lt
-        { attr_name => ..lt }
+      in greater_than:
+        { attr_name => greater_than.. }
+      in less_than:
+        { attr_name => ..less_than }
       in between: [left, right]
         { attr_name => left..right }
-      in not_equal: neq
+      in not_equal:
         [
-          %("#{attr_name}" != :neq),
+          %("#{attr_name}" != :not_equal),
           {
-            neq:
+            not_equal:
           }
         ]
       else
