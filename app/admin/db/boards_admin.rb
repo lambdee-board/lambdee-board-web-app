@@ -4,7 +4,7 @@
   instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
-    item :boards, icon: 'fa fa-square'
+    item :boards, icon: 'fa fa-square', priority: -9
   end
 
   collection do

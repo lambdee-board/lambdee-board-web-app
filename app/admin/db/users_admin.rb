@@ -4,7 +4,7 @@
   instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
-    item :users, icon: 'fa fa-users'
+    item :users, icon: 'fa fa-users', priority: :first
   end
 
   collection do
@@ -21,6 +21,7 @@
     column :last_sign_in_ip
     column :current_sign_in_at
     column :current_sign_in_ip
+    column :deleted_at, header: 'Deactivated at'
 
     actions align: :center do |toolbar, user|
       toolbar.link 'Deactivate', user, admin: admin, action: :deactivate, method: :post, style: :danger if user.active? && user != current_user

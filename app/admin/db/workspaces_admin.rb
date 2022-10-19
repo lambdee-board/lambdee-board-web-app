@@ -4,7 +4,7 @@
   instance_eval(&::TrestleConcerns::Archiver::ENDPOINTS)
 
   menu do
-    item :workspaces, icon: 'fa fa-briefcase'
+    item :workspaces, icon: 'fa fa-briefcase', priority: -10
   end
 
   collection do
