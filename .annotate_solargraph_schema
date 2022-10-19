@@ -167,6 +167,12 @@ class DB::Board < ApplicationRecord
   #
   # @return [Array<DB::Board>, nil]
   def self.deleted_inside_time_window(time, window); end
+  # `has_one` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @param val [DB::Sprint, nil]
+  def active_sprint=(val); end
+  # `has_one` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @return [DB::Sprint, nil]
+  def active_sprint; end
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @param val [Array<DB::List>, nil]
   def deleted_lists=(val); end
@@ -191,6 +197,12 @@ class DB::Board < ApplicationRecord
   # `has_many` relation with `DB::List`. Database column `lists.board_id`.
   # @return [Array<DB::List>, nil]
   def lists_including_deleted; end
+  # `has_many` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @param val [Array<DB::Sprint>, nil]
+  def sprints=(val); end
+  # `has_many` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @return [Array<DB::Sprint>, nil]
+  def sprints; end
   # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
   # @param val [Array<DB::Tag>, nil]
   def tags=(val); end
@@ -516,6 +528,24 @@ end
 # %%<RailsAnnotateSolargraph:Start:sprints>%%
 
 class DB::Sprint < ApplicationRecord
+  # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
+  # @param val [Array<DB::SprintTask>, nil]
+  def sprint_tasks=(val); end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
+  # @return [Array<DB::SprintTask>, nil]
+  def sprint_tasks; end
+  # `has_many` relation with `Object` through `DB::SprintTask`.
+  # @param val [Array<Object>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `Object` through `DB::SprintTask`.
+  # @return [Array<Object>, nil]
+  def tasks; end
   # Database column `sprints.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -546,6 +576,12 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.end_date`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def end_date; end
+  # Database column `sprints.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `sprints.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
 end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 
@@ -553,6 +589,18 @@ end
 # %%<RailsAnnotateSolargraph:Start:sprint_tasks>%%
 
 class DB::SprintTask < ApplicationRecord
+  # `belongs_to` relation with `Object`. Database column `sprint_tasks.sprints_id`.
+  # @param val [Object, nil]
+  def sprints=(val); end
+  # `belongs_to` relation with `Object`. Database column `sprint_tasks.sprints_id`.
+  # @return [Object, nil]
+  def sprints; end
+  # `belongs_to` relation with `Object`. Database column `sprint_tasks.tasks_id`.
+  # @param val [Object, nil]
+  def tasks=(val); end
+  # `belongs_to` relation with `Object`. Database column `sprint_tasks.tasks_id`.
+  # @return [Object, nil]
+  def tasks; end
   # Database column `sprint_tasks.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -797,6 +845,18 @@ class DB::Task < ApplicationRecord
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @return [DB::List, nil]
   def list; end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.task_id`.
+  # @param val [Array<DB::SprintTask>, nil]
+  def sprint_tasks=(val); end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.task_id`.
+  # @return [Array<DB::SprintTask>, nil]
+  def sprint_tasks; end
+  # `has_many` relation with `Object` through `DB::SprintTask`.
+  # @param val [Array<Object>, nil]
+  def sprints=(val); end
+  # `has_many` relation with `Object` through `DB::SprintTask`.
+  # @return [Array<Object>, nil]
+  def sprints; end
   # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
   # @param val [Array<DB::Tag>, nil]
   def tags=(val); end

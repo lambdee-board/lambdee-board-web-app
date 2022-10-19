@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_19_162507) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_19_190311) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -52,6 +52,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_162507) do
     t.integer "task_id"
     t.integer "sprint_id"
     t.string "data"
+    t.index ["sprint_id"], name: "index_sprint_tasks_on_sprint_id"
+    t.index ["task_id"], name: "index_sprint_tasks_on_task_id"
   end
 
   create_table "sprints", force: :cascade do |t|
@@ -59,6 +61,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_162507) do
     t.datetime "start_date"
     t.datetime "due_date"
     t.datetime "end_date"
+    t.bigint "board_id"
+    t.index ["board_id"], name: "index_sprints_on_board_id"
   end
 
   create_table "tags", force: :cascade do |t|
@@ -131,6 +135,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_162507) do
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "lists", "boards"
+  add_foreign_key "sprint_tasks", "sprints"
+  add_foreign_key "sprint_tasks", "tasks"
   add_foreign_key "tags", "boards"
   add_foreign_key "tasks", "lists"
   add_foreign_key "tasks", "users", column: "author_id"
