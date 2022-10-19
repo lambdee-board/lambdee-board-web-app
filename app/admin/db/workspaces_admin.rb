@@ -11,15 +11,19 @@
     model.with_deleted.includes(:users, :boards)
   end
 
+  search do |query|
+    query ? collection.pg_search(query) : collection
+  end
+
   table do
     column :id
     column :name
     column :boards, format: :tags do |ws|
-      ws.boards.map(&:name)
+      ws.boards.pluck(:name)
     end
 
     column :users, header: :PMs, format: :tags do |ws|
-      ws.users.map(&:name)
+      ws.users.pluck(:name)
     end
 
     column :created_at, align: :center
@@ -42,7 +46,7 @@
     end
 
     tab :boards, badge: ws.boards.count do
-      table ::DB::LimitedBoardAdmin.table, collection: ws.boards
+      table ::DB::BoardsAdmin.table, collection: ws.boards
     end
   end
 end

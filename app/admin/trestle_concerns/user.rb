@@ -28,6 +28,8 @@ module TrestleConcerns::User
     text_field :name
     text_field :email
     select :role, ::DB::User.roles.keys
+    collection_select :workspace_ids, ::DB::Workspace.all, :id, :name, { label: 'Workspaces' }, { multiple: true }
+
     row do
       col(sm: 6) { password_field :password }
       col(sm: 6) { password_field :password_confirmation }
