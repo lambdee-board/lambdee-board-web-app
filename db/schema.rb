@@ -64,11 +64,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_151631) do
     t.index ["board_id"], name: "index_tags_on_board_id"
   end
 
-  create_table "tags_tasks", id: false, force: :cascade do |t|
-    t.bigint "tag_id", null: false
-    t.bigint "task_id", null: false
-  end
-
   create_table "task_tags", force: :cascade do |t|
     t.bigint "tag_id", null: false
     t.bigint "task_id", null: false
@@ -94,11 +89,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_151631) do
     t.datetime "start_time"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
-  end
-
-  create_table "tasks_users", id: false, force: :cascade do |t|
-    t.bigint "user_id", null: false
-    t.bigint "task_id", null: false
   end
 
   create_table "user_workspaces", force: :cascade do |t|
