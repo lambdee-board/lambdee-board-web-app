@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_12_200325) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_17_181123) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -35,6 +35,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_12_200325) do
     t.datetime "deleted_at"
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["task_id"], name: "index_comments_on_task_id"
+  end
+
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
   end
 
   create_table "lists", force: :cascade do |t|
@@ -103,6 +109,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_12_200325) do
     t.datetime "remember_created_at"
     t.datetime "deleted_at"
     t.text "recent_boards", default: [], array: true
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
