@@ -5,6 +5,11 @@ info:
   version: v1
 paths:
   "/api/boards":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: list boards
       tags:
@@ -26,47 +31,47 @@ paths:
                   summary: successful
                   value:
                   - id: 1
-                    name: Tungsten
-                    colour: "#f5d80d"
+                    name: Potassium
+                    colour: "#8bbcca"
                     workspace_id: 1
-                    created_at: '2022-09-23T11:35:02.676Z'
-                    updated_at: '2022-09-23T11:35:02.676Z'
+                    created_at: '2022-10-19T14:42:32.281Z'
+                    updated_at: '2022-10-19T14:42:32.281Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/1
                     workspace_url: http://www.example.com/api/workspaces/1
                   - id: 2
-                    name: Livermorium
-                    colour: "#f16fac"
+                    name: Germanium
+                    colour: "#9d008d"
                     workspace_id: 2
-                    created_at: '2022-09-23T11:35:02.678Z'
-                    updated_at: '2022-09-23T11:35:02.678Z'
+                    created_at: '2022-10-19T14:42:32.283Z'
+                    updated_at: '2022-10-19T14:42:32.283Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/2
                     workspace_url: http://www.example.com/api/workspaces/2
                   - id: 3
-                    name: Sodium
-                    colour: "#8340e1"
+                    name: Lead
+                    colour: "#752fe4"
                     workspace_id: 3
-                    created_at: '2022-09-23T11:35:02.679Z'
-                    updated_at: '2022-09-23T11:35:02.679Z'
+                    created_at: '2022-10-19T14:42:32.284Z'
+                    updated_at: '2022-10-19T14:42:32.284Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/3
                     workspace_url: http://www.example.com/api/workspaces/3
                   - id: 4
-                    name: Neodymium
-                    colour: "#3e48c1"
+                    name: Thorium
+                    colour: "#24b38e"
                     workspace_id: 4
-                    created_at: '2022-09-23T11:35:02.680Z'
-                    updated_at: '2022-09-23T11:35:02.680Z'
+                    created_at: '2022-10-19T14:42:32.286Z'
+                    updated_at: '2022-10-19T14:42:32.286Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/4
                     workspace_url: http://www.example.com/api/workspaces/4
                   - id: 5
-                    name: Copernicium
-                    colour: "#b46565"
+                    name: Tellurium
+                    colour: "#658c33"
                     workspace_id: 5
-                    created_at: '2022-09-23T11:35:02.681Z'
-                    updated_at: '2022-09-23T11:35:02.681Z'
+                    created_at: '2022-10-19T14:42:32.287Z'
+                    updated_at: '2022-10-19T14:42:32.287Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/5
                     workspace_url: http://www.example.com/api/workspaces/5
@@ -92,8 +97,8 @@ paths:
                     name: New Board
                     colour:
                     workspace_id: 6
-                    created_at: '2022-09-23T11:35:02.746Z'
-                    updated_at: '2022-09-23T11:35:02.746Z'
+                    created_at: '2022-10-19T14:42:32.371Z'
+                    updated_at: '2022-10-19T14:42:32.371Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/6
                     workspace_url: http://www.example.com/api/workspaces/6
@@ -106,6 +111,10 @@ paths:
               "$ref": "#/components/schemas/board_request"
   "/api/boards/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -139,44 +148,44 @@ paths:
                   summary: successful with `lists=all`
                   value:
                     id: 7
-                    name: Platinum
-                    colour: "#b30278"
+                    name: Cadmium
+                    colour: "#ae02cf"
                     workspace_id: 7
-                    created_at: '2022-09-23T11:35:02.756Z'
-                    updated_at: '2022-09-23T11:35:02.756Z'
+                    created_at: '2022-10-19T14:42:32.381Z'
+                    updated_at: '2022-10-19T14:42:32.381Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/7
                     workspace_url: http://www.example.com/api/workspaces/7
                     lists:
                     - id: 1
-                      name: aquamarine
+                      name: coffee
                       pos: 65536.0
                       visible: false
-                      deleted_at: '2022-09-23T11:35:02.784Z'
+                      deleted_at: '2022-10-19T14:42:32.410Z'
                       board_id: 7
-                      created_at: '2022-09-23T11:35:02.772Z'
-                      updated_at: '2022-09-23T11:35:02.775Z'
+                      created_at: '2022-10-19T14:42:32.395Z'
+                      updated_at: '2022-10-19T14:42:32.397Z'
                       url: http://www.example.com/api/lists/1
                       board_url: http://www.example.com/api/boards/7
                     - id: 2
-                      name: burgundy
+                      name: azure
                       pos: 65536.0
                       visible: false
                       deleted_at:
                       board_id: 7
-                      created_at: '2022-09-23T11:35:02.786Z'
-                      updated_at: '2022-09-23T11:35:02.787Z'
+                      created_at: '2022-10-19T14:42:32.413Z'
+                      updated_at: '2022-10-19T14:42:32.414Z'
                       url: http://www.example.com/api/lists/2
                       board_url: http://www.example.com/api/boards/7
                 successful with `lists=visible`:
                   summary: successful with `lists=visible`
                   value:
                     id: 10
-                    name: Nitrogen
-                    colour: "#5cb3c2"
+                    name: Francium
+                    colour: "#78b800"
                     workspace_id: 10
-                    created_at: '2022-09-23T11:35:02.810Z'
-                    updated_at: '2022-09-23T11:35:02.810Z'
+                    created_at: '2022-10-19T14:42:32.438Z'
+                    updated_at: '2022-10-19T14:42:32.438Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/10
                     workspace_url: http://www.example.com/api/workspaces/10
@@ -185,44 +194,44 @@ paths:
                   summary: successful with `lists=archived`
                   value:
                     id: 12
-                    name: Ruthenium
-                    colour: "#20ac23"
+                    name: Copper
+                    colour: "#51bde6"
                     workspace_id: 12
-                    created_at: '2022-09-23T11:35:02.835Z'
-                    updated_at: '2022-09-23T11:35:02.835Z'
+                    created_at: '2022-10-19T14:42:32.463Z'
+                    updated_at: '2022-10-19T14:42:32.463Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/12
                     workspace_url: http://www.example.com/api/workspaces/12
                     lists:
                     - id: 4
-                      name: magenta
+                      name: bronze
                       pos: 65536.0
                       visible: false
-                      deleted_at: '2022-09-23T11:35:02.842Z'
+                      deleted_at: '2022-10-19T14:42:32.468Z'
                       board_id: 12
-                      created_at: '2022-09-23T11:35:02.838Z'
-                      updated_at: '2022-09-23T11:35:02.840Z'
+                      created_at: '2022-10-19T14:42:32.466Z'
+                      updated_at: '2022-10-19T14:42:32.467Z'
                       url: http://www.example.com/api/lists/4
                       board_url: http://www.example.com/api/boards/12
                     - id: 5
-                      name: erin
+                      name: black
                       pos: 65536.0
                       visible: false
-                      deleted_at: '2022-09-23T11:35:02.846Z'
+                      deleted_at: '2022-10-19T14:42:32.473Z'
                       board_id: 12
-                      created_at: '2022-09-23T11:35:02.844Z'
-                      updated_at: '2022-09-23T11:35:02.845Z'
+                      created_at: '2022-10-19T14:42:32.471Z'
+                      updated_at: '2022-10-19T14:42:32.472Z'
                       url: http://www.example.com/api/lists/5
                       board_url: http://www.example.com/api/boards/12
                 successful:
                   summary: successful
                   value:
                     id: 15
-                    name: Germanium
-                    colour: "#dd3fa7"
+                    name: Titanium
+                    colour: "#f74f3f"
                     workspace_id: 15
-                    created_at: '2022-09-23T11:35:02.868Z'
-                    updated_at: '2022-09-23T11:35:02.868Z'
+                    created_at: '2022-10-19T14:42:32.495Z'
+                    updated_at: '2022-10-19T14:42:32.495Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/15
                     workspace_url: http://www.example.com/api/workspaces/15
@@ -244,10 +253,10 @@ paths:
                   value:
                     id: 16
                     name: New Name
-                    colour: "#ee79b3"
+                    colour: "#4cbf46"
                     workspace_id: 16
-                    created_at: '2022-09-23T11:35:02.887Z'
-                    updated_at: '2022-09-23T11:35:02.899Z'
+                    created_at: '2022-10-19T14:42:32.516Z'
+                    updated_at: '2022-10-19T14:42:32.528Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/16
                     workspace_url: http://www.example.com/api/workspaces/16
@@ -267,6 +276,10 @@ paths:
           description: successful
   "/api/boards/{id}/user_tasks":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -287,55 +300,23 @@ paths:
                   summary: successful
                   value:
                     id: 18
-                    name: Praseodymium
-                    colour: "#5ce245"
+                    name: Roentgenium
+                    colour: "#0739ab"
                     workspace_id: 18
-                    created_at: '2022-09-23T11:35:02.929Z'
-                    updated_at: '2022-09-23T11:35:02.929Z'
+                    created_at: '2022-10-19T14:42:32.557Z'
+                    updated_at: '2022-10-19T14:42:32.557Z'
                     deleted_at:
                     url: http://www.example.com/api/boards/18
                     workspace_url: http://www.example.com/api/workspaces/18
-                    lists:
-                    - id: 6
-                      name: blush
-                      pos: 65536.0
-                      visible: false
-                      deleted_at:
-                      board_id: 18
-                      created_at: '2022-09-23T11:35:02.930Z'
-                      updated_at: '2022-09-23T11:35:02.930Z'
-                      url: http://www.example.com/api/lists/6
-                      board_url: http://www.example.com/api/boards/18
-                      tasks:
-                      - id: 1
-                        name: Hotel California
-                        pos: 65536.0
-                        priority: high
-                        points: 5
-                        list_id: 6
-                        deleted_at:
-                        url: http://www.example.com/api/tasks/1
-                        list_url: http://www.example.com/api/lists/6
-                        users:
-                        - id: 9
-                          name: Noah Schuster
-                          avatar_url: https://www.gravatar.com/avatar/c0008db5886538a7913fa3dc7c17eb97
-                          role: guest
-                          url: http://www.example.com/api/users/9
-                        tags:
-                        - id: 1
-                          name: Design
-                          colour: "#b722b7"
-                          url: http://www.example.com/api/tags/1
-                        author:
-                          id: 9
-                          name: Noah Schuster
-                          avatar_url: https://www.gravatar.com/avatar/c0008db5886538a7913fa3dc7c17eb97
-                          role: guest
-                          url: http://www.example.com/api/users/9
+                    lists: []
               schema:
                 "$ref": "#/components/schemas/board_response"
   "/api/boards/recently_viewed":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: list current user recently viewed boards (max 6)
       tags:
@@ -348,73 +329,17 @@ paths:
               examples:
                 successful:
                   summary: successful
-                  value:
-                  - id: 20
-                    name: Praseodymium
-                    colour: "#c702b4"
-                    workspace_id: 20
-                    created_at: '2022-09-23T11:35:02.997Z'
-                    updated_at: '2022-09-23T11:35:02.997Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/20
-                    workspace_url: http://www.example.com/api/workspaces/20
-                    workspace_name: Treeflex
-                  - id: 21
-                    name: Francium
-                    colour: "#6288b5"
-                    workspace_id: 21
-                    created_at: '2022-09-23T11:35:02.998Z'
-                    updated_at: '2022-09-23T11:35:02.998Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/21
-                    workspace_url: http://www.example.com/api/workspaces/21
-                    workspace_name: Ronstring
-                  - id: 22
-                    name: Oxygen
-                    colour: "#68fbec"
-                    workspace_id: 22
-                    created_at: '2022-09-23T11:35:03.000Z'
-                    updated_at: '2022-09-23T11:35:03.000Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/22
-                    workspace_url: http://www.example.com/api/workspaces/22
-                    workspace_name: Alpha
-                  - id: 23
-                    name: Titanium
-                    colour: "#cbc137"
-                    workspace_id: 23
-                    created_at: '2022-09-23T11:35:03.001Z'
-                    updated_at: '2022-09-23T11:35:03.001Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/23
-                    workspace_url: http://www.example.com/api/workspaces/23
-                    workspace_name: Tresom
-                  - id: 24
-                    name: Thulium
-                    colour: "#a2b450"
-                    workspace_id: 24
-                    created_at: '2022-09-23T11:35:03.002Z'
-                    updated_at: '2022-09-23T11:35:03.002Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/24
-                    workspace_url: http://www.example.com/api/workspaces/24
-                    workspace_name: Stringtough
-                  - id: 25
-                    name: Darmstadtium
-                    colour: "#8635e7"
-                    workspace_id: 25
-                    created_at: '2022-09-23T11:35:03.004Z'
-                    updated_at: '2022-09-23T11:35:03.004Z'
-                    deleted_at:
-                    url: http://www.example.com/api/boards/25
-                    workspace_url: http://www.example.com/api/workspaces/25
-                    workspace_name: Hatity
+                  value: []
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/board_response"
   "/api/tasks/{id}/comments":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -442,177 +367,175 @@ paths:
                   value:
                   - id: 5
                     body: |-
-                      ## Deleniti
-                      Omnis eos iste.
-                      fugit | amet | odio
+                      ## Nihil
+                      Est reiciendis deserunt. Est nihil pariatur. Consequatur aperiam laudantium.
+                      ### Rem
+                      Dicta quia laborum. Quaerat voluptatem est. Labore praesentium quia.
+                      dolorem | sapiente | perspiciatis
                       ---- | ---- | ----
-                      architecto | provident | voluptas
-                      sit | doloremque | modi
+                      dicta | at | unde
+                      non | debitis | voluptate
                     deleted_at:
-                    author_id: 13
+                    author_id: 22
                     task_id: 2
-                    created_at: '2022-09-23T11:35:03.062Z'
-                    updated_at: '2022-09-23T11:35:03.062Z'
+                    created_at: '2022-10-19T14:42:32.680Z'
+                    updated_at: '2022-10-19T14:42:32.680Z'
                     url: http://www.example.com/api/comments/5
                     author:
-                      id: 13
-                      name: Von Pfeffer
-                      avatar_url: https://www.gravatar.com/avatar/f0cdb5e9cbfcb1ad9b142aa640bf1851
-                      role: guest
-                      url: http://www.example.com/api/users/13
-                      email: von_pfeffer.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.043Z'
-                      updated_at: '2022-09-23T11:35:03.043Z'
+                      id: 22
+                      name: German Graham I
+                      avatar_url: https://www.gravatar.com/avatar/5fb9d1aedbff80482f3c321c3312fd92
+                      role: regular
+                      url: http://www.example.com/api/users/22
+                      email: german_graham_i.1666190552@example.com
+                      created_at: '2022-10-19T14:42:32.663Z'
+                      updated_at: '2022-10-19T14:42:32.663Z'
                   - id: 4
-                    body: |-
-                      ## Voluptatem
-                      Alias a voluptatem. Cumque ea molestias.
-                      aut | eum | perspiciatis
-                      ---- | ---- | ----
-                      nemo | aut | eaque
-                      maiores | accusamus | minus
+                    body: "### Aut\nCulpa officiis repellendus. A unde quia.\n0. Est.
+                      \n1. Dolorem. \n"
                     deleted_at:
-                    author_id: 13
+                    author_id: 22
                     task_id: 2
-                    created_at: '2022-09-23T11:35:03.060Z'
-                    updated_at: '2022-09-23T11:35:03.060Z'
+                    created_at: '2022-10-19T14:42:32.678Z'
+                    updated_at: '2022-10-19T14:42:32.678Z'
                     url: http://www.example.com/api/comments/4
                     author:
-                      id: 13
-                      name: Von Pfeffer
-                      avatar_url: https://www.gravatar.com/avatar/f0cdb5e9cbfcb1ad9b142aa640bf1851
-                      role: guest
-                      url: http://www.example.com/api/users/13
-                      email: von_pfeffer.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.043Z'
-                      updated_at: '2022-09-23T11:35:03.043Z'
+                      id: 22
+                      name: German Graham I
+                      avatar_url: https://www.gravatar.com/avatar/5fb9d1aedbff80482f3c321c3312fd92
+                      role: regular
+                      url: http://www.example.com/api/users/22
+                      email: german_graham_i.1666190552@example.com
+                      created_at: '2022-10-19T14:42:32.663Z'
+                      updated_at: '2022-10-19T14:42:32.663Z'
                   - id: 3
-                    body: |-
-                      # Atque
-                      Nihil inventore illo. Deserunt culpa et.
-                      #### Voluptatem
-                      Quaerat et animi. Quae ad in. Et ratione asperiores.
-                      `Ratione.`
+                    body: "# Dolor\nMolestiae enim tempora.\n0. Voluptatem. \n1. Quo.
+                      \n2. Minima. \n3. Hic. \n4. Voluptas. \n5. Magni. \n6. Ipsam.
+                      \n7. Accusamus. \n8. Saepe. \n"
                     deleted_at:
-                    author_id: 13
+                    author_id: 22
                     task_id: 2
-                    created_at: '2022-09-23T11:35:03.059Z'
-                    updated_at: '2022-09-23T11:35:03.059Z'
+                    created_at: '2022-10-19T14:42:32.677Z'
+                    updated_at: '2022-10-19T14:42:32.677Z'
                     url: http://www.example.com/api/comments/3
                     author:
-                      id: 13
-                      name: Von Pfeffer
-                      avatar_url: https://www.gravatar.com/avatar/f0cdb5e9cbfcb1ad9b142aa640bf1851
-                      role: guest
-                      url: http://www.example.com/api/users/13
-                      email: von_pfeffer.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.043Z'
-                      updated_at: '2022-09-23T11:35:03.043Z'
+                      id: 22
+                      name: German Graham I
+                      avatar_url: https://www.gravatar.com/avatar/5fb9d1aedbff80482f3c321c3312fd92
+                      role: regular
+                      url: http://www.example.com/api/users/22
+                      email: german_graham_i.1666190552@example.com
+                      created_at: '2022-10-19T14:42:32.663Z'
+                      updated_at: '2022-10-19T14:42:32.663Z'
                   - id: 2
                     body: |-
-                      ###### Qui
-                      Laboriosam exercitationem pariatur.
-                      ## Itaque
+                      ### In
+                      In natus nesciunt. Illo sit non. Recusandae unde ea.
+                      ###### Omnis
                     deleted_at:
-                    author_id: 13
+                    author_id: 22
                     task_id: 2
-                    created_at: '2022-09-23T11:35:03.057Z'
-                    updated_at: '2022-09-23T11:35:03.057Z'
+                    created_at: '2022-10-19T14:42:32.675Z'
+                    updated_at: '2022-10-19T14:42:32.675Z'
                     url: http://www.example.com/api/comments/2
                     author:
-                      id: 13
-                      name: Von Pfeffer
-                      avatar_url: https://www.gravatar.com/avatar/f0cdb5e9cbfcb1ad9b142aa640bf1851
-                      role: guest
-                      url: http://www.example.com/api/users/13
-                      email: von_pfeffer.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.043Z'
-                      updated_at: '2022-09-23T11:35:03.043Z'
+                      id: 22
+                      name: German Graham I
+                      avatar_url: https://www.gravatar.com/avatar/5fb9d1aedbff80482f3c321c3312fd92
+                      role: regular
+                      url: http://www.example.com/api/users/22
+                      email: german_graham_i.1666190552@example.com
+                      created_at: '2022-10-19T14:42:32.663Z'
+                      updated_at: '2022-10-19T14:42:32.663Z'
                   - id: 1
-                    body: "# Sapiente\nAt modi sunt.\n# Sunt\nA vitae nihil. Consequatur
-                      quae dignissimos. Molestiae perferendis impedit.\n* Aut. \n"
+                    body: "# Earum\nRerum quam dicta. Molestias dolor delectus. Quam
+                      ad ut.\n* Rerum. \n* Aperiam. \n* Suscipit. \n* Qui. \n* Officia.
+                      \n"
                     deleted_at:
-                    author_id: 13
+                    author_id: 22
                     task_id: 2
-                    created_at: '2022-09-23T11:35:03.055Z'
-                    updated_at: '2022-09-23T11:35:03.055Z'
+                    created_at: '2022-10-19T14:42:32.673Z'
+                    updated_at: '2022-10-19T14:42:32.673Z'
                     url: http://www.example.com/api/comments/1
                     author:
-                      id: 13
-                      name: Von Pfeffer
-                      avatar_url: https://www.gravatar.com/avatar/f0cdb5e9cbfcb1ad9b142aa640bf1851
-                      role: guest
-                      url: http://www.example.com/api/users/13
-                      email: von_pfeffer.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.043Z'
-                      updated_at: '2022-09-23T11:35:03.043Z'
+                      id: 22
+                      name: German Graham I
+                      avatar_url: https://www.gravatar.com/avatar/5fb9d1aedbff80482f3c321c3312fd92
+                      role: regular
+                      url: http://www.example.com/api/users/22
+                      email: german_graham_i.1666190552@example.com
+                      created_at: '2022-10-19T14:42:32.663Z'
+                      updated_at: '2022-10-19T14:42:32.663Z'
                 successful:
                   summary: successful
                   value:
                   - id: 10
                     body: |-
-                      ## Esse
-                      Nesciunt aut accusantium. Aut non assumenda.
-                      ```ruby
-                      Omnis.
-                      ```
+                      ### Officiis
+                      Esse dolor vitae.
+                      `Provident.`
                     deleted_at:
-                    author_id: 16
+                    author_id: 25
                     task_id: 3
-                    created_at: '2022-09-23T11:35:03.109Z'
-                    updated_at: '2022-09-23T11:35:03.109Z'
+                    created_at: '2022-10-19T14:42:32.725Z'
+                    updated_at: '2022-10-19T14:42:32.725Z'
                     url: http://www.example.com/api/comments/10
                   - id: 9
                     body: |-
-                      ### Quisquam
-                      Recusandae vero esse. Dolorem voluptatem illum. Aliquam illo delectus.
-                      Qui quis reprehenderit. Et sit dolorum. ~Porro~ laboriosam qui.
+                      #### Sint
+                      Nulla reprehenderit ipsum. Ipsum dolorem aspernatur.
+                      ## Et
                     deleted_at:
-                    author_id: 16
+                    author_id: 25
                     task_id: 3
-                    created_at: '2022-09-23T11:35:03.108Z'
-                    updated_at: '2022-09-23T11:35:03.108Z'
+                    created_at: '2022-10-19T14:42:32.724Z'
+                    updated_at: '2022-10-19T14:42:32.724Z'
                     url: http://www.example.com/api/comments/9
                   - id: 8
                     body: |-
-                      #### Maiores
-                      Assumenda ut maiores. Non ex doloremque.
-                      ###### Laborum
+                      ###### Dolores
+                      Et hic placeat. Nemo delectus ab. In eum facilis.
+                      ```ruby
+                      Veritatis.
+                      ```
                     deleted_at:
-                    author_id: 16
+                    author_id: 25
                     task_id: 3
-                    created_at: '2022-09-23T11:35:03.106Z'
-                    updated_at: '2022-09-23T11:35:03.106Z'
+                    created_at: '2022-10-19T14:42:32.722Z'
+                    updated_at: '2022-10-19T14:42:32.722Z'
                     url: http://www.example.com/api/comments/8
                   - id: 7
                     body: |-
-                      ##### Quisquam
-                      Delectus quod facilis.
-                      ##### Sunt
+                      ###### Tempora
+                      Rerum et neque. Eius dicta aliquid.
+                      Nam et sint. _Consequatur_ reiciendis aut. Quos et libero.
                     deleted_at:
-                    author_id: 16
+                    author_id: 25
                     task_id: 3
-                    created_at: '2022-09-23T11:35:03.105Z'
-                    updated_at: '2022-09-23T11:35:03.105Z'
+                    created_at: '2022-10-19T14:42:32.721Z'
+                    updated_at: '2022-10-19T14:42:32.721Z'
                     url: http://www.example.com/api/comments/7
                   - id: 6
                     body: |-
-                      ##### Ut
-                      Molestias tempore molestiae. Voluptatem distinctio explicabo.
-                      ```ruby
-                      Et.
-                      ```
+                      ##### Ipsam
+                      Et quasi qui. Pariatur sunt alias. Perspiciatis expedita dolor.
+                      Similique *sed* ab. Ipsa nihil beatae. Enim autem placeat.
                     deleted_at:
-                    author_id: 16
+                    author_id: 25
                     task_id: 3
-                    created_at: '2022-09-23T11:35:03.104Z'
-                    updated_at: '2022-09-23T11:35:03.104Z'
+                    created_at: '2022-10-19T14:42:32.719Z'
+                    updated_at: '2022-10-19T14:42:32.719Z'
                     url: http://www.example.com/api/comments/6
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/comment_response"
   "/api/lists":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: List lists
       tags:
@@ -627,53 +550,53 @@ paths:
                   summary: successful
                   value:
                   - id: 9
-                    name: copper
+                    name: plum
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 28
-                    created_at: '2022-09-23T11:35:03.130Z'
-                    updated_at: '2022-09-23T11:35:03.130Z'
+                    created_at: '2022-10-19T14:42:32.743Z'
+                    updated_at: '2022-10-19T14:42:32.743Z'
                     url: http://www.example.com/api/lists/9
                     board_url: http://www.example.com/api/boards/28
                   - id: 10
-                    name: lilac
+                    name: sapphire
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 29
-                    created_at: '2022-09-23T11:35:03.133Z'
-                    updated_at: '2022-09-23T11:35:03.133Z'
+                    created_at: '2022-10-19T14:42:32.750Z'
+                    updated_at: '2022-10-19T14:42:32.750Z'
                     url: http://www.example.com/api/lists/10
                     board_url: http://www.example.com/api/boards/29
                   - id: 11
-                    name: maroon
+                    name: amber
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 30
-                    created_at: '2022-09-23T11:35:03.135Z'
-                    updated_at: '2022-09-23T11:35:03.135Z'
+                    created_at: '2022-10-19T14:42:32.753Z'
+                    updated_at: '2022-10-19T14:42:32.753Z'
                     url: http://www.example.com/api/lists/11
                     board_url: http://www.example.com/api/boards/30
                   - id: 12
-                    name: beige
-                    pos: 65536.0
-                    visible: false
-                    deleted_at:
-                    board_id: 31
-                    created_at: '2022-09-23T11:35:03.138Z'
-                    updated_at: '2022-09-23T11:35:03.138Z'
-                    url: http://www.example.com/api/lists/12
-                    board_url: http://www.example.com/api/boards/31
-                  - id: 13
                     name: raspberry
                     pos: 65536.0
                     visible: false
                     deleted_at:
+                    board_id: 31
+                    created_at: '2022-10-19T14:42:32.757Z'
+                    updated_at: '2022-10-19T14:42:32.757Z'
+                    url: http://www.example.com/api/lists/12
+                    board_url: http://www.example.com/api/boards/31
+                  - id: 13
+                    name: orchid
+                    pos: 65536.0
+                    visible: false
+                    deleted_at:
                     board_id: 32
-                    created_at: '2022-09-23T11:35:03.141Z'
-                    updated_at: '2022-09-23T11:35:03.141Z'
+                    created_at: '2022-10-19T14:42:32.759Z'
+                    updated_at: '2022-10-19T14:42:32.759Z'
                     url: http://www.example.com/api/lists/13
                     board_url: http://www.example.com/api/boards/32
               schema:
@@ -700,8 +623,8 @@ paths:
                     visible: false
                     deleted_at:
                     board_id: 33
-                    created_at: '2022-09-23T11:35:03.178Z'
-                    updated_at: '2022-09-23T11:35:03.178Z'
+                    created_at: '2022-10-19T14:42:32.809Z'
+                    updated_at: '2022-10-19T14:42:32.809Z'
                     url: http://www.example.com/api/lists/14
                     board_url: http://www.example.com/api/boards/33
               schema:
@@ -713,6 +636,10 @@ paths:
               "$ref": "#/components/schemas/list_request"
   "/api/lists/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -740,52 +667,52 @@ paths:
                   summary: successful with `tasks=all`
                   value:
                     id: 15
-                    name: aquamarine
+                    name: chocolate
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 34
-                    created_at: '2022-09-23T11:35:03.188Z'
-                    updated_at: '2022-09-23T11:35:03.188Z'
+                    created_at: '2022-10-19T14:42:32.816Z'
+                    updated_at: '2022-10-19T14:42:32.816Z'
                     url: http://www.example.com/api/lists/15
                     board_url: http://www.example.com/api/boards/34
                     tasks:
                     - id: 4
-                      name: Like a Virgin
+                      name: Greatest Hits
                       pos: 65536.0
-                      priority: high
-                      points: 4
+                      priority: medium
+                      points: 1
                       list_id: 15
                       deleted_at:
                       url: http://www.example.com/api/tasks/4
                       list_url: http://www.example.com/api/lists/15
                       users:
-                      - id: 21
-                        name: Shelby Hills
-                        avatar_url: https://www.gravatar.com/avatar/7a832d2efc0c51b02c943cd5a0c5aa63
-                        role: guest
-                        url: http://www.example.com/api/users/21
-                      - id: 22
-                        name: Sen. Cyrus Feest
-                        avatar_url: https://www.gravatar.com/avatar/696bb99bb54f5fb044028aa19323c558
-                        role: regular
-                        url: http://www.example.com/api/users/22
+                      - id: 30
+                        name: Randolph Cassin
+                        avatar_url: https://www.gravatar.com/avatar/b93c839feb0bbd7595550643ca4a4ffb
+                        role: developer
+                        url: http://www.example.com/api/users/30
+                      - id: 31
+                        name: Jerilyn Jerde Jr.
+                        avatar_url: https://www.gravatar.com/avatar/bc6da8d61773febd56bdde34449c0ec2
+                        role: manager
+                        url: http://www.example.com/api/users/31
                       tags:
                       - id: 2
-                        name: Farming
-                        colour: "#aa89a6"
+                        name: Banking
+                        colour: "#c1e058"
                         url: http://www.example.com/api/tags/2
                       - id: 3
-                        name: Sales
-                        colour: "#bf20d9"
+                        name: Legal
+                        colour: "#b8249d"
                         url: http://www.example.com/api/tags/3
                     - id: 5
-                      name: The Dark Side of the Moon
+                      name: Music Box
                       pos: 65536.0
-                      priority: high
+                      priority: low
                       points: 1
                       list_id: 15
-                      deleted_at: '2022-09-23T11:35:03.240Z'
+                      deleted_at: '2022-10-19T14:42:32.849Z'
                       url: http://www.example.com/api/tasks/5
                       list_url: http://www.example.com/api/lists/15
                       users: []
@@ -794,43 +721,43 @@ paths:
                   summary: successful with `tasks=visible`
                   value:
                     id: 18
-                    name: sangria
+                    name: taupe
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 39
-                    created_at: '2022-09-23T11:35:03.270Z'
-                    updated_at: '2022-09-23T11:35:03.270Z'
+                    created_at: '2022-10-19T14:42:32.877Z'
+                    updated_at: '2022-10-19T14:42:32.877Z'
                     url: http://www.example.com/api/lists/18
                     board_url: http://www.example.com/api/boards/39
                     tasks:
                     - id: 6
-                      name: 'HIStory: Past, Present and Future, Book I'
+                      name: Boston
                       pos: 65536.0
                       priority: very_low
-                      points: 2
+                      points: 1
                       list_id: 18
                       deleted_at:
                       url: http://www.example.com/api/tasks/6
                       list_url: http://www.example.com/api/lists/18
                       users:
-                      - id: 26
-                        name: Vern Franecki
-                        avatar_url: https://www.gravatar.com/avatar/0ef7791aacf2aca41d4f517ac0630c5a
+                      - id: 35
+                        name: Librada Rolfson
+                        avatar_url: https://www.gravatar.com/avatar/20380ee102810d7e32d91463caa379bd
                         role: guest
-                        url: http://www.example.com/api/users/26
-                      - id: 27
-                        name: Orval Ritchie
-                        avatar_url: https://www.gravatar.com/avatar/dd853d72092504b201e4db7fcde47499
-                        role: admin
-                        url: http://www.example.com/api/users/27
+                        url: http://www.example.com/api/users/35
+                      - id: 36
+                        name: Hong Ebert
+                        avatar_url: https://www.gravatar.com/avatar/07d5bacff0b9175dce53dc52d0b5dab1
+                        role: guest
+                        url: http://www.example.com/api/users/36
                       tags:
                       - id: 4
-                        name: Hospitality
-                        colour: "#833786"
+                        name: Farming
+                        colour: "#30f348"
                         url: http://www.example.com/api/tags/4
                     - id: 7
-                      name: Falling into You
+                      name: 'Gold: Greatest Hits'
                       pos: 65536.0
                       priority: very_low
                       points: 3
@@ -844,58 +771,58 @@ paths:
                   summary: successful with `tasks=archived`
                   value:
                     id: 21
-                    name: magenta
+                    name: white
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 43
-                    created_at: '2022-09-23T11:35:03.328Z'
-                    updated_at: '2022-09-23T11:35:03.328Z'
+                    created_at: '2022-10-19T14:42:32.930Z'
+                    updated_at: '2022-10-19T14:42:32.930Z'
                     url: http://www.example.com/api/lists/21
                     board_url: http://www.example.com/api/boards/43
                     tasks:
                     - id: 8
-                      name: Faith
+                      name: Like a Virgin
                       pos: 65536.0
-                      priority: very_high
+                      priority: high
                       points: 1
                       list_id: 21
-                      deleted_at: '2022-09-23T11:35:03.339Z'
+                      deleted_at: '2022-10-19T14:42:32.940Z'
                       url: http://www.example.com/api/tasks/8
                       list_url: http://www.example.com/api/lists/21
                       users: []
                       tags: []
                     - id: 9
-                      name: The Immaculate Collection
+                      name: Whitney Houston
                       pos: 65536.0
-                      priority: high
-                      points: 4
+                      priority: medium
+                      points: 1
                       list_id: 21
-                      deleted_at: '2022-09-23T11:35:03.349Z'
+                      deleted_at: '2022-10-19T14:42:32.950Z'
                       url: http://www.example.com/api/tasks/9
                       list_url: http://www.example.com/api/lists/21
                       users:
-                      - id: 32
-                        name: Stormy Nolan
-                        avatar_url: https://www.gravatar.com/avatar/ffa51ada290e1ec5b68b3cc30ce0d5cf
-                        role: admin
-                        url: http://www.example.com/api/users/32
+                      - id: 41
+                        name: Dewitt Koss
+                        avatar_url: https://www.gravatar.com/avatar/8f48796aab5778e4e885d8aed44177ca
+                        role: guest
+                        url: http://www.example.com/api/users/41
                       tags:
                       - id: 5
-                        name: Legal
-                        colour: "#8c9bc9"
+                        name: Consulting
+                        colour: "#241411"
                         url: http://www.example.com/api/tags/5
                 successful:
                   summary: successful
                   value:
                     id: 24
-                    name: puce
+                    name: sky
                     pos: 65536.0
                     visible: false
                     deleted_at:
                     board_id: 47
-                    created_at: '2022-09-23T11:35:03.382Z'
-                    updated_at: '2022-09-23T11:35:03.382Z'
+                    created_at: '2022-10-19T14:42:32.981Z'
+                    updated_at: '2022-10-19T14:42:32.981Z'
                     url: http://www.example.com/api/lists/24
                     board_url: http://www.example.com/api/boards/47
               schema:
@@ -920,8 +847,8 @@ paths:
                     visible: false
                     deleted_at:
                     board_id: 48
-                    created_at: '2022-09-23T11:35:03.401Z'
-                    updated_at: '2022-09-23T11:35:03.412Z'
+                    created_at: '2022-10-19T14:42:32.999Z'
+                    updated_at: '2022-10-19T14:42:33.012Z'
                     url: http://www.example.com/api/lists/25
                     board_url: http://www.example.com/api/boards/48
               schema:
@@ -940,6 +867,10 @@ paths:
           description: successful
   "/api/boards/{id}/tags":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Board id
@@ -960,40 +891,40 @@ paths:
                   summary: successful
                   value:
                   - id: 6
-                    name: Manufacturing
-                    colour: "#7b03d9"
+                    name: Design
+                    colour: "#4c7f25"
                     url: http://www.example.com/api/tags/6
                     board_id: 50
-                    created_at: '2022-09-23T11:35:03.439Z'
-                    updated_at: '2022-09-23T11:35:03.439Z'
+                    created_at: '2022-10-19T14:42:33.039Z'
+                    updated_at: '2022-10-19T14:42:33.039Z'
                   - id: 7
-                    name: Real-Estate
-                    colour: "#794137"
+                    name: Retail
+                    colour: "#f7a097"
                     url: http://www.example.com/api/tags/7
                     board_id: 50
-                    created_at: '2022-09-23T11:35:03.440Z'
-                    updated_at: '2022-09-23T11:35:03.440Z'
+                    created_at: '2022-10-19T14:42:33.040Z'
+                    updated_at: '2022-10-19T14:42:33.040Z'
                   - id: 8
-                    name: Real-Estate
-                    colour: "#19a564"
+                    name: Community-Services
+                    colour: "#31d34a"
                     url: http://www.example.com/api/tags/8
                     board_id: 50
-                    created_at: '2022-09-23T11:35:03.440Z'
-                    updated_at: '2022-09-23T11:35:03.440Z'
+                    created_at: '2022-10-19T14:42:33.040Z'
+                    updated_at: '2022-10-19T14:42:33.040Z'
                   - id: 9
-                    name: Retail
-                    colour: "#7ba1bf"
+                    name: Administration
+                    colour: "#0c542a"
                     url: http://www.example.com/api/tags/9
                     board_id: 50
-                    created_at: '2022-09-23T11:35:03.441Z'
-                    updated_at: '2022-09-23T11:35:03.441Z'
+                    created_at: '2022-10-19T14:42:33.041Z'
+                    updated_at: '2022-10-19T14:42:33.041Z'
                   - id: 10
-                    name: Administration
-                    colour: "#620734"
+                    name: Community-Services
+                    colour: "#face3d"
                     url: http://www.example.com/api/tags/10
                     board_id: 50
-                    created_at: '2022-09-23T11:35:03.442Z'
-                    updated_at: '2022-09-23T11:35:03.442Z'
+                    created_at: '2022-10-19T14:42:33.042Z'
+                    updated_at: '2022-10-19T14:42:33.042Z'
               schema:
                 type: array
                 items:
@@ -1023,8 +954,8 @@ paths:
                     colour: "#fff000"
                     url: http://www.example.com/api/tags/11
                     board_id: 51
-                    created_at: '2022-09-23T11:35:03.477Z'
-                    updated_at: '2022-09-23T11:35:03.477Z'
+                    created_at: '2022-10-19T14:42:33.076Z'
+                    updated_at: '2022-10-19T14:42:33.076Z'
               schema:
                 "$ref": "#/components/schemas/tag_response"
       requestBody:
@@ -1033,6 +964,11 @@ paths:
             schema:
               "$ref": "#/components/schemas/tag_request"
   "/api/tags":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     post:
       summary: Create tag
       tags:
@@ -1052,8 +988,8 @@ paths:
                     colour: "#fff000"
                     url: http://www.example.com/api/tags/12
                     board_id: 52
-                    created_at: '2022-09-23T11:35:03.505Z'
-                    updated_at: '2022-09-23T11:35:03.505Z'
+                    created_at: '2022-10-19T14:42:33.105Z'
+                    updated_at: '2022-10-19T14:42:33.105Z'
               schema:
                 "$ref": "#/components/schemas/tag_response"
       requestBody:
@@ -1063,6 +999,10 @@ paths:
               "$ref": "#/components/schemas/tag_request"
   "/api/tasks/{id}/tags":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1083,40 +1023,40 @@ paths:
                   summary: successful
                   value:
                   - id: 13
-                    name: Technology
-                    colour: "#6a95a4"
+                    name: Consulting
+                    colour: "#539043"
                     url: http://www.example.com/api/tags/13
                     board_id: 53
-                    created_at: '2022-09-23T11:35:03.520Z'
-                    updated_at: '2022-09-23T11:35:03.520Z'
+                    created_at: '2022-10-19T14:42:33.120Z'
+                    updated_at: '2022-10-19T14:42:33.120Z'
                   - id: 14
-                    name: Construction
-                    colour: "#6148ad"
+                    name: Community-Services
+                    colour: "#a0ed3f"
                     url: http://www.example.com/api/tags/14
                     board_id: 53
-                    created_at: '2022-09-23T11:35:03.522Z'
-                    updated_at: '2022-09-23T11:35:03.522Z'
+                    created_at: '2022-10-19T14:42:33.121Z'
+                    updated_at: '2022-10-19T14:42:33.121Z'
                   - id: 15
-                    name: Community-Services
-                    colour: "#a80e79"
+                    name: Legal
+                    colour: "#34df6b"
                     url: http://www.example.com/api/tags/15
                     board_id: 53
-                    created_at: '2022-09-23T11:35:03.524Z'
-                    updated_at: '2022-09-23T11:35:03.524Z'
+                    created_at: '2022-10-19T14:42:33.123Z'
+                    updated_at: '2022-10-19T14:42:33.123Z'
                   - id: 16
-                    name: Government
-                    colour: "#6322cb"
+                    name: Sales
+                    colour: "#ab155e"
                     url: http://www.example.com/api/tags/16
                     board_id: 53
-                    created_at: '2022-09-23T11:35:03.525Z'
-                    updated_at: '2022-09-23T11:35:03.525Z'
+                    created_at: '2022-10-19T14:42:33.124Z'
+                    updated_at: '2022-10-19T14:42:33.124Z'
                   - id: 17
-                    name: Real-Estate
-                    colour: "#a84dda"
+                    name: Healthcare
+                    colour: "#a063db"
                     url: http://www.example.com/api/tags/17
                     board_id: 53
-                    created_at: '2022-09-23T11:35:03.527Z'
-                    updated_at: '2022-09-23T11:35:03.527Z'
+                    created_at: '2022-10-19T14:42:33.125Z'
+                    updated_at: '2022-10-19T14:42:33.125Z'
               schema:
                 type: array
                 items:
@@ -1146,8 +1086,8 @@ paths:
                     colour: "#fff000"
                     url: http://www.example.com/api/tags/18
                     board_id: 54
-                    created_at: '2022-09-23T11:35:03.566Z'
-                    updated_at: '2022-09-23T11:35:03.566Z'
+                    created_at: '2022-10-19T14:42:33.175Z'
+                    updated_at: '2022-10-19T14:42:33.175Z'
               schema:
                 "$ref": "#/components/schemas/tag_response"
       requestBody:
@@ -1157,6 +1097,10 @@ paths:
               "$ref": "#/components/schemas/tag_request"
   "/api/tags/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -1177,12 +1121,12 @@ paths:
                   summary: successful
                   value:
                     id: 19
-                    name: Technology
-                    colour: "#878dd3"
+                    name: Accounting
+                    colour: "#dc0efa"
                     url: http://www.example.com/api/tags/19
                     board_id: 55
-                    created_at: '2022-09-23T11:35:03.575Z'
-                    updated_at: '2022-09-23T11:35:03.575Z'
+                    created_at: '2022-10-19T14:42:33.195Z'
+                    updated_at: '2022-10-19T14:42:33.195Z'
               schema:
                 "$ref": "#/components/schemas/tag_response"
     put:
@@ -1201,11 +1145,11 @@ paths:
                   value:
                     id: 20
                     name: New Name
-                    colour: "#de26c9"
+                    colour: "#7e1034"
                     url: http://www.example.com/api/tags/20
                     board_id: 56
-                    created_at: '2022-09-23T11:35:03.593Z'
-                    updated_at: '2022-09-23T11:35:03.604Z'
+                    created_at: '2022-10-19T14:42:33.233Z'
+                    updated_at: '2022-10-19T14:42:33.249Z'
               schema:
                 "$ref": "#/components/schemas/tag_response"
       requestBody:
@@ -1221,6 +1165,11 @@ paths:
         '204':
           description: successful
   "/api/tasks":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: List tasks
       tags:
@@ -1235,52 +1184,59 @@ paths:
                   summary: successful
                   value:
                   - id: 13
-                    name: Recovery
+                    name: Slippery When Wet
                     pos: 65536.0
-                    priority: medium
-                    points: 4
+                    priority: very_low
+                    points: 5
                     list_id: 30
                     deleted_at:
                     url: http://www.example.com/api/tasks/13
                     list_url: http://www.example.com/api/lists/30
                     description: |-
-                      ## Ut
-                      Repellat qui asperiores. Optio enim autem. Ut voluptatem dolorem. Maxime et voluptatem. Molestiae eos ad. Sed maiores perspiciatis.
-                      # Aperiam
-                    created_at: '2022-09-23T11:35:03.634Z'
-                    updated_at: '2022-09-23T11:35:03.634Z'
+                      ## Ipsa
+                      Labore nobis facilis. Nisi eaque ducimus. Porro quo ut.
+                      Delectus autem laborum. Corporis natus consectetur. Voluptas explicabo _culpa._
+                    created_at: '2022-10-19T14:42:33.304Z'
+                    updated_at: '2022-10-19T14:42:33.304Z'
                   - id: 14
-                    name: The Colour of My Love
+                    name: Greatest Hits
                     pos: 65536.0
-                    priority: very_low
-                    points: 4
+                    priority: medium
+                    points: 1
                     list_id: 31
                     deleted_at:
                     url: http://www.example.com/api/tasks/14
                     list_url: http://www.example.com/api/lists/31
-                    description: "## Architecto\nLaboriosam odio doloribus. Rerum
-                      velit distinctio. Voluptatem ipsa autem. Laudantium laboriosam
-                      voluptatem.\n* Possimus. \n* Et. \n* Laudantium. \n* Dignissimos.
-                      \n* Amet. \n"
-                    created_at: '2022-09-23T11:35:03.641Z'
-                    updated_at: '2022-09-23T11:35:03.641Z'
+                    description: |-
+                      ## Adipisci
+                      Voluptatem illo et. Est dignissimos accusantium. Id ratione et.
+                      ```ruby
+                      Deserunt.
+                      ```
+                    created_at: '2022-10-19T14:42:33.311Z'
+                    updated_at: '2022-10-19T14:42:33.311Z'
                   - id: 15
-                    name: Recovery
+                    name: Backstreet Boys
                     pos: 65536.0
                     priority: high
-                    points: 4
+                    points: 2
                     list_id: 32
                     deleted_at:
                     url: http://www.example.com/api/tasks/15
                     list_url: http://www.example.com/api/lists/32
                     description: |-
-                      # Quia
-                      Reprehenderit sunt et. Molestiae provident et. Deserunt non ipsum. Assumenda quas quis. Nihil illum minus.
-                      **Omnis** quae natus. Dolores deserunt nihil. Maxime illo occaecati.
-                    created_at: '2022-09-23T11:35:03.648Z'
-                    updated_at: '2022-09-23T11:35:03.648Z'
+                      ##### Et
+                      Minima similique eligendi. Praesentium tenetur natus. Consequuntur sapiente qui. Et qui architecto. Et atque aspernatur. Optio saepe ut.
+                      ## Sed
+                      Doloremque culpa adipisci. Sequi quia in. Quod corrupti repellendus.
+                      voluptatem | consequatur | nemo
+                      ---- | ---- | ----
+                      sit | praesentium | aut
+                      optio | similique | in
+                    created_at: '2022-10-19T14:42:33.319Z'
+                    updated_at: '2022-10-19T14:42:33.319Z'
                   - id: 16
-                    name: Greatest Hits
+                    name: True Blue
                     pos: 65536.0
                     priority: medium
                     points: 4
@@ -1289,28 +1245,30 @@ paths:
                     url: http://www.example.com/api/tasks/16
                     list_url: http://www.example.com/api/lists/33
                     description: |-
-                      ## Incidunt
-                      Laborum dolores modi. Et non fugit. Sed dolor nam. Illo enim sint.
-                      `Quidem.`
-                    created_at: '2022-09-23T11:35:03.656Z'
-                    updated_at: '2022-09-23T11:35:03.656Z'
+                      ###### Recusandae
+                      Tempora similique voluptates. Aut et omnis. Rerum in dolore. Excepturi ea ad. Repudiandae vitae iure.
+                      ```ruby
+                      Ut.
+                      ```
+                    created_at: '2022-10-19T14:42:33.327Z'
+                    updated_at: '2022-10-19T14:42:33.327Z'
                   - id: 17
-                    name: "...Baby One More Time"
+                    name: Backstreet Boys
                     pos: 65536.0
-                    priority: very_low
-                    points: 4
+                    priority: high
+                    points: 1
                     list_id: 34
                     deleted_at:
                     url: http://www.example.com/api/tasks/17
                     list_url: http://www.example.com/api/lists/34
                     description: |-
-                      ## Quia
-                      Accusantium nihil ut. Magnam qui dolores. Sequi sed ad. Odio ut iure. Officia error qui. Ea esse aut.
-                      ```ruby
-                      Non.
-                      ```
-                    created_at: '2022-09-23T11:35:03.664Z'
-                    updated_at: '2022-09-23T11:35:03.664Z'
+                      #### Sint
+                      Itaque eius optio. Eos eos eveniet. Eveniet et ut.
+                      ### Tempora
+                      Neque consequatur delectus. Ducimus ut iure. Sit quia ipsam.
+                      `Et.`
+                    created_at: '2022-10-19T14:42:33.334Z'
+                    updated_at: '2022-10-19T14:42:33.334Z'
               schema:
                 type: array
                 items:
@@ -1339,8 +1297,8 @@ paths:
                     url: http://www.example.com/api/tasks/18
                     list_url: http://www.example.com/api/lists/35
                     description:
-                    created_at: '2022-09-23T11:35:03.708Z'
-                    updated_at: '2022-09-23T11:35:03.708Z'
+                    created_at: '2022-10-19T14:42:33.377Z'
+                    updated_at: '2022-10-19T14:42:33.377Z'
               schema:
                 "$ref": "#/components/schemas/task_response"
       requestBody:
@@ -1350,6 +1308,10 @@ paths:
               "$ref": "#/components/schemas/task_request"
   "/api/tasks/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1377,105 +1339,96 @@ paths:
                   summary: successful with `include_associations=true`
                   value:
                     id: 19
-                    name: The Marshall Mathers LP
+                    name: Boston
                     pos: 65536.0
-                    priority: medium
-                    points: 3
+                    priority: low
+                    points: 4
                     list_id: 36
                     deleted_at:
                     url: http://www.example.com/api/tasks/19
                     list_url: http://www.example.com/api/lists/36
-                    description: |-
-                      #### Ad
-                      Quam consequuntur illum. Hic quia sequi. Ut quia nulla. Accusamus facilis velit. Aut veritatis animi.
-                      cupiditate | ut | quia
-                      ---- | ---- | ----
-                      nihil | autem | aspernatur
-                      molestiae | vel | quas
-                    created_at: '2022-09-23T11:35:03.722Z'
-                    updated_at: '2022-09-23T11:35:03.722Z'
+                    description: "### At\nQuis aspernatur alias. Non impedit iure.
+                      Id vel aut.\n* Error. \n* Officia. \n* Est. \n* Rerum. \n* Libero.
+                      \n* Quos. \n* Repellendus. \n"
+                    created_at: '2022-10-19T14:42:33.397Z'
+                    updated_at: '2022-10-19T14:42:33.397Z'
                     list:
                       id: 36
-                      name: lavender
+                      name: erin
                       pos: 65536.0
                       visible: false
                       deleted_at:
                       board_id: 64
-                      created_at: '2022-09-23T11:35:03.718Z'
-                      updated_at: '2022-09-23T11:35:03.718Z'
+                      created_at: '2022-10-19T14:42:33.390Z'
+                      updated_at: '2022-10-19T14:42:33.390Z'
                       url: http://www.example.com/api/lists/36
                       board_url: http://www.example.com/api/boards/64
                     author:
-                      id: 56
-                      name: Annita Hermann Ret.
-                      avatar_url: https://www.gravatar.com/avatar/8447902de079852136dc2dde09223c29
-                      role: regular
-                      url: http://www.example.com/api/users/56
-                      email: annita_hermann_ret.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.721Z'
-                      updated_at: '2022-09-23T11:35:03.721Z'
+                      id: 73
+                      name: Yong Zboncak
+                      avatar_url: https://www.gravatar.com/avatar/ab62729974cf16d4900e5cceb3347c38
+                      role: manager
+                      url: http://www.example.com/api/users/73
+                      email: yong_zboncak.1666190553@example.com
+                      created_at: '2022-10-19T14:42:33.396Z'
+                      updated_at: '2022-10-19T14:42:33.396Z'
                     users:
-                    - id: 57
-                      name: Royal Blanda
-                      avatar_url: https://www.gravatar.com/avatar/3b04d0f6d1c4f6debc7141299569ed12
-                      role: developer
-                      url: http://www.example.com/api/users/57
-                      email: royal_blanda.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.725Z'
-                      updated_at: '2022-09-23T11:35:03.725Z'
-                    - id: 58
-                      name: Regina Weimann
-                      avatar_url: https://www.gravatar.com/avatar/99fb5cc04d2280b8191e7e454774ea55
-                      role: regular
-                      url: http://www.example.com/api/users/58
-                      email: regina_weimann.1663932903@example.com
-                      created_at: '2022-09-23T11:35:03.728Z'
-                      updated_at: '2022-09-23T11:35:03.728Z'
+                    - id: 74
+                      name: Nathalie Botsford
+                      avatar_url: https://www.gravatar.com/avatar/c3e285e386154156990992bca0c033f9
+                      role: guest
+                      url: http://www.example.com/api/users/74
+                      email: nathalie_botsford.1666190553@example.com
+                      created_at: '2022-10-19T14:42:33.400Z'
+                      updated_at: '2022-10-19T14:42:33.400Z'
+                    - id: 75
+                      name: Dann Gibson JD
+                      avatar_url: https://www.gravatar.com/avatar/e981201ee7f0d3c3da482794b4124184
+                      role: guest
+                      url: http://www.example.com/api/users/75
+                      email: dann_gibson_jd.1666190553@example.com
+                      created_at: '2022-10-19T14:42:33.404Z'
+                      updated_at: '2022-10-19T14:42:33.404Z'
                     tags:
                     - id: 22
-                      name: Marketing
-                      colour: "#511b19"
+                      name: Community-Services
+                      colour: "#ef2a21"
                       url: http://www.example.com/api/tags/22
                       board_id: 65
-                      created_at: '2022-09-23T11:35:03.731Z'
-                      updated_at: '2022-09-23T11:35:03.731Z'
+                      created_at: '2022-10-19T14:42:33.407Z'
+                      updated_at: '2022-10-19T14:42:33.407Z'
                     - id: 23
-                      name: Design
-                      colour: "#5dbb57"
+                      name: Banking
+                      colour: "#94dad8"
                       url: http://www.example.com/api/tags/23
                       board_id: 66
-                      created_at: '2022-09-23T11:35:03.735Z'
-                      updated_at: '2022-09-23T11:35:03.735Z'
+                      created_at: '2022-10-19T14:42:33.410Z'
+                      updated_at: '2022-10-19T14:42:33.410Z'
                     - id: 24
-                      name: Administration
-                      colour: "#ca113d"
+                      name: Legal
+                      colour: "#803276"
                       url: http://www.example.com/api/tags/24
                       board_id: 67
-                      created_at: '2022-09-23T11:35:03.738Z'
-                      updated_at: '2022-09-23T11:35:03.738Z'
+                      created_at: '2022-10-19T14:42:33.413Z'
+                      updated_at: '2022-10-19T14:42:33.413Z'
                 successful:
                   summary: successful
                   value:
                     id: 20
-                    name: Tapestry
+                    name: Spice
                     pos: 65536.0
-                    priority: high
-                    points: 4
+                    priority: very_high
+                    points: 1
                     list_id: 37
                     deleted_at:
                     url: http://www.example.com/api/tasks/20
                     list_url: http://www.example.com/api/lists/37
                     description: |-
-                      ##### Tempora
-                      A enim velit. Ipsa molestiae cum. Sit rem id.
-                      # Cumque
-                      Maiores pariatur exercitationem. Tenetur architecto quod. Perferendis fugit ipsum.
-                      tenetur | et | et
-                      ---- | ---- | ----
-                      et | quas | provident
-                      quo | est | et
-                    created_at: '2022-09-23T11:35:03.769Z'
-                    updated_at: '2022-09-23T11:35:03.769Z'
+                      ##### Nulla
+                      Ut natus et. Sapiente nihil hic. Suscipit deleniti distinctio. Voluptatem consequuntur ratione. Corporis sed quia. Eius illo vero.
+                      ###### Rerum
+                    created_at: '2022-10-19T14:42:33.441Z'
+                    updated_at: '2022-10-19T14:42:33.441Z'
               schema:
                 "$ref": "#/components/schemas/task_response"
     put:
@@ -1495,18 +1448,18 @@ paths:
                     id: 21
                     name: New Name
                     pos: 65536.0
-                    priority: high
-                    points: 2
+                    priority: very_high
+                    points: 3
                     list_id: 38
                     deleted_at:
                     url: http://www.example.com/api/tasks/21
                     list_url: http://www.example.com/api/lists/38
                     description: |-
-                      ### Quaerat
-                      Voluptas dolorum eum. Aperiam dolores veritatis. Et necessitatibus sint. Repudiandae beatae aspernatur.
-                      Porro modi architecto. Itaque *corrupti* id. Praesentium quia et.
-                    created_at: '2022-09-23T11:35:03.793Z'
-                    updated_at: '2022-09-23T11:35:03.805Z'
+                      #### Quis
+                      Sint porro aut. Facilis et eos. Culpa tenetur repudiandae. Aperiam error aliquid. Accusamus quos sequi. Laudantium et hic.
+                      `Dolor.`
+                    created_at: '2022-10-19T14:42:33.462Z'
+                    updated_at: '2022-10-19T14:42:33.476Z'
               schema:
                 "$ref": "#/components/schemas/task_response"
       requestBody:
@@ -1523,6 +1476,10 @@ paths:
           description: successful
   "/api/tasks/{id}/attach_tag":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1547,6 +1504,10 @@ paths:
                   type: integer
   "/api/tasks/{id}/detach_tag":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1571,6 +1532,10 @@ paths:
                   type: integer
   "/api/tasks/{id}/assign_user":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1595,6 +1560,10 @@ paths:
                   type: integer
   "/api/tasks/{id}/unassign_user":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Task id
@@ -1618,6 +1587,11 @@ paths:
                 user_id:
                   type: integer
   "/api/workspaces/{id}/users":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: List users of workspace
       tags:
@@ -1686,35 +1660,40 @@ paths:
                 successful:
                   summary: successful
                   value:
-                  - id: 75
-                    name: Dale Feeney
-                    avatar_url: https://www.gravatar.com/avatar/c8758116c87b83a5524ab9449b7da9f5
+                  - id: 93
+                    name: Janelle Raynor IV
+                    avatar_url: https://www.gravatar.com/avatar/88658088f1e6c624adf9548cfa714e2a
+                    role: manager
+                    url: http://www.example.com/api/users/93
+                    email: janelle_raynor_iv.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.603Z'
+                    updated_at: '2022-10-19T14:42:33.603Z'
+                  - id: 94
+                    name: Tatyana Lebsack
+                    avatar_url: https://www.gravatar.com/avatar/744790d2964ff4630b1027fa02439871
                     role: regular
-                    url: http://www.example.com/api/users/75
-                    email: dale_feeney.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.942Z'
-                    updated_at: '2022-09-23T11:35:03.942Z'
-                  - id: 76
-                    name: Boyd Douglas
-                    avatar_url: https://www.gravatar.com/avatar/bac91c12aa8878f1af123d28326be741
-                    role: admin
-                    url: http://www.example.com/api/users/76
-                    email: boyd_douglas.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.950Z'
-                    updated_at: '2022-09-23T11:35:03.950Z'
-                  - id: 77
-                    name: Parker Kutch
-                    avatar_url: https://www.gravatar.com/avatar/39b49514d35c43df69094e9d29898256
+                    url: http://www.example.com/api/users/94
+                    email: tatyana_lebsack.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.613Z'
+                    updated_at: '2022-10-19T14:42:33.613Z'
+                  - id: 95
+                    name: Doyle Bergstrom
+                    avatar_url: https://www.gravatar.com/avatar/8bc0212af24d69076f539427556dcadf
                     role: regular
-                    url: http://www.example.com/api/users/77
-                    email: parker_kutch.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.954Z'
-                    updated_at: '2022-09-23T11:35:03.954Z'
+                    url: http://www.example.com/api/users/95
+                    email: doyle_bergstrom.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.617Z'
+                    updated_at: '2022-10-19T14:42:33.617Z'
               schema:
                 type: array
                 items:
                   "$ref": "#/components/schemas/user_response"
   "/api/users":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: List users
       tags:
@@ -1784,46 +1763,54 @@ paths:
                 successful:
                   summary: successful
                   value:
-                  - id: 78
-                    name: Johnie Russel
-                    avatar_url: https://www.gravatar.com/avatar/e26b8d723477490a803cf2427273c25b
+                  - id: 97
+                    name: Nick Littel
+                    avatar_url: https://www.gravatar.com/avatar/4044d6c82701929897cb253f602f831f
                     role: guest
-                    url: http://www.example.com/api/users/78
-                    email: johnie_russel.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.976Z'
-                    updated_at: '2022-09-23T11:35:03.976Z'
-                  - id: 79
-                    name: Amb. Johnathon Mayer
-                    avatar_url: https://www.gravatar.com/avatar/146e75f612701e60922bbe1c34c678ba
+                    url: http://www.example.com/api/users/97
+                    email: nick_littel.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.644Z'
+                    updated_at: '2022-10-19T14:42:33.644Z'
+                  - id: 98
+                    name: Mason Torphy
+                    avatar_url: https://www.gravatar.com/avatar/a7c281814938f3ee9bfde624271b5bf2
+                    role: manager
+                    url: http://www.example.com/api/users/98
+                    email: mason_torphy.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.647Z'
+                    updated_at: '2022-10-19T14:42:33.647Z'
+                  - id: 99
+                    name: Dania Graham
+                    avatar_url: https://www.gravatar.com/avatar/2e20a404f98148a9c1bd6ec45675f56b
+                    role: manager
+                    url: http://www.example.com/api/users/99
+                    email: dania_graham.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.650Z'
+                    updated_at: '2022-10-19T14:42:33.650Z'
+                  - id: 100
+                    name: Sal Leannon
+                    avatar_url: https://www.gravatar.com/avatar/0223a3ac98eb34797df2c839c13e54cb
                     role: guest
-                    url: http://www.example.com/api/users/79
-                    email: amb_johnathon_mayer.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.978Z'
-                    updated_at: '2022-09-23T11:35:03.978Z'
-                  - id: 80
-                    name: Roosevelt Carroll
-                    avatar_url: https://www.gravatar.com/avatar/7f51b52cd6c6a3a3a52688d81d4927be
+                    url: http://www.example.com/api/users/100
+                    email: sal_leannon.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.653Z'
+                    updated_at: '2022-10-19T14:42:33.653Z'
+                  - id: 101
+                    name: Arnulfo Paucek
+                    avatar_url: https://www.gravatar.com/avatar/7aa35fdf73c5edc00355b6dcace4e7af
+                    role: manager
+                    url: http://www.example.com/api/users/101
+                    email: arnulfo_paucek.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.656Z'
+                    updated_at: '2022-10-19T14:42:33.656Z'
+                  - id: 102
+                    name: Nu Harvey
+                    avatar_url: https://www.gravatar.com/avatar/50fa480e03cb2c40268139350318d084
                     role: admin
-                    url: http://www.example.com/api/users/80
-                    email: roosevelt_carroll.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.981Z'
-                    updated_at: '2022-09-23T11:35:03.981Z'
-                  - id: 81
-                    name: Nettie Kessler
-                    avatar_url: https://www.gravatar.com/avatar/388854547e8ce185d8a91bbc1117629f
-                    role: admin
-                    url: http://www.example.com/api/users/81
-                    email: nettie_kessler.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.983Z'
-                    updated_at: '2022-09-23T11:35:03.983Z'
-                  - id: 82
-                    name: George Fisher
-                    avatar_url: https://www.gravatar.com/avatar/178f3746a52f89a2e774c9c8a49dd5c3
-                    role: admin
-                    url: http://www.example.com/api/users/82
-                    email: george_fisher.1663932903@example.com
-                    created_at: '2022-09-23T11:35:03.985Z'
-                    updated_at: '2022-09-23T11:35:03.985Z'
+                    url: http://www.example.com/api/users/102
+                    email: nu_harvey.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.658Z'
+                    updated_at: '2022-10-19T14:42:33.658Z'
               schema:
                 type: array
                 items:
@@ -1842,14 +1829,14 @@ paths:
                 successful:
                   summary: successful
                   value:
-                    id: 83
+                    id: 104
                     name: New User
-                    avatar_url: https://www.gravatar.com/avatar/d01d74e2303cfd7320eca0fd8ed8bb91
-                    role: developer
-                    url: http://www.example.com/api/users/83
+                    created_at: '2022-10-19T14:42:33.687Z'
+                    updated_at: '2022-10-19T14:42:33.687Z'
                     email: new_user@example.com
-                    created_at: '2022-09-23T11:35:04.011Z'
-                    updated_at: '2022-09-23T11:35:04.011Z'
+                    role: developer
+                    deleted_at:
+                    recent_boards: []
               schema:
                 "$ref": "#/components/schemas/user_response"
       requestBody:
@@ -1857,7 +1844,32 @@ paths:
           application/json:
             schema:
               "$ref": "#/components/schemas/user_request"
+    put:
+      summary: Update current user
+      tags:
+      - Users
+      parameters: []
+      responses:
+        '204':
+          description: successful
+      requestBody:
+        content:
+          application/json:
+            schema:
+              "$ref": "#/components/schemas/user_update_request"
+    delete:
+      summary: Delete current user
+      tags:
+      - Users
+      responses:
+        '204':
+          description: successful
   "/api/users/current":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: Show the currently signed in user
       tags:
@@ -1871,18 +1883,22 @@ paths:
                 successful:
                   summary: successful
                   value:
-                    id: 84
-                    name: Dwayne Breitenberg
-                    avatar_url: https://www.gravatar.com/avatar/1b6d4c2704d55cfe62f90e4da6d729a9
-                    role: developer
-                    url: http://www.example.com/api/users/84
-                    email: dwayne_breitenberg.1663932904@example.com
-                    created_at: '2022-09-23T11:35:04.017Z'
-                    updated_at: '2022-09-23T11:35:04.017Z'
+                    id: 107
+                    name: Jamison Sipes
+                    avatar_url: https://www.gravatar.com/avatar/b8a5faa501c74ccbfeaf9d5c5d833ea9
+                    role: admin
+                    url: http://www.example.com/api/users/107
+                    email: jamison_sipes.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.724Z'
+                    updated_at: '2022-10-19T14:42:33.724Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
   "/api/users/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -1902,23 +1918,24 @@ paths:
                 successful:
                   summary: successful
                   value:
-                    id: 85
-                    name: Bryon Marvin
-                    avatar_url: https://www.gravatar.com/avatar/1d2a4a51f3643f8f9b896c5b6599d2f7
+                    id: 108
+                    name: Denver Okuneva
+                    avatar_url: https://www.gravatar.com/avatar/b6f1854fc77710c26182760691af980d
                     role: guest
-                    url: http://www.example.com/api/users/85
-                    email: bryon_marvin.1663932904@example.com
-                    created_at: '2022-09-23T11:35:04.032Z'
-                    updated_at: '2022-09-23T11:35:04.032Z'
+                    url: http://www.example.com/api/users/108
+                    email: denver_okuneva.1666190553@example.com
+                    created_at: '2022-10-19T14:42:33.742Z'
+                    updated_at: '2022-10-19T14:42:33.742Z'
               schema:
                 "$ref": "#/components/schemas/user_response"
-    put:
-      summary: Update a user
+  "/api/users/sign_in":
+    post:
+      summary: Sign in
       tags:
       - Users
       parameters: []
       responses:
-        '200':
+        '201':
           description: successful
           content:
             application/json:
@@ -1926,33 +1943,46 @@ paths:
                 successful:
                   summary: successful
                   value:
-                    id: 86
-                    name: New Name
-                    avatar_url: https://www.gravatar.com/avatar/560fe38b92f371bd514190a64a9c9159
-                    role: developer
-                    url: http://www.example.com/api/users/86
-                    email: new_email@example.com
-                    created_at: '2022-09-23T11:35:04.047Z'
-                    updated_at: '2022-09-23T11:35:04.059Z'
+                    id: 110
+                    name: Miquel Bergnaum
+                    created_at: '2022-10-19T14:42:33.763Z'
+                    updated_at: '2022-10-19T14:42:33.763Z'
+                    email: email@example.com
+                    role: guest
+                    deleted_at:
+                    recent_boards: []
               schema:
                 "$ref": "#/components/schemas/user_response"
       requestBody:
         content:
           application/json:
             schema:
-              "$ref": "#/components/schemas/user_request"
+              "$ref": "#/components/schemas/user_sign_in_request"
+  "/api/users/sign_out":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     delete:
-      summary: Delete a user
+      summary: Sign out
       tags:
       - Users
       responses:
         '204':
           description: successful
   "/api/workspaces":
+    parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     get:
       summary: list workspaces
       tags:
       - Workspaces
+      security:
+      - Bearer: {}
       parameters:
       - name: limit
         in: query
@@ -1977,88 +2007,95 @@ paths:
                   summary: successful with `boards=all`
                   value:
                   - id: 78
-                    name: Bitwolf
-                    created_at: '2022-09-23T11:35:04.079Z'
-                    updated_at: '2022-09-23T11:35:04.079Z'
+                    name: Pannier
+                    created_at: '2022-10-19T14:42:33.805Z'
+                    updated_at: '2022-10-19T14:42:33.805Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/78
                     boards:
                     - id: 77
-                      name: Gallium
-                      colour: "#52efc2"
+                      name: Nickel
+                      colour: "#9f49df"
                       workspace_id: 78
-                      created_at: '2022-09-23T11:35:04.081Z'
-                      updated_at: '2022-09-23T11:35:04.081Z'
+                      created_at: '2022-10-19T14:42:33.806Z'
+                      updated_at: '2022-10-19T14:42:33.806Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/77
                       workspace_url: http://www.example.com/api/workspaces/78
                     - id: 78
-                      name: Ytterbium
-                      colour: "#0d139c"
+                      name: Rubidium
+                      colour: "#f0d82c"
                       workspace_id: 78
-                      created_at: '2022-09-23T11:35:04.082Z'
-                      updated_at: '2022-09-23T11:35:04.082Z'
+                      created_at: '2022-10-19T14:42:33.807Z'
+                      updated_at: '2022-10-19T14:42:33.807Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/78
                       workspace_url: http://www.example.com/api/workspaces/78
                     - id: 79
-                      name: Barium
-                      colour: "#495303"
+                      name: Platinum
+                      colour: "#2ffea0"
                       workspace_id: 78
-                      created_at: '2022-09-23T11:35:04.083Z'
-                      updated_at: '2022-09-23T11:35:04.083Z'
+                      created_at: '2022-10-19T14:42:33.808Z'
+                      updated_at: '2022-10-19T14:42:33.808Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/79
                       workspace_url: http://www.example.com/api/workspaces/78
                     - id: 80
-                      name: Gold
-                      colour: "#7227ca"
+                      name: Lutetium
+                      colour: "#d988d7"
                       workspace_id: 78
-                      created_at: '2022-09-23T11:35:04.083Z'
-                      updated_at: '2022-09-23T11:35:04.083Z'
+                      created_at: '2022-10-19T14:42:33.809Z'
+                      updated_at: '2022-10-19T14:42:33.809Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/80
                       workspace_url: http://www.example.com/api/workspaces/78
                     - id: 81
                       name: Oxygen
-                      colour: "#4534a9"
+                      colour: "#b57bbf"
                       workspace_id: 78
-                      created_at: '2022-09-23T11:35:04.084Z'
-                      updated_at: '2022-09-23T11:35:04.084Z'
+                      created_at: '2022-10-19T14:42:33.809Z'
+                      updated_at: '2022-10-19T14:42:33.809Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/81
                       workspace_url: http://www.example.com/api/workspaces/78
+                  - id: 79
+                    name: Holdlamis
+                    created_at: '2022-10-19T14:42:33.810Z'
+                    updated_at: '2022-10-19T14:42:33.810Z'
+                    deleted_at:
+                    url: http://www.example.com/api/workspaces/79
+                    boards: []
                 successful:
                   summary: successful
                   value:
                   - id: 80
-                    name: Duobam
-                    created_at: '2022-09-23T11:35:04.108Z'
-                    updated_at: '2022-09-23T11:35:04.108Z'
+                    name: Lotlux
+                    created_at: '2022-10-19T14:42:33.836Z'
+                    updated_at: '2022-10-19T14:42:33.836Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/80
                   - id: 81
-                    name: Biodex
-                    created_at: '2022-09-23T11:35:04.110Z'
-                    updated_at: '2022-09-23T11:35:04.110Z'
+                    name: Stringtough
+                    created_at: '2022-10-19T14:42:33.838Z'
+                    updated_at: '2022-10-19T14:42:33.838Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/81
                   - id: 82
-                    name: Konklux
-                    created_at: '2022-09-23T11:35:04.113Z'
-                    updated_at: '2022-09-23T11:35:04.113Z'
+                    name: Prodder
+                    created_at: '2022-10-19T14:42:33.840Z'
+                    updated_at: '2022-10-19T14:42:33.840Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/82
                   - id: 83
-                    name: Trippledex
-                    created_at: '2022-09-23T11:35:04.114Z'
-                    updated_at: '2022-09-23T11:35:04.114Z'
+                    name: Wrapsafe
+                    created_at: '2022-10-19T14:42:33.841Z'
+                    updated_at: '2022-10-19T14:42:33.841Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/83
                   - id: 84
-                    name: Cardify
-                    created_at: '2022-09-23T11:35:04.116Z'
-                    updated_at: '2022-09-23T11:35:04.116Z'
+                    name: Quo Lux
+                    created_at: '2022-10-19T14:42:33.843Z'
+                    updated_at: '2022-10-19T14:42:33.843Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/84
               schema:
@@ -2081,8 +2118,8 @@ paths:
                   value:
                     id: 85
                     name: New Workspace
-                    created_at: '2022-09-23T11:35:04.144Z'
-                    updated_at: '2022-09-23T11:35:04.144Z'
+                    created_at: '2022-10-19T14:42:33.874Z'
+                    updated_at: '2022-10-19T14:42:33.874Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/85
               schema:
@@ -2094,6 +2131,10 @@ paths:
               "$ref": "#/components/schemas/workspace_request"
   "/api/workspaces/{id}":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: id
@@ -2121,27 +2162,27 @@ paths:
                   summary: successful with `boards=all`
                   value:
                     id: 86
-                    name: Daltfresh
-                    created_at: '2022-09-23T11:35:04.157Z'
-                    updated_at: '2022-09-23T11:35:04.157Z'
+                    name: Latlux
+                    created_at: '2022-10-19T14:42:33.883Z'
+                    updated_at: '2022-10-19T14:42:33.883Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/86
                     boards:
                     - id: 82
-                      name: Fluorine
-                      colour: "#460a8c"
+                      name: Oganesson
+                      colour: "#bcb631"
                       workspace_id: 86
-                      created_at: '2022-09-23T11:35:04.158Z'
-                      updated_at: '2022-09-23T11:35:04.159Z'
+                      created_at: '2022-10-19T14:42:33.885Z'
+                      updated_at: '2022-10-19T14:42:33.886Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/82
                       workspace_url: http://www.example.com/api/workspaces/86
                     - id: 83
-                      name: Antimony
-                      colour: "#e93065"
+                      name: Rhenium
+                      colour: "#d4895b"
                       workspace_id: 86
-                      created_at: '2022-09-23T11:35:04.161Z'
-                      updated_at: '2022-09-23T11:35:04.161Z'
+                      created_at: '2022-10-19T14:42:33.887Z'
+                      updated_at: '2022-10-19T14:42:33.888Z'
                       deleted_at:
                       url: http://www.example.com/api/boards/83
                       workspace_url: http://www.example.com/api/workspaces/86
@@ -2149,9 +2190,9 @@ paths:
                   summary: successful
                   value:
                     id: 89
-                    name: Flowdesk
-                    created_at: '2022-09-23T11:35:04.179Z'
-                    updated_at: '2022-09-23T11:35:04.179Z'
+                    name: Redhold
+                    created_at: '2022-10-19T14:42:33.906Z'
+                    updated_at: '2022-10-19T14:42:33.906Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/89
               schema:
@@ -2172,8 +2213,8 @@ paths:
                   value:
                     id: 90
                     name: New Name
-                    created_at: '2022-09-23T11:35:04.196Z'
-                    updated_at: '2022-09-23T11:35:04.206Z'
+                    created_at: '2022-10-19T14:42:33.923Z'
+                    updated_at: '2022-10-19T14:42:33.934Z'
                     deleted_at:
                     url: http://www.example.com/api/workspaces/90
               schema:
@@ -2192,6 +2233,10 @@ paths:
           description: successful
   "/api/workspaces/{id}/assign_user":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Workspace id
@@ -2216,6 +2261,10 @@ paths:
                   type: integer
   "/api/workspaces/{id}/unassign_user":
     parameters:
+    - name: Authorization
+      in: header
+      schema:
+        "$ref": "#/components/schemas/authorization"
     - name: id
       in: path
       description: Workspace id
@@ -2240,6 +2289,13 @@ paths:
                   type: integer
 components:
   schemas:
+    authorization:
+      name: Authorization
+      in: header
+      type: string
+      description: JWT token
+      example: Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiZGV2ZWxvcGVyIiwic3ViIjoiMSIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTY2NjE4MDIzMiwiZXhwIjoxNjY3NDc2MjMyLCJqdGkiOiJhMzdlZTA5MC0zZGJmLTRhMzgtOTFiNy1mZTJlM2FiYjlkY2QifQ.tGGjFHfMszfGCfNZS6I-hQNLSu_2Xfs3W4hI8IT4CW0
+      required: true
     include_associated_enum:
       type: string
       enum:
@@ -2275,23 +2331,63 @@ components:
     user_request:
       type: object
       properties:
-        name:
-          type: string
-        email:
-          type: string
-        password:
-          type: string
-        role:
-          type: string
-          enum:
-          - guest
-          - regular
-          - developer
-          - admin
-          - manager
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+            role:
+              type: string
+              enum:
+              - guest
+              - regular
+              - developer
+              - admin
+              - manager
       required:
       - name
       - email
+    user_update_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+            current_password:
+              type: string
+            role:
+              type: string
+              enum:
+              - guest
+              - regular
+              - developer
+              - admin
+              - manager
+      required:
+      - current_password
+    user_sign_in_request:
+      type: object
+      properties:
+        user:
+          type: object
+          properties:
+            email:
+              type: string
+            password:
+              type: string
+      required:
+      - email
+      - password
     comment_response:
       type: object
       properties:

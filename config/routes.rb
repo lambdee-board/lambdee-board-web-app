@@ -21,7 +21,7 @@
         resources :users, only: %i[index]
       end
 
-      resources :users do
+      resources :users, only: %i[index show] do
         get :current, on: :collection
       end
 

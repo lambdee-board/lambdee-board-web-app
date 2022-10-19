@@ -175,6 +175,17 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     assert_equal 'andy.mckee@example.com', json['email']
   end
 
+  should 'not create user by manager' do
+    @user.manager!
+    assert_no_difference("DB::User.count") do
+      post '/api/users', params: {
+        user: { name: 'Andy McKee', email: 'andy.mckee@example.com', password: 'secret', password_confirmation: 'secret' }
+      }, as: :json, headers: auth_headers(@user)
+    end
+
+    assert_response :unauthorized
+  end
+
   should "show user" do
     get api_user_url(@user), as: :json, headers: auth_headers(@user)
     assert_response :success
