@@ -2,11 +2,12 @@
 
 .welcomeView-wrapper
   background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
-  width: calc(100vw - (2vh))
-  min-height: calc(100vh - (8vh))
-  margin-top: 9 * $unit
-  margin-left: $unit
+  width: calc(100% - (2 * $unit))
+  min-height: calc(100vh - (10 * $unit))
+  margin: $unit
   border-radius: $unit
+  display: inline-flex
+  flex-direction: column
   .welcomeView-message
     display: flex
     justify-content: center

@@ -2,7 +2,8 @@ describe('Navbar', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
+    // clear cookies!
+    cy.clearCookies()
     cy.visit('/')
   })
 
@@ -35,8 +36,9 @@ describe('Navbar', () => {
     cy.get('.Workspace-menu-item').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
-    cy.wait(1000)
+    cy.wait(2000)
     cy.contains('Lambdee').click()
+    cy.wait(2000)
     cy.contains('Recent')
     cy.contains('Recents')
   })
@@ -48,8 +50,9 @@ describe('Navbar', () => {
     cy.get('.Workspace-menu-item').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
-    cy.wait(1000)
+    cy.wait(2000)
     cy.contains('Lambdee').click()
+    cy.wait(2000)
     cy.contains('Recents')
     cy.contains('Recent').click()
     cy.get('.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-fkgbok-MuiButtonBase-root-MuiMenuItem-root').first().click()

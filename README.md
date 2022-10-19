@@ -19,6 +19,7 @@ Lambdee - Scriptable Agile Board
 
 - `bin/setup` -- install/update node.js, postgresql, ruby and run `bin/install`
 - `bin/install` -- install missing gems, create missing config files, execute pending migrations
+- `bin/debug` -- run the rails backend server in debug mode
 - `bin/dev` -- run the app with all the necessary processes in one terminal window
   - `--ng` or `--no-guard` -- run the app without automatic page refreshing on file changes
   - `--nw` or `--no-watch` -- run the app without automatic frontend building on file changes
@@ -31,7 +32,7 @@ Lambdee - Scriptable Agile Board
   - `open` -- open cypress for testing during development
   - `run` -- run cypress tests headless (without a browser window)
 - `bin/doc` -- generate the YARD docs and open them in your browser
-- `brakeman -I` -- inspect backend security warnings and decide what to do with them
+- `bundle exec brakeman -I` -- inspect backend security warnings and decide what to do with them
 
 ### Architecture
 

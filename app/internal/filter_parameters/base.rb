@@ -1,12 +1,14 @@
 # frozen_string_literal: true
 
+require 'set'
+
 module FilterParameters
   # An abstract class which enables one to validate filter parameters.
   #
   # Example:
   #
   #     class UserFilter < ::FilterParameters::Base
-  #       self.filters = ::Set[:role].freeze
+  #       self.filters = %i[role]
   #
   #       validates :role, inclusion: { in: ::Set['manager', 'guest'] }
   #     end
@@ -38,12 +40,11 @@ module FilterParameters
 
       # Set the name of filters that this class should validate.
       #
-      # @param val [Set<Symbol>]
+      # @param val [Set<Symbol>, Array<Symbol>]
       def filters=(val)
-        @filters = val
-        @filters_module = ::Module.new
+        @filters = val.to_set
+        @filters_module ||= ::Module.new.tap { include _1 }
         @filters_module.attr_accessor(*@filters)
-        include @filters_module
       end
 
       # @return [Module] Contains all dynamically

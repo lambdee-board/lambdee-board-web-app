@@ -130,6 +130,64 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         @task.reload
         assert_nil @task.users.first
       end
+
+      context 'time' do
+        should 'add to a task' do
+          put add_time_api_task_url(@task), params: { time: 180 }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 180, json[:spent_time]
+        end
+
+        should 'add in minutes to a task' do
+          put add_time_api_task_url(@task), params: { time: 3, unit: 'minute' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 180, json[:spent_time]
+        end
+
+        should 'add in hours to a task' do
+          put add_time_api_task_url(@task), params: { time: 2, unit: 'hour' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 7_200, json[:spent_time]
+        end
+
+        should 'add in days to a task' do
+          put add_time_api_task_url(@task), params: { time: 1, unit: 'day' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 86_400, json[:spent_time]
+        end
+
+        should 'not add when negative time' do
+          put add_time_api_task_url(@task), params: { time: -60 }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'must be greater than 0', json[:time][0]
+        end
+
+        should 'not add when non integer time' do
+          put add_time_api_task_url(@task), params: { time: 'dupa' }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'must be greater than 0', json[:time][0]
+        end
+
+        should 'not add when invalid unit' do
+          put add_time_api_task_url(@task), params: { time: 20, unit: 'dupa' }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'is not included in the list', json[:unit][0]
+        end
+      end
     end
 
     context 'guest' do

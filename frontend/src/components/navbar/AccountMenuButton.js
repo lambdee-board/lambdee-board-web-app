@@ -46,7 +46,7 @@ const AccountMenuButton = () => {
           onClick={() => navigate(generatePath('account'))} >
           <Typography textAlign='center'>Account</Typography>
         </MenuItem>
-        <MenuItem key={'logout'} onClick={() => navigate('/')}>
+        <MenuItem key={'logout'} onClick={() => navigate('/login')}>
           <Typography textAlign='center'>Logout</Typography>
         </MenuItem>
       </Menu>

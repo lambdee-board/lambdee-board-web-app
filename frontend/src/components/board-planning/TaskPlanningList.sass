@@ -1,16 +1,13 @@
 @import '../../styles/base'
 
 .TaskListPlanning-wrapper
-  width: 192 * $unit
-  margin: 2 * $unit
-  margin-top: 2 * $unit
   &:first-of-type
-    margin-top: 8 * $unit
+    margin-top: 6 * $unit
   .TaskListPlanning-paper
-    width: 192 * $unit
     display: flex
     flex-direction: column
     justify-content: space-between
+    margin-top: 2 * $unit
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
     .TaskListPlanning
       overflow-y: auto
@@ -31,6 +28,8 @@
         padding: 0.5 * $unit
       .TaskListPlanning-new-task
         display: flex
+        padding: (.75 * $unit) ($unit)
+        margin: (.75 * $unit) (1 * $unit)
         .TaskListPlanning-new-task-input
           margin-right: auto
         .TaskListPlanning-new-task-cancel

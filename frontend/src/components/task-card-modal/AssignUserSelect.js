@@ -11,17 +11,18 @@ import useWorkspaceUsers from '../../api/useWorkspaceUsers'
 
 function AssignUserSelect(props) {
   const { workspaceId } = useParams()
-  const { data: users, isLoading, isError } = useWorkspaceUsers({ id: workspaceId })
+  const { data: usersObject, isLoading, isError } = useWorkspaceUsers({ id: workspaceId })
   const [open, setOpen] = React.useState(true)
   const [usersToAssign, setUsersToAssign] = React.useState([])
 
   React.useEffect(() => {
-    if (!users) return
+    const users = usersObject?.users
+    if (!usersObject?.users) return
 
     const assignedUserIds = Object.fromEntries(props.assignedUsers.map((user) => [user.id, true]))
     const newUsersToAssign = users.filter((user) => !Object.prototype.hasOwnProperty.call(assignedUserIds, user.id))
     setUsersToAssign(newUsersToAssign)
-  }, [users, props.assignedUsers])
+  }, [props.assignedUsers, usersObject?.users])
 
   return (
     <Autocomplete

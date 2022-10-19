@@ -553,11 +553,17 @@ class DB::Tag < ApplicationRecord
   # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
   # @return [DB::Board, nil]
   def board; end
-  #
-  # @param val [Object, nil]
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.tag_id`.
+  # @param val [Array<DB::TaskTag>, nil]
+  def task_tags=(val); end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.tag_id`.
+  # @return [Array<DB::TaskTag>, nil]
+  def task_tags; end
+  # `has_many` relation with `DB::Task` through `DB::TaskTag`.
+  # @param val [Array<DB::Task>, nil]
   def tasks=(val); end
-  #
-  # @return [Object, nil]
+  # `has_many` relation with `DB::Task` through `DB::TaskTag`.
+  # @return [Array<DB::Task>, nil]
   def tasks; end
   # Database column `tags.id`, type: `integer`.
   # @param val [Integer, nil]
@@ -748,17 +754,29 @@ class DB::Task < ApplicationRecord
   # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
   # @return [DB::List, nil]
   def list; end
-  #
-  # @param val [Object, nil]
+  # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
+  # @param val [Array<DB::Tag>, nil]
   def tags=(val); end
-  #
-  # @return [Object, nil]
+  # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
+  # @return [Array<DB::Tag>, nil]
   def tags; end
-  #
-  # @param val [Object, nil]
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.task_id`.
+  # @param val [Array<DB::TaskTag>, nil]
+  def task_tags=(val); end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.task_id`.
+  # @return [Array<DB::TaskTag>, nil]
+  def task_tags; end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.task_id`.
+  # @param val [Array<DB::TaskUser>, nil]
+  def task_users=(val); end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.task_id`.
+  # @return [Array<DB::TaskUser>, nil]
+  def task_users; end
+  # `has_many` relation with `DB::User` through `DB::TaskUser`.
+  # @param val [Array<DB::User>, nil]
   def users=(val); end
-  #
-  # @return [Object, nil]
+  # `has_many` relation with `DB::User` through `DB::TaskUser`.
+  # @return [Array<DB::User>, nil]
   def users; end
   # Database column `tasks.id`, type: `integer`.
   # @param val [Integer, nil]
@@ -840,6 +858,80 @@ class DB::Task < ApplicationRecord
   def start_time; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:task_tags>%%
+
+class DB::TaskTag < ApplicationRecord
+  # `belongs_to` relation with `DB::Tag`. Database column `task_tags.tag_id`.
+  # @param val [DB::Tag, nil]
+  def tag=(val); end
+  # `belongs_to` relation with `DB::Tag`. Database column `task_tags.tag_id`.
+  # @return [DB::Tag, nil]
+  def tag; end
+  # `belongs_to` relation with `DB::Task`. Database column `task_tags.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `task_tags.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # Database column `task_tags.tag_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def tag_id=(val); end
+  # Database column `task_tags.tag_id`, type: `integer`.
+  # @return [Integer, nil]
+  def tag_id; end
+  # Database column `task_tags.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `task_tags.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `task_tags.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_tags.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+end
+# %%<RailsAnnotateSolargraph:End:task_tags>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:task_users>%%
+
+class DB::TaskUser < ApplicationRecord
+  # `belongs_to` relation with `DB::Task`. Database column `task_users.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `task_users.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # `belongs_to` relation with `DB::User`. Database column `task_users.user_id`.
+  # @param val [DB::User, nil]
+  def user=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `task_users.user_id`.
+  # @return [DB::User, nil]
+  def user; end
+  # Database column `task_users.user_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def user_id=(val); end
+  # Database column `task_users.user_id`, type: `integer`.
+  # @return [Integer, nil]
+  def user_id; end
+  # Database column `task_users.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `task_users.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `task_users.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_users.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+end
+# %%<RailsAnnotateSolargraph:End:task_users>%%
 
 
 # %%<RailsAnnotateSolargraph:Start:users>%%
@@ -955,22 +1047,16 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.role_collection(roles); end
-  # Scope `:search`.
-  #
-  #     scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
-  #
-  # @return [Array<DB::User>, nil]
-  def self.search(string); end
   # Scope `:workspace_id`.
   #
   #     scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
   #
   # @return [Array<DB::User>, nil]
   def self.workspace_id(workspace_id); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
   # @param val [Array<DB::Comment>, nil]
   def comments=(val); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
   # @return [Array<DB::Comment>, nil]
   def comments; end
   # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
@@ -979,11 +1065,17 @@ class DB::User < ApplicationRecord
   # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
   # @return [Array<DB::Task>, nil]
   def created_tasks; end
-  #
-  # @param val [Object, nil]
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.user_id`.
+  # @param val [Array<DB::TaskUser>, nil]
+  def task_users=(val); end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.user_id`.
+  # @return [Array<DB::TaskUser>, nil]
+  def task_users; end
+  # `has_many` relation with `DB::Task` through `DB::TaskUser`.
+  # @param val [Array<DB::Task>, nil]
   def tasks=(val); end
-  #
-  # @return [Object, nil]
+  # `has_many` relation with `DB::Task` through `DB::TaskUser`.
+  # @return [Array<DB::Task>, nil]
   def tasks; end
   # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
   # @param val [Array<DB::UserWorkspace>, nil]

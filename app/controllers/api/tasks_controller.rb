@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for tasks
 # through the JSON API.
 class API::TasksController < ::APIController
-  before_action :set_task, only: %i[update destroy attach_tag detach_tag assign_user unassign_user]
+  before_action :set_task, only: %i[update destroy attach_tag detach_tag assign_user unassign_user add_time]
   authorize_resource only: %i[update destroy]
 
   # GET api/tasks
@@ -53,6 +53,17 @@ class API::TasksController < ::APIController
     @task.destroy
   end
 
+  # PUT api/tasks/1/add_time
+  def add_time
+    set_task
+    add_time = AddTaskTimeService.new(@task, params[:time], params[:unit])
+    if add_time.valid? && add_time.save
+      render :show, status: 200
+    else
+      render json: add_time.errors, status: :unprocessable_entity
+    end
+  end
+
   # POST api/tasks/:task_id/attach_tag
   def attach_tag
     authorize! :update, @task
@@ -90,6 +101,6 @@ class API::TasksController < ::APIController
 
   # Only allow a list of trusted parameters through.
   def task_params
-    params.require(:task).permit(:name, :pos, :description, :priority, :points, :list_id, :author_id)
+    params.require(:task).permit(:name, :pos, :description, :spent_time, :priority, :points, :list_id, :author_id)
   end
 end

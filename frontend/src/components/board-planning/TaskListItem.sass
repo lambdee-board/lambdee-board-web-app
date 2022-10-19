@@ -15,17 +15,23 @@
     &:hover
       background-color: darken(#fff, 3%)
     .TaskListItem-properties
-      width: 26%
       display: flex
-      justify-content: space-between
+      justify-content: flex-end
       align-items: center
       .TaskListItem-properties-tags
         align-items: center
-        width: 68%
+        justify-content: flex-end
+        width: 24 * $unit
+        margin-right: 2 * $unit
       .TaskListItem-properties-priority
-        width: 10%
+        width: 4 * $unit
+        margin-right:  $unit
+      .TaskListItem-properties-points
+        width: 4 * $unit
+        margin-right: $unit
       .TaskListItem-properties-avatars
-        width: 12%
+        width: 8 * $unit
+        margin-right: $unit
       .Box-priority-avatar
         width: 3 * $unit
         height: 3 * $unit

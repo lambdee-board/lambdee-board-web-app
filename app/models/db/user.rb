@@ -3,6 +3,8 @@
 # Contains the data of a user
 # of the frontend interface.
 class DB::User < ::ApplicationRecord
+  include ::PgSearch::Model
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   # Include default devise modules. Others available are:
@@ -12,11 +14,21 @@ class DB::User < ::ApplicationRecord
 
   self.skip_session_storage = %i[http_auth params_auth]
 
-  has_many :user_workspaces
-  has_many :workspaces, through: :user_workspaces
   has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id
   has_many :comments, class_name: 'DB::Comment', foreign_key: :author_id
-  has_and_belongs_to_many :tasks
+  has_many :user_workspaces, dependent: :destroy
+  has_many :task_users, class_name: 'DB::TaskUser', dependent: :destroy
+  has_many :workspaces, through: :user_workspaces
+  has_many :tasks, through: :task_users
+
+  pg_search_scope :search,
+                  against: %i[name email],
+                  ignoring: :accents,
+                  using: {
+                    tsearch: {
+                      prefix: true
+                    }
+                  }
 
   default_scope { order(:id) }
 
@@ -25,7 +37,6 @@ class DB::User < ::ApplicationRecord
   scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
   scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
   scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
-  scope :search, ->(string) { where('name LIKE ? OR email LIKE ?', "%#{string}%", "%#{string}%") }
 
   enum role: {
     guest: 0,
@@ -80,7 +91,7 @@ class DB::User < ::ApplicationRecord
   # saves the user record.
   #
   # @param board [DB::Board]
-  # return [Void]
+  # return [void]
   def update_last_viewed_board(board)
     self.last_viewed_board = board
     save(validate: false)
@@ -90,7 +101,7 @@ class DB::User < ::ApplicationRecord
   # boards with the `id` of given `DB::Board`.
   #
   # @param board [DB::Board]
-  # return [Void]
+  # return [void]
   def last_viewed_board=(board)
     return unless board.id
 

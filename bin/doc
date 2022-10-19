@@ -38,11 +38,11 @@ done
 if $GENERATE; then
   title "Generating YARD documentation"
 
-  yard gems
-  yardoc
+  bundle exec yard gems
+  bundle exec yardoc
 fi
 
 if $SERVER; then
   title "Running the YARD documentation server"
-  open http://localhost:8808 && yard server
+  open http://localhost:8808 && bundle exec yard server
 fi

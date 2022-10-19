@@ -1,21 +1,41 @@
-import React from 'react'
-import { faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
+import React, { useEffect } from 'react'
+import useCookie from 'react-use-cookie'
+import { faPlus, faXmark, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput } from '@mui/material'
+
 
 import apiClient from '../api/apiClient'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { mutateBoard } from '../api/useBoard'
 import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import './BoardToolbar.sass'
 
 
 export default function BoardToolbar(props) {
-  const { boardId } = useParams()
+  const { boardId, workspaceId } = useParams()
+  const navigate = useNavigate()
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
+  const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
+
+
+  const setBoardPlanningView = () => {
+    setBoardView('0')
+  }
+  const setBoardWorkView = () => {
+    setBoardView('1')
+  }
+
+  useEffect(() => {
+    if (boardView === '1') {
+      { navigate(`/workspaces/${workspaceId}/boards/${boardId}/work`) }
+    } else {
+      { navigate(`/workspaces/${workspaceId}/boards/${boardId}/planning`) }
+    }
+  }, [boardView, boardId, workspaceId, navigate])
 
   const newListButtonOnClick = () => {
     setNewListButtonVisible(false)
@@ -100,6 +120,29 @@ export default function BoardToolbar(props) {
           />
         </ClickAwayListener>
         }
+        {boardView === '1' ?
+          <div>
+
+            <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
+              className='Toolbar-create-list-button'
+              color='secondary'
+              variant='outlined'
+              startIcon={<FontAwesomeIcon icon={faList} />}
+            >
+              <Typography>Planning View</Typography>
+            </Button>
+          </div>      :
+          <Button sx={{ ml: '8px' }} onClick={() => setBoardWorkView()}
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faList} />}
+          >
+            <Typography>Planning View</Typography>
+          </Button>
+
+        }
+
       </Toolbar>
     </div>
   )

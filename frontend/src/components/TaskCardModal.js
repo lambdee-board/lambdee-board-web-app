@@ -31,6 +31,7 @@ import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import { useParams } from 'react-router-dom'
+import TaskTime from './task-card-modal/TaskTime'
 
 function TaskCardModalSkeleton() {
   return (
@@ -380,6 +381,11 @@ const TaskCardModal = (props) => {
                   </Box>
                 )}
 
+              </Stack>
+
+              <Stack spacing={1}>
+                <Typography>Time spent</Typography>
+                <TaskTime task={task} mutate={mutateTask} />
               </Stack>
 
               <Stack spacing={1}>

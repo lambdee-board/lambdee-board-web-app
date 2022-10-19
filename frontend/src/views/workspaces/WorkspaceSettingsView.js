@@ -30,7 +30,7 @@ const WorkspaceSettings = () => {
   const dispatch = useDispatch()
   const { workspaceId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  const { data: users, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
+  const { data: usersData, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
 
   const assignUserButtonOnClick = () => {
@@ -55,7 +55,7 @@ const WorkspaceSettings = () => {
     apiClient.post(`/api/workspaces/${workspaceId}/assign_user`, payload)
       .then((response) => {
         // successful request
-        mutateWorkspaceUsers((currentUsers) => ([...currentUsers, user]))
+        mutateWorkspaceUsers((currentUsers) => ([...currentUsers.users, user]))
       })
       .catch((error) => {
         // failed or rejected
@@ -92,14 +92,14 @@ const WorkspaceSettings = () => {
               <WorkspaceAssignUserSelect
                 onBlur={assignUserSelectOnBlur}
                 onChange={assignUserSelectOnChange}
-                assignedUsers={users}
+                assignedUsers={usersData?.users}
               />
             ) : (
               <Button onClick={assignUserButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
                 <Typography>Assign New User</Typography>
               </Button>
             )}
-            {users?.map((user, index) => (
+            {usersData?.users?.map((user, index) => (
               <WorkspaceUser
                 key={user.name + index}
                 userId={user.id}
