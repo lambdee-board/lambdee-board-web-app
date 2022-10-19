@@ -513,6 +513,43 @@ end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:sprints>%%
+
+class DB::Sprint < ApplicationRecord
+  # Database column `sprints.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `sprints.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `sprints.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `sprints.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `sprints.start_date`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def start_date=(val); end
+  # Database column `sprints.start_date`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def start_date; end
+  # Database column `sprints.due_date`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def due_date=(val); end
+  # Database column `sprints.due_date`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def due_date; end
+  # Database column `sprints.end_date`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def end_date=(val); end
+  # Database column `sprints.end_date`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def end_date; end
+end
+# %%<RailsAnnotateSolargraph:End:sprints>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:tags>%%
 
 class DB::Tag < ApplicationRecord
@@ -850,6 +887,12 @@ class DB::TaskTag < ApplicationRecord
   # `belongs_to` relation with `DB::Task`. Database column `task_tags.task_id`.
   # @return [DB::Task, nil]
   def task; end
+  # Database column `task_tags.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_tags.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
   # Database column `task_tags.tag_id`, type: `integer`.
   # @param val [Integer, nil]
   def tag_id=(val); end
@@ -862,12 +905,6 @@ class DB::TaskTag < ApplicationRecord
   # Database column `task_tags.task_id`, type: `integer`.
   # @return [Integer, nil]
   def task_id; end
-  # Database column `task_tags.id`, type: `integer`.
-  # @param val [Integer, nil]
-  def id=(val); end
-  # Database column `task_tags.id`, type: `integer`.
-  # @return [Integer, nil]
-  def id; end
 end
 # %%<RailsAnnotateSolargraph:End:task_tags>%%
 
@@ -887,6 +924,12 @@ class DB::TaskUser < ApplicationRecord
   # `belongs_to` relation with `DB::User`. Database column `task_users.user_id`.
   # @return [DB::User, nil]
   def user; end
+  # Database column `task_users.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_users.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
   # Database column `task_users.user_id`, type: `integer`.
   # @param val [Integer, nil]
   def user_id=(val); end
@@ -899,12 +942,6 @@ class DB::TaskUser < ApplicationRecord
   # Database column `task_users.task_id`, type: `integer`.
   # @return [Integer, nil]
   def task_id; end
-  # Database column `task_users.id`, type: `integer`.
-  # @param val [Integer, nil]
-  def id=(val); end
-  # Database column `task_users.id`, type: `integer`.
-  # @return [Integer, nil]
-  def id; end
 end
 # %%<RailsAnnotateSolargraph:End:task_users>%%
 
@@ -1028,10 +1065,10 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.workspace_id(workspace_id); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
   # @param val [Array<DB::Comment>, nil]
   def comments=(val); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
   # @return [Array<DB::Comment>, nil]
   def comments; end
   # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.

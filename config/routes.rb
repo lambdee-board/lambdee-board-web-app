@@ -46,6 +46,8 @@
       resources :tags, except: %i[index]
 
       resources :comments, except: %i[index]
+
+      resources :sprints
     end
   end
 
