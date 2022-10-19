@@ -10,8 +10,10 @@ class DB::Task < ApplicationRecord
   has_many :comments, dependent: :destroy
   has_many :comments_including_deleted, -> { with_deleted }, class_name: 'DB::Comment'
   has_many :deleted_comments, -> { only_deleted }, class_name: 'DB::Comment'
-  has_and_belongs_to_many :users
-  has_and_belongs_to_many :tags
+  has_many :task_users, class_name: 'DB::TaskUser', dependent: :destroy
+  has_many :task_tags, class_name: 'DB::TaskTag', dependent: :destroy
+  has_many :users, through: :task_users
+  has_many :tags, through: :task_tags
 
   before_create :set_highest_pos_in_list
 

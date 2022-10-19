@@ -111,6 +111,60 @@ require 'swagger_helper'
     end
   end
 
+  path '/api/tasks/{id}/add_time' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+    parameter name: 'id', in: :path, type: :string, description: 'Task id'
+
+    put('Add time') do
+      tags 'Tasks'
+      parameter name: 'add_time', in: :body, schema: {
+        type: :object,
+        properties: {
+          time: { type: :integer },
+          unit: { type: :string, enum: ::AddTaskTimeService::TIME_UNITS }
+        }
+      }
+
+      consumes 'application/json'
+
+      response(200, 'successful') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:add_time) { { time: 1200 } }
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(422, 'incorrect unit') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:add_time) { { time: 1, unit: :inexistent } }
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(422, 'negative time') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:add_time) { { time: -20 } }
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+
+      response(422, 'non integer time') do
+        let(:id) { ::FactoryBot.create(:task).id }
+        let(:add_time) { { time: 'dupa' } }
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+    end
+  end
+
   path '/api/tasks/{id}/attach_tag' do
     parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'

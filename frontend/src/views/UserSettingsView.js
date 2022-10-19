@@ -97,7 +97,7 @@ export default function UserSettingsView() {
     <div className='userSettings-wrapper'>
       <div className='userSettings-leftCol'>
         <List className='userSettings-list'
-          subheader={<ListSubheader className='userSettings-header' >
+          subheader={<ListSubheader disableSticky={true} className='userSettings-header' >
             <Typography className='userSettings-header-text' fontSize={64}>
               Your Account
             </Typography>
@@ -140,7 +140,7 @@ export default function UserSettingsView() {
               className='userSettings-reset-password-button'
               color='primary'
               variant='contained' >
-              <Typography onClick={() => navigate('/resetPasswordView')} className='userSettings-reset-password-button-text' >
+              <Typography onClick={() => navigate('/login/reset-password')} className='userSettings-reset-password-button-text' >
                 Reset Password
               </Typography>
             </Button>

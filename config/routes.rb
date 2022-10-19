@@ -14,6 +14,8 @@
   # backend API endpoints
   namespace :api do
     defaults format: :json do
+      get 'search', to: 'search#search'
+
       resources :workspaces do
         post :assign_user, on: :member
         post :unassign_user, on: :member
@@ -41,6 +43,7 @@
         post :detach_tag, on: :member
         post :assign_user, on: :member
         post :unassign_user, on: :member
+        put :add_time, on: :member
 
        resources :comments, only: %i[index]
       end

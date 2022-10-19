@@ -1,0 +1,37 @@
+@import './../../styles/base'
+
+.WorkspaceMembers-wrapper
+  padding-top: $unit
+  padding-left: 2.4 * $unit
+  padding-right: 1.6 * $unit
+  padding-bottom: $unit
+  .WorkspaceMembers
+    display: flex
+    flex-flow: row
+    width: calc(100%)
+    min-height: calc(100vh - (10 * $unit))
+    .filter-wrapper
+      max-width: 45 * $unit
+      margin-left: $unit
+      .add-user-button
+        margin-top: 2 * $unit
+        width: 100%
+    .list-wrapper
+      width: 100%
+      .List
+        height: fit-content
+        padding-bottom: 0
+        margin-bottom: 0
+        .ListItem-workspace
+          padding: 3 * $unit
+        .no-users-text
+          width: 100%
+          font-size: 48px
+          text-transform: uppercase
+          font-weight: bold
+          text-align: center
+          color: rgba(2, 159, 209, 0.3)
+    .Pagination-bar
+      padding-top: $unit
+      display: flex
+      justify-content: center

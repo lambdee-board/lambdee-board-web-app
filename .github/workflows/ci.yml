@@ -56,7 +56,7 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
-        run: ./bin/bundle_install
+        run: ./bin/install
       # Add or replace database setup steps here
       - name: Set up the database
         run: bin/rails db:schema:load
@@ -139,7 +139,7 @@ jobs:
           path: ~/.cache/Cypress
           key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
-        run: ./bin/bundle_install
+        run: ./bin/install
       # Add or replace any other lints here
       - name: Security audit dependencies
         run: bundle exec bundle audit --update

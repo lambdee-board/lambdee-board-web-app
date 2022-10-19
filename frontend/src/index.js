@@ -28,6 +28,7 @@ import TasksView from './views/workspaces/TasksView'
 import LoginView from './views/login/LoginView.js'
 import ForgotPasswordView from './views/login/ForgotPasswordView.js'
 import ResetPasswordView from './views/login/ResetPasswordView.js'
+import WorkspaceMembersView from './views/workspaces/WorkspaceMembersView'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -43,10 +44,12 @@ root.render(
           <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
             <Route path='settings' element={<WorkspaceSettingsView />} />
             <Route path='boards/:boardId' element={<BoardView />}>
-              <Route path='' element={<BoardWorkView />} />
+              <Route path='work' element={<BoardWorkView />} />
               <Route path='planning' element={<BoardPlanningView />} />
             </Route>
+            <Route path='members' element={<WorkspaceMembersView />} />
           </Route>
+          <Route path='members' element={<WorkspaceMembersView />} />
           <Route path='console' element={<ConsoleView />} />
           <Route path='account' element={<UserSettingsView />} />
           <Route path='tasks' element={<TasksView />} />

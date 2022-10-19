@@ -46,7 +46,7 @@ const TaskCard = (props) => {
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'all' } } })
+    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
   return (
@@ -76,7 +76,7 @@ const TaskCard = (props) => {
         </Box>
         <Box className='Box'>
           <Box className='Box-priority'>
-            <PriorityIcon priority={props.priority} />
+            <PriorityIcon size='xl' taskPriority={props.priority} />
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>

@@ -210,27 +210,27 @@ task.tags << tag_php
 MD
 
 task = ::FactoryBot.create(:task, list:, name: 'Make JS consistent', author: user_herman, priority: :very_low, points: 30, description: <<~MD)
-Take a look at official ECMAScript Language Specification at the 13.6.7 section - The If Statement - Runtime Semantics: Evaluation.
-A whole document contains a clear description of how all things works in ECMAScript.
-Right now, let's focus on this specific behavior.
+  Take a look at official ECMAScript Language Specification at the 13.6.7 section - The If Statement - Runtime Semantics: Evaluation.
+  A whole document contains a clear description of how all things works in ECMAScript.
+  Right now, let's focus on this specific behavior.
 
-Our If Statement contains empty array
+  Our If Statement contains empty array
 
-```js
-if ([]) { }
-```
-We would consider first two steps from the official specification. The document says:
+  ```js
+  if ([]) { }
+  ```
+  We would consider first two steps from the official specification. The document says:
 
-1. Let `exprRef` be the result of evaluating Expression.
-1. Let `exprValue` be `ToBoolean(GetValue(exprRef))`.
+  1. Let `exprRef` be the result of evaluating Expression.
+  1. Let `exprValue` be `ToBoolean(GetValue(exprRef))`.
 
-Our exprRef should be a result of evaluating Expression.
-However, we don't need to evaluate anything, because we supplied an object (empty array) in place of Expression.
+  Our exprRef should be a result of evaluating Expression.
+  However, we don't need to evaluate anything, because we supplied an object (empty array) in place of Expression.
 
-Subsequently, we need to obtain exprValue which
-is a result of the composition of two functions GetValue and ToBoolean.
-I don't want to dig into the first, just assume,
-that the result of GetValue(exprRef) is simply an empty array.
+  Subsequently, we need to obtain exprValue which
+  is a result of the composition of two functions GetValue and ToBoolean.
+  I don't want to dig into the first, just assume,
+  that the result of GetValue(exprRef) is simply an empty array.
 MD
 task.tags << tag_js
 

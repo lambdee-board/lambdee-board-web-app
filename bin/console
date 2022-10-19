@@ -4,4 +4,4 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 title "Opening the Lambdee Web App Console"
 
-rails console
+bundle exec rails console

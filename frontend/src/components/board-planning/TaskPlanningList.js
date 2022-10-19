@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   List,
   ListItem,
@@ -22,48 +23,48 @@ import { ReactSortable } from 'react-sortablejs'
 import apiClient from '../../api/apiClient'
 import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
+import { mutateBoard } from '../../api/useBoard'
+
 import { calculatePos } from '../../constants/componentPositionService'
 
-import './TaskList.sass'
+import './TaskPlanningList.sass'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskListModal from '../TaskListModal'
 
-function TaskListSkeletonContent() {
-  return (
-    <div></div>
-  )
-}
 
-function TaskListSkeleton() {
+function TaskPlanningListSkeleton() {
   return (
-
-    <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper'
+    <Box className='TaskListPlanning-wrapper'>
+      <Paper className='TaskListPlanning-paper'
         elevation={5}>
-        <List className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
-            <Skeleton height={36} width={200} variant='text' />
-            <Skeleton height={36} width={36} variant='circular' />
+        <List className='TaskListPlanning'
+          subheader={<ListSubheader className='TaskListPlanning-header' >
+            <Typography className='TaskListPlanning-header-text'   >
+              <Skeleton height={36} width={200} />
+            </Typography>
           </ListSubheader>} >
-          <TaskListSkeletonContent />
+          <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px'  }}>
+            <Skeleton height={36} />
+            <Skeleton height={36} />
+            <Skeleton height={36} />
+            <Skeleton height={36} />
+          </Card>
         </List>
-        <Box className='TaskList-new-task-wrapper' sx={{ display: 'flex' }}>
-          <Skeleton height={36} width={70} variant='text' sx={{ ml: 2, mb: 1 }} />
-        </Box>
       </Paper>
     </Box>
   )
 }
 
-function TaskList(props) {
+
+function TaskPlanningList(props) {
+  const { boardId } = useParams()
   const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
-  const [sortedTasks, setNewTaskOrder] = React.useState([])
 
+  const [sortedTasks, setNewTaskOrder] = React.useState([])
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   // visibility should part of props
-  const [listVisibility, setlistVisibility] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -77,15 +78,26 @@ function TaskList(props) {
   React.useEffect(() => {
     if (!taskList) return
 
-    const newSortedTasks = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const newSortedTasks = [...taskList.tasks]?.sort((a, b) => (a.pos > b.pos ? 1 : -1))
     setNewTaskOrder([...newSortedTasks])
   }, [taskList])
 
 
   const toggleNewTaskButton = () => setNewTaskButtonVisible(!newTaskButtonVisible)
 
-  const toggleListVisibility = () => {
-    setlistVisibility(!listVisibility)
+  const toggleListVisibility = (e) => {
+    const payload = { visible: !taskList.visible }
+
+    apiClient.put(`/api/lists/${props.id}`, payload)
+      .then((response) => {
+        // successful request
+        mutate({ ...taskList, visible: payload.visible })
+        mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
   }
 
   const newTaskButtonOnClick = () => {
@@ -174,7 +186,6 @@ function TaskList(props) {
     // if the dragged task is no longer in this list, just remove it and return
     if (currentTaskIndex === -1) {
       setNewTaskOrder(updatedTasks)
-      mutate((listData) => ({ ...listData, tasks: updatedTasks }))
       return
     }
 
@@ -186,8 +197,10 @@ function TaskList(props) {
     updateTaskPos(newUpdatedTask.id, newUpdatedTask.pos, newUpdatedTasks)
   }
   return (
+
     <Box className='TaskListPlanning-wrapper'>
-      <Paper className='TaskListPlanning-paper' sx = {!listVisibility ? { opacity: '0.6' } : null}
+
+      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.6' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader className='TaskListPlanning-header' >
@@ -196,7 +209,7 @@ function TaskList(props) {
             </Typography>
             <div>
               <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
-                {listVisibility ?
+                {taskList?.visible ?
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
                   <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
                 }
@@ -216,7 +229,7 @@ function TaskList(props) {
                 animation={50}
                 ghostClass='translucent'
                 selectedClass='translucent'
-                direction='vertical'
+                direction='horizontal'
                 // multiDrag
                 scroll
               >
@@ -244,7 +257,7 @@ function TaskList(props) {
               </ReactSortable>
 
             ) : (
-              <TaskListSkeletonContent />
+              <div></div>
             )}
           </Card>
 
@@ -278,10 +291,10 @@ function TaskList(props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskListPlanning-modal-wrapper'
+        className='TaskList-modal-wrapper'
       >
-        <div className='TaskListPlanning-modal'>
-          <TaskListModal listId={props.id} title={props.title} />
+        <div className='TaskList-modal'>
+          <TaskListModal listId={props.id} title={props.title} listVisibility={'non-archived'}  />
         </div>
       </Modal>
       }
@@ -289,12 +302,13 @@ function TaskList(props) {
   )
 }
 
-TaskList.propTypes = {
+TaskPlanningList.propTypes = {
   id: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  visible: PropTypes.bool.isRequired
 }
 
-export default TaskList
-export { TaskList, TaskListSkeleton }
+export default TaskPlanningList
+export { TaskPlanningList, TaskPlanningListSkeleton }
