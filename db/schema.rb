@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_19_151631) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_19_162507) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -46,6 +46,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_151631) do
     t.datetime "deleted_at"
     t.boolean "visible", default: false
     t.index ["board_id"], name: "index_lists_on_board_id"
+  end
+
+  create_table "sprint_tasks", force: :cascade do |t|
+    t.integer "task_id"
+    t.integer "sprint_id"
+    t.string "data"
   end
 
   create_table "sprints", force: :cascade do |t|

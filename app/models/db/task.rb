@@ -14,6 +14,8 @@ class DB::Task < ApplicationRecord
   has_many :task_tags, class_name: 'DB::TaskTag', dependent: :destroy
   has_many :users, through: :task_users
   has_many :tags, through: :task_tags
+  has_many :sprint_tasks
+  has_many :sprints, through: :sprint_tasks
 
   before_create :set_highest_pos_in_list
 

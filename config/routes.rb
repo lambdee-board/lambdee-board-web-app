@@ -48,6 +48,8 @@
       resources :comments, except: %i[index]
 
       resources :sprints
+
+      resources :sprint_tasks
     end
   end
 

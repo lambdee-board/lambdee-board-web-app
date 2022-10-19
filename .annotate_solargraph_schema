@@ -550,6 +550,37 @@ end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:sprint_tasks>%%
+
+class DB::SprintTask < ApplicationRecord
+  # Database column `sprint_tasks.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `sprint_tasks.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `sprint_tasks.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `sprint_tasks.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `sprint_tasks.sprint_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def sprint_id=(val); end
+  # Database column `sprint_tasks.sprint_id`, type: `integer`.
+  # @return [Integer, nil]
+  def sprint_id; end
+  # Database column `sprint_tasks.data`, type: `string`.
+  # @param val [String, nil]
+  def data=(val); end
+  # Database column `sprint_tasks.data`, type: `string`.
+  # @return [String, nil]
+  def data; end
+end
+# %%<RailsAnnotateSolargraph:End:sprint_tasks>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:tags>%%
 
 class DB::Tag < ApplicationRecord
