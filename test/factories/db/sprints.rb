@@ -1,8 +1,13 @@
 FactoryBot.define do
   factory :sprint, class: 'DB::Sprint' do
-    name { "MyString" }
-    start_date { "2022-10-19 17:16:35" }
-    due_date { "2022-10-19 17:16:35" }
-    end_date { "2022-10-19 17:16:35" }
+    name { ::Faker::Australia.location }
+    start_date { rand(rand(1..5).days).seconds.ago }
+    due_date { rand(rand(1..3).days).seconds.from_now }
+    end_date { nil }
+
+    trait :active do
+      end_date { rand(rand(4..7).days).seconds.from_now }
+    end
+    association :board
   end
 end
