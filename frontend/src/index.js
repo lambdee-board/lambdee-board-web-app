@@ -16,6 +16,8 @@ import './init/listenToConsoleErrors'
 import reportWebVitals from './init/reportWebVitals'
 
 import App from './App'
+import PrivateRoutes from './routes/PrivateRoutes'
+import PublicRoutes from './routes/PublicRoutes'
 import ConsoleView from './views/ConsoleView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/boards/BoardView'
@@ -36,23 +38,27 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path='/login' element={<LoginView />} />
-        <Route path='/login/forgot-password' element={<ForgotPasswordView />} />
-        <Route path='/login/reset-password' element={<ResetPasswordView />} />
-        <Route path='/' element={<App />}>
-          <Route path='' element={<WelcomeView />} />
-          <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
-            <Route path='settings' element={<WorkspaceSettingsView />} />
-            <Route path='boards/:boardId' element={<BoardView />}>
-              <Route path='work' element={<BoardWorkView />} />
-              <Route path='planning' element={<BoardPlanningView />} />
+        <Route element={<PublicRoutes />}>
+          <Route path='/login' element={<LoginView />} />
+          <Route path='/login/forgot-password' element={<ForgotPasswordView />} />
+          <Route path='/login/reset-password' element={<ResetPasswordView />} />
+        </Route>
+        <Route element={<PrivateRoutes />}>
+          <Route path='/' element={<App />}>
+            <Route path='' element={<WelcomeView />} />
+            <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
+              <Route path='settings' element={<WorkspaceSettingsView />} />
+              <Route path='boards/:boardId' element={<BoardView />}>
+                <Route path='work' element={<BoardWorkView />} />
+                <Route path='planning' element={<BoardPlanningView />} />
+              </Route>
+              <Route path='members' element={<WorkspaceMembersView />} />
             </Route>
             <Route path='members' element={<WorkspaceMembersView />} />
+            <Route path='console' element={<ConsoleView />} />
+            <Route path='account' element={<UserSettingsView />} />
+            <Route path='tasks' element={<TasksView />} />
           </Route>
-          <Route path='members' element={<WorkspaceMembersView />} />
-          <Route path='console' element={<ConsoleView />} />
-          <Route path='account' element={<UserSettingsView />} />
-          <Route path='tasks' element={<TasksView />} />
         </Route>
       </Routes>
     </BrowserRouter>

@@ -19,19 +19,14 @@ export default function LoginView() {
   const navigate = useNavigate()
 
   const login = () => {
-    const emailInput = 'test_logowanie@example.com'
-    const passwordInput = '111111'
+    const emailInput = emailRef.current.value
+    const passwordInput = passwordRef.current.value
     const credentials = {
-      user: { email: 'test_logowanie@example.com', password: '111111' }
+      user: { email: emailInput, password: passwordInput }
 
     }
 
-    apiClient.post('/api/users/sign_in', credentials, {
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      }
-    })
+    apiClient.post('/api/users/sign_in', credentials)
       .then((response) => {
         localStorage.setItem('token', response.headers.authorization)
         navigate('/')
@@ -49,8 +44,8 @@ export default function LoginView() {
       />
       <Card className='loginView-card'>
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
-        <TextField ref={emailRef} className='loginView-card-input' label='Email' variant='outlined' />
-        <TextField ref={passwordRef} type='password' className='loginView-card-input' label='Password' variant='outlined' />
+        <TextField inputRef={emailRef} className='loginView-card-input' label='Email' variant='outlined' />
+        <TextField inputRef={passwordRef} type='password' className='loginView-card-input' label='Password' variant='outlined' />
         <Link
           onClick={() => navigate('/login/forgot-password')}
           component='button'
