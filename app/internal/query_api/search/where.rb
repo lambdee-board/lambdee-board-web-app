@@ -2,6 +2,8 @@
 
 module QueryAPI
   class Search
+    # Type which wraps and validates a `where`, `and` or `or` clause
+    # in a query.
     class Where < OpenMapper
       self.nested_validations = %i[and or]
 

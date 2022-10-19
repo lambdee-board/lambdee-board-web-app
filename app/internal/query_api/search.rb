@@ -20,6 +20,7 @@ module QueryAPI
     validates :type, presence: true
     validates :query, presence: true
 
+    # @return [ActiveRecord::Relation]
     def execute
       relation = type
 

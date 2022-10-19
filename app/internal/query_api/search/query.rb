@@ -14,11 +14,11 @@ module QueryAPI
       # attribute :order, Order
       attribute :where, Where
 
-      attribute :limit, ::Shale::Type::Integer, default: -> { 30 }
-      attribute :offset, ::Shale::Type::Integer
-      attribute :count, ::Shale::Type::Boolean
+      attribute :limit,    ::Shale::Type::Integer, default: -> { 30 }
+      attribute :offset,   ::Shale::Type::Integer
+      attribute :count,    ::Shale::Type::Boolean
       attribute :distinct, ::Shale::Type::Boolean
-      attribute :model, ::Shale::Type::Value
+      attribute :model,    ::Shale::Type::Value
 
       forward :model, to: %i[join group_by where]
 

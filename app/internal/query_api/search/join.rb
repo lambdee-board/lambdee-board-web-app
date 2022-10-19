@@ -2,8 +2,11 @@
 
 module QueryAPI
   class Search
+    # Type that wraps and validates a `join` or `left_outer_join`
+    # clause in a query.
     class Join < BaseMapper
       class << self
+        # @return [self]
         def of_hash(value, *args, **kwargs)
           super if value.is_a?(::Hash)
 
@@ -18,6 +21,7 @@ module QueryAPI
       # TODO
       # validate :validate_value
 
+      # @param val [Object, Array]
       def value=(val)
         @value = val.is_a?(::Array) ? val : [val]
       end

@@ -1,8 +1,14 @@
 # frozen_string_literal: true
 
 module QueryAPI
+  # Provides methods for defining attributes
+  # which should be forwarded to one of this objects
+  # attributes.
   module Forwardable
     ForwardedAttribute = ::Struct.new(:name, :as, :to, keyword_init: true) do
+      # @param name [Symbol]
+      # @param as [Symbol]
+      # @param to [Symbol]
       def initialize(name:, as:, to:)
         to = *to
         super(name:, as:, to:)

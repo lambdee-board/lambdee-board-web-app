@@ -2,8 +2,11 @@
 
 module QueryAPI
   class Search
+    # Type that wraps and validates a `group_by`
+    # clause in the query.
     class GroupBy < BaseMapper
       class << self
+        # @return [self]
         def of_hash(value, *args, **kwargs)
           super if value.is_a?(::Hash)
 
