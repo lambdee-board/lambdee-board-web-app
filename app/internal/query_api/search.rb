@@ -40,7 +40,10 @@ module QueryAPI
       build_where(relation, query.where)
     end
 
-    # @param relation [ActiveRecord]
+    # @param relation [ActiveRecord::Relation]
+    # @param where [QueryAPI::Search::Where]
+    # @param logical [Symbol]
+    # @return [ActiveRecord::Relation]
     def build_where(relation, where, logical: :and)
       first_iteration = true
       where.dynamic_attribute_names.each do |attr_name|

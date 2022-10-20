@@ -5,6 +5,57 @@ require 'test_helper'
 module QueryAPI
   class Search
     class JoinTest < ::ActiveSupport::TestCase
+      should 'extract reflections' do
+        j = Join.new value: 'comments', model: ::DB::Task
+        j.valid?
+        assert_equal({ comments: ::DB::Comment }, j.association_map)
+
+        j = Join.new value: %w[comments list], model: ::DB::Task
+        j.valid?
+        association_map = {
+          comments: ::DB::Comment,
+          list: ::DB::List
+        }
+        assert_equal association_map, j.association_map
+
+        j = Join.new value: [{ 'comments' => 'author' }, { 'author' => 'workspaces' }], model: ::DB::Task
+        j.valid?
+        association_map = {
+          comments: ::DB::Comment,
+          author: ::DB::User,
+          workspaces: ::DB::Workspace
+        }
+        assert_equal association_map, j.association_map
+
+        j = Join.new value: { 'author' => 'workspaces' }, model: ::DB::Task
+        j.valid?
+        association_map = {
+          author: ::DB::User,
+          workspaces: ::DB::Workspace
+        }
+        assert_equal association_map, j.association_map
+
+        j = Join.new value: { 'comments' => { 'author' => 'workspaces' } }, model: ::DB::Task
+        j.valid?
+        association_map = {
+          comments: ::DB::Comment,
+          author: ::DB::User,
+          workspaces: ::DB::Workspace
+        }
+        assert_equal association_map, j.association_map
+
+        j = Join.new value: { 'author' => { 'workspaces' => { 'boards' => ['lists', 'tags'] } } }, model: ::DB::Task
+        j.valid?
+        association_map = {
+          author: ::DB::User,
+          workspaces: ::DB::Workspace,
+          boards: ::DB::Board,
+          lists: ::DB::List,
+          tags: ::DB::Tag
+        }
+        assert_equal association_map, j.association_map
+      end
+
       should 'symbolize names' do
         j = Join.new value: 'comments'
         assert_equal :comments, j.value

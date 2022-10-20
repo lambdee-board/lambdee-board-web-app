@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'debug'
 
 module QueryAPI
   class Search
@@ -9,12 +10,13 @@ module QueryAPI
 
       attribute :and, self
       attribute :or, self
+
       attribute :model, ::Shale::Type::Value
+      attribute :join, ::Shale::Type::Value
 
       forward :model, to: %i[and or]
 
-      # TODO
-      # validate :validate_dynamic_attributes
+      validate :validate_dynamic_attributes
 
       private
 
@@ -28,6 +30,7 @@ module QueryAPI
 
         return unless inexistent_fields.any?
 
+        debugger
         errors.add :where, "inexistent fields: #{inexistent_fields}"
       end
     end

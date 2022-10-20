@@ -16,6 +16,9 @@ module QueryAPI
         super symbolize_value(val)
       end
 
+      # @return [Hash{Symbol => Class<ActiveRecord::Base>}]
+      attr_reader :association_map
+
       private
 
       # @param val [Hash, Array, String, nil]
@@ -58,7 +61,7 @@ module QueryAPI
       end
 
       # @param klass [Class<ActiveRecord::Base>]
-      # @param associations [Hash, Array, String, nil]
+      # @param associations [Hash, Array, Symbol, nil]
       # @return [Boolean] Whether the associations are invalid
       def validate_associations(klass, associations)
         throw :invalid, false if associations.nil?
@@ -69,7 +72,7 @@ module QueryAPI
       end
 
       # @param klass [Class<ActiveRecord::Base>]
-      # @param associations [Hash{String => String}, Hash{String => Hash}, Hash{String => Array<String>}]
+      # @param associations [Hash{Symbol => Symbol}, Hash{Symbol => Hash}, Hash{Symbol => Array<Symbol>}]
       # @return [Boolean] Whether the associations are invalid
       def validate_hash_association(klass, associations)
         associations.each do |key, val|
@@ -82,7 +85,7 @@ module QueryAPI
       end
 
       # @param klass [Class<ActiveRecord::Base>]
-      # @param associations [Array<String>, Array<Hash>]
+      # @param associations [Array<Symbol>, Array<Hash>]
       # @return [Boolean] Whether the associations are invalid
       def validate_array_association(klass, associations)
         associations.each { validate_associations(klass, _1) }
@@ -91,10 +94,14 @@ module QueryAPI
       end
 
       # @param klass [Class<ActiveRecord::Base>]
-      # @param associations [String]
+      # @param associations [Symbol]
       # @return [Boolean] Whether the associations are invalid
       def validate_string_association(klass, associations)
-        throw :invalid, associations unless klass&._reflections&.[](associations.to_s)
+        reflection = klass&._reflections&.[](associations.to_s)
+        throw :invalid, associations unless reflection
+        @association_map ||= {}
+        @association_map[associations.to_sym] = reflection.klass
+
         false
       end
     end

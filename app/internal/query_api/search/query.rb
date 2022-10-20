@@ -18,9 +18,11 @@ module QueryAPI
       attribute :offset,   ::Shale::Type::Integer
       attribute :count,    ::Shale::Type::Boolean
       attribute :distinct, ::Shale::Type::Boolean
+
       attribute :model,    ::Shale::Type::Value
 
       forward :model, to: %i[join group_by where]
+      forward :join, to: :where
 
       validates :limit, numericality: { only_integer: true, in: 1..50 }
       validates :offset, numericality: { only_integer: true, greater_than: 0 }, allow_nil: true
