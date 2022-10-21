@@ -15,6 +15,7 @@ import {
 import './init/listenToConsoleErrors'
 import reportWebVitals from './init/reportWebVitals'
 
+
 import App from './App'
 import PrivateRoutes from './routes/PrivateRoutes'
 import PublicRoutes from './routes/PublicRoutes'

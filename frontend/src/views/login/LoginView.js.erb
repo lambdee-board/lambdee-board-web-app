@@ -1,11 +1,13 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+import jwt from 'jwt-decode'
 import {
   Card,
   Link,
   TextField,
   Typography,
-  Button
+  Button,
+  Alert
 } from '@mui/material'
 
 import apiClient from './../../api/apiClient'
@@ -17,6 +19,8 @@ export default function LoginView() {
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
   const navigate = useNavigate()
+  const [loginFail, setLoginFail] = React.useState(false)
+
 
   const login = () => {
     const emailInput = emailRef.current.value
@@ -29,10 +33,12 @@ export default function LoginView() {
     apiClient.post('/api/users/sign_in', credentials)
       .then((response) => {
         localStorage.setItem('token', response.headers.authorization)
+        const role = jwt(response.headers.authorization)
+        localStorage.setItem('role', role)
         navigate('/')
       })
       .catch((error) => {
-        console.log(error)
+        setLoginFail(true)
       })
   }
 
@@ -46,6 +52,9 @@ export default function LoginView() {
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
         <TextField inputRef={emailRef} className='loginView-card-input' label='Email' variant='outlined' />
         <TextField inputRef={passwordRef} type='password' className='loginView-card-input' label='Password' variant='outlined' />
+        {loginFail &&
+          <Alert severity='error' className='loginView-card-input' sx={{ width: '73%' }}>Incorrect credentials!</Alert>
+        }
         <Link
           onClick={() => navigate('/login/forgot-password')}
           component='button'

@@ -44,6 +44,7 @@
     "humps": "^2.0.1",
     "immutability-helper": "^3.1.1",
     "jdenticon": "^3.1.1",
+    "jwt-decode": "^3.1.2",
     "lodash": "^4.17.21",
     "panic-overlay": "^1.0.51",
     "prism-themes": "^1.9.0",
