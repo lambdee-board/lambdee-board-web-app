@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for sprints
 # through the JSON API.
 class API::SprintsController < ::APIController
-  before_action :set_sprint, only: %i[show update destroy]
+  before_action :set_sprint, only: %i[show update destroy end]
 
   # GET /api/sprints
   def index
@@ -11,12 +11,10 @@ class API::SprintsController < ::APIController
   end
 
   # GET /api/sprints/1
-  def show
-  end
+  def show; end
 
   # POST /api/sprints
   def create
-    puts params
     @sprint = DB::Sprint.new(sprint_params)
     sprint_service = SprintManagementService.new(@sprint, params[:board_id])
 
@@ -32,6 +30,14 @@ class API::SprintsController < ::APIController
     else
       render json: @sprint.errors, status: :unprocessable_entity
     end
+  end
+
+  # PATCH/PUT /api/sprints/1/end
+  def end
+    sprint_service = SprintManagementService.new(@sprint)
+    return render :show, status: :ok, location: @sprint if sprint_service.end
+
+    render json: @sprint.errors, status: :unprocessable_entity
   end
 
   # DELETE /api/sprints/1

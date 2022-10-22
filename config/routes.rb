@@ -47,9 +47,10 @@
 
       resources :comments, except: %i[index]
 
-      resources :sprints
-
-      resources :sprint_tasks
+      resources :sprints do
+        resources :sprint_tasks
+        post :end, on: :member
+      end
     end
   end
 
