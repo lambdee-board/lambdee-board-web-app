@@ -4,7 +4,7 @@ def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
 
-  active_sprint = ::FactoryBot.create(:sprint, :active)
+  # active_sprint = ::FactoryBot.create(:sprint, :active)
 
   tags_amount.times { ::FactoryBot.create(:tag, board:) }
 

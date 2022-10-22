@@ -540,11 +540,11 @@ class DB::Sprint < ApplicationRecord
   # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
   # @return [Array<DB::SprintTask>, nil]
   def sprint_tasks; end
-  # `has_many` relation with `Object` through `DB::SprintTask`.
-  # @param val [Array<Object>, nil]
+  # `has_many` relation with `DB::Task` through `DB::SprintTask`.
+  # @param val [Array<DB::Task>, nil]
   def tasks=(val); end
-  # `has_many` relation with `Object` through `DB::SprintTask`.
-  # @return [Array<Object>, nil]
+  # `has_many` relation with `DB::Task` through `DB::SprintTask`.
+  # @return [Array<DB::Task>, nil]
   def tasks; end
   # Database column `sprints.id`, type: `integer`.
   # @param val [Integer, nil]
@@ -589,18 +589,18 @@ end
 # %%<RailsAnnotateSolargraph:Start:sprint_tasks>%%
 
 class DB::SprintTask < ApplicationRecord
-  # `belongs_to` relation with `Object`. Database column `sprint_tasks.sprints_id`.
-  # @param val [Object, nil]
-  def sprints=(val); end
-  # `belongs_to` relation with `Object`. Database column `sprint_tasks.sprints_id`.
-  # @return [Object, nil]
-  def sprints; end
-  # `belongs_to` relation with `Object`. Database column `sprint_tasks.tasks_id`.
-  # @param val [Object, nil]
-  def tasks=(val); end
-  # `belongs_to` relation with `Object`. Database column `sprint_tasks.tasks_id`.
-  # @return [Object, nil]
-  def tasks; end
+  # `belongs_to` relation with `DB::Sprint`. Database column `sprint_tasks.sprint_id`.
+  # @param val [DB::Sprint, nil]
+  def sprint=(val); end
+  # `belongs_to` relation with `DB::Sprint`. Database column `sprint_tasks.sprint_id`.
+  # @return [DB::Sprint, nil]
+  def sprint; end
+  # `belongs_to` relation with `DB::Task`. Database column `sprint_tasks.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `sprint_tasks.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
   # Database column `sprint_tasks.id`, type: `integer`.
   # @param val [Integer, nil]
   def id=(val); end
@@ -619,11 +619,11 @@ class DB::SprintTask < ApplicationRecord
   # Database column `sprint_tasks.sprint_id`, type: `integer`.
   # @return [Integer, nil]
   def sprint_id; end
-  # Database column `sprint_tasks.data`, type: `string`.
-  # @param val [String, nil]
+  # Database column `sprint_tasks.data`, type: `jsonb`.
+  # @param val [Hash, nil]
   def data=(val); end
-  # Database column `sprint_tasks.data`, type: `string`.
-  # @return [String, nil]
+  # Database column `sprint_tasks.data`, type: `jsonb`.
+  # @return [Hash, nil]
   def data; end
 end
 # %%<RailsAnnotateSolargraph:End:sprint_tasks>%%
@@ -851,11 +851,11 @@ class DB::Task < ApplicationRecord
   # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.task_id`.
   # @return [Array<DB::SprintTask>, nil]
   def sprint_tasks; end
-  # `has_many` relation with `Object` through `DB::SprintTask`.
-  # @param val [Array<Object>, nil]
+  # `has_many` relation with `DB::Sprint` through `DB::SprintTask`.
+  # @param val [Array<DB::Sprint>, nil]
   def sprints=(val); end
-  # `has_many` relation with `Object` through `DB::SprintTask`.
-  # @return [Array<Object>, nil]
+  # `has_many` relation with `DB::Sprint` through `DB::SprintTask`.
+  # @return [Array<DB::Sprint>, nil]
   def sprints; end
   # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
   # @param val [Array<DB::Tag>, nil]

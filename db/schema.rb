@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_19_190311) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_22_200139) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -57,7 +57,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_190311) do
   create_table "sprint_tasks", force: :cascade do |t|
     t.integer "task_id"
     t.integer "sprint_id"
-    t.string "data"
+    t.jsonb "data"
     t.index ["sprint_id"], name: "index_sprint_tasks_on_sprint_id"
     t.index ["task_id"], name: "index_sprint_tasks_on_task_id"
   end
