@@ -1,1 +1,1 @@
-json.array! @sprints, partial: 'api/sprints/sprint', as: :sprint
+json.array! @sprints, partial: 'sprint', as: :sprint

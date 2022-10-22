@@ -1,4 +1,6 @@
 class DB::SprintTask < ApplicationRecord
-  belongs_to :sprints
-  belongs_to :tasks
+  belongs_to :sprint
+  belongs_to :task
+
+  serialize :data, JSON
 end

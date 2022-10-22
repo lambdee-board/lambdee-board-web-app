@@ -1,1 +1,1 @@
-json.partial! 'api/sprints/sprint', sprint: @sprint
+json.partial! 'sprint', sprint: @sprint
