@@ -47,6 +47,7 @@ function TaskTime({ task, mutate }) {
   const handleDialClose = (e) => {
     setUserTime('')
     setTimeDial(false)
+    setWrongFormat(false)
   }
 
   const getTimeInSeconds = () => {
@@ -134,7 +135,7 @@ function TaskTime({ task, mutate }) {
           </DialogContent>
           <DialogActions className='create-tag-buttons'>
             <Button onClick={handleDialClose}>Cancel</Button>
-            <Button type='submit'>Create</Button>
+            <Button type='submit'>Add time</Button>
           </DialogActions>
         </form>
       </Dialog>

@@ -37,6 +37,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_190311) do
     t.index ["task_id"], name: "index_comments_on_task_id"
   end
 
+  create_table "jwt_denylist", force: :cascade do |t|
+    t.string "jti", null: false
+    t.datetime "exp", null: false
+    t.index ["jti"], name: "index_jwt_denylist_on_jti"
+  end
+
   create_table "lists", force: :cascade do |t|
     t.string "name"
     t.float "pos"
@@ -120,6 +126,11 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_19_190311) do
     t.datetime "remember_created_at"
     t.datetime "deleted_at"
     t.text "recent_boards", default: [], array: true
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
