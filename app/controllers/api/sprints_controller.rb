@@ -17,7 +17,6 @@ class API::SprintsController < ::APIController
   def create
     @sprint = DB::Sprint.new(sprint_params)
     sprint_service = SprintManagementService.new(@sprint, params[:board_id])
-
     return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.save && sprint_service.create
 
     render json: @sprint.errors, status: :unprocessable_entity
@@ -25,17 +24,15 @@ class API::SprintsController < ::APIController
 
   # PATCH/PUT /api/sprints/1
   def update
-    if @sprint.update(sprint_params)
-      render :show, status: :ok, location: @sprint
-    else
-      render json: @sprint.errors, status: :unprocessable_entity
-    end
+    return render :show, status: :ok, location: api_sprint_url(@sprint) if @sprint.update(sprint_params)
+
+    render json: @sprint.errors, status: :unprocessable_entity
   end
 
   # PATCH/PUT /api/sprints/1/end
   def end
     sprint_service = SprintManagementService.new(@sprint)
-    return render :show, status: :ok, location: @sprint if sprint_service.end
+    return render :show, status: :ok, location: api_sprint_url(@sprint) if sprint_service.end
 
     render json: @sprint.errors, status: :unprocessable_entity
   end
