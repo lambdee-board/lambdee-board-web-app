@@ -1053,10 +1053,10 @@ class DB::User < ApplicationRecord
   #
   # @return [Array<DB::User>, nil]
   def self.workspace_id(workspace_id); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
   # @param val [Array<DB::Comment>, nil]
   def comments=(val); end
-  # `has_many` relation with `DB::Comment`. Database column `comments.user_id`.
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
   # @return [Array<DB::Comment>, nil]
   def comments; end
   # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
@@ -1161,6 +1161,36 @@ class DB::User < ApplicationRecord
   # Database column `users.recent_boards`, type: `text`.
   # @return [String, nil]
   def recent_boards; end
+  # Database column `users.sign_in_count`, type: `integer`.
+  # @param val [Integer, nil]
+  def sign_in_count=(val); end
+  # Database column `users.sign_in_count`, type: `integer`.
+  # @return [Integer, nil]
+  def sign_in_count; end
+  # Database column `users.current_sign_in_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def current_sign_in_at=(val); end
+  # Database column `users.current_sign_in_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def current_sign_in_at; end
+  # Database column `users.last_sign_in_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def last_sign_in_at=(val); end
+  # Database column `users.last_sign_in_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def last_sign_in_at; end
+  # Database column `users.current_sign_in_ip`, type: `string`.
+  # @param val [String, nil]
+  def current_sign_in_ip=(val); end
+  # Database column `users.current_sign_in_ip`, type: `string`.
+  # @return [String, nil]
+  def current_sign_in_ip; end
+  # Database column `users.last_sign_in_ip`, type: `string`.
+  # @param val [String, nil]
+  def last_sign_in_ip=(val); end
+  # Database column `users.last_sign_in_ip`, type: `string`.
+  # @return [String, nil]
+  def last_sign_in_ip; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
