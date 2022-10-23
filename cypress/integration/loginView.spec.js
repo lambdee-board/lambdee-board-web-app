@@ -10,6 +10,10 @@ describe('LoginView', () => {
   context('Login', () => {
     it('shows LoginView', () => {
       cy.contains('Lambdee')
+      cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
+        .type('email')
+      cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
+        .type('s3cr4t_p4ss')
       cy.contains('Login')
     })
 
