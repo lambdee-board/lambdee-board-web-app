@@ -22,7 +22,7 @@ class DB::User < ::ApplicationRecord
   has_many :tasks, through: :task_users
 
   pg_search_scope :search,
-                  against: %i[name email],
+                  against: %i[name email role],
                   ignoring: :accents,
                   using: {
                     tsearch: {
