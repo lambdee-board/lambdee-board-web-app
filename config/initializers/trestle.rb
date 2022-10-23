@@ -141,7 +141,7 @@
 
   # Specify the Devise/Warden mapping/scope.
   #
-  config.auth.warden.scope = :user
+  config.auth.warden.scope = :admin_user
 
   # Specify the user class to be used by trestle-auth.
   #

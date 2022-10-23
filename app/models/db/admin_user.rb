@@ -4,7 +4,7 @@
 class ::DB::AdminUser < ::ApplicationRecord
   self.table_name = 'users'
 
-  devise :database_authenticatable
+  devise :rememberable, :database_authenticatable
 
   default_scope -> { where role: 4 }
 end
