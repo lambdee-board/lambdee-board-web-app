@@ -5,15 +5,39 @@ module QueryAPI
     # Type which wraps and validates a `where`, `and` or `or` clause
     # in a query.
     class Where < OpenMapper
+      # @return [Regexp]
       FIELD_WITH_TABLE_NAME_REGEXP = /^[A-Za-z_]+\.[A-Za-z_]+$/
+      # @return [Regexp]
       FIELD_NAME_REGEXP = /^[A-Za-z_]+$/
+
+      class << self
+        # @param field_name [Symbol, String]
+        # @return [Boolean]
+        def with_table?(field_name)
+          field_name.match? FIELD_WITH_TABLE_NAME_REGEXP
+        end
+
+        # @param field_name [Symbol, String]
+        # @return [Boolean]
+        def field_name?(field_name)
+          field_name.match? FIELD_NAME_REGEXP
+        end
+      end
 
       self.nested_validations = %i[and or]
 
+      # @!attribute [rw] and
+      #   @return [self]
       attribute :and, self
+      # @!attribute [rw] or
+      #   @return [self]
       attribute :or, self
 
+      # @!attribute [rw] model
+      #   @return [Class<ActiveRecord::Base>]
       attribute :model, ::Shale::Type::Value
+      # @!attribute [rw] join
+      #   @return [Join]
       attribute :join, ::Shale::Type::Value
 
       forward :model, to: %i[and or]
@@ -23,13 +47,14 @@ module QueryAPI
 
       private
 
+      # @return [void]
       def validate_dynamic_attributes
         inexistent_fields = []
         dynamic_attribute_names.each do |attr_name|
-          if attr_name.match? FIELD_WITH_TABLE_NAME_REGEXP
+          if self.class.with_table?(attr_name)
             table_name, field_name = attr_name.to_s.split('.')
-            klass = join.association_map[table_name.to_sym]
-          elsif attr_name.match? FIELD_NAME_REGEXP
+            klass = join.association_map&.[](table_name.to_sym)
+          elsif self.class.field_name?(attr_name)
             klass = model
             field_name = attr_name
           else

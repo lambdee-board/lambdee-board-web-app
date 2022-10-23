@@ -5,16 +5,11 @@ module QueryAPI
     # Type that wraps and validates a `group_by`
     # clause in the query.
     class GroupBy < BaseMapper
-      class << self
-        # @return [self]
-        def of_hash(value, *args, **kwargs)
-          super if value.is_a?(::Hash)
-
-          new(value:)
-        end
-      end
-
+      # @!attribute [rw] value
+      #   @return [Symbol, Array]
       attribute :value, ::Shale::Type::Value
+      # @!attribute [rw] model
+      #   @return [Class<ActiveRecord::Base>]
       attribute :model, ::Shale::Type::Value
 
       validates :value, presence: true

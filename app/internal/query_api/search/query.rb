@@ -7,18 +7,37 @@ module QueryAPI
     class Query < BaseMapper
       self.nested_validations = %i[group_by join where]
 
+      # @!attribute [rw] group_by
+      #   @return [GroupBy]
       attribute :group_by, GroupBy
+      # @!attribute [rw] join
+      #   @return [Join]
       attribute :join, Join
+      # @!attribute [rw] left_outer_join
+      #   @return [Join]
+      attribute :left_outer_join, Join
       # TODO
-      # attribute :left_outer_join, Join
       # attribute :order, Order
+
+      # @!attribute [rw] where
+      #   @return [Where]
       attribute :where, Where
 
+      # @!attribute [rw] limit
+      #   @return [Integer]
       attribute :limit,    ::Shale::Type::Integer, default: -> { 30 }
+      # @!attribute [rw] offset
+      #   @return [Integer]
       attribute :offset,   ::Shale::Type::Integer
+      # @!attribute [rw] count
+      #   @return [Boolean]
       attribute :count,    ::Shale::Type::Boolean
+      # @!attribute [rw] distinct
+      #   @return [Boolean]
       attribute :distinct, ::Shale::Type::Boolean
 
+      # @!attribute [rw] model
+      #   @return [Class<ActiveRecord::Base>]
       attribute :model,    ::Shale::Type::Value
 
       forward :model, to: %i[join group_by where]

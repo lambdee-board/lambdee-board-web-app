@@ -5,7 +5,11 @@ module QueryAPI
     # Type that wraps and validates a `join` or `left_outer_join`
     # clause in a query.
     class Join < BaseMapper
+      # @!attribute [rw] value
+      #   @return [Symbol, Array, Hash]
       attribute :value, ::Shale::Type::Value
+      # @!attribute [rw] model
+      #   @return [Class<ActiveRecord::Base>]
       attribute :model, ::Shale::Type::Value
 
       validates :value, presence: true
