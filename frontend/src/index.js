@@ -23,6 +23,9 @@ import reportWebVitals from './init/reportWebVitals'
 import App from './App'
 import PrivateRoutes from './routes/PrivateRoutes'
 import PublicRoutes from './routes/PublicRoutes'
+import RegularRoutes from './routes/RegularRoutes'
+import DeveloperRoutes from './routes/DeveloperRoutes'
+import ManagerRoutes from './routes/ManagerRoutes'
 import ConsoleView from './views/ConsoleView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/boards/BoardView'
@@ -55,17 +58,25 @@ root.render(
             <Route path='/' element={<App />}>
               <Route path='' element={<WelcomeView />} />
               <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
-                <Route path='settings' element={<WorkspaceSettingsView />} />
+                <Route element={<ManagerRoutes />}>
+                  <Route path='settings' element={<WorkspaceSettingsView />} />
+                </Route>
                 <Route path='boards/:boardId' element={<BoardView />}>
                   <Route path='work' element={<BoardWorkView />} />
-                  <Route path='planning' element={<BoardPlanningView />} />
+                  <Route element={<ManagerRoutes />}>
+                    <Route path='planning' element={<BoardPlanningView />} />
+                  </Route>
                 </Route>
                 <Route path='members' element={<WorkspaceMembersView />} />
               </Route>
               <Route path='members' element={<WorkspaceMembersView />} />
-              <Route path='console' element={<ConsoleView />} />
+              <Route element={<DeveloperRoutes />}>
+                <Route path='console' element={<ConsoleView />} />
+              </Route>
               <Route path='account' element={<UserSettingsView />} />
-              <Route path='tasks' element={<TasksView />} />
+              <Route element={<RegularRoutes />}>
+                <Route path='tasks' element={<TasksView />} />
+              </Route>
             </Route>
           </Route>
         </Routes>

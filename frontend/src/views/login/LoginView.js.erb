@@ -11,6 +11,8 @@ import {
 } from '@mui/material'
 
 import apiClient from './../../api/apiClient'
+import { useDispatch } from 'react-redux'
+import { addAlert } from './../../redux/slices/appAlertSlice'
 
 import './LoginView.sass'
 
@@ -19,6 +21,7 @@ export default function LoginView() {
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
   const navigate = useNavigate()
+  const dispatch = useDispatch()
   const [loginFail, setLoginFail] = React.useState(false)
 
 
@@ -33,11 +36,12 @@ export default function LoginView() {
     apiClient.post('/api/users/sign_in', credentials)
       .then((response) => {
         localStorage.setItem('token', response.headers.authorization)
-        const role = jwt(response.headers.authorization)
+        const role = jwt(response.headers.authorization.replace('Bearer ', '')).role
         localStorage.setItem('role', role)
         navigate('/')
       })
       .catch((error) => {
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
         setLoginFail(true)
       })
   }
