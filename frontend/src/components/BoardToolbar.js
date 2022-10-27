@@ -3,6 +3,7 @@ import useCookie from 'react-use-cookie'
 import { faPlus, faXmark, faList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput } from '@mui/material'
+import { ManagerContent } from '../permissions/ManagerContent'
 
 
 import apiClient from '../api/apiClient'
@@ -91,7 +92,8 @@ export default function BoardToolbar(props) {
   return (
     <div className='Toolbar-wrapper'>
       <Toolbar className='Toolbar'>
-        { newListButtonVisible &&
+        <ManagerContent>
+          { newListButtonVisible &&
           <Button onClick={() => newListButtonOnClick()}
             className='Toolbar-create-list-button'
             color='secondary'
@@ -100,8 +102,8 @@ export default function BoardToolbar(props) {
           >
             <Typography>Create New List</Typography>
           </Button>
-        }
-        { !newListButtonVisible &&
+          }
+          { !newListButtonVisible &&
         <ClickAwayListener onClickAway={() => setNewListButtonVisible(true)}>
           <OutlinedInput
             ref={newListInputRef}
@@ -119,7 +121,9 @@ export default function BoardToolbar(props) {
             }
           />
         </ClickAwayListener>
-        }
+
+          }
+        </ManagerContent>
         {boardView === '1' ?
           <div>
 

@@ -12,6 +12,7 @@ import {
   InputBase,
   Modal,
 } from '@mui/material'
+import { ManagerContent } from '../permissions/ManagerContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -27,6 +28,7 @@ import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskListModal from './TaskListModal'
+
 
 function TaskListSkeletonContent() {
   return (
@@ -198,9 +200,11 @@ function TaskList(props) {
             <Typography className='TaskList-header-text' >
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-              <FontAwesomeIcon icon={faPencil} />
-            </IconButton>
+            <ManagerContent>
+              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+                <FontAwesomeIcon icon={faPencil} />
+              </IconButton>
+            </ManagerContent>
           </ListSubheader>} >
           {taskList ? (
             <ReactSortable
@@ -235,8 +239,8 @@ function TaskList(props) {
           ) : (
             <TaskListSkeletonContent />
           )}
-
-          { !newTaskButtonVisible &&
+          <ManagerContent>
+            { !newTaskButtonVisible &&
             <Card
               className='TaskList-new-task'>
               <InputBase
@@ -252,15 +256,19 @@ function TaskList(props) {
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-          }
+            }
+          </ManagerContent>
         </List>
-        <Box className='TaskList-new-task-wrapper'>
-          {newTaskButtonVisible &&
+        <ManagerContent>
+          <Box className='TaskList-new-task-wrapper'>
+            {newTaskButtonVisible &&
             <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
-          }
-        </Box>
+            }
+
+          </Box>
+        </ManagerContent>
       </Paper>
       {taskList &&
       <Modal

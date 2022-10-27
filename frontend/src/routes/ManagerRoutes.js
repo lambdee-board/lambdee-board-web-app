@@ -2,15 +2,13 @@ import {
   Outlet,
   Navigate
 } from 'react-router-dom'
+import { isManager } from '../permissions/ManagerContent'
 
 function ManagerRoutes() {
-  const role = localStorage.getItem('role')
   return (
-    role === 'manager' ||
-    role === 'admin' ?
+    isManager ?
       <Outlet /> : <Navigate to='/' />
   )
 }
-
 
 export default ManagerRoutes

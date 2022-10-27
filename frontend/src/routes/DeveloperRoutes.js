@@ -2,13 +2,12 @@ import {
   Outlet,
   Navigate
 } from 'react-router-dom'
+import { isDeveloper } from '../permissions/DeveloperContent'
+
 
 function DeveloperRoutes() {
-  const role = localStorage.getItem('role')
   return (
-    role === 'developer' ||
-    role === 'manager' ||
-    role === 'admin' ?
+    isDeveloper ?
       <Outlet /> : <Navigate to='/' />
   )
 }

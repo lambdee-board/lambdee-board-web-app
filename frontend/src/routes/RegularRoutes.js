@@ -2,17 +2,13 @@ import {
   Outlet,
   Navigate
 } from 'react-router-dom'
+import { isRegular } from '../permissions/RegularContent'
 
 function RegularRoutes() {
-  const role = localStorage.getItem('role')
   return (
-    role === 'regular' ||
-    role === 'developer' ||
-    role === 'manager' ||
-    role === 'admin' ?
+    isRegular ?
       <Outlet /> : <Navigate to='/' />
   )
 }
-
 
 export default RegularRoutes
