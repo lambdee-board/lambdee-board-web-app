@@ -46,7 +46,7 @@ class API::SprintsController < ::APIController
 
   private
 
-  # @return [DB:Sprint]
+  # @return [DB::Sprint]
   def set_sprint
     @sprint = DB::Sprint.find(params[:id])
   end
