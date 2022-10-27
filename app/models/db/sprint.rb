@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'debug'
 # Contains the data of a sprint
 class DB::Sprint < ApplicationRecord
   has_many :sprint_tasks, dependent: :destroy
@@ -26,7 +27,7 @@ class DB::Sprint < ApplicationRecord
   #
   # @return [Boolean, nil] Returns bool that represents if creation was successful
   def create(board)
-    return unless board.active_sprint
+    return if board.active_sprint
 
     lists = board.lists.visible(true).includes(:tasks)
     lists.each do |list|
