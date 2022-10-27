@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :sprint_task, class: 'DB::SprintTask' do
-    data { '[{"state":"backlog","date":"2022-12-12 15:14:13"}]' }
+    data { [{state:"backlog", date: ::Time.now }] }
     association :sprint
     association :task
   end
