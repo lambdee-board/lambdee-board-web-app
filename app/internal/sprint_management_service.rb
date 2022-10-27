@@ -53,16 +53,4 @@ class SprintManagementService
     sprint_task.data['transitions'] << { state: new_list.name, date: Time.now }
     sprint_task.save
   end
-
-  # Ends sprint
-  #
-  # @return [Boolean, nil]
-  def end
-    return unless @sprint.end_date.nil?
-
-    completed_tasks = @sprint.board.lists.order(:pos).last.tasks
-    completed_tasks.destroy_all
-    @sprint.end_date = Time.now
-    @sprint.save
-  end
 end
