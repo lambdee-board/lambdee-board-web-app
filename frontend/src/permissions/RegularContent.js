@@ -1,8 +1,8 @@
 import PropTypes from 'prop-types'
 
-const DEVELOPER_ROLES = new Set(['regular', 'developer', 'manager', 'admin'])
+const REGULAR_ROLES = new Set(['regular', 'developer', 'manager', 'admin'])
 
-export const isRegular = () => DEVELOPER_ROLES.has(localStorage.getItem('role'))
+export const isRegular = () => REGULAR_ROLES.has(localStorage.getItem('role'))
 
 export const RegularContent = ({ children }) => {
   if (!isRegular()) return null
