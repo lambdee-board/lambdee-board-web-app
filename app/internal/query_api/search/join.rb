@@ -5,6 +5,32 @@ module QueryAPI
     # Type that wraps and validates a `join` or `left_outer_join`
     # clause in a query.
     class Join < BaseMapper
+      class << self
+        # @param params [Hash]
+        # @return [self]
+        def of_hash(params)
+          undefined_params = {}
+          params.each do |key, val|
+            next if attributes.include?(key.to_sym)
+
+            undefined_params[key] = val
+            params.delete(key)
+          end
+
+          return super if undefined_params.empty?
+
+          if params['value'].is_a?(::Hash)
+            params['value'].merge!(undefined_params)
+          elsif params['value'].nil?
+            params['value'] = undefined_params
+          elsif params['value'].is_a?(::Array)
+            params['value'] << undefined_params
+          end
+
+          super params
+        end
+      end
+
       # @!attribute [rw] value
       #   @return [Symbol, Array, Hash]
       attribute :value, ::Shale::Type::Value

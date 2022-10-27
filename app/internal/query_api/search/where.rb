@@ -32,6 +32,9 @@ module QueryAPI
       # @!attribute [rw] or
       #   @return [self]
       attribute :or, self
+      # @!attribute [rw] not
+      #   @return [self]
+      attribute :not, self
 
       # @!attribute [rw] model
       #   @return [Class<ActiveRecord::Base>]

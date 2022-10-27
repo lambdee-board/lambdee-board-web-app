@@ -24,7 +24,7 @@ module QueryAPI
 
     # @return [ActiveRecord::Relation, Hash]
     def execute
-      relation = type.all.reorder('')
+      relation = base_relation
       relation = apply_where(relation) if query.where
       relation = relation.distinct if query.distinct
       relation = relation.joins(query.join.value) if query.join
@@ -41,6 +41,11 @@ module QueryAPI
 
     private
 
+    # @return [ActiveRecord::Relation]
+    def base_relation
+      type.unscoped
+    end
+
     # @param records [ActiveRecord::Relation]
     # @return [Hash]
     def wrap_relation(records)
@@ -50,7 +55,7 @@ module QueryAPI
       }
     end
 
-    # @param aggregation [Hash]
+    # @param aggregation [Object]
     # @return [Hash]
     def wrap_aggregation(aggregation)
       {
@@ -109,11 +114,16 @@ module QueryAPI
     # @param where [QueryAPI::Search::Where]
     # @param logical [Symbol]
     # @return [ActiveRecord::Relation]
-    def build_where(relation, where, logical: :and)
+    def build_where(relation, where, logical: :and, not_modifier: false)
       first_iteration = true
       where.dynamic_attribute_names.each do |attr_name|
         value = where.public_send(attr_name)
-        nested_relation = type.where(where_argument(attr_name, value))
+        nested_relation = if not_modifier
+                            base_relation.where.not(where_argument(attr_name, value))
+                          else
+                            base_relation.where(where_argument(attr_name, value))
+                          end
+
         if first_iteration
           relation = nested_relation
           first_iteration = false
@@ -125,6 +135,7 @@ module QueryAPI
 
       relation = relation.public_send(logical, build_where(relation, where.or, logical: :or)) if where.or
       relation = relation.public_send(logical, build_where(relation, where.and, logical: :and)) if where.and
+      relation = relation.public_send(logical, build_where(relation, where.not, not_modifier: true)) if where.not
 
       relation
     end
