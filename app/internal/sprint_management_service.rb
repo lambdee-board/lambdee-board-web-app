@@ -3,14 +3,30 @@
 # Creates and manages sprints.
 class SprintManagementService
   # @param sprint [DB::Sprint]
-  def initialize(sprint, board_id = nil, task_id = nil)
+  def initialize(sprint, board = nil, task = nil)
     @sprint = sprint
-    @board = DB::Board.find(board_id) unless board_id.nil?
-    @task = DB::Task.find(task_id) unless task_id.nil?
+    @board = board unless board.nil?
+    @task = task unless task.nil?
   end
 
+  # Creates DB::Sprint and DB::SprintTasks associated with it
+  # DB::SprintTask state is saved in following JSON format:
+  #
+  #      {
+  #        "final_state": DB::List.name, # name of last list in board
+  #        "transitions":[
+  #          {
+  #            "state": DB::List.name, # list to which we put this task
+  #            "date": Time.now # timestamp when action was performed
+  #          },
+  #          {...}
+  #        ]
+  #      {
+  #
+  # @return [Boolean, nil] Returns bool that represents if creation was successful
   def create
-    @sprint.board = @board
+    return unless @board.active_sprint.nil?
+
     lists = @board.lists.visible(true).includes(:tasks)
     final_state = lists.order(:pos).last.name
 
@@ -26,16 +42,23 @@ class SprintManagementService
     @sprint.save
   end
 
-  def set_task_state
-    sprint_task = DB::SprintTask.where(sprint: @sprint, task: @task)
-    return false unless sprint_task.empty?
+  # Saves new task state (list to which task was moved to)
+  #
+  # @param new_list [DB::List]
+  # @return [Boolean, nil]
+  def new_task_state(new_list)
+    sprint_task = DB::SprintTask.where(sprint: @sprint, task: @task).last
+    return unless sprint_task.present?
 
-    sprint_task.data << { state: @task.list.name, date: Time.now }
+    sprint_task.data['transitions'] << { state: new_list.name, date: Time.now }
     sprint_task.save
   end
 
+  # Ends sprint
+  #
+  # @return [Boolean, nil]
   def end
-    return false unless @sprint.end_date.nil?
+    return unless @sprint.end_date.nil?
 
     completed_tasks = @sprint.board.lists.order(:pos).last.tasks
     completed_tasks.destroy_all
