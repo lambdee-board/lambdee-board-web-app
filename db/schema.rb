@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_22_200139) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_27_190411) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -68,6 +68,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_22_200139) do
     t.datetime "due_date"
     t.datetime "end_date"
     t.bigint "board_id"
+    t.integer "final_list_id"
     t.index ["board_id"], name: "index_sprints_on_board_id"
   end
 

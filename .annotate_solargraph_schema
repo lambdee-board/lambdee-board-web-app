@@ -534,6 +534,12 @@ class DB::Sprint < ApplicationRecord
   # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
   # @return [DB::Board, nil]
   def board; end
+  # `has_one` relation with `DB::List`. Database column `lists.sprint_id`.
+  # @param val [DB::List, nil]
+  def final_state=(val); end
+  # `has_one` relation with `DB::List`. Database column `lists.sprint_id`.
+  # @return [DB::List, nil]
+  def final_state; end
   # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
   # @param val [Array<DB::SprintTask>, nil]
   def sprint_tasks=(val); end
@@ -582,6 +588,12 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.board_id`, type: `integer`.
   # @return [Integer, nil]
   def board_id; end
+  # Database column `sprints.final_list_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def final_list_id=(val); end
+  # Database column `sprints.final_list_id`, type: `integer`.
+  # @return [Integer, nil]
+  def final_list_id; end
 end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 

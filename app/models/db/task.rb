@@ -59,4 +59,17 @@ class DB::Task < ApplicationRecord
 
     self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
   end
+
+  # Saves new task state (list to which task was moved to)
+  #
+  # @return [Boolean, nil]
+  def new_task_state(list_id)
+    return unless list.id != list_id
+
+    new_list = ::DB::List.find list_id
+    sprint_task = sprint_tasks.find_by sprint: board.active_sprint
+
+    sprint_task.data << { state: new_list.name, date: ::Time.now }
+    sprint_task.save(validate: false)
+  end
 end

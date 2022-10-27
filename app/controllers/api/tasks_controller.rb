@@ -40,7 +40,8 @@ class API::TasksController < ::APIController
 
   # PATCH/PUT api/tasks/1
   def update
-    save_new_state_for_sprint if params[:list_id].present? && @task.list.id != params[:list_id] && @task.board.active_sprint.present?
+    @task.new_task_state params[:list_id] if @task.board.active_sprint
+
     return render :show, status: :ok, location: api_task_url(@task) if @task.update(task_params)
 
     render json: @task.errors, status: :unprocessable_entity
@@ -87,13 +88,6 @@ class API::TasksController < ::APIController
   end
 
   private
-
-  def save_new_state_for_sprint
-    new_list = DB::List.find(params[:list_id])
-    sprint_service = SprintManagementService.new(@task.board.active_sprint, task: @task)
-
-    sprint_service.set_task_state(new_list)
-  end
 
   # Use callbacks to share common setup or constraints between actions.
   def set_task
