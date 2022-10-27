@@ -410,7 +410,7 @@ const TaskCardModal = (props) => {
                     </ManagerContent>
                   </Box>
                 ))}
-                <RegularContent>
+                <ManagerContent>
                   {assignUserSelectVisible ? (
                     <AssignUserSelect
                       onBlur={assignUserSelectOnBlur}
@@ -428,11 +428,11 @@ const TaskCardModal = (props) => {
                       <UserInfo userName='Assign' />
                     </Box>
                   )}
-                </RegularContent>
+                </ManagerContent>
               </Stack>
             </Stack>
           </Card>
-          <RegularContent>
+          <ManagerContent>
             <Button
               className='TaskCardModal-delete-task'
               variant='contained'
@@ -440,7 +440,7 @@ const TaskCardModal = (props) => {
               onClick={() => deleteTask()}>
               <Typography>Delete Task</Typography>
             </Button>
-          </RegularContent>
+          </ManagerContent>
         </Box>
       </Card>
     </Box>

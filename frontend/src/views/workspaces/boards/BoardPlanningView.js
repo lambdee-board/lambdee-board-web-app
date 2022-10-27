@@ -15,6 +15,8 @@ import apiClient from '../../../api/apiClient'
 import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
 import { calculateTaskListOrder } from '../../../constants/componentPositionService'
+import { RegularContent } from '../../../permissions/RegularContent'
+import { isManager } from '../../../permissions/ManagerContent'
 
 export default function BoardWorkView() {
   const dispatch = useDispatch()
@@ -77,40 +79,56 @@ export default function BoardWorkView() {
   return (
     <div className='BoardPlanningView'>
       <div className='TaskLists-scrollable' >
-        <ReactSortable
-          className='TaskLists-wrapper'
-          list={sortedTaskLists}
-          setList={updateTaskListOrder}
-          scroll
-          ghostClass='translucent'
-          direction='horizontal'
-          delay={1}
-          animation={50}
-        >
-
-          {sortedTaskLists.map((taskList, listIndex) => (
-            <TaskPlanningList key={taskList.id}
-              title={taskList.name}
-              pos={taskList.pos}
-              id={taskList.id}
-              index={listIndex}
-              visible={taskList.visible}
-            />
-          ))}
-        </ReactSortable>
-        <Divider sx={{ mt: '48px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
-        <div className='TaskLists-wrapper'>
-          {invisibleLists.map((taskList, listIndex) => (
-            <TaskPlanningList key={taskList.id}
-              title={taskList.name}
-              pos={taskList.pos}
-              id={taskList.id}
-              index={listIndex}
-              visible={taskList.visible}
-            />
-          ))}
-        </div>
+        {isManager() ?
+          <ReactSortable
+            sortableElement
+            className='TaskLists-wrapper'
+            list={sortedTaskLists}
+            setList={updateTaskListOrder}
+            scroll
+            ghostClass='translucent'
+            direction='horizontal'
+            delay={1}
+            animation={50}
+          >
+            {sortedTaskLists.map((taskList, listIndex) => (
+              <TaskPlanningList key={taskList.id}
+                title={taskList.name}
+                pos={taskList.pos}
+                id={taskList.id}
+                index={listIndex}
+                visible={taskList.visible}
+              />
+            ))}
+          </ReactSortable> :
+          <div className='TaskLists-wrapper'>
+            {sortedTaskLists.map((taskList, listIndex) => (
+              <TaskPlanningList key={taskList.id}
+                title={taskList.name}
+                pos={taskList.pos}
+                id={taskList.id}
+                index={listIndex}
+                visible={taskList.visible}
+              />
+            ))}
+          </div>
+        }
+        <RegularContent>
+          <Divider sx={{ mt: '48px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
+          <div className='TaskLists-wrapper'>
+            {invisibleLists.map((taskList, listIndex) => (
+              <TaskPlanningList key={taskList.id}
+                title={taskList.name}
+                pos={taskList.pos}
+                id={taskList.id}
+                index={listIndex}
+                visible={taskList.visible}
+              />
+            ))}
+          </div>
+        </RegularContent>
       </div>
+
     </div>
   )
 }

@@ -99,14 +99,6 @@ export default function WorkspaceMembersView() {
             dataLoadingOrError={!!(workspacesLoading || workspacesError)}
             updateFilters={updateFilters}
           />
-          <Button
-            onClick={() => console.log('add user')}
-            variant='outlined'
-            color='primary'
-            className='add-user-button'
-            startIcon={<FontAwesomeIcon icon={faPlus} />}>
-                Add New User
-          </Button>
         </div>
       </div>
     </div>
