@@ -6,7 +6,7 @@ import { isManager } from '../permissions/ManagerContent'
 
 function ManagerRoutes() {
   return (
-    isManager ?
+    isManager() ?
       <Outlet /> : <Navigate to='/' />
   )
 }

@@ -6,7 +6,7 @@ import { isRegular } from '../permissions/RegularContent'
 
 function RegularRoutes() {
   return (
-    isRegular ?
+    isRegular() ?
       <Outlet /> : <Navigate to='/' />
   )
 }

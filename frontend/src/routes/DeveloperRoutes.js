@@ -7,7 +7,7 @@ import { isDeveloper } from '../permissions/DeveloperContent'
 
 function DeveloperRoutes() {
   return (
-    isDeveloper ?
+    isDeveloper() ?
       <Outlet /> : <Navigate to='/' />
   )
 }

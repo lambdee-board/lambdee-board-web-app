@@ -11,6 +11,7 @@ import {
   Button,
 } from '@mui/material'
 import { RegularContent, isRegular } from '../permissions/RegularContent'
+import { ManagerContent } from '../permissions/ManagerContent'
 
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -361,7 +362,7 @@ const TaskCardModal = (props) => {
                     <Tag
                       name={tag.name}
                       colour={tag.colour}
-                      deletable={true}
+                      deletable={!!isRegular()}
                       onDelete={(event) => detachTag(event, tag)}
                     />
                   </Box>
@@ -402,9 +403,11 @@ const TaskCardModal = (props) => {
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
-                    <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
-                      <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
-                    </IconButton>
+                    <ManagerContent>
+                      <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
+                        <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                      </IconButton>
+                    </ManagerContent>
                   </Box>
                 ))}
                 <RegularContent>

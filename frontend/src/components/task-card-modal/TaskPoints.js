@@ -88,7 +88,7 @@ function TaskPoints({ task, mutate }) {
   return (
     <div className='TaskPoints'>
       {task.points ? (
-        <IconButton sx={{ p: 0, m: 0 }} onClick={editPointsOnClick} className='TaskPoints-add-button'>
+        <IconButton sx={{ p: 0, m: 0 }} onClick={isRegular() ? editPointsOnClick : undefined} className='TaskPoints-add-button'>
           <Avatar className='TaskPoints-avatar'>{task.points}</Avatar>
         </IconButton>
       ) : (
