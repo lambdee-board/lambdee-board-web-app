@@ -16,9 +16,7 @@ class API::SprintsController < ::APIController
   # POST /api/sprints
   def create
     @sprint = ::DB::Sprint.new(sprint_params)
-    board = ::DB::Board.find(params[:board_id])
-
-    return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.create(board)
+    return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.create
 
     render json: @sprint.errors, status: :unprocessable_entity
   end
