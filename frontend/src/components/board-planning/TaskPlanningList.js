@@ -15,6 +15,7 @@ import {
   Divider
 } from '@mui/material'
 import { ManagerContent } from './../../permissions/ManagerContent'
+import { isRegular } from './../../permissions/RegularContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
@@ -224,41 +225,62 @@ function TaskPlanningList(props) {
           </ListSubheader>} >
           <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px'  }}>
             {taskList ? (
-              <ReactSortable
-                list={sortedTasks}
-                setList={updateTaskOrder}
-                group='TaskCardList'
-                delay={1}
-                animation={50}
-                ghostClass='translucent'
-                selectedClass='translucent'
-                direction='horizontal'
-                // multiDrag
-                scroll
-              >
+              <div>
+                {isRegular() ?
+                  <ReactSortable
+                    list={sortedTasks}
+                    setList={updateTaskOrder}
+                    group='TaskCardList'
+                    delay={1}
+                    animation={50}
+                    ghostClass='translucent'
+                    selectedClass='translucent'
+                    direction='horizontal'
+                    // multiDrag
+                    scroll
+                  >
 
-                {
-                  sortedTasks.map((task, taskIndex) => (
-                    <div key={taskIndex}>
-                      <ListItem className='TaskListPlanning-item' >
-                        <TaskListItem key={`${task.name}-${task.id}`}
-                          id={task.id}
-                          label={task.name}
-                          tags={task.tags}
-                          priority={task.priority}
-                          assignedUsers={task.users}
-                          points={task.points}
-                          pos={task.pos}
-                          index={taskIndex}
-                          listId={task.listId}
-                        />
-                      </ListItem>
-                      <Divider />
-                    </div>
-                  ))}
-
-              </ReactSortable>
-
+                    {sortedTasks.map((task, taskIndex) => (
+                      <div key={taskIndex}>
+                        <ListItem className='TaskListPlanning-item' >
+                          <TaskListItem key={`${task.name}-${task.id}`}
+                            id={task.id}
+                            label={task.name}
+                            tags={task.tags}
+                            priority={task.priority}
+                            assignedUsers={task.users}
+                            points={task.points}
+                            pos={task.pos}
+                            index={taskIndex}
+                            listId={task.listId}
+                          />
+                        </ListItem>
+                        <Divider />
+                      </div>
+                    ))}
+                  </ReactSortable> :
+                  <div>
+                    {sortedTasks.map((task, taskIndex) => (
+                      <div key={taskIndex}>
+                        <ListItem className='TaskListPlanning-item' >
+                          <TaskListItem key={`${task.name}-${task.id}`}
+                            id={task.id}
+                            label={task.name}
+                            tags={task.tags}
+                            priority={task.priority}
+                            assignedUsers={task.users}
+                            points={task.points}
+                            pos={task.pos}
+                            index={taskIndex}
+                            listId={task.listId}
+                          />
+                        </ListItem>
+                        <Divider />
+                      </div>
+                    ))}
+                  </div>
+                }
+              </div>
             ) : (
               <div></div>
             )}
