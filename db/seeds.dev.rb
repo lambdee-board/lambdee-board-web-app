@@ -4,7 +4,10 @@ def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
 
-  # active_sprint = ::FactoryBot.create(:sprint, :active)
+  rand(2).times do
+    sprint = ::FactoryBot.create(:sprint, board:, end_date: ::Time.now)
+    rand(2..5).times {::FactoryBot.create(:sprint_task, sprint:)}
+  end
 
   tags_amount.times { ::FactoryBot.create(:tag, board:) }
 

@@ -1,6 +1,8 @@
 FactoryBot.define do
   factory :sprint_task, class: 'DB::SprintTask' do
-    data { '[{"state":"backlog","date":"2022-12-12 15:14:13"}]' }
+    data do
+      Array.new(rand(1..4)) { {state: ::Faker::Color.color_name, date: ::Time.now } }
+    end
     association :sprint
     association :task
   end
