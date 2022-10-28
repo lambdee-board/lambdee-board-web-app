@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 module QueryAPI
+  # Provides methods which enable
+  # this class to define nested validated objects
+  # whose errors will be merged.
   module NestedValidations
     extend ::ActiveSupport::Concern
 
@@ -9,6 +12,7 @@ module QueryAPI
       extend ClassMethods
     end
 
+    # Instance methods
     module InstanceMethods
       # @return [Boolean]
       def valid?
@@ -44,7 +48,13 @@ module QueryAPI
       end
     end
 
+    # Class methods
     module ClassMethods
+      # Set the names of attributes of this class that contain
+      # objects which should be validated as well.
+      # The errors of their validation will be merged with this object's
+      # errors.
+      #
       # @return [Array<Symbol>]
       attr_accessor :nested_validations
     end

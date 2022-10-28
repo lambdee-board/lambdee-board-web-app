@@ -2,7 +2,7 @@
 
 class QueryAPI::Search
   # Primitive type which maps a table
-  # name to a ActiveRecord model.
+  # name to an `ActiveRecord` model.
   class Type < ::Shale::Type::Value
     PERMITTED_MODELS = {
       boards:          ::DB::Board,
