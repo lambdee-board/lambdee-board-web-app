@@ -1,8 +1,11 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/users', type: :request do
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   path '/api/workspaces/{id}/users' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     get('List users of workspace') do
       tags 'Users'
       produces 'application/json'
@@ -50,6 +53,8 @@ require 'swagger_helper'
   end
 
   path '/api/users' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     get('List users') do
       tags 'Users'
       produces 'application/json'
@@ -106,7 +111,7 @@ require 'swagger_helper'
       parameter name: :user, in: :body, schema: { '$ref' => '#/components/schemas/user_request' }
       response(201, 'successful') do
         schema '$ref' => '#/components/schemas/user_response'
-        let(:user) { { name: 'New User', email: 'new_user@example.com', role: 'developer', password: 's3cr3t_p4ssw0rd' } }
+        let(:user) { { user: { name: 'New User', email: 'new_user@example.com', role: 'developer', password: 's3cr3t_p4ssw0rd' } } }
 
         after do |example|
           save_response(example, response)
@@ -114,18 +119,38 @@ require 'swagger_helper'
         run_test!
       end
     end
+
+    put('Update current user') do
+      tags 'Users'
+      parameter name: 'user', in: :body, schema: { '$ref' => '#/components/schemas/user_update_request' }
+
+      consumes 'application/json'
+      produces 'application/json'
+
+      response(204, 'successful') do
+        let(:id) { ::FactoryBot.create(:user).id }
+        let(:user) { { user: { name: 'New Name', email: 'new_email@example.com', current_password: 's3cr4t_p4ss' } } }
+        run_test!
+      end
+    end
+
+    delete('Delete current user') do
+      tags 'Users'
+      response(204, 'successful') do
+        let(:id) { ::FactoryBot.create(:user).id }
+        run_test!
+      end
+    end
   end
 
   path '/api/users/current' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     get('Show the currently signed in user') do
       tags 'Users'
       produces 'application/json'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/user_response'
-
-        before do
-          ::FactoryBot.create(:user)
-        end
 
         after do |example|
           save_response(example, response)
@@ -136,6 +161,8 @@ require 'swagger_helper'
   end
 
   path '/api/users/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('Show a user') do
@@ -152,19 +179,21 @@ require 'swagger_helper'
         run_test!
       end
     end
+  end
 
-    put('Update a user') do
+  path '/api/users/sign_in' do
+    post('Sign in') do
       tags 'Users'
-      parameter name: 'user', in: :body, schema: { '$ref' => '#/components/schemas/user_request' }
-
       consumes 'application/json'
       produces 'application/json'
-
-      response(200, 'successful') do
+      parameter name: 'user', in: :body, schema: { '$ref' => '#/components/schemas/user_sign_in_request' }
+      response(201, 'successful') do
         schema '$ref' => '#/components/schemas/user_response'
 
-        let(:id) { ::FactoryBot.create(:user).id }
-        let(:user) { { name: 'New Name', email: 'new_email@example.com' } }
+        let(:user) do
+          ::FactoryBot.create(:user, email: 'email@example.com')
+          { user: { email: 'email@example.com', password: 's3cr4t_p4ss' } }
+        end
 
         after do |example|
           save_response(example, response)
@@ -172,11 +201,14 @@ require 'swagger_helper'
         run_test!
       end
     end
+  end
 
-    delete('Delete a user') do
+  path '/api/users/sign_out' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
+    delete('Sign out') do
       tags 'Users'
       response(204, 'successful') do
-        let(:id) { ::FactoryBot.create(:user).id }
         run_test!
       end
     end

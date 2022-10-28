@@ -1,12 +1,14 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/boards', type: :request do
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   before(:each) do
     ::FactoryBot.create :user
   end
 
   path '/api/boards' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
 
     get('list boards') do
       tags 'Boards'
@@ -47,6 +49,7 @@ require 'swagger_helper'
   end
 
   path '/api/boards/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('show board') do
@@ -158,6 +161,7 @@ require 'swagger_helper'
   end
 
   path '/api/boards/{id}/user_tasks' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'id'
     get('list current user tasks including board, lists, tags, users and author') do
       tags 'Boards'
@@ -185,6 +189,7 @@ require 'swagger_helper'
   end
 
   path '/api/boards/recently_viewed' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     get('list current user recently viewed boards (max 6)') do
       tags 'Boards'
       produces 'application/json'

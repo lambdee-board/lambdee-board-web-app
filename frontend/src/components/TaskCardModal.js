@@ -10,6 +10,8 @@ import {
   IconButton,
   Button,
 } from '@mui/material'
+import { RegularContent, isRegular } from '../permissions/RegularContent'
+import { ManagerContent } from '../permissions/ManagerContent'
 
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -32,6 +34,7 @@ import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import { useParams } from 'react-router-dom'
 import TaskTime from './task-card-modal/TaskTime'
+
 
 function TaskCardModalSkeleton() {
   return (
@@ -312,15 +315,18 @@ const TaskCardModal = (props) => {
               </div>
             </div>
           ) : (
+
             <Card
               className='TaskCardModal-main-description'
-              onClick={taskDescriptionOnClick}
+              onClick={isRegular() ? taskDescriptionOnClick : undefined}
             >
               <MDEditor.Markdown
                 source={task.description || '###### Add a description...'}
                 rehypePlugins={[[rehypeSanitize]]}
               />
             </Card>
+
+
           )}
           <Typography>
               Comments
@@ -357,30 +363,31 @@ const TaskCardModal = (props) => {
                     <Tag
                       name={tag.name}
                       colour={tag.colour}
-                      deletable={true}
-                      onDelete={(event) => detachTag(event, tag)} />
+                      deletable={!!isRegular()}
+                      onDelete={(event) => detachTag(event, tag)}
+                    />
                   </Box>
                 ))}
-
-                {attachTagSelectVisible ? (
-                  <AttachTagSelect
-                    onBlur={attachTagSelectOnBlur}
-                    onChange={attachTagSelectOnChange}
-                    createTag={createAttachTag}
-                    addedTags={task.tags}
-                  />
-                ) : (
-                  <Box
-                    className='TaskCardModal-sidebar-card-box TaskCardModal-add-tag-btn TaskCardModal-assign-user-btn'
-                    onClick={attachTagButtonOnClick}
-                  >
-                    <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
-                      <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
-                    </Avatar>
-                    <UserInfo userName='Add tag' />
-                  </Box>
-                )}
-
+                <RegularContent>
+                  {attachTagSelectVisible ? (
+                    <AttachTagSelect
+                      onBlur={attachTagSelectOnBlur}
+                      onChange={attachTagSelectOnChange}
+                      createTag={createAttachTag}
+                      addedTags={task.tags}
+                    />
+                  ) : (
+                    <Box
+                      className='TaskCardModal-sidebar-card-box TaskCardModal-add-tag-btn TaskCardModal-assign-user-btn'
+                      onClick={attachTagButtonOnClick}
+                    >
+                      <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                        <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                      </Avatar>
+                      <UserInfo userName='Add tag' />
+                    </Box>
+                  )}
+                </RegularContent>
               </Stack>
 
               <Stack spacing={1}>
@@ -397,39 +404,44 @@ const TaskCardModal = (props) => {
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
-                    <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
-                      <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
-                    </IconButton>
+                    <ManagerContent>
+                      <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
+                        <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                      </IconButton>
+                    </ManagerContent>
                   </Box>
                 ))}
-
-                {assignUserSelectVisible ? (
-                  <AssignUserSelect
-                    onBlur={assignUserSelectOnBlur}
-                    onChange={assignUserSelectOnChange}
-                    assignedUsers={task.users}
-                  />
-                ) : (
-                  <Box
-                    className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
-                    onClick={assignUserButtonOnClick}
-                  >
-                    <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
-                      <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
-                    </Avatar>
-                    <UserInfo userName='Assign' />
-                  </Box>
-                )}
+                <ManagerContent>
+                  {assignUserSelectVisible ? (
+                    <AssignUserSelect
+                      onBlur={assignUserSelectOnBlur}
+                      onChange={assignUserSelectOnChange}
+                      assignedUsers={task.users}
+                    />
+                  ) : (
+                    <Box
+                      className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
+                      onClick={assignUserButtonOnClick}
+                    >
+                      <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
+                        <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                      </Avatar>
+                      <UserInfo userName='Assign' />
+                    </Box>
+                  )}
+                </ManagerContent>
               </Stack>
             </Stack>
           </Card>
-          <Button
-            className='TaskCardModal-delete-task'
-            variant='contained'
-            color='error'
-            onClick={() => deleteTask()}>
-            <Typography>Delete Task</Typography>
-          </Button>
+          <ManagerContent>
+            <Button
+              className='TaskCardModal-delete-task'
+              variant='contained'
+              color='error'
+              onClick={() => deleteTask()}>
+              <Typography>Delete Task</Typography>
+            </Button>
+          </ManagerContent>
         </Box>
       </Card>
     </Box>

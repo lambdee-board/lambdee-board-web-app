@@ -5,10 +5,11 @@
 class API::BoardsController < ::APIController
   before_action :set_board, only: %i[update show destroy user_tasks]
   after_action :set_last_viewed_board_for_user, only: %i[show create]
+  authorize_resource only: %i[show update destroy]
 
   # GET /api/boards
   def index
-    @boards = ::DB::Board.all
+    @boards = ::DB::Board.all.accessible_by(current_ability)
     @boards = @boards.limit(limit) if limit?
   end
 
@@ -25,6 +26,7 @@ class API::BoardsController < ::APIController
   # POST /api/boards
   def create
     @board = ::DB::Board.new(board_params)
+    authorize! :create, @board
     return render :show, status: :created, location: api_board_url(@board) if @board.save
 
     render json: @board.errors, status: :unprocessable_entity

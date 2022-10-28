@@ -9,8 +9,10 @@ class DB::User < ::ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :validatable
+  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
+         :jwt_authenticatable, jwt_revocation_strategy: ::DB::JwtDenylist
+
+  self.skip_session_storage = %i[http_auth params_auth]
 
   has_many :created_tasks, class_name: 'DB::Task', foreign_key: :author_id
   has_many :comments, class_name: 'DB::Comment', foreign_key: :author_id
@@ -40,12 +42,24 @@ class DB::User < ::ApplicationRecord
     guest: 0,
     regular: 1,
     developer: 2,
-    admin: 3,
-    manager: 4
+    manager: 3,
+    admin: 4
   }
 
   validates :name, presence: true, length: { maximum: 50 }
   validates :email, presence: true, uniqueness: true, email: true, length: { maximum: 70 }
+
+  delegate :can?, :cannot?, to: :ability
+
+  # @return [Ability]
+  def ability
+    @ability ||= ::Ability.new(self)
+  end
+
+  # @return [Hash]
+  def jwt_payload
+    { role: role }
+  end
 
   alias deactivated? deleted?
   alias deactivate! destroy!

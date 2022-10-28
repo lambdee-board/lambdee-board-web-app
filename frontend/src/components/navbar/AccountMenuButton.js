@@ -25,6 +25,10 @@ const AccountMenuButton = () => {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null)
   }
+  const handleLogout = () => {
+    localStorage.clear()
+    navigate('/login')
+  }
 
   if (isLoading || isError) return (
     <Skeleton variant='circular' width={40} height={40} />
@@ -46,7 +50,7 @@ const AccountMenuButton = () => {
           onClick={() => navigate(generatePath('account'))} >
           <Typography textAlign='center'>Account</Typography>
         </MenuItem>
-        <MenuItem key={'logout'} onClick={() => navigate('/login')}>
+        <MenuItem key={'logout'} onClick={handleLogout}>
           <Typography textAlign='center'>Logout</Typography>
         </MenuItem>
       </Menu>

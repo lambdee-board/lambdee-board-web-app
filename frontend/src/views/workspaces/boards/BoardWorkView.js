@@ -11,6 +11,7 @@ import apiClient from '../../../api/apiClient'
 import useBoard from '../../../api/useBoard'
 import { addAlert } from '../../../redux/slices/appAlertSlice'
 import { calculateTaskListOrder } from '../../../constants/componentPositionService'
+import { isManager } from '../../../permissions/ManagerContent'
 
 
 export default function BoardWorkView() {
@@ -69,28 +70,39 @@ export default function BoardWorkView() {
   return (
     <div className='BoardWorkView'>
       <div className='TaskLists-scrollable' >
-        <ReactSortable
-          className='TaskLists-wrapper'
-          list={sortedTaskLists}
-          setList={updateTaskListOrder}
-          scroll
-          ghostClass='translucent'
-          direction='horizontal'
-          delay={1}
-          animation={50}
-        >
-          {
-            sortedTaskLists.map((taskList, listIndex) => (
+        {isManager() ?
+          <ReactSortable
+            sortableElement
+            className='TaskLists-wrapper'
+            list={sortedTaskLists}
+            setList={updateTaskListOrder}
+            scroll
+            ghostClass='translucent'
+            direction='horizontal'
+            delay={1}
+            animation={50}
+          >
+            {sortedTaskLists.map((taskList, listIndex) => (
               <TaskList key={taskList.id}
                 title={taskList.name}
                 pos={taskList.pos}
                 id={taskList.id}
                 index={listIndex}
+                visible={taskList.visible}
               />
-            ))
-          }
-          <div className='TaskLists-spacer'></div>
-        </ReactSortable>
+            ))}
+          </ReactSortable> :
+          <div className='TaskLists-wrapper'>
+            {sortedTaskLists.map((taskList, listIndex) => (
+              <TaskList key={taskList.id}
+                title={taskList.name}
+                pos={taskList.pos}
+                id={taskList.id}
+                index={listIndex}
+                visible={taskList.visible}
+              />
+            ))}
+          </div>}
       </div>
     </div>
   )

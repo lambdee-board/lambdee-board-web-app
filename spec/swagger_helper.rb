@@ -1,6 +1,11 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'devise/jwt/test_helpers'
+
+def generate_jwt_token(user)
+  ::Devise::JWT::TestHelpers.auth_headers({}, user)['Authorization']
+end
 
 def save_response(example, response)
   example.metadata[:response][:content] ||= { 'application/json' => { examples: {} } }
@@ -37,6 +42,14 @@ end
       paths: {},
       components: {
         schemas: {
+          authorization: {
+            name: 'Authorization',
+            in: :header,
+            type: :string,
+            description: 'JWT token',
+            example: 'Bearer eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiZGV2ZWxvcGVyIiwic3ViIjoiMSIsInNjcCI6InVzZXIiLCJhdWQiOm51bGwsImlhdCI6MTY2NjE4MDIzMiwiZXhwIjoxNjY3NDc2MjMyLCJqdGkiOiJhMzdlZTA5MC0zZGJmLTRhMzgtOTFiNy1mZTJlM2FiYjlkY2QifQ.tGGjFHfMszfGCfNZS6I-hQNLSu_2Xfs3W4hI8IT4CW0',
+            required: true
+          },
           include_associated_enum: {
             type: :string,
             enum: [
@@ -72,12 +85,46 @@ end
           user_request: {
             type: :object,
             properties: {
-              name: { type: :string },
-              email: { type: :string },
-              password: { type: :string },
-              role: { type: :string, enum: %w[guest regular developer admin manager]},
+              user: {
+                type: :object,
+                properties: {
+                  name: { type: :string },
+                  email: { type: :string },
+                  password: { type: :string },
+                  role: { type: :string, enum: %w[guest regular developer admin manager]},
+                }
+              }
             },
             required: %w[name email]
+          },
+          user_update_request: {
+            type: :object,
+            properties: {
+              user: {
+                type: :object,
+                properties: {
+                  name: { type: :string },
+                  email: { type: :string },
+                  password: { type: :string },
+                  current_password: { type: :string },
+                  role: { type: :string, enum: %w[guest regular developer admin manager]},
+                }
+              }
+            },
+            required: %w[current_password]
+          },
+          user_sign_in_request: {
+            type: :object,
+            properties: {
+              user: {
+                type: :object,
+                properties: {
+                  email: { type: :string },
+                  password: { type: :string }
+                }
+              }
+            },
+            required: %w[email password]
           },
           comment_response: {
             type: :object,

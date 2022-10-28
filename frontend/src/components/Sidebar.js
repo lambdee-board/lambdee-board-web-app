@@ -18,6 +18,8 @@ import {
   faUsers,
   faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
+import { DeveloperContent } from '../permissions/DeveloperContent'
+import { ManagerContent } from '../permissions/ManagerContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
@@ -122,17 +124,21 @@ export default function Sidebar() {
                 label={workspace.name}
                 icon={<WorkspaceIcon name={workspace.name} size={48} />}
               />
-              <SidebarListItem
-                active={false}
-                label='Scripts'
-                icon={<FontAwesomeIcon icon={faScroll} />}
-              />
-              <SidebarListItem
-                active={false}
-                label='Settings'
-                onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
-                icon={<FontAwesomeIcon icon={faGear} />}
-              />
+              <DeveloperContent>
+                <SidebarListItem
+                  active={false}
+                  label='Scripts'
+                  icon={<FontAwesomeIcon icon={faScroll} />}
+                />
+              </DeveloperContent>
+              <ManagerContent>
+                <SidebarListItem
+                  active={false}
+                  label='Settings'
+                  onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
+                  icon={<FontAwesomeIcon icon={faGear} />}
+                />
+              </ManagerContent>
               <SidebarListItem
                 active={false}
                 label='Members'
@@ -151,8 +157,9 @@ export default function Sidebar() {
               ))}
             </List>
           )}
-
-          <NewBoardButton />
+          <ManagerContent>
+            <NewBoardButton />
+          </ManagerContent>
         </Box>
       </Drawer>
       <SidebarButton

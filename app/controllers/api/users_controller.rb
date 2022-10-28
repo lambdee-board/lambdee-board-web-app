@@ -3,8 +3,7 @@
 # Controller which provides a full CRUD for users
 # through the JSON API.
 class API::UsersController < ::APIController
-  skip_before_action :authorize_user!, only: %i[create]
-  before_action :set_user, only: %i[show edit update destroy]
+  before_action :set_user, only: :show
   has_scope :role, :workspace_id, :search, :page, :per, :limit, :created_at_from, :created_at_to
   has_scope :role_collection, type: :array
 
@@ -25,26 +24,6 @@ class API::UsersController < ::APIController
   def current
     @user = current_user
     render :show, status: :ok
-  end
-
-  # POST /api/users
-  def create
-    @user = ::DB::User.new(user_params)
-    return render :show, status: :created, location: api_user_url(@user) if @user.save
-
-    render json: @user.errors, status: :unprocessable_entity
-  end
-
-  # PATCH/PUT /api/users/1
-  def update
-    return render :show, status: :ok, location: api_user_url(@user) if @user.update(user_params)
-
-    render json: @user.errors, status: :unprocessable_entity
-  end
-
-  # DELETE /api/users/1
-  def destroy
-    @user.destroy
   end
 
   private

@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux'
 import { addAlert } from '../../redux/slices/appAlertSlice'
 
 import './TaskTime.sass'
+import { isRegular } from '../../permissions/RegularContent'
 
 
 function TaskTime({ task, mutate }) {
@@ -91,7 +92,7 @@ function TaskTime({ task, mutate }) {
 
   return (
     <div className='TaskTime'>
-      <div className='TaskTime-progress' onClick={() => setTimeDial(true)}>
+      <div className='TaskTime-progress' onClick={isRegular() ? () => setTimeDial(true) : undefined}>
         <div>
           <LinearProgress variant='determinate' value={task.spentTime > 604800 ? 100 : task.spentTime / 6048} />
         </div>

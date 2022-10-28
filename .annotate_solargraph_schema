@@ -366,6 +366,31 @@ end
 # %%<RailsAnnotateSolargraph:End:comments>%%
 
 
+# %%<RailsAnnotateSolargraph:Start:jwt_denylist>%%
+
+class DB::JwtDenylist < ApplicationRecord
+  # Database column `jwt_denylist.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `jwt_denylist.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `jwt_denylist.jti`, type: `string`.
+  # @param val [String, nil]
+  def jti=(val); end
+  # Database column `jwt_denylist.jti`, type: `string`.
+  # @return [String, nil]
+  def jti; end
+  # Database column `jwt_denylist.exp`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def exp=(val); end
+  # Database column `jwt_denylist.exp`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def exp; end
+end
+# %%<RailsAnnotateSolargraph:End:jwt_denylist>%%
+
+
 # %%<RailsAnnotateSolargraph:Start:lists>%%
 
 class DB::List < ApplicationRecord
