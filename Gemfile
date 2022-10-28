@@ -74,9 +74,6 @@ group :development, :test do
   gem 'bundler-audit'
   gem 'cypress-rails'
 
-  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
-  gem 'debug', platforms: %i[mri mingw x64_mingw], require: false
-
   # for running and managing many process at once (Procfile)
   gem 'foreman'
 
@@ -92,6 +89,7 @@ end
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
+  gem 'debug', platforms: %i[mri mingw x64_mingw]
 
   # provide better intellisense in IDEs supporting Solargraph
   gem 'rails-annotate-solargraph'
@@ -117,6 +115,9 @@ end
 group :test do
   gem 'capybara'
   gem 'database_cleaner-active_record'
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem 'debug', platforms: %i[mri mingw x64_mingw], require: false
+
   gem 'selenium-webdriver'
   gem 'shoulda'
   gem 'webdrivers'
