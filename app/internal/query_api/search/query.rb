@@ -5,7 +5,7 @@ module QueryAPI
     # Contains classes which handle searching
     # through the Query API.
     class Query < BaseMapper
-      self.nested_validations = %i[group_by join where]
+      self.nested_validations = %i[group_by join left_outer_join where order]
 
       # @!attribute [rw] group_by
       #   @return [GroupBy]
@@ -16,12 +16,12 @@ module QueryAPI
       # @!attribute [rw] left_outer_join
       #   @return [Join]
       attribute :left_outer_join, Join
-      # TODO
-      # attribute :order, Order
-
       # @!attribute [rw] where
       #   @return [Where]
       attribute :where, Where
+      # @!attribute [rw] order
+      #   @return [Order]
+      attribute :order, Order
 
       # @!attribute [rw] limit
       #   @return [Integer]
@@ -40,7 +40,7 @@ module QueryAPI
       #   @return [Class<ActiveRecord::Base>]
       attribute :model,    ::Shale::Type::Value
 
-      forward :model, to: %i[join group_by where]
+      forward :model, to: %i[join group_by where order]
       forward :join, to: :where
 
       validates :limit, numericality: { only_integer: true, in: 1..50 }

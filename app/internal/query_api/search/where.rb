@@ -22,6 +22,16 @@ module QueryAPI
         def field_name?(field_name)
           field_name.match? FIELD_NAME_REGEXP
         end
+
+        # @param klass [Class<ActiveRecord::Base>]
+        # @param field_name [Symbol, String]
+        # @return [Boolean]
+        def model_has_field?(klass, field_name)
+          return false unless klass
+          return false unless field_name
+
+          klass.attribute_names.include? field_name.to_s
+        end
       end
 
       self.nested_validations = %i[and or]
@@ -64,7 +74,7 @@ module QueryAPI
             field_name = attr_name
           end
 
-          next if model_has_field?(klass, field_name)
+          next if self.class.model_has_field?(klass, field_name)
 
           inexistent_fields << [table_name, field_name].compact.join('.')
         end
@@ -72,16 +82,6 @@ module QueryAPI
         return unless inexistent_fields.any?
 
         errors.add :where, "inexistent fields: #{inexistent_fields}"
-      end
-
-      # @param klass [Class<ActiveRecord::Base>]
-      # @param field_name [Symbol, String]
-      # @return [Boolean]
-      def model_has_field?(klass, field_name)
-        return false unless klass
-        return false unless field_name
-
-        klass.attribute_names.include? field_name.to_s
       end
     end
   end

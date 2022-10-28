@@ -89,6 +89,18 @@ module QueryAPI
       # the object's singleton methods.
       singleton_methods.grep_v %r{=$}
     end
+    alias attribute_names! attribute_names
+
+    # @return [Hash{Symbol => Object}]
+    def attributes
+      attrs = {}
+      attribute_names.each do |name|
+        attrs[name] = public_send(name)
+      end
+
+      attrs
+    end
+    alias attributes! attributes
 
     # Names of attributes which were not defined in
     # the class, but were set dynamically.
@@ -97,5 +109,17 @@ module QueryAPI
     def dynamic_attribute_names
       attribute_names - self.class.declared_attribute_names
     end
+    alias dynamic_attribute_names! dynamic_attribute_names
+
+    # @return [Hash{Symbol => Object}]
+    def dynamic_attributes
+      attrs = {}
+      dynamic_attribute_names.each do |name|
+        attrs[name] = public_send(name)
+      end
+
+      attrs
+    end
+    alias dynamic_attributes! dynamic_attributes
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'debug'
 
 module QueryAPI
   # Contains classes which handle searching
@@ -31,6 +32,7 @@ module QueryAPI
       relation = relation.left_outer_joins(query.left_outer_join.value) if query.left_outer_join
       relation = relation.limit(query.limit) if query.limit
       relation = relation.offset(query.offset) if query.offset
+      relation = relation.order(query.order.dynamic_attributes!) if query.order
       relation = relation.group(query.group_by.value) if query.group_by
       relation = relation.count if query.count
 
