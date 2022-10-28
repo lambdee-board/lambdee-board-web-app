@@ -50,6 +50,7 @@ gem 'bootsnap', require: false
 # gem "image_processing", "~> 1.2"
 
 gem 'acts_as_paranoid'
+gem 'chartkick'
 gem 'csv'
 gem 'devise'
 gem 'factory_bot_rails'

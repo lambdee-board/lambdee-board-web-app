@@ -22,7 +22,7 @@ Trestle.configure do |config|
   # Set the text shown in the page footer within the admin.
   # Defaults to 'Powered by Trestle'.
   #
-  config.footer = 'Lambdee admin tool'
+  # config.footer = 'Lambdee admin tool'
 
   # Sets the default precision for timestamps (either :minutes or :seconds).
   # Defaults to :minutes.

@@ -49,4 +49,45 @@ class DB::Sprint < ApplicationRecord
     self.end_date = ::Time.now
     save(validate: false)
   end
+
+  # @return [Array]
+  def burnup_chart_data
+    [
+      {
+        name: 'Guideline',
+        data: {
+          start_date => 0,
+          due_date => sum_story_points
+        }
+      },
+      {
+        name: 'Completed work',
+        data: {
+          (start_date) => 0,
+          (start_date + 1.hour) => 2,
+          (start_date + 4.hour) => 3,
+          (start_date + 14.hour) => 5,
+          (start_date + 24.hour) => 10,
+          (start_date + 30.hour) => 15,
+          (start_date + 35.hour) => 20,
+          (start_date + 48.hour) => 21,
+          (due_date) => 22
+        }
+      }
+    ]
+  end
+
+  # @return [Integer]
+  def sum_story_points
+    tasks.each.sum(&:points)
+  end
+
+  def xd
+    sprint_tasks.each do |st|
+      result = {}
+      st.data.each do |data|
+        result[data['state']] = result[data['state']].to_i + data.task.points if 1
+      end
+    end
+  end
 end

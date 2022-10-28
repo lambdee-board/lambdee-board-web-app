@@ -42,5 +42,9 @@
     tab :tasks, badge: board.tasks.size do
       table ::DB::TasksAdmin.table, collection: board.tasks
     end
+
+    tab :sprints, badge: board.sprints.size do
+      table ::DB::SprintsAdmin.table, collection: board.sprints
+    end
   end
 end
