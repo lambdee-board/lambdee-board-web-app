@@ -14,6 +14,8 @@ class DB::Board < ::ApplicationRecord
   has_many :lists_including_deleted, -> { with_deleted }, class_name: 'DB::List'
   has_many :deleted_lists, -> { only_deleted }, class_name: 'DB::List'
   has_many :tags
+  has_many :sprints
+  has_one :active_sprint, -> { where(end_date: nil) }, class_name: 'DB::Sprint'
 
   pg_search_scope :pg_search,
                   against: %i[name],

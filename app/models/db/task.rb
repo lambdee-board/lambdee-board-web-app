@@ -14,6 +14,8 @@ class DB::Task < ApplicationRecord
   has_many :task_tags, class_name: 'DB::TaskTag', dependent: :destroy
   has_many :users, through: :task_users
   has_many :tags, through: :task_tags
+  has_many :sprint_tasks
+  has_many :sprints, through: :sprint_tasks
 
   before_create :set_highest_pos_in_list
 
@@ -56,5 +58,18 @@ class DB::Task < ApplicationRecord
     return unless list
 
     self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
+  end
+
+  # Saves new task state (list to which task was moved to)
+  #
+  # @return [Boolean, nil]
+  def new_task_state(list_id)
+    return unless list.id != list_id
+
+    new_list = ::DB::List.find list_id
+    sprint_task = sprint_tasks.find_by sprint: board.active_sprint
+
+    sprint_task.data << { state: new_list.name, date: ::Time.now }
+    sprint_task.save(validate: false)
   end
 end

@@ -46,6 +46,12 @@
       resources :tags, except: %i[index]
 
       resources :comments, except: %i[index]
+
+      resources :sprints do
+        post :end, on: :member
+      end
+
+      resources :sprint_tasks
     end
   end
 
