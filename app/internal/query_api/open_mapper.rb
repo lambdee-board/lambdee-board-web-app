@@ -6,10 +6,10 @@ module QueryAPI
   # @abstract Subclass to define new parameters
   #   in the query API which can accept any arguments.
   class OpenMapper < ::OpenStruct # rubocop:disable Style/OpenStructUse
+    include ::ActiveModel::Validations
     extend Forwardable
     extend NestedValidations::ClassMethods
     include NestedValidations::InstanceMethods
-    include ::ActiveModel::Validations
 
     Attribute = ::Struct.new(:name, :type, keyword_init: true)
 
@@ -29,7 +29,7 @@ module QueryAPI
             key = key.to_s
             next unless (val = params[key])
 
-            val = params[key] = { 'value' => val } if val.is_a?(::String) || val.is_a?(::Numeric)
+            val = params[key] = { 'value' => val } unless val.is_a?(::Hash)
             next unless val.is_a?(::Hash)
 
             val[forwarded.as.to_s] = forwarded_val

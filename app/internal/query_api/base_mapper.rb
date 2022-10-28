@@ -13,12 +13,14 @@ module QueryAPI
       # @param params [Hash{String => Object}]
       # @return [self]
       def of_hash(params, *args, **kwargs)
+        params = { 'value' => params } unless params.is_a?(::Hash)
         instance = model.new
 
-        attributes
-          .values
-          .select(&:default)
-          .each { instance.__send__(_1.setter, _1.default.call) }
+        attributes.each_value do |attr_object|
+          next unless attr_object.default
+
+          instance.__send__(attr_object.setter, attr_object.default.call)
+        end
 
         return instance unless params.is_a?(::Hash)
 
@@ -35,7 +37,7 @@ module QueryAPI
             key = key.to_s
             next unless (val = params[key])
 
-            params[key] = { 'value' => val } if val.is_a?(::String) || val.is_a?(::Numeric)
+            params[key] = { 'value' => val } unless val.is_a?(::Hash)
             next unless params[key].is_a?(::Hash)
 
             params[key][forwarded.as.to_s] = forwarded_val

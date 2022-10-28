@@ -34,7 +34,7 @@ module QueryAPI
         end
       end
 
-      self.nested_validations = %i[and or]
+      self.nested_validations = %i[and or not]
 
       # @!attribute [rw] and
       #   @return [self]

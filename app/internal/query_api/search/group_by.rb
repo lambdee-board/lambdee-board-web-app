@@ -21,7 +21,7 @@ module QueryAPI
 
         val = [val] unless val.is_a?(::Array)
         val = val.map(&:to_sym)
-        @value = val
+        super val
       end
 
       private
