@@ -4,7 +4,14 @@ describe('Sidebar', () => {
     cy.request('/cypress_rails_reset_state')
     // clear cookies!
     cy.clearCookies()
-    cy.visit('/')
+    // clear localStorage
+    cy.clearLocalStorage()
+    cy.visit('/login')
+    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
+      .type('b-spinka@example.com')
+    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
+      .type('s3cr4t_p4ss')
+    cy.contains('Login').click()
     cy.contains('Workspaces').click()
     cy.get('.Workspace-menu-item').first().click()
     cy.get('body').first().click()

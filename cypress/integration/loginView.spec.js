@@ -5,6 +5,8 @@ describe('LoginView', () => {
     cy.request('/cypress_rails_reset_state')
     // clear cookies!
     cy.clearCookies()
+    // clear localStorage
+    cy.clearLocalStorage()
     cy.visit('/login')
   })
   context('Login', () => {
@@ -14,10 +16,10 @@ describe('LoginView', () => {
         .type('b-spinka@example.com')
       cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
         .type('s3cr4t_p4ss')
-      cy.contains('Login')
+      cy.contains('Login').click()
     })
 
-    it('displays error massage', () => {
+    it('displays error message', () => {
       cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
         .type('email')
       cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)

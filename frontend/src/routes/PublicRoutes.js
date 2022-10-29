@@ -5,7 +5,7 @@ import {
 
 function PublicRoutes() {
   return (
-    !localStorage.getItem('token') ? <Outlet /> : <Navigate to='/' />
+    localStorage.getItem('token') ? <Navigate to='/' /> : <Outlet />
   )
 }
 

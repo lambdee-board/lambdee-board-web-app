@@ -3,8 +3,16 @@ describe('Members View', () => {
   beforeEach(() => {
     // reset the database!
     cy.request('/cypress_rails_reset_state')
-
-    cy.visit('/')
+    // clear cookies!
+    cy.clearCookies()
+    // clear localStorage
+    cy.clearLocalStorage()
+    cy.visit('/login')
+    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
+      .type('b-spinka@example.com')
+    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
+      .type('s3cr4t_p4ss')
+    cy.contains('Login').click()
   })
   context('Accessing view', () => {
     it('opens members view from from navbar', () => {
@@ -48,8 +56,8 @@ describe('Members View', () => {
 
     it('can search by workspace', () => {
       cy.contains('#UserFilter-select-label', 'None').click()
-      cy.contains('.UserFilter-select-item', 'Shortify').click()
-      cy.contains('.UserListItem-base', 'Herman Schmidt')
+      cy.contains('.UserFilter-select-item', 'Netflux').click()
+      cy.contains('.UserListItem-base', 'Brice Spinka')
     })
 
     it('can search by admin role after button press', () => {
@@ -72,7 +80,7 @@ describe('Members View', () => {
       cy.get('.RoleChip').click({ multiple: true })
       cy.contains('.RoleChip', 'developer').click()
       cy.get('button.UserFilter-search-button').click()
-      cy.contains('.UserListItem-base', 'Brice Spinka')
+      cy.contains('.UserListItem-base', 'Thorsten Andersson')
       cy.contains('.UserListItem-base', 'developer')
     })
 

@@ -6,7 +6,7 @@ admin = ::FactoryBot.create(:user, name: 'Bee Trantow', email: 'bee.trantow@exam
 wrk = ::FactoryBot.create :workspace, name: 'Netflux'
 
 # users for Netflux
-wrk.users << user_brice = ::FactoryBot.create(:user, name: 'Brice Spinka', email: 'b-spinka@example.com', role: :developer)
+wrk.users << user_brice = ::FactoryBot.create(:user, name: 'Brice Spinka', email: 'b-spinka@example.com', role: :manager)
 wrk.users << user_tomasz = ::FactoryBot.create(:user, name: 'Tomasz Dziegeć', email: 't-dziegec@example.com', role: :developer)
 wrk.users << user_bjorn = ::FactoryBot.create(:user, name: 'Björn Surströmming', email: 'b-surstromming@example.com', role: :developer)
 wrk.users << user_thorsten = ::FactoryBot.create(:user, name: 'Thorsten Andersson', email: 't-andersson@example.com', role: :developer)
