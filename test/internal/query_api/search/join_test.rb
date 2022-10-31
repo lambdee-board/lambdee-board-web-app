@@ -98,8 +98,8 @@ module QueryAPI
           assert_not join.errors.empty?
 
 #           assert_equal ['Join inexistent relation: dupa'], join.errors.full_messages
-#         end
-#       end
+        end
+      end
 
       context 'array association' do
         should 'be valid' do
@@ -132,8 +132,8 @@ module QueryAPI
           assert_not join.errors.empty?
 
 #           assert_equal ['Join inexistent relation: hejo'], join.errors.full_messages
-#         end
-#       end
+        end
+      end
 
       context 'hash association' do
         should 'be valid' do
@@ -162,7 +162,7 @@ module QueryAPI
           assert_not join.errors.empty?
 
 #           assert_equal ['Join inexistent relation: lol'], join.errors.full_messages
-#         end
+        end
 
         should 'be invalid in value' do
           join = Join.new value: { 'author' => 'elo' }, model: ::DB::Task
@@ -170,7 +170,7 @@ module QueryAPI
           assert_not join.errors.empty?
 
 #           assert_equal ['Join inexistent relation: elo'], join.errors.full_messages
-#         end
+        end
 
         should 'be nested and invalid' do
           join = Join.new value: { 'comments' => { 'author' => 'siema' } }, model: ::DB::Task

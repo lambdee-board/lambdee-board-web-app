@@ -125,7 +125,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
       should 'not update tag' do
         patch api_tag_url(@tag), params: { tag: { board_id: @tag.board_id, colour: @tag.colour, name: 'val de larmes' } }, headers: auth_headers(@user), as: :json
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'not destroy tag' do
@@ -133,7 +133,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
           delete api_tag_url(@tag), headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
     end
   end
@@ -155,7 +155,7 @@ class API::TagsControllerTest < ActionDispatch::IntegrationTest
 
     should 'not show tag' do
       get api_tag_url(@tag), headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 end

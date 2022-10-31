@@ -115,7 +115,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
         }, as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'update board' do
@@ -183,7 +183,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
 
     should 'not show board' do
       get api_board_url(@board), as: :json, headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not create board' do
@@ -193,7 +193,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
         }, as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not update board' do
@@ -201,7 +201,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
         board: { name: 'New Name' }
       }, as: :json, headers: auth_headers(@user)
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not destroy board' do
@@ -209,7 +209,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
         delete api_board_url(@board), as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 

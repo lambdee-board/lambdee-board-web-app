@@ -75,7 +75,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
           post api_lists_url, params: { list: { name: 'Done' } }, as: :json, headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'update list' do
@@ -193,7 +193,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
           }, as: :json, headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'not update list' do
@@ -202,7 +202,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
             name: 'New name'
           }
         }, as: :json, headers: auth_headers(@user)
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'not destroy list' do
@@ -210,7 +210,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
           delete api_list_url(@list), as: :json, headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
     end
   end
@@ -231,7 +231,7 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
 
     should 'not show list' do
       get api_list_url(@list), as: :json, headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 end
