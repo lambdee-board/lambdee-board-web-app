@@ -172,14 +172,14 @@ describe('TaskCardModal', () => {
         .type('Library{downArrow}{enter}')
       cy.get('.TaskCardModal-sidebar-card-box-tags').contains('Library')
     })
-    // it('detaches "Database" tag from task', () => {
-    //   cy.reload()
-    //   cy.contains('Implement the User API')
-    //     .click()
-    //   cy.get('div.TaskCardModal-wrapper').should('exist')
-    //   cy.get('.TaskCardModal-sidebar-card-box-tags .Tag svg').first().click()
-    //   cy.contains('Database').should('not.exist')
-    // })
+    it('detaches "Library" tag from task', () => {
+      cy.reload()
+      cy.contains('Implement the User API')
+        .click()
+      cy.get('div.TaskCardModal-wrapper').should('exist')
+      cy.get('.TaskCardModal-sidebar-card-box-tags .Tag svg').first().click()
+      cy.contains('Library').should('not.exist')
+    })
     it('opens new tag dialog, then closes dialog/autocomplete input', () => {
       cy.contains('Implement the User API')
         .click()

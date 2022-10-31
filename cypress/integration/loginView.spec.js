@@ -25,7 +25,7 @@ describe('LoginView', () => {
       cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
         .type('password')
       cy.contains('Login').click()
-      cy.contains('Incorrect credentials')
+      cy.contains('Incorrect credentials!')
     })
     it('resets password', () => {
       cy.contains('Forgot password?').click()
