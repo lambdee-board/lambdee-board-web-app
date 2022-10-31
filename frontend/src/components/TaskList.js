@@ -12,6 +12,8 @@ import {
   InputBase,
   Modal,
 } from '@mui/material'
+import { ManagerContent } from '../permissions/ManagerContent'
+import { isRegular } from './../permissions/RegularContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -27,6 +29,7 @@ import './TaskList.sass'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
 import TaskListModal from './TaskListModal'
+
 
 function TaskListSkeletonContent() {
   return (
@@ -198,45 +201,73 @@ function TaskList(props) {
             <Typography className='TaskList-header-text' >
               {props.title}
             </Typography>
-            <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-              <FontAwesomeIcon icon={faPencil} />
-            </IconButton>
+            <ManagerContent>
+              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+                <FontAwesomeIcon icon={faPencil} />
+              </IconButton>
+            </ManagerContent>
           </ListSubheader>} >
           {taskList ? (
-            <ReactSortable
-              list={sortedTasks}
-              setList={updateTaskOrder}
-              group='TaskCardList'
-              delay={1}
-              animation={50}
-              ghostClass='translucent'
-              selectedClass='translucent'
-              direction='vertical'
-              // multiDrag
-              scroll
-            >
-              {
-                sortedTasks.map((task, taskIndex) => (
-                  <ListItem className='TaskList-item' key={taskIndex} >
-                    <TaskCard key={`${task.name}-${task.id}`}
-                      id={task.id}
-                      label={task.name}
-                      tags={task.tags}
-                      priority={task.priority}
-                      assignedUsers={task.users}
-                      points={task.points}
-                      pos={task.pos}
-                      index={taskIndex}
-                      listId={task.listId}
-                    />
-                  </ListItem>
-                ))}
-            </ReactSortable>
-          ) : (
-            <TaskListSkeletonContent />
-          )}
+            <div>
+              {isRegular() ?
+                <ReactSortable
+                  list={sortedTasks}
+                  setList={updateTaskOrder}
+                  group='TaskCardList'
+                  delay={1}
+                  animation={50}
+                  ghostClass='translucent'
+                  selectedClass='translucent'
+                  direction='horizontal'
+                  // multiDrag
+                  scroll
+                >
 
-          { !newTaskButtonVisible &&
+                  {sortedTasks.map((task, taskIndex) => (
+                    <div key={taskIndex}>
+                      <ListItem className='TaskList-item' >
+                        <TaskCard key={`${task.name}-${task.id}`}
+                          id={task.id}
+                          label={task.name}
+                          tags={task.tags}
+                          priority={task.priority}
+                          assignedUsers={task.users}
+                          points={task.points}
+                          pos={task.pos}
+                          index={taskIndex}
+                          listId={task.listId}
+                        />
+                      </ListItem>
+
+                    </div>
+                  ))}
+                </ReactSortable> :
+                <div>
+                  {sortedTasks.map((task, taskIndex) => (
+                    <div key={taskIndex}>
+                      <ListItem className='TaskList-item' >
+                        <TaskCard key={`${task.name}-${task.id}`}
+                          id={task.id}
+                          label={task.name}
+                          tags={task.tags}
+                          priority={task.priority}
+                          assignedUsers={task.users}
+                          points={task.points}
+                          pos={task.pos}
+                          index={taskIndex}
+                          listId={task.listId}
+                        />
+                      </ListItem>
+                    </div>
+                  ))}
+                </div>
+              }
+            </div>
+          ) : (
+            <div></div>
+          )}
+          <ManagerContent>
+            { !newTaskButtonVisible &&
             <Card
               className='TaskList-new-task'>
               <InputBase
@@ -252,15 +283,19 @@ function TaskList(props) {
                 <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-          }
+            }
+          </ManagerContent>
         </List>
-        <Box className='TaskList-new-task-wrapper'>
-          {newTaskButtonVisible &&
+        <ManagerContent>
+          <Box className='TaskList-new-task-wrapper'>
+            {newTaskButtonVisible &&
             <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
-          }
-        </Box>
+            }
+
+          </Box>
+        </ManagerContent>
       </Paper>
       {taskList &&
       <Modal

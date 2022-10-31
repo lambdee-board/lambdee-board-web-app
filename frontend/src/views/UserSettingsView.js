@@ -88,6 +88,11 @@ export default function UserSettingsView() {
     }
   }
 
+  const handleResetPassword = () => {
+    localStorage.clear()
+    navigate('/login/reset-password')
+  }
+
 
   if (isLoading || isError) return (
     <UserSettingsSkeleton  />
@@ -140,7 +145,7 @@ export default function UserSettingsView() {
               className='userSettings-reset-password-button'
               color='primary'
               variant='contained' >
-              <Typography onClick={() => navigate('/login/reset-password')} className='userSettings-reset-password-button-text' >
+              <Typography onClick={handleResetPassword} className='userSettings-reset-password-button-text' >
                 Reset Password
               </Typography>
             </Button>

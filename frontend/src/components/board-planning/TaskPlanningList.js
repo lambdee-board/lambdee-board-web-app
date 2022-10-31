@@ -14,6 +14,8 @@ import {
   Modal,
   Divider
 } from '@mui/material'
+import { ManagerContent } from './../../permissions/ManagerContent'
+import { isRegular } from './../../permissions/RegularContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
@@ -207,61 +209,84 @@ function TaskPlanningList(props) {
             <Typography className='TaskListPlanning-header-text'   >
               {props.title}
             </Typography>
-            <div>
-              <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
-                {taskList?.visible ?
-                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
-                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
-                }
-              </IconButton>
-              <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
-                <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faPencil} />
-              </IconButton>
-            </div>
+            <ManagerContent>
+              <div>
+                <IconButton aria-label='Visibility' color='secondary' onClick={toggleListVisibility}>
+                  {taskList?.visible ?
+                    <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEye} /> :
+                    <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faEyeSlash} />
+                  }
+                </IconButton>
+                <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
+                  <FontAwesomeIcon className='TaskListPlanning-header-icon' icon={faPencil} />
+                </IconButton>
+              </div>
+            </ManagerContent>
           </ListSubheader>} >
           <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px'  }}>
             {taskList ? (
-              <ReactSortable
-                list={sortedTasks}
-                setList={updateTaskOrder}
-                group='TaskCardList'
-                delay={1}
-                animation={50}
-                ghostClass='translucent'
-                selectedClass='translucent'
-                direction='horizontal'
-                // multiDrag
-                scroll
-              >
+              <div>
+                {isRegular() ?
+                  <ReactSortable
+                    list={sortedTasks}
+                    setList={updateTaskOrder}
+                    group='TaskCardList'
+                    delay={1}
+                    animation={50}
+                    ghostClass='translucent'
+                    selectedClass='translucent'
+                    direction='horizontal'
+                    // multiDrag
+                    scroll
+                  >
 
-                {
-                  sortedTasks.map((task, taskIndex) => (
-                    <div key={taskIndex}>
-                      <ListItem className='TaskListPlanning-item' >
-                        <TaskListItem key={`${task.name}-${task.id}`}
-                          id={task.id}
-                          label={task.name}
-                          tags={task.tags}
-                          priority={task.priority}
-                          assignedUsers={task.users}
-                          points={task.points}
-                          pos={task.pos}
-                          index={taskIndex}
-                          listId={task.listId}
-                        />
-                      </ListItem>
-                      <Divider />
-                    </div>
-                  ))}
-
-              </ReactSortable>
-
+                    {sortedTasks.map((task, taskIndex) => (
+                      <div key={taskIndex}>
+                        <ListItem className='TaskListPlanning-item' >
+                          <TaskListItem key={`${task.name}-${task.id}`}
+                            id={task.id}
+                            label={task.name}
+                            tags={task.tags}
+                            priority={task.priority}
+                            assignedUsers={task.users}
+                            points={task.points}
+                            pos={task.pos}
+                            index={taskIndex}
+                            listId={task.listId}
+                          />
+                        </ListItem>
+                        <Divider />
+                      </div>
+                    ))}
+                  </ReactSortable> :
+                  <div>
+                    {sortedTasks.map((task, taskIndex) => (
+                      <div key={taskIndex}>
+                        <ListItem className='TaskListPlanning-item' >
+                          <TaskListItem key={`${task.name}-${task.id}`}
+                            id={task.id}
+                            label={task.name}
+                            tags={task.tags}
+                            priority={task.priority}
+                            assignedUsers={task.users}
+                            points={task.points}
+                            pos={task.pos}
+                            index={taskIndex}
+                            listId={task.listId}
+                          />
+                        </ListItem>
+                        <Divider />
+                      </div>
+                    ))}
+                  </div>
+                }
+              </div>
             ) : (
               <div></div>
             )}
           </Card>
-
-          { !newTaskButtonVisible &&
+          <ManagerContent>
+            { !newTaskButtonVisible &&
             <Card
               className='TaskListPlanning-new-task'>
               <InputBase
@@ -277,15 +302,18 @@ function TaskPlanningList(props) {
                 <FontAwesomeIcon className='TaskListPlanning-new-task-cancel-icon' icon={faXmark} />
               </IconButton>
             </Card>
-          }
+            }
+          </ManagerContent>
         </List>
-        <Box className='TaskListPlanning-new-task-wrapper'>
-          {newTaskButtonVisible &&
+        <ManagerContent>
+          <Box className='TaskListPlanning-new-task-wrapper'>
+            {newTaskButtonVisible &&
             <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
-          }
-        </Box>
+            }
+          </Box>
+        </ManagerContent>
       </Paper>
       {taskList &&
       <Modal

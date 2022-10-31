@@ -7,220 +7,320 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     @user = ::FactoryBot.create(:user)
     @task = ::FactoryBot.create(:task)
     @list = @task.list
+    @board = @list.board
+    @workspace = @board.workspace
   end
 
-  should 'get index' do
-    3.times { |i| ::FactoryBot.create(:task, name: "Task#{i}") }
-    get '/api/tasks'
-    assert_response 200
-    json = ::JSON.parse(response.body)
-    assert_equal @task.name, json.dig(0, 'name')
-    3.times do |i|
-      assert_equal "Task#{i}", json.dig(i + 1, 'name')
+  context 'user belongs to board' do
+    setup do
+      @user.workspaces << @workspace
+    end
+
+    context 'developer' do
+      setup do
+        @user.developer!
+      end
+
+      should 'create task' do
+        params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }
+        assert_difference('DB::Task.count') do
+          post api_tasks_url, params: , as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :created
+        json = ::JSON.parse response.body
+        assert_equal 'New task', json['name']
+        assert_equal 66560.0, json['pos']
+        assert_equal 'very_high', json['priority']
+        assert_equal 7, json['points']
+      end
+
+      should "not create task with a too long name" do
+        params = { task: { name: 'a' * 150, pos: 1111, description: 'description', list_id: @list.id } }
+        assert_no_difference("DB::Task.count") do
+          post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :unprocessable_entity
+        json = ::JSON.parse response.body
+        assert_equal 'is too long (maximum is 80 characters)', json.dig('name', 0)
+      end
+
+      should "not create task with a too long description" do
+        params = { task: { name: 'Task name', pos: 1111, description: 'a' * 10_001, list_id: @list.id } }
+        assert_no_difference("DB::Task.count") do
+          post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :unprocessable_entity
+        json = ::JSON.parse response.body
+        assert_equal 'is too long (maximum is 10000 characters)', json.dig('description', 0)
+      end
+
+      should "not create task without a list" do
+        assert_no_difference("DB::Task.count") do
+          post api_tasks_url, params: { task: { name: 'New task' } }, as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :unauthorized
+      end
+
+      should 'update task' do
+        patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json, headers: auth_headers(@user)
+        assert_response :success
+
+        json = ::JSON.parse response.body
+        assert_equal 'New name', json['name']
+        assert_equal @task.description, json['description']
+      end
+
+      should 'destroy task' do
+        assert_difference('DB::Task.count', -1) do
+          delete api_task_url(@task), as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :no_content
+
+        assert @task.reload.deleted?
+        assert_not @task.reload.deleted_fully?
+      end
+
+      should 'attach a tag to the task' do
+        tag = ::FactoryBot.create(:tag)
+        post attach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :no_content
+
+        @task.reload
+        assert_equal tag.name, @task.tags.first.name
+      end
+
+      should 'detach a tag from the task' do
+        tag = ::FactoryBot.create(:tag)
+        @task.tags << tag
+        assert_not_nil @task.tags.first
+
+        post detach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :no_content
+
+        @task.reload
+        assert_nil @task.tags.first
+      end
+
+      should 'assign a user to the task' do
+        user = ::FactoryBot.create(:user)
+        post assign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :no_content
+
+        @task.reload
+        assert_equal user.name, @task.users.first.name
+      end
+
+      should 'unassign a user from the task' do
+        user = ::FactoryBot.create(:user)
+        @task.users << user
+        assert_not_nil @task.users.first
+
+        post unassign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :no_content
+
+        @task.reload
+        assert_nil @task.users.first
+      end
+
+      context 'time' do
+        should 'add to a task' do
+          put add_time_api_task_url(@task), params: { time: 180 }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 180, json[:spent_time]
+        end
+
+        should 'add in minutes to a task' do
+          put add_time_api_task_url(@task), params: { time: 3, unit: 'minute' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 180, json[:spent_time]
+        end
+
+        should 'add in hours to a task' do
+          put add_time_api_task_url(@task), params: { time: 2, unit: 'hour' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 7_200, json[:spent_time]
+        end
+
+        should 'add in days to a task' do
+          put add_time_api_task_url(@task), params: { time: 1, unit: 'day' }, headers: auth_headers(@user), as: :json
+          assert_response :success
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 86_400, json[:spent_time]
+        end
+
+        should 'not add when negative time' do
+          put add_time_api_task_url(@task), params: { time: -60 }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'must be greater than 0', json[:time][0]
+        end
+
+        should 'not add when non integer time' do
+          put add_time_api_task_url(@task), params: { time: 'dupa' }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'must be greater than 0', json[:time][0]
+        end
+
+        should 'not add when invalid unit' do
+          put add_time_api_task_url(@task), params: { time: 20, unit: 'dupa' }, headers: auth_headers(@user), as: :json
+          assert_response :unprocessable_entity
+
+          json = ::JSON.parse response.body, symbolize_names: true
+          assert_equal 'is not included in the list', json[:unit][0]
+        end
+      end
+    end
+
+    context 'guest' do
+      setup do
+        @user.guest!
+      end
+
+      should 'get index' do
+        3.times { |i| ::FactoryBot.create(:task, name: "Task#{i}", list: @list) }
+        get '/api/tasks', headers: auth_headers(@user)
+        assert_response 200
+        json = ::JSON.parse(response.body)
+        assert_equal @task.name, json.dig(0, 'name')
+        3.times do |i|
+          assert_equal "Task#{i}", json.dig(i + 1, 'name')
+        end
+      end
+
+      should 'show task' do
+        get api_task_url(@task), as: :json, headers: auth_headers(@user)
+        assert_response :success
+
+        json = ::JSON.parse response.body
+        assert_equal @task.name, json['name']
+        assert_equal @task.description, json['description']
+        assert_equal @task.pos, json['pos']
+      end
+
+      should 'show task with all associations' do
+        @task.users << user = ::FactoryBot.create(:user)
+        @task.tags << tag = ::FactoryBot.create(:tag)
+
+        get api_task_url(@task), as: :json, params: { include_associations: :true }, headers: auth_headers(user)
+        assert_response :success
+
+        json = ::JSON.parse response.body
+        assert_equal @task.name, json['name']
+        assert_equal @task.description, json['description']
+        assert_equal @task.pos, json['pos']
+        assert_equal @task.points, json['points']
+        assert_equal @task.priority, json['priority']
+
+        assert_equal @task.list.name, json['list']['name']
+        assert_equal @task.list.pos, json['list']['pos']
+
+        assert_equal @task.author.name, json['author']['name']
+        assert_equal @task.author.avatar_url, json['author']['avatar_url']
+        assert_equal @task.author.email, json['author']['email']
+
+        assert_equal user.name, json['users'].first['name']
+
+        assert_equal tag.name, json['tags'].first['name']
+        assert_equal tag.colour, json['tags'].first['colour']
+      end
+
+      should 'not update task' do
+        patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json, headers: auth_headers(@user)
+        assert_response :unauthorized
+
+        assert_not_equal 'New name', @task.reload.name
+      end
+
+      should 'not destroy task' do
+        assert_no_difference('DB::Task.count') do
+          delete api_task_url(@task), as: :json, headers: auth_headers(@user)
+        end
+
+        assert_response :unauthorized
+      end
+
+      should 'not attach a tag to the task' do
+        tag = ::FactoryBot.create(:tag)
+        post attach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :unauthorized
+
+        @task.reload
+        assert_equal 0, @task.tags.count
+      end
+
+      should 'not detach a tag from the task' do
+        tag = ::FactoryBot.create(:tag)
+        @task.tags << tag
+        assert_not_nil @task.tags.first
+
+        post detach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :unauthorized
+
+        @task.reload
+        assert_not_nil @task.tags.first
+      end
+
+      should 'not assign a user to the task' do
+        user = ::FactoryBot.create(:user)
+        post assign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :unauthorized
+
+        @task.reload
+        assert_equal 0, @task.users.count
+      end
+
+      should 'unassign a user from the task' do
+        user = ::FactoryBot.create(:user)
+        @task.users << user
+        assert_not_nil @task.users.first
+
+        post unassign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
+
+        assert_response :unauthorized
+
+        @task.reload
+        assert_not_nil @task.users.first
+      end
     end
   end
 
-  should 'create task' do
-    assert_difference('DB::Task.count') do
-      post api_tasks_url, params: { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }, as: :json
+  context 'user doest not belong to board' do
+    setup do
+      @user.regular!
+    end
+    should 'not get index' do
+      3.times { |i| ::FactoryBot.create(:task, name: "Task#{i}") }
+      get '/api/tasks', headers: auth_headers(@user)
+      assert_response 200
+      json = ::JSON.parse(response.body)
+      assert_equal 0, json.count
     end
 
-    assert_response :created
-    json = ::JSON.parse response.body
-    assert_equal 'New task', json['name']
-    assert_equal 66560.0, json['pos']
-    assert_equal 'very_high', json['priority']
-    assert_equal 7, json['points']
-  end
-
-  should "not create task with a too long name" do
-    assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'a' * 150, pos: 1111, description: 'description', list_id: @list.id } }, as: :json
+    should 'not show task' do
+      get api_task_url(@task), as: :json, headers: auth_headers(@user)
+      assert_response :unauthorized
     end
-
-    assert_response :unprocessable_entity
-    json = ::JSON.parse response.body
-    assert_equal 'is too long (maximum is 80 characters)', json.dig('name', 0)
-  end
-
-  should "not create task with a too long description" do
-    assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'Task name', pos: 1111, description: 'a' * 10_001, list_id: @list.id } }, as: :json
-    end
-
-    assert_response :unprocessable_entity
-    json = ::JSON.parse response.body
-    assert_equal 'is too long (maximum is 10000 characters)', json.dig('description', 0)
-  end
-
-  should "not create task without a list" do
-    assert_no_difference("DB::Task.count") do
-      post api_tasks_url, params: { task: { name: 'New task' } }, as: :json
-    end
-
-    assert_response :unprocessable_entity
-    json = ::JSON.parse response.body
-    assert_equal 'must exist', json.dig('list', 0)
-  end
-
-  should 'show task' do
-    get api_task_url(@task), as: :json
-    assert_response :success
-
-    json = ::JSON.parse response.body
-    assert_equal @task.name, json['name']
-    assert_equal @task.description, json['description']
-    assert_equal @task.pos, json['pos']
-  end
-
-  should 'show task with all associations' do
-    @task.users << user = ::FactoryBot.create(:user)
-    @task.tags << tag = ::FactoryBot.create(:tag)
-
-    get api_task_url(@task), as: :json, params: { include_associations: :true }
-    assert_response :success
-
-    json = ::JSON.parse response.body
-    assert_equal @task.name, json['name']
-    assert_equal @task.description, json['description']
-    assert_equal @task.pos, json['pos']
-    assert_equal @task.points, json['points']
-    assert_equal @task.priority, json['priority']
-
-    assert_equal @task.list.name, json['list']['name']
-    assert_equal @task.list.pos, json['list']['pos']
-
-    assert_equal @task.author.name, json['author']['name']
-    assert_equal @task.author.avatar_url, json['author']['avatar_url']
-    assert_equal @task.author.email, json['author']['email']
-
-    assert_equal user.name, json['users'].first['name']
-
-    assert_equal tag.name, json['tags'].first['name']
-    assert_equal tag.colour, json['tags'].first['colour']
-  end
-
-  should 'update task' do
-    patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json
-    assert_response :success
-
-    json = ::JSON.parse response.body
-    assert_equal 'New name', json['name']
-    assert_equal @task.description, json['description']
-  end
-
-  context 'time' do
-    should 'add to a task' do
-      put add_time_api_task_url(@task), params: { time: 180 }, as: :json
-      assert_response :success
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 180, json[:spent_time]
-    end
-
-    should 'add in minutes to a task' do
-      put add_time_api_task_url(@task), params: { time: 3, unit: 'minute' }, as: :json
-      assert_response :success
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 180, json[:spent_time]
-    end
-
-    should 'add in hours to a task' do
-      put add_time_api_task_url(@task), params: { time: 2, unit: 'hour' }, as: :json
-      assert_response :success
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 7_200, json[:spent_time]
-    end
-
-    should 'add in days to a task' do
-      put add_time_api_task_url(@task), params: { time: 1, unit: 'day' }, as: :json
-      assert_response :success
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 86_400, json[:spent_time]
-    end
-
-    should 'not add when negative time' do
-      put add_time_api_task_url(@task), params: { time: -60 }, as: :json
-      assert_response :unprocessable_entity
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 'must be greater than 0', json[:time][0]
-    end
-
-    should 'not add when non integer time' do
-      put add_time_api_task_url(@task), params: { time: 'dupa' }, as: :json
-      assert_response :unprocessable_entity
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 'must be greater than 0', json[:time][0]
-    end
-
-    should 'not add when invalid unit' do
-      put add_time_api_task_url(@task), params: { time: 20, unit: 'dupa' }, as: :json
-      assert_response :unprocessable_entity
-
-      json = ::JSON.parse response.body, symbolize_names: true
-      assert_equal 'is not included in the list', json[:unit][0]
-    end
-  end
-
-  should 'destroy task' do
-    assert_difference('DB::Task.count', -1) do
-      delete api_task_url(@task), as: :json
-    end
-
-    assert_response :no_content
-
-    assert @task.reload.deleted?
-    assert_not @task.reload.deleted_fully?
-  end
-
-  should 'attach a tag to the task' do
-    tag = ::FactoryBot.create(:tag)
-    post attach_tag_api_task_url(@task), params: { tag_id: tag.id }
-
-    assert_response :no_content
-
-    @task.reload
-    assert_equal tag.name, @task.tags.first.name
-  end
-
-  should 'detach a tag from the task' do
-    tag = ::FactoryBot.create(:tag)
-    @task.tags << tag
-    assert_not_nil @task.tags.first
-
-    post detach_tag_api_task_url(@task), params: { tag_id: tag.id }
-
-    assert_response :no_content
-
-    @task.reload
-    assert_nil @task.tags.first
-  end
-
-  should 'assign a user to the task' do
-    user = ::FactoryBot.create(:user)
-    post assign_user_api_task_url(@task), params: { user_id: user.id }
-
-    assert_response :no_content
-
-    @task.reload
-    assert_equal user.name, @task.users.first.name
-  end
-
-  should 'unassign a user from the task' do
-    user = ::FactoryBot.create(:user)
-    @task.users << user
-    assert_not_nil @task.users.first
-
-    post unassign_user_api_task_url(@task), params: { user_id: user.id }
-
-    assert_response :no_content
-
-    @task.reload
-    assert_nil @task.users.first
   end
 end

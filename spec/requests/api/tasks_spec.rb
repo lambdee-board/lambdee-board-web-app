@@ -1,12 +1,10 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/tasks', type: :request do
-
-  before(:each) do
-    ::FactoryBot.create :user
-  end
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   path '/api/tasks' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
 
     get('List tasks') do
       tags 'Tasks'
@@ -47,6 +45,7 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     get('Show Taks') do
@@ -113,6 +112,7 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}/add_time' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     put('Add time') do
@@ -166,6 +166,7 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}/attach_tag' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     post('Attach Tag') do
@@ -184,6 +185,7 @@ require 'swagger_helper'
 
 
   path '/api/tasks/{id}/detach_tag' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     post('Detach Tag') do
@@ -206,6 +208,7 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}/assign_user' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     post('Assign User') do
@@ -224,6 +227,7 @@ require 'swagger_helper'
 
 
   path '/api/tasks/{id}/unassign_user' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     post('Unassign User') do

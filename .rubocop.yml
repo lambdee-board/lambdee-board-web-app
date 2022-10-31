@@ -17,6 +17,9 @@ Metrics/BlockLength:
 Layout/RedundantLineBreak:
   Enabled: false
 
+Style/LambdaCall:
+  Enabled: false
+
 Style/RegexpLiteral:
   Enabled: false
 
@@ -43,9 +46,6 @@ Style/OpenStructUse:
 
 Style/MethodCalledOnDoEndBlock:
   Enabled: true
-
-Style/LambdaCall:
-  EnforcedStyle: braces
 
 Style/OptionHash:
   Enabled: false

@@ -4,6 +4,7 @@
 # through the JSON API.
 class API::CommentsController < ::APIController
   before_action :set_comment, only: %i[show update destroy]
+  authorize_resource except: %i[index create]
 
   # GET api/tasks/:task_id/comments
   def index
@@ -13,6 +14,7 @@ class API::CommentsController < ::APIController
     else
       @comments = ::DB::Comment.find_for_task(params[:task_id])
     end
+    @comments = @comments.accessible_by(current_ability)
   end
 
   # GET /comments/1
@@ -21,6 +23,7 @@ class API::CommentsController < ::APIController
   # POST /comments
   def create
     @comment = ::DB::Comment.new(comment_params)
+    authorize! :create, @comment
     return render :show, status: :created, location: api_comments_url(@comment) if @comment.save
 
     render json: @comment.errors, status: :unprocessable_entity

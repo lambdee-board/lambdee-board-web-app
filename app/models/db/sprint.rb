@@ -5,7 +5,7 @@ require 'debug'
 class DB::Sprint < ApplicationRecord
   has_many :sprint_tasks, dependent: :destroy
   has_many :tasks, through: :sprint_tasks
-  belongs_to :final_list, class_name: 'DB::List', foreign_key: :final_list_id
+  belongs_to :final_list, class_name: 'DB::List', foreign_key: :final_list_id, optional: true
   belongs_to :board
 
   validates :name, presence: true, length: { maximum: 40 }

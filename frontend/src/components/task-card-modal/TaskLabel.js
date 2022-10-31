@@ -6,6 +6,7 @@ import {
   InputBase,
   Card
 } from '@mui/material'
+import { isRegular } from '../../permissions/RegularContent'
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
@@ -68,7 +69,7 @@ function TaskLabel({ task, mutate }) {
     <div className='TaskLabel'>
       <Typography
         variant='h6'
-        onClick={editTaskLabelOnClick}
+        onClick={isRegular() ? editTaskLabelOnClick : undefined}
         className='TaskLabel-typography'
       >
         {task.name}

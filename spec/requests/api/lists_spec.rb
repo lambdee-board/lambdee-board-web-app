@@ -1,12 +1,10 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/lists', type: :request do
-
-  before(:each) do
-    ::FactoryBot.create :user
-  end
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   path '/api/lists' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
 
     get('List lists') do
       tags 'Lists'
@@ -46,6 +44,7 @@ require 'swagger_helper'
   end
 
   path '/api/lists/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('Show List') do

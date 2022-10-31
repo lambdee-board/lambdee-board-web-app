@@ -6,9 +6,10 @@ module QueryAPI
   # @abstract Subclass to define new parameters
   #   in the query API which can accept any arguments.
   class OpenMapper < ::OpenStruct # rubocop:disable Style/OpenStructUse
-    extend Forwardable
-    include NestedValidations
     include ::ActiveModel::Validations
+    extend Forwardable
+    extend NestedValidations::ClassMethods
+    include NestedValidations::InstanceMethods
 
     Attribute = ::Struct.new(:name, :type, keyword_init: true)
 
@@ -28,7 +29,7 @@ module QueryAPI
             key = key.to_s
             next unless (val = params[key])
 
-            val = params[key] = { 'value' => val } if val.is_a?(::String) || val.is_a?(::Numeric)
+            val = params[key] = { 'value' => val } unless val.is_a?(::Hash)
             next unless val.is_a?(::Hash)
 
             val[forwarded.as.to_s] = forwarded_val
@@ -51,6 +52,7 @@ module QueryAPI
 
       alias from_hash of_hash
 
+      # @return [self, nil]
       def cast(val)
         return if val.nil?
         return val if val.is_a?(self)
@@ -58,6 +60,8 @@ module QueryAPI
         new(val)
       end
 
+      # Names of attributes defined on the class.
+      #
       # @return [Array<Symbol>]
       def declared_attribute_names
         @attributes.keys
@@ -74,19 +78,48 @@ module QueryAPI
       end
     end
 
-    # @return [Array<Symbol>]
-    def declared_attribute_names
-      self.class.declared_attribute_names
-    end
-
+    # Names of all attributes, both defined in the class,
+    # and dynamically set on this object.
+    #
     # @return [Array<Symbol>]
     def attribute_names
+      # Since Ruby 3.0, OpenStruct instances define singleton methods
+      # (setters and getters) for each new dynamic attribute.
+      # Hence, we can get the names of all dynamically set attributes by inspecting
+      # the object's singleton methods.
       singleton_methods.grep_v %r{=$}
     end
+    alias attribute_names! attribute_names
 
+    # @return [Hash{Symbol => Object}]
+    def attributes
+      attrs = {}
+      attribute_names.each do |name|
+        attrs[name] = public_send(name)
+      end
+
+      attrs
+    end
+    alias attributes! attributes
+
+    # Names of attributes which were not defined in
+    # the class, but were set dynamically.
+    #
     # @return [Array<Symbol>]
     def dynamic_attribute_names
-      attribute_names - declared_attribute_names
+      attribute_names - self.class.declared_attribute_names
     end
+    alias dynamic_attribute_names! dynamic_attribute_names
+
+    # @return [Hash{Symbol => Object}]
+    def dynamic_attributes
+      attrs = {}
+      dynamic_attribute_names.each do |name|
+        attrs[name] = public_send(name)
+      end
+
+      attrs
+    end
+    alias dynamic_attributes! dynamic_attributes
   end
 end

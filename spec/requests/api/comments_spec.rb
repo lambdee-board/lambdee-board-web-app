@@ -1,12 +1,10 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/comments', type: :request do
-
-  before(:each) do
-    ::FactoryBot.create :user
-  end
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   path '/api/tasks/{id}/comments' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     get("List task's comments") do

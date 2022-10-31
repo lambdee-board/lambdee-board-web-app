@@ -1,0 +1,8 @@
+development: &default
+  secret_key: s3cr3t_k3y
+
+test:
+  <<: *default
+
+production:
+  secret_key: <%= ENV['JWT_SECRET_KEY'] %>

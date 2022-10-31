@@ -8,6 +8,8 @@ import {
   Container,
   Button
 } from '@mui/material'
+import { RegularContent } from '../permissions/RegularContent'
+import { DeveloperContent } from '../permissions/DeveloperContent'
 
 import AccountMenuButton from './navbar/AccountMenuButton'
 import WorkspacesMenuButton from './navbar/WorkspacesMenuButton'
@@ -41,24 +43,30 @@ const Navbar = () => {
           <Box className='Box-dropdown-button-group'>
             <WorkspacesMenuButton />
             <RecentMenuButton />
-            <Button
-              className='Button'
-              id='dropdown-button'
-              onClick={() => navigate('/tasks')}
-            >
-              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
+            <RegularContent>
+              <Button
+                className='Button'
+                id='dropdown-button'
+                onClick={() => navigate('/tasks')}
+              >
+
+                <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
                 Tasks
-              </Typography>
-            </Button>
-            <Button
-              className='Button'
-              id='dropdown-button'
-              onClick={() => navigate('/console')}
-            >
-              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+                </Typography>
+              </Button>
+            </RegularContent>
+            <DeveloperContent>
+              <Button
+                className='Button'
+                id='dropdown-button'
+                onClick={() => navigate('/console')}
+              >
+                <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
                 Console
-              </Typography>
-            </Button>
+                </Typography>
+              </Button>
+            </DeveloperContent>
+
             <Button
               className='Button'
               id='dropdown-button'

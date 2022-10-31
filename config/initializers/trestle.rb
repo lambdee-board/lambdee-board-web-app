@@ -1,4 +1,6 @@
-Trestle.configure do |config|
+# frozen_string_literal: true
+
+::Trestle.configure do |config|
   # == Customization Options
   #
   # Set the page title shown in the main header within the admin.
@@ -139,11 +141,11 @@ Trestle.configure do |config|
 
   # Specify the Devise/Warden mapping/scope.
   #
-  config.auth.warden.scope = :user
+  config.auth.warden.scope = :admin_user
 
   # Specify the user class to be used by trestle-auth.
   #
-  config.auth.user_class = -> { ::DB::User }
+  config.auth.user_class = -> { ::DB::AdminUser }
 
   # Specify the Trestle admin for managing the current user (My Account).
   #
@@ -152,7 +154,7 @@ Trestle.configure do |config|
   # Specify the parameter (along with a password) to be used to
   # authenticate an administrator. Defaults to :email if not specified below.
   #
-  config.auth.authenticate_with = -> { Devise.authentication_keys.first }
+  config.auth.authenticate_with = -> { ::Devise.authentication_keys.first }
 
   # Customize the rendering of user avatars. Can be disabled by setting to false.
   # Defaults to the Gravatar based on the user's email address.

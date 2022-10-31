@@ -10,7 +10,8 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'get index' do
     3.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}").users << @user }
-    get '/api/workspaces'
+    ::FactoryBot.create(:workspace, name: 'not_user_workspace')
+    get '/api/workspaces', headers: auth_headers(@user)
     assert_response 200
     json = ::JSON.parse(response.body)
     assert_equal 3, json.length
@@ -19,79 +20,144 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
     end
   end
 
-  should 'not create workspace with a too long name' do
-    assert_no_difference('DB::Workspace.count') do
-      post api_workspaces_url, params: {
-        workspace: { name: 'd' * 50 }
-      }, as: :json
+  should 'get index when admin user' do
+    @user.admin!
+    ::FactoryBot.create(:workspace, name: 'not_user_workspace')
+    get '/api/workspaces', headers: auth_headers(@user)
+    assert_response 200
+    json = ::JSON.parse(response.body)
+    assert_equal 'not_user_workspace', json.last['name']
+  end
+
+  should 'not show workspace' do
+    get api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
+    assert_response :unauthorized
+  end
+
+  context "user's workspace" do
+    setup do
+      @user.workspaces << @workspace
     end
 
-    assert_response :unprocessable_entity
-    json = ::JSON.parse response.body
-    assert_equal 'is too long (maximum is 40 characters)', json.dig('name', 0)
-  end
+    should 'show workspace' do
+      get api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
+      assert_response :success
 
-  should 'create workspace' do
-    assert_difference('DB::Workspace.count') do
-      post api_workspaces_url, params: {
-        workspace: { name: 'Workspace 1' }
-      }, as: :json
+      json = ::JSON.parse response.body
+      assert_equal @workspace.name, json['name']
     end
 
-    assert_response :created
-    json = ::JSON.parse response.body
-    assert_equal 'Workspace 1', json['name']
-  end
+    should 'not create workspace' do
+      assert_no_difference('DB::Workspace.count') do
+        post api_workspaces_url, params: {
+          workspace: { name: 'Workspace 1' }
+        }, as: :json, headers: auth_headers(@user)
+      end
 
-  should 'show workspace' do
-    get api_workspace_url(@workspace), as: :json
-    assert_response :success
-
-    json = ::JSON.parse response.body
-    assert_equal @workspace.name, json['name']
-  end
-
-  should 'update workspace' do
-    patch api_workspace_url(@workspace), params: {
-      workspace: { name: 'New Name' }
-    }, as: :json
-
-    assert_response :success
-
-    json = ::JSON.parse response.body
-    assert_equal 'New Name', json['name']
-  end
-
-  should 'destroy workspace' do
-    assert_difference('DB::Workspace.count', -1) do
-      delete api_workspace_url(@workspace), as: :json
+      assert_response :unauthorized
     end
 
-    assert_response :no_content
+    should 'not update workspace' do
+      patch api_workspace_url(@workspace), params: {
+        workspace: { name: 'New Name' }
+      }, as: :json, headers: auth_headers(@user)
 
-    assert @workspace.reload.deleted?
-    assert_not @workspace.reload.deleted_fully?
+      assert_response :unauthorized
+    end
+
+    should 'not destroy workspace' do
+      assert_no_difference('DB::Workspace.count') do
+        delete api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
+      end
+
+      assert_response :unauthorized
+    end
+
+    should 'not assign user to workspace' do
+      post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
+
+      assert_response :unauthorized
+    end
+
+    should 'not unassign user from workspace' do
+      post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
+
+      assert_response :unauthorized
+    end
   end
 
-  should 'assign user to workspace' do
-    post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+  context 'manager' do
+    setup do
+      @user.workspaces << @workspace
+      @user.manager!
+    end
 
-    assert_response :no_content
+    should 'create workspace and assign current_user' do
+      assert_difference('DB::Workspace.count') do
+        post api_workspaces_url, params: {
+          workspace: { name: 'Workspace 1' }
+        }, as: :json, headers: auth_headers(@user)
+      end
 
-    assert_equal @user.id, @workspace.reload.users.last.id
-  end
+      assert_response :created
+      json = ::JSON.parse response.body
+      assert_equal 'Workspace 1', json['name']
+      assert_equal @user.id, ::DB::Workspace.last.users.first.id
+    end
 
-  should 'unassign user to workspace' do
-    user2 = ::FactoryBot.create :user
-    @workspace.users << @user
-    @workspace.users << user2
-    assert_equal 2, @workspace.users.size
+    should 'not create workspace with a too long name' do
+      assert_no_difference('DB::Workspace.count') do
+        post api_workspaces_url, params: {
+          workspace: { name: 'd' * 50 }
+        }, as: :json, headers: auth_headers(@user)
+      end
 
-    post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }
+      assert_response :unprocessable_entity
+      json = ::JSON.parse response.body
+      assert_equal 'is too long (maximum is 40 characters)', json.dig('name', 0)
+    end
 
-    assert_response :no_content
+    should 'update workspace' do
+      patch api_workspace_url(@workspace), params: {
+        workspace: { name: 'New Name' }
+      }, as: :json, headers: auth_headers(@user)
 
-    assert_equal 1, @workspace.reload.users.size
-    assert_equal user2.id, @workspace.reload.users.first.id
+      assert_response :success
+
+      json = ::JSON.parse response.body
+      assert_equal 'New Name', json['name']
+    end
+
+    should 'destroy workspace' do
+      assert_difference('DB::Workspace.count', -1) do
+        delete api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
+      end
+
+      assert_response :no_content
+
+      assert @workspace.reload.deleted?
+      assert_not @workspace.reload.deleted_fully?
+    end
+
+    should 'assign user to workspace' do
+      post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
+
+      assert_response :no_content
+
+      assert_equal @user.id, @workspace.reload.users.last.id
+    end
+
+    should 'unassign user from workspace' do
+      user2 = ::FactoryBot.create :user
+      @workspace.users << user2
+      assert_equal 2, @workspace.users.size
+
+      post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
+
+      assert_response :no_content
+
+      assert_equal 1, @workspace.reload.users.size
+      assert_equal user2.id, @workspace.reload.users.first.id
+    end
   end
 end

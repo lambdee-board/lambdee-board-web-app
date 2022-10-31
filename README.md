@@ -244,6 +244,24 @@ $ sudo ln -s /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.14.dylib 
 $ sudo ln -s /opt/homebrew/opt/postgresql@14/lib/postgresql@14/libpq.5.14.dylib /opt/homebrew/opt/postgresql/lib/libpq.5.dylib
 ```
 
+<hr>
+
+> ActiveRecord::ConnectionNotEstablished - connection to server on socket "/tmp/.s.PGSQL.5432" failed: No such file or directory
+
+MacBook
+
+```sh
+$ rm /usr/local/var/postgres/postmaster.pid
+$ brew services restart postgresql
+```
+
+MacBook M1
+
+```sh
+$ rm /opt/homebrew/var/postgres/postmaster.pid
+$ brew services restart postgresql
+```
+
 **eventmachine**
 
 > In file included from binder.cpp:20:

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-::Trestle.resource(:account, model: ::DB::User, scope: Auth, singular: true) do
+::Trestle.resource(:account, model: ::DB::AdminUser, scope: ::Auth, singular: true) do
   instance do
     current_user
   end

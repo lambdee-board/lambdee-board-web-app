@@ -4,15 +4,17 @@
 # through the JSON API.
 class API::ListsController < ::APIController
   before_action :set_list, only: %i[update destroy]
+  authorize_resource only: %i[update destroy]
 
   # GET api/lists
   def index
-    @lists = ::DB::List.all
+    @lists = ::DB::List.all.accessible_by(current_ability)
   end
 
   # GET api/lists/1
   def show
     set_list_and_tasks_scope
+    authorize! :show, @list
 
     return render :show_with_tasks, locals: { tasks: @tasks_scope } if @tasks_scope
   end
@@ -20,6 +22,7 @@ class API::ListsController < ::APIController
   # POST api/lists
   def create
     @list = ::DB::List.new(list_params)
+    authorize! :create, @list
     return render :show, status: :created, location: api_list_url(@list) if @list.save
 
     render json: @list.errors, status: :unprocessable_entity

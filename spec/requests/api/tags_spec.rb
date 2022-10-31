@@ -1,12 +1,14 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/tags', type: :request do
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   before(:each) do
     ::FactoryBot.create :user
   end
 
   path '/api/boards/{id}/tags' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Board id'
 
     get("List board's tags") do
@@ -51,6 +53,8 @@ require 'swagger_helper'
   end
 
   path '/api/tags' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     post('Create tag') do
       tags 'Tags'
       consumes 'application/json'
@@ -70,6 +74,8 @@ require 'swagger_helper'
   end
 
   path '/api/tasks/{id}/tags' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     parameter name: 'id', in: :path, type: :string, description: 'Task id'
 
     get("List task's tags") do
@@ -116,6 +122,8 @@ require 'swagger_helper'
   end
 
   path '/api/tags/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('Show Tags') do

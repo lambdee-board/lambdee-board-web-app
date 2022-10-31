@@ -7,6 +7,7 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material'
+import { isRegular } from '../../permissions/RegularContent'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useDispatch } from 'react-redux'
@@ -70,7 +71,7 @@ function TaskPriority({ task, mutate }) {
   return (
     <Box className='TaskPriority'>
       {task.priority ? (<Box>
-        <IconButton onClick={editPriorityOnClick} className='TaskPriority-button'>
+        <IconButton onClick={isRegular() ? editPriorityOnClick : undefined} className='TaskPriority-button'>
           <PriorityIcon size='xl' taskPriority={task.priority} />
         </IconButton>
       </Box>) :

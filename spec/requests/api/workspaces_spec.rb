@@ -1,12 +1,15 @@
 require 'swagger_helper'
 
 ::RSpec.describe 'api/workspaces', type: :request do
+  let(:Authorization) { generate_jwt_token(::FactoryBot.create(:user, role: :admin)) }
 
   path '/api/workspaces' do
-
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     get('list workspaces') do
       tags 'Workspaces'
       produces 'application/json'
+      security [Bearer: {}]
+
       parameter name: 'limit',
                 in: :query,
                 type: :integer,
@@ -27,9 +30,9 @@ require 'swagger_helper'
         let(:boards) { 'all' }
 
         before do
-          usr = ::FactoryBot.create(:user)
+          user = ::FactoryBot.create(:user)
           wrk = ::FactoryBot.create(:workspace)
-          wrk.users << usr
+          wrk.users << user
           5.times { ::FactoryBot.create :board, workspace: wrk }
           ::FactoryBot.create(:workspace)
         end
@@ -78,6 +81,7 @@ require 'swagger_helper'
   end
 
   path '/api/workspaces/{id}' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'id'
 
     get('show workspace') do
@@ -161,6 +165,7 @@ require 'swagger_helper'
   end
 
   path '/api/workspaces/{id}/assign_user' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
 
     post('Assign User') do
@@ -178,6 +183,7 @@ require 'swagger_helper'
   end
 
   path '/api/workspaces/{id}/unassign_user' do
+    parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Workspace id'
 
     post('Unassign User') do
