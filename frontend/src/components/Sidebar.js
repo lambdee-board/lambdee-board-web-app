@@ -8,7 +8,7 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  Button,
+  // Button,
   Skeleton,
 } from '@mui/material'
 import {
@@ -16,12 +16,12 @@ import {
   faScroll,
   faGear,
   faUsers,
-  faArrowLeft,
+  // faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { DeveloperContent } from '../permissions/DeveloperContent'
 import { ManagerContent } from '../permissions/ManagerContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { styled, useTheme } from '@mui/material/styles'
+// import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 
 import useWorkspace from '../api/useWorkspace'
@@ -32,24 +32,24 @@ import NewBoardButton from './NewBoardButton'
 
 const drawerWidth = 240
 
-const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'open' })(
-  ({ theme, open }) => ({
-    flexGrow: 1,
-    padding: theme.spacing(3),
-    transition: theme.transitions.create('margin', {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-    marginLeft: `-${drawerWidth}px`,
-    ...(open && {
-      transition: theme.transitions.create('margin', {
-        easing: theme.transitions.easing.easeOut,
-        duration: theme.transitions.duration.enteringScreen,
-      }),
-      marginLeft: 0,
-    }),
-  }),
-)
+// const SidebarButton = styled(Button, { shouldForwardProp: (prop) => prop !== 'open' })(
+//   ({ theme, open }) => ({
+//     flexGrow: 1,
+//     padding: theme.spacing(3),
+//     transition: theme.transitions.create('margin', {
+//       easing: theme.transitions.easing.sharp,
+//       duration: theme.transitions.duration.leavingScreen,
+//     }),
+//     marginLeft: `-${drawerWidth}px`,
+//     ...(open && {
+//       transition: theme.transitions.create('margin', {
+//         easing: theme.transitions.easing.easeOut,
+//         duration: theme.transitions.duration.enteringScreen,
+//       }),
+//       marginLeft: 0,
+//     }),
+//   }),
+// )
 
 function SidebarListItem(props) {
   return (
@@ -100,18 +100,18 @@ function SidebarListSkeleton() {
 }
 
 export default function Sidebar() {
-  const theme = useTheme()
+  // const theme = useTheme()
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  const [isOpen, setOpen] = React.useState(true)
+  // const [isOpen, setOpen] = React.useState(true)
 
   return (
     <Box className='Sidebar-wrapper'>
       <Drawer
         className='Sidebar'
         variant='persistent'
-        open={isOpen}
+        open={true}
         sx={{ ['& .MuiDrawer-paper']: { width: drawerWidth, boxSizing: 'border-box' } }} >
         <Toolbar />
         <Box className='List-wrapper'>
@@ -162,7 +162,7 @@ export default function Sidebar() {
           </ManagerContent>
         </Box>
       </Drawer>
-      <SidebarButton
+      {/* <SidebarButton
         className='toggle-button'
         variant='contained'
         color='secondary'
@@ -173,7 +173,7 @@ export default function Sidebar() {
           className={isOpen ? 'opened-icon' : 'closed-icon'}
           icon={faArrowLeft}
         />
-      </SidebarButton>
+      </SidebarButton> */}
     </Box>
   )
 }

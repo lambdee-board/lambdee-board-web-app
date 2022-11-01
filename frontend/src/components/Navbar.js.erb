@@ -55,6 +55,15 @@ const Navbar = () => {
                 </Typography>
               </Button>
             </RegularContent>
+            <Button
+              className='Button'
+              id='dropdown-button'
+              onClick={() => navigate('/members')}
+            >
+              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+                Members
+              </Typography>
+            </Button>
             <DeveloperContent>
               <Button
                 className='Button'
@@ -67,15 +76,7 @@ const Navbar = () => {
               </Button>
             </DeveloperContent>
 
-            <Button
-              className='Button'
-              id='dropdown-button'
-              onClick={() => navigate('/members')}
-            >
-              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
-                Members
-              </Typography>
-            </Button>
+
           </Box>
           <AccountMenuButton />
         </Toolbar>
