@@ -4,13 +4,7 @@ import {
   Typography,
   Box,
   Card,
-  Skeleton,
-  Avatar,
-  Stack,
-  IconButton,
   Button,
-  ClickAwayListener,
-  FilledInput,
   TextField,
   InputBase
 } from '@mui/material'
@@ -92,6 +86,7 @@ const SprintModal = () => {
               <div className='buttons'>
                 <Button
                   variant='contained'
+                  color='secondary'
                   onClick={() => editTaskDescription()}
                 >
                   Save
@@ -115,9 +110,14 @@ const SprintModal = () => {
                 rehypePlugins={[[rehypeSanitize]]}
               />
             </Card>
-
-
           )}
+          <Button
+            color='secondary'
+            variant='contained'
+            fullWidth
+          >
+            Start Sprint
+          </Button>
         </Box>
       </Card>
     </Box>

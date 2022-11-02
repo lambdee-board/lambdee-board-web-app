@@ -301,6 +301,7 @@ const TaskCardModal = (props) => {
               <div className='buttons'>
                 <Button
                   variant='contained'
+                  color='secondary'
                   onClick={() => editTaskDescription()}
                 >
                   Save

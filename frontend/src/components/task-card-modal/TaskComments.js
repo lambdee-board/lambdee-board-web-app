@@ -91,6 +91,7 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
         <Box className='TaskComment-footer'>
           <Button
             variant='contained'
+            color='secondary'
             onClick={() => createComment()}
           >
             Save
@@ -216,6 +217,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
               <>
                 <Button
                   variant='contained'
+                  color='secondary'
                   onClick={() => editComment()}
                 >
                 Save
