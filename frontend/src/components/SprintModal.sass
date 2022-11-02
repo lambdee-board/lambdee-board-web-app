@@ -13,44 +13,27 @@
     margin-top: 3 * $unit
     margin-bottom: 3 * $unit
     width: calc(100vw - 5 * $unit)
-    max-width: 1100px
+    max-width: 600px
     display: flex
     flex-direction: row
     align-content: flex-start
     justify-content: space-between
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
-
-    .SprintModal-avatar
-      width: 4 * $unit
-      height: 4 * $unit
-      flex-direction: row
-      align-self: center
-      margin-right: 1 * $unit
     .SprintModal-main
       width: 100%
       margin: 4 * $unit
-
-      .SprintModal-main-label
+      .SprintModal-main-header
+        margin-bottom: 8 * $unit
+      .SprintModal-main-datetime
         margin-bottom: 4 * $unit
-      .SprintModal-main-icon
-        margin-left: 1 * $unit
-        margin-bottom: 1 * $unit
-        width: 2 * $unit
-        height: 2 * $unit
-
-      .SprintModal-description-label
-        display: flex
-        align-items: center
-        justify-content: flex-start
-        align-content: center
-        flex-wrap: wrap
-        flex-direction: row
-        margin-left: -$unit
-        margin-right: -$unit
-
-        p
-          margin-left: $unit
-          margin-right: $unit
+      .SprintModal-main-name
+        margin-bottom: 4 * $unit
+        .SprintModal-main-name-card
+          padding: (.75 * $unit) ($unit)
+          margin-top: 1 * $unit
+          display: flex
+          .SprintModal-main-name-input
+            margin-right: auto
 
         .SprintModal-description-label-unsaved-changes
           color: #7d7b7b
@@ -59,16 +42,12 @@
         margin-top: 1 * $unit
         padding: $unit 2 * $unit
         min-height: 20 * $unit
-        margin-bottom: 5 * $unit
         cursor: pointer
         @include transition
 
         &:hover
           opacity: .8
-      .SprintModal-task-description-editor
-        margin-top: 1 * $unit
-        margin-bottom: 5 * $unit
-
+      .SprintModal-description-editor
         .buttons
           display: flex
           align-items: center
@@ -84,40 +63,3 @@
           button
             margin-left: calc($unit / 2)
             margin-right: calc($unit / 2)
-
-    .SprintModal-sidebar
-      width: 45 * $unit
-      padding: 4 * $unit
-
-      .SprintModal-sidebar-card
-        padding: 2 * $unit
-        .SprintModal-sidebar-card-box-tags
-          margin-top: 0
-          margin-bottom: $unit
-          .Tag
-            font-size: 1rem
-
-        .SprintModal-assign-user-btn
-          color: #7d7b7b
-          cursor: pointer
-          @include transition
-
-          &:hover
-            opacity: .8
-
-        .SprintModal-sidebar-card-box
-          display: flex
-          align-items: center
-          .SprintModal-sidebar-user-unassinged
-            margin-left: auto
-            .SprintModal-sidebar-user-unassigned-icon
-              width: 2 * $unit
-              height: 2 * $unit
-              color: #FF0000
-          .SprintModal-sidebar-card-box-taskPriority
-            align-items: flex-start
-            width: 6 * $unit
-            height: 6 * $unit
-      .SprintModal-delete-task
-        width: 100%
-        margin-top: 2*$unit
