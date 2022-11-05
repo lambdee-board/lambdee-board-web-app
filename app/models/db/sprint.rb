@@ -1,6 +1,5 @@
 # frozen_string_literal: true
 
-require 'debug'
 # Contains the data of a sprint
 class DB::Sprint < ApplicationRecord
   include ::Charts::BurnUpChart

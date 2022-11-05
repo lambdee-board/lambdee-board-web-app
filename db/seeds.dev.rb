@@ -16,10 +16,10 @@ def create_board(workspace)
     end
   end
 
-  rand(2).times do
-    sprint = ::FactoryBot.create(:sprint, board:, end_date: ::Time.now)
-    rand(2..5).times {::FactoryBot.create(:sprint_task, sprint:)}
-  end
+  # rand(2).times do
+  #   sprint = ::FactoryBot.create(:sprint, board:, end_date: ::Time.now)
+  #   rand(2..5).times {::FactoryBot.create(:sprint_task, sprint:)}
+  # end
 
   board
 end

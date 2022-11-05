@@ -65,6 +65,7 @@
 
       resources :sprints do
         post :end, on: :member
+        resources :sprint_tasks, only: :index
       end
 
       resources :sprint_tasks
