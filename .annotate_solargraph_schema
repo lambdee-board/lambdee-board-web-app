@@ -559,12 +559,6 @@ class DB::Sprint < ApplicationRecord
   # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
   # @return [DB::Board, nil]
   def board; end
-  # `belongs_to` relation with `DB::List`. Database column `sprints.final_list_id`.
-  # @param val [DB::List, nil]
-  def final_list=(val); end
-  # `belongs_to` relation with `DB::List`. Database column `sprints.final_list_id`.
-  # @return [DB::List, nil]
-  def final_list; end
   # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
   # @param val [Array<DB::SprintTask>, nil]
   def sprint_tasks=(val); end
@@ -613,12 +607,12 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.board_id`, type: `integer`.
   # @return [Integer, nil]
   def board_id; end
-  # Database column `sprints.final_list_id`, type: `integer`.
-  # @param val [Integer, nil]
-  def final_list_id=(val); end
-  # Database column `sprints.final_list_id`, type: `integer`.
-  # @return [Integer, nil]
-  def final_list_id; end
+  # Database column `sprints.final_list_name`, type: `string`.
+  # @param val [String, nil]
+  def final_list_name=(val); end
+  # Database column `sprints.final_list_name`, type: `string`.
+  # @return [String, nil]
+  def final_list_name; end
 end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 
@@ -656,12 +650,30 @@ class DB::SprintTask < ApplicationRecord
   # Database column `sprint_tasks.sprint_id`, type: `integer`.
   # @return [Integer, nil]
   def sprint_id; end
-  # Database column `sprint_tasks.data`, type: `jsonb`.
-  # @param val [Hash, nil]
-  def data=(val); end
-  # Database column `sprint_tasks.data`, type: `jsonb`.
-  # @return [Hash, nil]
-  def data; end
+  # Database column `sprint_tasks.add_date`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def add_date=(val); end
+  # Database column `sprint_tasks.add_date`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def add_date; end
+  # Database column `sprint_tasks.completion_date`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def completion_date=(val); end
+  # Database column `sprint_tasks.completion_date`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def completion_date; end
+  # Database column `sprint_tasks.start_state`, type: `string`.
+  # @param val [String, nil]
+  def start_state=(val); end
+  # Database column `sprint_tasks.start_state`, type: `string`.
+  # @return [String, nil]
+  def start_state; end
+  # Database column `sprint_tasks.state`, type: `string`.
+  # @param val [String, nil]
+  def state=(val); end
+  # Database column `sprint_tasks.state`, type: `string`.
+  # @return [String, nil]
+  def state; end
 end
 # %%<RailsAnnotateSolargraph:End:sprint_tasks>%%
 

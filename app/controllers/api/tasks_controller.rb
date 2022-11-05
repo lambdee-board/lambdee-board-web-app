@@ -43,8 +43,6 @@ class API::TasksController < ::APIController
 
   # PATCH/PUT api/tasks/1
   def update
-    @task.new_task_state params[:list_id] if @task.board.active_sprint
-
     return render :show, status: :ok, location: api_task_url(@task) if @task.update(task_params)
 
     render json: @task.errors, status: :unprocessable_entity

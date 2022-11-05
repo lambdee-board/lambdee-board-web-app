@@ -24,7 +24,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
       should 'create task' do
         params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }
         assert_difference('DB::Task.count') do
-          post api_tasks_url, params: , as: :json, headers: auth_headers(@user)
+          post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
         end
 
         assert_response :created
@@ -129,6 +129,88 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
         @task.reload
         assert_nil @task.users.first
+      end
+
+      context 'sprint' do
+        setup do
+          @sprint = ::FactoryBot.create(:sprint_with_list, board: @board)
+          @list_in_sprint = @sprint.lists.last
+        end
+
+        should 'create new task in the active sprint' do
+          params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list_in_sprint.id, author_id: @user.id } }
+          assert_difference('DB::Task.count') do
+            post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+          end
+
+          assert_response :created
+          assert @sprint.reload.tasks.include?(::DB::Task.last)
+
+          sprint_task = @sprint.sprint_tasks.last
+
+          assert_not_nil sprint_task.add_date
+          assert_equal @list_in_sprint.name, sprint_task.start_state
+          assert_equal @list_in_sprint.name, sprint_task.state
+        end
+
+        should 'create new task beyond the active sprint' do
+          params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }
+          assert_difference('DB::Task.count') do
+            post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+          end
+
+          assert_response :created
+          assert_not @sprint.reload.tasks.include?(::DB::Task.last)
+        end
+
+        should 'move task to the active sprint' do
+          assert_not @sprint.reload.tasks.include?(@task)
+
+          patch api_task_url(@task), params: { task: { list_id: @list_in_sprint.id } }, as: :json, headers: auth_headers(@user)
+
+          assert_response :success
+          json = ::JSON.parse response.body
+          assert_equal @list_in_sprint.id, json['list_id']
+          assert @sprint.reload.tasks.include?(@task)
+
+          sprint_task = @sprint.sprint_tasks.last
+
+          assert_not_nil sprint_task.add_date
+          assert_equal @list_in_sprint.name, sprint_task.start_state
+          assert_equal @list_in_sprint.name, sprint_task.state
+        end
+
+        should 'move task to another list in sprint' do
+          @task.list_id = @list_in_sprint.id
+          @task.save!
+          assert @sprint.reload.tasks.include?(@task)
+
+          @board.lists << new_list = ::FactoryBot.create(:visible_list)
+
+          patch api_task_url(@task), params: { task: { list_id: new_list.id } }, as: :json, headers: auth_headers(@user)
+
+          assert_response :success
+          json = ::JSON.parse response.body
+          assert @sprint.reload.tasks.include?(@task)
+
+          sprint_task = @sprint.sprint_tasks.last
+
+          assert_not_nil sprint_task.add_date
+          assert_equal @list_in_sprint.name, sprint_task.start_state
+          assert_equal new_list.name, sprint_task.state
+        end
+
+        should 'move task to another list in beyond the sprint' do
+          assert_not @sprint.reload.tasks.include?(@task)
+
+          @board.lists << new_list = ::FactoryBot.create(:list)
+
+          patch api_task_url(@task), params: { task: { list_id: new_list.id } }, as: :json, headers: auth_headers(@user)
+
+          assert_response :success
+          json = ::JSON.parse response.body
+          assert_not @sprint.reload.tasks.include?(@task)
+        end
       end
 
       context 'time' do

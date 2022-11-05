@@ -7,7 +7,7 @@ class API::SprintTasksController < ApplicationController
 
   # GET /api/sprint_tasks
   def index
-    @sprint_tasks = DB::SprintTask.all
+    @sprint_tasks = ::DB::SprintTask.all
   end
 
   # GET /api/sprint_tasks/1
@@ -15,7 +15,7 @@ class API::SprintTasksController < ApplicationController
 
   # POST /api/sprint_tasks
   def create
-    @sprint_tasks = DB::SprintTask.new(sprint_tasks_params)
+    @sprint_tasks = ::DB::SprintTask.new(sprint_tasks_params)
 
     return  render :show, status: :created, location: api_sprint_tasks_url(@sprint_tasks) if @sprint_tasks.save
 
@@ -38,7 +38,7 @@ class API::SprintTasksController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_sprint_tasks
-    @sprint_tasks = DB::SprintTask.find(params[:id])
+    @sprint_tasks = ::DB::SprintTask.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

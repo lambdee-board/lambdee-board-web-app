@@ -28,7 +28,7 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
           start_date: date,
           due_date: date,
           board_id: @board.id,
-          final_list_id: @board.lists.last.id
+          final_list: 'elo'
           }
         }, as: :json
     end
@@ -39,7 +39,7 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     assert_equal Time.parse(date), Time.parse(json['start_date'])
     assert_equal Time.parse(date), Time.parse(json['due_date'])
     assert_equal @board.id, json['board_id']
-    assert_equal @board.lists.last.id, json['final_list_id']
+    assert_equal 'elo', json['final_list']
     assert_nil json['inexistent_field']
   end
 

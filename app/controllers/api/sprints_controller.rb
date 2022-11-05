@@ -16,7 +16,7 @@ class API::SprintsController < ::APIController
   # POST /api/sprints
   def create
     @sprint = ::DB::Sprint.new(sprint_params)
-    return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.create
+    return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.save
 
     render json: @sprint.errors, status: :unprocessable_entity
   end
@@ -49,6 +49,6 @@ class API::SprintsController < ::APIController
 
   # @return [Hash{Symbol => Object}]
   def sprint_params
-    params.require(:sprint).permit(:name, :start_date, :due_date, :board_id, :final_list_id)
+    params.require(:sprint).permit(:name, :start_date, :due_date, :board_id)
   end
 end
