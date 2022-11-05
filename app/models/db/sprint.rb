@@ -40,7 +40,7 @@ class DB::Sprint < ApplicationRecord
   end
 
   def only_one_active_sprint
-    errors.add(:board, 'already has an active sprint') if board.active_sprint
+    errors.add(:board, 'already has an active sprint') if board.active_sprint && board.active_sprint != self
   end
 
   def set_final_list_name

@@ -4,10 +4,16 @@
 # through the JSON API.
 class API::SprintsController < ::APIController
   before_action :set_sprint, only: %i[show update destroy end]
+  authorize_resource only: %i[show update destroy]
 
-  # GET /api/sprints
+  # GET /api/sprints or GET /api/boards/1/sprints
   def index
-    @sprints = ::DB::Sprint.all
+    @sprints = if params[:board_id]
+                 ::DB::Board.find(params[:board_id]).sprints
+               else
+                 ::DB::Sprint.all
+               end
+    @sprints = @sprints.accessible_by(current_ability)
   end
 
   # GET /api/sprints/1
@@ -16,6 +22,7 @@ class API::SprintsController < ::APIController
   # POST /api/sprints
   def create
     @sprint = ::DB::Sprint.new(sprint_params)
+    authorize! :create, @sprint
     return render :show, status: :created, location: api_sprint_url(@sprint) if @sprint.save
 
     render json: @sprint.errors, status: :unprocessable_entity
@@ -30,6 +37,7 @@ class API::SprintsController < ::APIController
 
   # PATCH/PUT /api/sprints/1/end
   def end
+    authorize! :update, @sprint
     return render :show, status: :ok, location: api_sprint_url(@sprint) if @sprint.end
 
     render json: @sprint.errors, status: :unprocessable_entity
@@ -38,6 +46,16 @@ class API::SprintsController < ::APIController
   # DELETE /api/sprints/1
   def destroy
     @sprint.destroy
+  end
+
+  # GET /api/boards/1/active_sprint
+  def active_sprint
+    @sprint = ::DB::Board.find(params[:id]).active_sprint
+    if @sprint
+      render :show
+    else
+      head :not_found
+    end
   end
 
   private
