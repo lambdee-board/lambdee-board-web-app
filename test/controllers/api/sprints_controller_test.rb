@@ -62,6 +62,28 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
 
     json = ::JSON.parse response.body
     assert_equal @sprint.name, json['name']
+    assert_nil json['tasks']
+  end
+
+  should 'show sprint with tasks' do
+    @sprint.tasks << task = ::FactoryBot.create(:task)
+    st = @sprint.sprint_tasks.first
+    st.build_start_params
+    st.save!
+    get api_sprint_url(@sprint), params: { tasks: 'all' }, headers: auth_headers(@user), as: :json
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @sprint.name, json['name']
+    assert_not_nil json['tasks']
+    assert_equal task.name, json['tasks'].first['name']
+    assert_equal task.priority, json['tasks'].first['priority']
+    assert_equal task.spent_time, json['tasks'].first['spent_time']
+    assert_equal task.points, json['tasks'].first['points']
+    assert_equal st.start_state, json['tasks'].first['start_state']
+    assert_equal st.state, json['tasks'].first['state']
+    assert json['tasks'].first.key? 'added_at'
+    assert json['tasks'].first.key? 'completed_at'
   end
 
   should 'update sprint' do

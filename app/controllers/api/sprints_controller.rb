@@ -17,7 +17,9 @@ class API::SprintsController < ::APIController
   end
 
   # GET /api/sprints/1
-  def show; end
+  def show
+    render :show, locals: { tasks: params[:tasks] }
+  end
 
   # POST /api/sprints
   def create
