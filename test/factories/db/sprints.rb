@@ -3,6 +3,7 @@
 ::FactoryBot.define do
   factory :sprint, class: 'DB::Sprint' do
     name { ::Faker::Australia.location }
+    description { ::Faker::Lorem.paragraph }
     started_at { ::Time.now }
     expected_end_at { ::Time.now + 1.week }
     association :board

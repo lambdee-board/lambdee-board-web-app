@@ -613,6 +613,12 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.final_list_name`, type: `string`.
   # @return [String, nil]
   def final_list_name; end
+  # Database column `sprints.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `sprints.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
 end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 

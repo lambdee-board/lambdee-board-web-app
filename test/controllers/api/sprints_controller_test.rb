@@ -37,6 +37,7 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
         params: {
           sprint: {
             name: 'Sprite',
+            description: 'Opis sprintu',
             started_at: date,
             expected_end_at: date,
             board_id: @board.id
@@ -47,6 +48,7 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Sprite', json['name']
+    assert_equal 'Opis sprintu', json['description']
     assert_equal ::Time.parse(date), ::Time.parse(json['started_at'])
     assert_equal ::Time.parse(date), ::Time.parse(json['expected_end_at'])
     assert_equal @board.id, json['board_id']
