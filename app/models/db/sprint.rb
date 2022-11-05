@@ -9,7 +9,7 @@ class DB::Sprint < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 40 }
   validates :final_list_name, presence: true, length: { maximum: 255 }
-  validates :start_date, :due_date, presence: true
+  validates :started_at, :expected_end_at, presence: true
   validate :final_list_name_uniqueness
   validate :only_one_active_sprint
 
@@ -23,11 +23,11 @@ class DB::Sprint < ApplicationRecord
 
   # @return [Boolean, nil]
   def end
-    return if end_date
+    return if ended_at
 
     completed_tasks = board.lists.find_by(name: final_list_name)&.tasks
     completed_tasks&.destroy_all
-    self.end_date = ::Time.now
+    self.ended_at = ::Time.now
     save(validate: false)
   end
 
@@ -36,45 +36,68 @@ class DB::Sprint < ApplicationRecord
     [
       {
         name: 'Work Scope',
-        data: points_in_sprint
+        data: points_in_sprint_in_time
       },
       {
         name: 'Completed work',
-        data: {
-          (Time.now - 1.week) => 0,
-          (Time.now - 1.week + 1.hour) => 2,
-          (Time.now - 1.week + 4.hour) => 3,
-          (Time.now - 1.week + 14.hour) => 5,
-          (Time.now - 1.week + 24.hour) => 10,
-          (Time.now - 1.week + 30.hour) => 15,
-          (Time.now - 1.week + 35.hour) => 20,
-          (Time.now - 1.week + 48.hour) => 21,
-          (Time.now - 3.days) => 22
-        }
+        data: completed_work
       }
     ]
   end
 
   # @return [Hash]
-  def points_in_sprint
-    result = {}
+  def points_in_sprint_in_time
+    result = dates_hash.dup
     sum = 0
-    sprint_tasks.order(:add_date).includes(:task).each do |st|
-      start_date = st.start_date.to_date.to_s
-      result[start_date] = sum += st.task.points
+    sprint_tasks.order(:added_at).includes(:task).each do |st|
+      start_date = st.addition_date.to_s
+      sum += st.task.points if st.task.points
+      result[start_date] = sum
     end
-    result[due_date.to_s] = tasks.each.sum(&:points)
+    result[expected_end_at.to_date.to_s] = tasks.each.sum { |t| t.points.to_i }
+
+    last_points = result.first.second
+    result.transform_values! do |points|
+      points ||= last_points
+      last_points = points
+    end
+
     result
   end
 
+  # @return [Hash]
   def completed_work
-    # final_list_name = final_list.name
-    # result = {}
-    # sprint_tasks.includes(:task).each do |st|
-    #   end_date = st.data.last['date'].to_time.change(usec: 0).to_s
-    #   result[start_date] = sum += st.task.points
-    # end
-    # result
+    result = dates_hash.dup
+    sum = 0
+    sprint_tasks.order(:completed_at).includes(:task).each do |st|
+      next unless st.completed_at
+
+      end_date = st.completion_date.to_s
+      sum += st.task.points if st.task.points
+      result[end_date] = sum
+    end
+
+    last_points = result.first.second
+    result.transform_values! do |points|
+      points ||= last_points
+      last_points = points
+    end
+
+    result
+  end
+
+  # @return [Hash]
+  def dates_hash
+    return @result if @result
+
+    @result = {}
+    sprint_tasks.each do |st|
+      @result[st.addition_date.to_s] = nil
+      next unless st.completed_at
+
+      @result[st.completion_date.to_s] = nil
+    end
+    @result
   end
 
   private
@@ -88,7 +111,7 @@ class DB::Sprint < ApplicationRecord
   end
 
   def set_final_list_name
-    self.final_list_name ||= board.lists.visible(true).pos_order.last&.name
+    self.final_list_name ||= board.lists.visible(true).pos_order.last&.name || 'Done'
   end
 
   def add_tasks

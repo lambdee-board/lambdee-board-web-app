@@ -17,7 +17,7 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'create sprint' do
-    @sprint.end_date = ::Time.now
+    @sprint.ended_at = ::Time.now
     @sprint.save
 
     date = Time.now.in_time_zone('Warsaw').to_s
@@ -25,8 +25,8 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
       post api_sprints_url, params: {
         sprint: {
           name: 'Sprite',
-          start_date: date,
-          due_date: date,
+          started_at: date,
+          expected_end_at: date,
           board_id: @board.id,
           final_list: 'elo'
           }
@@ -36,8 +36,8 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Sprite', json['name']
-    assert_equal Time.parse(date), Time.parse(json['start_date'])
-    assert_equal Time.parse(date), Time.parse(json['due_date'])
+    assert_equal Time.parse(date), Time.parse(json['started_at'])
+    assert_equal Time.parse(date), Time.parse(json['expected_end_at'])
     assert_equal @board.id, json['board_id']
     assert_equal 'elo', json['final_list']
     assert_nil json['inexistent_field']
@@ -56,14 +56,14 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     patch api_sprint_url(@sprint), params: {
       sprint: {
         name: 'Sprite',
-        due_date: date,
+        expected_end_at: date,
         }
       }, as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
     assert_equal 'Sprite', json['name']
-    assert_equal Time.parse(date), Time.parse(json['due_date'])
+    assert_equal Time.parse(date), Time.parse(json['expected_end_at'])
   end
 
   should 'destroy sprint' do

@@ -148,7 +148,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
           sprint_task = @sprint.sprint_tasks.last
 
-          assert_not_nil sprint_task.add_date
+          assert_not_nil sprint_task.added_at
           assert_equal @list_in_sprint.name, sprint_task.start_state
           assert_equal @list_in_sprint.name, sprint_task.state
         end
@@ -175,7 +175,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
           sprint_task = @sprint.sprint_tasks.last
 
-          assert_not_nil sprint_task.add_date
+          assert_not_nil sprint_task.added_at
           assert_equal @list_in_sprint.name, sprint_task.start_state
           assert_equal @list_in_sprint.name, sprint_task.state
         end
@@ -195,7 +195,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
           sprint_task = @sprint.sprint_tasks.last
 
-          assert_not_nil sprint_task.add_date
+          assert_not_nil sprint_task.added_at
           assert_equal @list_in_sprint.name, sprint_task.start_state
           assert_equal new_list.name, sprint_task.state
         end

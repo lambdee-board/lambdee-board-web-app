@@ -583,24 +583,24 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.name`, type: `string`.
   # @return [String, nil]
   def name; end
-  # Database column `sprints.start_date`, type: `datetime`.
+  # Database column `sprints.started_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
-  def start_date=(val); end
-  # Database column `sprints.start_date`, type: `datetime`.
+  def started_at=(val); end
+  # Database column `sprints.started_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
-  def start_date; end
-  # Database column `sprints.due_date`, type: `datetime`.
+  def started_at; end
+  # Database column `sprints.expected_end_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
-  def due_date=(val); end
-  # Database column `sprints.due_date`, type: `datetime`.
+  def expected_end_at=(val); end
+  # Database column `sprints.expected_end_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
-  def due_date; end
-  # Database column `sprints.end_date`, type: `datetime`.
+  def expected_end_at; end
+  # Database column `sprints.ended_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
-  def end_date=(val); end
-  # Database column `sprints.end_date`, type: `datetime`.
+  def ended_at=(val); end
+  # Database column `sprints.ended_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
-  def end_date; end
+  def ended_at; end
   # Database column `sprints.board_id`, type: `integer`.
   # @param val [Integer, nil]
   def board_id=(val); end
@@ -650,18 +650,18 @@ class DB::SprintTask < ApplicationRecord
   # Database column `sprint_tasks.sprint_id`, type: `integer`.
   # @return [Integer, nil]
   def sprint_id; end
-  # Database column `sprint_tasks.add_date`, type: `datetime`.
+  # Database column `sprint_tasks.added_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
-  def add_date=(val); end
-  # Database column `sprint_tasks.add_date`, type: `datetime`.
+  def added_at=(val); end
+  # Database column `sprint_tasks.added_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
-  def add_date; end
-  # Database column `sprint_tasks.completion_date`, type: `datetime`.
+  def added_at; end
+  # Database column `sprint_tasks.completed_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
-  def completion_date=(val); end
-  # Database column `sprint_tasks.completion_date`, type: `datetime`.
+  def completed_at=(val); end
+  # Database column `sprint_tasks.completed_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
-  def completion_date; end
+  def completed_at; end
   # Database column `sprint_tasks.start_state`, type: `string`.
   # @param val [String, nil]
   def start_state=(val); end

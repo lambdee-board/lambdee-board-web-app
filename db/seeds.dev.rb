@@ -5,7 +5,7 @@ def create_board(workspace)
   workspace.boards << board = ::FactoryBot.create(:board)
 
   rand(2).times do
-    sprint = ::FactoryBot.create(:sprint, board:, end_date: ::Time.now)
+    sprint = ::FactoryBot.create(:sprint, board:, ended_at: ::Time.now)
     rand(2..5).times {::FactoryBot.create(:sprint_task, sprint:)}
   end
 

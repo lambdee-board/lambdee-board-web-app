@@ -6,17 +6,17 @@
   table do
     column :id
     column :name
-    column :start_date
-    column :due_date
-    column :end_date
+    column :started_at
+    column :expected_end_at
+    column :ended_at
   end
 
   form do
     text_field :name
     row do
-      col { datetime_field :start_date }
-      col { datetime_field :due_date }
-      col { datetime_field :end_date }
+      col { datetime_field :started_at }
+      col { datetime_field :expected_end_at }
+      col { datetime_field :ended_at }
     end
   end
 end

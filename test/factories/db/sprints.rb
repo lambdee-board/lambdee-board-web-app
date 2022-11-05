@@ -3,13 +3,12 @@
 ::FactoryBot.define do
   factory :sprint, class: 'DB::Sprint' do
     name { ::Faker::Australia.location }
-    start_date { ::Time.now }
-    due_date { ::Time.now + 1.week }
-    final_list_name { ::Faker::Artist.name }
+    started_at { ::Time.now }
+    expected_end_at { ::Time.now + 1.week }
     association :board
 
     trait :inactive do
-      end_date { ::Time.now + 1.week }
+      ended_at { ::Time.now + 1.week }
     end
   end
 

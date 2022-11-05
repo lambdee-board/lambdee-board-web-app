@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_04_175254) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_05_152951) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -57,8 +57,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_04_175254) do
   create_table "sprint_tasks", force: :cascade do |t|
     t.integer "task_id"
     t.integer "sprint_id"
-    t.datetime "add_date"
-    t.datetime "completion_date"
+    t.datetime "added_at"
+    t.datetime "completed_at"
     t.string "start_state"
     t.string "state"
     t.index ["sprint_id"], name: "index_sprint_tasks_on_sprint_id"
@@ -67,9 +67,9 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_04_175254) do
 
   create_table "sprints", force: :cascade do |t|
     t.string "name"
-    t.datetime "start_date"
-    t.datetime "due_date"
-    t.datetime "end_date"
+    t.datetime "started_at"
+    t.datetime "expected_end_at"
+    t.datetime "ended_at"
     t.bigint "board_id"
     t.string "final_list_name"
     t.index ["board_id"], name: "index_sprints_on_board_id"

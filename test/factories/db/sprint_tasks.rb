@@ -2,7 +2,7 @@
 
 ::FactoryBot.define do
   factory :sprint_task, class: 'DB::SprintTask' do
-    add_date { ::Time.now }
+    added_at { ::Time.now }
     start_state { 'To Do' }
     state { 'Doing' }
     association :sprint
@@ -10,6 +10,6 @@
   end
 
   trait :completed do
-    completion_date { ::Time.now }
+    completed_at { ::Time.now }
   end
 end

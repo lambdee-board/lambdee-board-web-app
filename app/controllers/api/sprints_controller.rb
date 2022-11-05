@@ -49,6 +49,6 @@ class API::SprintsController < ::APIController
 
   # @return [Hash{Symbol => Object}]
   def sprint_params
-    params.require(:sprint).permit(:name, :start_date, :due_date, :board_id)
+    params.require(:sprint).permit(:name, :started_at, :expected_end_at, :board_id)
   end
 end

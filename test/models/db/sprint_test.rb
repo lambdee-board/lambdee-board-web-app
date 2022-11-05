@@ -37,9 +37,9 @@ class ::DB::SprintTest < ::ActiveSupport::TestCase
     sprint = ::FactoryBot.create(:sprint, board: board)
 
     assert_not task.deleted?
-    assert_nil sprint.end_date
+    assert_nil sprint.ended_at
     sprint.end
-    assert sprint.end_date.today?
+    assert sprint.ended_at.today?
     assert_not task.deleted?
   end
 
