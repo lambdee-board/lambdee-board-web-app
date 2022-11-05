@@ -18,6 +18,8 @@ class DB::Task < ApplicationRecord
   has_many :sprints, through: :sprint_tasks
 
   before_create :set_highest_pos_in_list
+  before_save :check_if_update_of_sprint_task_is_needed
+  after_save :update_or_create_sprint_task
 
   default_scope { order(:id) }
 
@@ -53,6 +55,11 @@ class DB::Task < ApplicationRecord
     list.board
   end
 
+  # @return [DB::SprintTask, nil]
+  def current_sprint_task
+    @current_sprint_task ||= sprint_tasks.find_by(sprint: board.active_sprint)
+  end
+
   # Sets `pos` value to be the last in the list
   def set_highest_pos_in_list
     return unless list
@@ -60,16 +67,33 @@ class DB::Task < ApplicationRecord
     self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
   end
 
-  # Saves new task state (list to which task was moved to)
-  #
-  # @return [Boolean, nil]
-  def new_task_state(list_id)
-    return unless list.id != list_id
+  private
 
-    new_list = ::DB::List.find list_id
-    sprint_task = sprint_tasks.find_by sprint: board.active_sprint
+  def check_if_update_of_sprint_task_is_needed
+    return unless list_id_changed? && board.active_sprint
 
-    sprint_task.data << { state: new_list.name, date: ::Time.now }
-    sprint_task.save(validate: false)
+    new_list = ::DB::List.find(list_id)
+    return unless new_list.visible?
+
+    @manage_sprint_task = current_sprint_task ? :update : :create
+  end
+
+  def update_or_create_sprint_task
+    update_sprint_task if @manage_sprint_task == :update
+    create_sprint_task if @manage_sprint_task == :create
+  end
+
+  def update_sprint_task
+    current_sprint_task.state = list.name
+    current_sprint_task.save
+  end
+
+  def create_sprint_task
+    sprint_task = ::DB::SprintTask.new(
+      task: self,
+      sprint: board.active_sprint
+    )
+    sprint_task.build_start_params
+    sprint_task.save
   end
 end

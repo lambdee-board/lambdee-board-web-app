@@ -1,14 +1,18 @@
-FactoryBot.define do
+# frozen_string_literal: true
+
+::FactoryBot.define do
   factory :sprint, class: 'DB::Sprint' do
     name { ::Faker::Australia.location }
-    start_date { rand(rand(1..5).days).seconds.ago }
-    due_date { rand(rand(1..3).days).seconds.from_now }
-    end_date { nil }
-    final_list { board.lists.last }
-
-    trait :active do
-      end_date { rand(rand(4..7).days).seconds.from_now }
-    end
+    started_at { ::Time.now }
+    expected_end_at { ::Time.now + 1.week }
     association :board
+
+    trait :inactive do
+      ended_at { ::Time.now + 1.week }
+    end
+  end
+
+  factory :sprint_with_list, parent: :sprint do
+    after(:create) { |s| ::FactoryBot.create(:visible_list, board: s.board) }
   end
 end

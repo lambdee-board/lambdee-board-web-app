@@ -40,6 +40,8 @@
         resources :tags, only: %i[index create]
         get :recently_viewed, on: :collection
         get :user_tasks, on: :member
+        resources :sprints, only: :index
+        get :active_sprint, on: :member, controller: :sprints
       end
 
       resources :lists do

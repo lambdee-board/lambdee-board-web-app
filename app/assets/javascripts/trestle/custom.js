@@ -5,3 +5,5 @@
 // within individual partials and `require` them here.
 //
 //  e.g. //= require "trestle/custom/my_custom_js"
+// = require chartkick
+// = require Chart.bundle

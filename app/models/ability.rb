@@ -83,6 +83,7 @@ class Ability
     can actions,         ::DB::Board,     workspace: { users: { id: @user.id } }
     can actions,         ::DB::List,      board: { workspace: { users: { id: @user.id } } }
     can actions,         ::DB::Tag,       board: { workspace: { users: { id: @user.id } } }
+    can actions,         ::DB::Sprint,    board: { workspace: { users: { id: @user.id } } }
     can actions,         ::DB::Task,      list: { board: { workspace: { users: { id: @user.id } } } }
     can :read,           ::DB::Comment,   task: { list: { board: { workspace: { users: { id: @user.id } } } } }
     can :manage,         ::DB::Comment,   author: @user

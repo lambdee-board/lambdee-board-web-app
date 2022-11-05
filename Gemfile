@@ -51,6 +51,7 @@ gem 'bootsnap', require: false
 
 gem 'acts_as_paranoid'
 gem 'cancancan', '~> 3.4'
+gem 'chartkick'
 gem 'csv'
 gem 'devise'
 gem 'devise-jwt'

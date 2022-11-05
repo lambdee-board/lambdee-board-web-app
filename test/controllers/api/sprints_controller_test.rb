@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
-class API::SprintsControllerTest < ActionDispatch::IntegrationTest
+class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
     @user = ::FactoryBot.create(:user, role: 4)
     @board = ::FactoryBot.create(:board)
-    2.times { ::FactoryBot.create(:list, board: @board)}
+    2.times { ::FactoryBot.create(:visible_list, board: @board)}
     @sprint = ::FactoryBot.create(:sprint, board: @board)
   end
 
@@ -16,21 +18,28 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     assert_equal @sprint.name, json.dig(0, 'name')
   end
 
+  should 'get index for board' do
+    get api_board_sprints_url(@board), headers: auth_headers(@user)
+    assert_response :success
+    json = ::JSON.parse(response.body)
+
+    assert_equal @sprint.name, json.dig(0, 'name')
+  end
+
   should 'create sprint' do
-    @sprint.end_date = ::Time.now
+    @sprint.ended_at = ::Time.now
     @sprint.save
 
-    date = Time.now.in_time_zone('Warsaw').to_s
+    date = ::Time.now.in_time_zone('Warsaw').to_s
     assert_difference('DB::Sprint.count') do
       post api_sprints_url,
         headers: auth_headers(@user),
         params: {
           sprint: {
             name: 'Sprite',
-            start_date: date,
-            due_date: date,
-            board_id: @board.id,
-            final_list_id: @board.lists.last.id
+            started_at: date,
+            expected_end_at: date,
+            board_id: @board.id
           }
         }, as: :json
     end
@@ -38,10 +47,10 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     assert_response :created
     json = ::JSON.parse response.body
     assert_equal 'Sprite', json['name']
-    assert_equal Time.parse(date), Time.parse(json['start_date'])
-    assert_equal Time.parse(date), Time.parse(json['due_date'])
+    assert_equal ::Time.parse(date), ::Time.parse(json['started_at'])
+    assert_equal ::Time.parse(date), ::Time.parse(json['expected_end_at'])
     assert_equal @board.id, json['board_id']
-    assert_equal @board.lists.last.id, json['final_list_id']
+    assert_equal @board.lists.last.name, json['final_list_name']
     assert_nil json['inexistent_field']
   end
 
@@ -60,14 +69,14 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     params: {
       sprint: {
         name: 'Sprite',
-        due_date: date,
+        expected_end_at: date,
       }
     }, as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
     assert_equal 'Sprite', json['name']
-    assert_equal Time.parse(date), Time.parse(json['due_date'])
+    assert_equal ::Time.parse(date), ::Time.parse(json['expected_end_at'])
   end
 
   should 'destroy sprint' do
@@ -76,5 +85,13 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+  end
+
+  should 'show active sprint' do
+    get active_sprint_api_board_url(@board), headers: auth_headers(@user), as: :json
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal @sprint.name, json['name']
   end
 end
