@@ -31,7 +31,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'not show workspace' do
     get api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 
   context "user's workspace" do
@@ -54,7 +54,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
         }, as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not update workspace' do
@@ -62,7 +62,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
         workspace: { name: 'New Name' }
       }, as: :json, headers: auth_headers(@user)
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not destroy workspace' do
@@ -70,19 +70,19 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
         delete api_workspace_url(@workspace), as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not assign user to workspace' do
       post assign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
 
     should 'not unassign user from workspace' do
       post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 

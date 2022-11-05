@@ -2,14 +2,14 @@ require 'test_helper'
 
 class API::SprintsControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user)
+    @user = ::FactoryBot.create(:user, role: 4)
     @board = ::FactoryBot.create(:board)
     2.times { ::FactoryBot.create(:list, board: @board)}
     @sprint = ::FactoryBot.create(:sprint, board: @board)
   end
 
   should 'get index' do
-    get api_sprints_url
+    get api_sprints_url, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
 
@@ -22,13 +22,15 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
 
     date = Time.now.in_time_zone('Warsaw').to_s
     assert_difference('DB::Sprint.count') do
-      post api_sprints_url, params: {
-        sprint: {
-          name: 'Sprite',
-          started_at: date,
-          expected_end_at: date,
-          board_id: @board.id,
-          final_list: 'elo'
+      post api_sprints_url,
+        headers: auth_headers(@user),
+        params: {
+          sprint: {
+            name: 'Sprite',
+            started_at: date,
+            expected_end_at: date,
+            board_id: @board.id,
+            final_list: 'elo'
           }
         }, as: :json
     end
@@ -44,7 +46,7 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'show sprint' do
-    get api_sprint_url(@sprint), as: :json
+    get api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -53,12 +55,14 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
 
   should 'update sprint' do
     date = Time.now.in_time_zone('Warsaw').to_s
-    patch api_sprint_url(@sprint), params: {
+    patch api_sprint_url(@sprint),
+    headers: auth_headers(@user),
+    params: {
       sprint: {
         name: 'Sprite',
         expected_end_at: date,
-        }
-      }, as: :json
+      }
+    }, as: :json
     assert_response :success
 
     json = ::JSON.parse response.body
@@ -68,7 +72,7 @@ class API::SprintsControllerTest < ActionDispatch::IntegrationTest
 
   should 'destroy sprint' do
     assert_difference('DB::Sprint.count', -1) do
-      delete api_sprint_url(@sprint), as: :json
+      delete api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
     end
 
     assert_response :no_content

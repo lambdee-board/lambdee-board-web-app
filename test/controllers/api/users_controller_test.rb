@@ -183,7 +183,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
       }, as: :json, headers: auth_headers(@user)
     end
 
-    assert_response :unauthorized
+    assert_response :forbidden
   end
 
   should "show user" do

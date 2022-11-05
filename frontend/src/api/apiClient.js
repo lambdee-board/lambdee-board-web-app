@@ -2,10 +2,22 @@ import axios from 'axios'
 import useSWR, { mutate as swrMutate } from 'swr'
 import applyCaseMiddleware from 'axios-case-converter'
 
+
 const axiosClient = axios.create({
   withCredentials: true
 })
 
+axiosClient.interceptors.response.use((response) => {
+  return response
+}, (error) => {
+  if (error.response.status === 401) {
+    if (localStorage.getItem('token')) {
+      localStorage.clear()
+      window.location.reload()
+    }
+  }
+  return error
+})
 
 axiosClient.interceptors.request.use(
 

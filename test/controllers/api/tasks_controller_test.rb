@@ -62,7 +62,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
           post api_tasks_url, params: { task: { name: 'New task' } }, as: :json, headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'update task' do
@@ -327,7 +327,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
       should 'not update task' do
         patch api_task_url(@task), params: { task: { name: 'New name' } }, as: :json, headers: auth_headers(@user)
-        assert_response :unauthorized
+        assert_response :forbidden
 
         assert_not_equal 'New name', @task.reload.name
       end
@@ -337,14 +337,14 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
           delete api_task_url(@task), as: :json, headers: auth_headers(@user)
         end
 
-        assert_response :unauthorized
+        assert_response :forbidden
       end
 
       should 'not attach a tag to the task' do
         tag = ::FactoryBot.create(:tag)
         post attach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
 
-        assert_response :unauthorized
+        assert_response :forbidden
 
         @task.reload
         assert_equal 0, @task.tags.count
@@ -357,7 +357,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
         post detach_tag_api_task_url(@task), params: { tag_id: tag.id }, headers: auth_headers(@user), as: :json
 
-        assert_response :unauthorized
+        assert_response :forbidden
 
         @task.reload
         assert_not_nil @task.tags.first
@@ -367,7 +367,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         user = ::FactoryBot.create(:user)
         post assign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
 
-        assert_response :unauthorized
+        assert_response :forbidden
 
         @task.reload
         assert_equal 0, @task.users.count
@@ -380,7 +380,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
         post unassign_user_api_task_url(@task), params: { user_id: user.id }, headers: auth_headers(@user), as: :json
 
-        assert_response :unauthorized
+        assert_response :forbidden
 
         @task.reload
         assert_not_nil @task.users.first
@@ -402,7 +402,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
     should 'not show task' do
       get api_task_url(@task), as: :json, headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 end

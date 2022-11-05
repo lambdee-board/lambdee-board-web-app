@@ -101,7 +101,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
       comment = ::FactoryBot.create(:comment, body: 'jerry')
 
       patch api_comment_url(comment), params: { comment: { body: 'ton and jerry' } }, as: :json, headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
 
       assert_equal 'jerry', comment.reload.body
     end
@@ -113,7 +113,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
         delete api_comment_url(@comment), as: :json, headers: auth_headers(@user)
       end
 
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 
@@ -138,7 +138,7 @@ class API::CommentsControllerTest < ActionDispatch::IntegrationTest
       comment = ::FactoryBot.create(:comment)
 
       get api_comment_url(comment), as: :json, headers: auth_headers(@user)
-      assert_response :unauthorized
+      assert_response :forbidden
     end
   end
 end
