@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 ::Rails.application.routes.draw do
+  resources :callback_scripts
+  resources :script_runs
+  resources :ui_scripts
+  resources :scripts
   mount ::Rswag::Ui::Engine => '/api-docs'
   mount ::Rswag::Api::Engine => '/api-docs'
 
