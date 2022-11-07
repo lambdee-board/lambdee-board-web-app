@@ -332,11 +332,10 @@ GEM
     rspec-support (3.11.1)
     rswag-api (2.7.0)
       railties (>= 3.1, < 7.1)
-    rswag-specs (2.7.0)
+    rswag-specs (2.5.1)
       activesupport (>= 3.1, < 7.1)
-      json-schema (>= 2.2, < 4.0)
+      json-schema (~> 2.2)
       railties (>= 3.1, < 7.1)
-      rspec-core (>= 2.14)
     rswag-ui (2.7.0)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
@@ -496,7 +495,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rspec-rails
   rswag-api
-  rswag-specs
+  rswag-specs (~> 2.5.1)
   rswag-ui
   rubocop
   rubocop-rails

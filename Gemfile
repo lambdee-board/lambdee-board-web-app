@@ -83,7 +83,7 @@ group :development, :test do
 
   # OpenAPI generating tests
   gem 'rspec-rails'
-  gem 'rswag-specs'
+  gem 'rswag-specs', '~> 2.5.1'
 
   gem 'rubocop'
   gem 'rubocop-rails'
