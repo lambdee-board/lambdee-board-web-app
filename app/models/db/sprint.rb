@@ -10,7 +10,7 @@ class DB::Sprint < ApplicationRecord
 
   validates :name, presence: true, length: { maximum: 40 }
   validates :final_list_name, presence: true, length: { maximum: 255 }
-  validates :started_at, :expected_end_at, presence: true
+  validates :expected_end_at, presence: true
   validate :final_list_name_uniqueness
   validate :only_one_active_sprint
 
