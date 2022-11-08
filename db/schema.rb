@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_05_181406) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_08_211500) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -67,7 +67,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_05_181406) do
 
   create_table "sprints", force: :cascade do |t|
     t.string "name"
-    t.datetime "started_at"
+    t.datetime "started_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
     t.datetime "expected_end_at"
     t.datetime "ended_at"
     t.bigint "board_id"
