@@ -13,4 +13,8 @@
       pos { rand(65000) }
     end
   end
+
+  factory :task_in_visible_list, parent: :task do
+    association :list, factory: :visible_list
+  end
 end

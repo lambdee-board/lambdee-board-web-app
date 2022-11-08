@@ -9,4 +9,8 @@
       pos { rand(65000) }
     end
   end
+
+  factory :visible_list, parent: :list do
+    visible { true }
+  end
 end

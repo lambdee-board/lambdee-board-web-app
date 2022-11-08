@@ -101,6 +101,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    chartkick (4.2.1)
     childprocess (4.1.0)
     coderay (1.1.3)
     concurrent-ruby (1.1.10)
@@ -331,11 +332,10 @@ GEM
     rspec-support (3.11.1)
     rswag-api (2.7.0)
       railties (>= 3.1, < 7.1)
-    rswag-specs (2.7.0)
+    rswag-specs (2.5.1)
       activesupport (>= 3.1, < 7.1)
-      json-schema (>= 2.2, < 4.0)
+      json-schema (~> 2.2)
       railties (>= 3.1, < 7.1)
-      rspec-core (>= 2.14)
     rswag-ui (2.7.0)
       actionpack (>= 3.1, < 7.1)
       railties (>= 3.1, < 7.1)
@@ -470,6 +470,7 @@ DEPENDENCIES
   bundler-audit
   cancancan (~> 3.4)
   capybara
+  chartkick
   csv
   cypress-rails
   database_cleaner-active_record
@@ -494,7 +495,7 @@ DEPENDENCIES
   redis (~> 4.0)
   rspec-rails
   rswag-api
-  rswag-specs
+  rswag-specs (~> 2.5.1)
   rswag-ui
   rubocop
   rubocop-rails

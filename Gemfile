@@ -51,6 +51,7 @@ gem 'bootsnap', require: false
 
 gem 'acts_as_paranoid'
 gem 'cancancan', '~> 3.4'
+gem 'chartkick'
 gem 'csv'
 gem 'devise'
 gem 'devise-jwt'
@@ -82,7 +83,7 @@ group :development, :test do
 
   # OpenAPI generating tests
   gem 'rspec-rails'
-  gem 'rswag-specs'
+  gem 'rswag-specs', '~> 2.5.1'
 
   gem 'rubocop'
   gem 'rubocop-rails'

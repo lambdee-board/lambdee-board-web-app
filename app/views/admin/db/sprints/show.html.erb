@@ -1,0 +1,9 @@
+<% toolbar(:primary) do |t| %>
+  <%= t.save_or_dismiss(:update) %>
+<% end %>
+
+<%= trestle_form_for instance, url: admin.actions.include?(:update) ? admin.instance_path(instance, action: :update) : '#', method: :patch do |f| %>
+  <%= render partial: 'form', layout: 'layout' %>
+<% end %>
+
+<%= line_chart instance.burn_up_chart_data, xtitle: 'Date', ytitle: 'Points', curve: false %>

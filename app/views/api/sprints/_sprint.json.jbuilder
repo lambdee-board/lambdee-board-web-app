@@ -1,2 +1,2 @@
-json.extract! sprint, :id, :name, :start_date, :due_date, :end_date, :board_id, :final_list_id
+json.extract! sprint, :id, :board_id, :name, :description, :started_at, :expected_end_at, :ended_at, :final_list_name
 json.url api_sprint_url(sprint, format: :json)
