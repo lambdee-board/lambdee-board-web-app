@@ -9,38 +9,60 @@ import {
   InputBase
 } from '@mui/material'
 
-
+import { addAlert } from '../redux/slices/appAlertSlice'
+import { useDispatch } from 'react-redux'
+import apiClient from '../api/apiClient'
+import { useParams } from 'react-router-dom'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
-import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
-import { isManager } from '../permissions/ManagerContent'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import { isManager, ManagerContent } from '../permissions/ManagerContent'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
 
 
 import './SprintModal.sass'
-import { active } from 'sortablejs'
 
 
 const SprintModal = ({ activeSprint }) => {
+  const dispatch = useDispatch()
+  const { boardId } = useParams()
   const [datetime, setDatetime] = React.useState()
-  const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState()
+  const editSprintName = React.useRef()
+  const [sprintDescriptionDraft, setSprintDescriptionDraft] = React.useState()
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
 
-  const updateTaskDescriptionDraft = (val) => {
-    setTaskDescriptionDraft(val)
+  const updateSprintDescriptionDraft = (val) => {
+    setSprintDescriptionDraft(val)
     setUnsavedDescriptionDraft(true)
   }
 
-  const taskDescriptionOnClick = () => {
+  const sprintDescriptionOnClick = () => {
     setDescriptionEditorVisible(true)
     setTimeout(() => {
       document.querySelector('.SprintModal-description-editor textarea').focus()
     }, 50)
   }
 
-  const editTaskDescription = () => {
-    const payload = { description: taskDescriptionDraft }
+  const startSprintOnClick = () => {
+    const sprint = {
+      name: editSprintName,
+      description: sprintDescriptionDraft,
+      expectedEndAt: datetime.format('DD/MM/YYYY HH:mm:ss'),
+      boardId
+    }
+    apiClient.post('/api/sprints', sprint)
+      .then((response) => {
+        // successful request
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const endSprintOnClick = () => {
+
   }
 
   return (
@@ -58,6 +80,7 @@ const SprintModal = ({ activeSprint }) => {
             <Card
               className='SprintModal-main-name-card'>
               <InputBase
+                ref={editSprintName}
                 className='SprintModal-main-name-input'
                 disabled={isManager() ? undefined : true}
                 fullWidth
@@ -67,7 +90,7 @@ const SprintModal = ({ activeSprint }) => {
           </div>
           <div className='SprintModal-main-datetime'>
             <Typography fontSize={16}>End date</Typography>
-            <LocalizationProvider dateAdapter={AdapterMoment}>
+            <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
                 disabled={isManager() ? undefined : true}
@@ -87,34 +110,18 @@ const SprintModal = ({ activeSprint }) => {
           {descriptionEditorVisible ? (
             <div className='SprintModal-description-editor'>
               <MDEditor
-                value={taskDescriptionDraft || ''}
-                onChange={(val) => { updateTaskDescriptionDraft(val) }}
+                value={sprintDescriptionDraft || ''}
+                onChange={(val) => { updateSprintDescriptionDraft(val) }}
                 previewOptions={{
                   rehypePlugins: [[rehypeSanitize]]
                 }}
               />
-              <div className='buttons'>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => editTaskDescription()}
-                >
-                  Save
-                </Button>
-                <Button
-                  variant='text'
-                  sx={{ color: '#FF0000' }}
-                  onClick={() => setDescriptionEditorVisible(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
             </div>
           ) : (
 
             <Card
               className='SprintModal-main-description'
-              onClick={isManager() ? taskDescriptionOnClick : undefined}
+              onClick={isManager() ? sprintDescriptionOnClick : undefined}
             >
               <MDEditor.Markdown
                 rehypePlugins={[[rehypeSanitize]]}
@@ -125,17 +132,21 @@ const SprintModal = ({ activeSprint }) => {
             <Button
               color='primary'
               variant='contained'
+              onClick={startSprintOnClick}
               fullWidth
             >
             Start Sprint
             </Button> :
-            <Button
-              color='error'
-              variant='contained'
-              fullWidth
-            >
+            <ManagerContent>
+              <Button
+                color='error'
+                variant='contained'
+                onClick={endSprintOnClick}
+                fullWidth
+              >
             End Sprint
-            </Button>
+              </Button>
+            </ManagerContent>
           }
 
         </Box>

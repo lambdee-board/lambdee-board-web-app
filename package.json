@@ -39,6 +39,7 @@
     "chokidar": "^3.5.3",
     "classnames": "^2.3.1",
     "dateformat": "^5.0.3",
+    "dayjs": "^1.11.6",
     "esbuild": "^0.14.38",
     "esbuild-plugin-prismjs": "^1.0.7",
     "esbuild-sass-plugin": "^2.2.6",
