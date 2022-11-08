@@ -20,6 +20,7 @@ export default function BoardToolbar(props) {
   const navigate = useNavigate()
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
   const [newSprintModal, setNewSprintModal] = React.useState(false)
+  const [SprintState, setSprintState] = React.useState('1')
   const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -107,20 +108,31 @@ export default function BoardToolbar(props) {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <SprintModal closeModal={handleCloseSprintModal} />
+          <SprintModal  />
         </Box>
       </Modal>
       <Toolbar className='Toolbar'>
-        <ManagerContent>
+
+        {!SprintState === '1' ?
+          <ManagerContent>
+            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+              className='Toolbar-create-spring-button'
+              color='secondary'
+              variant='outlined'
+              startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
+            >
+              <Typography>Start Sprint</Typography>
+            </Button>
+          </ManagerContent>       :
           <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
             className='Toolbar-create-spring-button'
             color='secondary'
-            variant='outlined'
+            variant='contained'
             startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
           >
-            <Typography>Start Sprint</Typography>
-          </Button>
-        </ManagerContent>
+            <Typography>View Sprint</Typography>
+          </Button>}
+
       </Toolbar>
       <Toolbar className='Toolbar'>
         <ManagerContent>

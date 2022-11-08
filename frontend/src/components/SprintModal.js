@@ -12,6 +12,7 @@ import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
+import { isManager } from '../permissions/ManagerContent'
 
 import './SprintModal.sass'
 
@@ -21,6 +22,7 @@ const SprintModal = () => {
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState()
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
+  const [sprintState, setSpringState] = React.useState('1')
 
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
@@ -51,6 +53,7 @@ const SprintModal = () => {
               className='SprintModal-main-name-card'>
               <InputBase
                 className='SprintModal-main-name-input'
+                disabled={isManager() ? undefined : true}
                 fullWidth
                 multiline
               />
@@ -61,6 +64,7 @@ const SprintModal = () => {
             <LocalizationProvider dateAdapter={AdapterMoment}>
               <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
+                disabled={isManager() ? undefined : true}
                 value={datetime}
                 onChange={(newValue) => {
                   setDatetime(newValue)
@@ -86,14 +90,14 @@ const SprintModal = () => {
               <div className='buttons'>
                 <Button
                   variant='contained'
-                  color='secondary'
+                  color='primary'
                   onClick={() => editTaskDescription()}
                 >
                   Save
                 </Button>
                 <Button
                   variant='text'
-                  color='secondary'
+                  sx={{ color: '#FF0000' }}
                   onClick={() => setDescriptionEditorVisible(false)}
                 >
                   Cancel
@@ -104,20 +108,30 @@ const SprintModal = () => {
 
             <Card
               className='SprintModal-main-description'
-              onClick={taskDescriptionOnClick}
+              onClick={isManager() ? taskDescriptionOnClick : undefined}
             >
               <MDEditor.Markdown
                 rehypePlugins={[[rehypeSanitize]]}
               />
             </Card>
           )}
-          <Button
-            color='secondary'
-            variant='contained'
-            fullWidth
-          >
+          {!sprintState === '1' ?
+            <Button
+              color='primary'
+              variant='contained'
+              fullWidth
+            >
             Start Sprint
-          </Button>
+            </Button> :
+            <Button
+              color='error'
+              variant='contained'
+              fullWidth
+            >
+            End Sprint
+            </Button>
+          }
+
         </Box>
       </Card>
     </Box>
@@ -127,5 +141,4 @@ const SprintModal = () => {
 export default SprintModal
 
 SprintModal.propTypes = {
-  closeModal: PropTypes.func.isRequired
 }

@@ -91,14 +91,14 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
         <Box className='TaskComment-footer'>
           <Button
             variant='contained'
-            color='secondary'
+            color='primary'
             onClick={() => createComment()}
           >
             Save
           </Button>
           <Button
             variant='text'
-            color='secondary'
+            sx={{ color: '#FF0000' }}
             onClick={() => closeCommentEditor()}
           >
             Cancel
@@ -217,14 +217,14 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
               <>
                 <Button
                   variant='contained'
-                  color='secondary'
+                  color='primary'
                   onClick={() => editComment()}
                 >
                 Save
                 </Button>
                 <Button
                   variant='text'
-                  color='secondary'
+                  sx={{ color: '#FF0000' }}
                   onClick={() => closeCommentEditor()}
                 >
                 Cancel
