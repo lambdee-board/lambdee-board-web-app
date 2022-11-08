@@ -13,6 +13,7 @@ import { useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import SprintModal from './SprintModal.js'
 import './BoardToolbar.sass'
+import useBoardActiveSprint from '../api/useBoardActiveSprint'
 
 
 export default function BoardToolbar(props) {
@@ -20,7 +21,7 @@ export default function BoardToolbar(props) {
   const navigate = useNavigate()
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
   const [newSprintModal, setNewSprintModal] = React.useState(false)
-  const [SprintState, setSprintState] = React.useState('1')
+  const { data: activeSprint, isLoading, isError } = useBoardActiveSprint({ id: boardId })
   const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
@@ -108,12 +109,12 @@ export default function BoardToolbar(props) {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <SprintModal  />
+          <SprintModal activeSprint={activeSprint}  />
         </Box>
       </Modal>
       <Toolbar className='Toolbar'>
 
-        {!SprintState === '1' ?
+        {!activeSprint ?
           <ManagerContent>
             <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
               className='Toolbar-create-spring-button'

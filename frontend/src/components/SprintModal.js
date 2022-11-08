@@ -8,21 +8,24 @@ import {
   TextField,
   InputBase
 } from '@mui/material'
+
+
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment'
+import { isManager } from '../permissions/ManagerContent'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
-import { isManager } from '../permissions/ManagerContent'
+
 
 import './SprintModal.sass'
+import { active } from 'sortablejs'
 
 
-const SprintModal = () => {
+const SprintModal = ({ activeSprint }) => {
   const [datetime, setDatetime] = React.useState()
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState()
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
-  const [sprintState, setSpringState] = React.useState('1')
 
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
@@ -45,7 +48,10 @@ const SprintModal = () => {
       <Card className='SprintModal-paper'>
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
-            <Typography fontSize={24}>Start new sprint</Typography>
+            {!activeSprint ?
+              <Typography fontSize={24}>Start new sprint</Typography>              :
+              <Typography fontSize={24}>View sprint</Typography>}
+
           </div>
           <div className='SprintModal-main-name'>
             <Typography fontSize={16}>Sprint name</Typography>
@@ -115,7 +121,7 @@ const SprintModal = () => {
               />
             </Card>
           )}
-          {!sprintState === '1' ?
+          {!activeSprint ?
             <Button
               color='primary'
               variant='contained'
@@ -141,4 +147,5 @@ const SprintModal = () => {
 export default SprintModal
 
 SprintModal.propTypes = {
+  activeSprint: PropTypes.any
 }
