@@ -118,4 +118,9 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     json = ::JSON.parse response.body
     assert_equal @sprint.name, json['name']
   end
+
+  should 'show data for burn up chart' do
+    get burn_up_chart_api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
+    assert_response :success
+  end
 end

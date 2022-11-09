@@ -5,6 +5,8 @@ module Charts
   class FilledHash < ::Hash
     # @return [self]
     def fill_nil_values!
+      return self if empty?
+
       last_value = first.second
       transform_values! do |value|
         value ||= last_value
