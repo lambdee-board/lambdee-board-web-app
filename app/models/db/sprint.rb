@@ -17,6 +17,8 @@ class DB::Sprint < ApplicationRecord
   before_validation :set_final_list_name
   after_create :add_tasks
 
+  attribute :started_at, default: -> { ::Time.now }
+
   # @return [Array<DB::Board>]
   def lists
     board.lists.visible(true)

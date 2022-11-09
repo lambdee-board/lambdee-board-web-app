@@ -123,4 +123,11 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     get burn_up_chart_api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
     assert_response :success
   end
+
+  should 'end sprint' do
+    put end_api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
+    assert_response :success
+    json = ::JSON.parse response.body
+    assert json['ended_at'].to_time.today?
+  end
 end
