@@ -16,7 +16,7 @@ module QueryAPI
     class << self
       # @param params [Hash]
       # @return [self]
-      def of_hash(params, *_args, **_kwargs)
+      def of_hash(params, *_args, **_kwargs) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
         new_obj = new
 
         forwarded_attributes&.each do |_key, forwarded|

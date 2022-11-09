@@ -197,7 +197,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
 
   should 'update user' do
     patch '/api/users', params: {
-      user: { id: @user.id, name: 'new name', current_password: 's3cr4t_p4ss'}
+      user: { id: @user.id, name: 'new name', current_password: 'password'}
     }, as: :json, headers: auth_headers(@user)
     assert_response :success
 

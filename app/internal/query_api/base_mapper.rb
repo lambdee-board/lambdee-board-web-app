@@ -12,7 +12,7 @@ module QueryAPI
     class << self
       # @param params [Hash{String => Object}]
       # @return [self]
-      def of_hash(params, *args, **kwargs)
+      def of_hash(params, *_args, **_kwargs) # rubocop:disable Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
         params = { 'value' => params } unless params.is_a?(::Hash)
         instance = model.new
 
@@ -33,14 +33,14 @@ module QueryAPI
           attribute, forwarded_val = mapped_value(instance, key, forwarded_val, illegal_attributes)
           instance.__send__(attribute.setter, forwarded_val)
 
-          forwarded.to.each do |key|
-            key = key.to_s
-            next unless (val = params[key])
+          forwarded.to.each do |attr_name|
+            attr_name = attr_name.to_s
+            next unless (val = params[attr_name])
 
-            params[key] = { 'value' => val } unless val.is_a?(::Hash)
-            next unless params[key].is_a?(::Hash)
+            params[attr_name] = { 'value' => val } unless val.is_a?(::Hash)
+            next unless params[attr_name].is_a?(::Hash)
 
-            params[key][forwarded.as.to_s] = forwarded_val
+            params[attr_name][forwarded.as.to_s] = forwarded_val
           end
         end
 

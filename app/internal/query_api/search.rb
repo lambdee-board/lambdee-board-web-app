@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-require 'debug'
 
 module QueryAPI
   # Contains classes which handle searching
@@ -145,7 +144,7 @@ module QueryAPI
     # @param attr_name [Symbol]
     # @param value [Object]
     # @return [Array, Hash]
-    def where_argument(attr_name, value)
+    def where_argument(attr_name, value) # rubocop:disable Metrics/MethodLength
       case value
       in like:
         [
