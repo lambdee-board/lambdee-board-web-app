@@ -24,6 +24,7 @@ services:
       RACK_ENV: production
       LAMBDEE_HOST: rails:3000
       LAMBDEE_PROTOCOL: http
+      SCRIPT_SERVICE_SECRET: ${SCRIPT_SERVICE_SECRET:-sikritToken123}
     networks:
       - web
     restart: always
@@ -45,6 +46,7 @@ services:
       LAMBDEE_HOST: ${LAMBDEE_HOST:-localhost}
       LAMBDEE_PROTOCOL: ${LAMBDEE_PROTOCOL:-http}
       SCRIPT_SERVICE_HOST: ${LAMBDEE_HOST:-localhost}/script-service/
+      SCRIPT_SERVICE_SECRET: ${SCRIPT_SERVICE_SECRET:-sikritToken123}
       WS_PROTOCOL: ${WS_PROTOCOL:-ws}
     depends_on:
       - postgres

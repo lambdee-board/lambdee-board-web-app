@@ -46,7 +46,12 @@ class API::BoardsController < ::APIController
 
   # GET /api/boards/recently_viewed
   def recently_viewed
-    @boards = ::DB::Board.with_deleted.includes(:workspace).find(current_user.recent_boards)
+    @boards =
+      if current_user
+        ::DB::Board.with_deleted.includes(:workspace).find(current_user.recent_boards)
+      else
+        []
+      end
     render :recently_viewed
   end
 
@@ -74,6 +79,6 @@ class API::BoardsController < ::APIController
   end
 
   def set_last_viewed_board_for_user
-    current_user.update_last_viewed_board(@board)
+    current_user&.update_last_viewed_board(@board)
   end
 end

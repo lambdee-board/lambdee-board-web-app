@@ -18,9 +18,10 @@ class API::WorkspacesController < ::APIController
   # POST /api/workspaces
   def create
     authorize! :create, ::DB::Workspace
+
     @workspace = ::DB::Workspace.new(workspace_params)
     if @workspace.save
-      current_user.workspaces << @workspace
+      current_user.workspaces << @workspace if current_user
       render :show, status: :created, location: api_workspace_url(@workspace)
     else
       render json: @workspace.errors, status: :unprocessable_entity

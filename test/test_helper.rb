@@ -17,18 +17,30 @@ class ActiveSupport::TestCase
 
   # Add more helper methods to be used by all tests here...
 
-  # Generates a JWT token for given user.
+  # Generates a JWT token for the given user.
   # Returns all needed headers for authentication.
-  # **Example:** Test GET controller action:
+  #
+  # **Example:** GET controller action:
   # ```
   # user = ::FactoryBot.create(:user)
   # get 'api/boards/1', headers: auth_headers(user)
   # ```
   #
-  # @param user[DB::User]
+  # @param user [DB::User]
   # @return [Hash]
   def auth_headers(user)
     headers = { 'Accept' => 'application/json', 'Content-Type' => 'application/json' }
     auth_headers = ::Devise::JWT::TestHelpers.auth_headers(headers, user)
+  end
+
+  # Authorisation headers used by the script service.
+  #
+  # @return [String]
+  def script_service_auth_headers
+    {
+      'Accept' => 'application/json',
+      'Content-Type' => 'application/json',
+      'Authorization' => "ScriptService #{::Config::ENV_SETTINGS['script_service_secret']}"
+    }
   end
 end
