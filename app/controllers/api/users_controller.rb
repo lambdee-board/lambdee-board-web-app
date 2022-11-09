@@ -21,6 +21,7 @@ class API::UsersController < ::APIController
   # GET /api/users/1
   def show; end
 
+  # GET /api/users/current
   def current
     @user = current_user
     render :show, status: :ok

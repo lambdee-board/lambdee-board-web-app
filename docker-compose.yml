@@ -22,6 +22,8 @@ services:
       - "3001"
     environment:
       RACK_ENV: production
+      LAMBDEE_HOST: rails:3000
+      LAMBDEE_PROTOCOL: http
     networks:
       - web
     restart: always
