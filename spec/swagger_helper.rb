@@ -206,10 +206,10 @@ end
               board_id: { type: :integer },
               name: { type: :string },
               description: { type: :string },
-              started_at: { type: :string, format: :date_time },
-              expected_end_at: { type: :string, format: :date_time }
+              started_at: { type: :string, format: :date_time, example: '2025-12-11T23:00:00' },
+              expected_end_at: { type: :string, format: :date_time, example: '2025-12-18T23:00:00' }
             },
-            required: %w[name started_at expected_end_at]
+            required: %w[name expected_end_at]
           },
           task_response: {
             type: :object,
