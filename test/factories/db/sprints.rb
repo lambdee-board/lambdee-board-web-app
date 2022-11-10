@@ -11,10 +11,12 @@
     trait :inactive do
       ended_at { ::Time.now + 1.week }
     end
-  end
 
-  factory :sprint_with_list, parent: :sprint do
-    after(:create) { |s| ::FactoryBot.create(:visible_list, board: s.board) }
+    trait :with_list do
+      after(:create) do |s|
+        ::FactoryBot.create(:visible_list, board: s.board)
+      end
+    end
   end
 
   factory :sprint_with_task, parent: :sprint do

@@ -10,12 +10,12 @@ module QueryAPI
 
     self.nested_validations = %i[query]
 
-    # @!attribute [rw] type
-    #   @return [Class<ActiveRecord::Base>]
-    attribute :type, Type
     # @!attribute [rw] query
     #   @return [Query]
     attribute :query, Query
+    # @!attribute [rw] type
+    #   @return [Class<ActiveRecord::Base>]
+    attribute :type, Type
 
     forward :type, to: :query, as: :model
 

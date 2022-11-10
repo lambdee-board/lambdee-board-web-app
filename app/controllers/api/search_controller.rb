@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+require 'debug'
 
 # Controller which provides a way
 # to carry out complex queries in an SQL-like syntax.

@@ -133,7 +133,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
       context 'sprint' do
         setup do
-          @sprint = ::FactoryBot.create(:sprint_with_list, board: @board)
+          @sprint = ::FactoryBot.create(:sprint, :with_list, board: @board)
           @list_in_sprint = @sprint.lists.last
         end
 
