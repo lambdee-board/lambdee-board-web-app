@@ -5,8 +5,8 @@ require 'test_helper'
 module QueryAPI
   class Search
     class WhereTest < ::ActiveSupport::TestCase
-      should 'extract reflections' do
-        join = Join.new value: 'comments', model: ::DB::Task
+      should 'validate fields' do
+        join = Join.new 'comments', model: ::DB::Task
         assert join.valid?
         w = Where.new('comments.body': 'coś tam', join:)
         assert w.valid?
@@ -15,7 +15,7 @@ module QueryAPI
         w = Where.new('another_table.field': 'value', join:)
         assert_not w.valid?
 
-        join = Join.new value: %w[comments list], model: ::DB::Task
+        join = Join.new %w[comments list], model: ::DB::Task
         assert join.valid?
         w = Where.new('comments.body': 'coś tam', join:)
         assert w.valid?
@@ -30,7 +30,7 @@ module QueryAPI
         w = Where.new('boards.name': 'value', join:)
         assert_not w.valid?
 
-        join = Join.new value: [{ 'comments' => 'author' }, { 'author' => 'workspaces' }], model: ::DB::Task
+        join = Join.new [{ 'comments' => 'author' }, { 'author' => 'workspaces' }], model: ::DB::Task
         assert join.valid?
         w = Where.new('comments.body': 'coś tam', join:)
         assert w.valid?
@@ -47,7 +47,7 @@ module QueryAPI
         w = Where.new('boards.name': 'value', join:)
         assert_not w.valid?
 
-        join = Join.new value: { 'author' => 'workspaces' }, model: ::DB::Task
+        join = Join.new({ 'author' => 'workspaces' }, model: ::DB::Task)
         assert join.valid?
         w = Where.new('author.email': 'email@example.com', join:)
         assert w.valid?

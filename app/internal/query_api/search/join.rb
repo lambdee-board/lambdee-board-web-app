@@ -4,50 +4,38 @@ module QueryAPI
   class Search
     # Type that wraps and validates a `join` or `left_outer_join`
     # clause in a query.
-    class Join < BaseMapper
+    class Join < ::Shale::Type::Value
+      include ::ActiveModel::Validations
+
       class << self
-        # @param params [Hash]
-        # @return [self]
-        def of_hash(params)
-          undefined_params = {}
-          params.each do |key, val|
-            next if attributes.include?(key.to_sym)
+        # Decode from JSON/Hash.
+        #
+        # @param [String, Object, nil]
+        # @return [Object, nil]
+        def cast(value)
+          return if value.nil?
+          return value if value.is_a?(self)
 
-            undefined_params[key] = val
-            params.delete(key)
-          end
-
-          return super if undefined_params.empty?
-
-          if params['value'].is_a?(::Hash)
-            params['value'].merge!(undefined_params)
-          elsif params['value'].nil?
-            params['value'] = undefined_params
-          elsif params['value'].is_a?(::Array)
-            params['value'] << undefined_params
-          end
-
-          super params
+          new(value)
         end
-      end
-
-      # @!attribute [rw] value
-      #   @return [Symbol, Array, Hash]
-      attribute :value, ::Shale::Type::Value
-      # @!attribute [rw] model
-      #   @return [Class<ActiveRecord::Base>]
-      attribute :model, ::Shale::Type::Value
-
-      validates :value, presence: true
-      validate :validate_value
-
-      # @param val [Object, Array]
-      def value=(val)
-        super symbolize_value(val)
       end
 
       # @return [Hash{Symbol => Class<ActiveRecord::Base>}]
       attr_reader :association_map
+      # @return [Symbol, Array, Hash]
+      attr_reader :value
+      # @return [Class<ActiveRecord::Base>, nil]
+      attr_accessor :model
+
+      validates :value, presence: true
+      validate :validate_value
+
+      # @param value [Symbol, String, Array, Hash]
+      # @param model [Class<ActiveRecord::Base>, nil]
+      def initialize(value, model: nil)
+        @value = symbolize_value(value)
+        @model = model
+      end
 
       private
 
@@ -82,7 +70,7 @@ module QueryAPI
       # @return [void]
       def validate_value
         invalid = catch :invalid do
-          validate_associations(model, value)
+          validate_associations(@model, @value)
         end
 
         return unless invalid

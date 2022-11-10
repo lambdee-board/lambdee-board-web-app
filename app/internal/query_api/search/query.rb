@@ -10,18 +10,18 @@ module QueryAPI
       # @!attribute [rw] group_by
       #   @return [GroupBy]
       attribute :group_by, GroupBy
-      # @!attribute [rw] join
-      #   @return [Join]
-      attribute :join, Join
-      # @!attribute [rw] left_outer_join
-      #   @return [Join]
-      attribute :left_outer_join, Join
       # @!attribute [rw] where
       #   @return [Where]
       attribute :where, Where
       # @!attribute [rw] order
       #   @return [Order]
       attribute :order, Order
+      # @!attribute [rw] join
+      #   @return [Join]
+      attribute :join, Join
+      # @!attribute [rw] left_outer_join
+      #   @return [Join]
+      attribute :left_outer_join, Join
 
       # @!attribute [rw] limit
       #   @return [Integer]

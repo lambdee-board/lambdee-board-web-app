@@ -7,7 +7,7 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     @user = ::FactoryBot.create(:user, role: 4)
     @board = ::FactoryBot.create(:board)
     2.times { ::FactoryBot.create(:visible_list, board: @board)}
-    @sprint = ::FactoryBot.create(:sprint, board: @board)
+    @sprint = ::FactoryBot.create(:sprint, board: @board, final_list_name: 'Done')
   end
 
   should 'get index' do
