@@ -17,12 +17,12 @@
         ::FactoryBot.create(:visible_list, board: s.board)
       end
     end
-  end
 
-  factory :sprint_with_task, parent: :sprint do
-    after(:create) do |s|
-      task = ::FactoryBot.create(:task)
-      ::FactoryBot.create(:sprint_task, task: task, sprint: s)
+    trait :with_task do
+      after(:create) do |s|
+        task = ::FactoryBot.create(:task)
+        ::FactoryBot.create(:sprint_task, task: task, sprint: s)
+      end
     end
   end
 end

@@ -81,7 +81,7 @@ require 'swagger_helper'
       response(200, 'successful with `tasks=all`') do
         schema '$ref' => '#/components/schemas/sprint_response'
 
-        let(:id) { ::FactoryBot.create(:sprint_with_task).id }
+        let(:id) { ::FactoryBot.create(:sprint, :with_task).id }
         let(:tasks) { 'all' }
 
         after do |example|
