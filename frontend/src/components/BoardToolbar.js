@@ -113,7 +113,8 @@ export default function BoardToolbar(props) {
         </Box>
       </Modal>
       <Toolbar className='Toolbar'>
-
+        {boardView === '0' &&
+      <>
         {!activeSprint ?
           <ManagerContent>
             <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
@@ -122,7 +123,7 @@ export default function BoardToolbar(props) {
               variant='outlined'
               startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
             >
-              <Typography>Start Sprint</Typography>
+              <Typography>Start New Sprint</Typography>
             </Button>
           </ManagerContent>       :
           <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
@@ -131,8 +132,10 @@ export default function BoardToolbar(props) {
             variant='contained'
             startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
           >
-            <Typography>View Sprint</Typography>
+            <Typography>View Active Sprint</Typography>
           </Button>}
+      </>
+        }
 
       </Toolbar>
       <Toolbar className='Toolbar'>
