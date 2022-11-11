@@ -21,8 +21,11 @@ class API::UsersController < ::APIController
   # GET /api/users/1
   def show; end
 
+  # GET /api/users/current
   def current
     @user = current_user
+    return head :no_content if current_user.nil?
+
     render :show, status: :ok
   end
 

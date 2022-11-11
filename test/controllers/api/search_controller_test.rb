@@ -34,7 +34,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             },
           }
         }
-      }
+      }, headers: script_service_auth_headers
       assert_response 200
       json = ::JSON.parse(response.body)
       assert_equal 'users', json['type']
@@ -57,7 +57,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             },
           }
         }
-      }
+      }, headers: script_service_auth_headers
       assert_response 422
       json = ::JSON.parse(response.body)
       result = {
@@ -89,7 +89,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             count: true
           }
         }
-      }
+      }, headers: script_service_auth_headers
       assert_response 200
       json = ::JSON.parse(response.body)
       assert json.include?('type')

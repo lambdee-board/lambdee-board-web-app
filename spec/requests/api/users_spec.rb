@@ -129,7 +129,7 @@ require 'swagger_helper'
 
       response(204, 'successful') do
         let(:id) { ::FactoryBot.create(:user).id }
-        let(:user) { { user: { name: 'New Name', email: 'new_email@example.com', current_password: 's3cr4t_p4ss' } } }
+        let(:user) { { user: { name: 'New Name', email: 'new_email@example.com', current_password: 'password' } } }
         run_test!
       end
     end
@@ -192,7 +192,7 @@ require 'swagger_helper'
 
         let(:user) do
           ::FactoryBot.create(:user, email: 'email@example.com')
-          { user: { email: 'email@example.com', password: 's3cr4t_p4ss' } }
+          { user: { email: 'email@example.com', password: 'password' } }
         end
 
         after do |example|

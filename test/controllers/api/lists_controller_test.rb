@@ -164,9 +164,8 @@ class API::ListsControllerTest < ActionDispatch::IntegrationTest
         json = ::JSON.parse response.body
         assert_equal @list.name, json['name']
         assert_equal 2, json['tasks'].size
-        assert_equal task.name, json['tasks'].first['name']
-        assert_nil json['tasks'].first['deleted_at']
-        assert_not_nil json['tasks'].second['deleted_at']
+        assert json['tasks'].any? { _1['deleted_at'].nil? }
+        assert json['tasks'].any? { !_1['deleted_at'].nil? }
       end
 
       should 'show list with deleted tasks' do

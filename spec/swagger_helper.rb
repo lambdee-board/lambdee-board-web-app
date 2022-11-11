@@ -165,6 +165,52 @@ end
             },
             required: %w[]
           },
+          sprint_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              board_id: { type: :integer },
+              name: { type: :string },
+              description: { type: %i[string null], },
+              started_at: { type: :string, format: :date_time },
+              expected_end_at: { type: :string, format: :date_time },
+              ended_at: { type: %i[string null], format: :date_time },
+              final_list_name: { type: :string },
+              url: { type: :string },
+              tasks: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/task_with_sprint_task_response' },
+                nullable: true,
+              }
+            },
+            required: %w[]
+          },
+          task_with_sprint_task_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              priority: { type: :string },
+              spent_time: { type: :integer },
+              points: { type: :integer },
+              added_at: { type: :string, format: :date_time },
+              completed_at: { type: %i[string null], format: :date_time },
+              start_state: { type: :string },
+              state: { type: :string }
+            },
+            required: %w[]
+          },
+          sprint_request: {
+            type: :object,
+            properties: {
+              board_id: { type: :integer },
+              name: { type: :string },
+              description: { type: :string },
+              started_at: { type: :string, format: :date_time, example: '2025-12-11T23:00:00' },
+              expected_end_at: { type: :string, format: :date_time, example: '2025-12-18T23:00:00' }
+            },
+            required: %w[name expected_end_at]
+          },
           task_response: {
             type: :object,
             properties: {
