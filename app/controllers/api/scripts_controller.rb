@@ -9,9 +9,7 @@ class ::API::ScriptsController < ::ApplicationController
   end
 
   # GET /scripts/1
-  def show
-    @script.includes(:callback_scripts, :ui_scripts)
-  end
+  def show; end
 
   # POST /scripts
   def create
@@ -24,7 +22,7 @@ class ::API::ScriptsController < ::ApplicationController
 
   # PATCH/PUT /scripts/1
   def update
-    return render :show, status: :ok if @sprint.update(script_params)
+    return render :show, status: :ok if @script.update(script_params)
 
     render json: @script.errors, status: :unprocessable_entity
   end
@@ -41,6 +39,6 @@ class ::API::ScriptsController < ::ApplicationController
   end
 
   def script_params
-    params.require(:script).permit(:content, :name, :description, callback_scripts_attributes: %i[subject_type subject_id action])
+    params.require(:script).permit(:content, :name, :description, callback_scripts_attributes: %i[id subject_type subject_id action _destroy])
   end
 end

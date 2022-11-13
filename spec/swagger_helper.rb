@@ -365,10 +365,12 @@ end
           callback_script_request: {
             type: :object,
             properties: {
-              script_id: { type: %i[integer null] },
-              subject_type: { type: %i[string null] },
-              subject_id: { type: %i[integer null] },
-              action: { type: :string },
+              id: { type: :integer, description: 'Needed only for updates and destroys.' },
+              script_id: { type: :integer },
+              subject_type: { type: :string, enum: %w[DB::User DB::Workspace DB::Board DB::List DB::Task DB::Comment DB::Tag DB::Sprint DB::UserWorkspace DB::TaskUser DB::TaskTag DB::SprintTask] },
+              subject_id: { type: :integer },
+              action: { type: :string, enum: %w[create update destroy] },
+              _destroy: { type: :boolean, description: 'If `true` callback for given `id` will be destroyed. Works only nested in sprint.' },
             },
             required: %w[action]
           },

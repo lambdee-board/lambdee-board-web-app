@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ::DB::CallbackScript < ::ApplicationRecord
-  ACTIONS = ::Set['create', 'update', 'delete']
+  ACTIONS = ::Set['create', 'update', 'destroy']
 
   belongs_to :subject, polymorphic: true, optional: true
   belongs_to :script
