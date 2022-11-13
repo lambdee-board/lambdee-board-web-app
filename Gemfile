@@ -59,6 +59,7 @@ gem 'factory_bot_rails'
 # Easier Model record factories for tests
 # Generate fake data for tests and seeding
 gem 'faker'
+gem 'faraday'
 gem 'has_scope'
 gem 'kaminari'
 gem 'pg_search'

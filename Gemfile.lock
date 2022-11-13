@@ -151,6 +151,10 @@ GEM
       railties (>= 5.0.0)
     faker (2.23.0)
       i18n (>= 1.8.11, < 2)
+    faraday (2.6.0)
+      faraday-net_http (>= 2.0, < 3.1)
+      ruby2_keywords (>= 0.0.4)
+    faraday-net_http (3.0.2)
     ffi (1.15.5)
     foreman (0.87.2)
     formatador (1.1.0)
@@ -356,6 +360,7 @@ GEM
       rack (>= 1.1)
       rubocop (>= 1.33.0, < 2.0)
     ruby-progressbar (1.11.0)
+    ruby2_keywords (0.0.5)
     ruby_audit (2.1.0)
       bundler-audit (~> 0.9.0)
     rubyzip (2.3.2)
@@ -479,6 +484,7 @@ DEPENDENCIES
   devise-jwt
   factory_bot_rails
   faker
+  faraday
   foreman
   guard
   guard-livereload

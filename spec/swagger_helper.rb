@@ -322,6 +322,56 @@ end
             },
             required: %w[name]
           },
+          script_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              description: { type: :string },
+              content: { type: :string },
+              url: { type: :string },
+              callback_scripts: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/callback_script_response' }
+              }
+            },
+            required: %w[]
+          },
+          script_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              content: { type: :string },
+              callback_scripts_attributes: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/callback_script_request' }
+              }
+            },
+            required: %w[name]
+          },
+          callback_script_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: %i[integer null]  },
+              subject_type: { type: %i[string null]  },
+              subject_id: { type: %i[integer null]  },
+              action: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          callback_script_request: {
+            type: :object,
+            properties: {
+              script_id: { type: %i[integer null] },
+              subject_type: { type: %i[string null] },
+              subject_id: { type: %i[integer null] },
+              action: { type: :string },
+            },
+            required: %w[action]
+          },
         }
       },
       servers: [

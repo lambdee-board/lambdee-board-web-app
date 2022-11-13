@@ -1,11 +1,7 @@
-class CallbackScriptsController < ApplicationController
-  before_action :set_callback_script, only: %i[ show update destroy ]
+# frozen_string_literal: true
 
-  # GET /callback_scripts
-  # GET /callback_scripts.json
-  def index
-    @callback_scripts = CallbackScript.all
-  end
+class ::API::CallbackScriptsController < ::ApplicationController
+  before_action :set_callback_script, only: %i[show update destroy]
 
   # GET /callback_scripts/1
   # GET /callback_scripts/1.json
@@ -15,7 +11,7 @@ class CallbackScriptsController < ApplicationController
   # POST /callback_scripts
   # POST /callback_scripts.json
   def create
-    @callback_script = CallbackScript.new(callback_script_params)
+    @callback_script = ::DB::CallbackScript.new(callback_script_params)
 
     if @callback_script.save
       render :show, status: :created, location: @callback_script
@@ -41,13 +37,12 @@ class CallbackScriptsController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_callback_script
-      @callback_script = CallbackScript.find(params[:id])
-    end
 
-    # Only allow a list of trusted parameters through.
-    def callback_script_params
-      params.require(:callback_script).permit(:script_id, :subject_type, :subject_id, :action)
-    end
+  def set_callback_script
+    @callback_script = ::DB::CallbackScript.find(params[:id])
+  end
+
+  def callback_script_params
+    params.require(:callback_script).permit(:script_id, :subject_type, :subject_id, :action)
+  end
 end

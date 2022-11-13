@@ -3,6 +3,8 @@
 # Contains the data of a task,
 # which can contain multiple comments.
 class DB::Task < ApplicationRecord
+  include ::ScriptTriggerable
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :list

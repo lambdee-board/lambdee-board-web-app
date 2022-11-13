@@ -1,0 +1,11 @@
+development: &default
+  protocol: 'http'
+  host: 'localhost:4567/api'
+  username: user
+  password: password
+
+test:
+  <<: *default
+
+production:
+  <<: *default

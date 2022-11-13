@@ -1,6 +1,8 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class ScriptRunsControllerTest < ActionDispatch::IntegrationTest
+require 'test_helper'
+
+class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
     @script_run = script_runs(:one)
   end

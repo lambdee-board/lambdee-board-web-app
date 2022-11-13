@@ -1,6 +1,8 @@
-require "test_helper"
+# frozen_string_literal: true
 
-class CallbackScriptsControllerTest < ActionDispatch::IntegrationTest
+require 'test_helper'
+
+class ::API::CallbackScriptsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
     @callback_script = callback_scripts(:one)
   end
