@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class ::DB::CallbackScript < ::ApplicationRecord
+  ACTIONS = ::Set['create', 'update', 'delete']
+
   belongs_to :subject, polymorphic: true, optional: true
   belongs_to :script
 
@@ -13,7 +15,6 @@ class ::DB::CallbackScript < ::ApplicationRecord
   end)
 
   scope :with_action, ->(action) { where(action: action) }
-  scope :with_action_create, -> { with_action(:create) }
 
-  validates :action, presence: true
+  validates :action, presence: true, inclusion: { in: ACTIONS }
 end

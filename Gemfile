@@ -125,6 +125,7 @@ group :test do
 
   gem 'selenium-webdriver'
   gem 'shoulda'
+  gem 'vcr'
   gem 'webdrivers'
 
   # for generating test coverage

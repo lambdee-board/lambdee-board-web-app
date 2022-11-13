@@ -6,7 +6,6 @@ module ScriptServiceAPI
     # @return [Faraday::Connection]
     def http_connection
       ::Faraday.new(::Config::SCRIPT_SERVICE_API['url']) do |f|
-        f.request :text
         f.request :authorization, 'basic', ::Config::SCRIPT_SERVICE_API['username'], ::Config::SCRIPT_SERVICE_API['password']
         f.adapter :net_http
       end

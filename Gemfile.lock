@@ -435,6 +435,7 @@ GEM
       concurrent-ruby (~> 1.0)
     unicode-display_width (2.3.0)
     uniform_notifier (1.16.0)
+    vcr (6.1.0)
     warden (1.2.9)
       rack (>= 2.0.9)
     warden-jwt_auth (0.7.0)
@@ -518,6 +519,7 @@ DEPENDENCIES
   trestle-auth
   trestle-search
   tzinfo-data
+  vcr
   webdrivers
   yard
 

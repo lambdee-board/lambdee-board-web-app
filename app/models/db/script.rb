@@ -20,9 +20,10 @@ class ::DB::Script < ::ApplicationRecord
 
   def extended_content
     script_header = "context = ::ActiveSupport::HashWithIndifferentAccess.new\n"
-    script_header << "context[:subject] = #{subject.class}.new(#{subject.as_json})\n"
-    script_header << "context[:subject_before_update] = #{subject.class}.new(#{subject.previous_object_state.as_json})\n"
-    script_header << 'context.keys.each { |k| define_method(:"#{k}") { context["#{k}"] } }' # rubocop:disable Lint/InterpolationCheck
+    script_header += "context[:subject] = #{@subject.class}.new(#{@subject.as_json})\n"
+    script_header += "context[:subject_before_update] = #{@subject.class}.new(#{@subject.previous_object_state.as_json})\n"
+    script_header += 'context.keys.each { |k| define_method(:"#{k}") { context["#{k}"] } }' # rubocop:disable Lint/InterpolationCheck
+    script_header += "\n"
     script_header + content
   end
 end
