@@ -3,6 +3,8 @@ export default class WebSocketMessage {
     consoleInput: 'console_input',
     consoleOutput: 'console_output',
     consoleOutputEnd: 'console_output_end',
+    auth: 'auth',
+    info: 'info',
   }
 
   type

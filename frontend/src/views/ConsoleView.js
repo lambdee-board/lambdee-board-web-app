@@ -43,6 +43,7 @@ const getCodeEditor = () => {
 const focusCodeEditor = () => getCodeEditor()?.focus()
 
 const ConsoleView = () => {
+  const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
   const [consoleHistory, setConsoleHistory] = React.useState([])
@@ -82,6 +83,10 @@ puts ruby`)
       case WebSocketMessage.types.consoleOutput:
         addToConsoleHistory(message.payload)
         break
+      case WebSocketMessage.types.info:
+        addToConsoleHistory(message.payload)
+        setResponseReceived(true)
+        break
       case WebSocketMessage.types.consoleOutputEnd:
         if (message.payload) addToConsoleHistory(message.payload)
         setResponseReceived(true)
@@ -90,6 +95,13 @@ puts ruby`)
     }
     newWebSocket.onclose = (event) => {
       addToConsoleHistory('Session closed.')
+    }
+    newWebSocket.onopen = () => {
+      setWebSocketOpen(true)
+      newWebSocket.send(WebSocketMessage.encode(
+        WebSocketMessage.types.auth,
+        { token: localStorage.getItem('token') }
+      ))
     }
     setWebSocket(newWebSocket)
 

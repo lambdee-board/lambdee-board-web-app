@@ -68,7 +68,8 @@
       resources :comments, except: %i[index]
 
       resources :sprints do
-        post :end, on: :member
+        put :end, on: :member
+        get :burn_up_chart, on: :member
         resources :sprint_tasks, only: :index
       end
 

@@ -33,6 +33,8 @@ class Ability
     return unless user
 
     @user = user
+    return set_admin_abilities if user == :god # rubocop:disable Lint/ReturnInVoidContext
+
     set_guest_abilities if user.guest?
     set_regular_abilities if user.regular?
     set_developer_abilities if user.developer?

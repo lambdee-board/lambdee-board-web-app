@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for sprints
 # through the JSON API.
 class API::SprintsController < ::APIController
-  before_action :set_sprint, only: %i[show update destroy end]
+  before_action :set_sprint, only: %i[show update destroy end burn_up_chart]
   authorize_resource only: %i[show update destroy]
 
   # GET /api/sprints or GET /api/boards/1/sprints
@@ -58,6 +58,12 @@ class API::SprintsController < ::APIController
     else
       head :not_found
     end
+  end
+
+  # GET /api/sprints/1/burn_up_chart
+  def burn_up_chart
+    authorize! :read, @sprint
+    render json: @sprint.burn_up_chart_data
   end
 
   private

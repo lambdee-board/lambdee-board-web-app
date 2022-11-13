@@ -18,8 +18,7 @@ class DB::Task < ApplicationRecord
   has_many :sprints, through: :sprint_tasks
 
   before_create :set_highest_pos_in_list
-  before_save :check_if_update_of_sprint_task_is_needed
-  after_save :update_or_create_sprint_task
+  around_save :update_or_create_sprint_task_if_needed
 
   default_scope { order(:id) }
 
@@ -69,18 +68,14 @@ class DB::Task < ApplicationRecord
 
   private
 
-  def check_if_update_of_sprint_task_is_needed
-    return unless list_id_changed? && board.active_sprint
+  def update_or_create_sprint_task_if_needed
+    return yield unless list_id_changed? && board.active_sprint
 
-    new_list = ::DB::List.find(list_id)
-    return unless new_list.visible?
+    yield
 
-    @manage_sprint_task = current_sprint_task ? :update : :create
-  end
+    return unless list.visible?
 
-  def update_or_create_sprint_task
-    update_sprint_task if @manage_sprint_task == :update
-    create_sprint_task if @manage_sprint_task == :create
+    current_sprint_task ? update_sprint_task : create_sprint_task
   end
 
   def update_sprint_task

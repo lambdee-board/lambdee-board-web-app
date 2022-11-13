@@ -7,30 +7,27 @@ const axiosClient = axios.create({
   withCredentials: true
 })
 
-axiosClient.interceptors.response.use((response) => {
-  return response
-}, (error) => {
-  if (error.response.status === 401) {
-    if (localStorage.getItem('token')) {
-      localStorage.clear()
-      window.location.reload()
+axiosClient.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    if (error.response.status === 401) {
+      if (localStorage.getItem('token')) {
+        localStorage.clear()
+        window.location.reload()
+      }
     }
+    return error
   }
-  return error
-})
+)
 
 axiosClient.interceptors.request.use(
-
   (config) => {
     const token = localStorage.getItem('token')
-    if (token) {
-      config.headers['Authorization'] = token
-    }
+    if (token) config.headers['Authorization'] = token
+
     return config
   },
-  (error) => {
-    return Promise.reject(error)
-  }
+  (error) => Promise.reject(error)
 )
 
 if (process.env.NODE_ENV === 'development') {

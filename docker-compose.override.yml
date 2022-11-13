@@ -2,6 +2,9 @@ version: "3.9"
 services:
 
   script-service:
+    # build:
+    #   context: .
+    #   dockerfile: ../lambdee-board-script-service/Dockerfile
     build: https://github.com/lambdee-board/lambdee-board-script-service.git#main
     # platform: linux/amd64
 

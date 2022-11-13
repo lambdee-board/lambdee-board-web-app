@@ -7,7 +7,7 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     @user = ::FactoryBot.create(:user, role: 4)
     @board = ::FactoryBot.create(:board)
     2.times { ::FactoryBot.create(:visible_list, board: @board)}
-    @sprint = ::FactoryBot.create(:sprint, board: @board)
+    @sprint = ::FactoryBot.create(:sprint, board: @board, final_list_name: 'Done')
   end
 
   should 'get index' do
@@ -117,5 +117,17 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
 
     json = ::JSON.parse response.body
     assert_equal @sprint.name, json['name']
+  end
+
+  should 'show data for burn up chart' do
+    get burn_up_chart_api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
+    assert_response :success
+  end
+
+  should 'end sprint' do
+    put end_api_sprint_url(@sprint), headers: auth_headers(@user), as: :json
+    assert_response :success
+    json = ::JSON.parse response.body
+    assert json['ended_at'].to_time.today?
   end
 end

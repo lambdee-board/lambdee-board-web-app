@@ -53,8 +53,8 @@ module QueryAPI
       #   @return [Join]
       attribute :join, ::Shale::Type::Value
 
-      forward :model, to: %i[and or]
-      forward :join, to: %i[and or]
+      forward :model, to: %i[and or not]
+      forward :join, to: %i[and or not]
 
       validate :validate_dynamic_attributes
 

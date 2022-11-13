@@ -11,43 +11,44 @@ module QueryAPI
     extend NestedValidations::ClassMethods
     include NestedValidations::InstanceMethods
 
-    Attribute = ::Struct.new(:name, :type, keyword_init: true)
+    Attribute = ::Struct.new(:name, :type, :default, keyword_init: true) do
+      # @return [Symbol]
+      def setter
+        :"#{name}="
+      end
+    end
 
     class << self
-      # @param params [Hash]
+      # @param params [Hash{String => Object}]
       # @return [self]
-      def of_hash(params, *_args, **_kwargs)
-        new_obj = new
+      def of_hash(params, *_args, **_kwargs) # rubocop:disable Metrics/MethodLength
+        instance = new
 
-        forwarded_attributes&.each do |_key, forwarded|
-          attribute = @attributes[forwarded.name]
-          forwarded_val = params[forwarded.name.to_s]
-          forwarded_val = attribute ? attribute.type.of_hash(forwarded_val) : forwarded_val
-          new_obj[forwarded.name.to_s] = forwarded_val
+        return instance unless params.is_a?(::Hash)
 
-          forwarded.to.each do |key|
-            key = key.to_s
-            next unless (val = params[key])
+        dynamic_params = params.dup
 
-            val = params[key] = { 'value' => val } unless val.is_a?(::Hash)
-            next unless val.is_a?(::Hash)
-
-            val[forwarded.as.to_s] = forwarded_val
+        attributes.each do |attr_symbol, attr_object|
+          attr_name = attr_symbol.to_s
+          dynamic_params.delete attr_name
+          if params.include?(attr_name) && params[attr_name].nil?
+            val = nil
+          elsif params.include?(attr_name)
+            val = attr_object.type.cast(attr_object.type.of_hash(params[attr_name]))
+          elsif attr_object.default
+            val = attr_object.default.call
+          else
+            next
           end
+
+          instance.__send__(attr_object.setter, val)
         end
 
-        if forwarded_attributes
-          already_set_attrs = forwarded_attributes.keys + forwarded_attributes.values.map(&:to)
-          params = params.reject { |k, _| already_set_attrs.include?(k.to_sym) }
+        dynamic_params.each do |attr_name, value|
+          instance[attr_name] = value
         end
 
-        params.each do |key, val|
-          attribute = @attributes[key&.to_sym]
-          val = attribute ? attribute.type.of_hash(val) : val
-          new_obj[key] = val
-        end
-
-        new_obj
+        instance
       end
 
       alias from_hash of_hash
@@ -72,9 +73,10 @@ module QueryAPI
 
       # @param name [Symbol]
       # @param type [Class]
-      def attribute(name, type)
+      # @param default [Proc, nil]
+      def attribute(name, type, default: nil)
         @attributes ||= {}
-        @attributes[name] = Attribute.new name:, type:
+        @attributes[name] = Attribute.new name:, type:, default:
       end
     end
 
