@@ -29,7 +29,7 @@ import './SprintModal.sass'
 const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   const dispatch = useDispatch()
   const { boardId } = useParams()
-  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const { data: board } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
 
   const editSprintNameRef = React.useRef()
   const [datetime, setDatetime] = React.useState(activeSprint?.expectedEndAt)

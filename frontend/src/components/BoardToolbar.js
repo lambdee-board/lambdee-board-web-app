@@ -19,7 +19,7 @@ import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/useBoardAc
 export default function BoardToolbar(props) {
   const navigate = useNavigate()
   const { boardId, workspaceId } = useParams()
-  const { data: activeSprint, isLoading, isError } = useBoardActiveSprint({ id: boardId })
+  const { data: activeSprint } = useBoardActiveSprint({ id: boardId })
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
   const [newSprintModal, setNewSprintModal] = React.useState(false)
   const [boardView, setBoardView] = useCookie('1')
