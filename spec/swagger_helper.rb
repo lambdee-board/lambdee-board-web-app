@@ -354,9 +354,9 @@ end
             type: :object,
             properties: {
               id: { type: :integer },
-              script_id: { type: %i[integer null]  },
-              subject_type: { type: %i[string null]  },
-              subject_id: { type: %i[integer null]  },
+              script_id: { type: %i[integer null] },
+              subject_type: { type: %i[string null] },
+              subject_id: { type: %i[integer null] },
               action: { type: :string },
               url: { type: :string }
             },
@@ -373,6 +373,25 @@ end
               _destroy: { type: :boolean, description: 'If `true` callback for given `id` will be destroyed. Works only nested in sprint.' },
             },
             required: %w[action]
+          },
+          script_run_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: :integer },
+              initiator_id: { type: :integer },
+              input: { type: %i[string null] },
+              output: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          script_run_request: {
+            type: :object,
+            properties: {
+              output: { type: :string },
+            },
+            required: %w[]
           },
         }
       },

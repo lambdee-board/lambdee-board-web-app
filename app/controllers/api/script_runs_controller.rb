@@ -12,7 +12,7 @@ class ::API::ScriptRunsController < ::ApplicationController
                    end
   end
 
-  # GET /script_runs/1
+  # GET /api/script_runs/1
   def show; end
 
   # PATCH/PUT /api/script_runs/1
