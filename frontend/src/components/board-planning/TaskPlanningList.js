@@ -161,7 +161,6 @@ function TaskPlanningList(props) {
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
       .finally(() => {
-        console.log(updatedTasks)
         mutate((listData) => ({ ...listData, tasks: updatedTasks }))
       })
   }

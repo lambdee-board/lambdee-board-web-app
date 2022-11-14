@@ -1,0 +1,98 @@
+@import './../styles/base'
+
+.SprintModal-wrapper
+  overflow-y: scroll
+  max-height: 100vh
+  -ms-overflow-style: none // for Internet Explorer, Edge
+  scrollbar-width: none // for Firefox
+
+  &::-webkit-scrollbar
+    display: none // for Chrome, Safari, and Opera
+
+  .SprintModal-paper
+    margin-top: 3 * $unit
+    margin-bottom: 3 * $unit
+    width: calc(100vw - 5 * $unit)
+    max-width: 600px
+    display: flex
+    flex-direction: row
+    align-content: flex-start
+    justify-content: space-between
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    .SprintModal-main
+      width: 100%
+      margin: 4 * $unit
+      .SprintModal-main-header
+        margin-bottom: 8 * $unit
+      .SprintModal-main-datetime
+        margin-bottom: 4 * $unit
+        .buttons
+          display: flex
+          align-items: center
+          justify-content: flex-start
+          align-content: flex-start
+          flex-wrap: nowrap
+          flex-direction: row
+          padding-top: $unit
+          padding-bottom: $unit
+          margin-left: calc(-1 * $unit / 2)
+          margin-right: calc(-1 * $unit / 2)
+
+          button
+            margin-left: calc($unit / 2)
+            margin-right: calc($unit / 2)
+      .SprintModal-main-name
+        margin-bottom: 4 * $unit
+        .buttons
+          display: flex
+          align-items: center
+          justify-content: flex-start
+          align-content: flex-start
+          flex-wrap: nowrap
+          flex-direction: row
+          padding-top: $unit
+          padding-bottom: $unit
+          margin-left: calc(-1 * $unit / 2)
+          margin-right: calc(-1 * $unit / 2)
+
+          button
+            margin-left: calc($unit / 2)
+            margin-right: calc($unit / 2)
+        .SprintModal-main-name-card
+          padding: (.75 * $unit) ($unit)
+          margin-top: 0.5 * $unit
+          width: 46.6%
+          display: flex
+          .SprintModal-main-name-input
+            margin-right: auto
+
+        .SprintModal-description-label-unsaved-changes
+          color: #7d7b7b
+
+      .SprintModal-main-description
+        margin-top: 0.5 * $unit
+        margin-bottom: 2 * $unit
+        padding: $unit 2 * $unit
+        min-height: 20 * $unit
+        cursor: pointer
+        @include transition
+
+        &:hover
+          opacity: .8
+      .SprintModal-description-editor
+        margin-bottom: 2 * $unit
+        .buttons
+          display: flex
+          align-items: center
+          justify-content: flex-start
+          align-content: flex-start
+          flex-wrap: nowrap
+          flex-direction: row
+          padding-top: $unit
+          padding-bottom: $unit
+          margin-left: calc(-1 * $unit / 2)
+          margin-right: calc(-1 * $unit / 2)
+
+          button
+            margin-left: calc($unit / 2)
+            margin-right: calc($unit / 2)
