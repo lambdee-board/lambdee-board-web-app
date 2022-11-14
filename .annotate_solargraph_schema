@@ -272,7 +272,7 @@ end
 class DB::CallbackScript < ApplicationRecord
   # Scope `:for_model`.
   #
-  #     scope :for_model, ->(model) { where(subject_type: model) }
+  #     scope :for_model, ->(model) { where(subject_type: model.to_s).where(subject: nil) }
   #
   # @return [Array<DB::CallbackScript>, nil]
   def self.for_model(model); end
@@ -288,20 +288,20 @@ class DB::CallbackScript < ApplicationRecord
   #
   # @return [Array<DB::CallbackScript>, nil]
   def self.global(); end
-  # Scope `:on_create_action`.
-  #
-  #     scope :on_create_action, -> { where(action: :create) }
-  #
-  # @return [Array<DB::CallbackScript>, nil]
-  def self.on_create_action(); end
   # Scope `:regarding_record`.
   #
   #     scope :regarding_record, (lambda do |record|
-  #       where(subject_type: nil).or(where(subject_type: record.class)).or(where(subject: record))
+  #       global.or(for_model(record.class)).or(for_record(record))
   #     end)
   #
   # @return [Array<DB::CallbackScript>, nil]
   def self.regarding_record(record); end
+  # Scope `:with_action`.
+  #
+  #     scope :with_action, ->(action) { where(action: action) }
+  #
+  # @return [Array<DB::CallbackScript>, nil]
+  def self.with_action(action); end
   # `belongs_to` relation with `DB::Script`. Database column `callback_scripts.script_id`.
   # @param val [DB::Script, nil]
   def script=(val); end
@@ -638,6 +638,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:scripts>%%
 
 class DB::Script < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @return [DB::User, nil]
+  def author; end
   # `has_many` relation with `DB::CallbackScript`. Database column `callback_scripts.script_id`.
   # @param val [Array<DB::CallbackScript>, nil]
   def callback_scripts=(val); end
@@ -723,6 +729,12 @@ class DB::ScriptRun < ApplicationRecord
   # Database column `script_runs.initiator_id`, type: `integer`.
   # @return [Integer, nil]
   def initiator_id; end
+  # Database column `script_runs.input`, type: `text`.
+  # @param val [String, nil]
+  def input=(val); end
+  # Database column `script_runs.input`, type: `text`.
+  # @return [String, nil]
+  def input; end
 end
 # %%<RailsAnnotateSolargraph:End:script_runs>%%
 

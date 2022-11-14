@@ -4,37 +4,39 @@ require 'test_helper'
 
 class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @script_run = script_runs(:one)
+    @user = ::FactoryBot.create :user, role: 4
   end
 
-  test "should get index" do
-    get script_runs_url, as: :json
+  should 'get index' do
+    3.times { ::FactoryBot.create(:script_run) }
+    get api_script_runs_url, as: :json, headers: auth_headers(@user)
     assert_response :success
   end
 
-  test "should create script_run" do
-    assert_difference("ScriptRun.count") do
-      post script_runs_url, params: { script_run: { initiator_id: @script_run.initiator_id, output: @script_run.output, script_id: @script_run.script_id } }, as: :json
-    end
-
-    assert_response :created
-  end
-
-  test "should show script_run" do
-    get script_run_url(@script_run), as: :json
+  should 'get index for sprint' do
+    2.times { ::FactoryBot.create(:script_run) }
+    my_script = ::FactoryBot.create(:script)
+    3.times { ::FactoryBot.create(:script_run, script: my_script) }
+    get "/api/scripts/#{my_script.id}/script_runs", as: :json, headers: auth_headers(@user)
     assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal 3, json.size
   end
 
-  test "should update script_run" do
-    patch script_run_url(@script_run), params: { script_run: { initiator_id: @script_run.initiator_id, output: @script_run.output, script_id: @script_run.script_id } }, as: :json
+  should 'show script_run' do
+    run = ::FactoryBot.create(:script_run)
+    get api_script_run_url(run), as: :json, headers: auth_headers(@user)
     assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal "puts 'Hello world'", json['input']
+    assert_equal 'Hello world', json['output']
   end
 
-  test "should destroy script_run" do
-    assert_difference("ScriptRun.count", -1) do
-      delete script_run_url(@script_run), as: :json
-    end
-
-    assert_response :no_content
+  should 'update script_run' do
+    run = ::FactoryBot.create(:script_run)
+    patch api_script_run_url(run), params: { script_run: { output: 'new output' } }, as: :json, headers: auth_headers(@user)
+    assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal 'new output', json['output']
   end
 end

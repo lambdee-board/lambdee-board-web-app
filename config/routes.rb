@@ -72,11 +72,13 @@
 
       resources :sprint_tasks
 
-      resources :scripts
+      resources :scripts do
+        resources :script_runs, only: :index
+      end
 
       resources :callback_scripts, only: %i[show create update destroy]
 
-      resources :script_runs, only: %i[index show create]
+      resources :script_runs, only: %i[index show update]
     end
   end
 

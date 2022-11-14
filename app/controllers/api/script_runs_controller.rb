@@ -1,21 +1,23 @@
 # frozen_string_literal: true
 
 class ::API::ScriptRunsController < ::ApplicationController
-  before_action :set_script_run, only: %i[show destroy]
+  before_action :set_script_run, only: %i[show update destroy]
 
-  # GET /script_runs
-  # GET /script_runs.json
+  # GET /api/script_runs or /api/scripts/1/script_runs
   def index
-    @script_runs = ::DB::ScriptRun.all
+    @script_runs = if params[:script_id]
+                     ::DB::Script.find(params[:script_id]).script_runs
+                   else
+                     ::DB::ScriptRun.all
+                   end
   end
 
   # GET /script_runs/1
   def show; end
 
-  # POST /script_runs
-  def create
-    @script = ::DB::ScriptRun.new(script_run_params)
-    return render :show, status: :created, location: api_script_run_url(@script_run) if @script_run.save
+  # PATCH/PUT /api/script_runs/1
+  def update
+    return render :show, status: :ok if @script_run.update(script_run_params)
 
     render json: @script_run.errors, status: :unprocessable_entity
   end
@@ -27,6 +29,6 @@ class ::API::ScriptRunsController < ::ApplicationController
   end
 
   def script_run_params
-    params.require(:script_run).permit(:script_id, :output, :initiator_id)
+    params.require(:script_run).permit(:output)
   end
 end

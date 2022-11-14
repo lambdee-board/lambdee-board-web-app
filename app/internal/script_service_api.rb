@@ -11,11 +11,11 @@ module ScriptServiceAPI
       end
     end
 
-    # @param body [String]
+    # @param script_run [DB::SprintRun]
     # @return [Faraday::Response]
-    def send_execute_script_request(body)
-      http_connection.post('execute') do |req|
-        req.body = body
+    def send_execute_script_request(script_run)
+      http_connection.post("execute/#{script_run.id}") do |req|
+        req.body = script_run.input
       end
     end
   end
