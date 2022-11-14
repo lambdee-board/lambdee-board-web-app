@@ -137,3 +137,1604 @@ class ActionDispatch::Routing::RouteSet
 end
 
 # Dynamically generated documentation
+
+# %%<RailsAnnotateSolargraph:Start:boards>%%
+
+class DB::Board < ApplicationRecord
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::Board>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # `has_one` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @param val [DB::Sprint, nil]
+  def active_sprint=(val); end
+  # `has_one` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @return [DB::Sprint, nil]
+  def active_sprint; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def deleted_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def deleted_lists; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def invisible_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def invisible_lists; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def lists; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def lists_including_deleted=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def lists_including_deleted; end
+  # `has_many` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @param val [Array<DB::Sprint>, nil]
+  def sprints=(val); end
+  # `has_many` relation with `DB::Sprint`. Database column `sprints.board_id`.
+  # @return [Array<DB::Sprint>, nil]
+  def sprints; end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @param val [Array<DB::Tag>, nil]
+  def tags=(val); end
+  # `has_many` relation with `DB::Tag`. Database column `tags.board_id`.
+  # @return [Array<DB::Tag>, nil]
+  def tags; end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @param val [Array<DB::List>, nil]
+  def visible_lists=(val); end
+  # `has_many` relation with `DB::List`. Database column `lists.board_id`.
+  # @return [Array<DB::List>, nil]
+  def visible_lists; end
+  # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
+  # @param val [DB::Workspace, nil]
+  def workspace=(val); end
+  # `belongs_to` relation with `DB::Workspace`. Database column `boards.workspace_id`.
+  # @return [DB::Workspace, nil]
+  def workspace; end
+  # Database column `boards.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `boards.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `boards.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `boards.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `boards.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `boards.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `boards.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `boards.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `boards.workspace_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def workspace_id=(val); end
+  # Database column `boards.workspace_id`, type: `integer`.
+  # @return [Integer, nil]
+  def workspace_id; end
+  # Database column `boards.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `boards.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
+  # Database column `boards.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `boards.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+end
+# %%<RailsAnnotateSolargraph:End:boards>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:comments>%%
+
+class DB::Comment < ApplicationRecord
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # Scope `:find_for_task`.
+  #
+  #     scope :find_for_task, ->(id) { where(task_id: id) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.find_for_task(id); end
+  # Scope `:find_with_author_for_task`.
+  #
+  #     scope :find_with_author_for_task, ->(id) { includes(:author).where(task_id: id) }
+  #
+  # @return [Array<DB::Comment>, nil]
+  def self.find_with_author_for_task(id); end
+  # `belongs_to` relation with `DB::User`. Database column `comments.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `comments.author_id`.
+  # @return [DB::User, nil]
+  def author; end
+  # `belongs_to` relation with `DB::Task`. Database column `comments.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `comments.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # Database column `comments.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `comments.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `comments.body`, type: `text`.
+  # @param val [String, nil]
+  def body=(val); end
+  # Database column `comments.body`, type: `text`.
+  # @return [String, nil]
+  def body; end
+  # Database column `comments.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `comments.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `comments.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `comments.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `comments.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `comments.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `comments.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `comments.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `comments.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `comments.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+end
+# %%<RailsAnnotateSolargraph:End:comments>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:jwt_denylist>%%
+
+class DB::JwtDenylist < ApplicationRecord
+  # Database column `jwt_denylist.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `jwt_denylist.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `jwt_denylist.jti`, type: `string`.
+  # @param val [String, nil]
+  def jti=(val); end
+  # Database column `jwt_denylist.jti`, type: `string`.
+  # @return [String, nil]
+  def jti; end
+  # Database column `jwt_denylist.exp`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def exp=(val); end
+  # Database column `jwt_denylist.exp`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def exp; end
+end
+# %%<RailsAnnotateSolargraph:End:jwt_denylist>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:lists>%%
+
+class DB::List < ApplicationRecord
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # Scope `:find_with_deleted_tasks`.
+  #
+  #     scope :find_with_deleted_tasks, ->(id) { include_deleted_tasks.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_deleted_tasks(id); end
+  # Scope `:find_with_tasks`.
+  #
+  #     scope :find_with_tasks, ->(id) { include_tasks.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_tasks(id); end
+  # Scope `:find_with_tasks_including_deleted`.
+  #
+  #     scope :find_with_tasks_including_deleted, ->(id) { include_tasks_containing_deleted.find(id) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.find_with_tasks_including_deleted(id); end
+  # Scope `:include_deleted_tasks`.
+  #
+  #     scope :include_deleted_tasks, -> { includes(deleted_tasks: %i[tags users]) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_deleted_tasks(); end
+  # Scope `:include_tasks`.
+  #
+  #     scope :include_tasks, -> { includes(tasks: %i[tags users author]) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_tasks(); end
+  # Scope `:include_tasks_containing_deleted`.
+  #
+  #     scope :include_tasks_containing_deleted, -> { includes(tasks_including_deleted: %i[tags users]) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_tasks_containing_deleted(); end
+  # Scope `:include_user_tasks`.
+  #
+  #     scope(:include_user_tasks, lambda do |user|
+  #       return self unless user
+  #     
+  #       include_tasks.where(users: { id: user.id })
+  #     end)
+  #
+  # @return [Array<DB::List>, nil]
+  def self.include_user_tasks(user); end
+  # Scope `:pos_order`.
+  #
+  #     scope :pos_order, -> { reorder(pos: :asc) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.pos_order(); end
+  # Scope `:visible`.
+  #
+  #     scope :visible, ->(visible) { where(visible:) }
+  #
+  # @return [Array<DB::List>, nil]
+  def self.visible(visible); end
+  # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `lists.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @param val [Array<DB::Task>, nil]
+  def deleted_tasks=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @return [Array<DB::Task>, nil]
+  def deleted_tasks; end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @return [Array<DB::Task>, nil]
+  def tasks; end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks_including_deleted=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.list_id`.
+  # @return [Array<DB::Task>, nil]
+  def tasks_including_deleted; end
+  # Database column `lists.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `lists.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `lists.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `lists.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `lists.pos`, type: `float`.
+  # @param val [BigDecimal, nil]
+  def pos=(val); end
+  # Database column `lists.pos`, type: `float`.
+  # @return [BigDecimal, nil]
+  def pos; end
+  # Database column `lists.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `lists.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
+  # Database column `lists.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `lists.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `lists.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `lists.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `lists.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `lists.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+  # Database column `lists.visible`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def visible=(val); end
+  # Database column `lists.visible`, type: `boolean`.
+  # @return [Boolean, nil]
+  def visible; end
+end
+# %%<RailsAnnotateSolargraph:End:lists>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:scripts>%%
+
+class DB::Script < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @return [DB::User, nil]
+  def author; end
+  # `has_many` relation with `DB::ScriptRun`. Database column `script_runs.script_id`.
+  # @param val [Array<DB::ScriptRun>, nil]
+  def script_runs=(val); end
+  # `has_many` relation with `DB::ScriptRun`. Database column `script_runs.script_id`.
+  # @return [Array<DB::ScriptRun>, nil]
+  def script_runs; end
+  # `has_many` relation with `DB::ScriptTrigger`. Database column `script_triggers.script_id`.
+  # @param val [Array<DB::ScriptTrigger>, nil]
+  def script_triggers=(val); end
+  # `has_many` relation with `DB::ScriptTrigger`. Database column `script_triggers.script_id`.
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def script_triggers; end
+  # `has_many` relation with `DB::UiScriptTrigger`. Database column `ui_script_triggers.script_id`.
+  # @param val [Array<DB::UiScriptTrigger>, nil]
+  def ui_script_triggers=(val); end
+  # `has_many` relation with `DB::UiScriptTrigger`. Database column `ui_script_triggers.script_id`.
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def ui_script_triggers; end
+  # Database column `scripts.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `scripts.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `scripts.content`, type: `text`.
+  # @param val [String, nil]
+  def content=(val); end
+  # Database column `scripts.content`, type: `text`.
+  # @return [String, nil]
+  def content; end
+  # Database column `scripts.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `scripts.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `scripts.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `scripts.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
+  # Database column `scripts.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `scripts.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+end
+# %%<RailsAnnotateSolargraph:End:scripts>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:script_runs>%%
+
+class DB::ScriptRun < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `script_runs.initiator_id`.
+  # @param val [DB::User, nil]
+  def initiator=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `script_runs.initiator_id`.
+  # @return [DB::User, nil]
+  def initiator; end
+  # `belongs_to` relation with `DB::Script`. Database column `script_runs.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_runs.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Database column `script_runs.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `script_runs.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `script_runs.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `script_runs.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `script_runs.output`, type: `text`.
+  # @param val [String, nil]
+  def output=(val); end
+  # Database column `script_runs.output`, type: `text`.
+  # @return [String, nil]
+  def output; end
+  # Database column `script_runs.initiator_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def initiator_id=(val); end
+  # Database column `script_runs.initiator_id`, type: `integer`.
+  # @return [Integer, nil]
+  def initiator_id; end
+  # Database column `script_runs.input`, type: `text`.
+  # @param val [String, nil]
+  def input=(val); end
+  # Database column `script_runs.input`, type: `text`.
+  # @return [String, nil]
+  def input; end
+end
+# %%<RailsAnnotateSolargraph:End:script_runs>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:script_triggers>%%
+
+class DB::ScriptTrigger < ApplicationRecord
+  # Scope `:for_model`.
+  #
+  #     scope :for_model, ->(model) { where(subject_type: model.to_s).where(subject: nil) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.for_model(model); end
+  # Scope `:for_record`.
+  #
+  #     scope :for_record, ->(record) { where(subject: record) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.for_record(record); end
+  # Scope `:global`.
+  #
+  #     scope :global, -> { where(subject_type: nil) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.global(); end
+  # Scope `:regarding_record`.
+  #
+  #     scope :regarding_record, (lambda do |record|
+  #       global.or(for_model(record.class)).or(for_record(record))
+  #     end)
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.regarding_record(record); end
+  # Scope `:with_action`.
+  #
+  #     scope :with_action, ->(action) { where(action: action) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.with_action(action); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Polymorphic relation. Database columns `script_triggers.subject_id` and `script_triggers.subject_type`.
+  # @param val [Object, nil]
+  def subject=(val); end
+  # Polymorphic relation. Database columns `script_triggers.subject_id` and `script_triggers.subject_type`.
+  # @return [Object, nil]
+  def subject; end
+  # Database column `script_triggers.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `script_triggers.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `script_triggers.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `script_triggers.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `script_triggers.subject_type`, type: `string`.
+  # @param val [String, nil]
+  def subject_type=(val); end
+  # Database column `script_triggers.subject_type`, type: `string`.
+  # @return [String, nil]
+  def subject_type; end
+  # Database column `script_triggers.subject_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def subject_id=(val); end
+  # Database column `script_triggers.subject_id`, type: `integer`.
+  # @return [Integer, nil]
+  def subject_id; end
+  # Database column `script_triggers.action`, type: `string`.
+  # @param val [String, nil]
+  def action=(val); end
+  # Database column `script_triggers.action`, type: `string`.
+  # @return [String, nil]
+  def action; end
+end
+# %%<RailsAnnotateSolargraph:End:script_triggers>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:sprints>%%
+
+class DB::Sprint < ApplicationRecord
+  # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `sprints.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
+  # @param val [Array<DB::SprintTask>, nil]
+  def sprint_tasks=(val); end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.sprint_id`.
+  # @return [Array<DB::SprintTask>, nil]
+  def sprint_tasks; end
+  # `has_many` relation with `DB::Task` through `DB::SprintTask`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `DB::Task` through `DB::SprintTask`.
+  # @return [Array<DB::Task>, nil]
+  def tasks; end
+  # Database column `sprints.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `sprints.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `sprints.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `sprints.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `sprints.started_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def started_at=(val); end
+  # Database column `sprints.started_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def started_at; end
+  # Database column `sprints.expected_end_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def expected_end_at=(val); end
+  # Database column `sprints.expected_end_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def expected_end_at; end
+  # Database column `sprints.ended_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def ended_at=(val); end
+  # Database column `sprints.ended_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def ended_at; end
+  # Database column `sprints.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `sprints.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
+  # Database column `sprints.final_list_name`, type: `string`.
+  # @param val [String, nil]
+  def final_list_name=(val); end
+  # Database column `sprints.final_list_name`, type: `string`.
+  # @return [String, nil]
+  def final_list_name; end
+  # Database column `sprints.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `sprints.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
+end
+# %%<RailsAnnotateSolargraph:End:sprints>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:sprint_tasks>%%
+
+class DB::SprintTask < ApplicationRecord
+  # `belongs_to` relation with `DB::Sprint`. Database column `sprint_tasks.sprint_id`.
+  # @param val [DB::Sprint, nil]
+  def sprint=(val); end
+  # `belongs_to` relation with `DB::Sprint`. Database column `sprint_tasks.sprint_id`.
+  # @return [DB::Sprint, nil]
+  def sprint; end
+  # `belongs_to` relation with `DB::Task`. Database column `sprint_tasks.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `sprint_tasks.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # Database column `sprint_tasks.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `sprint_tasks.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `sprint_tasks.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `sprint_tasks.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `sprint_tasks.sprint_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def sprint_id=(val); end
+  # Database column `sprint_tasks.sprint_id`, type: `integer`.
+  # @return [Integer, nil]
+  def sprint_id; end
+  # Database column `sprint_tasks.added_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def added_at=(val); end
+  # Database column `sprint_tasks.added_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def added_at; end
+  # Database column `sprint_tasks.completed_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def completed_at=(val); end
+  # Database column `sprint_tasks.completed_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def completed_at; end
+  # Database column `sprint_tasks.start_state`, type: `string`.
+  # @param val [String, nil]
+  def start_state=(val); end
+  # Database column `sprint_tasks.start_state`, type: `string`.
+  # @return [String, nil]
+  def start_state; end
+  # Database column `sprint_tasks.state`, type: `string`.
+  # @param val [String, nil]
+  def state=(val); end
+  # Database column `sprint_tasks.state`, type: `string`.
+  # @return [String, nil]
+  def state; end
+end
+# %%<RailsAnnotateSolargraph:End:sprint_tasks>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:tags>%%
+
+class DB::Tag < ApplicationRecord
+  # Scope `:for_board`.
+  #
+  #     scope :for_board, ->(id) { where(board: id) }
+  #
+  # @return [Array<DB::Tag>, nil]
+  def self.for_board(id); end
+  # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
+  # @param val [DB::Board, nil]
+  def board=(val); end
+  # `belongs_to` relation with `DB::Board`. Database column `tags.board_id`.
+  # @return [DB::Board, nil]
+  def board; end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.tag_id`.
+  # @param val [Array<DB::TaskTag>, nil]
+  def task_tags=(val); end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.tag_id`.
+  # @return [Array<DB::TaskTag>, nil]
+  def task_tags; end
+  # `has_many` relation with `DB::Task` through `DB::TaskTag`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `DB::Task` through `DB::TaskTag`.
+  # @return [Array<DB::Task>, nil]
+  def tasks; end
+  # Database column `tags.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `tags.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `tags.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `tags.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `tags.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `tags.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
+  # Database column `tags.board_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def board_id=(val); end
+  # Database column `tags.board_id`, type: `integer`.
+  # @return [Integer, nil]
+  def board_id; end
+  # Database column `tags.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `tags.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `tags.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `tags.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:tags>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:tasks>%%
+
+class DB::Task < ApplicationRecord
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # Scope `:find_with_all_associations`.
+  #
+  #     scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.find_with_all_associations(id); end
+  # Scope `:for_list`.
+  #
+  #     scope :for_list, ->(id) { where(list_id: id) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.for_list(id); end
+  # Scope `:high`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.high(); end
+  # Scope `:include_associations`.
+  #
+  #     scope :include_associations, -> { includes(:list, :author, :users, :tags) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.include_associations(); end
+  # Scope `:low`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.low(); end
+  # Scope `:medium`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.medium(); end
+  # Scope `:not_high`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_high(); end
+  # Scope `:not_low`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_low(); end
+  # Scope `:not_medium`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_medium(); end
+  # Scope `:not_very_high`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_very_high(); end
+  # Scope `:not_very_low`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.not_very_low(); end
+  # Scope `:pos_order`.
+  #
+  #     scope :pos_order, -> { reorder(pos: :asc) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.pos_order(); end
+  # Scope `:very_high`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.very_high(); end
+  # Scope `:very_low`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.very_low(); end
+  # Scope `:with_users_and_tags`.
+  #
+  #     scope :with_users_and_tags, -> { includes(:users, :tags) }
+  #
+  # @return [Array<DB::Task>, nil]
+  def self.with_users_and_tags(); end
+  # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `tasks.author_id`.
+  # @return [DB::User, nil]
+  def author; end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def comments=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @return [Array<DB::Comment>, nil]
+  def comments; end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def comments_including_deleted=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @return [Array<DB::Comment>, nil]
+  def comments_including_deleted; end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def deleted_comments=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.task_id`.
+  # @return [Array<DB::Comment>, nil]
+  def deleted_comments; end
+  # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
+  # @param val [DB::List, nil]
+  def list=(val); end
+  # `belongs_to` relation with `DB::List`. Database column `tasks.list_id`.
+  # @return [DB::List, nil]
+  def list; end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.task_id`.
+  # @param val [Array<DB::SprintTask>, nil]
+  def sprint_tasks=(val); end
+  # `has_many` relation with `DB::SprintTask`. Database column `sprint_tasks.task_id`.
+  # @return [Array<DB::SprintTask>, nil]
+  def sprint_tasks; end
+  # `has_many` relation with `DB::Sprint` through `DB::SprintTask`.
+  # @param val [Array<DB::Sprint>, nil]
+  def sprints=(val); end
+  # `has_many` relation with `DB::Sprint` through `DB::SprintTask`.
+  # @return [Array<DB::Sprint>, nil]
+  def sprints; end
+  # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
+  # @param val [Array<DB::Tag>, nil]
+  def tags=(val); end
+  # `has_many` relation with `DB::Tag` through `DB::TaskTag`.
+  # @return [Array<DB::Tag>, nil]
+  def tags; end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.task_id`.
+  # @param val [Array<DB::TaskTag>, nil]
+  def task_tags=(val); end
+  # `has_many` relation with `DB::TaskTag`. Database column `task_tags.task_id`.
+  # @return [Array<DB::TaskTag>, nil]
+  def task_tags; end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.task_id`.
+  # @param val [Array<DB::TaskUser>, nil]
+  def task_users=(val); end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.task_id`.
+  # @return [Array<DB::TaskUser>, nil]
+  def task_users; end
+  # `has_many` relation with `DB::User` through `DB::TaskUser`.
+  # @param val [Array<DB::User>, nil]
+  def users=(val); end
+  # `has_many` relation with `DB::User` through `DB::TaskUser`.
+  # @return [Array<DB::User>, nil]
+  def users; end
+  # Database column `tasks.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `tasks.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `tasks.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `tasks.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `tasks.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `tasks.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
+  # Database column `tasks.pos`, type: `float`.
+  # @param val [BigDecimal, nil]
+  def pos=(val); end
+  # Database column `tasks.pos`, type: `float`.
+  # @return [BigDecimal, nil]
+  def pos; end
+  # Database column `tasks.list_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def list_id=(val); end
+  # Database column `tasks.list_id`, type: `integer`.
+  # @return [Integer, nil]
+  def list_id; end
+  # Database column `tasks.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `tasks.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `tasks.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `tasks.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `tasks.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `tasks.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `tasks.priority`, type: `integer`.
+  # @param val [Integer, nil]
+  def priority=(val); end
+  # Database column `tasks.priority`, type: `integer`.
+  # @return [Integer, nil]
+  def priority; end
+  # Database column `tasks.points`, type: `integer`.
+  # @param val [Integer, nil]
+  def points=(val); end
+  # Database column `tasks.points`, type: `integer`.
+  # @return [Integer, nil]
+  def points; end
+  # Database column `tasks.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `tasks.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+  # Database column `tasks.spent_time`, type: `integer`.
+  # @param val [Integer, nil]
+  def spent_time=(val); end
+  # Database column `tasks.spent_time`, type: `integer`.
+  # @return [Integer, nil]
+  def spent_time; end
+  # Database column `tasks.start_time`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def start_time=(val); end
+  # Database column `tasks.start_time`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def start_time; end
+end
+# %%<RailsAnnotateSolargraph:End:tasks>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:task_tags>%%
+
+class DB::TaskTag < ApplicationRecord
+  # `belongs_to` relation with `DB::Tag`. Database column `task_tags.tag_id`.
+  # @param val [DB::Tag, nil]
+  def tag=(val); end
+  # `belongs_to` relation with `DB::Tag`. Database column `task_tags.tag_id`.
+  # @return [DB::Tag, nil]
+  def tag; end
+  # `belongs_to` relation with `DB::Task`. Database column `task_tags.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `task_tags.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # Database column `task_tags.tag_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def tag_id=(val); end
+  # Database column `task_tags.tag_id`, type: `integer`.
+  # @return [Integer, nil]
+  def tag_id; end
+  # Database column `task_tags.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `task_tags.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `task_tags.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_tags.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+end
+# %%<RailsAnnotateSolargraph:End:task_tags>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:task_users>%%
+
+class DB::TaskUser < ApplicationRecord
+  # `belongs_to` relation with `DB::Task`. Database column `task_users.task_id`.
+  # @param val [DB::Task, nil]
+  def task=(val); end
+  # `belongs_to` relation with `DB::Task`. Database column `task_users.task_id`.
+  # @return [DB::Task, nil]
+  def task; end
+  # `belongs_to` relation with `DB::User`. Database column `task_users.user_id`.
+  # @param val [DB::User, nil]
+  def user=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `task_users.user_id`.
+  # @return [DB::User, nil]
+  def user; end
+  # Database column `task_users.user_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def user_id=(val); end
+  # Database column `task_users.user_id`, type: `integer`.
+  # @return [Integer, nil]
+  def user_id; end
+  # Database column `task_users.task_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def task_id=(val); end
+  # Database column `task_users.task_id`, type: `integer`.
+  # @return [Integer, nil]
+  def task_id; end
+  # Database column `task_users.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `task_users.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+end
+# %%<RailsAnnotateSolargraph:End:task_users>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:ui_script_triggers>%%
+
+class DB::UiScriptTrigger < ApplicationRecord
+  # Polymorphic relation. Database columns `ui_script_triggers.scope_id` and `ui_script_triggers.scope_type`.
+  # @param val [Object, nil]
+  def scope=(val); end
+  # Polymorphic relation. Database columns `ui_script_triggers.scope_id` and `ui_script_triggers.scope_type`.
+  # @return [Object, nil]
+  def scope; end
+  # `belongs_to` relation with `DB::Script`. Database column `ui_script_triggers.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `ui_script_triggers.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Polymorphic relation. Database columns `ui_script_triggers.subject_id` and `ui_script_triggers.subject_type`.
+  # @param val [Object, nil]
+  def subject=(val); end
+  # Polymorphic relation. Database columns `ui_script_triggers.subject_id` and `ui_script_triggers.subject_type`.
+  # @return [Object, nil]
+  def subject; end
+  # Database column `ui_script_triggers.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `ui_script_triggers.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `ui_script_triggers.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `ui_script_triggers.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `ui_script_triggers.subject_type`, type: `string`.
+  # @param val [String, nil]
+  def subject_type=(val); end
+  # Database column `ui_script_triggers.subject_type`, type: `string`.
+  # @return [String, nil]
+  def subject_type; end
+  # Database column `ui_script_triggers.subject_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def subject_id=(val); end
+  # Database column `ui_script_triggers.subject_id`, type: `integer`.
+  # @return [Integer, nil]
+  def subject_id; end
+  # Database column `ui_script_triggers.scope_type`, type: `string`.
+  # @param val [String, nil]
+  def scope_type=(val); end
+  # Database column `ui_script_triggers.scope_type`, type: `string`.
+  # @return [String, nil]
+  def scope_type; end
+  # Database column `ui_script_triggers.scope_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def scope_id=(val); end
+  # Database column `ui_script_triggers.scope_id`, type: `integer`.
+  # @return [Integer, nil]
+  def scope_id; end
+end
+# %%<RailsAnnotateSolargraph:End:ui_script_triggers>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:users>%%
+
+class DB::User < ApplicationRecord
+  # Scope `:admin`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.admin(); end
+  # Scope `:created_at_from`.
+  #
+  #     scope :created_at_from, ->(created_at) { where('created_at >= ?', created_at) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.created_at_from(created_at); end
+  # Scope `:created_at_to`.
+  #
+  #     scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.created_at_to(created_at); end
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # Scope `:developer`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.developer(); end
+  # Scope `:guest`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.guest(); end
+  # Scope `:manager`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.manager(); end
+  # Scope `:not_admin`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_admin(); end
+  # Scope `:not_developer`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_developer(); end
+  # Scope `:not_guest`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_guest(); end
+  # Scope `:not_manager`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_manager(); end
+  # Scope `:not_regular`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.not_regular(); end
+  # Scope `:regular`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.regular(); end
+  # Scope `:role`.
+  #
+  #     scope :role, ->(role) { where(role: role) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.role(role); end
+  # Scope `:role_collection`.
+  #
+  #     scope :role_collection, ->(roles) { where(role: roles) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.role_collection(roles); end
+  # Scope `:workspace_id`.
+  #
+  #     scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
+  #
+  # @return [Array<DB::User>, nil]
+  def self.workspace_id(workspace_id); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # @param val [Array<DB::Comment>, nil]
+  def comments=(val); end
+  # `has_many` relation with `DB::Comment`. Database column `comments.author_id`.
+  # @return [Array<DB::Comment>, nil]
+  def comments; end
+  # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
+  # @param val [Array<DB::Task>, nil]
+  def created_tasks=(val); end
+  # `has_many` relation with `DB::Task`. Database column `tasks.author_id`.
+  # @return [Array<DB::Task>, nil]
+  def created_tasks; end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.user_id`.
+  # @param val [Array<DB::TaskUser>, nil]
+  def task_users=(val); end
+  # `has_many` relation with `DB::TaskUser`. Database column `task_users.user_id`.
+  # @return [Array<DB::TaskUser>, nil]
+  def task_users; end
+  # `has_many` relation with `DB::Task` through `DB::TaskUser`.
+  # @param val [Array<DB::Task>, nil]
+  def tasks=(val); end
+  # `has_many` relation with `DB::Task` through `DB::TaskUser`.
+  # @return [Array<DB::Task>, nil]
+  def tasks; end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
+  # @param val [Array<DB::UserWorkspace>, nil]
+  def user_workspaces=(val); end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.user_id`.
+  # @return [Array<DB::UserWorkspace>, nil]
+  def user_workspaces; end
+  # `has_many` relation with `DB::Workspace` through `DB::UserWorkspace`.
+  # @param val [Array<DB::Workspace>, nil]
+  def workspaces=(val); end
+  # `has_many` relation with `DB::Workspace` through `DB::UserWorkspace`.
+  # @return [Array<DB::Workspace>, nil]
+  def workspaces; end
+  # Database column `users.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `users.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `users.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `users.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `users.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `users.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `users.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `users.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `users.email`, type: `string`.
+  # @param val [String, nil]
+  def email=(val); end
+  # Database column `users.email`, type: `string`.
+  # @return [String, nil]
+  def email; end
+  # Database column `users.role`, type: `integer`.
+  # @param val [Integer, nil]
+  def role=(val); end
+  # Database column `users.role`, type: `integer`.
+  # @return [Integer, nil]
+  def role; end
+  # Database column `users.encrypted_password`, type: `string`.
+  # @param val [String, nil]
+  def encrypted_password=(val); end
+  # Database column `users.encrypted_password`, type: `string`.
+  # @return [String, nil]
+  def encrypted_password; end
+  # Database column `users.reset_password_token`, type: `string`.
+  # @param val [String, nil]
+  def reset_password_token=(val); end
+  # Database column `users.reset_password_token`, type: `string`.
+  # @return [String, nil]
+  def reset_password_token; end
+  # Database column `users.reset_password_sent_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def reset_password_sent_at=(val); end
+  # Database column `users.reset_password_sent_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def reset_password_sent_at; end
+  # Database column `users.remember_created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def remember_created_at=(val); end
+  # Database column `users.remember_created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def remember_created_at; end
+  # Database column `users.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `users.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+  # Database column `users.recent_boards`, type: `text`.
+  # @param val [String, nil]
+  def recent_boards=(val); end
+  # Database column `users.recent_boards`, type: `text`.
+  # @return [String, nil]
+  def recent_boards; end
+  # Database column `users.sign_in_count`, type: `integer`.
+  # @param val [Integer, nil]
+  def sign_in_count=(val); end
+  # Database column `users.sign_in_count`, type: `integer`.
+  # @return [Integer, nil]
+  def sign_in_count; end
+  # Database column `users.current_sign_in_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def current_sign_in_at=(val); end
+  # Database column `users.current_sign_in_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def current_sign_in_at; end
+  # Database column `users.last_sign_in_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def last_sign_in_at=(val); end
+  # Database column `users.last_sign_in_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def last_sign_in_at; end
+  # Database column `users.current_sign_in_ip`, type: `string`.
+  # @param val [String, nil]
+  def current_sign_in_ip=(val); end
+  # Database column `users.current_sign_in_ip`, type: `string`.
+  # @return [String, nil]
+  def current_sign_in_ip; end
+  # Database column `users.last_sign_in_ip`, type: `string`.
+  # @param val [String, nil]
+  def last_sign_in_ip=(val); end
+  # Database column `users.last_sign_in_ip`, type: `string`.
+  # @return [String, nil]
+  def last_sign_in_ip; end
+end
+# %%<RailsAnnotateSolargraph:End:users>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:user_workspaces>%%
+
+class DB::UserWorkspace < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `user_workspaces.user_id`.
+  # @param val [DB::User, nil]
+  def user=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `user_workspaces.user_id`.
+  # @return [DB::User, nil]
+  def user; end
+  # `belongs_to` relation with `DB::Workspace`. Database column `user_workspaces.workspace_id`.
+  # @param val [DB::Workspace, nil]
+  def workspace=(val); end
+  # `belongs_to` relation with `DB::Workspace`. Database column `user_workspaces.workspace_id`.
+  # @return [DB::Workspace, nil]
+  def workspace; end
+  # Database column `user_workspaces.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `user_workspaces.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `user_workspaces.user_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def user_id=(val); end
+  # Database column `user_workspaces.user_id`, type: `integer`.
+  # @return [Integer, nil]
+  def user_id; end
+  # Database column `user_workspaces.workspace_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def workspace_id=(val); end
+  # Database column `user_workspaces.workspace_id`, type: `integer`.
+  # @return [Integer, nil]
+  def workspace_id; end
+end
+# %%<RailsAnnotateSolargraph:End:user_workspaces>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:workspaces>%%
+
+class DB::Workspace < ApplicationRecord
+  # Scope `:deleted_after_time`.
+  #
+  #     scope :deleted_after_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} > ?", time)
+  #     }
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.deleted_after_time(time); end
+  # Scope `:deleted_before_time`.
+  #
+  #     scope :deleted_before_time, lambda { |time|
+  #       only_deleted
+  #         .where("#{table_name}.#{paranoid_column} < ?", time)
+  #     }
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.deleted_before_time(time); end
+  # Scope `:deleted_inside_time_window`.
+  #
+  #     scope :deleted_inside_time_window, lambda { |time, window|
+  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #     }
+  #
+  # @return [Array<DB::Workspace>, nil]
+  def self.deleted_inside_time_window(time, window); end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @param val [Array<DB::Board>, nil]
+  def boards=(val); end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @return [Array<DB::Board>, nil]
+  def boards; end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @param val [Array<DB::Board>, nil]
+  def boards_including_deleted=(val); end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @return [Array<DB::Board>, nil]
+  def boards_including_deleted; end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @param val [Array<DB::Board>, nil]
+  def deleted_boards=(val); end
+  # `has_many` relation with `DB::Board`. Database column `boards.workspace_id`.
+  # @return [Array<DB::Board>, nil]
+  def deleted_boards; end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.workspace_id`.
+  # @param val [Array<DB::UserWorkspace>, nil]
+  def user_workspaces=(val); end
+  # `has_many` relation with `DB::UserWorkspace`. Database column `user_workspaces.workspace_id`.
+  # @return [Array<DB::UserWorkspace>, nil]
+  def user_workspaces; end
+  # `has_many` relation with `DB::User` through `DB::UserWorkspace`.
+  # @param val [Array<DB::User>, nil]
+  def users=(val); end
+  # `has_many` relation with `DB::User` through `DB::UserWorkspace`.
+  # @return [Array<DB::User>, nil]
+  def users; end
+  # Database column `workspaces.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `workspaces.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `workspaces.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `workspaces.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `workspaces.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `workspaces.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `workspaces.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `workspaces.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+  # Database column `workspaces.deleted_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def deleted_at=(val); end
+  # Database column `workspaces.deleted_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def deleted_at; end
+end
+# %%<RailsAnnotateSolargraph:End:workspaces>%%
+
