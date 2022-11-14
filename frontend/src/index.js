@@ -27,6 +27,7 @@ import RegularRoutes from './routes/RegularRoutes'
 import DeveloperRoutes from './routes/DeveloperRoutes'
 import ManagerRoutes from './routes/ManagerRoutes'
 import ConsoleView from './views/ConsoleView'
+import ReportsView from './views/workspaces/ReportsView'
 import WorkspaceView from './views/workspaces/WorkspaceView'
 import BoardView from './views/workspaces/boards/BoardView'
 import BoardPlanningView from './views/workspaces/boards/BoardPlanningView'
@@ -61,6 +62,7 @@ root.render(
                 <Route element={<ManagerRoutes />}>
                   <Route path='settings' element={<WorkspaceSettingsView />} />
                 </Route>
+                <Route path='reports' element={<ReportsView />} />
                 <Route path='boards/:boardId' element={<BoardView />}>
                   <Route path='work' element={<BoardWorkView />} />
                   <Route path='planning' element={<BoardPlanningView />} />

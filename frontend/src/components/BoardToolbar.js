@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import useCookie from 'react-use-cookie'
-import { faPlus, faXmark, faList, faPersonRunning } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faXmark, faList, faPersonRunning, faChartLine } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput, Modal, Box } from '@mui/material'
 import { ManagerContent } from '../permissions/ManagerContent'
@@ -123,7 +123,7 @@ export default function BoardToolbar(props) {
               variant='outlined'
               startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
             >
-              <Typography>Start New Sprint</Typography>
+              <Typography>Start Sprint</Typography>
             </Button>
           </ManagerContent>       :
           <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
@@ -132,9 +132,18 @@ export default function BoardToolbar(props) {
             variant='contained'
             startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
           >
-            <Typography>View Active Sprint</Typography>
+            <Typography>View Sprint</Typography>
           </Button>}
+        <Button sx={{ ml: '8px' }} onClick={() => navigate(`/workspaces/${workspaceId}/reports`)}
+          className='Toolbar-create-spring-button'
+          color='secondary'
+          variant='outlined'
+          startIcon={<FontAwesomeIcon icon={faChartLine} />}
+        >
+          <Typography>Reports</Typography>
+        </Button>
       </>
+
         }
 
       </Toolbar>
