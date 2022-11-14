@@ -2,6 +2,7 @@
 
 ::FactoryBot.define do
   factory :script_trigger, class: '::DB::ScriptTrigger' do
+    association :script
     action { 'create' }
   end
 end

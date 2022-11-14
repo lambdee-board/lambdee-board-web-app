@@ -1,48 +1,38 @@
 # frozen_string_literal: true
 
 class ::API::ScriptTriggersController < ::ApplicationController
-  before_action :set_callback_script, only: %i[show update destroy]
+  before_action :set_script_trigger, only: %i[show update destroy]
 
-  # GET /callback_scripts/1
-  # GET /callback_scripts/1.json
-  def show
-  end
+  # GET /api/script_triggers/1
+  def show; end
 
-  # POST /callback_scripts
-  # POST /callback_scripts.json
+  # POST /api/script_triggers
   def create
-    @callback_script = ::DB::CallbackScript.new(callback_script_params)
+    @script_trigger = ::DB::ScriptTrigger.new(script_trigger_params)
+    return render :show, status: :created if @script_trigger.save
 
-    if @callback_script.save
-      render :show, status: :created, location: @callback_script
-    else
-      render json: @callback_script.errors, status: :unprocessable_entity
-    end
+    render json: @script_trigger.errors, status: :unprocessable_entity
   end
 
-  # PATCH/PUT /callback_scripts/1
-  # PATCH/PUT /callback_scripts/1.json
+  # PATCH/PUT /api/script_triggers/1
   def update
-    if @callback_script.update(callback_script_params)
-      render :show, status: :ok, location: @callback_script
-    else
-      render json: @callback_script.errors, status: :unprocessable_entity
-    end
+    return render :show, status: :ok if @script_trigger.update(script_trigger_params)
+
+    render json: @script_trigger.errors, status: :unprocessable_entity
   end
 
-  # DELETE /callback_scripts/1
-  # DELETE /callback_scripts/1.json
+  # DELETE /api/script_triggers/1
   def destroy
-    @callback_script.destroy
+    @script_trigger.destroy
   end
 
   private
 
-  def set_callback_script
-    @callback_script = ::DB::CallbackScript.find(params[:id])
+  def set_script_trigger
+    @script_trigger = ::DB::ScriptTrigger.find(params[:id])
   end
 
-  def callback_script_params
-    params.require(:callback_script).permit(:script_id, :subject_type, :subject_id, :action)
+  def script_trigger_params
+    params.require(:script_trigger).permit(:script_id, :subject_type, :subject_id, :action)
   end
 end

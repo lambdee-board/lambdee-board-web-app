@@ -4,35 +4,50 @@ require 'test_helper'
 
 class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @script_trigger = script_triggers(:one)
+    @user = ::FactoryBot.create(:user, role: 4)
   end
 
-  test "should get index" do
-    get script_triggers_url, as: :json
-    assert_response :success
-  end
+  should 'create script_trigger' do
+    script = ::FactoryBot.create(:script)
 
-  test "should create script_trigger" do
-    assert_difference("CallbackScript.count") do
-      post script_triggers_url, params: { script_trigger: { action: @script_trigger.action, script_id: @script_trigger.script_id, subject_id: @script_trigger.subject_id, subject_type: @script_trigger.subject_type } }, as: :json
+    assert_difference('DB::ScriptTrigger.count') do
+      post api_script_triggers_url, params: { script_trigger: { action: 'destroy', script_id: script.id } }, as: :json
     end
 
     assert_response :created
+    json = ::JSON.parse(response.body)
+    assert_equal script.id, json['script_id']
   end
 
-  test "should show script_trigger" do
-    get script_trigger_url(@script_trigger), as: :json
+  should 'show script_trigger' do
+    task = ::FactoryBot.create(:task)
+    trigger = ::FactoryBot.create(:script_trigger, subject: task)
+
+    get api_script_trigger_url(trigger), as: :json, headers: auth_headers(@user)
     assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal 'DB::Task', json['subject_type']
+    assert_equal task.id, json['subject_id']
+    assert_equal 'create', json['action']
   end
 
-  test "should update script_trigger" do
-    patch script_trigger_url(@script_trigger), params: { script_trigger: { action: @script_trigger.action, script_id: @script_trigger.script_id, subject_id: @script_trigger.subject_id, subject_type: @script_trigger.subject_type } }, as: :json
+  should 'update script_trigger' do
+    task = ::FactoryBot.create(:task)
+    trigger = ::FactoryBot.create(:script_trigger, subject: task)
+
+    patch api_script_trigger_url(trigger), params: { script_trigger: { action: 'destroy', subject_id: task.id, subject_type: task.class } }, as: :json
     assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal 'DB::Task', json['subject_type']
+    assert_equal task.id, json['subject_id']
+    assert_equal 'destroy', json['action']
   end
 
-  test "should destroy script_trigger" do
-    assert_difference("CallbackScript.count", -1) do
-      delete script_trigger_url(@script_trigger), as: :json
+  should 'destroy script_trigger' do
+    trigger = ::FactoryBot.create(:script_trigger)
+
+    assert_difference('DB::ScriptTrigger.count', -1) do
+      delete api_script_trigger_url(trigger), as: :json
     end
 
     assert_response :no_content
