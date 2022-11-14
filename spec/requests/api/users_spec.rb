@@ -17,7 +17,6 @@ require 'swagger_helper'
       parameter name: 'search', in: :query, type: :string, required: false, description: 'Searches for users by name and e-mail.', example: 'michael'
       parameter name: 'per', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
       parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned.', example: 3
-      parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/user_pages_response'

@@ -165,6 +165,14 @@ end
             },
             required: %w[]
           },
+          sprint_pages_response: {
+            type: :object,
+            properties: {
+              sprints: { type: :array, items: { '$ref' => '#components/schemas/sprint_response'}},
+              total_pages: { type: :integer },
+            },
+            required: %w[sprints]
+          },
           sprint_response: {
             type: :object,
             properties: {
@@ -183,7 +191,7 @@ end
                 nullable: true,
               }
             },
-            required: %w[]
+            required: %w[id name]
           },
           task_with_sprint_task_response: {
             type: :object,
@@ -198,7 +206,7 @@ end
               start_state: { type: :string },
               state: { type: :string }
             },
-            required: %w[]
+            required: %w[id]
           },
           sprint_request: {
             type: :object,

@@ -13,17 +13,49 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
   should 'get index' do
     get api_sprints_url, headers: auth_headers(@user)
     assert_response :success
-    json = ::JSON.parse(response.body)
+    json = ::JSON.parse response.body, symbolize_names: true
 
-    assert_equal @sprint.name, json.dig(0, 'name')
+    assert_equal @sprint.name, json.dig(:sprints, 0, :name)
+  end
+
+  should 'paginate index for board' do
+    @board = ::FactoryBot.create(:board)
+    22.times { ::FactoryBot.create(:sprint, name: "Sprint ##{_1 + 1}", board: @board, final_list_name: 'Done') }
+
+    get api_board_sprints_url(@board),
+        params: { page: 1, per: 10 },
+        headers: auth_headers(@user)
+    assert_response :success
+    json = ::JSON.parse response.body, symbolize_names: true
+    assert_equal 10, json[:sprints].length
+    assert_equal 3, json[:total_pages]
+    assert_equal 'Sprint #1', json.dig(:sprints, 0, :name)
+
+    get api_board_sprints_url(@board),
+        params: { page: 2, per: 10 },
+        headers: auth_headers(@user)
+    assert_response :success
+    json = ::JSON.parse response.body, symbolize_names: true
+    assert_equal 10, json[:sprints].length
+    assert_equal 3, json[:total_pages]
+    assert_equal 'Sprint #11', json.dig(:sprints, 0, :name)
+
+    get api_board_sprints_url(@board),
+        params: { page: 3, per: 10 },
+        headers: auth_headers(@user)
+    assert_response :success
+    json = ::JSON.parse response.body, symbolize_names: true
+    assert_equal 2, json[:sprints].length
+    assert_equal 3, json[:total_pages]
+    assert_equal 'Sprint #21', json.dig(:sprints, 0, :name)
   end
 
   should 'get index for board' do
     get api_board_sprints_url(@board), headers: auth_headers(@user)
     assert_response :success
-    json = ::JSON.parse(response.body)
+    json = ::JSON.parse response.body, symbolize_names: true
 
-    assert_equal @sprint.name, json.dig(0, 'name')
+    assert_equal @sprint.name, json.dig(:sprints, 0, :name)
   end
 
   should 'create sprint' do
@@ -46,14 +78,14 @@ class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
     end
 
     assert_response :created
-    json = ::JSON.parse response.body
-    assert_equal 'Sprite', json['name']
-    assert_equal 'Opis sprintu', json['description']
-    assert_equal ::Time.parse(date), ::Time.parse(json['started_at'])
-    assert_equal ::Time.parse(date), ::Time.parse(json['expected_end_at'])
-    assert_equal @board.id, json['board_id']
-    assert_equal @board.lists.last.name, json['final_list_name']
-    assert_nil json['inexistent_field']
+    json = ::JSON.parse response.body, symbolize_names: true
+    assert_equal 'Sprite', json[:name]
+    assert_equal 'Opis sprintu', json[:description]
+    assert_equal ::Time.parse(date), ::Time.parse(json[:started_at])
+    assert_equal ::Time.parse(date), ::Time.parse(json[:expected_end_at])
+    assert_equal @board.id, json[:board_id]
+    assert_equal @board.lists.last.name, json[:final_list_name]
+    assert_nil json[:inexistent_field]
   end
 
   should 'show sprint' do
