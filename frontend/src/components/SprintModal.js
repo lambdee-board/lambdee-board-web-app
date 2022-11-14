@@ -10,9 +10,11 @@ import {
   Alert
 } from '@mui/material'
 
+import apiClient from '../api/apiClient'
+import useBoard from '../api/useBoard'
+import { mutateList } from '../api/useList'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import { useDispatch } from 'react-redux'
-import apiClient from '../api/apiClient'
 import { useParams } from 'react-router-dom'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -24,19 +26,41 @@ import rehypeSanitize from 'rehype-sanitize'
 import './SprintModal.sass'
 
 
-const SprintModal = ({ activeSprint }) => {
+const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   const dispatch = useDispatch()
   const { boardId } = useParams()
-  const [datetime, setDatetime] = React.useState(activeSprint?.expectedEndAt)
+  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+
   const editSprintNameRef = React.useRef()
+  const [datetime, setDatetime] = React.useState(activeSprint?.expectedEndAt)
   const [sprintDescriptionDraft, setSprintDescriptionDraft] = React.useState(activeSprint?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
-  const [toggleEditSprintNameButton, setToggleEditSprintNameButton] = React.useState(false)
+  const [editSprintNameButton, setEditSprintNameButton] = React.useState(false)
+  const [editDatetimeButton, setEditDatetimeButton] = React.useState(false)
   const [sprintFail, setSprintFail] = React.useState(false)
 
+  const editDatetime = () => {
+    const updatedDatetime = { expectedEndAt: datetime?.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
+
+    apiClient.put(`/api/sprints/${activeSprint.id}`, updatedDatetime)
+      .then((response) => {
+        mutate({ id: activeSprint.boardId })
+        setEditDatetimeButton(false)
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const cancelEditDatetime = () => {
+    setEditDatetimeButton(false)
+    setDatetime(activeSprint.expectedEndAt)
+  }
+
   const editSprintNameOnClick = () => {
-    setToggleEditSprintNameButton(true)
+    setEditSprintNameButton(true)
     setTimeout(() => {
       document.querySelector('.SprintModal-main-name-input textarea').focus()
     }, 50)
@@ -45,13 +69,13 @@ const SprintModal = ({ activeSprint }) => {
   const editSprintName = () => {
     const updatedSprint = { name: editSprintNameRef.current.value }
     if (!updatedSprint.name) {
-      setToggleEditSprintNameButton(false)
+      setEditSprintNameButton(false)
     }
 
     apiClient.put(`/api/sprints/${activeSprint.id}`, updatedSprint)
       .then((response) => {
-        // successful request
-        setToggleEditSprintNameButton(false)
+        mutate({ id: activeSprint.boardId })
+        setEditSprintNameButton(false)
       })
       .catch((error) => {
         // failed or rejected
@@ -76,6 +100,7 @@ const SprintModal = ({ activeSprint }) => {
     apiClient.put(`/api/sprints/${activeSprint.id}`, payload)
       .then((response) => {
         // successful request
+        mutate({ id: activeSprint.boardId })
         setDescriptionEditorVisible(false)
         setUnsavedDescriptionDraft(false)
       })
@@ -86,34 +111,38 @@ const SprintModal = ({ activeSprint }) => {
   }
 
   const startSprintOnClick = () => {
-    // for some reason, error 422 unprocessable entity isn't being caught be axios, had to circumvent that by this piece of code
-    if (!(editSprintNameRef.current.value && sprintDescriptionDraft && datetime?.format('DD/MM/YYYY HH:mm:ss'))) {
+    // for some reason, error 422 unprocessable entity isn't being caught by axios, had to circumvent that by this piece of code
+    if (!(editSprintNameRef?.current?.value && sprintDescriptionDraft && datetime?.format('YYYY-MM-DDTHH:mm:ssZ[Z]'))) {
       setSprintFail(true)
-    }
-    const sprint = {
-      boardId,
-      name: editSprintNameRef.current.value,
-      description: sprintDescriptionDraft,
-      expectedEndAt: datetime?.format('DD/MM/YYYY HH:mm:ss')
-    }
-    apiClient.post('/api/sprints', sprint)
-      .then((response) => {
-        // successful request
-      })
-      .catch((error) => {
-        // failed or rejected
+    } else {
+      const sprint = {
+        boardId,
+        name: editSprintNameRef.current.value,
+        description: sprintDescriptionDraft,
+        expectedEndAt: datetime?.format('YYYY-MM-DDTHH:mm:ssZ[Z]')
+      }
+      apiClient.post('/api/sprints', sprint)
+        .then((response) => {
+          mutate({ id: boardId })
+          closeModal()
+        })
+        .catch((error) => {
         // setSprintFail(true)
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-      })
+          dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        })
+    }
   }
 
   const endSprintOnClick = () => {
     apiClient.put(`/api/sprints/${activeSprint.id}/end`)
       .then((response) => {
-        // successful request
+        mutate({ id: boardId })
+        mutateList({ id: board.lists.at(-1).id, axiosOptions: { params: { tasks: 'visible' } } })
+        closeModal()
       })
       .catch((error) => {
         // failed or rejected
+
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
@@ -121,6 +150,7 @@ const SprintModal = ({ activeSprint }) => {
   return (
     <Box className='SprintModal-wrapper'>
       <Card className='SprintModal-paper'>
+
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
             {!activeSprint ?
@@ -132,8 +162,8 @@ const SprintModal = ({ activeSprint }) => {
             <Typography fontSize={16}>Sprint name</Typography>
             <Card
               className='SprintModal-main-name-card'>
-              {!toggleEditSprintNameButton ?
-                <Typography sx={{ width: '100%' }} onClick={isManager() ? (e) => editSprintNameOnClick() : undefined}>{activeSprint?.name}</Typography>                :
+              {!editSprintNameButton ?
+                <Typography sx={{ width: '100%', height: '24px' }} onClick={isManager() ? () => editSprintNameOnClick() : undefined}>{activeSprint?.name}</Typography>                :
                 <InputBase
                   inputRef={editSprintNameRef}
                   defaultValue={activeSprint?.name}
@@ -144,7 +174,7 @@ const SprintModal = ({ activeSprint }) => {
                 />
               }
             </Card>
-            {activeSprint && toggleEditSprintNameButton &&
+            {activeSprint && editSprintNameButton &&
                 <div className='buttons'>
                   <Button
                     variant='contained'
@@ -156,7 +186,7 @@ const SprintModal = ({ activeSprint }) => {
                   <Button
                     variant='text'
                     sx={{ color: '#FF0000' }}
-                    onClick={(e) => setToggleEditSprintNameButton(false)}
+                    onClick={(e) => setEditSprintNameButton(false)}
                   >
                   Cancel
                   </Button>
@@ -167,13 +197,35 @@ const SprintModal = ({ activeSprint }) => {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 renderInput={(props) => <TextField {...props} />}
+                ampm={false}
                 disabled={isManager() ? undefined : true}
                 value={datetime}
-                onChange={(newValue) => {
-                  setDatetime(newValue)
-                }}
+                onChange={
+                  (newValue) => {
+                    setEditDatetimeButton(true)
+                    setDatetime(newValue)
+                  }}
+
+
               />
             </LocalizationProvider>
+            {activeSprint && editDatetimeButton &&
+            <div className='buttons'>
+              <Button
+                variant='contained'
+                color='primary'
+                onClick={() => editDatetime()}
+              >
+                  Save
+              </Button>
+              <Button
+                variant='text'
+                sx={{ color: '#FF0000' }}
+                onClick={() => cancelEditDatetime()}
+              >
+                  Cancel
+              </Button>
+            </div>}
           </div>
           <Typography fontSize={16}>Sprint description</Typography>
           {unsavedDescriptionDraft ? (
@@ -253,5 +305,7 @@ const SprintModal = ({ activeSprint }) => {
 export default SprintModal
 
 SprintModal.propTypes = {
-  activeSprint: PropTypes.any
+  activeSprint: PropTypes.any,
+  closeModal: PropTypes.func,
+  mutate: PropTypes.func
 }

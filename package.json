@@ -38,6 +38,7 @@
     "axios-case-converter": "^0.9.0",
     "chokidar": "^3.5.3",
     "classnames": "^2.3.1",
+    "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
     "dayjs": "^1.11.6",
     "esbuild": "^0.14.38",
