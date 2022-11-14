@@ -83,10 +83,11 @@ require "active_support/core_ext/integer/time"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
   config.hosts << 'localhost'
-  config.hosts << ENV['LAMBDEE_HOST']
+  config.hosts << 'rails'
+  config.hosts << ::ENV['LAMBDEE_HOST']
 
-  if ENV["RAILS_LOG_TO_STDOUT"].present?
-    logger           = ::ActiveSupport::Logger.new(STDOUT)
+  if ::ENV["RAILS_LOG_TO_STDOUT"].present?
+    logger           = ::ActiveSupport::Logger.new(::STDOUT)
     logger.formatter = config.log_formatter
     config.logger    = ::ActiveSupport::TaggedLogging.new(logger)
   end

@@ -48,6 +48,7 @@ services:
       SCRIPT_SERVICE_HOST: ${LAMBDEE_HOST:-localhost}/script-service/
       SCRIPT_SERVICE_SECRET: ${SCRIPT_SERVICE_SECRET:-sikritToken123}
       WS_PROTOCOL: ${WS_PROTOCOL:-ws}
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-22e0fc31bebdffb37576ed32310e8f3e7a2cf1fa8c2a209d1542b6f54b02938rfw8d7f98388ejshdff4647e79e55a3ad25200e5c9242b7b5accec67b16d0aeec0c}
     depends_on:
       - postgres
       - script-service
