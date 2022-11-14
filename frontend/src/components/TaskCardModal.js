@@ -301,13 +301,14 @@ const TaskCardModal = (props) => {
               <div className='buttons'>
                 <Button
                   variant='contained'
+                  color='primary'
                   onClick={() => editTaskDescription()}
                 >
                   Save
                 </Button>
                 <Button
                   variant='text'
-                  color='secondary'
+                  sx={{ color: '#FF0000' }}
                   onClick={() => setDescriptionEditorVisible(false)}
                 >
                   Cancel

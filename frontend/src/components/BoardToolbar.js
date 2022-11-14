@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import useCookie from 'react-use-cookie'
-import { faPlus, faXmark, faList } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faXmark, faList, faPersonRunning } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput } from '@mui/material'
+import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput, Modal, Box } from '@mui/material'
 import { ManagerContent } from '../permissions/ManagerContent'
 
 
@@ -11,17 +11,24 @@ import { addAlert } from '../redux/slices/appAlertSlice'
 import { mutateBoard } from '../api/useBoard'
 import { useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
+import SprintModal from './SprintModal.js'
 import './BoardToolbar.sass'
+import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/useBoardActiveSprint'
 
 
 export default function BoardToolbar(props) {
-  const { boardId, workspaceId } = useParams()
   const navigate = useNavigate()
+  const { boardId, workspaceId } = useParams()
+  const { data: activeSprint } = useBoardActiveSprint({ id: boardId })
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
+  const [newSprintModal, setNewSprintModal] = React.useState(false)
   const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
   const dispatch = useDispatch()
 
+  const handleCloseSprintModal = () => {
+    setNewSprintModal(false)
+  }
 
   const setBoardPlanningView = () => {
     setBoardView('0')
@@ -91,6 +98,46 @@ export default function BoardToolbar(props) {
 
   return (
     <div className='Toolbar-wrapper'>
+      <Modal
+        open={newSprintModal}
+        onClose={handleCloseSprintModal}
+      >
+        <Box
+          className='TaskList-Modal'
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <SprintModal activeSprint={activeSprint} closeModal={handleCloseSprintModal} mutate={mutateBoardActiveSprint} />
+        </Box>
+      </Modal>
+      <Toolbar className='Toolbar'>
+        {boardView === '0' &&
+      <>
+        {!activeSprint ?
+          <ManagerContent>
+            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+              className='Toolbar-create-spring-button'
+              color='secondary'
+              variant='outlined'
+              startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
+            >
+              <Typography>Start New Sprint</Typography>
+            </Button>
+          </ManagerContent>       :
+          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+            className='Toolbar-create-spring-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
+          >
+            <Typography>View Active Sprint</Typography>
+          </Button>}
+      </>
+        }
+
+      </Toolbar>
       <Toolbar className='Toolbar'>
         <ManagerContent>
           { newListButtonVisible &&
@@ -126,7 +173,6 @@ export default function BoardToolbar(props) {
         </ManagerContent>
         {boardView === '1' ?
           <div>
-
             <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
               className='Toolbar-create-list-button'
               color='secondary'
@@ -144,9 +190,7 @@ export default function BoardToolbar(props) {
           >
             <Typography>Planning View</Typography>
           </Button>
-
         }
-
       </Toolbar>
     </div>
   )
