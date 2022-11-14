@@ -330,9 +330,9 @@ end
               description: { type: :string },
               content: { type: :string },
               url: { type: :string },
-              callback_scripts: {
+              script_triggers: {
                 type: :array,
-                items: { '$ref' => '#/components/schemas/callback_script_response' }
+                items: { '$ref' => '#/components/schemas/script_trigger_response' }
               }
             },
             required: %w[]
@@ -343,14 +343,14 @@ end
               name: { type: :string },
               description: { type: :string },
               content: { type: :string },
-              callback_scripts_attributes: {
+              script_triggers_attributes: {
                 type: :array,
-                items: { '$ref' => '#/components/schemas/callback_script_request' }
+                items: { '$ref' => '#/components/schemas/script_trigger_request' }
               }
             },
             required: %w[name]
           },
-          callback_script_response: {
+          script_trigger_response: {
             type: :object,
             properties: {
               id: { type: :integer },
@@ -362,7 +362,7 @@ end
             },
             required: %w[]
           },
-          callback_script_request: {
+          script_trigger_request: {
             type: :object,
             properties: {
               id: { type: :integer, description: 'Needed only for updates and destroys.' },

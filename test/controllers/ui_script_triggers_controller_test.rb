@@ -1,6 +1,6 @@
 require "test_helper"
 
-class UiScriptsControllerTest < ActionDispatch::IntegrationTest
+class UiScriptTriggersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @ui_script = ui_scripts(:one)
   end

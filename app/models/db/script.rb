@@ -2,13 +2,13 @@
 
 class ::DB::Script < ::ApplicationRecord
   has_many :script_runs, dependent: :destroy
-  has_many :callback_scripts, dependent: :destroy
-  has_many :ui_scripts, dependent: :destroy
+  has_many :script_triggers, dependent: :destroy
+  has_many :ui_script_triggers, dependent: :destroy
   belongs_to :author, class_name: '::DB::User'
 
   validates :name, presence: true
 
-  accepts_nested_attributes_for :callback_scripts, :ui_scripts, allow_destroy: true
+  accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
   # @param subject [ApplicationRecord]
   def execute(subject)

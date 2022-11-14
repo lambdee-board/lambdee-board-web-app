@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_13_233553) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -24,14 +24,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_13_233553) do
     t.string "colour", limit: 9
     t.datetime "deleted_at"
     t.index ["workspace_id"], name: "index_boards_on_workspace_id"
-  end
-
-  create_table "callback_scripts", force: :cascade do |t|
-    t.bigint "script_id"
-    t.string "subject_type"
-    t.bigint "subject_id"
-    t.string "action"
-    t.index ["subject_type", "subject_id"], name: "index_callback_scripts_on_subject"
   end
 
   create_table "comments", force: :cascade do |t|
@@ -68,6 +60,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_13_233553) do
     t.bigint "initiator_id", null: false
     t.text "input"
     t.index ["initiator_id"], name: "index_script_runs_on_initiator_id"
+  end
+
+  create_table "script_triggers", force: :cascade do |t|
+    t.bigint "script_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.string "action"
+    t.index ["subject_type", "subject_id"], name: "index_script_triggers_on_subject"
   end
 
   create_table "scripts", force: :cascade do |t|
@@ -136,14 +136,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_13_233553) do
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
-  create_table "ui_scripts", force: :cascade do |t|
+  create_table "ui_script_triggers", force: :cascade do |t|
     t.bigint "script_id"
     t.string "subject_type"
     t.bigint "subject_id"
     t.string "scope_type"
     t.bigint "scope_id"
-    t.index ["scope_type", "scope_id"], name: "index_ui_scripts_on_scope"
-    t.index ["subject_type", "subject_id"], name: "index_ui_scripts_on_subject"
+    t.index ["scope_type", "scope_id"], name: "index_ui_script_triggers_on_scope"
+    t.index ["subject_type", "subject_id"], name: "index_ui_script_triggers_on_subject"
   end
 
   create_table "user_workspaces", force: :cascade do |t|

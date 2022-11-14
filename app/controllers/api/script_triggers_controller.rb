@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::API::CallbackScriptsController < ::ApplicationController
+class ::API::ScriptTriggersController < ::ApplicationController
   before_action :set_callback_script, only: %i[show update destroy]
 
   # GET /callback_scripts/1

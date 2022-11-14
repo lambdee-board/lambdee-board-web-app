@@ -1,4 +1,4 @@
-class UiScriptsController < ApplicationController
+class UiScriptTriggerssController < ApplicationController
   before_action :set_ui_script, only: %i[ show update destroy ]
 
   # GET /ui_scripts

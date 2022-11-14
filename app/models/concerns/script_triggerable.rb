@@ -25,6 +25,6 @@ module ::ScriptTriggerable
   end
 
   def scripts_regarding_record
-    ::DB::CallbackScript.regarding_record(self)
+    ::DB::ScriptTrigger.regarding_record(self)
   end
 end

@@ -44,7 +44,7 @@ require 'swagger_helper'
             name: 'New Script',
             description: 'What script does',
             content: "puts 'Hello world!'",
-            callback_scripts_attributes: [
+            script_triggers_attributes: [
               { action: 'create' },
               { subject_type: 'DB::Task', action: 'update' },
               { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy' }
@@ -90,13 +90,13 @@ require 'swagger_helper'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/script_response'
 
-        let(:id) { ::FactoryBot.create(:script, :with_create_task_callback).id }
+        let(:id) { ::FactoryBot.create(:script, :with_trigger_on_task_creation).id }
         let(:script) do
           {
             name: 'New Name',
-            callback_scripts_attributes: [
+            script_triggers_attributes: [
               { action: 'create' },
-              { id: ::DB::CallbackScript.last.id, _destroy: true },
+              { id: ::DB::ScriptTrigger.last.id, _destroy: true },
             ]
           }
         end

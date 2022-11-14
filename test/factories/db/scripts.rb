@@ -7,9 +7,9 @@
     description { 'Description of the script' }
     association :author, factory: :user
 
-    trait :with_create_task_callback do
+    trait :with_trigger_on_task_creation  do
       after(:create) do |s|
-        ::FactoryBot.create(:callback_script, script: s, action: :create, subject_type: ::DB::Task)
+        ::FactoryBot.create(:script_trigger, script: s, action: :create, subject_type: ::DB::Task)
       end
     end
   end

@@ -1,25 +1,24 @@
 # frozen_string_literal: true
 
 ::Rails.application.routes.draw do
-  resources :ui_scripts
   mount ::Rswag::Ui::Engine => '/api-docs'
   mount ::Rswag::Api::Engine => '/api-docs'
 
   devise_for :users,
-             class_name: 'DB::User',
-             path: 'api/users',
-             defaults: {
-               format: :json
-             },
-             controllers: {
-               sessions: 'api/devise/sessions',
-               registrations: 'api/devise/registrations',
-               passwords: 'api/devise/passwords'
-             }
+  class_name: 'DB::User',
+  path: 'api/users',
+  defaults: {
+    format: :json
+  },
+  controllers: {
+    sessions: 'api/devise/sessions',
+    registrations: 'api/devise/registrations',
+    passwords: 'api/devise/passwords'
+  }
 
   devise_for :admin_users,
-             class_name: 'DB::AdminUser',
-             path: 'admin'
+  class_name: 'DB::AdminUser',
+  path: 'admin'
 
   # backend API endpoints
   namespace :api do
@@ -57,7 +56,7 @@
         post :unassign_user, on: :member
         put :add_time, on: :member
 
-       resources :comments, only: %i[index]
+        resources :comments, only: %i[index]
       end
 
       resources :tags, except: %i[index]
@@ -76,7 +75,9 @@
         resources :script_runs, only: :index
       end
 
-      resources :callback_scripts, only: %i[show create update destroy]
+      resources :script_triggers, only: %i[show create update destroy]
+
+      resources :ui_script_triggers
 
       resources :script_runs, only: %i[index show update]
     end

@@ -2,7 +2,7 @@
 
 require 'test_helper'
 
-class ::DB::UiScriptTest < ::ActiveSupport::TestCase
+class ::DB::UiScriptTriggerTest < ::ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

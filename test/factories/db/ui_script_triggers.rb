@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
 ::FactoryBot.define do
-  factory :ui_script, class: '::DB::UiScript' do
+  factory :ui_script_trigger, class: '::DB::UiScriptTrigger' do
   end
 end
