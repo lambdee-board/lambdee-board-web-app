@@ -20,13 +20,13 @@ class ::DB::Script < ::ApplicationRecord
   private
 
   def extended_content
-    script_header = <<~HEADER
+    <<~SCRIPT
       context = ::ActiveSupport::HashWithIndifferentAccess.new
       context[:subject] = #{@subject.class}.new(#{@subject.as_json})
       context[:subject_before_update] = #{@subject.class}.new(#{@subject.previous_object_state.as_json})
       context.keys.each { |k| define_method(k) { context[k] } }
-    HEADER
 
-    script_header + content
+      #{content}
+    SCRIPT
   end
 end

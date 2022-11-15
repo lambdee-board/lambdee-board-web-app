@@ -3,6 +3,8 @@
 # Contains the data of a list,
 # which can contain multiple tasks.
 class DB::List < ::ApplicationRecord
+  include ::ScriptTriggerable
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :board
