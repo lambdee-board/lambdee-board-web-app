@@ -4,16 +4,20 @@
 # through the JSON API.
 class API::SprintsController < ::APIController
   before_action :set_sprint, only: %i[show update destroy end burn_up_chart]
+  has_scope :page, :per
   authorize_resource only: %i[show update destroy]
 
   # GET /api/sprints or GET /api/boards/1/sprints
   def index
+    filters = ::FilterParameters::Universal.new(params)
+    return render json: filters.errors, status: :unprocessable_entity unless filters.valid?(params)
+
     @sprints = if params[:board_id]
                  ::DB::Board.find(params[:board_id]).sprints
                else
                  ::DB::Sprint.all
                end
-    @sprints = @sprints.accessible_by(current_ability)
+    @sprints = apply_scopes(@sprints.accessible_by(current_ability))
   end
 
   # GET /api/sprints/1

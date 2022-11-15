@@ -16,10 +16,11 @@ require 'swagger_helper'
     get("List board's sprints") do
       tags 'Sprints'
       produces 'application/json'
+      parameter name: 'page', in: :query, type: :integer, required: false, description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'per', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
 
       response(200, 'successful') do
-        schema type: :array,
-          items: { '$ref' => '#/components/schemas/sprint_response' }
+        schema '$ref' => '#/components/schemas/sprint_pages_response'
 
         let(:id) do
           board = ::FactoryBot.create(:board)
@@ -37,6 +38,28 @@ require 'swagger_helper'
 
   path '/api/sprints' do
     parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
+
+    get("List sprints") do
+      tags 'Sprints'
+      produces 'application/json'
+      parameter name: 'page', in: :query, type: :integer, required: false, description: 'Decides which result page should be returned.', example: 2
+      parameter name: 'per', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned per one page. **Works only, when `page` param is given.**', example: 2
+
+      response(200, 'successful') do
+        schema '$ref' => '#/components/schemas/sprint_pages_response'
+
+        let(:id) do
+          board = ::FactoryBot.create(:board)
+          3.times { ::FactoryBot.create(:sprint, board: board) }
+          board.id
+        end
+
+        after do |example|
+          save_response(example, response)
+        end
+        run_test!
+      end
+    end
 
     post('Create sprint') do
       tags 'Sprints'

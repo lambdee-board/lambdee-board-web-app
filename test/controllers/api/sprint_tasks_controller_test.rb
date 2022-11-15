@@ -4,7 +4,7 @@ require "test_helper"
 
 class API::SprintTasksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user, role: 4)
+    @user = ::FactoryBot.create(:user, role: :admin)
     @sprint_task = ::FactoryBot.create(:sprint_task)
     @sprint = @sprint_task.sprint
   end
