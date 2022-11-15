@@ -19,10 +19,10 @@ import { useBoardSprints, mutateBoardSprints } from '../../../api/useBoardSprint
 
 
 const ReportsView = () => {
-  const { workspaceId } = useParams()
+  const { boardId } = useParams()
   const perPage = 10
   const [filter, setFilter] = React.useState({ page: 1, per: perPage })
-  const { data: boardSprints, isLoading, isError } = useBoardSprints({ id: workspaceId, axiosOptions: { params: filter } })
+  const { data: boardSprints, isLoading, isError } = useBoardSprints({ id: boardId, axiosOptions: { params: filter } })
 
   const [totalPages, setTotalPages] = React.useState(0)
 
@@ -44,6 +44,7 @@ const ReportsView = () => {
   return (
 
     <Box className='ReportView-wrapper'>
+      {boardSprints?.sprints?.length > 0  &&
       <Box className='ReportView' >
         {isLoading || isError ? (
           <Box></Box>
@@ -71,6 +72,7 @@ const ReportsView = () => {
                 page={filter.page} />
         }
       </Box>
+      }
     </Box>
   )
 }

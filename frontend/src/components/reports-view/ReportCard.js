@@ -5,7 +5,8 @@ import {
   ListItem,
   IconButton,
   Avatar,
-  Skeleton
+  Skeleton,
+  Typography
 } from '@mui/material'
 import {
   faTrash
@@ -49,9 +50,9 @@ const ReportCard = (props) => {
             <UserInfo userName={props.sprintName} userTitle={props.sprintDescription} />
           </div>
           <div className='UserListItem-dates'>
-            { props.sprintStartedAt && <LabeledData label='Sprint Start' data={formatDate(props.sprintStartedAt)} />}
-            { props.sprintExpectedEndAt && <LabeledData label='Sprint Expected End' data={formatDate(props.sprintExpectedEndAt)} />}
-            { props.sprintEndedAt && <LabeledData label='Sprint End' data={formatDate(props.sprintEndedAt)} />}
+            <LabeledData label='Sprint Start' data={formatDate(props.sprintStartedAt)} />
+            <LabeledData label='Sprint Expected End' data={formatDate(props.sprintExpectedEndAt)} />
+            <LabeledData label='Sprint End' data={props.sprintEndedAt ? formatDate(props.sprintEndedAt) : null} />
           </div>
         </Box>
       </ListItem>
@@ -68,5 +69,5 @@ ReportCard.propTypes = {
   sprintDescription: PropTypes.string.isRequired,
   sprintStartedAt: PropTypes.string.isRequired,
   sprintExpectedEndAt: PropTypes.string.isRequired,
-  sprintEndedAt: PropTypes.string.isRequired
+  sprintEndedAt: PropTypes.string
 }
