@@ -660,6 +660,12 @@ class DB::ScriptRun < ApplicationRecord
   # Database column `script_runs.input`, type: `text`.
   # @return [String, nil]
   def input; end
+  # Database column `script_runs.state`, type: `integer`.
+  # @param val [Integer, nil]
+  def state=(val); end
+  # Database column `script_runs.state`, type: `integer`.
+  # @return [Integer, nil]
+  def state; end
 end
 # %%<RailsAnnotateSolargraph:End:script_runs>%%
 

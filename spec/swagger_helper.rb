@@ -428,6 +428,7 @@ end
               initiator_id: { type: :integer },
               input: { type: %i[string null] },
               output: { type: :string },
+              state: { type: :string },
               url: { type: :string }
             },
             required: %w[]
@@ -436,6 +437,7 @@ end
             type: :object,
             properties: {
               output: { type: :string },
+              state: { type: :string, enum: %w[running executed failed timed_out] },
             },
             required: %w[]
           }

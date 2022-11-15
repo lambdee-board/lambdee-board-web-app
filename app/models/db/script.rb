@@ -13,7 +13,12 @@ class ::DB::Script < ::ApplicationRecord
   # @param subject [ApplicationRecord]
   def execute(subject)
     @subject = subject
-    script_run = ::DB::ScriptRun.create(script: self, initiator: author, input: extended_content)
+    script_run = ::DB::ScriptRun.create(
+      script: self,
+      state: :running,
+      initiator: author, # TODO: fix author
+      input: extended_content
+    )
     ::ScriptServiceAPI.send_execute_script_request(script_run)
   end
 
