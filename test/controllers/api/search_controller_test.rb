@@ -4,7 +4,7 @@ require 'test_helper'
 
 class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user)
+    @user = ::FactoryBot.create(:user, role: :admin)
   end
 
   context 'users with comments' do
@@ -34,7 +34,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             },
           }
         }
-      }, headers: script_service_auth_headers
+      }, headers: auth_headers(@user)
       assert_response 200
       json = ::JSON.parse(response.body)
       assert_equal 'users', json['type']
@@ -57,7 +57,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             },
           }
         }
-      }, headers: script_service_auth_headers
+      }, headers: auth_headers(@user)
       assert_response 422
       json = ::JSON.parse(response.body)
       result = {
@@ -89,7 +89,7 @@ class API::SearchControllerTest < ::ActionDispatch::IntegrationTest
             count: true
           }
         }
-      }, headers: script_service_auth_headers
+      }, headers: auth_headers(@user)
       assert_response 200
       json = ::JSON.parse(response.body)
       assert json.include?('type')
