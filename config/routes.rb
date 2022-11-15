@@ -5,20 +5,20 @@
   mount ::Rswag::Api::Engine => '/api-docs'
 
   devise_for :users,
-             class_name: 'DB::User',
-             path: 'api/users',
-             defaults: {
-               format: :json
-             },
-             controllers: {
-               sessions: 'api/devise/sessions',
-               registrations: 'api/devise/registrations',
-               passwords: 'api/devise/passwords'
-             }
+  class_name: 'DB::User',
+  path: 'api/users',
+  defaults: {
+    format: :json
+  },
+  controllers: {
+    sessions: 'api/devise/sessions',
+    registrations: 'api/devise/registrations',
+    passwords: 'api/devise/passwords'
+  }
 
   devise_for :admin_users,
-             class_name: 'DB::AdminUser',
-             path: 'admin'
+  class_name: 'DB::AdminUser',
+  path: 'admin'
 
   # backend API endpoints
   namespace :api do
@@ -56,7 +56,7 @@
         post :unassign_user, on: :member
         put :add_time, on: :member
 
-       resources :comments, only: %i[index]
+        resources :comments, only: %i[index]
       end
 
       resources :tags, except: %i[index]
@@ -70,6 +70,16 @@
       end
 
       resources :sprint_tasks
+
+      resources :scripts do
+        resources :script_runs, only: :index
+      end
+
+      resources :script_triggers, only: %i[show create update destroy]
+
+      resources :ui_script_triggers
+
+      resources :script_runs, only: %i[index show update]
     end
   end
 

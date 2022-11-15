@@ -458,7 +458,11 @@ class DB::List < ApplicationRecord
   def self.include_tasks_containing_deleted(); end
   # Scope `:include_user_tasks`.
   #
-  #     scope :include_user_tasks, ->(user) { include_tasks.where(users: { id: user.id }) }
+  #     scope(:include_user_tasks, lambda do |user|
+  #       return self unless user
+  #     
+  #       include_tasks.where(users: { id: user.id })
+  #     end)
   #
   # @return [Array<DB::List>, nil]
   def self.include_user_tasks(user); end
@@ -548,6 +552,197 @@ class DB::List < ApplicationRecord
   def visible; end
 end
 # %%<RailsAnnotateSolargraph:End:lists>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:scripts>%%
+
+class DB::Script < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `scripts.author_id`.
+  # @return [DB::User, nil]
+  def author; end
+  # `has_many` relation with `DB::ScriptRun`. Database column `script_runs.script_id`.
+  # @param val [Array<DB::ScriptRun>, nil]
+  def script_runs=(val); end
+  # `has_many` relation with `DB::ScriptRun`. Database column `script_runs.script_id`.
+  # @return [Array<DB::ScriptRun>, nil]
+  def script_runs; end
+  # `has_many` relation with `DB::ScriptTrigger`. Database column `script_triggers.script_id`.
+  # @param val [Array<DB::ScriptTrigger>, nil]
+  def script_triggers=(val); end
+  # `has_many` relation with `DB::ScriptTrigger`. Database column `script_triggers.script_id`.
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def script_triggers; end
+  # `has_many` relation with `DB::UiScriptTrigger`. Database column `ui_script_triggers.script_id`.
+  # @param val [Array<DB::UiScriptTrigger>, nil]
+  def ui_script_triggers=(val); end
+  # `has_many` relation with `DB::UiScriptTrigger`. Database column `ui_script_triggers.script_id`.
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def ui_script_triggers; end
+  # Database column `scripts.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `scripts.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `scripts.content`, type: `text`.
+  # @param val [String, nil]
+  def content=(val); end
+  # Database column `scripts.content`, type: `text`.
+  # @return [String, nil]
+  def content; end
+  # Database column `scripts.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `scripts.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `scripts.description`, type: `text`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `scripts.description`, type: `text`.
+  # @return [String, nil]
+  def description; end
+  # Database column `scripts.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `scripts.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+end
+# %%<RailsAnnotateSolargraph:End:scripts>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:script_runs>%%
+
+class DB::ScriptRun < ApplicationRecord
+  # `belongs_to` relation with `DB::User`. Database column `script_runs.initiator_id`.
+  # @param val [DB::User, nil]
+  def initiator=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `script_runs.initiator_id`.
+  # @return [DB::User, nil]
+  def initiator; end
+  # `belongs_to` relation with `DB::Script`. Database column `script_runs.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_runs.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Database column `script_runs.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `script_runs.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `script_runs.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `script_runs.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `script_runs.output`, type: `text`.
+  # @param val [String, nil]
+  def output=(val); end
+  # Database column `script_runs.output`, type: `text`.
+  # @return [String, nil]
+  def output; end
+  # Database column `script_runs.initiator_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def initiator_id=(val); end
+  # Database column `script_runs.initiator_id`, type: `integer`.
+  # @return [Integer, nil]
+  def initiator_id; end
+  # Database column `script_runs.input`, type: `text`.
+  # @param val [String, nil]
+  def input=(val); end
+  # Database column `script_runs.input`, type: `text`.
+  # @return [String, nil]
+  def input; end
+end
+# %%<RailsAnnotateSolargraph:End:script_runs>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:script_triggers>%%
+
+class DB::ScriptTrigger < ApplicationRecord
+  # Scope `:for_model`.
+  #
+  #     scope :for_model, ->(model) { where(subject_type: model.to_s).where(subject: nil) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.for_model(model); end
+  # Scope `:for_record`.
+  #
+  #     scope :for_record, ->(record) { where(subject: record) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.for_record(record); end
+  # Scope `:global`.
+  #
+  #     scope :global, -> { where(subject_type: nil) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.global(); end
+  # Scope `:regarding_record`.
+  #
+  #     scope :regarding_record, (lambda do |record|
+  #       global.or(for_model(record.class)).or(for_record(record))
+  #     end)
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.regarding_record(record); end
+  # Scope `:with_action`.
+  #
+  #     scope :with_action, ->(action) { where(action: action) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.with_action(action); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Polymorphic relation. Database columns `script_triggers.subject_id` and `script_triggers.subject_type`.
+  # @param val [Object, nil]
+  def subject=(val); end
+  # Polymorphic relation. Database columns `script_triggers.subject_id` and `script_triggers.subject_type`.
+  # @return [Object, nil]
+  def subject; end
+  # Database column `script_triggers.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `script_triggers.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `script_triggers.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `script_triggers.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `script_triggers.subject_type`, type: `string`.
+  # @param val [String, nil]
+  def subject_type=(val); end
+  # Database column `script_triggers.subject_type`, type: `string`.
+  # @return [String, nil]
+  def subject_type; end
+  # Database column `script_triggers.subject_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def subject_id=(val); end
+  # Database column `script_triggers.subject_id`, type: `integer`.
+  # @return [Integer, nil]
+  def subject_id; end
+  # Database column `script_triggers.action`, type: `string`.
+  # @param val [String, nil]
+  def action=(val); end
+  # Database column `script_triggers.action`, type: `string`.
+  # @return [String, nil]
+  def action; end
+end
+# %%<RailsAnnotateSolargraph:End:script_triggers>%%
 
 
 # %%<RailsAnnotateSolargraph:Start:sprints>%%
@@ -1090,6 +1285,67 @@ class DB::TaskUser < ApplicationRecord
   def id; end
 end
 # %%<RailsAnnotateSolargraph:End:task_users>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:ui_script_triggers>%%
+
+class DB::UiScriptTrigger < ApplicationRecord
+  # Polymorphic relation. Database columns `ui_script_triggers.scope_id` and `ui_script_triggers.scope_type`.
+  # @param val [Object, nil]
+  def scope=(val); end
+  # Polymorphic relation. Database columns `ui_script_triggers.scope_id` and `ui_script_triggers.scope_type`.
+  # @return [Object, nil]
+  def scope; end
+  # `belongs_to` relation with `DB::Script`. Database column `ui_script_triggers.script_id`.
+  # @param val [DB::Script, nil]
+  def script=(val); end
+  # `belongs_to` relation with `DB::Script`. Database column `ui_script_triggers.script_id`.
+  # @return [DB::Script, nil]
+  def script; end
+  # Polymorphic relation. Database columns `ui_script_triggers.subject_id` and `ui_script_triggers.subject_type`.
+  # @param val [Object, nil]
+  def subject=(val); end
+  # Polymorphic relation. Database columns `ui_script_triggers.subject_id` and `ui_script_triggers.subject_type`.
+  # @return [Object, nil]
+  def subject; end
+  # Database column `ui_script_triggers.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `ui_script_triggers.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `ui_script_triggers.script_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def script_id=(val); end
+  # Database column `ui_script_triggers.script_id`, type: `integer`.
+  # @return [Integer, nil]
+  def script_id; end
+  # Database column `ui_script_triggers.subject_type`, type: `string`.
+  # @param val [String, nil]
+  def subject_type=(val); end
+  # Database column `ui_script_triggers.subject_type`, type: `string`.
+  # @return [String, nil]
+  def subject_type; end
+  # Database column `ui_script_triggers.subject_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def subject_id=(val); end
+  # Database column `ui_script_triggers.subject_id`, type: `integer`.
+  # @return [Integer, nil]
+  def subject_id; end
+  # Database column `ui_script_triggers.scope_type`, type: `string`.
+  # @param val [String, nil]
+  def scope_type=(val); end
+  # Database column `ui_script_triggers.scope_type`, type: `string`.
+  # @return [String, nil]
+  def scope_type; end
+  # Database column `ui_script_triggers.scope_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def scope_id=(val); end
+  # Database column `ui_script_triggers.scope_id`, type: `integer`.
+  # @return [Integer, nil]
+  def scope_id; end
+end
+# %%<RailsAnnotateSolargraph:End:ui_script_triggers>%%
 
 
 # %%<RailsAnnotateSolargraph:Start:users>%%

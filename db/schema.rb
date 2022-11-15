@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_08_211500) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -52,6 +52,30 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_211500) do
     t.datetime "deleted_at"
     t.boolean "visible", default: false
     t.index ["board_id"], name: "index_lists_on_board_id"
+  end
+
+  create_table "script_runs", force: :cascade do |t|
+    t.bigint "script_id"
+    t.text "output"
+    t.bigint "initiator_id", null: false
+    t.text "input"
+    t.index ["initiator_id"], name: "index_script_runs_on_initiator_id"
+  end
+
+  create_table "script_triggers", force: :cascade do |t|
+    t.bigint "script_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.string "action"
+    t.index ["subject_type", "subject_id"], name: "index_script_triggers_on_subject"
+  end
+
+  create_table "scripts", force: :cascade do |t|
+    t.text "content"
+    t.string "name"
+    t.text "description"
+    t.bigint "author_id", null: false
+    t.index ["author_id"], name: "index_scripts_on_author_id"
   end
 
   create_table "sprint_tasks", force: :cascade do |t|
@@ -112,6 +136,16 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_211500) do
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
 
+  create_table "ui_script_triggers", force: :cascade do |t|
+    t.bigint "script_id"
+    t.string "subject_type"
+    t.bigint "subject_id"
+    t.string "scope_type"
+    t.bigint "scope_id"
+    t.index ["scope_type", "scope_id"], name: "index_ui_script_triggers_on_scope"
+    t.index ["subject_type", "subject_id"], name: "index_ui_script_triggers_on_subject"
+  end
+
   create_table "user_workspaces", force: :cascade do |t|
     t.bigint "user_id", null: false
     t.bigint "workspace_id", null: false
@@ -151,6 +185,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_08_211500) do
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "lists", "boards"
+  add_foreign_key "script_runs", "users", column: "initiator_id"
+  add_foreign_key "scripts", "users", column: "author_id"
   add_foreign_key "sprint_tasks", "sprints"
   add_foreign_key "sprint_tasks", "tasks"
   add_foreign_key "tags", "boards"
