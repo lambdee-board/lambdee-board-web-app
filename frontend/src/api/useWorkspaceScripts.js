@@ -1,13 +1,13 @@
 import { useAPI } from './apiClient'
 
-const requestPath = (id) => `/api/lists/${id}/tasks`
+const requestPath = () => '/api/scripts'
 
-const getterKey = (id, axiosOptions = undefined) => {
-  let key = requestPath(id)
+const getterKey = (axiosOptions = undefined) => {
+  let key = requestPath
   if (axiosOptions != null) key = [key, axiosOptions]
 
   return key
 }
 
-export const useWorkspaceScripts = ({ id, axiosOptions, options })  => useAPI(getterKey(id, axiosOptions), options)
+export const useWorkspaceScripts = ({ axiosOptions, options })  => useAPI(getterKey(axiosOptions), options)
 export default useWorkspaceScripts

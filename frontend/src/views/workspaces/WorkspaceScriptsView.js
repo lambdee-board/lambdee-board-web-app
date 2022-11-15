@@ -1,35 +1,67 @@
 import * as React from 'react'
 import {
   List,
-  Button,
-  Pagination,
-  Typography
+  Typography,
+  ListItemButton
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 
-
-import WorkspaceUser, { WorkspaceUserSkeleton } from '../../components/workspace-settings/WorkspaceUser'
-
 import './WorkspaceScriptsView.sass'
 
 import useWorkspaceScripts from '../../api/useWorkspaceScripts'
+import EditScript from '../../components/EditScript'
 
 
 export default function WorkspaceScriptsView() {
-  const [filter, setFilter] = React.useState({ page: 1, per: 1 })
-  const { data: scripts, isLoading, isError } = useWorkspaceScripts()
+  const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
+  const [editing, setEditState] = React.useState(false)
+  const [currentScriptData, setCurrentScript] = React.useState({ name: '', description: '', content: '' })
+
+  React.useEffect(() => {
+    console.log(scripts)
+    if (isLoading || isError) return
+    scripts.map((script, idx) => {
+      console.log(script)
+    })
+  }, [isError, isLoading, scripts])
+
+  const openScriptEditing = (script) => {
+    setCurrentScript(script)
+    setEditState(true)
+  }
+
+  const closeScriptEditing = () => {
+    setCurrentScript({ name: '', description: '', content: '' })
+    setEditState(false)
+  }
 
 
   return (
-    <div className='WorkspaceMembers-wrapper'>
-      <div className='WorkspaceMembers' >
+    <div className='WorkspaceScripts-wrapper'>
+      { editing &&
+      <EditScript
+        name={currentScriptData.name}
+        content={currentScriptData.content}
+        description={currentScriptData.description}
+        closeFn={closeScriptEditing}
+      /> }
+      <div className='WorkspaceScripts'>
         <div className='list-wrapper'>
           <List className='List'>
             { !(isLoading || isError) ?
-              'asd' :
-              [...Array(5)].map((val, idx) => {
-                return '<WorkspaceScriptsSkeleton key={idx} />'
+              scripts.map((script, idx) => (
+                <div key={idx}>
+                  <ListItemButton
+                    divider
+                    onClick={() => openScriptEditing(script)}
+                  >
+                    <Typography>Name: {script.name}</Typography>
+                  </ListItemButton>
+                </div>
+              )) :
+              [...Array(5)].map((_, idx) => {
+                return 'Załadunek jest prowadzony'
               })
             }
           </List>

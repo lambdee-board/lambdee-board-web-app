@@ -1,0 +1,27 @@
+@import './../styles/base'
+
+.EditCard-wrapper
+  position: absolute
+  z-index: 999
+  width: 100%
+  height: calc(100vh - (8 * $unit))
+  margin-left: $unit
+  .EditCard
+    height: 100%
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    padding: 3 * $unit
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    .EditCard-actionBtns
+      display: flex
+      flex-direction: column
+      width: 15 * $unit
+      .EditCard-closeWrapper
+        display: flex
+        justify-content: end
+        margin-bottom: 3 * $unit
+      .EditCard-scriptBtns
+        display: flex
+        flex-direction: column
+        align-items: flex-start
