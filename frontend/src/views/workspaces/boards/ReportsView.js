@@ -1,83 +1,80 @@
 import * as React from 'react'
 import {
   Box,
-  List,
-  Button,
-  Typography
+  Card,
+  Pagination
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faClipboardList,
-  faPlus
-} from '@fortawesome/free-solid-svg-icons'
+import {  } from '@fortawesome/react-fontawesome'
+import {  } from '@fortawesome/free-solid-svg-icons'
 import { useDispatch } from 'react-redux'
 
 import { addAlert } from '../../../redux/slices/appAlertSlice'
-import apiClient from '../../../api/apiClient'
-import useWorkspace from '../../../api/useWorkspace'
-import useWorkspaceUsers  from '../../../api/useWorkspaceUsers'
+
 
 import ReportCard from '../../../components/reports-view/ReportCard'
 
 import './ReportsView.sass'
+import { useBoardSprints, mutateBoardSprints } from '../../../api/useBoardSprints'
 
 
-const WorkspaceSettings = () => {
-  const dispatch = useDispatch()
+const ReportsView = () => {
   const { workspaceId } = useParams()
-  const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  const { data: usersData, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
-  const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
+  const perPage = 10
+  const [filter, setFilter] = React.useState({ page: 1, per: perPage })
+  const { data: boardSprints, isLoading, isError } = useBoardSprints({ id: workspaceId, axiosOptions: { params: filter } })
 
-  const assignUserButtonOnClick = () => {
-    setAssignUserSelectVisible(true)
-    setTimeout(() => {
-      document.getElementById('assign-user-to-workspace-select').focus()
-    }, 50)
-  }
+  const [totalPages, setTotalPages] = React.useState(0)
 
-  const assignUserSelectOnBlur = () => {
-    setAssignUserSelectVisible(false)
-  }
+  React.useEffect(() => {
+    if (!boardSprints?.totalPages) return
 
-  const assignUserSelectOnChange = (e, user) => {
-    assignUser(user)
-    setAssignUserSelectVisible(false)
-  }
+    setTotalPages(boardSprints?.totalPages)
+  }, [boardSprints?.totalPages])
 
-  const assignUser = (user) => {
-    const payload = { userId: user.id }
+  const fetchNextUserPage = (event, newPage) => {
+    if (filter.page === newPage) return
 
-    apiClient.post(`/api/workspaces/${workspaceId}/assign_user`, payload)
-      .then((response) => {
-        // successful request
-        mutateWorkspaceUsers((currentUsers) => ([...currentUsers.users, user]))
-      })
-      .catch((error) => {
-        // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
-      })
+    const newFilterPage = { ...filter, page: newPage }
+    setFilter(newFilterPage)
+    mutateBoardSprints({ axiosOptions: { params: newFilterPage }, data: { ...boardSprints, totalPages } })
   }
 
 
   return (
 
-    <Box className='WorkspaceSettings-wrapper'>
-      <Box className='WorkspaceSettings' >
+    <Box className='ReportView-wrapper'>
+      <Box className='ReportView' >
         {isLoading || isError ? (
           <Box></Box>
         ) : (
-          <List className='List'>
-            <Box className='Reports'>
-            </Box>
-          </List>
+          <Card sx={{ pl: '8px', ml: '8px', mr: '8px' }}>
+            {boardSprints.sprints?.map((sprint) => (
+              <ReportCard key={sprint.id}
+                sprintId = {sprint.id}
+                sprintName = {sprint.name}
+                sprintDescription = {sprint.description}
+                sprintStartedAt = {sprint.startedAt}
+                sprintExpectedEndAt = {sprint.expectedEndAt}
+                sprintEndedAt = {sprint.endedAt}
+              />
+            ))}
+          </Card>
         )}
+        { boardSprints?.totalPages > 1 &&
+              <Pagination
+                className='Pagination-bar'
+                count={totalPages || 0}
+                color='primary'
+                onChange={fetchNextUserPage}
+                size='large'
+                page={filter.page} />
+        }
       </Box>
     </Box>
   )
 }
 
-export default WorkspaceSettings
+export default ReportsView
 
 

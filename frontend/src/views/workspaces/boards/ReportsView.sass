@@ -1,39 +1,21 @@
 @import './../../../styles/base'
 
-.WorkspaceSettings-wrapper
-  overflow: hidden
-  -ms-overflow-style: none // for Internet Explorer, Edge
-  scrollbar-width: none // for Firefox
+.ReportView-wrapper
   padding-top: $unit
   padding-left: 2.4 * $unit
   padding-right: 1.6 * $unit
   padding-bottom: $unit
-  .WorkspaceSettings
+  .ReportView
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
     display: inline-flex
     flex-flow: column
     border-radius: $unit
-    width: calc(100%)
-    min-height: calc(100vh - (10 * $unit))
-    .List
-      padding-bottom: 0
-      margin-bottom: 0
-      .ListItem-workspace
-        padding: 3 * $unit
-      #active
-        background-color: #d6d6d6
-      .New-board
-        padding-bottom: 1 * $unit
-        .New-board-input
-          padding-left: 2.5 * $unit
-      .New-board-button
-        text-transform: none
-        justify-content: flex-start
-        width: 100%
-        padding: 1.4 * $unit
-        padding-left: 2 * $unit
-  .WorkspaceBoards
-    margin-bottom: 2 * $unit
-    .WorkspaceBoards-icon
-      width: 24px
-      height: 24px
+    width: calc(98%)
+    padding: 2 * $unit
+    margin-top: 6 * $unit
+    min-width: 1000px
+    .Pagination-bar
+      padding-top: $unit
+      display: flex
+      justify-content: center
+
