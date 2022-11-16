@@ -28,8 +28,8 @@ class DB::Sprint < ApplicationRecord
   def end
     return if ended_at
 
-    completed_tasks = board.lists.find_by(name: final_list_name)&.tasks
-    completed_tasks&.destroy_all
+    final_list = board.lists.find_by(name: final_list_name)
+    final_list.tasks.with_deleted.destroy_all if final_list
     self.ended_at = ::Time.now
     save(validate: false)
   end
