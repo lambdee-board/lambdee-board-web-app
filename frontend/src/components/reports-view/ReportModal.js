@@ -17,6 +17,9 @@ import LabeledData from '../LabeledData'
 const ReportModal = (props) => {
   const { data: burnUpChart, isLoading, isError } = useSprintChart({ id: props.sprintId })
 
+  if (isLoading || isError) return // TODO: Skeleton
+
+  console.log(burnUpChart[0].data)
   return (
     <Box className='ReportModal-wrapper'>
       <Card className='ReportModal-paper'>
@@ -30,7 +33,6 @@ const ReportModal = (props) => {
             <Typography></Typography>
           </Box>
           <Box className='ReportModal-info-right'>
-            {console.log(burnUpChart)}
             <LabeledData label='Sprint Start' data={props.sprintStartedAt} />
             <LabeledData label='Sprint Expected End' data={props.sprintExpectedEndAt} />
             <LabeledData label='Sprint End' data={props.sprintEndedAt ? props.sprintEndedAt : null} />
