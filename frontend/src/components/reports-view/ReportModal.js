@@ -16,8 +16,8 @@ import LabeledData from '../LabeledData'
 
 const ReportModal = (props) => {
   const { data: burnUpChart, isLoading, isError } = useSprintChart({ id: props.sprintId })
-  const workScope = burnUpChart?.at(0).data[props.sprintStartedAt.split('.').reverse().join('_')]
-  const completedWork = burnUpChart?.at(-1).data[props.sprintEndedAt.split('.').reverse().join('_')]
+  const workScope = burnUpChart?.at(0).data[props.sprintStartedAt?.split('.').reverse().join('_')]
+  const completedWork = burnUpChart?.at(-1).data[props.sprintEndedAt?.split('.').reverse().join('_')]
 
   if (isLoading || isError) return // TODO: Skeleton
 
@@ -41,7 +41,7 @@ const ReportModal = (props) => {
           </Box>
         </Box>
         <Box className='ReportModal-chart'>
-          <PieChart data={[['Work Scope', workScope], ['Completed Work', completedWork]]} />
+          <PieChart data={[['Work Scope', Number(workScope) - Number(completedWork)], ['Completed Work', completedWork]]} />
         </Box>
         <Box className='ReportModal-chart'>
           <LineChart data = {burnUpChart} xtitle='Date' ytitle='Points' curve={false} />
