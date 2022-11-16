@@ -1,0 +1,38 @@
+@import './../../styles/base'
+
+.ReportModal-wrapper
+  overflow-y: scroll
+  max-height: 100vh
+  -ms-overflow-style: none // for Internet Explorer, Edge
+  scrollbar-width: none // for Firefox
+
+  &::-webkit-scrollbar
+    display: none // for Chrome, Safari, and Opera
+
+  .ReportModal-paper
+    width: calc(100vw - 5 * $unit)
+    max-width: 1100px
+    display: flex
+    flex-direction: column
+    align-content: flex-start
+    justify-content: space-between
+    background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    .ReportModal-info
+      display: flex
+      flex-direction: row
+      width: 100%
+      margin: 4 * $unit
+      .ReportModal-info-left
+        display: flex
+        width: 60%
+        flex-direction: column
+      .ReportModal-info-middle
+        display: flex
+        flex-direction: column
+      .ReportModal-info-right
+        display: flex
+        flex-direction: column
+        align-content: flex-end
+    .ReportModal-chart
+      margin-top: 4 * $unit
+      margin: 4 * $unit

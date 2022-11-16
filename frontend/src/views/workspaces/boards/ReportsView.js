@@ -49,7 +49,7 @@ const ReportsView = () => {
         {isLoading || isError ? (
           <Box></Box>
         ) : (
-          <Card sx={{ pl: '8px', ml: '8px', mr: '8px' }}>
+          <Card sx={{ ml: '8px', mr: '8px' }}>
             {boardSprints.sprints?.map((sprint) => (
               <ReportCard key={sprint.id}
                 sprintId = {sprint.id}
