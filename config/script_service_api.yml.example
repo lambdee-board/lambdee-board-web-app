@@ -1,8 +1,8 @@
 development: &default
   protocol: 'http'
   host: 'localhost:3001'
-  username: user
-  password: password
+  username: lambdee
+  password: sikritToken123
 
 test:
   <<: *default

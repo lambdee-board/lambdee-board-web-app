@@ -26,9 +26,9 @@ class ::DB::Script < ::ApplicationRecord
 
   def extended_content
     <<~SCRIPT
-      context = ::ActiveSupport::HashWithIndifferentAccess.new
-      context[:subject] = #{@subject.class}.new(#{@subject.as_json})
-      context[:subject_before_update] = #{@subject.class}.new(#{@subject.previous_object_state.as_json})
+      context = {}
+      context[:subject] = #{@subject.class}.from_hash(#{@subject.as_json})
+      context[:subject_before_update] = #{@subject.class}.from_hash(#{@subject.previous_object_state.as_json})
       context.keys.each { |k| define_method(k) { context[k] } }
 
       #{content}
