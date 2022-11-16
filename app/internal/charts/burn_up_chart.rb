@@ -52,13 +52,15 @@ module ::Charts
     def dates_hash
       return @result if @result
 
-      @result = FilledHash.new
+      dates = ::Set.new
       sprint_tasks.each do |st|
-        @result[st.addition_date.to_s] = nil
+        dates.add st.addition_date.to_s
         next unless st.completed_at
 
-        @result[st.completion_date.to_s] = nil
+        dates.add st.completion_date.to_s
       end
+      @result = FilledHash.new
+      dates.sort.each { @result[_1] = nil }
       @result
     end
   end
