@@ -16,6 +16,8 @@ import LabeledData from '../LabeledData'
 
 const ReportModal = (props) => {
   const { data: burnUpChart, isLoading, isError } = useSprintChart({ id: props.sprintId })
+  const workScope = burnUpChart?.at(0).data[props.sprintStartedAt.split('.').reverse().join('_')]
+  const completedWork = burnUpChart?.at(-1).data[props.sprintEndedAt.split('.').reverse().join('_')]
 
   if (isLoading || isError) return // TODO: Skeleton
 
@@ -26,17 +28,20 @@ const ReportModal = (props) => {
         <Box className='ReportModal-info'>
           <Box className='ReportModal-info-left'>
             <Typography fontSize={24} sx={{ mb: '12px' }}>{props.sprintName}</Typography>
-            <Typography fontSize={18}>{props.sprintDescription}</Typography>
+            <Typography sx={{ overflowWrap: 'break-word' }} fontSize={18}>{props.sprintDescription}</Typography>
           </Box>
           <Box className='ReportModal-info-middle'>
-            <Typography></Typography>
-            <Typography></Typography>
+            <LabeledData label='Work Scope' data={workScope} />
+            <LabeledData label='Completed Work' data={completedWork} />
           </Box>
           <Box className='ReportModal-info-right'>
             <LabeledData label='Sprint Start' data={props.sprintStartedAt} />
             <LabeledData label='Sprint Expected End' data={props.sprintExpectedEndAt} />
             <LabeledData label='Sprint End' data={props.sprintEndedAt ? props.sprintEndedAt : null} />
           </Box>
+        </Box>
+        <Box className='ReportModal-chart'>
+          <PieChart data={[['Work Scope', workScope], ['Completed Work', completedWork]]} />
         </Box>
         <Box className='ReportModal-chart'>
           <LineChart data = {burnUpChart} xtitle='Date' ytitle='Points' curve={false} />
