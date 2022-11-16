@@ -1,6 +1,6 @@
 development: &default
   protocol: 'http'
-  host: 'localhost:4567/api'
+  host: 'localhost:3001'
   username: user
   password: password
 
@@ -9,4 +9,7 @@ test:
   host: 'example.com'
 
 production:
-  <<: *default
+  protocol: <%= ENV['SCRIPT_SERVICE_INTERNAL_PROTOCOL'] || 'http' %>
+  host: <%= ENV['SCRIPT_SERVICE_INTERNAL_HOST'] || 'localhost:3001' %>
+  username: <%= ENV['SCRIPT_SERVICE_API_USER'] || 'lambdee' %>
+  password: <%= ENV['SCRIPT_SERVICE_API_PASSWORD'] || 'sikritToken123' %>

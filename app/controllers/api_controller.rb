@@ -25,7 +25,7 @@ class APIController < ::ApplicationController
   # @return [Boolean]
   def script_service_authenticated?(auth_scheme, auth_token)
     auth_scheme == 'ScriptService' &&
-      auth_token == ::Config::ENV_SETTINGS['script_service_secret'] &&
+      ::ActiveSupport::SecurityUtils.secure_compare(::Base64.decode64(auth_token), ::Config::ENV_SETTINGS['script_service_secret']) &&
       %w[localhost rails].include?(request.host)
   end
 

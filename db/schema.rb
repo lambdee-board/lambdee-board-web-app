@@ -186,8 +186,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_15_215218) do
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "lists", "boards"
-  add_foreign_key "script_runs", "users", column: "initiator_id"
-  add_foreign_key "scripts", "users", column: "author_id"
   add_foreign_key "sprint_tasks", "sprints"
   add_foreign_key "sprint_tasks", "tasks"
   add_foreign_key "tags", "boards"

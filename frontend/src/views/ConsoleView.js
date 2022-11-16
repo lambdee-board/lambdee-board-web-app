@@ -76,7 +76,7 @@ puts ruby`)
       }, 50)
     }
 
-    const newWebSocket = new WebSocket(`${process.env.WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_HOST}`)
+    const newWebSocket = new WebSocket(`${process.env.SCRIPT_SERVICE_WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_EXTERNAL_HOST}`)
     newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {

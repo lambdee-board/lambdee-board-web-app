@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-# Wraps the Script Service API.
+# Wraps the Script Service REST API.
 module ScriptServiceAPI
   class << self
     # @return [Faraday::Connection]
