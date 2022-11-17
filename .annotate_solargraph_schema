@@ -263,6 +263,12 @@ class DB::Board < ApplicationRecord
   # Database column `boards.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `boards.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `boards.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:boards>%%
 
@@ -550,6 +556,12 @@ class DB::List < ApplicationRecord
   # Database column `lists.visible`, type: `boolean`.
   # @return [Boolean, nil]
   def visible; end
+  # Database column `lists.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `lists.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:lists>%%
 
@@ -868,6 +880,12 @@ class DB::Sprint < ApplicationRecord
   # Database column `sprints.description`, type: `text`.
   # @return [String, nil]
   def description; end
+  # Database column `sprints.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `sprints.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:sprints>%%
 
@@ -929,6 +947,12 @@ class DB::SprintTask < ApplicationRecord
   # Database column `sprint_tasks.state`, type: `string`.
   # @return [String, nil]
   def state; end
+  # Database column `sprint_tasks.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `sprint_tasks.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:sprint_tasks>%%
 
@@ -996,6 +1020,12 @@ class DB::Tag < ApplicationRecord
   # Database column `tags.updated_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def updated_at; end
+  # Database column `tags.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `tags.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:tags>%%
 
@@ -1659,6 +1689,12 @@ class DB::User < ApplicationRecord
   # Database column `users.last_sign_in_ip`, type: `string`.
   # @return [String, nil]
   def last_sign_in_ip; end
+  # Database column `users.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `users.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:users>%%
 
@@ -1789,6 +1825,12 @@ class DB::Workspace < ApplicationRecord
   # Database column `workspaces.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `workspaces.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `workspaces.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:workspaces>%%
 
