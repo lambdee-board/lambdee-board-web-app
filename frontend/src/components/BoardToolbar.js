@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import useCookie from 'react-use-cookie'
-import { faPlus, faXmark, faList, faPersonRunning } from '@fortawesome/free-solid-svg-icons'
+import { faPlus, faXmark, faList, faPersonRunning, faChartLine, faBriefcase } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput, Modal, Box } from '@mui/material'
 import { ManagerContent } from '../permissions/ManagerContent'
@@ -30,18 +30,23 @@ export default function BoardToolbar(props) {
     setNewSprintModal(false)
   }
 
-  const setBoardPlanningView = () => {
+  const setBoardWorkView = () => {
     setBoardView('0')
   }
-  const setBoardWorkView = () => {
+  const setBoardPlanningView = () => {
     setBoardView('1')
+  }
+  const setBoardReportsView = () => {
+    setBoardView('2')
   }
 
   useEffect(() => {
-    if (boardView === '1') {
-      { navigate(`/workspaces/${workspaceId}/boards/${boardId}/work`) }
-    } else {
+    if (boardView === '2') {
+      { navigate(`/workspaces/${workspaceId}/boards/${boardId}/reports`) }
+    } else if (boardView === '1') {
       { navigate(`/workspaces/${workspaceId}/boards/${boardId}/planning`) }
+    } else {
+      { navigate(`/workspaces/${workspaceId}/boards/${boardId}/work`) }
     }
   }, [boardView, boardId, workspaceId, navigate])
 
@@ -113,32 +118,8 @@ export default function BoardToolbar(props) {
         </Box>
       </Modal>
       <Toolbar className='Toolbar'>
-        {boardView === '0' &&
+        {boardView === '1' &&
       <>
-        {!activeSprint ?
-          <ManagerContent>
-            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
-              className='Toolbar-create-spring-button'
-              color='secondary'
-              variant='outlined'
-              startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
-            >
-              <Typography>Start New Sprint</Typography>
-            </Button>
-          </ManagerContent>       :
-          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
-            className='Toolbar-create-spring-button'
-            color='secondary'
-            variant='contained'
-            startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
-          >
-            <Typography>View Active Sprint</Typography>
-          </Button>}
-      </>
-        }
-
-      </Toolbar>
-      <Toolbar className='Toolbar'>
         <ManagerContent>
           { newListButtonVisible &&
           <Button onClick={() => newListButtonOnClick()}
@@ -171,24 +152,91 @@ export default function BoardToolbar(props) {
 
           }
         </ManagerContent>
-        {boardView === '1' ?
-          <div>
-            <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
-              className='Toolbar-create-list-button'
+        {!activeSprint ?
+
+          <ManagerContent>
+            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+              className='Toolbar-create-spring-button'
               color='secondary'
               variant='outlined'
-              startIcon={<FontAwesomeIcon icon={faList} />}
+              startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
             >
-              <Typography>Planning View</Typography>
+              <Typography>Start Sprint</Typography>
+            </Button>
+          </ManagerContent>       :
+          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+            className='Toolbar-create-spring-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
+          >
+            <Typography>View Sprint</Typography>
+          </Button>}
+
+      </>
+
+        }
+
+      </Toolbar>
+      <Toolbar className='Toolbar'>
+        {boardView === '0' ?
+          <div>
+            <Button sx={{ ml: '8px' }}
+              className='Toolbar-create-list-button'
+              color='secondary'
+              variant='contained'
+              startIcon={<FontAwesomeIcon icon={faBriefcase} />}
+            >
+              <Typography>Work View</Typography>
             </Button>
           </div>      :
           <Button sx={{ ml: '8px' }} onClick={() => setBoardWorkView()}
             className='Toolbar-create-list-button'
             color='secondary'
-            variant='contained'
+            variant='outlined'
+            startIcon={<FontAwesomeIcon icon={faBriefcase} />}
+          >
+            <Typography>Work View</Typography>
+          </Button>
+        }
+        {boardView === '1' ?
+          <div>
+            <Button sx={{ ml: '8px' }}
+              className='Toolbar-create-list-button'
+              color='secondary'
+              variant='contained'
+              startIcon={<FontAwesomeIcon icon={faList} />}
+            >
+              <Typography>Planning View</Typography>
+            </Button>
+          </div>      :
+          <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='outlined'
             startIcon={<FontAwesomeIcon icon={faList} />}
           >
             <Typography>Planning View</Typography>
+          </Button>
+        }
+        {boardView === '2' ?
+          <div>
+            <Button sx={{ ml: '8px' }}
+              className='Toolbar-create-list-button'
+              color='secondary'
+              variant='contained'
+              startIcon={<FontAwesomeIcon icon={faChartLine} />}
+            >
+              <Typography>Report View</Typography>
+            </Button>
+          </div>      :
+          <Button sx={{ ml: '8px' }} onClick={() => setBoardReportsView()}
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='outlined'
+            startIcon={<FontAwesomeIcon icon={faChartLine} />}
+          >
+            <Typography>Report View</Typography>
           </Button>
         }
       </Toolbar>
