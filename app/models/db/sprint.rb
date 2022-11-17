@@ -2,6 +2,8 @@
 
 # Contains the data of a sprint
 class DB::Sprint < ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
   include ::Charts::BurnUpChart
 
   has_many :sprint_tasks, dependent: :destroy

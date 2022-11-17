@@ -3,6 +3,8 @@
 # Contains the data of a workspace,
 # which can contain multiple boards.
 class DB::Workspace < ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
   include ::PgSearch::Model
 
   acts_as_paranoid double_tap_destroys_fully: false

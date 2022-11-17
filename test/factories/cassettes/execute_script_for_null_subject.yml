@@ -1,0 +1,45 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://example.com/execute
+    body:
+      encoding: UTF-8
+      string: '{"script_run_id":1,"content":"context = ::ActiveSupport::HashWithIndifferentAccess.new\ncontext[:subject]
+        = DB::Workspace.new({\"id\"=>1, \"name\"=>\"Domainer\", \"created_at\"=>\"2022-11-15T19:24:49.169Z\",
+        \"updated_at\"=>\"2022-11-15T19:24:49.169Z\", \"deleted_at\"=>nil})\ncontext[:subject_before_update]
+        = DB::Workspace.new()\ncontext.keys.each { |k| define_method(k) { context[k]
+        } }\n\nputs ''hello world''\n"}'
+    headers:
+      User-Agent:
+      - Faraday v2.6.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Basic dXNlcjpwYXNzd29yZA==
+  response:
+    status:
+      code: 404
+      message: Not Found
+    headers:
+      cache-control:
+      - max-age=604800
+      content-type:
+      - text/html; charset=UTF-8
+      date:
+      - Tue, 15 Nov 2022 19:24:49 GMT
+      expires:
+      - Tue, 22 Nov 2022 19:24:49 GMT
+      server:
+      - EOS (vny/0453)
+      content-length:
+      - '445'
+    body:
+      encoding: UTF-8
+      string: "<?xml version=\"1.0\" encoding=\"iso-8859-1\"?>\n<!DOCTYPE html PUBLIC
+        \"-//W3C//DTD XHTML 1.0 Transitional//EN\"\n         \"http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd\">\n<html
+        xmlns=\"http://www.w3.org/1999/xhtml\" xml:lang=\"en\" lang=\"en\">\n\t<head>\n\t\t<title>404
+        - Not Found</title>\n\t</head>\n\t<body>\n\t\t<h1>404 - Not Found</h1>\n\t\t<script
+        type=\"text/javascript\" src=\"//wpc.75674.betacdn.net/0075674/www/ec_tpm_bcon.js\"></script>\n\t</body>\n</html>\n"
+  recorded_at: Tue, 15 Nov 2022 19:24:49 GMT
+recorded_with: VCR 6.1.0

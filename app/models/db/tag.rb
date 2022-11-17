@@ -3,6 +3,9 @@
 # Contains the data of an individual Tag which
 # belongs to Board and can be assigned to many tasks
 class DB::Tag < ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
+
   belongs_to :board
   has_many :task_tags, class_name: 'DB::TaskTag', dependent: :destroy
   has_many :tasks, through: :task_tags

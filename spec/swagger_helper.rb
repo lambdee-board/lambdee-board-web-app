@@ -60,6 +60,22 @@ end
               'all'
             ]
           },
+          lambdee_models_enum: {
+            type: :string,
+            enum: %w[
+              DB::User
+              DB::Workspace
+              DB::Board
+              DB::List
+              DB::Task
+              DB::Comment
+              DB::Tag
+              DB::Sprint
+              DB::UserWorkspace
+              DB::TaskUser
+              DB::TaskTag
+              DB::SprintTask]
+          },
           user_pages_response: {
             type: :object,
             properties: {
@@ -121,7 +137,7 @@ end
                 properties: {
                   email: { type: :string },
                   password: { type: :string }
-                }
+              }
               }
             },
             required: %w[email password]
@@ -330,6 +346,101 @@ end
             },
             required: %w[name]
           },
+          script_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              name: { type: :string },
+              description: { type: :string },
+              content: { type: :string },
+              url: { type: :string },
+              script_triggers: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/nested_script_trigger_response' }
+              }
+            },
+            required: %w[]
+          },
+          script_request: {
+            type: :object,
+            properties: {
+              name: { type: :string },
+              description: { type: :string },
+              content: { type: :string },
+              script_triggers_attributes: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/nested_script_trigger_request' }
+              }
+            },
+            required: %w[name]
+          },
+          nested_script_trigger_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: %i[integer null] },
+              subject_type: { type: %i[string null] },
+              subject_id: { type: %i[integer null] },
+              action: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          nested_script_trigger_request: {
+            type: :object,
+            properties: {
+              id: { type: :integer, description: 'Needed only for updates and destroys.' },
+              script_id: { type: :integer },
+              subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
+              subject_id: { type: :integer },
+              action: { type: :string, enum: %w[create update destroy] },
+              _destroy: { type: :boolean, description: 'If `true` callback for given `id` will be destroyed. Works only nested in sprint.' },
+            },
+            required: %w[action]
+          },
+          script_trigger_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: :integer },
+              subject_type: { type: %i[string null] },
+              subject_id: { type: %i[integer null] },
+              action: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          script_trigger_request: {
+            type: :object,
+            properties: {
+              script_id: { type: :integer },
+              subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
+              subject_id: { type: :integer },
+              action: { type: :string },
+            },
+            required: %w[script_id action]
+          },
+          script_run_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: :integer },
+              initiator_id: { type: :integer },
+              input: { type: %i[string null] },
+              output: { type: :string },
+              state: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          script_run_request: {
+            type: :object,
+            properties: {
+              output: { type: :string },
+              state: { type: :string, enum: %w[running executed failed timed_out] },
+            },
+            required: %w[]
+          }
         }
       },
       servers: [

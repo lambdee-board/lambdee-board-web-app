@@ -3,6 +3,8 @@
 # Contains the data of a user
 # of the frontend interface.
 class DB::User < ::ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
   include ::PgSearch::Model
 
   acts_as_paranoid double_tap_destroys_fully: false

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require_relative 'simple_cov_initializer'
 ::SimpleCovInitializer.call 'test:unittest'
 
@@ -7,9 +9,17 @@ require_relative '../config/environment'
 require 'rails/test_help'
 require 'debug'
 require 'devise/jwt/test_helpers'
+require 'vcr'
 
 ::DatabaseCleaner.strategy = :truncation
 ::DatabaseCleaner.clean
+
+::RELATIVE_CASSETTE_DIR = 'test/factories/cassettes'
+
+::VCR.configure do |config|
+  config.cassette_library_dir = ::RELATIVE_CASSETTE_DIR
+  config.hook_into :faraday
+end
 
 class ActiveSupport::TestCase
   # Run tests in parallel with specified workers
@@ -35,7 +45,7 @@ class ActiveSupport::TestCase
 
   # Authorisation headers used by the script service.
   #
-  # @return [String]
+  # @return [Hash]
   def script_service_auth_headers
     {
       'Accept' => 'application/json',

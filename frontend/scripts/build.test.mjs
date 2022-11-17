@@ -47,8 +47,8 @@ esbuild.build({
     'process.env.NODE_ENV': JSON.stringify('test'),
     'process.env.LAMBDEE_HOST': JSON.stringify(process.env.LAMBDEE_HOST || 'localhost:3000'),
     'process.env.LAMBDEE_PROTOCOL': JSON.stringify(process.env.LAMBDEE_PROTOCOL || 'http'),
-    'process.env.SCRIPT_SERVICE_HOST': JSON.stringify(process.env.SCRIPT_SERVICE_HOST || 'localhost:3001'),
-    'process.env.WS_PROTOCOL': JSON.stringify(process.env.WS_PROTOCOL || 'ws'),
+    'process.env.SCRIPT_SERVICE_EXTERNAL_HOST': JSON.stringify(process.env.SCRIPT_SERVICE_EXTERNAL_HOST || 'localhost:3001'),
+    'process.env.SCRIPT_SERVICE_WS_PROTOCOL': JSON.stringify(process.env.SCRIPT_SERVICE_WS_PROTOCOL || 'ws'),
     '__dirname': JSON.stringify(`${__dirname}/..`),
     'process.path.sep': JSON.stringify(sep)
   },
