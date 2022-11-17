@@ -196,3 +196,6 @@ AllCops:
 
 Layout/HashAlignment:
   Enabled: false
+
+Style/EmptyLiteral:
+  Enabled: false

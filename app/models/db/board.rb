@@ -5,6 +5,7 @@
 class DB::Board < ::ApplicationRecord
   include ::PgSearch::Model
   include ::ScriptTriggerable
+  include ::CustomDatable
 
   acts_as_paranoid double_tap_destroys_fully: false
 

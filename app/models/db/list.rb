@@ -4,6 +4,7 @@
 # which can contain multiple tasks.
 class DB::List < ::ApplicationRecord
   include ::ScriptTriggerable
+  include ::CustomDatable
 
   acts_as_paranoid double_tap_destroys_fully: false
 
