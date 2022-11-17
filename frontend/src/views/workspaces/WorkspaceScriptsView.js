@@ -16,14 +16,6 @@ export default function WorkspaceScriptsView() {
   const [editing, setEditState] = React.useState(false)
   const [currentScriptData, setCurrentScript] = React.useState({ name: '', description: '', content: '' })
 
-  React.useEffect(() => {
-    console.log(scripts)
-    if (isLoading || isError) return
-    scripts.map((script, idx) => {
-      console.log(script)
-    })
-  }, [isError, isLoading, scripts])
-
   const openScriptEditing = (script) => {
     setCurrentScript(script)
     setEditState(true)

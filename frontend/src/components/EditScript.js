@@ -27,25 +27,24 @@ const scrollToBottom = () => {
   view.scrollTop = view.scrollHeight
 }
 
-const getCodeEditor = () => {
-  return document.querySelector('.ConsoleView-editor textarea')
-}
-
-const focusCodeEditor = () => getCodeEditor()?.focus()
-
 const EditScript = (props) => {
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
   const [outputHistory, setOutputHistory] = React.useState([])
-  const [responseReceived, setResponseReceived] = React.useState(false)
   const [codeDraft, setCodeDraft] = React.useState(props.content)
 
-  // onMount
   React.useEffect(() => {
-    focusCodeEditor()
+    if (!webSocket || !webSocketOpen) return
+    webSocket.send(WebSocketMessage.encode(
+      WebSocketMessage.types.consoleInput,
+      { input: codeDraft }
+    ))
+  }, [codeDraft, webSocket, webSocketOpen])
 
-    const newWebSocket = new WebSocket(`${process.env.WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_HOST}`)
+
+  const openWsConnection = () => {
+    const newWebSocket = new WebSocket(`${process.env.SCRIPT_SERVICE_WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_EXTERNAL_HOST}`)
     newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {
@@ -54,13 +53,17 @@ const EditScript = (props) => {
         break
       case WebSocketMessage.types.info:
         addToOutputHistory(message.payload)
-        setResponseReceived(true)
         break
       case WebSocketMessage.types.consoleOutputEnd:
         if (message.payload) addToOutputHistory(message.payload)
-        setResponseReceived(true)
+        newWebSocket.close()
         break
       }
+    }
+    newWebSocket.onclose = (event) => {
+      addToOutputHistory('Session closed.')
+      setWebSocketOpen(false)
+      setWebSocket(null)
     }
     newWebSocket.onopen = () => {
       setWebSocketOpen(true)
@@ -70,33 +73,19 @@ const EditScript = (props) => {
       ))
     }
     setWebSocket(newWebSocket)
-
-    // cleanup function
-    return () => {
-      newWebSocket.close()
-    }
-  }, [])
+  }
 
   const addToOutputHistory = (content) => {
     const entry = {
-      type: WebSocketMessage.types.consoleInput,
+      type: WebSocketMessage.types.consoleOutput,
       content,
       time: new Date(),
     }
     setOutputHistory((oldOutputHistory) => [...oldOutputHistory.slice(-HISTORY_BUFFER_SIZE), entry])
-    setResponseReceived(false)
     setTimeout(() => {
       scrollToBottom()
     }, 50)
   }
-
-  const sendCode = () => {
-    webSocket.send(WebSocketMessage.encode(
-      WebSocketMessage.types.consoleInput,
-      { input: codeDraft }
-    ))
-  }
-
 
   const updateCode = (val) => {
     setCodeDraft(val)
@@ -128,7 +117,13 @@ const EditScript = (props) => {
 
 
           <Typography variant='h5'>Logs</Typography>
-          <CodeHighlighter className='EditCard-output' code={'puts \'siema\''} />
+          <div className='EditCard-output'>
+            {outputHistory.map((interaction, index) => {
+              return (<div key={index}>
+                <CodeHighlighter className='EditCard-outputLine' code={interaction.content} />
+              </div>)
+            })}
+          </div>
 
         </div>
         <div className='EditCard-actionBtns'>
@@ -138,7 +133,7 @@ const EditScript = (props) => {
             </IconButton>
           </div>
           <div className='EditCard-scriptBtns'>
-            <Button onClick={sendCode} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
+            <Button onClick={openWsConnection} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
               <Typography>Run</Typography>
             </Button>
             <Button onClick={() => console.log('save')} className='EditCard-btnSave' color='info' startIcon={<FontAwesomeIcon icon={faSave} />}>
