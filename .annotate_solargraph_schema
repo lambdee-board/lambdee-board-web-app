@@ -368,6 +368,12 @@ class DB::Comment < ApplicationRecord
   # Database column `comments.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `comments.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `comments.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:comments>%%
 
@@ -1293,6 +1299,12 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.start_time`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def start_time; end
+  # Database column `tasks.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `tasks.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 

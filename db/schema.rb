@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_17_120356) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_174629) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -34,6 +34,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_120356) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.jsonb "custom_data"
     t.index ["author_id"], name: "index_comments_on_author_id"
     t.index ["task_id"], name: "index_comments_on_task_id"
   end
@@ -138,6 +139,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_17_120356) do
     t.datetime "deleted_at"
     t.integer "spent_time", default: 0
     t.datetime "start_time"
+    t.jsonb "custom_data"
     t.index ["author_id"], name: "index_tasks_on_author_id"
     t.index ["list_id"], name: "index_tasks_on_list_id"
   end
