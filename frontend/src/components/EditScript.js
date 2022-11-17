@@ -16,23 +16,13 @@ import '@fontsource/fira-code/500.css'
 import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
-import dateFormat from 'dateformat'
 import CodeHighlighter from '../components/CodeHighlighter'
 import WebSocketMessage from '../types/WebSocketMessage'
 
 const HISTORY_BUFFER_SIZE = 200
-const INPUT_HISTORY_BUFFER_SIZE = HISTORY_BUFFER_SIZE / 2
-
-const ConsolePrompt = () => {
-  return (
-    <pre style={{ marginTop: 18.4, marginBottom: 18.4 }}>
-      {'>>>'}
-    </pre>
-  )
-}
 
 const scrollToBottom = () => {
-  const view = document.querySelector('.ConsoleView')
+  const view = document.querySelector('.EditCard-output')
   if (!view) return
   view.scrollTop = view.scrollHeight
 }
@@ -47,46 +37,30 @@ const EditScript = (props) => {
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
-  const [consoleHistory, setConsoleHistory] = React.useState([])
-  const [consoleInputHistory, setConsoleInputHistory] = React.useState([])
+  const [outputHistory, setOutputHistory] = React.useState([])
   const [responseReceived, setResponseReceived] = React.useState(false)
-  const [selectedHistoryEntry, setSelectedHistoryEntry] = React.useState(0)
   const [codeDraft, setCodeDraft] = React.useState(props.content)
 
   // onMount
   React.useEffect(() => {
-    const addToConsoleHistory = (content) => {
-      const entry = {
-        type: WebSocketMessage.types.consoleOutput,
-        content,
-        time: new Date(),
-      }
-      setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory.slice(-HISTORY_BUFFER_SIZE), entry])
-      setTimeout(() => {
-        scrollToBottom()
-        focusCodeEditor()
-      }, 50)
-    }
+    focusCodeEditor()
 
     const newWebSocket = new WebSocket(`${process.env.WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_HOST}`)
     newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
       switch (message.type) {
       case WebSocketMessage.types.consoleOutput:
-        addToConsoleHistory(message.payload)
+        addToOutputHistory(message.payload)
         break
       case WebSocketMessage.types.info:
-        addToConsoleHistory(message.payload)
+        addToOutputHistory(message.payload)
         setResponseReceived(true)
         break
       case WebSocketMessage.types.consoleOutputEnd:
-        if (message.payload) addToConsoleHistory(message.payload)
+        if (message.payload) addToOutputHistory(message.payload)
         setResponseReceived(true)
         break
       }
-    }
-    newWebSocket.onclose = (event) => {
-      addToConsoleHistory('Session closed.')
     }
     newWebSocket.onopen = () => {
       setWebSocketOpen(true)
@@ -103,14 +77,13 @@ const EditScript = (props) => {
     }
   }, [])
 
-  const addToConsoleHistory = (content) => {
+  const addToOutputHistory = (content) => {
     const entry = {
       type: WebSocketMessage.types.consoleInput,
       content,
       time: new Date(),
     }
-    setConsoleHistory((oldConsoleHistory) => [...oldConsoleHistory.slice(-HISTORY_BUFFER_SIZE), entry])
-    setConsoleInputHistory((old) => [...old.slice(-INPUT_HISTORY_BUFFER_SIZE), entry])
+    setOutputHistory((oldOutputHistory) => [...oldOutputHistory.slice(-HISTORY_BUFFER_SIZE), entry])
     setResponseReceived(false)
     setTimeout(() => {
       scrollToBottom()
@@ -122,72 +95,13 @@ const EditScript = (props) => {
       WebSocketMessage.types.consoleInput,
       { input: codeDraft }
     ))
-
-    addToConsoleHistory(codeDraft)
-    setCodeDraft('')
-    setSelectedHistoryEntry(0)
   }
 
-  const editorOnKeyDown = (e) => {
-    const codeEditor = getCodeEditor()
-    let newSelectedHistoryEntry, lineBreak
-
-    switch (e.key) {
-    case 'Enter':
-      if (e.shiftKey === true) {
-        scrollToBottom()
-        return
-      }
-      e.preventDefault()
-      sendCode()
-      break
-    case 'ArrowUp':
-      if (newInputProvided && codeDraft !== '') return
-      lineBreak = codeEditor.value.indexOf('\n')
-
-      if (lineBreak !== -1 && codeEditor.selectionStart > lineBreak) return
-      if (consoleInputHistory.length === 0) return
-      if (selectedHistoryEntry - 1 < -consoleInputHistory.length) return
-
-      e.preventDefault()
-      newSelectedHistoryEntry = selectedHistoryEntry - 1
-      setSelectedHistoryEntry(newSelectedHistoryEntry)
-      setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
-      setNewInputProvided(false)
-      setTimeout(() => {
-        scrollToBottom()
-      }, 50)
-      break
-    case 'ArrowDown':
-      if (newInputProvided && codeDraft !== '') return
-      lineBreak = codeEditor.value.lastIndexOf('\n')
-
-      if (lineBreak !== -1 && codeEditor.selectionStart <= lineBreak) return
-      if (consoleInputHistory.length === 0) return
-      if (selectedHistoryEntry + 1 >= 0) {
-        e.preventDefault
-        setSelectedHistoryEntry(0)
-        setCodeDraft('')
-        return
-      }
-
-      e.preventDefault()
-      newSelectedHistoryEntry = selectedHistoryEntry + 1
-      setSelectedHistoryEntry(newSelectedHistoryEntry)
-      setCodeDraft(consoleInputHistory.at(newSelectedHistoryEntry)?.content)
-      setNewInputProvided(false)
-      setTimeout(() => {
-        scrollToBottom()
-      }, 50)
-      break
-    }
-  }
 
   const updateCode = (val) => {
     setCodeDraft(val)
     if (!newInputProvided) {
       setNewInputProvided(true)
-      setSelectedHistoryEntry(0)
     }
   }
 
@@ -205,14 +119,16 @@ const EditScript = (props) => {
           </div>
 
           <Editor
-            className='ConsoleView-editor'
+            className='EditCard-editor'
             value={codeDraft}
             onValueChange={updateCode}
             highlight={(code) => highlight(code, languages.ruby)}
             padding={10}
-            onKeyDown={editorOnKeyDown}
           />
 
+
+          <Typography variant='h5'>Logs</Typography>
+          <CodeHighlighter className='EditCard-output' code={'puts \'siema\''} />
 
         </div>
         <div className='EditCard-actionBtns'>
@@ -222,7 +138,7 @@ const EditScript = (props) => {
             </IconButton>
           </div>
           <div className='EditCard-scriptBtns'>
-            <Button onClick={() => console.log('run')} className='EditCard-btnRun' color='success' startIcon={<FontAwesomeIcon icon={faPlay} />}>
+            <Button onClick={sendCode} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
               <Typography>Run</Typography>
             </Button>
             <Button onClick={() => console.log('save')} className='EditCard-btnSave' color='info' startIcon={<FontAwesomeIcon icon={faSave} />}>

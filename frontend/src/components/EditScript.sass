@@ -4,19 +4,36 @@
   position: absolute
   z-index: 999
   width: 100%
-  height: calc(100vh - (8 * $unit))
+  min-height: calc(100vh - (12 * $unit))
   margin-left: $unit
   .EditCard
-    height: 100%
+    min-height: calc(100vh - (12 * $unit))
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
     padding: 3 * $unit
     display: flex
     flex-direction: row
     justify-content: space-between
+    .EditCard-content
+      width: 100%
+      .EditCard-editor, .EditCard-output
+        overflow-y: scroll
+        overflow-x: scroll
+        font-family: "Fira code", "Fira Mono", monospace
+        background-color: #032b3a
+        color: #fff
+        border-radius: $unit
+        width: 100%
+        height: 45vh
+      .EditCard-output
+        padding: 10px
+        height: 30vh
+        margin: 0
+        width: calc(100% - 20px)
+
     .EditCard-actionBtns
       display: flex
       flex-direction: column
-      width: 15 * $unit
+      width: 17 * $unit
       .EditCard-closeWrapper
         display: flex
         justify-content: end
@@ -25,3 +42,6 @@
         display: flex
         flex-direction: column
         align-items: flex-start
+        margin: 0 (2 * $unit)
+        button
+          justify-content: start
