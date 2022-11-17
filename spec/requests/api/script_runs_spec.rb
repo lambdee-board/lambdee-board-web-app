@@ -90,7 +90,8 @@ require 'swagger_helper'
         let(:id) { ::FactoryBot.create(:script_run).id }
         let(:script) do
           {
-            output: 'example output'
+            output: 'example output',
+            state: 'executed',
           }
         end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::API::ScriptRunsController < ::ApplicationController
+class ::API::ScriptRunsController < ::APIController
   before_action :set_script_run, only: %i[show update destroy]
 
   # GET /api/script_runs or /api/scripts/1/script_runs
@@ -29,6 +29,6 @@ class ::API::ScriptRunsController < ::ApplicationController
   end
 
   def script_run_params
-    params.require(:script_run).permit(:output)
+    params.require(:script_run).permit(:output, :state)
   end
 end

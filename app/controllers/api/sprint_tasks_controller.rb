@@ -2,7 +2,7 @@
 
 # Controller which provides a full CRUD for sprint tasks
 # through the JSON API.
-class API::SprintTasksController < ApplicationController
+class ::API::SprintTasksController < ::APIController
   before_action :check_for_admin_privileges
   before_action :set_sprint_tasks, only: %i[show update destroy]
 

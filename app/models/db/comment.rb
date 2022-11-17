@@ -2,6 +2,8 @@
 
 # Contains the data of an individual Comment
 class DB::Comment < ApplicationRecord
+  include ::ScriptTriggerable
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :author, -> { with_deleted }, class_name: 'DB::User', foreign_key: :author_id

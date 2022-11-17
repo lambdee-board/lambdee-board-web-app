@@ -12,5 +12,17 @@
         ::FactoryBot.create(:script_trigger, script: s, action: :create, subject_type: ::DB::Task)
       end
     end
+
+    trait :with_trigger_on_task_update  do
+      after(:create) do |s|
+        ::FactoryBot.create(:script_trigger, script: s, action: :update, subject: ::FactoryBot.create(:task))
+      end
+    end
+
+    trait :with_trigger_on_every_model_creation  do
+      after(:create) do |s|
+        ::FactoryBot.create(:script_trigger, script: s, action: :create)
+      end
+    end
   end
 end

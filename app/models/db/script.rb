@@ -13,20 +13,24 @@ class ::DB::Script < ::ApplicationRecord
   # @param subject [ApplicationRecord]
   def execute(subject)
     @subject = subject
-    script_run = ::DB::ScriptRun.create(script: self, initiator: author, input: extended_content)
+    script_run = ::DB::ScriptRun.create(
+      script: self,
+      state: :running,
+      initiator: author, # TODO: fix author
+      input: extended_content
+    )
     ::ScriptServiceAPI.send_execute_script_request(script_run)
   end
 
   private
 
   def extended_content
-    script_header = <<~HEADER
-      context = ::ActiveSupport::HashWithIndifferentAccess.new
-      context[:subject] = #{@subject.class}.new(#{@subject.as_json})
-      context[:subject_before_update] = #{@subject.class}.new(#{@subject.previous_object_state.as_json})
+    <<~SCRIPT
+      context[:subject] = #{@subject.class}.from_record(#{@subject.as_json})
+      context[:subject_before_update] = #{@subject.class}.from_record(#{@subject.previous_object_state.as_json})
       context.keys.each { |k| define_method(k) { context[k] } }
-    HEADER
 
-    script_header + content
+      #{content}
+    SCRIPT
   end
 end

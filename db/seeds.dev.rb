@@ -16,10 +16,11 @@ def create_board(workspace)
     end
   end
 
-  # rand(2).times do
-  #   sprint = ::FactoryBot.create(:sprint, board:, end_date: ::Time.now)
-  #   rand(2..5).times {::FactoryBot.create(:sprint_task, sprint:)}
-  # end
+  time = '2022-11-07 19:48:59'.to_time
+  sprint = ::FactoryBot.create(:sprint, board:, started_at: time, expected_end_at: time + 7.days, ended_at: time + 7.days)
+  sprint.sprint_tasks.last(2).each_with_index { _1.update!(added_at: time + _2.days) }
+  sprint.sprint_tasks.first(sprint.sprint_tasks.size - 2).each { _1.update!(completed_at: time + rand(7).days) }
+  sprint.sprint_tasks.last(2).each { _1.update!(completed_at: nil) }
 
   board
 end

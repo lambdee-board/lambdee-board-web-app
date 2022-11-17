@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_17_120356) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -23,6 +23,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.bigint "workspace_id"
     t.string "colour", limit: 9
     t.datetime "deleted_at"
+    t.jsonb "custom_data"
     t.index ["workspace_id"], name: "index_boards_on_workspace_id"
   end
 
@@ -51,6 +52,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
     t.boolean "visible", default: false
+    t.jsonb "custom_data"
     t.index ["board_id"], name: "index_lists_on_board_id"
   end
 
@@ -59,6 +61,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.text "output"
     t.bigint "initiator_id", null: false
     t.text "input"
+    t.integer "state", limit: 2
     t.index ["initiator_id"], name: "index_script_runs_on_initiator_id"
   end
 
@@ -85,6 +88,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.datetime "completed_at"
     t.string "start_state"
     t.string "state"
+    t.jsonb "custom_data"
     t.index ["sprint_id"], name: "index_sprint_tasks_on_sprint_id"
     t.index ["task_id"], name: "index_sprint_tasks_on_task_id"
   end
@@ -97,6 +101,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.bigint "board_id"
     t.string "final_list_name"
     t.text "description"
+    t.jsonb "custom_data"
     t.index ["board_id"], name: "index_sprints_on_board_id"
   end
 
@@ -106,6 +111,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "custom_data"
     t.index ["board_id"], name: "index_tags_on_board_id"
   end
 
@@ -170,6 +176,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.datetime "last_sign_in_at"
     t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
+    t.jsonb "custom_data"
     t.index ["email"], name: "index_users_on_email", unique: true
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
     t.index ["role"], name: "index_users_on_role"
@@ -180,13 +187,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_14_130003) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "deleted_at"
+    t.jsonb "custom_data"
   end
 
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "lists", "boards"
-  add_foreign_key "script_runs", "users", column: "initiator_id"
-  add_foreign_key "scripts", "users", column: "author_id"
   add_foreign_key "sprint_tasks", "sprints"
   add_foreign_key "sprint_tasks", "tasks"
   add_foreign_key "tags", "boards"

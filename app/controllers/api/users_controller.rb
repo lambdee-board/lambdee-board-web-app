@@ -21,6 +21,16 @@ class API::UsersController < ::APIController
   # GET /api/users/1
   def show; end
 
+  # PATCH/PUT /api/users/1
+  def update
+    head :forbidden
+  end
+
+  # DELETE /api/users
+  def destroy
+    head :forbidden
+  end
+
   # GET /api/users/current
   def current
     @user = current_user

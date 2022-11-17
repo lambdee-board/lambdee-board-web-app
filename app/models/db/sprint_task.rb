@@ -2,6 +2,9 @@
 
 # Contains the data about task in certain sprint
 class ::DB::SprintTask < ::ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
+
   belongs_to :sprint
   belongs_to :task, -> { with_deleted }
 
@@ -12,7 +15,7 @@ class ::DB::SprintTask < ::ApplicationRecord
     list_name = list&.name || task.list.name
     self.start_state = list_name
     self.state = list_name
-    self.added_at = ::Time.now
+    self.added_at = sprint.started_at
   end
 
   # @return [Date]

@@ -7,7 +7,7 @@ module ::ScriptTriggerable
   included do
     attr_reader :previous_object_state
 
-    before_update :save_previous_object_state
+    after_validation :save_previous_object_state
     after_create { execute_scripts_with_action(:create) }
     after_update { execute_scripts_with_action(:update) }
     after_destroy { execute_scripts_with_action(:destroy) }
@@ -16,7 +16,7 @@ module ::ScriptTriggerable
   private
 
   def save_previous_object_state
-    @previous_object_state = self.class.new(as_json)
+    @previous_object_state = as_json.merge(attributes_in_database)
   end
 
   def execute_scripts_with_action(action)

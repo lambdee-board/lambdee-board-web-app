@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class ::API::ScriptTriggersController < ::ApplicationController
+class ::API::ScriptTriggersController < ::APIController
   before_action :set_script_trigger, only: %i[show update destroy]
 
   # GET /api/script_triggers/1

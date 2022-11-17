@@ -30,13 +30,15 @@ class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
     json = ::JSON.parse(response.body)
     assert_equal "puts 'Hello world'", json['input']
     assert_equal 'Hello world', json['output']
+    assert_equal 'running', json['state']
   end
 
   should 'update script_run' do
     run = ::FactoryBot.create(:script_run)
-    patch api_script_run_url(run), params: { script_run: { output: 'new output' } }, as: :json, headers: auth_headers(@user)
+    patch api_script_run_url(run), params: { script_run: { output: 'new output', state: 'executed' } }, as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 'new output', json['output']
+    assert_equal 'executed', json['state']
   end
 end

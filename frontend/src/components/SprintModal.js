@@ -7,7 +7,8 @@ import {
   Button,
   TextField,
   InputBase,
-  Alert
+  Alert,
+  Modal
 } from '@mui/material'
 
 import apiClient from '../api/apiClient'
@@ -21,6 +22,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { isManager, ManagerContent } from '../permissions/ManagerContent'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
+import ReportModal from './reports-view/ReportModal'
 
 
 import './SprintModal.sass'
@@ -29,9 +31,9 @@ import './SprintModal.sass'
 const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   const dispatch = useDispatch()
   const { boardId } = useParams()
-  const { data: board } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
-
   const editSprintNameRef = React.useRef()
+  const { data: board } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const [openReportModal, setOpenReportModal] = React.useState(false)
   const [datetime, setDatetime] = React.useState(activeSprint?.expectedEndAt)
   const [sprintDescriptionDraft, setSprintDescriptionDraft] = React.useState(activeSprint?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
@@ -146,16 +148,47 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
         dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
       })
   }
+  const formatDate = (dateString) => {
+    return `${Intl.DateTimeFormat('pl-PL').format(new Date(dateString))}`
+  }
 
   return (
     <Box className='SprintModal-wrapper'>
       <Card className='SprintModal-paper'>
-
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
             {!activeSprint ?
               <Typography fontSize={24}>Start new sprint</Typography>              :
-              <Typography fontSize={24}>View active sprint</Typography>}
+              <div className='SprintModal-main-header-active'>
+                <Modal
+                  open={openReportModal}
+                  onClose={() => setOpenReportModal(false)}
+                >
+                  <Box
+                    className='TaskListItem-Modal'
+                    sx={{  position: 'absolute',
+                      top: '50%',
+                      left: '50%',
+                      transform: 'translate(-50%, -50%)',
+                      outline: 0 }}>
+                    <ReportModal
+                      sprintId = {activeSprint.id}
+                      sprintName = {activeSprint.name}
+                      sprintDescription = {activeSprint.description}
+                      sprintStartedAt = {formatDate(activeSprint.startedAt)}
+                      sprintExpectedEndAt = {formatDate(activeSprint.expectedEndAt)}
+                    />
+                  </Box>
+                </Modal>
+                <Typography fontSize={24}>View active sprint</Typography>
+                <Button
+                  onClick={() => setOpenReportModal(true)}
+                  color='secondary'
+                  variant='outlined'
+                >
+                  <Typography>Details</Typography>
+                </Button>
+              </div>}
 
           </div>
           <div className='SprintModal-main-name'>

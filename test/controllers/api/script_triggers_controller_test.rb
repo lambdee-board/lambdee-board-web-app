@@ -11,7 +11,7 @@ class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     script = ::FactoryBot.create(:script)
 
     assert_difference('DB::ScriptTrigger.count') do
-      post api_script_triggers_url, params: { script_trigger: { action: 'destroy', script_id: script.id } }, as: :json
+      post api_script_triggers_url, params: { script_trigger: { action: 'destroy', script_id: script.id } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -23,7 +23,7 @@ class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     task = ::FactoryBot.create(:task)
     trigger = ::FactoryBot.create(:script_trigger, subject: task)
 
-    get api_script_trigger_url(trigger), as: :json, headers: auth_headers(@user)
+    get api_script_trigger_url(trigger), as: :json, headers: auth_headers(@user), headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 'DB::Task', json['subject_type']
@@ -35,7 +35,7 @@ class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     task = ::FactoryBot.create(:task)
     trigger = ::FactoryBot.create(:script_trigger, subject: task)
 
-    patch api_script_trigger_url(trigger), params: { script_trigger: { action: 'destroy', subject_id: task.id, subject_type: task.class } }, as: :json
+    patch api_script_trigger_url(trigger), params: { script_trigger: { action: 'destroy', subject_id: task.id, subject_type: task.class } }, as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 'DB::Task', json['subject_type']
@@ -47,7 +47,7 @@ class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     trigger = ::FactoryBot.create(:script_trigger)
 
     assert_difference('DB::ScriptTrigger.count', -1) do
-      delete api_script_trigger_url(trigger), as: :json
+      delete api_script_trigger_url(trigger), as: :json, headers: auth_headers(@user)
     end
 
     assert_response :no_content

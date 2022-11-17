@@ -2,6 +2,8 @@
 
 # Contains the data of a sprint
 class DB::Sprint < ApplicationRecord
+  include ::ScriptTriggerable
+  include ::CustomDatable
   include ::Charts::BurnUpChart
 
   has_many :sprint_tasks, dependent: :destroy
@@ -28,10 +30,39 @@ class DB::Sprint < ApplicationRecord
   def end
     return if ended_at
 
-    completed_tasks = board.lists.find_by(name: final_list_name)&.tasks
-    completed_tasks&.destroy_all
+    final_list = board.lists.find_by(name: final_list_name)
+    final_list.tasks.with_deleted.destroy_all if final_list
     self.ended_at = ::Time.now
     save(validate: false)
+  end
+
+  # @return [Integer]
+  def sum_of_points
+    tasks.each.sum { |t| t.points.to_i }
+  end
+
+  # @return [Integer]
+  def sum_of_points_in_expected_sprint_time
+    sprint_tasks
+      .includes(:task)
+      .lazy
+      .select { |st| st.addition_date.in?(start_date..expected_end_date) }
+      .sum { |st| st.task.points.to_i }
+  end
+
+  # @return [Date]
+  def start_date
+    started_at.to_date
+  end
+
+  # @return [Date]
+  def expected_end_date
+    expected_end_at.to_date
+  end
+
+  # @return [Date, nil]
+  def end_date
+    ended_at&.to_date
   end
 
   private

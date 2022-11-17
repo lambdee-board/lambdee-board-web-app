@@ -17,7 +17,7 @@ const LabeledData = (props) => {
 
 LabeledData.propTypes = {
   label: PropTypes.string.isRequired,
-  data: PropTypes.string,
+  data: PropTypes.any,
 }
 
 export default LabeledData
