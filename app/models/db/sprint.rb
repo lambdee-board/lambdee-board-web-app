@@ -34,6 +34,35 @@ class DB::Sprint < ApplicationRecord
     save(validate: false)
   end
 
+  # @return [Integer]
+  def sum_of_points
+    tasks.each.sum { |t| t.points.to_i }
+  end
+
+  # @return [Integer]
+  def sum_of_points_in_expected_sprint_time
+    sprint_tasks
+      .includes(:task)
+      .lazy
+      .select { |st| st.addition_date.in?(start_date..expected_end_date) }
+      .sum { |st| st.task.points.to_i }
+  end
+
+  # @return [Date]
+  def start_date
+    started_at.to_date
+  end
+
+  # @return [Date]
+  def expected_end_date
+    expected_end_at.to_date
+  end
+
+  # @return [Date, nil]
+  def end_date
+    ended_at&.to_date
+  end
+
   private
 
   def final_list_name_uniqueness

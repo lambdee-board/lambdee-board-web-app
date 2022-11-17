@@ -11,7 +11,7 @@ module ::Charts
           data: points_in_sprint_in_time
         },
         {
-          name: 'Completed work',
+          name: 'Completed Work',
           data: completed_work
         }
       ]
@@ -23,12 +23,12 @@ module ::Charts
     def points_in_sprint_in_time
       result = dates_hash.dup
       sum = 0
+      result[start_date.to_s] = 0
       sprint_tasks.order(:added_at).includes(:task).each do |st|
         start_date = st.addition_date.to_s
         sum += st.task.points if st.task.points
         result[start_date] = sum
       end
-      result[expected_end_at.to_date.to_s] = tasks.each.sum { |t| t.points.to_i }
 
       result.fill_nil_values!
     end
@@ -37,6 +37,7 @@ module ::Charts
     def completed_work
       result = dates_hash.dup
       sum = 0
+      result[start_date.to_s] = 0
       sprint_tasks.order(:completed_at).includes(:task).each do |st|
         next unless st.completed_at
 
@@ -46,6 +47,8 @@ module ::Charts
       end
 
       result.fill_nil_values!
+      result[expected_end_date.to_s] = nil if expected_end_date.future?
+      result
     end
 
     # @return [Hash]
@@ -53,12 +56,15 @@ module ::Charts
       return @result if @result
 
       dates = ::Set.new
+      dates.add start_date.to_s
       sprint_tasks.each do |st|
         dates.add st.addition_date.to_s
         next unless st.completed_at
 
         dates.add st.completion_date.to_s
       end
+      dates.add expected_end_date.to_s
+      dates.add end_date.to_s if end_date
       @result = FilledHash.new
       dates.sort.each { @result[_1] = nil }
       @result

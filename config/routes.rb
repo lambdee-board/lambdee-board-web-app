@@ -32,7 +32,7 @@
         resources :users, only: %i[index]
       end
 
-      resources :users, only: %i[index show] do
+      resources :users, only: %i[index show update destroy] do
         get :current, on: :collection
       end
 
