@@ -18,6 +18,11 @@ const ReportModal = (props) => {
   const { data: burnUpChart, isLoading, isError } = useSprintChart({ id: props.sprintId })
   const workScope = burnUpChart?.at(0).data
   const completedWork = burnUpChart?.at(-1).data
+  let i = -1
+  while (completedWork && Object.values(completedWork).at(i) === null) {
+    i -= 1
+  }
+
 
   if (isLoading || isError) return // TODO: Skeleton
 
@@ -32,8 +37,8 @@ const ReportModal = (props) => {
           </Box>
           <Box className='ReportModal-info-middle'>
             <LabeledData label='Work Scope' data={Object.values(workScope).at(-1)} />
-            <LabeledData label='Completed Work' data={Object.values(completedWork).at(-1)} />
-            <LabeledData label='Uncompleted Work' data={Object.values(workScope).at(-1) - Object.values(completedWork).at(-1)} />
+            <LabeledData label='Completed Work' data={Object.values(completedWork).at(i)} />
+            <LabeledData label='Uncompleted Work' data={Object.values(workScope).at(-1) - Object.values(completedWork).at(i)} />
           </Box>
           <Box className='ReportModal-info-right'>
             <LabeledData label='Sprint Start' data={props.sprintStartedAt} />
@@ -42,8 +47,7 @@ const ReportModal = (props) => {
           </Box>
         </Box>
         <Box className='ReportModal-chart'>
-          {console.log(Object.values(workScope).at(-1) - Object.values(completedWork).at(-1))}
-          <PieChart colors={['#1082F3', '#7b1fa2']} data={[['Completed Work', Object.values(completedWork).at(-1)], ['Uncompleted Work', Object.values(workScope).at(-1) - Object.values(completedWork).at(-1)]]} />
+          <PieChart colors={['#1082F3', '#7b1fa2']} data={[['Completed Work', Object.values(completedWork).at(i)], ['Uncompleted Work', Object.values(workScope).at(-1) - Object.values(completedWork).at(i)]]} />
         </Box>
         <Box className='ReportModal-chart'>
           <LineChart colors={['#7b1fa2', '#1082F3']} data = {burnUpChart} xtitle='Date' ytitle='Points' curve={false} />
