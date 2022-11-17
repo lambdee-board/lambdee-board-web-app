@@ -9,5 +9,5 @@ const getterKey = (axiosOptions = undefined) => {
   return key
 }
 
-export const useWorkspaceScripts = ({ axiosOptions, options })  => useAPI(getterKey(axiosOptions), options)
+export const useWorkspaceScripts = ({ axiosOptions, options }) => useAPI(getterKey(axiosOptions), options)
 export default useWorkspaceScripts

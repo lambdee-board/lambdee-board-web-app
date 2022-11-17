@@ -1,7 +1,7 @@
 import * as React from 'react'
 import { Button, IconButton, Paper, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faXmark, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { languages, highlight } from 'prismjs/components/prism-core'
 
 import PropTypes from 'prop-types'
@@ -18,6 +18,9 @@ import '@fontsource/fira-code/700.css'
 
 import CodeHighlighter from '../components/CodeHighlighter'
 import WebSocketMessage from '../types/WebSocketMessage'
+import apiClient from '../api/apiClient'
+import { useDispatch } from 'react-redux'
+import { addAlert } from '../redux/slices/appAlertSlice'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -28,11 +31,19 @@ const scrollToBottom = () => {
 }
 
 const EditScript = (props) => {
+  const dispatch = useDispatch()
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
-  const [outputHistory, setOutputHistory] = React.useState([])
-  const [codeDraft, setCodeDraft] = React.useState(props.content)
+  const [codeDraft, setCodeDraft] = React.useState(props.script.content)
+  const [outputHistory, setOutputHistory] = React.useState([
+    {
+      type: WebSocketMessage.types.consoleOutput,
+      content: 'Run script to see logs.',
+      time: new Date(),
+    }
+  ])
+
 
   React.useEffect(() => {
     if (!webSocket || !webSocketOpen) return
@@ -94,16 +105,33 @@ const EditScript = (props) => {
     }
   }
 
+  const saveScript = () => {
+    const payload = {
+      ...props.script,
+      content: codeDraft
+    }
+
+    apiClient.put(`/api/scripts/${props.script.id}`, payload)
+      .then((response) => {
+        // successful request
+        props.mutateScript(payload)
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
   return (
     <div className='EditCard-wrapper'>
       <Paper className='EditCard'>
         <div className='EditCard-content'>
           <div className='EditCard-header'>
             <Typography className='EditCard-scriptName' variant='h4'>
-              {props.name}
+              {props.script.name}
             </Typography>
             <Typography className='EditCard-scriptDescription' sx={{ color: '#aaa' }}>
-              {props.description}
+              {props.script.description}
             </Typography>
           </div>
 
@@ -136,13 +164,18 @@ const EditScript = (props) => {
             <Button onClick={openWsConnection} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
               <Typography>Run</Typography>
             </Button>
-            <Button onClick={() => console.log('save')} className='EditCard-btnSave' color='info' startIcon={<FontAwesomeIcon icon={faSave} />}>
+            <Button onClick={saveScript} className='EditCard-btnSave' color='info' fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
               <Typography>Save</Typography>
             </Button>
-            <Button onClick={() => console.log('delete')} className='EditCard-btnDelete' color='error' startIcon={<FontAwesomeIcon icon={faTrash} />}>
+            <Button onClick={() => console.log('delete')} className='EditCard-btnDelete' color='error' fullWidth startIcon={<FontAwesomeIcon icon={faTrash} />}>
               <Typography>Delete</Typography>
             </Button>
+
+            <Button onClick={() => console.log('Create trigger')} className='EditCard-btnAddTrigger' color='secondary' fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
+              <Typography>New Trigger</Typography>
+            </Button>
           </div>
+          <Typography variant='h5'>Active triggers</Typography>
         </div>
       </Paper>
     </div>
@@ -150,10 +183,9 @@ const EditScript = (props) => {
 }
 
 EditScript.propTypes = {
-  name: PropTypes.string.isRequired,
-  content: PropTypes.string.isRequired,
-  description: PropTypes.string.isRequired,
-  closeFn: PropTypes.func.isRequired
+  script: PropTypes.object.isRequired,
+  closeFn: PropTypes.func.isRequired,
+  mutateScript: PropTypes.func.isRequired
 }
 
 export default EditScript

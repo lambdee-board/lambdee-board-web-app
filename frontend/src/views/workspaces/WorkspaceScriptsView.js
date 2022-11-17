@@ -12,9 +12,9 @@ import EditScript from '../../components/EditScript'
 
 
 export default function WorkspaceScriptsView() {
-  const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
+  const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({})
   const [editing, setEditState] = React.useState(false)
-  const [currentScriptData, setCurrentScript] = React.useState({ name: '', description: '', content: '' })
+  const [currentScript, setCurrentScript] = React.useState(null)
 
   const openScriptEditing = (script) => {
     setCurrentScript(script)
@@ -22,19 +22,21 @@ export default function WorkspaceScriptsView() {
   }
 
   const closeScriptEditing = () => {
-    setCurrentScript({ name: '', description: '', content: '' })
+    setCurrentScript(null)
     setEditState(false)
   }
 
+  const mutateScript = (script) => {
+    mutate([ script, ...scripts ])
+  }
 
   return (
     <div className='WorkspaceScripts-wrapper'>
       { editing &&
       <EditScript
-        name={currentScriptData.name}
-        content={currentScriptData.content}
-        description={currentScriptData.description}
+        script={currentScript}
         closeFn={closeScriptEditing}
+        mutateScript={mutateScript}
       /> }
       <div className='WorkspaceScripts'>
         <div className='list-wrapper'>
