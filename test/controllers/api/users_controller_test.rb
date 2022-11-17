@@ -203,4 +203,19 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
 
     assert_equal 'new name', @user.reload.name
   end
+
+  # TODO: update this
+  should 'update user' do
+    patch api_user_path(@user), params: {
+      user: { id: @user.id, name: 'new name', current_password: 'password'}
+    }, as: :json, headers: auth_headers(@user)
+    assert_response :forbidden
+  end
+
+  should 'destroy user' do
+    delete api_user_path(@user), params: {
+      user: { id: @user.id, name: 'new name', current_password: 'password'}
+    }, as: :json, headers: auth_headers(@user)
+    assert_response :forbidden
+  end
 end
