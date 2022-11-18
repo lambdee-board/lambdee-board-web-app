@@ -4,8 +4,8 @@ import PropTypes from 'prop-types'
 
 
 const ScriptTriggerDialog = (props) => {
-  const triggerActions = ['create', 'update', 'destroy']
-  const triggerSubject = [ 'DB::User', 'DB::Workspace', 'DB::Board', 'DB::List', 'DB::Task', 'DB::Comment', 'DB::Tag', 'DB::Sprint', 'DB::UserWorkspace', 'DB::TaskUser', 'DB::TaskTag', 'DB::SprintTask' ]
+  const triggerActions = ['create', 'update', 'destroy'].sort()
+  const triggerSubject = [ 'DB::User', 'DB::Workspace', 'DB::Board', 'DB::List', 'DB::Task', 'DB::Comment', 'DB::Tag', 'DB::Sprint', 'DB::UserWorkspace', 'DB::TaskUser', 'DB::TaskTag', 'DB::SprintTask' ].sort()
   const [newTrigger, setNewTrigger] = React.useState({
     subjectType: '',
     subjectId: '',
