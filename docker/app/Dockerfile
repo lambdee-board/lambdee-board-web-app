@@ -1,10 +1,11 @@
 FROM ruby:3.1.2 as rails
 
-RUN apt-get update -qq \
-&& apt-get install -y --no-install-recommends \
-nodejs \
-npm \
-postgresql-client
+RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
+  && apt-get update -qq && apt-get install -qq --no-install-recommends \
+    nodejs postgresql-client \
+  && apt-get upgrade -qq \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/*
 
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
