@@ -7,7 +7,8 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 if ::Rails.env.production?
-  require_relative 'seeds.prod'
+  # require_relative 'seeds.prod'
+  require_relative 'seeds.dev'
 elsif ::Rails.env.test?
   require_relative 'seeds.cypress'
 else

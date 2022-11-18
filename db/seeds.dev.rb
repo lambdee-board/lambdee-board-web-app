@@ -1,5 +1,11 @@
 # frozen_string_literal: true
 
+pri =         ::FactoryBot.create(:user, email: "system@example.com", name: 'System PRI', role: :admin)
+przedszkole = ::FactoryBot.create(:user, email: "przedszkole@example.com", name: 'Wirtualne Przedszkole', role: :admin)
+studenckie =  ::FactoryBot.create(:user, email: "mieszkanie@example.com", name: 'Mieszkanie Studenckie', role: :admin)
+zdjecia =     ::FactoryBot.create(:user, email: "kalorycznosc@example.com", name: 'Kaloryczność Zdjęcia', role: :admin)
+lambdee =     ::FactoryBot.create(:user, email: "lambdee@example.com", name: 'Lambdee', role: :admin)
+
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)
@@ -26,6 +32,11 @@ def create_board(workspace)
 end
 
 wrk = ::FactoryBot.create :workspace
+wrk.users << pri
+wrk.users << przedszkole
+wrk.users << studenckie
+wrk.users << zdjecia
+wrk.users << lambdee
 wrk.users << usr = ::FactoryBot.create(:user)
 wrk.users << ::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
 wrk.users << ::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
