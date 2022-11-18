@@ -1,3 +1,5 @@
+import lambdeeLogo from '../assets/lambdee-logo.svg'
+
 function logLogo(url, height = 100, text = '', fontSize = 16) {
   const styles = [
     `font-size: ${fontSize}px`,
@@ -8,5 +10,4 @@ function logLogo(url, height = 100, text = '', fontSize = 16) {
   console.log(`%c ${text}`, styles)
 }
 
-const url = '<%= asset_url "lambdee-logo.svg" %>'
-logLogo(url, 24, ' Lambdee', 32)
+logLogo(lambdeeLogo, 24, ' Lambdee', 32)

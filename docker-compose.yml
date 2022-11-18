@@ -1,5 +1,6 @@
 # spakowanie obrazu `docker save af1e44a6f4ae | gzip > lambdee-web-app.tgz`
 # upload scp `scp ./lambdee-nginx.tgz mati@garbimat:~/lambdee-nginx.tgz`
+# załadowanie obrazów `docker load < lambdee-nginx.tgz`
 # postawienie appki `docker-compose up`
 
 version: "3.9"

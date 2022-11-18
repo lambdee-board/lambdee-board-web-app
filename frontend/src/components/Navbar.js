@@ -15,6 +15,7 @@ import AccountMenuButton from './navbar/AccountMenuButton'
 import WorkspacesMenuButton from './navbar/WorkspacesMenuButton'
 import RecentMenuButton from './navbar/RecentMenuButton'
 
+import lambdeeLogo from '../assets/lambdee-logo.svg'
 import './Navbar.sass'
 import { useNavigate } from 'react-router-dom'
 
@@ -29,7 +30,7 @@ const Navbar = () => {
           <Button onClick={() => navigate('/')}>
             <img
               className='logo'
-              src="<%= asset_path('lambdee-logo.svg') %>"
+              src={lambdeeLogo}
             />
             <Typography
               className='Typography-logo-title'

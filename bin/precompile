@@ -10,10 +10,6 @@ ls public/assets && rm -r public/assets || true
 # delete `app/assets/builds` if it exists and supress the error
 ls app/assets/builds && rm -r app/assets/builds/* || true
 
-cp -r frontend/src/assets/* app/assets/builds
-# precompile static assets like .svg, .png
-bundle exec rake assets:precompile
-
 npm run build:production
 # precompile the compiled js and css files
 bundle exec rake assets:precompile

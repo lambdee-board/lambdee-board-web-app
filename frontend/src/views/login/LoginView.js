@@ -15,7 +15,7 @@ import { useDispatch } from 'react-redux'
 import { addAlert } from './../../redux/slices/appAlertSlice'
 
 import './LoginView.sass'
-
+import lambdeeLogo from '../../assets/lambdee-logo.svg'
 
 export default function LoginView() {
   const emailRef = React.useRef()
@@ -50,7 +50,7 @@ export default function LoginView() {
     <div className='loginView-wrapper'>
       <img
         className='logo'
-        src="<%= asset_path('lambdee-logo.svg') %>"
+        src={lambdeeLogo}
       />
       <Card className='loginView-card'>
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>

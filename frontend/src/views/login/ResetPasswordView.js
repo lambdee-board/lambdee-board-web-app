@@ -12,6 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 
 import './ResetPasswordView.sass'
+import lambdeeLogo from '../../assets/lambdee-logo.svg'
 
 
 export default function ResetPasswordView() {
@@ -20,7 +21,7 @@ export default function ResetPasswordView() {
     <div className='resetPasswordView-wrapper'>
       <img
         className='logo'
-        src="<%= asset_path('lambdee-logo.svg') %>"
+        src={lambdeeLogo}
       />
       <Card className='resetPasswordView-card'>
         <Typography className='resetPasswordView-card-title' color='primary' variant='body1'>Lambdee</Typography>

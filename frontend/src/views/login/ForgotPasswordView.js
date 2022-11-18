@@ -8,9 +8,8 @@ import {
   Button
 } from '@mui/material'
 
-
 import './ForgotPasswordView.sass'
-
+import lambdeeLogo from '../../assets/lambdee-logo.svg'
 
 export default function ForgotPasswordView() {
   const navigate = useNavigate()
@@ -18,7 +17,7 @@ export default function ForgotPasswordView() {
     <div className='forgotPasswordView-wrapper'>
       <img
         className='logo'
-        src="<%= asset_path('lambdee-logo.svg') %>"
+        src={lambdeeLogo}
       />
       <Card className='forgotPasswordView-card'>
         <Typography className='forgotPasswordView-card-title' color='primary' variant='body1'>Lambdee</Typography>

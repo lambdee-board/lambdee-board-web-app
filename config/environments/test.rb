@@ -53,8 +53,6 @@ require "active_support/core_ext/integer/time"
   # Tell Active Support which deprecation messages to disallow.
   config.active_support.disallowed_deprecation_warnings = []
 
-  config.assets.prefix = "/dev-assets"
-
   config.hosts << "lambdee-web-app"
   config.hosts << "localhost"
   config.hosts << "www.example.com"

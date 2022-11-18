@@ -68,8 +68,6 @@ require "active_support/core_ext/integer/time"
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
 
-  config.assets.prefix = "/dev-assets"
-
   config.hosts << "lambdee-web-app"
 
   # Bullet gem configuration

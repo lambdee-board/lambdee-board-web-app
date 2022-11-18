@@ -5,6 +5,20 @@ script_dir=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
 
 title "Building the Lambdee React frontend"
 
+# parse passed options
+while [[ $# -gt 0 ]]; do
+  case $1 in
+    -o|--one-time)
+      export ONE_TIME=true
+      shift
+      ;;
+    -*|--*)
+      echo "Unknown option $1"
+      exit 1
+      ;;
+  esac
+done
+
 # if RAILS_ENV is empty
 if [ -z "$RAILS_ENV" ]; then
   RAILS_ENV="development"
