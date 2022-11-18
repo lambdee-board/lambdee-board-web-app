@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, IconButton, Paper, Typography } from '@mui/material'
+import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { languages, highlight } from 'prismjs/components/prism-core'
@@ -21,6 +21,8 @@ import WebSocketMessage from '../types/WebSocketMessage'
 import apiClient from '../api/apiClient'
 import { useDispatch } from 'react-redux'
 import { addAlert } from '../redux/slices/appAlertSlice'
+import ScriptTriggerDialog from './ScriptTriggerDialog'
+import useScript from '../api/useScript'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -31,18 +33,18 @@ const scrollToBottom = () => {
 }
 
 const EditScript = (props) => {
+  const { data: script, isLoading, isError, mutate } = useScript({ id: props.script.id })
   const dispatch = useDispatch()
+  const [openDial, setOpenDial] = React.useState(false)
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
   const [codeDraft, setCodeDraft] = React.useState(props.script.content)
-  const [outputHistory, setOutputHistory] = React.useState([
-    {
-      type: WebSocketMessage.types.consoleOutput,
-      content: 'Run script to see logs.',
-      time: new Date(),
-    }
-  ])
+  const [outputHistory, setOutputHistory] = React.useState([{
+    type: WebSocketMessage.types.consoleOutput,
+    content: 'Run script to see logs.',
+    time: new Date(),
+  }])
 
 
   React.useEffect(() => {
@@ -105,6 +107,20 @@ const EditScript = (props) => {
     }
   }
 
+  const handleCloseDial = () => {
+    setOpenDial(false)
+  }
+
+  const handleOpenDial = () => {
+    setOpenDial(true)
+  }
+
+  const handleSubmit = (event, trigger) => {
+    event.preventDefault()
+    saveTrigger(trigger)
+    handleCloseDial()
+  }
+
   const saveScript = () => {
     const payload = {
       ...props.script,
@@ -115,6 +131,36 @@ const EditScript = (props) => {
       .then((response) => {
         // successful request
         props.mutateScript(payload)
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const saveTrigger = (trigger) => {
+    const payload = {
+      scriptId: props.script.id,
+      ...trigger
+    }
+
+    apiClient.post('/api/script_triggers', payload)
+      .then((response) => {
+        // successful request
+        mutate([...script.scriptTriggers, trigger])
+      })
+      .catch((error) => {
+        // failed or rejected
+        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+      })
+  }
+
+  const deleteTrigger = (triggerId) => {
+    apiClient.delete(`/api/script_triggers/${triggerId}`)
+      .then((response) => {
+        // successful request
+        mutate({ id: props.script.id,
+          data: { ...script, scriptTriggers: [script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] } })
       })
       .catch((error) => {
         // failed or rejected
@@ -171,13 +217,42 @@ const EditScript = (props) => {
               <Typography>Delete</Typography>
             </Button>
 
-            <Button onClick={() => console.log('Create trigger')} className='EditCard-btnAddTrigger' color='secondary' fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button onClick={handleOpenDial} className='EditCard-btnAddTrigger' color='secondary' fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Trigger</Typography>
             </Button>
           </div>
-          <Typography variant='h5'>Active triggers</Typography>
+          <div>
+            <Typography variant='h5'>Active triggers</Typography>
+            {!(isLoading || isError) &&
+              <List>
+                {script?.scriptTriggers?.map((trigger, idx) => (
+                  <div key={`trigger-${idx}`}>
+                    <Divider />
+                    <ListItem
+                      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+                      secondaryAction={
+                        <IconButton edge='end' onClick={() => deleteTrigger(trigger.id)} color='error'>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemText primary={`Action: ${trigger.action}`} />
+                      <ListItemText
+                        primary={`Type: ${trigger.subjectType}`}
+                        secondary={`Id: ${trigger.subjectId}`} />
+                    </ListItem>
+                  </div>
+                ))}
+              </List>
+            }
+          </div>
         </div>
       </Paper>
+      <ScriptTriggerDialog
+        openDial={openDial}
+        handleCloseDial={handleCloseDial}
+        handleSubmit={handleSubmit}
+      />
     </div>
   )
 }

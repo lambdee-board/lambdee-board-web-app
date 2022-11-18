@@ -4,6 +4,8 @@ import {
   Typography,
   ListItemButton
 } from '@mui/material'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faScroll } from '@fortawesome/free-solid-svg-icons'
 
 import './WorkspaceScriptsView.sass'
 
@@ -47,8 +49,10 @@ export default function WorkspaceScriptsView() {
                   <ListItemButton
                     divider
                     onClick={() => openScriptEditing(script)}
+                    sx={{ fontSize: '32px', gap: '16px' }}
                   >
-                    <Typography>Name: {script.name}</Typography>
+                    <FontAwesomeIcon icon={faScroll} />
+                    <Typography variant='h5'>{script.name}</Typography>
                   </ListItemButton>
                 </div>
               )) :
