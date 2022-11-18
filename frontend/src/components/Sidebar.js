@@ -128,6 +128,7 @@ export default function Sidebar() {
                 <SidebarListItem
                   active={false}
                   label='Scripts'
+                  onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
                   icon={<FontAwesomeIcon icon={faScroll} />}
                 />
               </DeveloperContent>
