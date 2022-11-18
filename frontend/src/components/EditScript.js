@@ -141,6 +141,7 @@ const EditScript = (props) => {
       .then((response) => {
         // successful request
         props.mutateScript(payload)
+        setNewInputProvided(false)
         dispatch(addAlert({ severity: 'success', message: 'Script saved' }))
       })
       .catch((error) => {
