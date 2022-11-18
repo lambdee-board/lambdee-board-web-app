@@ -6,6 +6,11 @@ studenckie =  ::FactoryBot.create(:user, email: "mieszkanie@example.com", name: 
 zdjecia =     ::FactoryBot.create(:user, email: "kalorycznosc@example.com", name: 'Kaloryczność Zdjęcia', role: :admin)
 lambdee =     ::FactoryBot.create(:user, email: "lambdee@example.com", name: 'Lambdee', role: :admin)
 
+::FactoryBot.create(:script, name: 'Hello world script')
+::FactoryBot.create(:script, name: 'Foo script')
+::FactoryBot.create(:script, name: 'Bar script')
+::FactoryBot.create(:script, name: 'Example script')
+
 def create_board(workspace)
   tags_amount = 5
   workspace.boards << board = ::FactoryBot.create(:board)

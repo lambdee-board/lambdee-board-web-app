@@ -8,6 +8,7 @@ import PropTypes from 'prop-types'
 import './EditScript.sass'
 
 import Editor from 'react-simple-code-editor'
+import { useDispatch } from 'react-redux'
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -19,10 +20,10 @@ import '@fontsource/fira-code/700.css'
 import CodeHighlighter from '../components/CodeHighlighter'
 import WebSocketMessage from '../types/WebSocketMessage'
 import apiClient from '../api/apiClient'
-import { useDispatch } from 'react-redux'
 import { addAlert } from '../redux/slices/appAlertSlice'
 import ScriptTriggerDialog from './ScriptTriggerDialog'
 import useScript from '../api/useScript'
+import { takeUntil } from '../utils/takeUntil'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -42,7 +43,7 @@ const EditScript = (props) => {
   const [codeDraft, setCodeDraft] = React.useState(props.script.content)
   const [outputHistory, setOutputHistory] = React.useState([{
     type: WebSocketMessage.types.consoleOutput,
-    content: 'Run script to see logs.',
+    content: '# Run script to see logs.',
     time: new Date(),
   }])
 
@@ -57,6 +58,7 @@ const EditScript = (props) => {
 
 
   const openWsConnection = () => {
+    resetOutputHistory()
     const newWebSocket = new WebSocket(`${process.env.SCRIPT_SERVICE_WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_EXTERNAL_HOST}`)
     newWebSocket.onmessage = async(event) => {
       const message = WebSocketMessage.decode(event.data)
@@ -64,9 +66,9 @@ const EditScript = (props) => {
       case WebSocketMessage.types.consoleOutput:
         addToOutputHistory(message.payload)
         break
-      case WebSocketMessage.types.info:
-        addToOutputHistory(message.payload)
-        break
+      // case WebSocketMessage.types.info:
+      //   addToOutputHistory(message.payload)
+      //   break
       case WebSocketMessage.types.consoleOutputEnd:
         if (message.payload) addToOutputHistory(message.payload)
         newWebSocket.close()
@@ -74,7 +76,7 @@ const EditScript = (props) => {
       }
     }
     newWebSocket.onclose = (event) => {
-      addToOutputHistory('Session closed.')
+      addToOutputHistory('# Session closed.')
       setWebSocketOpen(false)
       setWebSocket(null)
     }
@@ -89,6 +91,10 @@ const EditScript = (props) => {
   }
 
   const addToOutputHistory = (content) => {
+    // TODO: create a second websocket endpoint for scripts
+    // which doesn't use IRB
+    if (content) content = takeUntil(content.split('\n'), (line) => line.match(/^ {2}=>/)).join('\n')
+
     const entry = {
       type: WebSocketMessage.types.consoleOutput,
       content,
@@ -98,6 +104,10 @@ const EditScript = (props) => {
     setTimeout(() => {
       scrollToBottom()
     }, 50)
+  }
+
+  const resetOutputHistory = () => {
+    setOutputHistory([])
   }
 
   const updateCode = (val) => {
@@ -131,6 +141,7 @@ const EditScript = (props) => {
       .then((response) => {
         // successful request
         props.mutateScript(payload)
+        dispatch(addAlert({ severity: 'success', message: 'Script saved' }))
       })
       .catch((error) => {
         // failed or rejected
@@ -210,7 +221,7 @@ const EditScript = (props) => {
             <Button onClick={openWsConnection} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
               <Typography>Run</Typography>
             </Button>
-            <Button onClick={saveScript} className='EditCard-btnSave' color='info' fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
+            <Button onClick={saveScript} className='EditCard-btnSave' color='info' disabled={!newInputProvided} fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
               <Typography>Save</Typography>
             </Button>
             <Button onClick={() => console.log('delete')} className='EditCard-btnDelete' color='error' fullWidth startIcon={<FontAwesomeIcon icon={faTrash} />}>

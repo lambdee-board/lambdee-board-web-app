@@ -8,6 +8,8 @@ class ::DB::Script < ::ApplicationRecord
 
   validates :name, presence: true
 
+  default_scope { order(:id) }
+
   accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
   # @param subject [ApplicationRecord]
