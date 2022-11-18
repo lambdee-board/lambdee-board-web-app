@@ -43,7 +43,7 @@ export default function WorkspaceScriptsView() {
       <div className='WorkspaceScripts'>
         <div className='list-wrapper'>
           <List className='List'>
-            { !(isLoading || isError) ?
+            { !(isLoading || isError) &&
               scripts.map((script, idx) => (
                 <div key={idx}>
                   <ListItemButton
@@ -55,10 +55,7 @@ export default function WorkspaceScriptsView() {
                     <Typography variant='h5'>{script.name}</Typography>
                   </ListItemButton>
                 </div>
-              )) :
-              [...Array(5)].map((_, idx) => {
-                return 'Załadunek jest prowadzony'
-              })
+              ))
             }
           </List>
         </div>
