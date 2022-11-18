@@ -70,4 +70,6 @@ end
     title 'Restarting the application server'
     `bin/rails restart`
   end
+
+  `bin/build -o`
 end

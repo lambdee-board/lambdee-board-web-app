@@ -187,31 +187,6 @@ Button.propTypes = {
 export default Button;
 ```
 
-##### Assets
-
-Assets like images should be stored in `frontend/src/assets`.
-
-If you want to use these assets inside a `.js` file, you should rename it to `.js.erb` and use ERB (Embedded Ruby) to get its path.
-
-Example:
-
-```js
-// frontend/src/components/Logo.js.erb
-
-import './Logo.css';
-
-function Logo() {
-  return (
-    // this will return a url for `frontend/src/assets/logo.svg`
-    <img  src="<%= asset_path('logo.svg') %>"
-          className="logo"
-          alt="logo" />
-  );
-}
-
-export default Logo;
-```
-
 ## Problems
 
 ### Ubuntu
