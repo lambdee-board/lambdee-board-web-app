@@ -24,6 +24,8 @@ services:
       RACK_ENV: production
       LAMBDEE_HOST: rails:3000
       LAMBDEE_PROTOCOL: http
+      SCRIPT_SERVICE_API_USER: ${SCRIPT_SERVICE_API_USER:-lambdee}
+      SCRIPT_SERVICE_API_PASSWORD: ${SCRIPT_SERVICE_API_PASSWORD:-sikritToken123}
       SCRIPT_SERVICE_SECRET: ${SCRIPT_SERVICE_SECRET:-sikritToken123}
     networks:
       - web
