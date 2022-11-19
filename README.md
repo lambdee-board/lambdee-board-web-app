@@ -101,21 +101,20 @@ The frontend app is written in React and lives in the `frontend/` directory. It 
 The React app is written in JavaScript with custom
 configured `ESLint` rules (`frontend/.eslintrc.yml`).
 
-All components should be named using `PascalCase` eg, `UserData`, `Board`.
+All components should be named using `PascalCase` eg. `UserData`, `Board`.
+File names follow the same convention eg. `UserData.jsx`.
 
 All variables and regular (non-component) functions should be named
 using `camelCase` eg. `userData`, `getUser`.
+
+All non-component JS files should be named using `kebab-case` like
+`app-alert-store.js`.
 
 ##### State management
 
 ###### UI state
 
-This app uses [Redux](https://redux.js.org/) as its global store for UI
-state. All code regarding `Redux` is stored in `frontend/src/redux`.
-
-The main store is located in `frontend/src/redux/store.js`.
-All reducers, actions and selectors having to do with
-a single part of the UI should be stored in a `Slice` file inside `frontend/src/redux/slices`.
+This app uses [zustand](https://github.com/pmndrs/zustand) for creating stores for UI state. All stores are stored in `frontend/src/stores`.
 
 ###### Data fetching
 

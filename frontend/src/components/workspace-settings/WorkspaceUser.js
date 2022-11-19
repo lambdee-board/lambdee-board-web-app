@@ -1,5 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+
 import {
   Box,
   ListItem,
@@ -7,21 +9,17 @@ import {
   Avatar,
   Skeleton
 } from '@mui/material'
-import {
-  faTrash
-} from '@fortawesome/free-solid-svg-icons'
-import { useParams } from 'react-router-dom'
+import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
 
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import { mutateWorkspaceUsers } from '../../api/useWorkspaceUsers'
+import useAppAlertStore from '../../stores/app-alert'
 
-import './WorkspaceUser.sass'
 import UserInfo from '../task-card-modal/UserInfo'
 import LabeledData from '../LabeledData'
 
+import './WorkspaceUser.sass'
 
 const WorkspaceUserSkeleton = () => {
   return (
@@ -41,7 +39,7 @@ const WorkspaceUserSkeleton = () => {
 }
 
 const WorkspaceUser = (props) => {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const { workspaceId } = useParams()
 
   const removeUserFromWorkspace = () => {
@@ -49,7 +47,7 @@ const WorkspaceUser = (props) => {
 
     apiClient.post(`/api/workspaces/${workspaceId}/unassign_user`, unnasignedUser)
       .then((response) => {
-        dispatch(addAlert({ severity: 'success', message: 'User unassigned!' }))
+        addAlert({ severity: 'success', message: 'User unassigned!' })
         mutateWorkspaceUsers({
           id: workspaceId,
           data: (currentUsers) => currentUsers?.users?.filter((user) => user !== props.userId)
@@ -57,7 +55,7 @@ const WorkspaceUser = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

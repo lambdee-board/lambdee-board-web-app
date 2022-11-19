@@ -1,20 +1,19 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from '@mui/material'
 
 import apiClient from '../../api/apiClient'
-import { useDispatch } from 'react-redux'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+import { isRegular } from '../../permissions/RegularContent'
+import useAppAlertStore from '../../stores/app-alert'
 
 import './TaskTime.sass'
-import { isRegular } from '../../permissions/RegularContent'
-
 
 function TaskTime({ task, mutate }) {
   const [openTimeDial, setTimeDial] = React.useState(false)
   const [wrongFormat, setWrongFormat] = React.useState(false)
   const [userTime, setUserTime] = React.useState('')
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const addTimeToTask = () => {
     if (!userTime) return
@@ -36,7 +35,7 @@ function TaskTime({ task, mutate }) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

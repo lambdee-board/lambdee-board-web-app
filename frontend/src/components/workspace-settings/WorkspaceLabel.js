@@ -1,22 +1,23 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   ListItem,
   Typography,
   InputBase
 } from '@mui/material'
-import { useDispatch } from 'react-redux'
 
 import apiClient from '../../api/apiClient'
 import { mutateWorkspaces } from '../../api/useWorkspaces'
 import { mutateWorkspace } from '../../api/useWorkspace'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+import useAppAlertStore from '../../stores/app-alert'
 
-import './WorkspaceLabel.sass'
 import WorkspaceIcon from '../../components/WorkspaceIcon'
 
+import './WorkspaceLabel.sass'
+
 const WorkspaceLabel = ({ workspace }) => {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editWorkspaceLabelButton, setEditWorkspaceLabel] = React.useState(true)
 
   const toggleEditWorkspaceLabelButton = () => setEditWorkspaceLabel(!editWorkspaceLabelButton)
@@ -57,7 +58,7 @@ const WorkspaceLabel = ({ workspace }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

@@ -11,8 +11,7 @@ import {
 } from '@mui/material'
 
 import apiClient from './../../api/apiClient'
-import { useDispatch } from 'react-redux'
-import { addAlert } from './../../redux/slices/appAlertSlice'
+import useAppAlertStore from '../../stores/app-alert'
 
 import './LoginView.sass'
 import lambdeeLogo from '../../assets/lambdee-logo.svg'
@@ -21,9 +20,8 @@ export default function LoginView() {
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
   const navigate = useNavigate()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [loginFail, setLoginFail] = React.useState(false)
-
 
   const login = () => {
     const emailInput = emailRef.current.value
@@ -41,7 +39,7 @@ export default function LoginView() {
         navigate('/')
       })
       .catch((error) => {
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
         setLoginFail(true)
       })
   }

@@ -1,23 +1,24 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   IconButton,
   InputBase,
   Avatar
 } from '@mui/material'
-import  { isRegular } from '../../permissions/RegularContent'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import './TaskPoints.sass'
-import { useDispatch } from 'react-redux'
+
+import  { isRegular } from '../../permissions/RegularContent'
 import apiClient from '../../api/apiClient'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+import useAppAlertStore from '../../stores/app-alert'
 
 import UserInfo from './UserInfo'
 
+import './TaskPoints.sass'
 
 function TaskPoints({ task, mutate }) {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editPointsVisible, setEditPointsVisible] = React.useState(false)
 
   const toggleEditPointsButton = () => setEditPointsVisible(!editPointsVisible)
@@ -45,7 +46,7 @@ function TaskPoints({ task, mutate }) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

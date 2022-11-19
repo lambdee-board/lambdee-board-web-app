@@ -1,5 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
+
 import {
   Avatar,
   Button,
@@ -14,13 +15,12 @@ import {
 } from '@mui/material'
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
 
 import apiClient from '../api/apiClient'
 import useCurrentUser from '../api/useCurrentUser'
-import { addAlert } from '../redux/slices/appAlertSlice'
-import './UserSettingsView.sass'
+import useAppAlertStore from '../stores/app-alert'
 
+import './UserSettingsView.sass'
 
 function UserSettingsSkeleton() {
   return (
@@ -33,7 +33,7 @@ function UserSettingsSkeleton() {
 
 export default function UserSettingsView() {
   const { data: user, isLoading, isError, mutate } = useCurrentUser()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [name, setNewName] = React.useState('')
   const [email, setNewEmail] = React.useState('')
   const navigate = useNavigate()
@@ -54,11 +54,11 @@ export default function UserSettingsView() {
       .then((response) => {
         // successful request
         mutate()
-        dispatch(addAlert({ severity: 'success', message: 'Saved!' }))
+        addAlert({ severity: 'success', message: 'Saved!' })
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -71,11 +71,11 @@ export default function UserSettingsView() {
       switch (type) {
       case 'name':
         if (name) updateUserData({ name })
-        else dispatch(addAlert({ severity: 'error', message: 'Cannot send empty value!' }))
+        else addAlert({ severity: 'error', message: 'Cannot send empty value!' })
         break
       case 'email':
         if (email) updateUserData({ email })
-        else dispatch(addAlert({ severity: 'error', message: 'Cannot send empty value!' }))
+        else addAlert({ severity: 'error', message: 'Cannot send empty value!' })
         break
       }
       break

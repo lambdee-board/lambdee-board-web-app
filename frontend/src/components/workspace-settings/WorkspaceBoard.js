@@ -1,5 +1,8 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+import { assign } from 'lodash'
+
 import {
   Box,
   ListItem,
@@ -15,24 +18,21 @@ import {
   faTrash
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { assign } from 'lodash'
 
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import { mutateWorkspace } from '../../api/useWorkspace'
+import useAppAlertStore from '../../stores/app-alert'
 
-import './WorkspaceBoard.sass'
 import ColorPickerPopover from '../ColorPickerPopover'
 
+import './WorkspaceBoard.sass'
 
 const WorkspaceBoard = (props) => {
   const { workspaceId } = useParams()
   const [editBoardVisible, setEditBoardVisible] = React.useState(true)
   const [color, setColor] = React.useState()
   const editBoardRef = React.useRef()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const toggleEditBoard = () => {
     setEditBoardVisible(!editBoardVisible)
@@ -79,7 +79,7 @@ const WorkspaceBoard = (props) => {
       })
       .catch((error) => {
       // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -99,7 +99,7 @@ const WorkspaceBoard = (props) => {
   const deleteBoard = () => {
     apiClient.delete(`/api/boards/${props.boardId}`)
       .then((response) => {
-        dispatch(addAlert({ severity: 'success', message: 'Board deleted!' }))
+        addAlert({ severity: 'success', message: 'Board deleted!' })
         mutateWorkspace({
           id: workspaceId,
           axiosOptions: { params: { boards: 'visible' } },
@@ -111,7 +111,7 @@ const WorkspaceBoard = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

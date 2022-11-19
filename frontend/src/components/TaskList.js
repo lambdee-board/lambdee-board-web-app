@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
+
 import {
   List,
   ListItem,
@@ -17,19 +19,16 @@ import { isRegular } from './../permissions/RegularContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
-import PropTypes from 'prop-types'
 import { ReactSortable } from 'react-sortablejs'
 
 import apiClient from '../api/apiClient'
-import { TaskCardSkeleton, TaskCard } from './TaskCard'
 import useList from '../api/useList'
 import { calculatePos } from '../constants/componentPositionService'
 
 import './TaskList.sass'
-import { addAlert } from '../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
 import TaskListModal from './TaskListModal'
-
+import { TaskCardSkeleton, TaskCard } from './TaskCard'
+import useAppAlertStore from '../stores/app-alert'
 
 function TaskListSkeletonContent() {
   return (
@@ -76,7 +75,7 @@ function TaskList(props) {
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const [taskListModalState, setTaskListModalState] = useState(false)
   const toggleTaskListModalState = () => {
@@ -121,7 +120,7 @@ function TaskList(props) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -150,7 +149,7 @@ function TaskList(props) {
     apiClient.put(`/api/tasks/${id}`, updatedTask)
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
       .finally(() => {
         console.log(updatedTasks)

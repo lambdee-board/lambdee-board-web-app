@@ -1,21 +1,23 @@
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 import React from 'react'
-import { useDispatch } from 'react-redux'
 import { useParams } from 'react-router-dom'
+
 import apiClient from '../api/apiClient'
 import { mutateBoard } from '../api/useBoard'
 import { mutateList } from '../api/useList'
-import { addAlert } from '../redux/slices/appAlertSlice'
+import useAppAlertStore from '../stores/app-alert'
+
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography } from '@mui/material'
+
 import './TaskListModal.sass'
 
 export default function TaskListModal(props) {
   const { boardId } = useParams()
   const [editingListTitle, setEditingListTitle] = React.useState(false)
   const editListTitleRef = React.useRef()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const editListTitleOnClick = () => {
     setEditingListTitle(true)
@@ -45,7 +47,7 @@ export default function TaskListModal(props) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -54,11 +56,11 @@ export default function TaskListModal(props) {
       .then((response) => {
         // successful request
         mutateBoard({ id: boardId, axiosOptions: { params: { lists: props.listVisibility } } })
-        dispatch(addAlert({ severity: 'success', message: 'List deleted!' }))
+        addAlert({ severity: 'success', message: 'List deleted!' })
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

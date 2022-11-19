@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
 import { useParams } from 'react-router-dom'
+import PropTypes from 'prop-types'
+
 import {
   List,
   ListItem,
@@ -19,21 +21,18 @@ import { isRegular } from './../../permissions/RegularContent'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import PropTypes from 'prop-types'
 import { ReactSortable } from 'react-sortablejs'
 
 import apiClient from '../../api/apiClient'
-import TaskListItem from './TaskListItem'
 import useList from '../../api/useList'
 import { mutateBoard } from '../../api/useBoard'
-
 import { calculatePos } from '../../constants/componentPositionService'
+import useAppAlertStore from '../../stores/app-alert'
+
+import TaskListModal from '../TaskListModal'
+import TaskListItem from './TaskListItem'
 
 import './TaskPlanningList.sass'
-import { addAlert } from '../../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
-import TaskListModal from '../TaskListModal'
-
 
 function TaskPlanningListSkeleton() {
   return (
@@ -69,7 +68,7 @@ function TaskPlanningList(props) {
   // visibility should part of props
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const [taskListModalState, setTaskListModalState] = useState(false)
   const toggleTaskListModalState = () => {
@@ -98,7 +97,7 @@ function TaskPlanningList(props) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -129,7 +128,7 @@ function TaskPlanningList(props) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -158,7 +157,7 @@ function TaskPlanningList(props) {
     apiClient.put(`/api/tasks/${id}`, updatedTask)
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
       .finally(() => {
         mutate((listData) => ({ ...listData, tasks: updatedTasks }))

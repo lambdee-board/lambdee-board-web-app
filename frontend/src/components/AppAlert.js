@@ -1,32 +1,24 @@
 import './AppAlert.sass'
 
-import { useSelector, useDispatch } from 'react-redux'
 import { Alert, AlertTitle } from '@mui/material'
-
-import {
-  clearAlert,
-  clearAlertTimeout,
-  selectMessage,
-  selectTitle,
-  selectSeverity,
-} from './../redux/slices/appAlertSlice'
+import useAppAlertStore from '../stores/app-alert'
 
 function AppAlert() {
-  const dispatch = useDispatch()
-  const title = useSelector(selectTitle)
-  const message = useSelector(selectMessage)
-  const severity = useSelector(selectSeverity)
-
+  const clearAlert = useAppAlertStore((store) => store.clearAlert)
+  const clearAlertTimeout = useAppAlertStore((store) => store.clearAlertTimeout)
+  const title = useAppAlertStore((store) => store.title)
+  const message = useAppAlertStore((store) => store.message)
+  const severity = useAppAlertStore((store) => store.severity)
 
   if (message === null) return
 
-  dispatch(clearAlertTimeout())
+  clearAlertTimeout()
 
   return (
     <Alert
       variant='filled'
       className='AppAlert'
-      onClose={() => dispatch(clearAlert())}
+      onClose={() => clearAlert()}
       severity={severity || 'info'}>
       {title && <AlertTitle>{title}</AlertTitle> }
       {message}

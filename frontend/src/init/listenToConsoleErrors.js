@@ -1,17 +1,16 @@
-import store from '../redux/store'
-import { addError, addWarning } from '../redux/slices/errorCounterSlice'
+import useErrorCounterStore from '../stores/error-counter'
 
 if (process.env.NODE_ENV === 'development') {
   const _warn = console.warn,
     _error = console.error
 
   console.warn = function() {
-    store.dispatch(addWarning())
+    useErrorCounterStore.getState().addWarning()
     return _warn.apply(console, arguments)
   }
 
   console.error = function() {
-    store.dispatch(addError())
+    useErrorCounterStore.getState().addError()
     return _error.apply(console, arguments)
   }
 }

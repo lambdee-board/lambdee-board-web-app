@@ -8,7 +8,6 @@ import PropTypes from 'prop-types'
 import './EditScript.sass'
 
 import Editor from 'react-simple-code-editor'
-import { useDispatch } from 'react-redux'
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -20,10 +19,10 @@ import '@fontsource/fira-code/700.css'
 import CodeHighlighter from '../components/CodeHighlighter'
 import WebSocketMessage from '../types/WebSocketMessage'
 import apiClient from '../api/apiClient'
-import { addAlert } from '../redux/slices/appAlertSlice'
 import ScriptTriggerDialog from './ScriptTriggerDialog'
 import useScript from '../api/useScript'
 import { takeUntil } from '../utils/takeUntil'
+import useAppAlertStore from '../stores/app-alert'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -35,7 +34,7 @@ const scrollToBottom = () => {
 
 const EditScript = (props) => {
   const { data: script, isLoading, isError, mutate } = useScript({ id: props.script.id })
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [openDial, setOpenDial] = React.useState(false)
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
@@ -142,11 +141,11 @@ const EditScript = (props) => {
         // successful request
         props.mutateScript(payload)
         setNewInputProvided(false)
-        dispatch(addAlert({ severity: 'success', message: 'Script saved' }))
+        addAlert({ severity: 'success', message: 'Script saved' })
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -163,7 +162,7 @@ const EditScript = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -176,7 +175,7 @@ const EditScript = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

@@ -13,18 +13,17 @@ import {
   faXmark
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
 
 import useWorkspace from '../api/useWorkspace'
 import apiClient from '../api/apiClient'
-import { addAlert } from '../redux/slices/appAlertSlice'
+import useAppAlertStore from '../stores/app-alert'
 
 import ColorPickerPopover from './ColorPickerPopover'
 
 import './NewBoardButton.sass'
 
 export default function NewBoardButton() {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const { workspaceId } = useParams()
   const { data: workspace, mutate } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
   const [color, setColor] = React.useState('#1082F3')
@@ -71,7 +70,7 @@ export default function NewBoardButton() {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

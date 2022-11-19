@@ -1,5 +1,9 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import MDEditor from '@uiw/react-md-editor'
+import rehypeSanitize from 'rehype-sanitize'
+import { useParams } from 'react-router-dom'
+
 import {
   Typography,
   Box,
@@ -12,29 +16,23 @@ import {
 } from '@mui/material'
 import { RegularContent, isRegular } from '../permissions/RegularContent'
 import { ManagerContent } from '../permissions/ManagerContent'
-
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import MDEditor from '@uiw/react-md-editor'
-import rehypeSanitize from 'rehype-sanitize'
-import { useDispatch } from 'react-redux'
-
-import './TaskCardModal.sass'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
 import AssignUserSelect from './task-card-modal/AssignUserSelect'
-
-import { addAlert } from '../redux/slices/appAlertSlice'
-import useTask from '../api/useTask'
-import apiClient from '../api/apiClient'
 import TaskLabel from './task-card-modal/TaskLabel'
 import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
-import { useParams } from 'react-router-dom'
 import TaskTime from './task-card-modal/TaskTime'
 
+import useTask from '../api/useTask'
+import apiClient from '../api/apiClient'
+
+import './TaskCardModal.sass'
+import useAppAlertStore from '../stores/app-alert'
 
 function TaskCardModalSkeleton() {
   return (
@@ -99,7 +97,7 @@ const TaskCardModal = (props) => {
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask({ id: props.taskId, axiosOptions: { params: { includeAssociations: 'true' } } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const [attachTagSelectVisible, setTagSelectVisible] = React.useState(false)
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
@@ -144,7 +142,7 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
   const unassignUser = (user) => {
@@ -165,7 +163,7 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -196,7 +194,7 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -218,7 +216,7 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -233,7 +231,7 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -253,19 +251,19 @@ const TaskCardModal = (props) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
   const deleteTask = () => {
     apiClient.delete(`/api/tasks/${props.taskId}`)
       .then((response) => {
-        dispatch(addAlert({ severity: 'success', message: 'Task deleted!' }))
+        addAlert({ severity: 'success', message: 'Task deleted!' })
         props.closeModal()
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

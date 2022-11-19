@@ -1,24 +1,22 @@
 import * as React from 'react'
+import { useParams } from 'react-router-dom'
+
 import {
   Box,
   List,
   Button,
   Typography
 } from '@mui/material'
-import { useParams } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {
   faClipboardList,
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import useWorkspace from '../../api/useWorkspace'
 import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
-
-import './WorkspaceSettingsView.sass'
+import useAppAlertStore from '../../stores/app-alert'
 
 import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
 import NewBoardButton from '../../components/NewBoardButton'
@@ -26,8 +24,10 @@ import WorkspaceBoard from '../../components/workspace-settings/WorkspaceBoard'
 import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
 import WorkspaceAssignUserSelect from '../../components/workspace-settings/WorkspaceAssignUserSelect'
 
+import './WorkspaceSettingsView.sass'
+
 const WorkspaceSettings = () => {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const { workspaceId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
   const { data: usersData, mutate: mutateWorkspaceUsers } = useWorkspaceUsers({ id: workspaceId })
@@ -59,7 +59,7 @@ const WorkspaceSettings = () => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

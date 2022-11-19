@@ -61,7 +61,8 @@
     "TTFB",
     "unnasigned",
     "validatable",
-    "Xmark"
+    "Xmark",
+    "zustand"
 ],
   "files.associations": {
     "*.yml.example": "yaml",

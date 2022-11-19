@@ -7,13 +7,12 @@ import { ManagerContent } from '../permissions/ManagerContent'
 
 
 import apiClient from '../api/apiClient'
-import { addAlert } from '../redux/slices/appAlertSlice'
 import { mutateBoard } from '../api/useBoard'
-import { useDispatch } from 'react-redux'
 import { useParams, useNavigate } from 'react-router-dom'
 import SprintModal from './SprintModal.js'
 import './BoardToolbar.sass'
 import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/useBoardActiveSprint'
+import useAppAlertStore from '../stores/app-alert'
 
 
 export default function BoardToolbar(props) {
@@ -24,7 +23,7 @@ export default function BoardToolbar(props) {
   const [newSprintModal, setNewSprintModal] = React.useState(false)
   const [boardView, setBoardView] = useCookie('1')
   const newListInputRef = React.useRef()
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const handleCloseSprintModal = () => {
     setNewSprintModal(false)
@@ -78,12 +77,12 @@ export default function BoardToolbar(props) {
         // successful request
         mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
         mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
-        dispatch(addAlert({ severity: 'success', message: 'New List Created!' }))
+        addAlert({ severity: 'success', message: 'New List Created!' })
         setNewListButtonVisible(true)
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

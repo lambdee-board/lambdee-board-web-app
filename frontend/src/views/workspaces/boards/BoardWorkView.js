@@ -1,21 +1,20 @@
-import { useParams } from 'react-router-dom'
 import React from 'react'
+import { useParams } from 'react-router-dom'
 
-import { useDispatch } from 'react-redux'
 import { ReactSortable } from 'react-sortablejs'
 
-import './BoardWorkView.sass'
-
-import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 import apiClient from '../../../api/apiClient'
 import useBoard from '../../../api/useBoard'
-import { addAlert } from '../../../redux/slices/appAlertSlice'
-import { calculateTaskListOrder } from '../../../constants/componentPositionService'
 import { isManager } from '../../../permissions/ManagerContent'
+import { calculateTaskListOrder } from '../../../constants/componentPositionService'
 
+import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
+
+import './BoardWorkView.sass'
+import useAppAlertStore from '../../../stores/app-alert'
 
 export default function BoardWorkView() {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const { boardId } = useParams()
   const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
@@ -31,7 +30,7 @@ export default function BoardWorkView() {
     apiClient.put(`/api/lists/${id}`, updatedList)
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
       .finally(() => {
         mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }))

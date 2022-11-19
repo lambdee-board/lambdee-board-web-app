@@ -1,5 +1,8 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+import rehypeSanitize from 'rehype-sanitize'
+
 import {
   Typography,
   Box,
@@ -10,26 +13,21 @@ import {
   Alert,
   Modal
 } from '@mui/material'
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
+import MDEditor from '@uiw/react-md-editor'
 
 import apiClient from '../api/apiClient'
 import useBoard from '../api/useBoard'
 import { mutateList } from '../api/useList'
-import { addAlert } from '../redux/slices/appAlertSlice'
-import { useDispatch } from 'react-redux'
-import { useParams } from 'react-router-dom'
-import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
-import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { isManager, ManagerContent } from '../permissions/ManagerContent'
-import MDEditor from '@uiw/react-md-editor'
-import rehypeSanitize from 'rehype-sanitize'
 import ReportModal from './reports-view/ReportModal'
 
-
 import './SprintModal.sass'
-
+import useAppAlertStore from '../stores/app-alert'
 
 const SprintModal = ({ activeSprint, closeModal, mutate }) => {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const { boardId } = useParams()
   const editSprintNameRef = React.useRef()
   const { data: board } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
@@ -52,7 +50,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -81,7 +79,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -108,7 +106,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -130,7 +128,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
         })
         .catch((error) => {
         // setSprintFail(true)
-          dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+          addAlert({ severity: 'error', message: 'Something went wrong!' })
         })
     }
   }
@@ -144,8 +142,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
       })
       .catch((error) => {
         // failed or rejected
-
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
   const formatDate = (dateString) => {

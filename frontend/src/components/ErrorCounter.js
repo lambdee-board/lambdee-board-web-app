@@ -1,15 +1,10 @@
+import useErrorCounterStore from '../stores/error-counter'
+
 import './ErrorCounter.sass'
 
-import { useSelector } from 'react-redux'
-
-import {
-  selectErrors,
-  selectWarnings
-} from './../redux/slices/errorCounterSlice'
-
 function ErrorCounter() {
-  const errorCount = useSelector(selectErrors)
-  const warningCount = useSelector(selectWarnings)
+  const errorCount = useErrorCounterStore((store) => store.errors)
+  const warningCount = useErrorCounterStore((store) => store.warnings)
 
   if (process.env.NODE_ENV !== 'development') return
   if (errorCount === 0 && warningCount === 0) return

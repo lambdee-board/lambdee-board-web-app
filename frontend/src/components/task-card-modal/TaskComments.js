@@ -1,4 +1,8 @@
 import * as React from 'react'
+import rehypeSanitize from 'rehype-sanitize'
+import dateFormat from 'dateformat'
+import PropTypes from 'prop-types'
+
 import {
   Box,
   Card,
@@ -7,26 +11,22 @@ import {
   Button,
   Avatar,
 } from '@mui/material'
-import PropTypes from 'prop-types'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MDEditor from '@uiw/react-md-editor'
-import rehypeSanitize from 'rehype-sanitize'
-import dateFormat from 'dateformat'
-import { useDispatch } from 'react-redux'
 
-import './TaskComments.sass'
-
-import { addAlert } from '../../redux/slices/appAlertSlice'
 import apiClient from '../../api/apiClient'
 import UserInfo from './UserInfo'
 import useComments from '../../api/useComments'
 import useCurrentUser from '../../api/useCurrentUser'
+import useAppAlertStore from '../../stores/app-alert'
+
+import './TaskComments.sass'
 
 const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
   const [commentEditorVisible, setCommentEditorVisible] = React.useState(false)
   const [commentDraft, setCommentDraft] = React.useState(null)
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
 
   const createComment = () => {
     const payload = {
@@ -49,7 +49,7 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -131,7 +131,7 @@ NewTaskComment.propTypes = {
 }
 
 const TaskComment = ({ currentUser, comment, mutateComments }) => {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [commentEditorVisible, setCommentEditorVisible] = React.useState(false)
   const [commentDraft, setCommentDraft] = React.useState(null)
 
@@ -160,7 +160,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
@@ -173,7 +173,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

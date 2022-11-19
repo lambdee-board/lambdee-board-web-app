@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   Box,
   IconButton,
@@ -7,23 +8,21 @@ import {
   Autocomplete,
   TextField
 } from '@mui/material'
-import { isRegular } from '../../permissions/RegularContent'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
+
+import { isRegular } from '../../permissions/RegularContent'
+import apiClient from '../../api/apiClient'
+import useAppAlertStore from '../../stores/app-alert'
+import priorities from '../../constants/priorities'
+
+import UserInfo from './../task-card-modal/UserInfo'
+import PriorityIcon from './../PriorityIcon'
 
 import './TaskPriority.sass'
 
-import apiClient from '../../api/apiClient'
-import { addAlert } from '../../redux/slices/appAlertSlice'
-import PriorityIcon from './../PriorityIcon'
-import UserInfo from './../task-card-modal/UserInfo'
-
-import priorities from '../../constants/priorities'
-
-
 function TaskPriority({ task, mutate }) {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editPriorityVisible, setEditPriorityVisible] = React.useState(false)
 
   const toggleEditPriorityButton = () => setEditPriorityVisible(!editPriorityVisible)
@@ -46,7 +45,7 @@ function TaskPriority({ task, mutate }) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

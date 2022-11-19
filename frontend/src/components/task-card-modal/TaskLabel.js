@@ -1,22 +1,23 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   IconButton,
   Typography,
   InputBase,
   Card
 } from '@mui/material'
-import { isRegular } from '../../permissions/RegularContent'
-import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useDispatch } from 'react-redux'
+import { faXmark } from '@fortawesome/free-solid-svg-icons'
+
+import { isRegular } from '../../permissions/RegularContent'
 import apiClient from '../../api/apiClient'
-import { addAlert } from '../../redux/slices/appAlertSlice'
+import useAppAlertStore from '../../stores/app-alert'
+
 import './TaskLabel.sass'
 
-
 function TaskLabel({ task, mutate }) {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editTaskLabelButtonVisible, setEditTaskLabelVisible] = React.useState(true)
 
   const toggleEditTaskLabelButton = () => setEditTaskLabelVisible(!editTaskLabelButtonVisible)
@@ -48,7 +49,7 @@ function TaskLabel({ task, mutate }) {
       })
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 

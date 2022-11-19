@@ -1,22 +1,17 @@
 import * as React from 'react'
+
 import {
   Box,
   Card,
   Pagination
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
-import {  } from '@fortawesome/react-fontawesome'
-import {  } from '@fortawesome/free-solid-svg-icons'
-import { useDispatch } from 'react-redux'
 
-import { addAlert } from '../../../redux/slices/appAlertSlice'
-
+import { useBoardSprints, mutateBoardSprints } from '../../../api/useBoardSprints'
 
 import ReportCard from '../../../components/reports-view/ReportCard'
 
 import './ReportsView.sass'
-import { useBoardSprints, mutateBoardSprints } from '../../../api/useBoardSprints'
-
 
 const ReportsView = () => {
   const { boardId } = useParams()

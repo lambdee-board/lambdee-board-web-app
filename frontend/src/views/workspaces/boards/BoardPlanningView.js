@@ -1,25 +1,24 @@
 import { useParams } from 'react-router-dom'
 import React from 'react'
 
-import { useDispatch } from 'react-redux'
-import { ReactSortable } from 'react-sortablejs'
-
 import {
   Divider, Typography
 } from '@mui/material'
+import { ReactSortable } from 'react-sortablejs'
+
+import { isManager } from '../../../permissions/ManagerContent'
+import apiClient from '../../../api/apiClient'
+import useBoard from '../../../api/useBoard'
+import { calculateTaskListOrder } from '../../../constants/componentPositionService'
+
+import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
+import { RegularContent } from '../../../permissions/RegularContent'
+import useAppAlertStore from '../../../stores/app-alert'
 
 import './BoardPlanningView.sass'
 
-import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
-import apiClient from '../../../api/apiClient'
-import useBoard from '../../../api/useBoard'
-import { addAlert } from '../../../redux/slices/appAlertSlice'
-import { calculateTaskListOrder } from '../../../constants/componentPositionService'
-import { RegularContent } from '../../../permissions/RegularContent'
-import { isManager } from '../../../permissions/ManagerContent'
-
 export default function BoardWorkView() {
-  const dispatch = useDispatch()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const [invisibleLists, setInvisibleList] = React.useState([])
   const { boardId } = useParams()
@@ -42,7 +41,7 @@ export default function BoardWorkView() {
     apiClient.put(`/api/lists/${id}`, updatedList)
       .catch((error) => {
         // failed or rejected
-        dispatch(addAlert({ severity: 'error', message: 'Something went wrong!' }))
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
       .finally(() => {
       })
