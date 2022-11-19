@@ -1,7 +1,7 @@
 import { Outlet } from 'react-router-dom'
 
 import './WorkspaceView.sass'
-import Sidebar from './../../components/Sidebar'
+import Sidebar from '../../components/Sidebar'
 
 export default function WorkspaceView() {
   return (

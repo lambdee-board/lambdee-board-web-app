@@ -16,8 +16,8 @@ import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
 import priorities from '../../internal/priorities'
 
-import UserInfo from './../task-card-modal/UserInfo'
-import PriorityIcon from './../PriorityIcon'
+import UserInfo from './UserInfo'
+import PriorityIcon from '../PriorityIcon'
 
 import './TaskPriority.sass'
 

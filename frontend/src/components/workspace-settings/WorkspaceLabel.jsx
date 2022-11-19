@@ -12,7 +12,7 @@ import { mutateWorkspaces } from '../../api/workspaces'
 import { mutateWorkspace } from '../../api/workspace'
 import useAppAlertStore from '../../stores/app-alert'
 
-import WorkspaceIcon from '../../components/WorkspaceIcon'
+import WorkspaceIcon from '../WorkspaceIcon'
 
 import './WorkspaceLabel.sass'
 

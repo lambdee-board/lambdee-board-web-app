@@ -12,7 +12,7 @@ import useAppAlertStore from '../stores/app-alert'
 import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/board-active-sprint'
 
 import { ManagerContent } from '../permissions/content'
-import SprintModal from './SprintModal.js'
+import SprintModal from './SprintModal'
 
 import './BoardToolbar.sass'
 

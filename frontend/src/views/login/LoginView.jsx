@@ -10,7 +10,7 @@ import {
   Alert
 } from '@mui/material'
 
-import apiClient from './../../api/api-client'
+import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
 
 import './LoginView.sass'
