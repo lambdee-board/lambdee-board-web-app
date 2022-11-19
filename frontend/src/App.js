@@ -5,7 +5,7 @@ import { SWRConfig } from 'swr'
 import { Sortable, MultiDrag, AutoScroll } from 'sortablejs/modular/sortable.core.esm.js'
 
 import './App.sass'
-import lambdeeTheme from './lambdeeTheme'
+import lambdeeTheme from './lambdee-theme'
 
 
 import Navbar from './components/Navbar'

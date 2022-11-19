@@ -2,9 +2,10 @@ import {
   Outlet,
   Navigate
 } from 'react-router-dom'
-import { isManager } from '../permissions/ManagerContent'
 
-function ManagerRoutes() {
+import { isManager } from '../../internal/permissions'
+
+export function ManagerRoutes() {
   return (
     isManager() ?
       <Outlet /> : <Navigate to='/' />

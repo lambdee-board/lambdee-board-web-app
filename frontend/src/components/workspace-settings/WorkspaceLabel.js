@@ -7,9 +7,9 @@ import {
   InputBase
 } from '@mui/material'
 
-import apiClient from '../../api/apiClient'
-import { mutateWorkspaces } from '../../api/useWorkspaces'
-import { mutateWorkspace } from '../../api/useWorkspace'
+import apiClient from '../../api/api-client'
+import { mutateWorkspaces } from '../../api/workspaces'
+import { mutateWorkspace } from '../../api/workspace'
 import useAppAlertStore from '../../stores/app-alert'
 
 import WorkspaceIcon from '../../components/WorkspaceIcon'

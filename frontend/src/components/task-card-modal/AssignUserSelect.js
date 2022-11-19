@@ -1,5 +1,6 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   TextField,
   Autocomplete,
@@ -7,7 +8,7 @@ import {
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
 
-import useWorkspaceUsers from '../../api/useWorkspaceUsers'
+import useWorkspaceUsers from '../../api/workspace-users'
 
 function AssignUserSelect(props) {
   const { workspaceId } = useParams()

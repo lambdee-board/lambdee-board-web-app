@@ -14,8 +14,8 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import useWorkspace from '../api/useWorkspace'
-import apiClient from '../api/apiClient'
+import useWorkspace from '../api/workspace'
+import apiClient from '../api/api-client'
 import useAppAlertStore from '../stores/app-alert'
 
 import ColorPickerPopover from './ColorPickerPopover'

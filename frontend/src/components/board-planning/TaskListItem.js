@@ -1,4 +1,6 @@
 import React, { useRef } from 'react'
+import PropTypes from 'prop-types'
+
 import {
   Box,
   Typography,
@@ -6,15 +8,15 @@ import {
   AvatarGroup,
   Modal
 } from '@mui/material'
-import PropTypes from 'prop-types'
-import PriorityIcon from '../PriorityIcon'
 
-import './TaskListItem.sass'
+import { mutateList } from '../../api/list'
+
+import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
 import AvatarPopover from '../AvatarPopover'
 import Tag from '../Tag'
-import { mutateList } from '../../api/useList'
 
+import './TaskListItem.sass'
 
 const TaskListItem = (props) => {
   const dndRef = useRef(null)

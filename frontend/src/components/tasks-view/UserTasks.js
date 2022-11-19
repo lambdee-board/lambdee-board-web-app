@@ -15,7 +15,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { useUserTasks, mutateUserTasks } from '../../api/useUserTasks'
+import { useUserTasks, mutateUserTasks } from '../../api/user-tasks'
 import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
 

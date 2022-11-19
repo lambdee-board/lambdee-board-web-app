@@ -1,5 +1,7 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+import { useParams } from 'react-router-dom'
+
 import {
   TextField,
   Autocomplete,
@@ -11,13 +13,13 @@ import {
   DialogActions,
   Button,
 } from '@mui/material'
-import { useParams } from 'react-router-dom'
+
+import lambdeeTheme from '../../lambdee-theme'
+import useBoardTags from '../../api/board-tags'
+
 import ColorPickerPopover from '../ColorPickerPopover'
-import useBoardTags from '../../api/useBoardTags'
-import lambdeeTheme from '../../lambdeeTheme'
 
 const filter = createFilterOptions()
-
 
 function AttachTagSelect(props) {
   const { boardId } = useParams()

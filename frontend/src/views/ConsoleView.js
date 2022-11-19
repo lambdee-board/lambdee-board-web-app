@@ -17,7 +17,7 @@ import './ConsoleView.sass'
 import dateFormat from 'dateformat'
 import CodeHighlighter from '../components/CodeHighlighter'
 
-import WebSocketMessage from '../types/WebSocketMessage'
+import WebSocketMessage from '../internal/web-socket-message'
 
 const HISTORY_BUFFER_SIZE = 200
 const INPUT_HISTORY_BUFFER_SIZE = HISTORY_BUFFER_SIZE / 2

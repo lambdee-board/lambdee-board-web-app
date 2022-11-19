@@ -10,7 +10,7 @@ import {
 } from '@mui/material'
 
 import { generatePath, useNavigate } from 'react-router'
-import useCurrentUser from '../../api/useCurrentUser'
+import useCurrentUser from '../../api/current-user'
 
 const AccountMenuButton = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)

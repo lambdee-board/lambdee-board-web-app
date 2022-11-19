@@ -1,13 +1,20 @@
 import * as React from 'react'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { languages, highlight } from 'prismjs/components/prism-core'
-
 import PropTypes from 'prop-types'
-import './EditScript.sass'
 
 import Editor from 'react-simple-code-editor'
+import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
+import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+
+import useAppAlertStore from '../stores/app-alert'
+import WebSocketMessage from '../internal/web-socket-message'
+import apiClient from '../api/api-client'
+import useScript from '../api/script'
+import { takeUntil } from '../utils/take-until'
+
+import CodeHighlighter from '../components/CodeHighlighter'
+import ScriptTriggerDialog from './ScriptTriggerDialog'
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -16,13 +23,7 @@ import '@fontsource/fira-code/500.css'
 import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
-import CodeHighlighter from '../components/CodeHighlighter'
-import WebSocketMessage from '../types/WebSocketMessage'
-import apiClient from '../api/apiClient'
-import ScriptTriggerDialog from './ScriptTriggerDialog'
-import useScript from '../api/useScript'
-import { takeUntil } from '../utils/takeUntil'
-import useAppAlertStore from '../stores/app-alert'
+import './EditScript.sass'
 
 const HISTORY_BUFFER_SIZE = 200
 

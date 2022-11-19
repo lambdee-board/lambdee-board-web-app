@@ -3,8 +3,8 @@ import PropTypes from 'prop-types'
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from '@mui/material'
 
-import apiClient from '../../api/apiClient'
-import { isRegular } from '../../permissions/RegularContent'
+import apiClient from '../../api/api-client'
+import { isRegular } from '../../internal/permissions'
 import useAppAlertStore from '../../stores/app-alert'
 
 import './TaskTime.sass'

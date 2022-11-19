@@ -3,10 +3,10 @@ import { useParams } from 'react-router-dom'
 
 import { ReactSortable } from 'react-sortablejs'
 
-import apiClient from '../../../api/apiClient'
-import useBoard from '../../../api/useBoard'
-import { isManager } from '../../../permissions/ManagerContent'
-import { calculateTaskListOrder } from '../../../constants/componentPositionService'
+import apiClient from '../../../api/api-client'
+import useBoard from '../../../api/board'
+import { isManager } from '../../../internal/permissions'
+import { calculateTaskListOrder } from '../../../internal/component-position-service'
 
 import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 

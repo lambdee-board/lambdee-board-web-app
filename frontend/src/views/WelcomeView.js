@@ -1,20 +1,20 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 
 import {
   Skeleton,
   Typography,
   Grid
 } from '@mui/material'
-import PropTypes from 'prop-types'
 
-import useCurrentUser from '../api/useCurrentUser'
-import useBoard from '../api/useBoard'
-import useWorkspaces from '../api/useWorkspaces'
+import useCurrentUser from '../api/current-user'
+import useBoard from '../api/board'
+import useWorkspaces from '../api/workspaces'
+
 import WorkspaceButton from '../components/welcome-view/WorkspaceButton'
 import RecentBoardButton from '../components/welcome-view/RecentBoardButton'
 
 import './WelcomeView.sass'
-
 
 function WelcomeViewSkeleton() {
   return (

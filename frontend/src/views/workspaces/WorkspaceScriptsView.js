@@ -1,4 +1,5 @@
 import * as React from 'react'
+
 import {
   List,
   Typography,
@@ -7,12 +8,12 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHistory, faScroll } from '@fortawesome/free-solid-svg-icons'
 
-import './WorkspaceScriptsView.sass'
+import useWorkspaceScripts from '../../api/workspace-scripts'
+import useScriptRuns from '../../api/script-runs'
 
-import useWorkspaceScripts from '../../api/useWorkspaceScripts'
 import EditScript from '../../components/EditScript'
-import useScriptRuns from '../../api/useScriptRuns'
 
+import './WorkspaceScriptsView.sass'
 
 export default function WorkspaceScriptsView() {
   const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({})

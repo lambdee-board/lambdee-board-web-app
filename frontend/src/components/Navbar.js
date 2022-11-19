@@ -8,8 +8,7 @@ import {
   Container,
   Button
 } from '@mui/material'
-import { RegularContent } from '../permissions/RegularContent'
-import { DeveloperContent } from '../permissions/DeveloperContent'
+import { RegularContent, DeveloperContent } from '../permissions/content'
 
 import AccountMenuButton from './navbar/AccountMenuButton'
 import WorkspacesMenuButton from './navbar/WorkspacesMenuButton'

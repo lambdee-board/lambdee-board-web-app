@@ -1,4 +1,4 @@
-import { useAPI } from './apiClient'
+import { useAPI } from './api-client'
 
 const requestPath = (id) => `/api/lists/${id}/tasks`
 

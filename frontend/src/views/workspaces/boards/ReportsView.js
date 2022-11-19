@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { useParams } from 'react-router-dom'
 
-import { useBoardSprints, mutateBoardSprints } from '../../../api/useBoardSprints'
+import { useBoardSprints, mutateBoardSprints } from '../../../api/board-sprints'
 
 import ReportCard from '../../../components/reports-view/ReportCard'
 

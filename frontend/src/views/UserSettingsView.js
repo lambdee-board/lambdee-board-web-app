@@ -16,8 +16,8 @@ import {
 import { faPencil } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import apiClient from '../api/apiClient'
-import useCurrentUser from '../api/useCurrentUser'
+import apiClient from '../api/api-client'
+import useCurrentUser from '../api/current-user'
 import useAppAlertStore from '../stores/app-alert'
 
 import './UserSettingsView.sass'

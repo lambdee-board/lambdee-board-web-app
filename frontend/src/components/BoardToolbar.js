@@ -1,19 +1,20 @@
 import React, { useEffect } from 'react'
+import { useParams, useNavigate } from 'react-router-dom'
 import useCookie from 'react-use-cookie'
+
 import { faPlus, faXmark, faList, faPersonRunning, faChartLine, faBriefcase } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput, Modal, Box } from '@mui/material'
-import { ManagerContent } from '../permissions/ManagerContent'
 
-
-import apiClient from '../api/apiClient'
-import { mutateBoard } from '../api/useBoard'
-import { useParams, useNavigate } from 'react-router-dom'
-import SprintModal from './SprintModal.js'
-import './BoardToolbar.sass'
-import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/useBoardActiveSprint'
+import apiClient from '../api/api-client'
+import { mutateBoard } from '../api/board'
 import useAppAlertStore from '../stores/app-alert'
+import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/board-active-sprint'
 
+import { ManagerContent } from '../permissions/content'
+import SprintModal from './SprintModal.js'
+
+import './BoardToolbar.sass'
 
 export default function BoardToolbar(props) {
   const navigate = useNavigate()

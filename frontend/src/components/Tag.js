@@ -1,7 +1,7 @@
 import { Chip } from '@mui/material'
 import PropTypes from 'prop-types'
 
-import textColour from '../utils/textColour'
+import textColour from '../utils/text-colour'
 
 function Tag(props) {
   return (

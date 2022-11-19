@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 
-const REGULAR_ROLES = new Set(['regular', 'developer', 'manager', 'admin'])
-
-export const isRegular = () => REGULAR_ROLES.has(localStorage.getItem('role'))
+import { isRegular } from '../../internal/permissions'
 
 export const RegularContent = ({ children }) => {
   if (!isRegular()) return null
@@ -17,3 +15,5 @@ export const RegularContent = ({ children }) => {
 RegularContent.propTypes = {
   children: PropTypes.any
 }
+
+export default RegularContent

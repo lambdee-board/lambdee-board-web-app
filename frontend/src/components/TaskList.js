@@ -14,16 +14,16 @@ import {
   InputBase,
   Modal,
 } from '@mui/material'
-import { ManagerContent } from '../permissions/ManagerContent'
-import { isRegular } from './../permissions/RegularContent'
+import { ManagerContent } from '../permissions/content'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { ReactSortable } from 'react-sortablejs'
 
-import apiClient from '../api/apiClient'
-import useList from '../api/useList'
-import { calculatePos } from '../constants/componentPositionService'
+import { isRegular } from '../internal/permissions'
+import apiClient from '../api/api-client'
+import useList from '../api/list'
+import { calculatePos } from '../internal/component-position-service'
 
 import './TaskList.sass'
 import TaskListModal from './TaskListModal'

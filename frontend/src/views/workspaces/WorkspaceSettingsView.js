@@ -13,9 +13,9 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 
-import apiClient from '../../api/apiClient'
-import useWorkspace from '../../api/useWorkspace'
-import useWorkspaceUsers  from '../../api/useWorkspaceUsers'
+import apiClient from '../../api/api-client'
+import useWorkspace from '../../api/workspace'
+import useWorkspaceUsers  from '../../api/workspace-users'
 import useAppAlertStore from '../../stores/app-alert'
 
 import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'

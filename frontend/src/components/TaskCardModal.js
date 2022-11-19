@@ -14,8 +14,7 @@ import {
   IconButton,
   Button,
 } from '@mui/material'
-import { RegularContent, isRegular } from '../permissions/RegularContent'
-import { ManagerContent } from '../permissions/ManagerContent'
+import { ManagerContent, RegularContent } from '../permissions/content'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import TaskComments from './task-card-modal/TaskComments'
@@ -28,8 +27,9 @@ import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import TaskTime from './task-card-modal/TaskTime'
 
-import useTask from '../api/useTask'
-import apiClient from '../api/apiClient'
+import { isRegular } from '../internal/permissions'
+import useTask from '../api/task'
+import apiClient from '../api/api-client'
 
 import './TaskCardModal.sass'
 import useAppAlertStore from '../stores/app-alert'

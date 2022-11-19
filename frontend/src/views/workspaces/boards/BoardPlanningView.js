@@ -6,13 +6,13 @@ import {
 } from '@mui/material'
 import { ReactSortable } from 'react-sortablejs'
 
-import { isManager } from '../../../permissions/ManagerContent'
-import apiClient from '../../../api/apiClient'
-import useBoard from '../../../api/useBoard'
-import { calculateTaskListOrder } from '../../../constants/componentPositionService'
+import { isManager } from '../../../internal/permissions'
+import apiClient from '../../../api/api-client'
+import useBoard from '../../../api/board'
+import { calculateTaskListOrder } from '../../../internal/component-position-service'
 
 import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
-import { RegularContent } from '../../../permissions/RegularContent'
+import { RegularContent } from '../../../permissions/content'
 import useAppAlertStore from '../../../stores/app-alert'
 
 import './BoardPlanningView.sass'

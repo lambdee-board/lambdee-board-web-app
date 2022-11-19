@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 
-const DEVELOPER_ROLES = new Set(['developer', 'manager', 'admin'])
-
-export const isDeveloper = () => DEVELOPER_ROLES.has(localStorage.getItem('role'))
+import { isDeveloper } from '../../internal/permissions'
 
 export const DeveloperContent = ({ children }) => {
   if (!isDeveloper()) return null
@@ -18,3 +16,4 @@ DeveloperContent.propTypes = {
   children: PropTypes.any
 }
 
+export default DeveloperContent

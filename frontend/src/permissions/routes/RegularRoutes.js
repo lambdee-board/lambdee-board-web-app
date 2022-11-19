@@ -2,9 +2,10 @@ import {
   Outlet,
   Navigate
 } from 'react-router-dom'
-import { isRegular } from '../permissions/RegularContent'
 
-function RegularRoutes() {
+import { isRegular } from '../../internal/permissions'
+
+export function RegularRoutes() {
   return (
     isRegular() ?
       <Outlet /> : <Navigate to='/' />

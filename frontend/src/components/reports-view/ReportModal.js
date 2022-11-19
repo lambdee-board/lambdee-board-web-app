@@ -1,18 +1,20 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   Box,
   Card,
   Typography
 } from '@mui/material'
 import { LineChart, PieChart } from 'react-chartkick'
-import 'chartkick/chart.js'
 
+import useSprintChart from '../../api/sprint-chart'
 
-import './ReportModal.sass'
-import useSprintChart from '../../api/useSprintChart'
 import LabeledData from '../LabeledData'
 
+import 'chartkick/chart.js'
+
+import './ReportModal.sass'
 
 const ReportModal = (props) => {
   const { data: burnUpChart, isLoading, isError } = useSprintChart({ id: props.sprintId })

@@ -2,9 +2,9 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import apiClient from '../api/apiClient'
-import { mutateBoard } from '../api/useBoard'
-import { mutateList } from '../api/useList'
+import apiClient from '../api/api-client'
+import { mutateBoard } from '../api/board'
+import { mutateList } from '../api/list'
 import useAppAlertStore from '../stores/app-alert'
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons'

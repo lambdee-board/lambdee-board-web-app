@@ -1,12 +1,13 @@
 import * as React from 'react'
 import PropTypes from 'prop-types'
+
 import {
   TextField,
   Autocomplete,
   CircularProgress,
 } from '@mui/material'
 
-import useUsers from '../../api/useUsers'
+import useUsers from '../../api/users'
 
 function WorkspaceAssignUserSelect(props) {
   const { data: usersObject, isLoading, isError } = useUsers()

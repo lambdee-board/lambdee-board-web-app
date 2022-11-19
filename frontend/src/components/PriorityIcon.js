@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { prioritiesMap } from '../constants/priorities'
+import { prioritiesMap } from '../internal/priorities'
 
 import './PriorityIcon.sass'
 

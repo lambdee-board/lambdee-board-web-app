@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Card,
   Typography,
@@ -7,18 +8,15 @@ import {
   Button,
   Skeleton
 } from '@mui/material'
-import {
-  faClipboardList
-} from '@fortawesome/free-solid-svg-icons'
+import { faClipboardList } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
+import useWorkspaces from '../../api/workspaces'
 
+import UserTasks from '../../components/tasks-view/UserTasks'
 import WorkspaceIcon from '../../components/WorkspaceIcon'
-import useWorkspaces from '../../api/useWorkspaces'
 
 import './TasksView.sass'
-import UserTasks from '../../components/tasks-view/UserTasks'
-
 
 export default function TasksView() {
   const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { boards: 'visible' } } })

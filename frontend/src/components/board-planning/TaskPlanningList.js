@@ -16,17 +16,17 @@ import {
   Modal,
   Divider
 } from '@mui/material'
-import { ManagerContent } from './../../permissions/ManagerContent'
-import { isRegular } from './../../permissions/RegularContent'
+import { ManagerContent } from '../../permissions/content'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
 import { ReactSortable } from 'react-sortablejs'
 
-import apiClient from '../../api/apiClient'
-import useList from '../../api/useList'
-import { mutateBoard } from '../../api/useBoard'
-import { calculatePos } from '../../constants/componentPositionService'
+import { isRegular } from '../../internal/permissions'
+import apiClient from '../../api/api-client'
+import useList from '../../api/list'
+import { mutateBoard } from '../../api/board'
+import { calculatePos } from '../../internal/component-position-service'
 import useAppAlertStore from '../../stores/app-alert'
 
 import TaskListModal from '../TaskListModal'

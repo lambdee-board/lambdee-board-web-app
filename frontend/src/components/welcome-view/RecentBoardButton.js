@@ -1,9 +1,11 @@
 import * as React from 'react'
-import { useNavigate } from 'react-router-dom'
-import { Typography, Button, Box } from '@mui/material'
 import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router-dom'
 
-import useWorkspace from '../../api/useWorkspace'
+import { Typography, Button, Box } from '@mui/material'
+
+import useWorkspace from '../../api/workspace'
+
 import RecentBoardIcon from '../RecentBoardIcon'
 
 import './RecentBoardButton.sass'

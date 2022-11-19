@@ -18,13 +18,13 @@ import {
   faUsers,
   // faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
-import { DeveloperContent } from '../permissions/DeveloperContent'
-import { ManagerContent } from '../permissions/ManagerContent'
+import { DeveloperContent } from '../permissions/content/DeveloperContent'
+import { ManagerContent } from '../permissions/content/ManagerContent'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 // import { styled, useTheme } from '@mui/material/styles'
 import PropTypes from 'prop-types'
 
-import useWorkspace from '../api/useWorkspace'
+import useWorkspace from '../api/workspace'
 
 import './Sidebar.sass'
 import WorkspaceIcon from './WorkspaceIcon'

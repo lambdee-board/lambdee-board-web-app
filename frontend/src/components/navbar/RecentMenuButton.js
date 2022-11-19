@@ -1,14 +1,16 @@
 import React from 'react'
+import PropTypes from 'prop-types'
+import { useNavigate } from 'react-router'
+
 import {
   MenuItem,
   Skeleton
 } from '@mui/material'
-import { useNavigate } from 'react-router'
-import PropTypes from 'prop-types'
+
+import useBoard from '../../api/board'
 
 import RecentBoardIcon from '../RecentBoardIcon'
 import DropdownButton from '../DropdownButton'
-import useBoard from '../../api/useBoard'
 
 function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName }) {
   const navigate = useNavigate()

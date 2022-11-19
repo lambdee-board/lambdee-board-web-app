@@ -1,15 +1,17 @@
 import React from 'react'
+import { generatePath, useNavigate } from 'react-router'
+
 import {
   Typography,
   MenuItem,
   Skeleton,
   Divider
 } from '@mui/material'
-import { generatePath, useNavigate } from 'react-router'
+
+import useWorkspaces from '../../api/workspaces'
 
 import WorkspaceIcon from '../WorkspaceIcon'
 import DropdownButton from '../DropdownButton'
-import useWorkspaces from '../../api/useWorkspaces'
 
 const WorkspacesMenuButton = () => {
   const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { limit: '5' } } })

@@ -1,8 +1,6 @@
 import PropTypes from 'prop-types'
 
-const MANAGER_ROLES = new Set(['manager', 'admin'])
-
-export const isManager = () => MANAGER_ROLES.has(localStorage.getItem('role'))
+import { isManager } from '../../internal/permissions'
 
 export const ManagerContent = ({ children }) => {
   if (!isManager()) return null
@@ -18,3 +16,4 @@ ManagerContent.propTypes = {
   children: PropTypes.any
 }
 
+export default ManagerContent

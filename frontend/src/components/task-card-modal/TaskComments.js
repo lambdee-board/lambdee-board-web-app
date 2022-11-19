@@ -15,11 +15,12 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MDEditor from '@uiw/react-md-editor'
 
-import apiClient from '../../api/apiClient'
-import UserInfo from './UserInfo'
-import useComments from '../../api/useComments'
-import useCurrentUser from '../../api/useCurrentUser'
+import apiClient from '../../api/api-client'
+import useComments from '../../api/comments'
+import useCurrentUser from '../../api/current-user'
 import useAppAlertStore from '../../stores/app-alert'
+
+import UserInfo from './UserInfo'
 
 import './TaskComments.sass'
 

@@ -1,23 +1,18 @@
 import * as React from 'react'
+
 import {
   List,
-  Button,
   Pagination,
   Typography
 } from '@mui/material'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import {
-  faPlus
-} from '@fortawesome/free-solid-svg-icons'
 
+import useWorkspaces from '../../api/workspaces'
+import useUsers, { mutateUsers } from '../../api/users'
 
+import UsersFilter from '../../components/UsersFilter'
 import WorkspaceUser, { WorkspaceUserSkeleton } from '../../components/workspace-settings/WorkspaceUser'
 
 import './WorkspaceMembersView.sass'
-
-import UsersFilter from '../../components/UsersFilter'
-import useWorkspaces from '../../api/useWorkspaces'
-import useUsers, { mutateUsers } from '../../api/useUsers'
 
 export default function WorkspaceMembersView() {
   const perPage = 7

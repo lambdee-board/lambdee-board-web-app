@@ -1,6 +1,6 @@
-import './init/configurePanicOverlay'
-import './init/configurePrism'
-import './init/initializeConsole'
+import './init/configure-panic-overlay'
+import './init/configure-prism'
+import './init/initialize-console'
 
 import React from 'react'
 import ReactDOM from 'react-dom/client'
@@ -13,15 +13,12 @@ import {
 import ErrorCounter from './components/ErrorCounter'
 import AppAlert from './components/AppAlert'
 
-import './init/listenToConsoleErrors'
-import reportWebVitals from './init/reportWebVitals'
+import './init/listen-to-console-errors'
+import reportWebVitals from './init/report-web-vitals'
 
 import App from './App'
-import PrivateRoutes from './routes/PrivateRoutes'
-import PublicRoutes from './routes/PublicRoutes'
-import RegularRoutes from './routes/RegularRoutes'
-import DeveloperRoutes from './routes/DeveloperRoutes'
-import ManagerRoutes from './routes/ManagerRoutes'
+import { ManagerRoutes, DeveloperRoutes, RegularRoutes, PrivateRoutes, PublicRoutes } from './permissions/routes'
+
 import ConsoleView from './views/ConsoleView'
 import ReportsView from './views/workspaces/boards/ReportsView'
 import WorkspaceView from './views/workspaces/WorkspaceView'

@@ -131,14 +131,14 @@ We use [Axios](https://github.com/axios/axios) as our HTTP client library.
 Components representing a single view (page) should be stored in the
 `frontend/src/views/` directory. Components should be written in the functional style and named using `PascalCase` eg. `Account`, `UserData`, `ErrorButton`.
 
-Let's say that you want to write an account view. It should be stored in `frontend/src/views/Account.js`.
+Let's say that you want to write an account view. It should be stored in `frontend/src/views/Account.jsx`.
 
-Any `CSS` styles unique to this view should be saved inside `frontend/src/views/Account.css` and imported in the `.js` file.
+Any `CSS` styles unique to this view should be saved inside `frontend/src/views/Account.css` and imported in the `.jsx` file.
 
 Here is an example of its code:
 
 ```js
-// frontend/src/views/Account.js
+// frontend/src/views/Account.jsx
 import './Account.css'
 
 const Account = () => {
@@ -157,9 +157,9 @@ export default Account;
 All other components which get used in views should be stored in the
 `frontend/src/components/` directory. Components should be written in the functional style and named using PascalCase.
 
-Let's say that you want to write a button component. It should be stored in `frontend/src/components/Button.js`.
+Let's say that you want to write a button component. It should be stored in `frontend/src/components/Button.jsx`.
 
-Any `CSS` styles unique to this component should be saved inside `frontend/src/components/Button.css` and imported in the `.js` file.
+Any `CSS` styles unique to this component should be saved inside `frontend/src/components/Button.css` and imported in the `.jsx` file.
 
 All `props` used by components should be documented using
 the [prop-types](https://reactjs.org/docs/typechecking-with-proptypes.html) package.
@@ -167,7 +167,7 @@ the [prop-types](https://reactjs.org/docs/typechecking-with-proptypes.html) pack
 Example:
 
 ```js
-// frontend/src/components/Button.js
+// frontend/src/components/Button.jsx
 import './Button.css'
 import PropTypes from 'prop-types'
 

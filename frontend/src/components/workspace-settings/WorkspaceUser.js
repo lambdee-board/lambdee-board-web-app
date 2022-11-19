@@ -12,8 +12,8 @@ import {
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import apiClient from '../../api/apiClient'
-import { mutateWorkspaceUsers } from '../../api/useWorkspaceUsers'
+import apiClient from '../../api/api-client'
+import { mutateWorkspaceUsers } from '../../api/workspace-users'
 import useAppAlertStore from '../../stores/app-alert'
 
 import UserInfo from '../task-card-modal/UserInfo'
