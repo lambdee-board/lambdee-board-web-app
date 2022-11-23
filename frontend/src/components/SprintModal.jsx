@@ -267,7 +267,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
           ) : null}
           {descriptionEditorVisible ? (
             <div className='SprintModal-description-editor'>
-              <MDEditor
+              <MDEditor data-color-mode='light'
                 value={sprintDescriptionDraft || ''}
                 onChange={(val) => { updateSprintDescriptionDraft(val) }}
                 previewOptions={{
@@ -298,7 +298,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
               className='SprintModal-main-description'
               onClick={isManager() ? sprintDescriptionOnClick : undefined}
             >
-              <MDEditor.Markdown
+              <MDEditor.Markdown data-color-mode='light'
                 source={sprintDescriptionDraft || '###### Add a description...'}
                 rehypePlugins={[[rehypeSanitize]]}
               />

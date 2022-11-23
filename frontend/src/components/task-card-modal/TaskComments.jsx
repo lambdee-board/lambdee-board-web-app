@@ -79,12 +79,13 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
         </Box>
         <Divider />
         <div className='TaskComment-editor'>
-          <MDEditor
+          <MDEditor data-color-mode='light'
             value={commentDraft || ''}
             onChange={(val) => { setCommentDraft(val) }}
             previewOptions={{
               rehypePlugins: [[rehypeSanitize]]
             }}
+            style={{ overflow: 'brake-word' }}
           />
         </div>
 

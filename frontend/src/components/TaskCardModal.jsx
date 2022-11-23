@@ -289,7 +289,7 @@ const TaskCardModal = (props) => {
           </div>
           {descriptionEditorVisible ? (
             <div className='TaskCardModal-task-description-editor'>
-              <MDEditor
+              <MDEditor data-color-mode='light'
                 value={taskDescriptionDraft || ''}
                 onChange={(val) => { updateTaskDescriptionDraft(val) }}
                 previewOptions={{
