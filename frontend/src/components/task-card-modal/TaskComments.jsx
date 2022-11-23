@@ -67,7 +67,7 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
   }
 
   if (commentEditorVisible) return (
-    <Card className='TaskComment'>
+    <Card className='TaskComment' data-color-mode='light'>
       <Box>
         <Box className='TaskComment-info'>
           <Avatar className='TaskComment-info-avatar' alt={currentUser.name} src={currentUser.avatarUrl} />
@@ -79,7 +79,7 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }) => {
         </Box>
         <Divider />
         <div className='TaskComment-editor'>
-          <MDEditor data-color-mode='light'
+          <MDEditor
             value={commentDraft || ''}
             onChange={(val) => { setCommentDraft(val) }}
             previewOptions={{
@@ -205,7 +205,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
             />
           </div>
         ) : (
-          <Box className='TaskComment-content markdown-text' data-color-mode='light'>
+          <Box className='TaskComment-content markdown-text'>
             <MDEditor.Markdown
               source={comment.body}
               rehypePlugins={[[rehypeSanitize]]}

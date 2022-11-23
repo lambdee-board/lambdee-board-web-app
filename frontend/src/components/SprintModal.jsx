@@ -152,7 +152,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   }
 
   return (
-    <Box className='SprintModal-wrapper'>
+    <Box className='SprintModal-wrapper' data-color-mode='light'>
       <Card className='SprintModal-paper'>
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
@@ -267,7 +267,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
           ) : null}
           {descriptionEditorVisible ? (
             <div className='SprintModal-description-editor'>
-              <MDEditor data-color-mode='light'
+              <MDEditor
                 value={sprintDescriptionDraft || ''}
                 onChange={(val) => { updateSprintDescriptionDraft(val) }}
                 previewOptions={{
@@ -298,7 +298,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
               className='SprintModal-main-description'
               onClick={isManager() ? sprintDescriptionOnClick : undefined}
             >
-              <MDEditor.Markdown data-color-mode='light'
+              <MDEditor.Markdown
                 source={sprintDescriptionDraft || '###### Add a description...'}
                 rehypePlugins={[[rehypeSanitize]]}
               />
