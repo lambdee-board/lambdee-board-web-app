@@ -7,18 +7,14 @@ import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 import './DropdownButton.sass'
 
 const DropdownButton = (props) => {
-  const [anchorEl, setAnchorEl] = React.useState(null)
-  const open = Boolean(anchorEl)
-
-  const handleClose = () => setAnchorEl(null)
-  const handleClick = (event) => setAnchorEl(event.currentTarget)
+  const open = Boolean(props.anchorEl)
 
   return (
     <div className='DropdownButton'>
       <Button
         className='Button'
         id='dropdown-button'
-        onClick={handleClick}
+        onClick={props.handleClick}
       >
         <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
           {props.label}
@@ -27,9 +23,9 @@ const DropdownButton = (props) => {
       </Button>
       <Menu
         sx = {{ mt: 1.7 }}
-        anchorEl={anchorEl}
+        anchorEl={props.anchorEl}
         open={open}
-        onClose={handleClose}
+        onClose={props.handleClose}
       >
         {props.children}
       </Menu>
@@ -43,6 +39,9 @@ DropdownButton.propTypes = {
     PropTypes.array.isRequired,
     PropTypes.object.isRequired,
   ]),
+  anchorEl: PropTypes.any,
+  handleClick: PropTypes.func,
+  handleClose: PropTypes.func
 }
 
 export default DropdownButton

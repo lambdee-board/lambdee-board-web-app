@@ -12,11 +12,15 @@ import useBoard from '../../api/board'
 import RecentBoardIcon from '../RecentBoardIcon'
 import DropdownButton from '../DropdownButton'
 
-function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName }) {
+function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName, handleClose }) {
   const navigate = useNavigate()
 
+
   return (
-    <MenuItem onClick={() => navigate(`/workspaces/${workspaceId}/boards/${boardId}`)}>
+    <MenuItem onClick={() => {
+      handleClose()
+      navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
+    }}>
       <RecentBoardIcon name={workspaceName} size={32} colour={boardColour} iconSize='20' />
       {workspaceName}/{boardName}
     </MenuItem>
@@ -25,6 +29,10 @@ function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceNa
 
 const RecentMenuButton = () => {
   const { data: boards, isLoading, isError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const handleClose = () => setAnchorEl(null)
+  const handleClick = (event) => setAnchorEl(event.currentTarget)
 
   if (isLoading || isError) return (
     <DropdownButton label='Recent'>
@@ -42,9 +50,10 @@ const RecentMenuButton = () => {
   return (
     <div>
       {boards?.length > 0 &&
-        <DropdownButton label='Recent'>
+        <DropdownButton label='Recent' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
           {boards.map((recentBoard) => (
             <RecentBoard
+              handleClose = {handleClose}
               key={recentBoard.id}
               boardId={recentBoard.id}
               boardName={recentBoard.name}
@@ -65,7 +74,8 @@ RecentBoard.propTypes = {
   boardName: PropTypes.string.isRequired,
   workspaceId: PropTypes.number.isRequired,
   workspaceName: PropTypes.string.isRequired,
-  boardColour: PropTypes.string.isRequired
+  boardColour: PropTypes.string.isRequired,
+  handleClose: PropTypes.func
 }
 
 export default RecentMenuButton
