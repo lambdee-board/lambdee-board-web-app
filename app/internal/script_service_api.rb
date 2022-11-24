@@ -18,6 +18,9 @@ module ScriptServiceAPI
       http_connection.post('execute') do |req|
         req.body = { script_run_id: script_run.id, content: script_run.input }
       end
+    rescue ::Faraday::ConnectionFailed
+      script_run.output = "Couldn't connect with Script Service."
+      script_run.connection_failed!
     end
   end
 end
