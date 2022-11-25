@@ -79,7 +79,7 @@ function UserTasks({ boardId, workspaceId }) {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               outline: 0 }}>
-            <TaskCardModal taskId={pickedTask} listId={pickedList} closeModal={handleCloseTaskCardModal} />
+            <TaskCardModal taskId={pickedTask} boardId = {boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
           </Box>
         </Modal>
       }

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import PropTypes from 'prop-types'
-
+import { useParams } from 'react-router-dom'
 import {
   Box,
   Typography,
@@ -20,7 +20,7 @@ import './TaskListItem.sass'
 
 const TaskListItem = (props) => {
   const dndRef = useRef(null)
-
+  const { boardId, workspaceId } = useParams()
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
@@ -40,7 +40,7 @@ const TaskListItem = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} listId={props.listId} closeModal={handleCloseTaskCardModal} />
+          <TaskCardModal taskId={props.id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <div className='TaskListItem' ref={dndRef} onClick={handleOpenTaskCardModal}>

@@ -6,12 +6,11 @@ import {
   Autocomplete,
   CircularProgress,
 } from '@mui/material'
-import { useParams } from 'react-router-dom'
 
 import useWorkspaceUsers from '../../api/workspace-users'
 
 function AssignUserSelect(props) {
-  const { workspaceId } = useParams()
+  const workspaceId = props.workspaceId
   const { data: usersObject, isLoading, isError } = useWorkspaceUsers({ id: workspaceId })
   const [open, setOpen] = React.useState(true)
   const [usersToAssign, setUsersToAssign] = React.useState([])
@@ -59,7 +58,11 @@ function AssignUserSelect(props) {
 AssignUserSelect.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
-  assignedUsers: PropTypes.arrayOf(PropTypes.object)
+  assignedUsers: PropTypes.arrayOf(PropTypes.object),
+  workspaceId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
 }
 
 export default AssignUserSelect

@@ -2,7 +2,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
-import { useParams } from 'react-router-dom'
+
 
 import {
   Typography,
@@ -101,8 +101,7 @@ const TaskCardModal = (props) => {
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
-
-  const { boardId } = useParams()
+  const boardId = props.boardId
 
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
@@ -273,6 +272,7 @@ const TaskCardModal = (props) => {
   return (
     <Box className='TaskCardModal-wrapper' data-color-mode='light'>
       <Card className='TaskCardModal-paper'>
+        {console.log(boardId)}
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
             <TaskLabel task={task} mutate={mutateTask} />
@@ -374,6 +374,7 @@ const TaskCardModal = (props) => {
                       onChange={attachTagSelectOnChange}
                       createTag={createAttachTag}
                       addedTags={task.tags}
+                      boardId={props.boardId}
                     />
                   ) : (
                     <Box
@@ -416,6 +417,7 @@ const TaskCardModal = (props) => {
                       onBlur={assignUserSelectOnBlur}
                       onChange={assignUserSelectOnChange}
                       assignedUsers={task.users}
+                      workspaceId={props.workspaceId}
                     />
                   ) : (
                     <Box
@@ -453,6 +455,14 @@ export default TaskCardModal
 
 TaskCardModal.propTypes = {
   taskId: PropTypes.number.isRequired,
+  boardId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  workspaceId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   closeModal: PropTypes.func.isRequired
 }
 
