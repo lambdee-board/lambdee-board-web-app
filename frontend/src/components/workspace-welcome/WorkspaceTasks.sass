@@ -1,0 +1,44 @@
+@import './../../styles/base'
+
+.Tasks-card
+  display: flex
+  flex-direction: column
+  width: 38 * $unit
+  min-height: 34 * $unit
+  max-height: 92%
+  margin: 3 * $unit
+  .Tasks-card-title
+    display: flex
+    flex-direction: row
+    width: 100%
+    min-height: 8 * $unit
+    color: black
+    align-items: center
+    justify-content: center
+    .Tasks-card-title-icon
+      width: 4 * $unit
+      height: 4 * $unit
+.Tasks-card-lists
+  overflow-y: auto
+  .Tasks-card-list
+    display: flex
+    flex-direction: column
+    .Tasks-card-list-title
+      display: flex
+      flex-direction: row
+      margin-top: 2 * $unit
+      margin-left: $unit
+    .Tasks-card-list-task
+      display: flex
+      flex-direction: row
+      color: black
+      width: 100%
+      align-items: flex-start
+      .Tasks-card-list-task-wrapper
+        display: flex
+        flex-direction: row
+        width: 100%
+        align-items: center
+        padding-left: 2 * $unit
+        .Tasks-card-list-task-title
+          margin-left: $unit
