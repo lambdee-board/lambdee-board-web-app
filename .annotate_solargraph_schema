@@ -368,12 +368,6 @@ class DB::Comment < ApplicationRecord
   # Database column `comments.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
-  # Database column `comments.custom_data`, type: `jsonb`.
-  # @param val [Hash, nil]
-  def custom_data=(val); end
-  # Database column `comments.custom_data`, type: `jsonb`.
-  # @return [Hash, nil]
-  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:comments>%%
 
@@ -636,6 +630,12 @@ end
 # %%<RailsAnnotateSolargraph:Start:script_runs>%%
 
 class DB::ScriptRun < ApplicationRecord
+  # Scope `:connection_failed`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::ScriptRun>, nil]
+  def self.connection_failed(); end
   # Scope `:executed`.
   #
   #     klass.scope value_method_name, -> { where(name => value) }
@@ -648,6 +648,12 @@ class DB::ScriptRun < ApplicationRecord
   #
   # @return [Array<DB::ScriptRun>, nil]
   def self.failed(); end
+  # Scope `:not_connection_failed`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::ScriptRun>, nil]
+  def self.not_connection_failed(); end
   # Scope `:not_executed`.
   #
   #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
@@ -1299,12 +1305,12 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.start_time`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def start_time; end
-  # Database column `tasks.custom_data`, type: `jsonb`.
-  # @param val [Hash, nil]
-  def custom_data=(val); end
-  # Database column `tasks.custom_data`, type: `jsonb`.
-  # @return [Hash, nil]
-  def custom_data; end
+  # Database column `tasks.due_time`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def due_time=(val); end
+  # Database column `tasks.due_time`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def due_time; end
 end
 # %%<RailsAnnotateSolargraph:End:tasks>%%
 
