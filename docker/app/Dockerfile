@@ -1,4 +1,4 @@
-FROM ruby:3.1.2 as rails
+FROM ruby:3.1.3 as rails
 
 RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
   && apt-get update -qq && apt-get install -qq --no-install-recommends \
