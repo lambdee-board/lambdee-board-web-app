@@ -96,7 +96,6 @@ TaskListItem.propTypes = {
   priority: PropTypes.string,
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
 }
 
 export default TaskListItem

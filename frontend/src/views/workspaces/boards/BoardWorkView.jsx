@@ -24,14 +24,14 @@ import useBoard from '../../../api/board'
 import { isManager } from '../../../internal/permissions'
 import { calculateTaskListOrder } from '../../../internal/component-position-service'
 import { dndListId, dbId } from '../../../utils/dnd'
-import { listGetterKey } from '../../../api/list'
+import { listGetterKey, mutateList } from '../../../api/list'
 
 import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 import SortableTaskList from '../../../components/SortableTaskList'
 
 import './BoardWorkView.sass'
 import useAppAlertStore from '../../../stores/app-alert'
-import TaskListItem from '../../../components/board-planning/TaskListItem'
+import TaskCardListItem from '../../../components/TaskCardListItem'
 
 export default function BoardWorkView() {
   const { cache } = useSWRConfig()
@@ -76,13 +76,20 @@ export default function BoardWorkView() {
     const id = dbId(item.id)
     const { type } = item.data.current
 
-    const list = findContainer(item)
+    const list = findDndList(item)
     if (type === 'list') return list
 
     return { ...list.tasks.find((task) => task.id === id), type: 'task' }
   }
 
-  function findContainer(item) {
+  function findDndTask(dndItem) {
+    const item = findDndItem(dndItem)
+    if (item.type === 'task') return item
+
+    return item.tasks[0]
+  }
+
+  function findDndList(item) {
     const { type, listId } = item.data.current
 
     if (type === 'list') {
@@ -104,8 +111,8 @@ export default function BoardWorkView() {
     const overId = dbId(over?.id)
     if (overId == null || draggedId == null) return
 
-    if (active.data.current.type === 'list') {
-      const overList = findContainer(over)
+    const overList = findDndList(over)
+    if (dragged?.type === 'list') {
       if (draggedId !== overList.id) {
         const oldIndex = sortedTaskLists.findIndex((list) => list.id === draggedId)
         const newIndex = sortedTaskLists.findIndex((list) => list.id === overList.id)
@@ -114,8 +121,31 @@ export default function BoardWorkView() {
       }
 
       setDragged(null)
-    } else if (active.data.current.type === 'task') {
+    } else if (dragged?.type === 'task') {
+      const fromList = findDndList(active)
+      const overTask = findDndTask(over)
+      if (dragged.listId !== overTask.listId) {
+        mutateList({
+          id: overList.id,
+          data: {
+            ...overList,
+            tasks: [...overList.tasks, { ...dragged, listId: overList.id }]
+          },
+          axiosOptions: { params: { tasks: 'visible' } },
+          options: { revalidate: false }
+        })
+        mutateList({
+          id: fromList.id,
+          data: {
+            ...fromList,
+            tasks: fromList.tasks.filter((task) => task.id !== dragged.id)
+          },
+          axiosOptions: { params: { tasks: 'visible' } },
+          options: { revalidate: false }
+        })
+      }
 
+      setDragged(null)
     }
   }
 
@@ -168,7 +198,6 @@ export default function BoardWorkView() {
   let draggedItem
 
   if (dragged && dragged.type === 'list') {
-    // console.log(dragged)
     draggedItem = (
       <TaskList key={dragged.id}
         title={dragged.name}
@@ -180,7 +209,7 @@ export default function BoardWorkView() {
     )
   } else if (dragged && dragged.type === 'task') {
     // console.log(dragged)
-    draggedItem = (<TaskListItem key={dragged.id}
+    draggedItem = (<TaskCardListItem key={dragged.id}
       id={dragged.id}
       label={dragged.name}
       tags={dragged.tags}
@@ -188,7 +217,6 @@ export default function BoardWorkView() {
       assignedUsers={dragged.users}
       points={dragged.points}
       pos={dragged.pos}
-      index={1}
       listId={dragged.listId}
     />)
   }

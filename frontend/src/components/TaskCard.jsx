@@ -117,7 +117,6 @@ TaskCard.propTypes = {
   priority: PropTypes.string,
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
   style: PropTypes.object,
   dndAttributes: PropTypes.object,
   dndListeners: PropTypes.object
