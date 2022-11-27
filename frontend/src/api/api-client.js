@@ -10,11 +10,10 @@ const axiosClient = axios.create({
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401) {
-      if (localStorage.getItem('token')) {
-        localStorage.clear()
-        window.location.reload()
-      }
+    if (error.response.status === 401 && localStorage.getItem('token')) {
+      localStorage.removeItem('token')
+      localStorage.removeItem('role')
+      window.location.reload()
     }
     return error
   }
@@ -79,7 +78,7 @@ export const useAPI = (key, options = undefined) => {
   }
 }
 
-export const mutateAPI = (key, data, options) => {
+export const mutateAPI = (key, data, options = undefined) => {
   if (data || options) return swrMutate(key, data, options)
   return swrMutate(key)
 }

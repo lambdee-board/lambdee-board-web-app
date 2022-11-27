@@ -66,17 +66,17 @@ const WorkspaceSettings = () => {
 
   return (
 
-    <Box className='WorkspaceSettings-wrapper'>
-      <Box className='WorkspaceSettings' >
+    <div className='WorkspaceSettings-wrapper'>
+      <div className='WorkspaceSettings' >
         {isLoading || isError ? (
-          <Box></Box>
+          <div></div>
         ) : (
           <List className='List'>
             <WorkspaceLabel
               workspace={workspace}
             />
             <NewBoardButton />
-            <Box className='WorkspaceBoards'>
+            <div className='WorkspaceBoards'>
               {workspace.boards?.map((board) => (
                 <WorkspaceBoard
                   key={board.id}
@@ -87,7 +87,7 @@ const WorkspaceSettings = () => {
                 />
 
               ))}
-            </Box>
+            </div>
             {assignUserSelectVisible ? (
               <WorkspaceAssignUserSelect
                 onBlur={assignUserSelectOnBlur}
@@ -110,8 +110,8 @@ const WorkspaceSettings = () => {
             ))}
           </List>
         )}
-      </Box>
-    </Box>
+      </div>
+    </div>
   )
 }
 

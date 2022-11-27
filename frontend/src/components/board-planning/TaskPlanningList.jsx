@@ -20,7 +20,6 @@ import { ManagerContent } from '../../permissions/content'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons'
-import { ReactSortable } from 'react-sortablejs'
 
 import { isRegular } from '../../internal/permissions'
 import apiClient from '../../api/api-client'
@@ -225,18 +224,19 @@ function TaskPlanningList(props) {
             {taskList ? (
               <div>
                 {isRegular() ?
-                  <ReactSortable
-                    list={sortedTasks}
-                    setList={updateTaskOrder}
-                    group='TaskCardList'
-                    delay={1}
-                    animation={50}
-                    ghostClass='translucent'
-                    selectedClass='translucent'
-                    direction='horizontal'
-                    // multiDrag
-                    scroll
-                  >
+                  // <ReactSortable
+                  //   list={sortedTasks}
+                  //   setList={updateTaskOrder}
+                  //   group='TaskCardList'
+                  //   delay={1}
+                  //   animation={50}
+                  //   ghostClass='translucent'
+                  //   selectedClass='translucent'
+                  //   direction='horizontal'
+                  //   // multiDrag
+                  //   scroll
+                  // >
+                  <>
 
                     {sortedTasks.map((task, taskIndex) => (
                       <div key={taskIndex}>
@@ -256,7 +256,7 @@ function TaskPlanningList(props) {
                         <Divider />
                       </div>
                     ))}
-                  </ReactSortable> :
+                  </> :
                   <div>
                     {sortedTasks.map((task, taskIndex) => (
                       <div key={taskIndex}>

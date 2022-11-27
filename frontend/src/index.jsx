@@ -34,7 +34,7 @@ import ForgotPasswordView from './views/login/ForgotPasswordView'
 import ResetPasswordView from './views/login/ResetPasswordView'
 import WorkspaceMembersView from './views/workspaces/WorkspaceMembersView'
 import WorkspaceScriptsView from './views/workspaces/WorkspaceScriptsView'
-
+import Test from './components/test'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -43,6 +43,7 @@ root.render(
     <ErrorCounter />
     <BrowserRouter>
       <Routes>
+        <Route path='/test' element={<Test />} />
         <Route element={<PublicRoutes />}>
           <Route path='/login' element={<LoginView />} />
           <Route path='/login/forgot-password' element={<ForgotPasswordView />} />

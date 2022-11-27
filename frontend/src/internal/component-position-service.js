@@ -14,19 +14,7 @@ export const calculatePos = (updatedItemIndex, updatedList) => {
   return pos
 }
 
-export const calculateTaskListOrder = (currentElements, updatedElements) => {
-  let listsAreEqual = true
-  for (let i = 0; i < currentElements.length; i++) {
-    if (currentElements[i].id !== updatedElements[i].id) {
-      listsAreEqual = false
-      break
-    }
-  }
-
-  if (listsAreEqual) return []
-
-  const currentListIndex = updatedElements.findIndex((list) => list.chosen !== undefined)
-
+export const calculateTaskListOrder = (updatedElements, currentListIndex) => {
   const newUpdatedElements = [...updatedElements]
   const newUpdatedElement = { ...newUpdatedElements[currentListIndex] }
   newUpdatedElement.pos = calculatePos(currentListIndex, updatedElements)

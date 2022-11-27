@@ -4,7 +4,6 @@ import React from 'react'
 import {
   Divider, Typography
 } from '@mui/material'
-import { ReactSortable } from 'react-sortablejs'
 
 import { isManager } from '../../../internal/permissions'
 import apiClient from '../../../api/api-client'
@@ -79,17 +78,18 @@ export default function BoardWorkView() {
     <div className='BoardPlanningView'>
       <div className='TaskLists-scrollable' >
         {isManager() ?
-          <ReactSortable
-            sortableElement
-            className='TaskLists-wrapper'
-            list={sortedTaskLists}
-            setList={updateTaskListOrder}
-            scroll
-            ghostClass='translucent'
-            direction='horizontal'
-            delay={1}
-            animation={50}
-          >
+          // <ReactSortable
+          //   sortableElement
+          //   className='TaskLists-wrapper'
+          //   list={sortedTaskLists}
+          //   setList={updateTaskListOrder}
+          //   scroll
+          //   ghostClass='translucent'
+          //   direction='horizontal'
+          //   delay={1}
+          //   animation={50}
+          // >
+          <>
             {sortedTaskLists.map((taskList, listIndex) => (
               <TaskPlanningList key={taskList.id}
                 title={taskList.name}
@@ -99,7 +99,7 @@ export default function BoardWorkView() {
                 visible={taskList.visible}
               />
             ))}
-          </ReactSortable> :
+          </> :
           <div className='TaskLists-wrapper'>
             {sortedTaskLists.map((taskList, listIndex) => (
               <TaskPlanningList key={taskList.id}

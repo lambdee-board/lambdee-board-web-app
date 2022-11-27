@@ -18,9 +18,8 @@ import { ManagerContent } from '../permissions/content'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
-import { ReactSortable } from 'react-sortablejs'
 
-import { isRegular } from '../internal/permissions'
+import { isManager, isRegular } from '../internal/permissions'
 import apiClient from '../api/api-client'
 import useList from '../api/list'
 import { calculatePos } from '../internal/component-position-service'
@@ -67,8 +66,14 @@ function TaskListSkeleton() {
   )
 }
 
-function TaskList(props) {
-  const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
+const TaskList = React.forwardRef((props, ref) => {
+  const { data: taskList, mutate } = useList({
+    id: props.id,
+    axiosOptions: { params: { tasks: 'visible' } },
+    options: {
+      revalidateOnMount: !props.dragged,
+    }
+  })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
 
@@ -81,7 +86,6 @@ function TaskList(props) {
   const toggleTaskListModalState = () => {
     setTaskListModalState(!taskListModalState)
   }
-
 
   React.useEffect(() => {
     if (!taskList) return
@@ -152,7 +156,6 @@ function TaskList(props) {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
       .finally(() => {
-        console.log(updatedTasks)
         mutate((listData) => ({ ...listData, tasks: updatedTasks }))
       })
   }
@@ -192,12 +195,12 @@ function TaskList(props) {
   }
 
   return (
-    <Box className='TaskList-wrapper'>
+    <div ref={ref} style={props.style} className='TaskList-wrapper'>
       <Paper className='TaskList-paper'
         elevation={5}>
         <List ref={listRef} className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
-            <Typography className='TaskList-header-text' >
+            <Typography style={{ cursor: isManager() ? 'pointer' : undefined }} className='TaskList-header-text' {...(props.dndAttributes ?? {})} {...(props.dndListeners ?? {})}>
               {props.title}
             </Typography>
             <ManagerContent>
@@ -206,116 +209,108 @@ function TaskList(props) {
               </IconButton>
             </ManagerContent>
           </ListSubheader>} >
-          {taskList ? (
-            <div>
-              {isRegular() ?
-                <ReactSortable
-                  list={sortedTasks}
-                  setList={updateTaskOrder}
-                  group='TaskCardList'
-                  delay={1}
-                  animation={50}
-                  ghostClass='translucent'
-                  selectedClass='translucent'
-                  direction='horizontal'
-                  // multiDrag
-                  scroll
-                >
+          <div>
+            {isRegular() ?
+            // <ReactSortable
+            //   list={sortedTasks}
+            //   setList={updateTaskOrder}
+            //   group='TaskCardList'
+            //   delay={1}
+            //   animation={50}
+            //   ghostClass='translucent'
+            //   selectedClass='translucent'
+            //   direction='horizontal'
+            //   // multiDrag
+            //   scroll
+            // >
 
-                  {sortedTasks.map((task, taskIndex) => (
-                    <div key={taskIndex}>
-                      <ListItem className='TaskList-item' >
-                        <TaskCard key={`${task.name}-${task.id}`}
-                          id={task.id}
-                          label={task.name}
-                          tags={task.tags}
-                          priority={task.priority}
-                          assignedUsers={task.users}
-                          points={task.points}
-                          pos={task.pos}
-                          index={taskIndex}
-                          listId={task.listId}
-                        />
-                      </ListItem>
+              sortedTasks.map((task, taskIndex) => (
+                <ListItem key={task.id} className='TaskList-item' >
+                  <TaskCard key={task.id}
+                    id={task.id}
+                    label={task.name}
+                    tags={task.tags}
+                    priority={task.priority}
+                    assignedUsers={task.users}
+                    points={task.points}
+                    pos={task.pos}
+                    index={taskIndex}
+                    listId={task.listId}
+                  />
+                </ListItem>
+              ))                 :
 
-                    </div>
-                  ))}
-                </ReactSortable> :
-                <div>
-                  {sortedTasks.map((task, taskIndex) => (
-                    <div key={taskIndex}>
-                      <ListItem className='TaskList-item' >
-                        <TaskCard key={`${task.name}-${task.id}`}
-                          id={task.id}
-                          label={task.name}
-                          tags={task.tags}
-                          priority={task.priority}
-                          assignedUsers={task.users}
-                          points={task.points}
-                          pos={task.pos}
-                          index={taskIndex}
-                          listId={task.listId}
-                        />
-                      </ListItem>
-                    </div>
-                  ))}
-                </div>
-              }
-            </div>
-          ) : (
-            <div></div>
-          )}
+              sortedTasks.map((task, taskIndex) => (
+                <ListItem key={task.id} className='TaskList-item' >
+                  <TaskCard key={task.id}
+                    id={task.id}
+                    label={task.name}
+                    tags={task.tags}
+                    priority={task.priority}
+                    assignedUsers={task.users}
+                    points={task.points}
+                    pos={task.pos}
+                    index={taskIndex}
+                    listId={task.listId}
+                  />
+                </ListItem>
+              ))}
+          </div>
           <ManagerContent>
             { !newTaskButtonVisible &&
-            <Card
-              className='TaskList-new-task'>
-              <InputBase
-                ref={newTaskInputRef}
-                className='TaskList-new-task-input'
-                fullWidth
-                multiline
-                placeholder='Task Label'
-                onKeyDown={(e) => newTaskNameInputOnKey(e)}
-                onBlur={(e) => toggleNewTaskButton()}
-              />
-              <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
-                <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
-              </IconButton>
-            </Card>
+              <Card
+                className='TaskList-new-task'>
+                <InputBase
+                  ref={newTaskInputRef}
+                  className='TaskList-new-task-input'
+                  fullWidth
+                  multiline
+                  placeholder='Task Label'
+                  onKeyDown={(e) => newTaskNameInputOnKey(e)}
+                  onBlur={(e) => toggleNewTaskButton()}
+                />
+                <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
+                  <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
+                </IconButton>
+              </Card>
             }
           </ManagerContent>
         </List>
         <ManagerContent>
           <Box className='TaskList-new-task-wrapper'>
             {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
-              <Typography>New Task</Typography>
-            </Button>
+              <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+                <Typography>New Task</Typography>
+              </Button>
             }
 
           </Box>
         </ManagerContent>
       </Paper>
       {taskList &&
-      <Modal
-        open={taskListModalState}
-        onClose={toggleTaskListModalState}
-        className='TaskList-modal-wrapper'
-      >
-        <div className='TaskList-modal'>
-          <TaskListModal listId={props.id} title={props.title} listVisibility={'visible'} />
-        </div>
-      </Modal>
+        <Modal
+          open={taskListModalState}
+          onClose={toggleTaskListModalState}
+          className='TaskList-modal-wrapper'
+        >
+          <div className='TaskList-modal'>
+            <TaskListModal listId={props.id} title={props.title} listVisibility={'visible'} />
+          </div>
+        </Modal>
       }
-    </Box>
+    </div>
   )
-}
+})
 
+TaskList.displayName = 'TaskList'
 TaskList.propTypes = {
   id: PropTypes.number.isRequired,
-  index: PropTypes.number.isRequired,
   pos: PropTypes.number.isRequired,
   title: PropTypes.string.isRequired,
+  dndAttributes: PropTypes.object,
+  dndListeners: PropTypes.object,
+  dragged: PropTypes.bool,
+  style: PropTypes.object
 }
 
 export default TaskList
