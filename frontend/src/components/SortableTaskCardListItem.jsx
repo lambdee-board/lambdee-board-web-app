@@ -26,7 +26,7 @@ export default function SortableTaskCardListItem(props) {
   const style = {
     transform: CSS.Transform.toString(transform),
     transition,
-    opacity: active?.id === props?.id ? 0 : 1
+    opacity: active?.data.current.type === 'task' && active?.id === dndTaskId(props?.id) ? 0.5 : 1
   }
 
   return (
