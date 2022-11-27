@@ -11,6 +11,7 @@ export default function SortableTaskList(props) {
     attributes,
     listeners,
     setNodeRef,
+    setActivatorNodeRef,
     transform,
     transition,
   } = useSortable({ id: props.id })
@@ -22,7 +23,14 @@ export default function SortableTaskList(props) {
   }
 
   return (
-    <TaskList ref={setNodeRef} style={style} dndAttributes={attributes} dndListeners={listeners} {...props} />
+    <TaskList
+      ref={setNodeRef}
+      listDragHandleRef={setActivatorNodeRef}
+      style={style}
+      dndAttributes={attributes}
+      dndListeners={listeners}
+      {...props}
+    />
   )
 }
 

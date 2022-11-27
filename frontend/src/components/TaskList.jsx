@@ -200,7 +200,13 @@ const TaskList = React.forwardRef((props, ref) => {
         elevation={5}>
         <List ref={listRef} className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
-            <Typography style={{ cursor: isManager() ? 'pointer' : undefined }} className='TaskList-header-text' {...(props.dndAttributes ?? {})} {...(props.dndListeners ?? {})}>
+            <Typography
+              className='TaskList-header-text'
+              ref={props.listDragHandleRef}
+              style={{ cursor: isManager() ? 'pointer' : undefined }}
+              {...(props.dndAttributes ?? {})}
+              {...(props.dndListeners ?? {})}
+            >
               {props.title}
             </Typography>
             <ManagerContent>
@@ -310,6 +316,7 @@ TaskList.propTypes = {
   dndAttributes: PropTypes.object,
   dndListeners: PropTypes.object,
   dragged: PropTypes.bool,
+  listDragHandleRef: PropTypes.func,
   style: PropTypes.object
 }
 
