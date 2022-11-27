@@ -3,22 +3,24 @@ import PropTypes from 'prop-types'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { dndListId } from '../utils/dnd'
+import { dndTaskId } from '../utils/dnd'
 
-import TaskList from './TaskList'
+import TaskCardListItem from './TaskCardListItem'
 
-export default function SortableTaskList(props) {
+export default function SortableTaskCardListItem(props) {
   const {
     active,
     attributes,
     listeners,
     setNodeRef,
-    setActivatorNodeRef,
     transform,
     transition,
   } = useSortable({
-    id: dndListId(props.id),
-    data: { type: 'list' }
+    id: dndTaskId(props.id),
+    data: {
+      type: 'task',
+      listId: props.listId
+    }
   })
 
   const style = {
@@ -28,9 +30,8 @@ export default function SortableTaskList(props) {
   }
 
   return (
-    <TaskList
+    <TaskCardListItem
       ref={setNodeRef}
-      listDragHandleRef={setActivatorNodeRef}
       style={style}
       dndAttributes={attributes}
       dndListeners={listeners}
@@ -39,8 +40,7 @@ export default function SortableTaskList(props) {
   )
 }
 
-SortableTaskList.propTypes = {
+SortableTaskCardListItem.propTypes = {
   id: PropTypes.number.isRequired,
-  pos: PropTypes.number.isRequired,
-  title: PropTypes.string.isRequired,
+  listId: PropTypes.number.isRequired,
 }

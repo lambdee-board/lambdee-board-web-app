@@ -1,5 +1,5 @@
 import axios from 'axios'
-import useSWR, { mutate as swrMutate } from 'swr'
+import useSWR, { mutate as swrMutate, unstable_serialize as unstableSerialize } from 'swr'
 import applyCaseMiddleware from 'axios-case-converter'
 
 
@@ -82,5 +82,7 @@ export const mutateAPI = (key, data, options = undefined) => {
   if (data || options) return swrMutate(key, data, options)
   return swrMutate(key)
 }
+
+export const swrCacheKey = (key) => unstableSerialize(key)
 
 export default apiClient

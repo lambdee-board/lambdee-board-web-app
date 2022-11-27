@@ -1,5 +1,6 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
+import { useSWRConfig } from 'swr'
 
 import {
   closestCenter,
@@ -9,27 +10,32 @@ import {
   PointerSensor,
   useSensor,
   useSensors,
+  closestCorners
 } from '@dnd-kit/core'
 import {
   arrayMove,
   SortableContext,
   sortableKeyboardCoordinates,
-  horizontalListSortingStrategy
+  horizontalListSortingStrategy,
 } from '@dnd-kit/sortable'
 
-import apiClient from '../../../api/api-client'
+import apiClient, { swrCacheKey } from '../../../api/api-client'
 import useBoard from '../../../api/board'
 import { isManager } from '../../../internal/permissions'
 import { calculateTaskListOrder } from '../../../internal/component-position-service'
+import { dndListId, dbId } from '../../../utils/dnd'
+import { listGetterKey } from '../../../api/list'
 
 import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 import SortableTaskList from '../../../components/SortableTaskList'
 
 import './BoardWorkView.sass'
 import useAppAlertStore from '../../../stores/app-alert'
+import TaskListItem from '../../../components/board-planning/TaskListItem'
 
 export default function BoardWorkView() {
-  const [draggedList, setDraggedList] = React.useState(null)
+  const { cache } = useSWRConfig()
+  const [dragged, setDragged] = React.useState(null)
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const { boardId } = useParams()
@@ -66,29 +72,74 @@ export default function BoardWorkView() {
     updateListPos(updatedElementId, updatedElementPos, reorderedLists)
   }
 
-  function onListDragStart(event) {
-    const { active } = event
-    const id = active.id
-    const activeList = sortedTaskLists.find((list) => list.id === id)
-    setDraggedList(activeList)
+  function findDndItem(item) {
+    const id = dbId(item.id)
+    const { type } = item.data.current
+
+    const list = findContainer(item)
+    if (type === 'list') return list
+
+    return { ...list.tasks.find((task) => task.id === id), type: 'task' }
   }
 
-  function onListDragEnd(event) {
+  function findContainer(item) {
+    const { type, listId } = item.data.current
+
+    if (type === 'list') {
+      const id = dbId(item.id)
+      return { ...sortedTaskLists.find((list) => list.id === id), type: 'list' }
+    } else if (type === 'task') {
+      return { ...cache.get(swrCacheKey(listGetterKey(listId, { params: { tasks: 'visible' } }))), type: 'list' }
+    }
+  }
+
+  function onDragStart(event) {
+    const { active } = event
+    setDragged(findDndItem(active))
+  }
+
+  function onDragEnd(event) {
     const { active, over } = event
-    console.log(active, over)
-    const draggedId = active?.id
-    const overId = over?.id
+    const draggedId = dbId(active?.id)
+    const overId = dbId(over?.id)
     if (overId == null || draggedId == null) return
 
-    if (draggedId !== overId) {
-      const oldIndex = sortedTaskLists.findIndex((list) => list.id === draggedId)
-      const newIndex = sortedTaskLists.findIndex((list) => list.id === overId)
-      const updatedLists = arrayMove(sortedTaskLists, oldIndex, newIndex)
-      updateTaskListOrder(updatedLists, newIndex)
+    if (active.data.current.type === 'list') {
+      const overList = findContainer(over)
+      if (draggedId !== overList.id) {
+        const oldIndex = sortedTaskLists.findIndex((list) => list.id === draggedId)
+        const newIndex = sortedTaskLists.findIndex((list) => list.id === overList.id)
+        const updatedLists = arrayMove(sortedTaskLists, oldIndex, newIndex)
+        updateTaskListOrder(updatedLists, newIndex)
+      }
+
+      setDragged(null)
+    } else if (active.data.current.type === 'task') {
+
+    }
+  }
+
+  const dndCollisionDetection = React.useCallback((args) => {
+    if (dragged && dragged.type === 'list') {
+      return closestCenter({
+        ...args,
+        droppableContainers: args.droppableContainers.filter(
+          (container) => container.id?.[0] === 'l'
+        )
+      })
     }
 
-    setDraggedList(null)
-  }
+    if (dragged && dragged.type === 'task') {
+      return closestCorners({
+        ...args,
+        droppableContainers: args.droppableContainers.filter(
+          (container) => container.id?.[0] === 't'
+        )
+      })
+    }
+
+    // const overId = rectIntersection(args)
+  }, [dragged])
 
   React.useEffect(() => {
     if (!board) return
@@ -114,15 +165,44 @@ export default function BoardWorkView() {
 
   const TaskListComponent = isManager() ? SortableTaskList : TaskList
 
+  let draggedItem
+
+  if (dragged && dragged.type === 'list') {
+    // console.log(dragged)
+    draggedItem = (
+      <TaskList key={dragged.id}
+        title={dragged.name}
+        pos={dragged.pos}
+        id={dragged.id}
+        visible={dragged.visible}
+        dragged={true}
+      />
+    )
+  } else if (dragged && dragged.type === 'task') {
+    // console.log(dragged)
+    draggedItem = (<TaskListItem key={dragged.id}
+      id={dragged.id}
+      label={dragged.name}
+      tags={dragged.tags}
+      priority={dragged.priority}
+      assignedUsers={dragged.users}
+      points={dragged.points}
+      pos={dragged.pos}
+      index={1}
+      listId={dragged.listId}
+    />)
+  }
+
   return (
     <DndContext
       sensors={listDragSensors}
-      collisionDetection={closestCenter}
-      onDragStart={onListDragStart}
-      onDragEnd={onListDragEnd}
+      collisionDetection={dndCollisionDetection}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
     >
       <SortableContext
-        items={sortedTaskLists.map((list) => list.id)}
+        id='lists'
+        items={sortedTaskLists.map((list) => dndListId(list.id))}
         strategy={horizontalListSortingStrategy}
       >
         <div className='BoardWorkView'>
@@ -140,13 +220,7 @@ export default function BoardWorkView() {
           </div>
         </div>
         <DragOverlay>
-          {draggedList ? <TaskList key={draggedList.id}
-            title={draggedList.name}
-            pos={draggedList.pos}
-            id={draggedList.id}
-            visible={draggedList.visible}
-            dragged={true}
-          /> : null}
+          {draggedItem}
         </DragOverlay>
       </SortableContext>
     </DndContext>

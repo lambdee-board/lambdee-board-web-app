@@ -23,11 +23,15 @@ import { isManager, isRegular } from '../internal/permissions'
 import apiClient from '../api/api-client'
 import useList from '../api/list'
 import { calculatePos } from '../internal/component-position-service'
+import useAppAlertStore from '../stores/app-alert'
+
+import TaskListModal from './TaskListModal'
+import { TaskCardSkeleton } from './TaskCard'
+import TaskCardListItem from './TaskCardListItem'
+import SortableTaskCardListItem from './SortableTaskCardListItem'
+import { SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable'
 
 import './TaskList.sass'
-import TaskListModal from './TaskListModal'
-import { TaskCardSkeleton, TaskCard } from './TaskCard'
-import useAppAlertStore from '../stores/app-alert'
 
 function TaskListSkeletonContent() {
   return (
@@ -203,7 +207,7 @@ const TaskList = React.forwardRef((props, ref) => {
             <Typography
               className='TaskList-header-text'
               ref={props.listDragHandleRef}
-              style={{ cursor: isManager() ? 'pointer' : undefined }}
+              style={{ cursor: isManager() ? 'grab' : undefined }}
               {...(props.dndAttributes ?? {})}
               {...(props.dndListeners ?? {})}
             >
@@ -217,22 +221,14 @@ const TaskList = React.forwardRef((props, ref) => {
           </ListSubheader>} >
           <div>
             {isRegular() ?
-            // <ReactSortable
-            //   list={sortedTasks}
-            //   setList={updateTaskOrder}
-            //   group='TaskCardList'
-            //   delay={1}
-            //   animation={50}
-            //   ghostClass='translucent'
-            //   selectedClass='translucent'
-            //   direction='horizontal'
-            //   // multiDrag
-            //   scroll
-            // >
-
-              sortedTasks.map((task, taskIndex) => (
-                <ListItem key={task.id} className='TaskList-item' >
-                  <TaskCard key={task.id}
+              <SortableContext
+                id={`tasks-${props.id}`}
+                items={sortedTasks.map((task) => task.id)}
+                strategy={verticalListSortingStrategy}
+              >
+                {sortedTasks.map((task, taskIndex) => (
+                  <SortableTaskCardListItem
+                    key={task.id}
                     id={task.id}
                     label={task.name}
                     tags={task.tags}
@@ -242,24 +238,20 @@ const TaskList = React.forwardRef((props, ref) => {
                     pos={task.pos}
                     index={taskIndex}
                     listId={task.listId}
-                  />
-                </ListItem>
-              ))                 :
-
+                  />))}
+              </SortableContext>      :
               sortedTasks.map((task, taskIndex) => (
-                <ListItem key={task.id} className='TaskList-item' >
-                  <TaskCard key={task.id}
-                    id={task.id}
-                    label={task.name}
-                    tags={task.tags}
-                    priority={task.priority}
-                    assignedUsers={task.users}
-                    points={task.points}
-                    pos={task.pos}
-                    index={taskIndex}
-                    listId={task.listId}
-                  />
-                </ListItem>
+                <TaskCardListItem key={task.id}
+                  id={task.id}
+                  label={task.name}
+                  tags={task.tags}
+                  priority={task.priority}
+                  assignedUsers={task.users}
+                  points={task.points}
+                  pos={task.pos}
+                  index={taskIndex}
+                  listId={task.listId}
+                />
               ))}
           </div>
           <ManagerContent>

@@ -40,7 +40,7 @@ const TaskCardSkeleton = () => {
 }
 
 
-const TaskCard = (props) => {
+const TaskCard = React.forwardRef((props, ref) => {
   const dndRef = useRef(null)
 
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
@@ -50,7 +50,13 @@ const TaskCard = (props) => {
     setOpenTaskCardModal(false)
   }
   return (
-    <div className='TaskCard-wrapper' >
+    <div
+      ref={ref}
+      className='TaskCard-wrapper'
+      style={props.style}
+      {...(props.dndListeners ?? {})}
+      {...(props.dndAttributes ?? {})}
+    >
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -92,7 +98,9 @@ const TaskCard = (props) => {
       </Card>
     </div>
   )
-}
+})
+
+TaskCard.displayName = 'TaskCard'
 
 TaskCard.defaultProps = {
   label: '',
@@ -110,6 +118,9 @@ TaskCard.propTypes = {
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  style: PropTypes.object,
+  dndAttributes: PropTypes.object,
+  dndListeners: PropTypes.object
 }
 
 export default TaskCard
