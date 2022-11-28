@@ -241,6 +241,7 @@ end
               id: { type: :integer },
               name: { type: :string },
               description: { type: %i[string null] },
+              due_time: { type: %i[string null], format: :date_time },
               pos: { type: %i[number null], format: :float },
               priority: { type: %i[string null] },
               points: { type: %i[number null], format: :float },
@@ -261,6 +262,7 @@ end
             properties: {
               name: { type: :string },
               description: { type: :string },
+              due_time: { type: :string, format: :date_time, example: '2025-12-18T23:00:00' },
               pos: {
                 type: :number,
                 format: :float,

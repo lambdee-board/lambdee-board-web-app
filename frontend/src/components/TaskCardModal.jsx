@@ -13,10 +13,13 @@ import {
   Stack,
   IconButton,
   Button,
+  TextField
 } from '@mui/material'
 import { ManagerContent, RegularContent } from '../permissions/content'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
+import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import TaskComments from './task-card-modal/TaskComments'
 import UserInfo from './task-card-modal/UserInfo'
 import Tag from './Tag'
@@ -267,6 +270,18 @@ const TaskCardModal = (props) => {
       })
   }
 
+  const editDueTime = (value) => {
+    const payload = { dueTime: value.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
+
+    apiClient.put(`/api/tasks/${props.taskId}`, payload)
+      .then((response) => {
+        mutateTask({ ...task, dueTime: value })
+      })
+      .catch((error) => {
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
+      })
+  }
+
 
   if (taskDescriptionDraft == null && task?.description != null) setTaskDescriptionDraft(task.description)
 
@@ -353,6 +368,22 @@ const TaskCardModal = (props) => {
               <Stack spacing={1}>
                 <Typography>Points</Typography>
                 <TaskPoints task={task} mutate={mutateTask} />
+              </Stack>
+
+              <Stack spacing={1}>
+                <Typography>Due time</Typography>
+
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                  <DateTimePicker
+                    renderInput={(properties) => <TextField {...properties} />}
+                    ampm={false}
+                    value={task.dueTime}
+                    onChange={
+                      (newValue) => {
+                        editDueTime(newValue)
+                      }}
+                  />
+                </LocalizationProvider>
               </Stack>
 
               <Stack spacing={1}>
