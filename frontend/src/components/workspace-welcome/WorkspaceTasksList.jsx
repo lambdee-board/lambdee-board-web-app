@@ -6,8 +6,6 @@ import {
   Card,
   Divider,
   Button,
-  Modal,
-  Box,
   Skeleton
 } from '@mui/material'
 import {
@@ -15,17 +13,14 @@ import {
 } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import { useBoard, mutateBoard } from '../../api/board'
-import PriorityIcon from '../PriorityIcon'
-import TaskCardModal from '../TaskCardModal'
+import { useBoard } from '../../api/board'
+import WorkspaceTask from './WorkspaceTask'
 
-import './WorkspaceTasks.sass'
+import './WorkspaceTasksList.sass'
 
-function WorkspaceTasks({ boardId, workspaceId }) {
+function WorkspaceTasksList({ boardId, workspaceId }) {
   const navigate = useNavigate()
   const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
-  const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
-  const [pickedTask, setPickedTask] = React.useState(false)
 
   if (isLoading || isError) return (
     <Card className='Tasks-card' >
@@ -55,33 +50,10 @@ function WorkspaceTasks({ boardId, workspaceId }) {
     </Card>
   )
 
-  const handleOpenTaskCardModal = (props) => {
-    setPickedTask(props.id)
-    setOpenTaskCardModal(true)
-  }
-  const handleCloseTaskCardModal = () => {
-    mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
-    setOpenTaskCardModal(false)
-  }
 
   return (
     <div>
-      {openTaskCardModal &&
-        <Modal
-          open={openTaskCardModal}
-          onClose={handleCloseTaskCardModal}
-        >
-          <Box
-            sx={{  position: 'absolute',
-              top: '50%',
-              left: '50%',
-              transform: 'translate(-50%, -50%)',
-              outline: 0 }}>
-            <TaskCardModal taskId={pickedTask} boardId = {boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
-          </Box>
-        </Modal>
-      }
-      {console.log(board)}
+
       {board?.lists?.length > 0 &&
         <Card className='Tasks-card' >
           <Button sx={{ textTransform: 'none' }} className='Tasks-card-title'
@@ -99,19 +71,7 @@ function WorkspaceTasks({ boardId, workspaceId }) {
                 <div className='Tasks-card-list-title'>
                   <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
                 </div>
-                {list.tasks?.map((task) => (
-                  <div key={task.id}>
-                    <Button sx={{ textTransform: 'none' }} className='Tasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
-                      <div className='Tasks-card-list-task-wrapper'>
-                        <div className='Tasks-card-list-task-priority'>
-                          <PriorityIcon size='lg' taskPriority={task.priority} />
-                        </div>
-
-                        <Typography className='Tasks-card-list-task-title' variant='caption'>{task.name}</Typography>
-                      </div>
-                    </Button>
-                  </div>
-                ))}
+                <WorkspaceTask listId={list.id} boardId={board.id} />
               </div>
             ))}
           </div>
@@ -121,11 +81,11 @@ function WorkspaceTasks({ boardId, workspaceId }) {
   )
 }
 
-WorkspaceTasks.propTypes = {
+WorkspaceTasksList.propTypes = {
   boardId: PropTypes.number.isRequired,
   workspaceId: PropTypes.string.isRequired,
   listId: PropTypes.number,
   id: PropTypes.number
 }
 
-export default WorkspaceTasks
+export default WorkspaceTasksList

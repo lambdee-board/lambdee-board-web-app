@@ -8,12 +8,12 @@ import {
 } from '@mui/material'
 
 import useWorkspace from './../../api/workspace'
-import Tasks from '../../components/workspace-welcome/WorkspaceTasks'
+import WorkspaceTasksList from '../../components/workspace-welcome/WorkspaceTasksList'
 
 import './WorkspaceWelcomeView.sass'
 
 export default function WorkspaceWelcomeView() {
-  const { workspaceId, boardId } = useParams()
+  const { workspaceId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
 
 
@@ -41,8 +41,7 @@ export default function WorkspaceWelcomeView() {
     <div className='tasksView-wrapper'>
       <div className='tasksView-userTasks'>
         {workspace.boards?.map((board) => (
-          // mode all returns all boards, lists and tasks, mode user return boards, lists and tasks assigned to user
-          <Tasks key={board.id} workspaceId={workspaceId} boardId={board.id} />
+          <WorkspaceTasksList key={board.id} workspaceId={workspaceId} boardId={board.id} />
         ))}
       </div>
     </div>
