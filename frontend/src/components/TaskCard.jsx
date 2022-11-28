@@ -51,11 +51,7 @@ const TaskCard = React.forwardRef((props, ref) => {
   }
   return (
     <div
-      ref={ref}
       className='TaskCard-wrapper'
-      style={props.style}
-      {...(props.dndListeners ?? {})}
-      {...(props.dndAttributes ?? {})}
     >
       <Modal
         open={openTaskCardModal}
@@ -117,9 +113,6 @@ TaskCard.propTypes = {
   priority: PropTypes.string,
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
-  style: PropTypes.object,
-  dndAttributes: PropTypes.object,
-  dndListeners: PropTypes.object
 }
 
 export default TaskCard

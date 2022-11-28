@@ -25,6 +25,7 @@ import { isManager } from '../../../internal/permissions'
 import { calculateTaskListOrder } from '../../../internal/component-position-service'
 import { dndListId, dbId } from '../../../utils/dnd'
 import { listGetterKey, mutateList } from '../../../api/list'
+import { uniqueArrayBy } from '../../../utils/unique_array'
 
 import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 import SortableTaskList from '../../../components/SortableTaskList'
@@ -107,6 +108,35 @@ export default function BoardWorkView() {
     setDragged(findDndItem(active))
   }
 
+  function onDragOver({ active, over }) {
+    if (active?.data?.current?.type?.[0] === 'l') return
+
+    const overList = findDndList(over)
+    const fromList = findDndList(active)
+    if (!overList || !fromList) return
+    if (overList.id === fromList.id) return
+
+    console.log(overList, fromList)
+    mutateList({
+      id: overList.id,
+      data: {
+        ...overList,
+        tasks: uniqueArrayBy([...overList.tasks, { ...dragged, listId: overList.id }], (task) => task.id)
+      },
+      axiosOptions: { params: { tasks: 'visible' } },
+      options: { revalidate: false }
+    })
+    mutateList({
+      id: fromList.id,
+      data: {
+        ...fromList,
+        tasks: uniqueArrayBy(fromList.tasks, (task) => task.id).filter((task) => task.id !== dragged.id)
+      },
+      axiosOptions: { params: { tasks: 'visible' } },
+      options: { revalidate: false }
+    })
+  }
+
   function onDragEnd(event) {
     const { active, over } = event
     const draggedId = dbId(active?.id)
@@ -126,6 +156,7 @@ export default function BoardWorkView() {
     } else if (dragged?.type === 'task') {
       const fromList = findDndList(active)
       const overTask = findDndTask(over)
+      if (!fromList || !overList) return
       if (dragged.listId !== overTask.listId) {
         mutateList({
           id: overList.id,
@@ -229,6 +260,7 @@ export default function BoardWorkView() {
       collisionDetection={dndCollisionDetection}
       onDragStart={onDragStart}
       onDragEnd={onDragEnd}
+      onDragOver={onDragOver}
     >
       <SortableContext
         id='lists'

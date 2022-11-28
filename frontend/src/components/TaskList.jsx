@@ -22,6 +22,7 @@ import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { isManager, isRegular } from '../internal/permissions'
 import apiClient from '../api/api-client'
 import useList from '../api/list'
+import { dndTaskId } from '../utils/dnd'
 import { calculatePos } from '../internal/component-position-service'
 import useAppAlertStore from '../stores/app-alert'
 
@@ -220,13 +221,13 @@ const TaskList = React.forwardRef((props, ref) => {
             </ManagerContent>
           </ListSubheader>} >
           <div>
-            {isRegular() ?
-              <SortableContext
-                id={`tasks-${props.id}`}
-                items={sortedTasks.map((task) => task.id)}
-                strategy={verticalListSortingStrategy}
-              >
-                {sortedTasks.map((task, taskIndex) => (
+            <SortableContext
+              id={`tasks-${props.id}`}
+              items={sortedTasks.map((task) => dndTaskId(task.id))}
+              strategy={verticalListSortingStrategy}
+            >
+              {isRegular() ?
+                sortedTasks.map((task, taskIndex) => (
                   <SortableTaskCardListItem
                     key={task.id}
                     id={task.id}
@@ -238,21 +239,21 @@ const TaskList = React.forwardRef((props, ref) => {
                     pos={task.pos}
                     index={taskIndex}
                     listId={task.listId}
-                  />))}
-              </SortableContext>      :
-              sortedTasks.map((task, taskIndex) => (
-                <TaskCardListItem key={task.id}
-                  id={task.id}
-                  label={task.name}
-                  tags={task.tags}
-                  priority={task.priority}
-                  assignedUsers={task.users}
-                  points={task.points}
-                  pos={task.pos}
-                  index={taskIndex}
-                  listId={task.listId}
-                />
-              ))}
+                  />))                    :
+                sortedTasks.map((task, taskIndex) => (
+                  <TaskCardListItem key={task.id}
+                    id={task.id}
+                    label={task.name}
+                    tags={task.tags}
+                    priority={task.priority}
+                    assignedUsers={task.users}
+                    points={task.points}
+                    pos={task.pos}
+                    index={taskIndex}
+                    listId={task.listId}
+                  />
+                ))}
+            </SortableContext>
           </div>
           <ManagerContent>
             { !newTaskButtonVisible &&
