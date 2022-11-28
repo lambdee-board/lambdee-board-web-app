@@ -41,7 +41,7 @@ function TaskPoints({ task, mutate }) {
     apiClient.put(`/api/tasks/${task.id}`, updatedTask)
       .then((response) => {
         // successful request
-        mutate({ ...task, points: updatedTask.points })
+        mutate({ ...task, points: updatedTask.points }, { revalidate: false })
         toggleEditPointsButton()
       })
       .catch((error) => {

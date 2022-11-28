@@ -8,7 +8,7 @@ import {
 import { isManager } from '../../../internal/permissions'
 import apiClient from '../../../api/api-client'
 import useBoard from '../../../api/board'
-import { calculateTaskListOrder } from '../../../internal/component-position-service'
+import { calculateNewOrder } from '../../../internal/component-position-service'
 
 import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
 import { RegularContent } from '../../../permissions/content'
@@ -47,7 +47,7 @@ export default function BoardWorkView() {
   }
 
   const updateTaskListOrder = (updatedLists, ...rest) => {
-    const [updatedElementId, updatedElementPos, reorderedLists] = calculateTaskListOrder(sortedTaskLists, updatedLists)
+    const [updatedElementId, updatedElementPos, reorderedLists] = calculateNewOrder(sortedTaskLists, updatedLists)
     if ((updatedElementId ?? true) === true) return
 
     updateListPos(updatedElementId, updatedElementPos, reorderedLists)

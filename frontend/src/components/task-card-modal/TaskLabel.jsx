@@ -44,7 +44,7 @@ function TaskLabel({ task, mutate }) {
     apiClient.put(`/api/tasks/${task.id}`, updatedTask)
       .then((response) => {
         // successful request
-        mutate({ ...task, name: newLabel.value })
+        mutate({ ...task, name: newLabel.value }, { revalidate: false })
         toggleEditTaskLabelButton()
       })
       .catch((error) => {

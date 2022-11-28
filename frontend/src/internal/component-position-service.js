@@ -14,7 +14,7 @@ export const calculatePos = (updatedItemIndex, updatedList) => {
   return pos
 }
 
-export const calculateTaskListOrder = (updatedElements, currentListIndex) => {
+export const calculateNewOrder = (updatedElements, currentListIndex) => {
   const newUpdatedElements = [...updatedElements]
   const newUpdatedElement = { ...newUpdatedElements[currentListIndex] }
   newUpdatedElement.pos = calculatePos(currentListIndex, updatedElements)

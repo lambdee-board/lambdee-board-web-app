@@ -40,7 +40,7 @@ function TaskPriority({ task, mutate }) {
     apiClient.put(`/api/tasks/${task.id}`, payload)
       .then((response) => {
         // successful request
-        mutate({ ...task, priority: payload.priority })
+        mutate({ ...task, priority: payload.priority }, { revalidate: false })
         setEditPriorityVisible(false)
       })
       .catch((error) => {

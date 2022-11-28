@@ -19,9 +19,7 @@ function TaskTime({ task, mutate }) {
     if (!userTime) return
 
     const timeToAdd = getTimeInSeconds(userTime)
-    console.log('1', timeToAdd)
     if (timeToAdd === null || timeToAdd === 0) {
-      console.log('3', timeToAdd)
       return
     }
 

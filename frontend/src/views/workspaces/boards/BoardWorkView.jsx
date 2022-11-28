@@ -22,10 +22,10 @@ import {
 import apiClient, { swrCacheKey } from '../../../api/api-client'
 import useBoard from '../../../api/board'
 import { isManager } from '../../../internal/permissions'
-import { calculateTaskListOrder } from '../../../internal/component-position-service'
+import { calculateNewOrder } from '../../../internal/component-position-service'
 import { dndListId, dbId } from '../../../utils/dnd'
 import { listGetterKey, mutateList } from '../../../api/list'
-import { uniqueArrayBy } from '../../../utils/unique_array'
+import { uniqueArrayBy, uniqueArrayByFilter } from '../../../utils/unique-array'
 
 import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
 import SortableTaskList from '../../../components/SortableTaskList'
@@ -59,20 +59,50 @@ export default function BoardWorkView() {
     }
 
     apiClient.put(`/api/lists/${id}`, updatedList)
+      .then(() => {
+        mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }))
+      })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
-      .finally(() => {
-        mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }))
+  }
+
+  const updateTaskPos = (id, newPos, updatedTasks, listId) => {
+    const updatedTask = {
+      id,
+      listId,
+      pos: newPos,
+    }
+
+    mutateList({
+      id: listId,
+      data: (list) => ({ ...list, tasks: updatedTasks }),
+      axiosOptions: { params: { tasks: 'visible' } },
+      options: { revalidate: false }
+    })
+    apiClient.put(`/api/tasks/${id}`, updatedTask)
+      .then((response) => {
+        // mutateList({ id: listId, axiosOptions: { params: { tasks: 'visible' } } })
+      })
+      .catch((error) => {
+        // failed or rejected
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
 
   const updateTaskListOrder = (updatedLists, updatedElementIndex) => {
-    const [updatedElementId, updatedElementPos, reorderedLists] = calculateTaskListOrder(updatedLists, updatedElementIndex)
+    const [updatedElementId, updatedElementPos, reorderedLists] = calculateNewOrder(updatedLists, updatedElementIndex)
     if ((updatedElementId ?? true) === true) return
 
     updateListPos(updatedElementId, updatedElementPos, reorderedLists)
+  }
+
+  const updateTaskOrder = (updatedTasks, updatedElementIndex, listId) => {
+    const [updatedElementId, updatedElementPos, reorderedTasks] = calculateNewOrder(updatedTasks, updatedElementIndex)
+    if ((updatedElementId ?? true) === true) return
+
+    updateTaskPos(updatedElementId, updatedElementPos, reorderedTasks, listId)
   }
 
   function findDndItem(item) {
@@ -111,26 +141,44 @@ export default function BoardWorkView() {
   function onDragOver({ active, over }) {
     if (active?.data?.current?.type?.[0] === 'l') return
 
+    const overId = dbId(over.id)
     const overList = findDndList(over)
     const fromList = findDndList(active)
     if (!overList || !fromList) return
     if (overList.id === fromList.id) return
 
-    console.log(overList, fromList)
+    if (over.data.current.type === 'task-list') return // TODO
+
+    const isBelowOverItem =
+      over &&
+      active.rect.current.translated &&
+      active.rect.current.translated.offsetTop >
+      over.rect.offsetTop + over.rect.height
+    const modifier = isBelowOverItem ? 1 : 0
+    const overIndex = overList.tasks.findIndex((task) => task.id === overId)
+    const newIndex = overIndex >= 0 ? overIndex + modifier : overList.tasks.length + 1
+
     mutateList({
-      id: overList.id,
+      id: fromList.id,
       data: {
-        ...overList,
-        tasks: uniqueArrayBy([...overList.tasks, { ...dragged, listId: overList.id }], (task) => task.id)
+        ...fromList,
+        tasks: uniqueArrayByFilter(fromList.tasks, (task) => task.id, (task) => task.id !== dragged.id)
       },
       axiosOptions: { params: { tasks: 'visible' } },
       options: { revalidate: false }
     })
     mutateList({
-      id: fromList.id,
+      id: overList.id,
       data: {
-        ...fromList,
-        tasks: uniqueArrayBy(fromList.tasks, (task) => task.id).filter((task) => task.id !== dragged.id)
+        ...overList,
+        tasks: uniqueArrayBy(
+          [
+            ...overList.tasks.slice(0, newIndex),
+            { ...dragged, listId: overList.id },
+            ...overList.tasks.slice(newIndex, overList.tasks.length)
+          ],
+          (task) => task.id
+        )
       },
       axiosOptions: { params: { tasks: 'visible' } },
       options: { revalidate: false }
@@ -141,7 +189,7 @@ export default function BoardWorkView() {
     const { active, over } = event
     const draggedId = dbId(active?.id)
     const overId = dbId(over?.id)
-    if (overId == null || draggedId == null) return
+    if (overId == null || draggedId == null) return setDragged(null)
 
     const overList = findDndList(over)
     if (dragged?.type === 'list') {
@@ -156,33 +204,51 @@ export default function BoardWorkView() {
     } else if (dragged?.type === 'task') {
       const fromList = findDndList(active)
       const overTask = findDndTask(over)
-      if (!fromList || !overList) return
-      if (dragged.listId !== overTask.listId) {
-        mutateList({
-          id: overList.id,
-          data: {
-            ...overList,
-            tasks: [...overList.tasks, { ...dragged, listId: overList.id }]
-          },
-          axiosOptions: { params: { tasks: 'visible' } },
-          options: { revalidate: false }
-        })
-        mutateList({
-          id: fromList.id,
-          data: {
-            ...fromList,
-            tasks: fromList.tasks.filter((task) => task.id !== dragged.id)
-          },
-          axiosOptions: { params: { tasks: 'visible' } },
-          options: { revalidate: false }
-        })
+      if (!fromList || !overList) return setDragged(null)
+
+      if (fromList.id !== overList.id) {
+        // mutateList({
+        //   id: overList.id,
+        //   data: {
+        //     ...overList,
+        //     tasks: [...overList.tasks, { ...dragged, listId: overList.id }]
+        //   },
+        //   axiosOptions: { params: { tasks: 'visible' } },
+        //   options: { revalidate: false }
+        // })
+        // mutateList({
+        //   id: fromList.id,
+        //   data: {
+        //     ...fromList,
+        //     tasks: fromList.tasks.filter((task) => task.id !== dragged.id)
+        //   },
+        //   axiosOptions: { params: { tasks: 'visible' } },
+        //   options: { revalidate: false }
+        // })
+      } else {
+        console.log(over, active)
+        const newIndex = overList.tasks.findIndex((task) => task.id === overTask.id)
+        let updatedTasks
+        if (dragged.id !== overTask.id) {
+          const oldIndex = overList.tasks.findIndex((task) => task.id === dragged.id)
+          updatedTasks = arrayMove(overList.tasks, oldIndex, newIndex)
+        } else {
+          updatedTasks = overList.tasks
+        }
+        console.log(overList, newIndex)
+        // const updatedTasks = arrayMove(overList.tasks, oldIndex, newIndex)
+        updateTaskOrder(updatedTasks, newIndex, overList.id)
+        // mutateList({
+        //   id: overList.id,
+        //   axiosOptions: { params: { tasks: 'visible' } }
+        // })
       }
 
       setDragged(null)
     }
   }
 
-  const dndCollisionDetection = React.useCallback((args) => {
+  const dndCollisionDetection = (args) => {
     if (dragged && dragged.type === 'list') {
       return closestCenter({
         ...args,
@@ -193,6 +259,14 @@ export default function BoardWorkView() {
     }
 
     if (dragged && dragged.type === 'task') {
+      // console.log(args.droppableContainers.filter(
+      //   (container) => container.id?.[0] === 't'
+      // ), closestCenter({
+      //   ...args,
+      //   droppableContainers: args.droppableContainers.filter(
+      //     (container) => container.id?.[0] === 't'
+      //   )
+      // }))
       return closestCorners({
         ...args,
         droppableContainers: args.droppableContainers.filter(
@@ -200,9 +274,7 @@ export default function BoardWorkView() {
         )
       })
     }
-
-    // const overId = rectIntersection(args)
-  }, [dragged])
+  }
 
   React.useEffect(() => {
     if (!board) return
@@ -241,7 +313,6 @@ export default function BoardWorkView() {
       />
     )
   } else if (dragged && dragged.type === 'task') {
-    // console.log(dragged)
     draggedItem = (<TaskCardListItem key={dragged.id}
       id={dragged.id}
       label={dragged.name}

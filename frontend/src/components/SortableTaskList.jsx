@@ -1,9 +1,10 @@
 import React from 'react'
 import PropTypes from 'prop-types'
+import { useDroppable } from '@dnd-kit/core'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 
-import { dndListId } from '../utils/dnd'
+import { dndListId, dndTaskListId } from '../utils/dnd'
 
 import TaskList from './TaskList'
 
@@ -12,13 +13,18 @@ export default function SortableTaskList(props) {
     active,
     attributes,
     listeners,
-    setNodeRef,
-    setActivatorNodeRef,
+    setNodeRef: sortableListNodeRef,
+    setActivatorNodeRef: sortableListDragHandleRef,
     transform,
     transition,
   } = useSortable({
     id: dndListId(props.id),
     data: { type: 'list' }
+  })
+
+  const { setNodeRef: droppableNodeRef } = useDroppable({
+    id: dndTaskListId(props.id),
+    data: { type: 'task-list' }
   })
 
   const style = {
@@ -29,8 +35,8 @@ export default function SortableTaskList(props) {
 
   return (
     <TaskList
-      ref={setNodeRef}
-      listDragHandleRef={setActivatorNodeRef}
+      ref={(node) => { sortableListNodeRef(node); droppableNodeRef(node) }}
+      listDragHandleRef={sortableListDragHandleRef}
       style={style}
       dndAttributes={attributes}
       dndListeners={listeners}

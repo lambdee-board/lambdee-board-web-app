@@ -124,7 +124,7 @@ const TaskList = React.forwardRef((props, ref) => {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
-        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] })
+        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] }, { revalidate: false })
         toggleNewTaskButton()
       })
       .catch((error) => {
