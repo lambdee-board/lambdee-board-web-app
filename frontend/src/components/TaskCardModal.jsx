@@ -27,7 +27,7 @@ import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import TaskTime from './task-card-modal/TaskTime'
-import Alert from './Alert'
+import CustomAlert from './CustomAlert'
 
 import { isRegular } from '../internal/permissions'
 import useTask from '../api/task'
@@ -104,7 +104,6 @@ const TaskCardModal = (props) => {
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
   const [alertModalState, setAlertModalState] = React.useState(false)
-  const boardId = props.boardId
   const toggleAlertModalState = () => {
     setAlertModalState(!alertModalState)
   }
@@ -225,7 +224,7 @@ const TaskCardModal = (props) => {
   }
 
   const createAttachTag = (newTagPayload) => {
-    const payload = { ...newTagPayload, boardId, taskId: props.taskId }
+    const payload = { ...newTagPayload, boardId: props.boardId, taskId: props.taskId }
 
     apiClient.post(`/api/tasks/${props.taskId}/tags`, payload)
       .then((response) => {
@@ -277,6 +276,23 @@ const TaskCardModal = (props) => {
   return (
     <Box className='TaskCardModal-wrapper' data-color-mode='light'>
       <Card className='TaskCardModal-paper'>
+        <Modal
+          open={alertModalState}
+          onClose={toggleAlertModalState}
+        >
+          <Box
+            sx={{  position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              outline: 0 }}>
+            <CustomAlert confirmAction={deleteTask}
+              dismissAction={toggleAlertModalState}
+              title='Delete Task?'
+              message={`Are you sure you want to delete ${task.name}?`}
+              confirmMessage='Confirm, delete task' />
+          </Box>
+        </Modal>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
             <TaskLabel task={task} mutate={mutateTask} />
@@ -439,21 +455,6 @@ const TaskCardModal = (props) => {
             </Stack>
           </Card>
           <ManagerContent>
-            <Modal
-              open={alertModalState}
-              onClose={toggleAlertModalState}
-            >
-              <Box
-                className='TaskList-Modal'
-                sx={{  position: 'absolute',
-                  top: '50%',
-                  left: '50%',
-                  transform: 'translate(-50%, -50%)',
-                  outline: 0 }}>
-                <Alert action={deleteTask} title='Delete Task' message={`Are you sure you want to delete ${task.name}?`} />
-              </Box>
-            </Modal>
-
             <Button
               className='TaskCardModal-delete-task'
               variant='contained'

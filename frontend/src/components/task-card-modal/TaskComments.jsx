@@ -10,6 +10,7 @@ import {
   Divider,
   Button,
   Avatar,
+  Modal
 } from '@mui/material'
 import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -21,6 +22,7 @@ import useCurrentUser from '../../api/current-user'
 import useAppAlertStore from '../../stores/app-alert'
 
 import UserInfo from './UserInfo'
+import CustomAlert from '../CustomAlert'
 
 import './TaskComments.sass'
 
@@ -136,6 +138,10 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [commentEditorVisible, setCommentEditorVisible] = React.useState(false)
   const [commentDraft, setCommentDraft] = React.useState(null)
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const date = dateFormat(new Date(comment.updatedAt), 'd mmmm yyyy, HH:MM')
 
@@ -183,6 +189,23 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
 
   return (
     <Card className='TaskComment'>
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={deleteComment}
+            dismissAction={toggleAlertModalState}
+            title='Delete Comment?'
+            message='Are you sure you want to delete this comment?'
+            confirmMessage='Confirm, delete comment' />
+        </Box>
+      </Modal>
       <Box>
         <Box className='TaskComment-info'>
           <Avatar className='TaskComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
@@ -243,9 +266,10 @@ const TaskComment = ({ currentUser, comment, mutateComments }) => {
                     Edit
                   </Typography>
                 </Button>
+
                 <Button
                   className='TaskComment-footer-delete'
-                  onClick={() => deleteComment()}
+                  onClick={toggleAlertModalState}
                 >
                   <Typography variant='body2'>
                     <FontAwesomeIcon className='TaskComment-footer-icon' icon={faTrash} />

@@ -11,7 +11,8 @@ import {
   ClickAwayListener,
   Divider,
   InputBase,
-  IconButton
+  IconButton,
+  Modal
 } from '@mui/material'
 import {
   faXmark,
@@ -24,6 +25,7 @@ import { mutateWorkspace } from '../../api/workspace'
 import useAppAlertStore from '../../stores/app-alert'
 
 import ColorPickerPopover from '../ColorPickerPopover'
+import CustomAlert from '../CustomAlert'
 
 import './WorkspaceBoard.sass'
 
@@ -33,6 +35,10 @@ const WorkspaceBoard = (props) => {
   const [color, setColor] = React.useState()
   const editBoardRef = React.useRef()
   const addAlert = useAppAlertStore((store) => store.addAlert)
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const toggleEditBoard = () => {
     setEditBoardVisible(!editBoardVisible)
@@ -118,6 +124,23 @@ const WorkspaceBoard = (props) => {
 
   return (
     <Box>
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={deleteBoard}
+            dismissAction={toggleAlertModalState}
+            title='Delete Board?'
+            message={`Are you sure you want to delete ${props.boardName}?`}
+            confirmMessage='Confirm, delete Board' />
+        </Box>
+      </Modal>
       {!editBoardVisible &&
         <ClickAwayListener onClickAway={toggleEditBoard}>
           <Box>
@@ -147,7 +170,7 @@ const WorkspaceBoard = (props) => {
             </ListItemIcon>
             <ListItemText primary={props.boardName} />
           </Box>
-          <IconButton onClick={deleteBoard}>
+          <IconButton onClick={toggleAlertModalState}>
             <FontAwesomeIcon className='DeleteBoard-icon' icon={faTrash} />
           </IconButton>
         </ListItem>
