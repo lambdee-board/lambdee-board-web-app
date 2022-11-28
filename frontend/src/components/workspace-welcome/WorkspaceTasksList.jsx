@@ -23,7 +23,7 @@ function WorkspaceTasksList({ boardId, workspaceId }) {
   const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
 
   if (isLoading || isError) return (
-    <Card className='Tasks-card' >
+    <Card className='Tasks-card'>
       <div className='Tasks-card-title'>
         <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
       </div>

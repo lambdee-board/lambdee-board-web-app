@@ -10,8 +10,7 @@ import {
 import useWorkspaceUsers from '../../api/workspace-users'
 
 function AssignUserSelect(props) {
-  const workspaceId = props.workspaceId
-  const { data: usersObject, isLoading, isError } = useWorkspaceUsers({ id: workspaceId })
+  const { data: usersObject, isLoading, isError } = useWorkspaceUsers({ id: props.workspaceId })
   const [open, setOpen] = React.useState(true)
   const [usersToAssign, setUsersToAssign] = React.useState([])
 
