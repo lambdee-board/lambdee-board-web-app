@@ -13,7 +13,7 @@ import {
   Stack,
   IconButton,
   Button,
-  TextField
+  TextField,
   Modal
 } from '@mui/material'
 import { ManagerContent, RegularContent } from '../permissions/content'

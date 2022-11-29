@@ -120,7 +120,7 @@ export default function Sidebar() {
             <SidebarListSkeleton />
           ) : (
             <List className='List'>
-              <SidebarListItem className='ListItem-workspace'
+              <SidebarListItem onClick={() => navigate(`/workspaces/${workspaceId}`)} className='ListItem-workspace'
                 label={workspace.name}
                 icon={<WorkspaceIcon name={workspace.name} size={48} />}
               />

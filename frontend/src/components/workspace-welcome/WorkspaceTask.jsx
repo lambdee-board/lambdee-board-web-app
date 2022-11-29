@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 
 
-import useList from '../../api/list'
+import { useList, mutateList } from '../../api/list'
 import { mutateBoard } from '../../api/board'
 import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
@@ -32,7 +32,7 @@ function WorkspaceTask({ listId, boardId }) {
     setPickedTask(props.id)
   }
   const handleCloseTaskCardModal = () => {
-    mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
+    mutateList({ id: listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
 
@@ -55,7 +55,7 @@ function WorkspaceTask({ listId, boardId }) {
       }
       {taskList.tasks?.map((task) => (
         <div key={task.id}>
-          <Button sx={{ textTransform: 'none' }} className='Tasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
+          <Button sx={{ textTransform: 'none', color: 'black' }} className='Tasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
             <div className='Tasks-card-list-task-wrapper'>
               <div className='Tasks-card-list-task-priority'>
                 <PriorityIcon size='lg' taskPriority={task.priority} />
