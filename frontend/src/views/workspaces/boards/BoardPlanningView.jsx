@@ -9,7 +9,7 @@ import { ReactSortable } from 'react-sortablejs'
 import { isManager } from '../../../internal/permissions'
 import apiClient from '../../../api/api-client'
 import useBoard from '../../../api/board'
-import { calculateTaskListOrder } from '../../../internal/component-position-service'
+import { calculatePos, sortByPos } from '../../../internal/component-position'
 
 import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
 import { RegularContent } from '../../../permissions/content'
@@ -21,10 +21,13 @@ export default function BoardWorkView() {
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [sortedTaskLists, setNewTaskListOrder] = React.useState([])
   const [invisibleLists, setInvisibleList] = React.useState([])
-  const { boardId } = useParams()
-  const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+  const [draggedListId, setDraggedListId] = React.useState(null)
+  const clearDraggedListId = () => setDraggedListId(null)
 
-  const Visibility = (lists) => {
+  const { boardId } = useParams()
+  const { data: board, mutate: mutateBoard, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
+
+  const visibility = (lists) => {
     const visible = lists.filter((el) => el.visible === true)
     const invisible = lists.filter((el) => !el.visible === true)
     return [visible, invisible]
@@ -39,26 +42,46 @@ export default function BoardWorkView() {
     }
 
     apiClient.put(`/api/lists/${id}`, updatedList)
+      .then(() => {
+        mutateBoard((boardData) => ({ ...boardData, lists: updatedLists }), { revalidate: false })
+      })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
-      })
-      .finally(() => {
+        mutateBoard()
       })
   }
 
   const updateTaskListOrder = (updatedLists, ...rest) => {
-    const [updatedElementId, updatedElementPos, reorderedLists] = calculateTaskListOrder(sortedTaskLists, updatedLists)
-    if ((updatedElementId ?? true) === true) return
+    if (updatedLists.length === sortedTaskLists.length) {
+      let listsAreEqual = true
+      for (let i = 0; i < sortedTaskLists.length; i++) {
+        if (sortedTaskLists[i].id !== updatedLists[i].id) {
+          listsAreEqual = false
+          break
+        }
+      }
 
-    updateListPos(updatedElementId, updatedElementPos, reorderedLists)
+      if (listsAreEqual) return
+    }
+
+    const currentListIndex = updatedLists.findIndex((list) => list.id === draggedListId)
+
+    const reorderedLists = [...updatedLists]
+    const newUpdatedList = { ...reorderedLists[currentListIndex] }
+    newUpdatedList.pos = calculatePos(currentListIndex, updatedLists)
+    reorderedLists[currentListIndex] = newUpdatedList
+
+    if ((newUpdatedList.id ?? true) === true) return
+
+    updateListPos(newUpdatedList.id, newUpdatedList.pos, reorderedLists)
   }
 
   React.useEffect(() => {
     if (!board) return
 
-    const [visible, invisible] = Visibility(board.lists)
-    const sortedList = [...visible].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const [visible, invisible] = visibility(board.lists)
+    const sortedList = sortByPos(visible)
     setNewTaskListOrder([...sortedList])
     setInvisibleList([...invisible])
   }, [board])
@@ -73,7 +96,21 @@ export default function BoardWorkView() {
           <div className='TaskLists-spacer'></div>
         </div>
       </div>
-    </div>)
+    </div>
+  )
+
+  const visibleListComponents =
+    sortedTaskLists.map((taskList, listIndex) => (
+      <div key={taskList.id} data-list-id={taskList.id}>
+        <TaskPlanningList key={taskList.id}
+          title={taskList.name}
+          pos={taskList.pos}
+          id={taskList.id}
+          index={listIndex}
+          visible={taskList.visible}
+        />
+      </div>
+    ))
 
   return (
     <div className='BoardPlanningView'>
@@ -81,39 +118,24 @@ export default function BoardWorkView() {
         {isManager() ?
           <ReactSortable
             sortableElement
+            onChoose={(event) => setDraggedListId(parseInt(event.item.dataset.listId))}
+            onEnd={clearDraggedListId}
             className='TaskLists-wrapper'
             list={sortedTaskLists}
             setList={updateTaskListOrder}
             scroll
             ghostClass='translucent'
             direction='horizontal'
-            delay={1}
             animation={50}
           >
-            {sortedTaskLists.map((taskList, listIndex) => (
-              <TaskPlanningList key={taskList.id}
-                title={taskList.name}
-                pos={taskList.pos}
-                id={taskList.id}
-                index={listIndex}
-                visible={taskList.visible}
-              />
-            ))}
+            {visibleListComponents}
           </ReactSortable> :
           <div className='TaskLists-wrapper'>
-            {sortedTaskLists.map((taskList, listIndex) => (
-              <TaskPlanningList key={taskList.id}
-                title={taskList.name}
-                pos={taskList.pos}
-                id={taskList.id}
-                index={listIndex}
-                visible={taskList.visible}
-              />
-            ))}
+            {visibleListComponents}
           </div>
         }
         <RegularContent>
-          <Divider sx={{ mt: '48px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
+          <Divider sx={{ mt: '24px', mb: '8px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
           <div className='TaskLists-wrapper'>
             {invisibleLists.map((taskList, listIndex) => (
               <TaskPlanningList key={taskList.id}

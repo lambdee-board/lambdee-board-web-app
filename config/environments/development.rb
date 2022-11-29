@@ -79,8 +79,4 @@ require "active_support/core_ext/integer/time"
     ::Bullet.rails_logger  = true
     ::Bullet.add_footer    = true
   end
-
-  if ::ENV['GUARD']
-    config.middleware.insert_after ::ActionDispatch::Static, ::Rack::LiveReload
-  end
 end

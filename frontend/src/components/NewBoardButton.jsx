@@ -65,7 +65,7 @@ export default function NewBoardButton() {
     apiClient.post('/api/boards', newBoard)
       .then((response) => {
         // successful request
-        mutate({ ...workspace, boards: [...workspace?.boards || [], response.data] })
+        mutate({ ...workspace, boards: [...workspace?.boards || [], response.data] }, { revalidate: false })
         toggleNewBoardButton()
       })
       .catch((error) => {

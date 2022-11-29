@@ -17,7 +17,6 @@ fi
 
 # Default number of workers per process
 RAILS=1
-GUARD=1
 REACT=1
 
 # parse passed options
@@ -27,17 +26,12 @@ while [[ $# -gt 0 ]]; do
       RAILS=0
       shift
       ;;
-    --ng|--no-guard)
-      GUARD=0
-      shift
-      ;;
     --nr|--no-react)
       REACT=0
       shift
       ;;
     --nw|--no-watch)
       REACT=0
-      GUARD=0
       shift
       ;;
     -*|--*)
@@ -51,4 +45,4 @@ title "Running Lambdee in the Development env"
 
 open http://localhost:3000/api-docs
 open http://localhost:3000
-bundle exec foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,guard=$GUARD,react=$REACT
+bundle exec foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,react=$REACT

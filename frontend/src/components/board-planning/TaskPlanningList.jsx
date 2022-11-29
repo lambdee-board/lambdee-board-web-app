@@ -26,7 +26,7 @@ import { isRegular } from '../../internal/permissions'
 import apiClient from '../../api/api-client'
 import useList from '../../api/list'
 import { mutateBoard } from '../../api/board'
-import { calculatePos } from '../../internal/component-position-service'
+import { calculatePos } from '../../internal/component-position'
 import useAppAlertStore from '../../stores/app-alert'
 
 import TaskListModal from '../TaskListModal'
@@ -92,7 +92,7 @@ function TaskPlanningList(props) {
     apiClient.put(`/api/lists/${props.id}`, payload)
       .then((response) => {
         // successful request
-        mutate({ ...taskList, visible: payload.visible })
+        mutate({ ...taskList, visible: payload.visible }, { revalidate: false })
         mutateBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
       })
       .catch((error) => {
@@ -123,7 +123,7 @@ function TaskPlanningList(props) {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
-        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] })
+        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] }, { revalidate: false })
         toggleNewTaskButton()
       })
       .catch((error) => {
@@ -155,12 +155,12 @@ function TaskPlanningList(props) {
     }
 
     apiClient.put(`/api/tasks/${id}`, updatedTask)
+      .then((response) => {
+        mutate((listData) => ({ ...listData, tasks: updatedTasks }), { revalidate: false })
+      })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
-      })
-      .finally(() => {
-        mutate((listData) => ({ ...listData, tasks: updatedTasks }))
       })
   }
 
@@ -203,7 +203,10 @@ function TaskPlanningList(props) {
       <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.6' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
-          subheader={<ListSubheader className='TaskListPlanning-header' >
+          subheader={<ListSubheader
+            className='TaskListPlanning-header'
+            style={{ cursor: taskList?.visible ? 'grab' : undefined }}
+          >
             <Typography className='TaskListPlanning-header-text'   >
               {props.title}
             </Typography>

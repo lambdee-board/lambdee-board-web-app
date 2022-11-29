@@ -159,7 +159,7 @@ const EditScript = (props) => {
     apiClient.post('/api/script_triggers', payload)
       .then((response) => {
         // successful request
-        mutate([...script.scriptTriggers, trigger])
+        mutate([...script.scriptTriggers, trigger], { revalidate: false })
       })
       .catch((error) => {
         // failed or rejected
@@ -171,8 +171,11 @@ const EditScript = (props) => {
     apiClient.delete(`/api/script_triggers/${triggerId}`)
       .then((response) => {
         // successful request
-        mutate({ id: props.script.id,
-          data: { ...script, scriptTriggers: [script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] } })
+        mutate({
+          id: props.script.id,
+          data: { ...script, scriptTriggers: [script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] },
+          options: { revalidate: false }
+        })
       })
       .catch((error) => {
         // failed or rejected

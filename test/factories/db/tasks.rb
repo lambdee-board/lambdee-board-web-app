@@ -6,6 +6,7 @@
     description { ::Faker::Markdown.sandwich(sentences: rand(3..6)) }
     priority { rand(5) }
     points { rand(5) + 1 }
+    due_time { ::Time.now + 1.week }
     association :list
     association :author, factory: :user
 

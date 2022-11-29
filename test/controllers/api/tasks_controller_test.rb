@@ -22,7 +22,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
       end
 
       should 'create task' do
-        params = { task: { name: 'New task', priority: 4, points: 7, list_id: @list.id, author_id: @user.id } }
+        params = { task: { name: 'New task', priority: 4, points: 7, due_time: ::Time.at(1669459006), list_id: @list.id, author_id: @user.id } }
         assert_difference('DB::Task.count') do
           post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
         end
@@ -33,6 +33,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         assert_equal 66560.0, json['pos']
         assert_equal 'very_high', json['priority']
         assert_equal 7, json['points']
+        assert_equal '2022-11-26T10:36:46.000Z', json['due_time']
       end
 
       should "not create task with a too long name" do
