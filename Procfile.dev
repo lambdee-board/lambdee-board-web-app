@@ -1,3 +1,2 @@
 rails: bin/debug
-guard: bundle exec guard
 react: bin/build

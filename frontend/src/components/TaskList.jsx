@@ -20,10 +20,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { ReactSortable } from 'react-sortablejs'
 
-import { isRegular } from '../internal/permissions'
+import { isRegular, isManager } from '../internal/permissions'
 import apiClient from '../api/api-client'
 import useList from '../api/list'
-import { calculatePos } from '../internal/component-position-service'
+import { calculatePos, sortByPos } from '../internal/component-position'
+import useTaskDndStore from '../stores/task-dnd'
 
 import './TaskList.sass'
 import TaskListModal from './TaskListModal'
@@ -71,6 +72,9 @@ function TaskList(props) {
   const { data: taskList, mutate } = useList({ id: props.id, axiosOptions: { params: { tasks: 'visible' } } })
 
   const [sortedTasks, setNewTaskOrder] = React.useState([])
+  const draggedTaskId = useTaskDndStore((store) => store.draggedTaskId)
+  const setDraggedTaskId = useTaskDndStore((store) => store.setDraggedTaskId)
+  const clearDraggedTaskId = useTaskDndStore((store) => store.clearDraggedTaskId)
 
   const [newTaskButtonVisible, setNewTaskButtonVisible] = React.useState(true)
   const listRef = React.useRef()
@@ -82,11 +86,10 @@ function TaskList(props) {
     setTaskListModalState(!taskListModalState)
   }
 
-
   React.useEffect(() => {
     if (!taskList) return
 
-    const newSortedTasks = [...taskList.tasks].sort((a, b) => (a.pos > b.pos ? 1 : -1))
+    const newSortedTasks = sortByPos(taskList.tasks)
     setNewTaskOrder([...newSortedTasks])
   }, [taskList])
 
@@ -115,7 +118,7 @@ function TaskList(props) {
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
         // successful request
-        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] })
+        mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] }, { revalidate: false })
         toggleNewTaskButton()
       })
       .catch((error) => {
@@ -147,13 +150,13 @@ function TaskList(props) {
     }
 
     apiClient.put(`/api/tasks/${id}`, updatedTask)
+      .then(() => {
+        mutate((listData) => ({ ...listData, tasks: updatedTasks }), { revalidate: false })
+      })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
-      })
-      .finally(() => {
-        console.log(updatedTasks)
-        mutate((listData) => ({ ...listData, tasks: updatedTasks }))
+        mutate()
       })
   }
 
@@ -174,12 +177,12 @@ function TaskList(props) {
       if (tasksAreEqual) return
     }
 
-    const currentTaskIndex = updatedTasks.findIndex((list) => list.chosen !== undefined)
+    const currentTaskIndex = updatedTasks.findIndex((task) => task.id === draggedTaskId)
 
     // if the dragged task is no longer in this list, just remove it and return
     if (currentTaskIndex === -1) {
       setNewTaskOrder(updatedTasks)
-      mutate((listData) => ({ ...listData, tasks: updatedTasks }))
+      mutate((listData) => ({ ...listData, tasks: updatedTasks }), { revalidate: false })
       return
     }
 
@@ -192,12 +195,15 @@ function TaskList(props) {
   }
 
   return (
-    <Box className='TaskList-wrapper'>
+    <div className='TaskList-wrapper' data-list-id={taskList?.id}>
       <Paper className='TaskList-paper'
         elevation={5}>
         <List ref={listRef} className='TaskList'
           subheader={<ListSubheader className='TaskList-header' >
-            <Typography className='TaskList-header-text' >
+            <Typography
+              className='TaskList-header-text'
+              style={{ cursor: isManager() ? 'grab' : undefined }}
+            >
               {props.title}
             </Typography>
             <ManagerContent>
@@ -210,10 +216,11 @@ function TaskList(props) {
             <div>
               {isRegular() ?
                 <ReactSortable
+                  onChoose={(event) => setDraggedTaskId(event.item.dataset.taskId)}
+                  onEnd={clearDraggedTaskId}
                   list={sortedTasks}
                   setList={updateTaskOrder}
                   group='TaskCardList'
-                  delay={1}
                   animation={50}
                   ghostClass='translucent'
                   selectedClass='translucent'
@@ -223,8 +230,8 @@ function TaskList(props) {
                 >
 
                   {sortedTasks.map((task, taskIndex) => (
-                    <div key={taskIndex}>
-                      <ListItem className='TaskList-item' >
+                    <div key={taskIndex} data-task-id={task.id}>
+                      <ListItem className='TaskList-item'  >
                         <TaskCard key={`${task.name}-${task.id}`}
                           id={task.id}
                           label={task.name}
@@ -307,7 +314,7 @@ function TaskList(props) {
         </div>
       </Modal>
       }
-    </Box>
+    </div>
   )
 }
 

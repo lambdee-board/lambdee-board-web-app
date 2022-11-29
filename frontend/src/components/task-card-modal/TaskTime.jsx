@@ -19,18 +19,13 @@ function TaskTime({ task, mutate }) {
     if (!userTime) return
 
     const timeToAdd = getTimeInSeconds(userTime)
-    console.log('1', timeToAdd)
-    if (timeToAdd === null || timeToAdd === 0) {
-      console.log('3', timeToAdd)
-      return
-    }
+    if (timeToAdd === null || timeToAdd === 0) return
 
     const payload = { time: timeToAdd }
-    console.log(payload)
     apiClient.put(`/api/tasks/${task.id}/add_time`, payload)
       .then((response) => {
         // successful request
-        mutate({ ...task, spentTime: task.spentTime + timeToAdd })
+        mutate({ ...task, spentTime: response.data.spentTime }, { revalidate: false })
         handleDialClose()
       })
       .catch((error) => {
