@@ -439,7 +439,7 @@ end
             type: :object,
             properties: {
               output: { type: :string },
-              state: { type: :string, enum: %w[running executed failed timed_out] },
+              state: { type: :string, enum: %w[running executed failed timed_out connection_failed] },
             },
             required: %w[]
           }
