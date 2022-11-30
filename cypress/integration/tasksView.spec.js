@@ -32,6 +32,7 @@ describe('TasksView', () => {
       cy.contains('Netflux').click()
       cy.get('.userTasks-card-title > .MuiTypography-root').first().contains('Backend API')
         .click()
+      cy.contains('Planning View').click()
       cy.contains('Create New List')
       cy.contains('Doing')
       cy.contains('Change the ORM')

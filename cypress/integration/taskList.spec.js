@@ -12,12 +12,10 @@ describe('TaskList', () => {
     cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
       .type('password')
     cy.contains('Login').click()
-    cy.contains('Workspaces').click()
-    cy.get('.Workspace-menu-item').first().click()
+    cy.contains('Netflux').click()
     cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
-    cy.contains('Planning View').click()
   })
 
   context('Add new Task', () => {

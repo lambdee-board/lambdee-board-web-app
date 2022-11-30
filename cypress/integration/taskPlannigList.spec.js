@@ -12,11 +12,11 @@ describe('TaskList', () => {
     cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
       .type('password')
     cy.contains('Login').click()
-    cy.contains('Workspaces').click()
-    cy.get('.Workspace-menu-item').first().click()
+    cy.contains('Netflux').click()
     cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
+    cy.contains('Planning View').click()
   })
 
   context('Add new Task', () => {
@@ -55,10 +55,10 @@ describe('TaskList', () => {
     it('can drag Backlog list to the middle', () => {
       cy.get('.TaskListPlanning-header-text').should('exist')
 
-      cy.get('.TaskListPlanning-header').contains('To do').trigger('dragstart')
+      cy.get('.TaskListPlanning-header').contains('To do').trigger('dragstart', { force: true })
       cy.get('.TaskListPlanning-header').eq(1)
-        .trigger('dragenter', 'top')
-        .trigger('drop', 'bottom')
+        .trigger('dragenter', 'top', { force: true })
+        .trigger('drop', 'bottom', { force: true })
 
       cy.contains('To do')
     })
@@ -66,7 +66,7 @@ describe('TaskList', () => {
     it('can drag To do list to second position', () => {
       cy.get('.TaskListPlanning-header-text').should('exist')
 
-      cy.get('.TaskListPlanning-header').contains('To do').trigger('dragstart')
+      cy.contains('To do').trigger('dragstart')
       cy.get('.TaskListPlanning-header').eq(0)
         .trigger('dragenter', 'bottom')
         .trigger('drop')
@@ -77,7 +77,7 @@ describe('TaskList', () => {
     it('can drag Backlog list to last position', () => {
       cy.get('.TaskListPlanning-header-text').should('exist')
 
-      cy.get('.TaskListPlanning-header').contains('To do').trigger('dragstart')
+      cy.contains('Doing').trigger('dragstart')
       cy.get('.TaskListPlanning-header').eq(-1)
         .trigger('dragenter', 'top')
         .trigger('drop')
