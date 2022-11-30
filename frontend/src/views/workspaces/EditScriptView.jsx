@@ -1,20 +1,19 @@
 import * as React from 'react'
 import { languages, highlight } from 'prismjs/components/prism-core'
-import PropTypes from 'prop-types'
 
 import Editor from 'react-simple-code-editor'
 import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
 import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import useAppAlertStore from '../stores/app-alert'
-import WebSocketMessage from '../internal/web-socket-message'
-import apiClient from '../api/api-client'
-import useScript from '../api/script'
-import { takeUntil } from '../utils/take-until'
+import useAppAlertStore from '../../stores/app-alert'
+import WebSocketMessage from '../../internal/web-socket-message'
+import apiClient from '../../api/api-client'
+import useScript from '../../api/script'
+import { takeUntil } from '../../utils/take-until'
 
-import CodeHighlighter from '../components/CodeHighlighter'
-import ScriptTriggerDialog from './ScriptTriggerDialog'
+import CodeHighlighter from '../../components/CodeHighlighter'
+import ScriptTriggerDialog from '../../components/ScriptTriggerDialog'
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -23,7 +22,8 @@ import '@fontsource/fira-code/500.css'
 import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
-import './EditScript.sass'
+import './EditScriptView.sass'
+import { useNavigate, useParams } from 'react-router-dom'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -33,14 +33,16 @@ const scrollToBottom = () => {
   view.scrollTop = view.scrollHeight
 }
 
-const EditScript = (props) => {
-  const { data: script, isLoading, isError, mutate } = useScript({ id: props.script.id })
+const EditScriptView = () => {
+  const navigate = useNavigate()
   const addAlert = useAppAlertStore((store) => store.addAlert)
+  const { scriptId, workspaceId } = useParams()
+  const { data: script, isLoading, isError, mutate } = useScript({ id: scriptId })
   const [openDial, setOpenDial] = React.useState(false)
   const [webSocketOpen, setWebSocketOpen] = React.useState(false)
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
-  const [codeDraft, setCodeDraft] = React.useState(props.script.content)
+  const [codeDraft, setCodeDraft] = React.useState('')
   const [outputHistory, setOutputHistory] = React.useState([{
     type: WebSocketMessage.types.consoleOutput,
     content: '# Run script to see logs.',
@@ -49,12 +51,13 @@ const EditScript = (props) => {
 
 
   React.useEffect(() => {
+    if (!(isLoading || isError)) setCodeDraft(script.content)
     if (!webSocket || !webSocketOpen) return
     webSocket.send(WebSocketMessage.encode(
       WebSocketMessage.types.consoleInput,
       { input: codeDraft }
     ))
-  }, [codeDraft, webSocket, webSocketOpen])
+  }, [codeDraft, webSocket, webSocketOpen, script, isLoading, isError])
 
 
   const openWsConnection = () => {
@@ -133,14 +136,12 @@ const EditScript = (props) => {
 
   const saveScript = () => {
     const payload = {
-      ...props.script,
       content: codeDraft
     }
 
-    apiClient.put(`/api/scripts/${props.script.id}`, payload)
+    apiClient.put(`/api/scripts/${script.id}`, payload)
       .then((response) => {
         // successful request
-        props.mutateScript(payload)
         setNewInputProvided(false)
         addAlert({ severity: 'success', message: 'Script saved' })
       })
@@ -152,7 +153,7 @@ const EditScript = (props) => {
 
   const saveTrigger = (trigger) => {
     const payload = {
-      scriptId: props.script.id,
+      scriptId: script.id,
       ...trigger
     }
 
@@ -172,7 +173,7 @@ const EditScript = (props) => {
       .then((response) => {
         // successful request
         mutate({
-          id: props.script.id,
+          id: script.id,
           data: { ...script, scriptTriggers: [script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] },
           options: { revalidate: false }
         })
@@ -183,16 +184,20 @@ const EditScript = (props) => {
       })
   }
 
+
+  // TODO return skeleton
+  if (isLoading || isError) return
+
   return (
     <div className='EditCard-wrapper'>
       <Paper className='EditCard'>
         <div className='EditCard-content'>
           <div className='EditCard-header'>
             <Typography className='EditCard-scriptName' variant='h4'>
-              {props.script.name}
+              {script.name}
             </Typography>
             <Typography className='EditCard-scriptDescription' sx={{ color: '#aaa' }}>
-              {props.script.description}
+              {script.description}
             </Typography>
           </div>
 
@@ -217,22 +222,45 @@ const EditScript = (props) => {
         </div>
         <div className='EditCard-actionBtns'>
           <div className='EditCard-closeWrapper'>
-            <IconButton onClick={props.closeFn} className='EditCard-btnClose'>
+            <IconButton
+              onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
+              className='EditCard-btnClose'>
               <FontAwesomeIcon icon={faXmark} />
             </IconButton>
           </div>
           <div className='EditCard-scriptBtns'>
-            <Button onClick={openWsConnection} className='EditCard-btnRun' color='success' fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
+            <Button
+              onClick={openWsConnection}
+              className='EditCard-btnRun'
+              color='success'
+              fullWidth
+              startIcon={<FontAwesomeIcon icon={faPlay} />}>
               <Typography>Run</Typography>
             </Button>
-            <Button onClick={saveScript} className='EditCard-btnSave' color='info' disabled={!newInputProvided} fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
+            <Button
+              onClick={saveScript}
+              className='EditCard-btnSave'
+              color='info'
+              disabled={!newInputProvided}
+              fullWidth
+              startIcon={<FontAwesomeIcon icon={faSave} />}>
               <Typography>Save</Typography>
             </Button>
-            <Button onClick={() => console.log('delete')} className='EditCard-btnDelete' color='error' fullWidth startIcon={<FontAwesomeIcon icon={faTrash} />}>
+            <Button
+              onClick={() => console.log('delete')}
+              className='EditCard-btnDelete'
+              color='error'
+              fullWidth
+              startIcon={<FontAwesomeIcon icon={faTrash} />}>
               <Typography>Delete</Typography>
             </Button>
 
-            <Button onClick={handleOpenDial} className='EditCard-btnAddTrigger' color='secondary' fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button
+              onClick={handleOpenDial}
+              className='EditCard-btnAddTrigger'
+              color='secondary'
+              fullWidth
+              startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Trigger</Typography>
             </Button>
           </div>
@@ -246,7 +274,10 @@ const EditScript = (props) => {
                     <ListItem
                       sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
                       secondaryAction={
-                        <IconButton edge='end' onClick={() => deleteTrigger(trigger.id)} color='error'>
+                        <IconButton
+                          edge='end'
+                          onClick={() => deleteTrigger(trigger.id)}
+                          color='error'>
                           <FontAwesomeIcon icon={faTrash} />
                         </IconButton>
                       }
@@ -272,10 +303,4 @@ const EditScript = (props) => {
   )
 }
 
-EditScript.propTypes = {
-  script: PropTypes.object.isRequired,
-  closeFn: PropTypes.func.isRequired,
-  mutateScript: PropTypes.func.isRequired
-}
-
-export default EditScript
+export default EditScriptView
