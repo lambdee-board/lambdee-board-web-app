@@ -34,7 +34,9 @@ import ForgotPasswordView from './views/login/ForgotPasswordView'
 import ResetPasswordView from './views/login/ResetPasswordView'
 import WorkspaceMembersView from './views/workspaces/WorkspaceMembersView'
 import WorkspaceScriptsView from './views/workspaces/WorkspaceScriptsView'
-import EditScriptView from './views/workspaces/EditScriptView'
+import EditScriptView from './views/workspaces/scripts/EditScriptView'
+import AllScriptsView from './views/workspaces/scripts/AllScriptsView'
+import ScriptRunsView from './views/workspaces/scripts/ScriptRunsView'
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
@@ -63,8 +65,11 @@ root.render(
                 <Route path='planning' element={<BoardPlanningView />} />
               </Route>
               <Route path='members' element={<WorkspaceMembersView />} />
-              <Route path='scripts' element={<WorkspaceScriptsView />} />
               <Route path='scripts/:scriptId' element={<EditScriptView />} />
+              <Route path='scripts' element={<WorkspaceScriptsView />} >
+                <Route path='all' element={<AllScriptsView />} />
+                <Route path='runs' element={<ScriptRunsView />} />
+              </Route>
             </Route>
             <Route path='members' element={<WorkspaceMembersView />} />
             <Route element={<DeveloperRoutes />}>

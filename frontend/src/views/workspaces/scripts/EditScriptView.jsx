@@ -2,18 +2,18 @@ import * as React from 'react'
 import { languages, highlight } from 'prismjs/components/prism-core'
 
 import Editor from 'react-simple-code-editor'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Typography } from '@mui/material'
+import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography } from '@mui/material'
 import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import useAppAlertStore from '../../stores/app-alert'
-import WebSocketMessage from '../../internal/web-socket-message'
-import apiClient from '../../api/api-client'
-import useScript from '../../api/script'
-import { takeUntil } from '../../utils/take-until'
+import useAppAlertStore from '../../../stores/app-alert'
+import WebSocketMessage from '../../../internal/web-socket-message'
+import apiClient from '../../../api/api-client'
+import useScript from '../../../api/script'
+import { takeUntil } from '../../../utils/take-until'
 
-import CodeHighlighter from '../../components/CodeHighlighter'
-import ScriptTriggerDialog from '../../components/ScriptTriggerDialog'
+import CodeHighlighter from '../../../components/CodeHighlighter'
+import ScriptTriggerDialog from '../../../components/ScriptTriggerDialog'
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -33,6 +33,50 @@ const scrollToBottom = () => {
   view.scrollTop = view.scrollHeight
 }
 
+const EditScriptSkeleton = () => (
+  <div className='EditCard-wrapper'>
+    <Paper className='EditCard'>
+      <div className='EditCard-content'>
+        <div className='EditCard-header'>
+          <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: '8px' }} />
+          <Skeleton variant='rectangular' width={210} height={32} sx={{ mb: '8px' }} />
+        </div>
+        <div className='EditCard-output'>
+          <CodeHighlighter className='EditCard-outputLine' code='' />
+        </div>
+
+        <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: '8px' }} />
+        <div className='EditCard-output'>
+          <CodeHighlighter className='EditCard-outputLine' code='' />
+        </div>
+
+      </div>
+      <div className='EditCard-actionBtns'>
+        <div className='EditCard-closeWrapper'>
+          <IconButton disabled>
+            <FontAwesomeIcon icon={faXmark} />
+          </IconButton>
+        </div>
+        <div className='EditCard-scriptBtns'>
+          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
+            <Typography>Run</Typography>
+          </Button>
+          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
+            <Typography>Save</Typography>
+          </Button>
+          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faTrash} />}>
+            <Typography>Delete</Typography>
+          </Button>
+          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Typography>New Trigger</Typography>
+          </Button>
+        </div>
+      </div>
+    </Paper>
+  </div>
+)
+
+
 const EditScriptView = () => {
   const navigate = useNavigate()
   const addAlert = useAppAlertStore((store) => store.addAlert)
@@ -51,14 +95,16 @@ const EditScriptView = () => {
 
 
   React.useEffect(() => {
-    if (!(isLoading || isError)) setCodeDraft(script.content)
     if (!webSocket || !webSocketOpen) return
     webSocket.send(WebSocketMessage.encode(
       WebSocketMessage.types.consoleInput,
       { input: codeDraft }
     ))
-  }, [codeDraft, webSocket, webSocketOpen, script, isLoading, isError])
+  }, [codeDraft, webSocket, webSocketOpen])
 
+  React.useEffect(() => {
+    if (!(isLoading || isError)) setCodeDraft(script.content)
+  }, [isLoading, isError, script?.content])
 
   const openWsConnection = () => {
     resetOutputHistory()
@@ -143,12 +189,27 @@ const EditScriptView = () => {
       .then((response) => {
         // successful request
         setNewInputProvided(false)
+        mutate({ ...script, content: codeDraft })
         addAlert({ severity: 'success', message: 'Script saved' })
       })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
+  }
+
+  const deleteScript = () => {
+    apiClient.delete(`/api/scripts/${script.id}`)
+      .then((response) => {
+        // successful request
+        addAlert({ severity: 'success', message: 'Script deleted' })
+      })
+      .catch((error) => {
+        // failed or rejected
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
+      })
+
+    navigate(`/workspaces/${workspaceId}/scripts`)
   }
 
   const saveTrigger = (trigger) => {
@@ -160,7 +221,7 @@ const EditScriptView = () => {
     apiClient.post('/api/script_triggers', payload)
       .then((response) => {
         // successful request
-        mutate([...script.scriptTriggers, trigger], { revalidate: false })
+        mutate({ ...script, scriptTriggers: [...script.scriptTriggers, response.data] }, { revalidate: false })
       })
       .catch((error) => {
         // failed or rejected
@@ -172,11 +233,7 @@ const EditScriptView = () => {
     apiClient.delete(`/api/script_triggers/${triggerId}`)
       .then((response) => {
         // successful request
-        mutate({
-          id: script.id,
-          data: { ...script, scriptTriggers: [script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] },
-          options: { revalidate: false }
-        })
+        mutate({ ...script, scriptTriggers: [...script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
       })
       .catch((error) => {
         // failed or rejected
@@ -185,8 +242,7 @@ const EditScriptView = () => {
   }
 
 
-  // TODO return skeleton
-  if (isLoading || isError) return
+  if (isLoading || isError) return (<EditScriptSkeleton />)
 
   return (
     <div className='EditCard-wrapper'>
@@ -209,7 +265,6 @@ const EditScriptView = () => {
             padding={10}
           />
 
-
           <Typography variant='h5'>Logs</Typography>
           <div className='EditCard-output'>
             {outputHistory.map((interaction, index) => {
@@ -223,7 +278,7 @@ const EditScriptView = () => {
         <div className='EditCard-actionBtns'>
           <div className='EditCard-closeWrapper'>
             <IconButton
-              onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
+              onClick={() => navigate(`/workspaces/${workspaceId}/scripts/all`)}
               className='EditCard-btnClose'>
               <FontAwesomeIcon icon={faXmark} />
             </IconButton>
@@ -247,7 +302,7 @@ const EditScriptView = () => {
               <Typography>Save</Typography>
             </Button>
             <Button
-              onClick={() => console.log('delete')}
+              onClick={deleteScript}
               className='EditCard-btnDelete'
               color='error'
               fullWidth
