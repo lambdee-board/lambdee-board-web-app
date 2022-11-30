@@ -6,6 +6,7 @@ import {
   Button,
   Modal,
   Box,
+  Skeleton
 } from '@mui/material'
 
 
@@ -24,7 +25,23 @@ function WorkspaceTask({ listId, boardId }) {
   const { data: taskList, isLoading, isError } = useList({ id: listId, axiosOptions: { params: { tasks: 'visible' } } })
 
   if (isLoading || isError) return (
-    <></>
+    <div>
+      <div className='Tasks-card-list-task'>
+        <div className='Tasks-card-list-task-wrapper'>
+          <Skeleton width={270} height={40} />
+        </div>
+      </div>
+      <div className='Tasks-card-list-task'>
+        <div className='Tasks-card-list-task-wrapper'>
+          <Skeleton width={270} height={40} />
+        </div>
+      </div>
+      <div className='Tasks-card-list-task'>
+        <div className='Tasks-card-list-task-wrapper'>
+          <Skeleton width={270} height={40} />
+        </div>
+      </div>
+    </div>
   )
 
   const handleOpenTaskCardModal = (props) => {

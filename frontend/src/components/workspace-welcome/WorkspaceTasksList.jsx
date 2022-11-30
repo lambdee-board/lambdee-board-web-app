@@ -23,31 +23,27 @@ function WorkspaceTasksList({ boardId, workspaceId }) {
   const { data: board, isLoading, isError } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'visible' } } })
 
   if (isLoading || isError) return (
-    <Card className='Tasks-card'>
-      <div className='Tasks-card-title'>
-        <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
-      </div>
-      <Divider />
-      <div className='Tasks-card-lists'>
-        <div className='Tasks-card-list'>
-          <div className='Tasks-card-list-task'>
-            <div className='Tasks-card-list-task-wrapper'>
-              <Skeleton width={270} height={40} />
+    <div>
+      <Card className='Tasks-card'>
+        <div className='Tasks-card-title'>
+          <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
+        </div>
+        <Divider />
+        <div className='Tasks-card-lists'>
+          <div className='Tasks-card-list'>
+            <div className='Tasks-card-list-title'>
+              <Skeleton width={180} height={40} />
             </div>
-          </div>
-          <div className='Tasks-card-list-task'>
-            <div className='Tasks-card-list-task-wrapper'>
-              <Skeleton width={270} height={40} />
+            <div className='Tasks-card-list-title'>
+              <Skeleton width={180} height={40} />
             </div>
-          </div>
-          <div className='Tasks-card-list-task'>
-            <div className='Tasks-card-list-task-wrapper'>
-              <Skeleton width={270} height={40} />
+            <div className='Tasks-card-list-title'>
+              <Skeleton width={180} height={40} />
             </div>
           </div>
         </div>
-      </div>
-    </Card>
+      </Card>
+    </div>
   )
 
 
