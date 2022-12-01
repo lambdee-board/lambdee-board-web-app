@@ -21,4 +21,14 @@ class ExecuteScriptJobTest < ActiveJob::TestCase
       assert_equal "Couldn't connect with Script Service.", script_run.output
     end
   end
+
+  should 'handle wrong credentials' do
+    ::VCR.use_cassette('wrong credentials') do
+      ::Config::SCRIPT_SERVICE_API['url'] = 'http://127.0.0.1:3001/api'
+      script_run = ::FactoryBot.create(:script_run)
+      ::ExecuteScriptJob.perform_now(script_run.id)
+      assert script_run.reload.connection_failed?
+      assert_equal 'the server responded with status 401', script_run.output
+    end
+  end
 end
