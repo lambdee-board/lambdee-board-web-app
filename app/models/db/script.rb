@@ -10,6 +10,8 @@ class ::DB::Script < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  attribute :content, default: ''
+
   accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
   # @param subject [ApplicationRecord]
