@@ -23,7 +23,9 @@ const NewScriptDialog = (props) => {
           <TextField
             fullWidth
             required
+            autoFocus
             margin='dense'
+            autoComplete='off'
             value={newScript.name}
             onChange={(event) => setNewScript({ ...newScript, name: event.target.value })}
             label='Name'
@@ -31,6 +33,7 @@ const NewScriptDialog = (props) => {
           <TextField
             fullWidth
             margin='dense'
+            autoComplete='off'
             value={newScript.description}
             onChange={(event) => setNewScript({ ...newScript, description: event.target.value })}
             label='Description'
