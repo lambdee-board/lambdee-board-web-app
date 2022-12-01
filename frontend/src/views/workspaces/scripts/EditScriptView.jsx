@@ -203,13 +203,12 @@ const EditScriptView = () => {
       .then((response) => {
         // successful request
         addAlert({ severity: 'success', message: 'Script deleted' })
+        navigate(`/workspaces/${workspaceId}/scripts`)
       })
       .catch((error) => {
         // failed or rejected
         addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
-
-    navigate(`/workspaces/${workspaceId}/scripts`)
   }
 
   const saveTrigger = (trigger) => {
