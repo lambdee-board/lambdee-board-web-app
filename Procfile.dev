@@ -1,2 +1,3 @@
 rails: bin/debug
 react: bin/build
+sidekiq: bin/sidekiq

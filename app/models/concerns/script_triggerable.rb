@@ -20,11 +20,11 @@ module ::ScriptTriggerable
   end
 
   def execute_scripts_with_action(action)
-    scripts = scripts_regarding_record.with_action(action).includes(:script)
-    scripts.each { |c| c.script.execute(self) }
+    script_triggers = script_triggers_regarding_record.with_action(action).includes(:script)
+    script_triggers.each { |c| c.script.execute(self, delay: c.delay) }
   end
 
-  def scripts_regarding_record
+  def script_triggers_regarding_record
     ::DB::ScriptTrigger.regarding_record(self)
   end
 end

@@ -65,9 +65,11 @@ gem 'kaminari'
 gem 'pg_search'
 gem 'sass-rails'
 gem 'shale' # object mapper and serializer for JSON and other formats
+gem 'sidekiq'
 gem 'trestle'
 gem 'trestle-auth'
 gem 'trestle-search'
+gem 'trestle-sidekiq'
 
 group :development, :test do
   gem 'brakeman'

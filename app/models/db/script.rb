@@ -10,18 +10,23 @@ class ::DB::Script < ::ApplicationRecord
 
   default_scope { order(:id) }
 
+  attribute :content, default: ''
+
   accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
   # @param subject [ApplicationRecord]
-  def execute(subject)
+  # @param :delay [Integer]
+  def execute(subject, delay: nil)
     @subject = subject
     script_run = ::DB::ScriptRun.create(
       script: self,
       state: :running,
+      delay: delay,
       initiator: author, # TODO: fix author
       input: extended_content
     )
-    ::ScriptServiceAPI.send_execute_script_request(script_run)
+
+    ::ExecuteScriptJob.set(wait: delay&.seconds).perform_later(script_run.id)
   end
 
   private

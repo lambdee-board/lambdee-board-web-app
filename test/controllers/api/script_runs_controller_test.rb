@@ -24,13 +24,14 @@ class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'show script_run' do
-    run = ::FactoryBot.create(:script_run)
+    run = ::FactoryBot.create(:script_run, delay: 30)
     get api_script_run_url(run), as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal "puts 'Hello world'", json['input']
     assert_equal 'Hello world', json['output']
     assert_equal 'running', json['state']
+    assert_equal 'My first Lambdee Script', json['script_name']
   end
 
   should 'update script_run' do

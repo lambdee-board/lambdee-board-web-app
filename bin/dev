@@ -18,12 +18,17 @@ fi
 # Default number of workers per process
 RAILS=1
 REACT=1
+SIDEKIQ=1
 
 # parse passed options
 while [[ $# -gt 0 ]]; do
   case $1 in
     --no-rails)
       RAILS=0
+      shift
+      ;;
+    --ns|--no-sidekiq)
+      SIDEKIQ=0
       shift
       ;;
     --nr|--no-react)
@@ -45,4 +50,4 @@ title "Running Lambdee in the Development env"
 
 open http://localhost:3000/api-docs
 open http://localhost:3000
-bundle exec foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,react=$REACT
+bundle exec foreman start -f $script_dir/../Procfile.dev -m all=1,rails=$RAILS,react=$REACT,sidekiq=$SIDEKIQ

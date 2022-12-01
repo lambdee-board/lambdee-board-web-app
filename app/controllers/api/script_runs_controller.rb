@@ -10,6 +10,7 @@ class ::API::ScriptRunsController < ::APIController
                    else
                      ::DB::ScriptRun.all
                    end
+    @script_runs = @script_runs.includes(:script)
   end
 
   # GET /api/script_runs/1

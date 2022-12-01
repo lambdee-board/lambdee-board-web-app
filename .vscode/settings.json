@@ -53,6 +53,7 @@
     "reduxjs",
     "rehype",
     "Rswag",
+    "Sidekiq",
     "sortablejs",
     "stylesheet",
     "TASKLIST",

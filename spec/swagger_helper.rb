@@ -384,6 +384,7 @@ end
               subject_type: { type: %i[string null] },
               subject_id: { type: %i[integer null] },
               action: { type: :string },
+              delay: { type: :integer },
               url: { type: :string }
             },
             required: %w[]
@@ -396,6 +397,7 @@ end
               subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
               subject_id: { type: :integer },
               action: { type: :string, enum: %w[create update destroy] },
+              delay: { type: :integer, description: 'Number of seconds of script execution delay' },
               _destroy: { type: :boolean, description: 'If `true` callback for given `id` will be destroyed. Works only nested in sprint.' },
             },
             required: %w[action]
@@ -408,6 +410,7 @@ end
               subject_type: { type: %i[string null] },
               subject_id: { type: %i[integer null] },
               action: { type: :string },
+              delay: { type: :integer },
               url: { type: :string }
             },
             required: %w[]
@@ -419,6 +422,7 @@ end
               subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
               subject_id: { type: :integer },
               action: { type: :string },
+              delay: { type: :integer, description: 'Number of seconds of script execution delay' },
             },
             required: %w[script_id action]
           },
@@ -427,10 +431,12 @@ end
             properties: {
               id: { type: :integer },
               script_id: { type: :integer },
+              script_name: { type: :string },
               initiator_id: { type: :integer },
               input: { type: %i[string null] },
               output: { type: :string },
               state: { type: :string },
+              delay: { type: %i[integer null] },
               url: { type: :string }
             },
             required: %w[]

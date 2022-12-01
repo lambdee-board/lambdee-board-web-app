@@ -12,7 +12,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       run = ::DB::ScriptRun.last
       assert run.running?
       assert_equal script.id, run.script_id
-      assert run.input.include? 'context ='
+      assert run.input.include? 'context'
     end
   end
 
@@ -25,7 +25,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       run = ::DB::ScriptRun.last
       assert run.running?
       assert_equal script.id, run.script_id
-      assert run.input.include? 'context ='
+      assert run.input.include? 'context'
     end
   end
 
@@ -38,7 +38,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       run = ::DB::ScriptRun.last
       assert run.running?
       assert_equal script.id, run.script_id
-      assert run.input.include? 'context ='
+      assert run.input.include? 'context'
     end
   end
 end
