@@ -431,6 +431,7 @@ end
             properties: {
               id: { type: :integer },
               script_id: { type: :integer },
+              script_name: { type: :string },
               initiator_id: { type: :integer },
               input: { type: %i[string null] },
               output: { type: :string },
