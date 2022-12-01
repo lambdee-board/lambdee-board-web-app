@@ -32,26 +32,6 @@ export default function ScriptRunsView() {
     setCurrentRun(null)
   }
 
-  const temp = `puts 'hello worldasdasddasdadasda'
-puts 'hasdadello'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-puts 'hello worldasdasddasdadasda'
-`
-
 
   return (
     <div className='WorkspaceScriptsRuns'>
