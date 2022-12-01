@@ -8,9 +8,11 @@ class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'get index' do
-    3.times { ::FactoryBot.create(:script_run) }
-    get api_script_runs_url, as: :json, headers: auth_headers(@user)
+    4.times { ::FactoryBot.create(:script_run) }
+    get api_script_runs_url, params: { limit: 3, as: :json }, headers: auth_headers(@user)
     assert_response :success
+    json = ::JSON.parse(response.body)
+    assert_equal 3, json.size
   end
 
   should 'get index for sprint' do

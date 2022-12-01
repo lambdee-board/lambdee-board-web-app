@@ -14,6 +14,7 @@ require 'swagger_helper'
     get('List script runs') do
       tags 'ScriptRuns'
       produces 'application/json'
+      parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
         schema type: :array,
@@ -34,6 +35,7 @@ require 'swagger_helper'
   path '/api/scripts/{id}/script_runs' do
     parameter name: 'Authorization', in: :header, schema: { '$ref' => '#/components/schemas/authorization' }
     parameter name: 'id', in: :path, type: :string, description: 'Script id'
+    parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned', example: 3
 
     get("List script's script runs") do
       tags 'ScriptRuns'
