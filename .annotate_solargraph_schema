@@ -368,6 +368,12 @@ class DB::Comment < ApplicationRecord
   # Database column `comments.deleted_at`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def deleted_at; end
+  # Database column `comments.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `comments.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
 end
 # %%<RailsAnnotateSolargraph:End:comments>%%
 
@@ -738,6 +744,12 @@ class DB::ScriptRun < ApplicationRecord
   # Database column `script_runs.state`, type: `integer`.
   # @return [Integer, nil]
   def state; end
+  # Database column `script_runs.delay`, type: `integer`.
+  # @param val [Integer, nil]
+  def delay=(val); end
+  # Database column `script_runs.delay`, type: `integer`.
+  # @return [Integer, nil]
+  def delay; end
 end
 # %%<RailsAnnotateSolargraph:End:script_runs>%%
 
@@ -819,6 +831,12 @@ class DB::ScriptTrigger < ApplicationRecord
   # Database column `script_triggers.action`, type: `string`.
   # @return [String, nil]
   def action; end
+  # Database column `script_triggers.delay`, type: `integer`.
+  # @param val [Integer, nil]
+  def delay=(val); end
+  # Database column `script_triggers.delay`, type: `integer`.
+  # @return [Integer, nil]
+  def delay; end
 end
 # %%<RailsAnnotateSolargraph:End:script_triggers>%%
 
@@ -1305,6 +1323,12 @@ class DB::Task < ApplicationRecord
   # Database column `tasks.start_time`, type: `datetime`.
   # @return [ActiveSupport::TimeWithZone, nil]
   def start_time; end
+  # Database column `tasks.custom_data`, type: `jsonb`.
+  # @param val [Hash, nil]
+  def custom_data=(val); end
+  # Database column `tasks.custom_data`, type: `jsonb`.
+  # @return [Hash, nil]
+  def custom_data; end
   # Database column `tasks.due_time`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
   def due_time=(val); end

@@ -17,7 +17,7 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'create script' do
     task = ::FactoryBot.create(:task)
-    script_trigger_global_params = { action: 'create' }
+    script_trigger_global_params = { action: 'create', delay: 60 }
     script_trigger_model_params = { subject_type: 'DB::Task', action: 'update' }
     script_trigger_record_params = { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy' }
     script_trigger_params = [script_trigger_global_params, script_trigger_model_params, script_trigger_record_params]
@@ -42,6 +42,7 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
     assert_equal 3, script.script_triggers.size
 
     assert_equal 'create', script.script_triggers.first.action
+    assert_equal 60, script.script_triggers.first.delay
     assert_nil script.script_triggers.first.subject
     assert_nil script.script_triggers.first.subject_type
     assert_nil script.script_triggers.first.subject_id
