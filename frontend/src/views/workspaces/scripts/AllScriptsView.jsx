@@ -32,7 +32,7 @@ export default function AllScriptsView() {
                     divider
                     onClick={() => navigate(`/workspaces/${workspaceId}/scripts/${script.id}`)}
                     sx={{ fontSize: '32px', gap: '16px' }}>
-                    <FontAwesomeIcon icon={faScroll} />
+                    <FontAwesomeIcon icon={faScroll} opacity='0.58' />
                     <Typography variant='h5'>{script.name}</Typography>
                   </ListItemButton>
                 </div>
