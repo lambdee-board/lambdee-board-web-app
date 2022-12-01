@@ -24,6 +24,7 @@ import '@fontsource/fira-code/700.css'
 
 import './EditScriptView.sass'
 import { useNavigate, useParams } from 'react-router-dom'
+import { mutateWorkspaceScripts } from '../../../api/workspace-scripts'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -203,6 +204,7 @@ const EditScriptView = () => {
       .then((response) => {
         // successful request
         addAlert({ severity: 'success', message: 'Script deleted' })
+        mutateWorkspaceScripts({})
         navigate(`/workspaces/${workspaceId}/scripts`)
       })
       .catch((error) => {
