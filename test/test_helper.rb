@@ -10,6 +10,7 @@ require 'rails/test_help'
 require 'debug'
 require 'devise/jwt/test_helpers'
 require 'vcr'
+require "sidekiq/testing"
 
 ::DatabaseCleaner.strategy = :truncation
 ::DatabaseCleaner.clean
@@ -26,6 +27,10 @@ class ActiveSupport::TestCase
   # parallelize(workers: :number_of_processors) unless ::ENV['COVERAGE'].present?
 
   # Add more helper methods to be used by all tests here...
+
+  teardown do
+    ::Sidekiq::Worker.clear_all
+  end
 
   # Generates a JWT token for the given user.
   # Returns all needed headers for authentication.

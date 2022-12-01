@@ -18,7 +18,7 @@ require 'swagger_helper'
         let(:script_trigger) do
           task = ::FactoryBot.create(:task)
           script = ::FactoryBot.create(:script)
-          { action: 'destroy', subject_type: 'DB::Task', subject_id: task.id, script_id: script.id }
+          { action: 'destroy', delay: 60, subject_type: 'DB::Task', subject_id: task.id, script_id: script.id }
         end
 
         before do

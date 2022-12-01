@@ -45,9 +45,9 @@ require 'swagger_helper'
             description: 'What script does',
             content: "puts 'Hello world!'",
             script_triggers_attributes: [
-              { action: 'create' },
-              { subject_type: 'DB::Task', action: 'update' },
-              { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy' }
+              { action: 'create', delay: 60 },
+              { subject_type: 'DB::Task', action: 'update', delay: 60 },
+              { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy', delay: 60 }
             ]
            }
         end
@@ -95,7 +95,7 @@ require 'swagger_helper'
           {
             name: 'New Name',
             script_triggers_attributes: [
-              { action: 'create' },
+              { action: 'create', delay: 60 },
               { id: ::DB::ScriptTrigger.last.id, _destroy: true },
             ]
           }

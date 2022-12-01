@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_26_103105) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_30_172437) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -63,6 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_26_103105) do
     t.bigint "initiator_id", null: false
     t.text "input"
     t.integer "state", limit: 2
+    t.integer "delay"
     t.index ["initiator_id"], name: "index_script_runs_on_initiator_id"
   end
 
@@ -71,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_26_103105) do
     t.string "subject_type"
     t.bigint "subject_id"
     t.string "action"
+    t.integer "delay"
     t.index ["subject_type", "subject_id"], name: "index_script_triggers_on_subject"
   end
 
