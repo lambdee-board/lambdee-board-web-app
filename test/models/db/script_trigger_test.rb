@@ -10,7 +10,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
         ::FactoryBot.create(:task)
       end
       run = ::DB::ScriptRun.last
-      assert run.running?
+      assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
     end
@@ -23,7 +23,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
         script.script_triggers.first.subject.update!(name: 'what name')
       end
       run = ::DB::ScriptRun.last
-      assert run.running?
+      assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
     end
@@ -36,7 +36,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
         ::FactoryBot.create(:workspace)
       end
       run = ::DB::ScriptRun.last
-      assert run.running?
+      assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
     end

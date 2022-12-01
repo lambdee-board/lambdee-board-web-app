@@ -7,6 +7,7 @@ class ::ExecuteScriptJob < ::ApplicationJob
   # @param script_run_id [String, Integer]
   def perform(script_run_id)
     script_run = ::DB::ScriptRun.find(script_run_id)
+    script_run.running!
     ::ScriptServiceAPI.send_execute_script_request(script_run)
   end
 end

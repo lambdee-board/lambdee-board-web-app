@@ -15,12 +15,12 @@ class ::DB::Script < ::ApplicationRecord
   accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
   # @param subject [ApplicationRecord]
-  # @param :delay [Integer]
+  # @param delay [Integer, nil]
   def execute(subject, delay: nil)
     @subject = subject
     script_run = ::DB::ScriptRun.create(
       script: self,
-      state: :running,
+      state: :waiting,
       delay: delay,
       initiator: author, # TODO: fix author
       input: extended_content
