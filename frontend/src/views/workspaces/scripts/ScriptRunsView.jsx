@@ -32,28 +32,32 @@ export default function ScriptRunsView() {
     setCurrentRun(null)
   }
 
+  if ((isLoading || isError)) return
 
   return (
     <div className='WorkspaceScriptsRuns'>
       <div className='list-wrapper'>
         <List className='List'>
           <Divider />
-          { !(isLoading || isError) &&
-              scriptRuns.map((scriptRun, idx) => (
-                <div key={idx}>
-                  <ListItemButton
-                    divider
-                    onClick={() => handleOpenDial(scriptRun)}
-                    sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: '32px', gap: '16px' }}>
-                      <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[scriptRun.state]} />
-                      <Typography variant='h5'>{scriptRun.scriptName}</Typography>
-                    </div>
-                    <Chip label={scriptRun.state} sx={{ bgcolor: stateColors[scriptRun.state], color: 'white' }} />
-                  </ListItemButton>
-                </div>
-              ))}
+          {scriptRuns.length > 0 ?
+            scriptRuns.map((scriptRun, idx) => (
+              <div key={idx}>
+                <ListItemButton
+                  divider
+                  onClick={() => handleOpenDial(scriptRun)}
+                  sx={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '32px', gap: '16px' }}>
+                    <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[scriptRun.state]} />
+                    <Typography variant='h5'>{scriptRun.scriptName}</Typography>
+                  </div>
+                  <Chip label={scriptRun.state} sx={{ bgcolor: stateColors[scriptRun.state], color: 'white' }} />
+                </ListItemButton>
+              </div>
+            )) :
+            <Typography className='no-script-runs'>No script was run yet</Typography>
+          }
         </List>
+
       </div>
       { currentRun &&
         <Dialog
