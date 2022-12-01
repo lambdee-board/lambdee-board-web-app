@@ -6,18 +6,23 @@ import { Divider, List, ListItemButton, Typography, Dialog, DialogTitle, DialogC
 import useScriptRuns from '../../../api/script-runs'
 
 import './ScriptRunsView.sass'
+import CodeHighlighter from '../../../components/CodeHighlighter'
 
 export default function ScriptRunsView() {
   const { data: scriptRuns, isLoading, isError } = useScriptRuns({})
   const [openDial, setOpenDial] = React.useState(false)
-  const [currentRun, setCurrentRun] = React.useState({})
+  const [currentRun, setCurrentRun] = React.useState(null)
 
 
   const handleOpenDial = (scriptRun) => {
+    console.log(currentRun)
     setCurrentRun(scriptRun)
     setOpenDial(true)
   }
-  const handleCloseDial = () => setOpenDial(false)
+  const handleCloseDial = () => {
+    setOpenDial(false)
+    setCurrentRun(null)
+  }
 
 
   return (
@@ -33,24 +38,27 @@ export default function ScriptRunsView() {
                     onClick={() => handleOpenDial(scriptRun)}
                     sx={{ fontSize: '32px', gap: '16px' }}>
                     <FontAwesomeIcon icon={faCalendarCheck} />
+                    <Typography variant='h5'>{scriptRun.scriptName}</Typography>
                     <Typography variant='h5'>{scriptRun.state}</Typography>
                   </ListItemButton>
                 </div>
               ))}
         </List>
       </div>
-      <Dialog
-        open={openDial}
-        onClose={handleCloseDial}
-        fullWidth
-        maxWidth='md'>
-        <DialogTitle>{currentRun.name}</DialogTitle>
-        <DialogContent sx={{ display: 'flex', gap: '8px' }}>
-          <div className='Run-output'>
-            {currentRun.output}
-          </div>
-        </DialogContent>
-      </Dialog>
+      { currentRun &&
+        <Dialog
+          open={openDial}
+          onClose={handleCloseDial}
+          fullWidth
+          maxWidth='md'>
+          <DialogTitle>{currentRun.scriptName}</DialogTitle>
+          <DialogContent sx={{ display: 'flex', gap: '8px' }}>
+            <div className='Run-output'>
+              {<CodeHighlighter className='-outputLine' code={currentRun.input} />}
+            </div>
+          </DialogContent>
+        </Dialog>
+      }
     </div>
   )
 }
