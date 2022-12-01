@@ -21,12 +21,12 @@ export default function AllScriptsView() {
   const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
 
   return (
-    <div className='WorkspaceScripts'>
+    <div className='WorkspaceScripts' style={{ height: '100%', overflow: 'scroll' }}>
       <div className='list-wrapper'>
         <List className='List'>
           <Divider />
           { !(isLoading || isError) &&
-              scripts.map((script, idx) => (
+              scripts?.map((script, idx) => (
                 <div key={idx}>
                   <ListItemButton
                     divider
