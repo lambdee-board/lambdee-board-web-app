@@ -72,13 +72,12 @@ export default function ScriptRunsView() {
               <div className='dialog-output'>
                 <CodeHighlighter
                   className='dialog-output-line'
-                  // code={currentRun.input} />
-                  code={temp} />
+                  code={currentRun.input} />
               </div>
               <div className='dialog-output'>
                 <CodeHighlighter
                   className='dialog-output-line'
-                  code={'No output'}
+                  code={currentRun.output || 'No output'}
                   plain={true}
                 />
               </div>
