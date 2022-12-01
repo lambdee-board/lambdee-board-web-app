@@ -9,15 +9,20 @@ import useAppAlertStore from '../stores/app-alert'
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography } from '@mui/material'
+import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography, Modal, Box } from '@mui/material'
 
 import './TaskListModal.sass'
+import CustomAlert from './CustomAlert'
 
 export default function TaskListModal(props) {
   const { boardId } = useParams()
   const [editingListTitle, setEditingListTitle] = React.useState(false)
   const editListTitleRef = React.useRef()
   const addAlert = useAppAlertStore((store) => store.addAlert)
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const editListTitleOnClick = () => {
     setEditingListTitle(true)
@@ -81,6 +86,23 @@ export default function TaskListModal(props) {
   return (
     <div className='TaskListModal-wrapper'>
       <Card className='TaskListModal-card'>
+        <Modal
+          open={alertModalState}
+          onClose={toggleAlertModalState}
+        >
+          <Box
+            sx={{  position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              outline: 0 }}>
+            <CustomAlert confirmAction={deleteTaskList}
+              dismissAction={toggleAlertModalState}
+              title='Delete List?'
+              message={`Are you sure you want to delete ${props.title}?`}
+              confirmMessage='Confirm, delete List' />
+          </Box>
+        </Modal>
         <div className='TaskListModal-main'>
           <div className='TaskListModal-main-header'>
             { !editingListTitle &&
@@ -117,7 +139,7 @@ export default function TaskListModal(props) {
               className='TaskListModal-main-delete-button'
               variant='contained'
               color='error'
-              onClick={() => deleteTaskList()}>
+              onClick={toggleAlertModalState}>
               <Typography>Delete List</Typography>
             </Button>
           </div>

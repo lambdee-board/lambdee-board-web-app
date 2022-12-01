@@ -200,7 +200,7 @@ function TaskPlanningList(props) {
 
     <Box className='TaskListPlanning-wrapper'>
 
-      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.6' } : null}
+      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.8' } : null}
         elevation={5}>
         <List ref={listRef} className='TaskListPlanning'
           subheader={<ListSubheader

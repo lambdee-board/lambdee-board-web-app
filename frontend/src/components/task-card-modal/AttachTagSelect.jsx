@@ -22,7 +22,7 @@ import ColorPickerPopover from '../ColorPickerPopover'
 const filter = createFilterOptions()
 
 function AttachTagSelect(props) {
-  const { boardId } = useParams()
+  const boardId = props.boardId
   const { data: tags, isLoading, isError } = useBoardTags({ id: boardId })
   const [openTagsPopup, setTagsPopup] = React.useState(true)
   const [openNewTagDial, setNewTagDial] = React.useState(false)
@@ -196,7 +196,11 @@ AttachTagSelect.propTypes = {
   onBlur: PropTypes.func,
   onChange: PropTypes.func,
   createTag: PropTypes.func,
-  addedTags: PropTypes.arrayOf(PropTypes.object)
+  addedTags: PropTypes.arrayOf(PropTypes.object),
+  boardId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
 }
 
 export default AttachTagSelect

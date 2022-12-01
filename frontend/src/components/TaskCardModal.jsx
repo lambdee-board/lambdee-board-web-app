@@ -2,7 +2,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
-import { useParams } from 'react-router-dom'
+
 
 import {
   Typography,
@@ -13,7 +13,8 @@ import {
   Stack,
   IconButton,
   Button,
-  TextField
+  TextField,
+  Modal
 } from '@mui/material'
 import { ManagerContent, RegularContent } from '../permissions/content'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
@@ -29,6 +30,7 @@ import TaskPriority from './task-card-modal/TaskPriority'
 import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import TaskTime from './task-card-modal/TaskTime'
+import CustomAlert from './CustomAlert'
 
 import { isRegular } from '../internal/permissions'
 import useTask from '../api/task'
@@ -104,9 +106,10 @@ const TaskCardModal = (props) => {
   const [taskDescriptionDraft, setTaskDescriptionDraft] = React.useState(task?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
-
-  const { boardId } = useParams()
-
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
   const updateTaskDescriptionDraft = (val) => {
     setTaskDescriptionDraft(val)
     setUnsavedDescriptionDraft(true)
@@ -224,7 +227,7 @@ const TaskCardModal = (props) => {
   }
 
   const createAttachTag = (newTagPayload) => {
-    const payload = { ...newTagPayload, boardId, taskId: props.taskId }
+    const payload = { ...newTagPayload, boardId: props.boardId, taskId: props.taskId }
 
     apiClient.post(`/api/tasks/${props.taskId}/tags`, payload)
       .then((response) => {
@@ -288,6 +291,23 @@ const TaskCardModal = (props) => {
   return (
     <Box className='TaskCardModal-wrapper' data-color-mode='light'>
       <Card className='TaskCardModal-paper'>
+        <Modal
+          open={alertModalState}
+          onClose={toggleAlertModalState}
+        >
+          <Box
+            sx={{  position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              outline: 0 }}>
+            <CustomAlert confirmAction={deleteTask}
+              dismissAction={toggleAlertModalState}
+              title='Delete Task?'
+              message={`Are you sure you want to delete ${task.name}?`}
+              confirmMessage='Confirm, delete task' />
+          </Box>
+        </Modal>
         <Box className='TaskCardModal-main'>
           <Box className='TaskCardModal-main-label'>
             <TaskLabel task={task} mutate={mutateTask} />
@@ -405,6 +425,7 @@ const TaskCardModal = (props) => {
                       onChange={attachTagSelectOnChange}
                       createTag={createAttachTag}
                       addedTags={task.tags}
+                      boardId={props.boardId}
                     />
                   ) : (
                     <Box
@@ -447,6 +468,7 @@ const TaskCardModal = (props) => {
                       onBlur={assignUserSelectOnBlur}
                       onChange={assignUserSelectOnChange}
                       assignedUsers={task.users}
+                      workspaceId={props.workspaceId}
                     />
                   ) : (
                     <Box
@@ -468,7 +490,7 @@ const TaskCardModal = (props) => {
               className='TaskCardModal-delete-task'
               variant='contained'
               color='error'
-              onClick={() => deleteTask()}>
+              onClick={toggleAlertModalState}>
               <Typography>Delete Task</Typography>
             </Button>
           </ManagerContent>
@@ -484,6 +506,14 @@ export default TaskCardModal
 
 TaskCardModal.propTypes = {
   taskId: PropTypes.number.isRequired,
+  boardId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
+  workspaceId: PropTypes.oneOfType([
+    PropTypes.string,
+    PropTypes.number
+  ]),
   closeModal: PropTypes.func.isRequired
 }
 

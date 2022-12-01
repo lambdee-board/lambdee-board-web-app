@@ -22,7 +22,7 @@ export default function BoardToolbar(props) {
   const { data: activeSprint } = useBoardActiveSprint({ id: boardId })
   const [newListButtonVisible, setNewListButtonVisible] = React.useState(true)
   const [newSprintModal, setNewSprintModal] = React.useState(false)
-  const [boardView, setBoardView] = useCookie('1')
+  const [boardView, setBoardView] = useCookie('0')
   const newListInputRef = React.useRef()
   const addAlert = useAppAlertStore((store) => store.addAlert)
 
@@ -176,6 +176,15 @@ export default function BoardToolbar(props) {
       </>
 
         }
+        {activeSprint && boardView === '0' &&
+          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+            className='Toolbar-create-spring-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faPersonRunning} />}
+          >
+            <Typography>View Sprint</Typography>
+          </Button>}
 
       </Toolbar>
       <Toolbar className='Toolbar'>

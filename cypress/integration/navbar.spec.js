@@ -37,10 +37,7 @@ describe('Navbar', () => {
   })
   it('show Recent after adding a recent', () => {
     cy.get('div.MuiModal-root').should('not.exist')
-    cy.contains('Workspaces').click()
-    cy.get('div.MuiModal-root').should('exist')
-    cy.get('div.MuiBackdrop-root').first().click()
-    cy.get('.Workspace-menu-item').first().click()
+    cy.contains('Netflux').click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
     cy.reload()
@@ -51,10 +48,7 @@ describe('Navbar', () => {
   })
   it('navigate to Recent', () => {
     cy.get('div.MuiModal-root').should('not.exist')
-    cy.contains('Workspaces').click()
-    cy.get('div.MuiModal-root').should('exist')
-    cy.get('div.MuiBackdrop-root').first().click()
-    cy.get('.Workspace-menu-item').first().click()
+    cy.contains('Netflux').click()
     cy.get('div.Sidebar-wrapper').should('exist')
     cy.get('div.ListItem-board').first().click()
     cy.reload()

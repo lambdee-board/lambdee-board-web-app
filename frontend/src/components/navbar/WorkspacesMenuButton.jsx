@@ -16,6 +16,10 @@ import DropdownButton from '../DropdownButton'
 const WorkspacesMenuButton = () => {
   const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { limit: '5' } } })
   const navigate = useNavigate()
+  const [anchorEl, setAnchorEl] = React.useState(null)
+
+  const handleClose = () => setAnchorEl(null)
+  const handleClick = (event) => setAnchorEl(event.currentTarget)
   // isLoading = true
 
   if (isLoading || isError) return (
@@ -36,15 +40,22 @@ const WorkspacesMenuButton = () => {
   )
 
   return (
-    <DropdownButton label='Workspaces'>
+    <DropdownButton label='Workspaces' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
       {workspaces.map((workspace, index) => (
-        <MenuItem className='Workspace-menu-item' onClick={() => navigate(generatePath('workspaces/:id', { id: workspace.id }))} key={`${workspace.name}-${index}`}>
+        <MenuItem className='Workspace-menu-item'
+          onClick={() => {
+            handleClose()
+            navigate(generatePath('workspaces/:id', { id: workspace.id }))
+          }} key={`${workspace.name}-${index}`}>
           <WorkspaceIcon name={workspace.name} size={32} />
           {workspace.name}
         </MenuItem>
       ))}
       <Divider />
-      <MenuItem onClick={() => navigate('/')}>
+      <MenuItem onClick={() => {
+        handleClose()
+        navigate('/')
+      }}>
         <Typography color='primary'>More...</Typography>
       </MenuItem>
     </DropdownButton>

@@ -13,7 +13,7 @@ describe('Sidebar', () => {
       .type('password')
     cy.contains('Login').click()
     cy.contains('Workspaces').click()
-    cy.get('.Workspace-menu-item').first().click()
+    cy.contains('Netflux').click({ force: true })
     cy.get('body').first().click()
   })
   // tests for displaying sidebar properly should be performed before this
