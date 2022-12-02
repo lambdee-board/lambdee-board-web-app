@@ -7,7 +7,8 @@ import {
   ListItem,
   IconButton,
   Avatar,
-  Skeleton
+  Skeleton,
+  Modal
 } from '@mui/material'
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -18,6 +19,7 @@ import useAppAlertStore from '../../stores/app-alert'
 
 import UserInfo from '../task-card-modal/UserInfo'
 import LabeledData from '../LabeledData'
+import CustomAlert from '../CustomAlert'
 
 import './WorkspaceUser.sass'
 
@@ -41,6 +43,10 @@ const WorkspaceUserSkeleton = () => {
 const WorkspaceUser = (props) => {
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const { workspaceId } = useParams()
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const removeUserFromWorkspace = () => {
     const unnasignedUser = { userId: props.userId }
@@ -65,6 +71,23 @@ const WorkspaceUser = (props) => {
 
   return (
     <Box>
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={removeUserFromWorkspace}
+            dismissAction={toggleAlertModalState}
+            title='Unassign User?'
+            message={`Are you sure you want to unassign ${props.userName}?`}
+            confirmMessage='Confirm, unassign user' />
+        </Box>
+      </Modal>
       <ListItem divider>
         <Box className='UserListItem'>
           <div className='UserListItem-base'>
@@ -77,7 +100,7 @@ const WorkspaceUser = (props) => {
           </div>
         </Box>
         { !props.hideDelete &&
-          <IconButton onClick={removeUserFromWorkspace}>
+          <IconButton onClick={toggleAlertModalState}>
             <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
           </IconButton>
         }

@@ -25,6 +25,7 @@ import { isManager } from '../internal/permissions'
 
 import { ManagerContent } from '../permissions/content'
 import ReportModal from './reports-view/ReportModal'
+import CustomAlert from './CustomAlert'
 
 import './SprintModal.sass'
 
@@ -41,7 +42,10 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   const [editSprintNameButton, setEditSprintNameButton] = React.useState(false)
   const [editDatetimeButton, setEditDatetimeButton] = React.useState(false)
   const [sprintFail, setSprintFail] = React.useState(false)
-
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
   const editDatetime = () => {
     const updatedDatetime = { expectedEndAt: datetime?.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
 
@@ -152,8 +156,25 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
   }
 
   return (
-    <Box className='SprintModal-wrapper'>
+    <Box className='SprintModal-wrapper' data-color-mode='light'>
       <Card className='SprintModal-paper'>
+        <Modal
+          open={alertModalState}
+          onClose={toggleAlertModalState}
+        >
+          <Box
+            sx={{  position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              outline: 0 }}>
+            <CustomAlert confirmAction={endSprintOnClick}
+              dismissAction={toggleAlertModalState}
+              title='End Sprint?'
+              message={`Are you sure you want to end ${activeSprint?.name}?`}
+              confirmMessage='Confirm, end sprint' />
+          </Box>
+        </Modal>
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
             {!activeSprint ?
@@ -320,7 +341,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }) => {
               <Button
                 color='error'
                 variant='contained'
-                onClick={endSprintOnClick}
+                onClick={toggleAlertModalState}
                 fullWidth
               >
             End Sprint

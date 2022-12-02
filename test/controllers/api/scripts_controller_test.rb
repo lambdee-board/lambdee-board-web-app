@@ -8,8 +8,8 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'get index' do
-    3.times { ::FactoryBot.create(:script) }
-    get api_scripts_url, as: :json, headers: auth_headers(@user)
+    4.times { ::FactoryBot.create(:script) }
+    get api_scripts_url, params: { limit: 3, as: :json }, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 3, json.size

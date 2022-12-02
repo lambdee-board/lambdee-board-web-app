@@ -6,6 +6,7 @@ class ::API::ScriptsController < ::APIController
   # GET /api/scripts
   def index
     @scripts = ::DB::Script.all
+    @scripts = @scripts.limit(limit) if limit?
   end
 
   # GET /api/scripts/1

@@ -4,5 +4,5 @@ class ::DB::ScriptRun < ::ApplicationRecord
   belongs_to :script
   belongs_to :initiator, class_name: '::DB::User'
 
-  enum state: { running: 0, executed: 1, failed: 2, timed_out: 3, connection_failed: 4 }
+  enum state: { waiting: 0, running: 1, executed: 2, failed: 3, timed_out: 4, connection_failed: 5 }
 end

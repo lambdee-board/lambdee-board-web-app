@@ -1,0 +1,40 @@
+---
+http_interactions:
+- request:
+    method: post
+    uri: http://127.0.0.1:3001/execute
+    body:
+      encoding: UTF-8
+      string: '{"script_run_id":1,"content":"puts ''Hello world''"}'
+    headers:
+      User-Agent:
+      - Faraday v2.6.0
+      Content-Type:
+      - application/json
+      Authorization:
+      - Basic bGFtYmRlZTpzaWtyaXRUb2tlbjEyMw==
+  response:
+    status:
+      code: 200
+    headers:
+      connection:
+      - keep-alive
+      x-cascade:
+      - pass
+      content-type:
+      - text/html;charset=utf-8
+      content-length:
+      - '511'
+      x-xss-protection:
+      - 1; mode=block
+      x-content-type-options:
+      - nosniff
+      x-frame-options:
+      - SAMEORIGIN
+      date:
+      - Thu, 01 Dec 2022 19:04:44 GMT
+    body:
+      encoding: UTF-8
+      string: ''
+  recorded_at: Thu, 01 Dec 2022 19:04:44 GMT
+recorded_with: VCR 6.1.0

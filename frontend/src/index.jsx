@@ -34,6 +34,7 @@ import ForgotPasswordView from './views/login/ForgotPasswordView'
 import ResetPasswordView from './views/login/ResetPasswordView'
 import WorkspaceMembersView from './views/workspaces/WorkspaceMembersView'
 import WorkspaceScriptsView from './views/workspaces/WorkspaceScriptsView'
+import WorkspaceWelcomeView from './views/workspaces/WorkspaceWelcomeView'
 import EditScriptView from './views/workspaces/scripts/EditScriptView'
 import AllScriptsView from './views/workspaces/scripts/AllScriptsView'
 import ScriptRunsView from './views/workspaces/scripts/ScriptRunsView'
@@ -54,8 +55,8 @@ root.render(
         <Route element={<PrivateRoutes />}>
           <Route path='/' element={<App />}>
             <Route path='' element={<WelcomeView />} />
-
             <Route path='workspaces/:workspaceId' element={<WorkspaceView />}>
+              <Route path='' element={<WorkspaceWelcomeView />} />
               <Route element={<ManagerRoutes />}>
                 <Route path='settings' element={<WorkspaceSettingsView />} />
               </Route>

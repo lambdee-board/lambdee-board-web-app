@@ -204,6 +204,12 @@ $ curl -LO https://launchpad.net/ubuntu/+archive/primary/+files/libffi8_3.4.2-4_
 $ sudo dpkg -i libffi8_3.4.2-4_amd64.deb
 ```
 
+> LoadError: libssl.so.1.1: cannot open shared object file
+
+```sh
+$ wget http://nz2.archive.ubuntu.com/ubuntu/pool/main/o/openssl/libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
+$ sudo dpkg -i libssl1.1_1.1.1f-1ubuntu2.16_amd64.deb
+```
 ### Mainly MacOS
 
 **postgresql**

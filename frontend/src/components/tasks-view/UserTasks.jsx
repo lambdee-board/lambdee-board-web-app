@@ -26,7 +26,6 @@ function UserTasks({ boardId, workspaceId }) {
   const { data: board, isLoading, isError } = useUserTasks({ id: boardId })
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const [pickedTask, setPickedTask] = React.useState(false)
-  const [pickedList, setPickedList] = React.useState(false)
 
   if (isLoading || isError) return (
     <Card className='userTasks-card' >
@@ -58,7 +57,6 @@ function UserTasks({ boardId, workspaceId }) {
 
   const handleOpenTaskCardModal = (props) => {
     setPickedTask(props.id)
-    setPickedList(props.listId)
     setOpenTaskCardModal(true)
   }
   const handleCloseTaskCardModal = () => {
@@ -79,7 +77,7 @@ function UserTasks({ boardId, workspaceId }) {
               left: '50%',
               transform: 'translate(-50%, -50%)',
               outline: 0 }}>
-            <TaskCardModal taskId={pickedTask} listId={pickedList} closeModal={handleCloseTaskCardModal} />
+            <TaskCardModal taskId={pickedTask} boardId = {boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
           </Box>
         </Modal>
       }

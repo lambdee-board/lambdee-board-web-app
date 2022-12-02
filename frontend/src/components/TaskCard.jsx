@@ -1,4 +1,5 @@
 import React, { useRef } from 'react'
+import { useParams } from 'react-router-dom'
 import {
   Box,
   Card,
@@ -42,13 +43,14 @@ const TaskCardSkeleton = () => {
 
 const TaskCard = (props) => {
   const dndRef = useRef(null)
-
+  const { boardId, workspaceId } = useParams()
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
     mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
+
   return (
     <div className='TaskCard-wrapper' >
       <Modal
@@ -62,7 +64,7 @@ const TaskCard = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} listId={props.listId} closeModal={handleCloseTaskCardModal} />
+          <TaskCardModal taskId={props.id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <Card className='TaskCard' ref={dndRef} onClick={handleOpenTaskCardModal}>

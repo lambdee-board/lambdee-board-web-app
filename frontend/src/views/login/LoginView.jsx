@@ -23,6 +23,12 @@ export default function LoginView() {
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [loginFail, setLoginFail] = React.useState(false)
 
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter') {
+      login()
+    }
+  }
+
   const login = () => {
     const emailInput = emailRef.current.value
     const passwordInput = passwordRef.current.value
@@ -45,7 +51,7 @@ export default function LoginView() {
   }
 
   return (
-    <div className='loginView-wrapper'>
+    <div className='loginView-wrapper' onKeyDown={handleKeyDown} >
       <img
         className='logo'
         src={lambdeeLogo}

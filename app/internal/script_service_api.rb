@@ -6,8 +6,10 @@ module ScriptServiceAPI
     # @return [Faraday::Connection]
     def http_connection
       ::Faraday.new(::Config::SCRIPT_SERVICE_API['url']) do |f|
+        f.response :json
         f.request :json
         f.request :authorization, 'basic', ::Config::SCRIPT_SERVICE_API['username'], ::Config::SCRIPT_SERVICE_API['password']
+        f.use ::Faraday::Response::RaiseError
         f.adapter :net_http
       end
     end
@@ -20,6 +22,9 @@ module ScriptServiceAPI
       end
     rescue ::Faraday::ConnectionFailed
       script_run.output = "Couldn't connect with Script Service."
+      script_run.connection_failed!
+    rescue ::Faraday::ClientError => e
+      script_run.output = e.message
       script_run.connection_failed!
     end
   end

@@ -12,7 +12,7 @@ import {
   Skeleton,
   Card,
   InputBase,
-  Modal,
+  Modal
 } from '@mui/material'
 import { ManagerContent } from '../permissions/content'
 import { Box } from '@mui/system'
@@ -80,6 +80,7 @@ function TaskList(props) {
   const listRef = React.useRef()
   const newTaskInputRef = React.useRef()
   const addAlert = useAppAlertStore((store) => store.addAlert)
+
 
   const [taskListModalState, setTaskListModalState] = useState(false)
   const toggleTaskListModalState = () => {
