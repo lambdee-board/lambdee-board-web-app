@@ -242,6 +242,7 @@ function TaskList(props) {
                           points={task.points}
                           pos={task.pos}
                           index={taskIndex}
+                          dueTime={task.dueTime}
                           listId={task.listId}
                         />
                       </ListItem>

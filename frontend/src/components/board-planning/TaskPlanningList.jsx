@@ -254,6 +254,7 @@ function TaskPlanningList(props) {
                             pos={task.pos}
                             index={taskIndex}
                             listId={task.listId}
+                            dueTime={task.dueTime}
                           />
                         </ListItem>
                         <Divider />

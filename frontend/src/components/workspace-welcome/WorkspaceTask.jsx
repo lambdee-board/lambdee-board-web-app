@@ -11,12 +11,12 @@ import {
 
 
 import { useList, mutateList } from '../../api/list'
-import { mutateBoard } from '../../api/board'
 import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
-
+import TaskDueTime from '../TaskDueTime'
 
 import './WorkspaceTask.sass'
+
 
 function WorkspaceTask({ listId, boardId }) {
   const { workspaceId } = useParams()
@@ -78,14 +78,19 @@ function WorkspaceTask({ listId, boardId }) {
                 <PriorityIcon size='lg' taskPriority={task.priority} />
               </div>
 
-              <Typography className='Tasks-card-list-task-title' variant='caption'>{task.name}</Typography>
+              <Typography noWrap className='Tasks-card-list-task-title' variant='caption'>{task.name}</Typography>
+              <div className='Tasks-card-list-task-duetime'>
+                {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
+              </div>
             </div>
+
           </Button>
         </div>
       ))}
     </div>
   )
 }
+
 
 WorkspaceTask.propTypes = {
   boardId: PropTypes.number.isRequired,

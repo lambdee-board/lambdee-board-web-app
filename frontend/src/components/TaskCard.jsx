@@ -17,7 +17,7 @@ import TaskCardModal from './TaskCardModal'
 import AvatarPopover from './AvatarPopover'
 import Tag from './Tag'
 import { mutateList } from '../api/list'
-
+import TaskDueTime from './TaskDueTime'
 
 const TaskCardSkeleton = () => {
   return (
@@ -51,6 +51,7 @@ const TaskCard = (props) => {
     setOpenTaskCardModal(false)
   }
 
+
   return (
     <div className='TaskCard-wrapper' >
       <Modal
@@ -71,6 +72,7 @@ const TaskCard = (props) => {
         <Typography className='TaskCard-label'>
           {props.label}
         </Typography>
+        {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:MM'} />}
         <Box className='Box-tags'>
           {props.tags.map((tag) => (
             <Tag key={tag.id} name={tag.name} colour={tag.colour} />
@@ -112,6 +114,7 @@ TaskCard.propTypes = {
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
   index: PropTypes.number.isRequired,
+  dueTime: PropTypes.string,
 }
 
 export default TaskCard
