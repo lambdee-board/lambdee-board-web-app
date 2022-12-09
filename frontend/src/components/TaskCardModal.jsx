@@ -2,7 +2,7 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
-
+import dayjs from 'dayjs'
 
 import {
   Typography,
@@ -107,6 +107,8 @@ const TaskCardModal = (props) => {
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
   const [alertModalState, setAlertModalState] = React.useState(false)
+  const [duetime, setDuetime] = React.useState()
+  const now = dayjs()
   const toggleAlertModalState = () => {
     setAlertModalState(!alertModalState)
   }
@@ -274,8 +276,12 @@ const TaskCardModal = (props) => {
   }
 
   const editDueTime = (value) => {
+    if (!value.isValid() || ((value.get('year') < 1900 || value.get('year') > 2099)) || (value.diff(task.dueTime) === 0)) {
+      setDuetime(value)
+      return
+    }
     const payload = { dueTime: value.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
-
+    setDuetime(value)
     apiClient.put(`/api/tasks/${props.taskId}`, payload)
       .then((response) => {
         mutateTask({ ...task, dueTime: value })
@@ -395,13 +401,14 @@ const TaskCardModal = (props) => {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
-                    renderInput={(properties) => <TextField {...properties} />}
+                    renderInput={(properties) => <TextField {...properties} onBlur={duetime ? () => editDueTime(duetime) : undefined} />}
                     ampm={false}
-                    value={task.dueTime}
+                    value={duetime ? duetime : task.dueTime}
                     onChange={
                       (newValue) => {
-                        editDueTime(newValue)
+                        setDuetime(newValue)
                       }}
+                    onAccept={() => editDueTime(duetime)}
                   />
                 </LocalizationProvider>
               </Stack>
