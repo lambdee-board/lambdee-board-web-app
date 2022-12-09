@@ -2,7 +2,6 @@ import * as React from 'react'
 import PropTypes from 'prop-types'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
-import dayjs from 'dayjs'
 
 import {
   Typography,
@@ -108,7 +107,6 @@ const TaskCardModal = (props) => {
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
   const [alertModalState, setAlertModalState] = React.useState(false)
   const [duetime, setDuetime] = React.useState()
-  const now = dayjs()
   const toggleAlertModalState = () => {
     setAlertModalState(!alertModalState)
   }
