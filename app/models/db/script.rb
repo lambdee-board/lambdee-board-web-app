@@ -21,6 +21,7 @@ class ::DB::Script < ::ApplicationRecord
     script_run = ::DB::ScriptRun.create(
       script: self,
       state: :waiting,
+      triggered_at: ::Time.now,
       delay: delay,
       initiator: author, # TODO: fix author
       input: extended_content

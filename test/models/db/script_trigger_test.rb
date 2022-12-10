@@ -13,6 +13,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
+      assert run.triggered_at.today?
     end
   end
 
@@ -26,6 +27,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
+      assert run.triggered_at.today?
     end
   end
 
@@ -39,6 +41,7 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       assert run.waiting?
       assert_equal script.id, run.script_id
       assert run.input.include? 'context'
+      assert run.triggered_at.today?
     end
   end
 end

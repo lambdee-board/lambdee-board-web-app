@@ -434,6 +434,8 @@ end
               script_name: { type: :string },
               initiator_id: { type: :integer },
               input: { type: %i[string null] },
+              triggered_at: { type: :string, format: :date_time },
+              executed_at: { type: %i[string null], format: :date_time },
               output: { type: :string },
               state: { type: :string },
               delay: { type: %i[integer null] },
