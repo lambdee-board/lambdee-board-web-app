@@ -255,13 +255,15 @@ const EditScriptView = () => {
             <ScriptLabel id={script.id} text={script.description} type='description' />
           </div>
 
-          <Editor
-            className='EditCard-editor'
-            value={codeDraft}
-            onValueChange={updateCode}
-            highlight={(code) => highlight(code, languages.ruby)}
-            padding={10}
-          />
+          <div className='EditCard-editor-wrapper'>
+            <Editor
+              className='EditCard-editor'
+              value={codeDraft}
+              onValueChange={updateCode}
+              highlight={(code) => highlight(code, languages.ruby)}
+              padding={10}
+            />
+          </div>
 
           <Typography variant='h5'>Logs</Typography>
           <div className='EditCard-output'>
