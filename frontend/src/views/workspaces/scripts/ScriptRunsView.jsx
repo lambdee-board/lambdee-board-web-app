@@ -5,6 +5,8 @@ import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScriptRuns from '../../../api/script-runs'
 import CodeHighlighter from '../../../components/CodeHighlighter'
+import dayjs from 'dayjs'
+
 
 import './ScriptRunsView.sass'
 
@@ -18,7 +20,8 @@ export default function ScriptRunsView() {
     'executed': '#4caf50',
     'failed': '#ff1744',
     'timed_out': '#ff9800',
-    'connection_failed': '#af52bf'
+    'connection_failed': '#af52bf',
+    'waiting': '#aaa'
   }
 
 
@@ -71,6 +74,15 @@ export default function ScriptRunsView() {
               <Typography sx={{ color: stateColors[currentRun.state] }} variant='h5'>
                 {currentRun.state}
               </Typography>
+              <div className='dialog-script-datetime'>
+                <Typography>
+                Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                </Typography>
+                <Typography>
+                Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                </Typography>
+                <Typography>Delay: {currentRun.delay || 0}s</Typography>
+              </div>
             </div>
             <div className='dialog-content'>
               <div className='dialog-output'>
