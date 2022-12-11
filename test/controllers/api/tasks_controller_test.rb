@@ -4,11 +4,31 @@ require 'test_helper'
 
 class DB::TasksControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user)
+    @user = ::FactoryBot.create(:user, role: :admin)
     @task = ::FactoryBot.create(:task)
     @list = @task.list
     @board = @list.board
     @workspace = @board.workspace
+  end
+
+  context 'scripts' do
+    should 'create task and run script' do
+      script = ::FactoryBot.create(:script, :with_trigger_on_task_creation)
+      params = { task: { name: 'New task', list_id: @list.id, author_id: @user.id } }
+      assert_difference('DB::ScriptRun.count', 1) do
+        post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+      end
+      assert_response :created
+    end
+
+    should 'create task and not run script' do
+      script = ::FactoryBot.create(:script, :with_trigger_on_task_creation)
+      params = { task: { name: 'New task', list_id: @list.id, author_id: @user.id }, trigger_scripts: false }
+      assert_no_difference('DB::ScriptRun.count') do
+        post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
+      end
+      assert_response :created
+    end
   end
 
   context 'user belongs to board' do

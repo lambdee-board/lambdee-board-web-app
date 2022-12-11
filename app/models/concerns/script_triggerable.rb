@@ -8,9 +8,11 @@ module ::ScriptTriggerable
     attr_reader :previous_object_state
 
     after_validation :save_previous_object_state
-    after_create { execute_scripts_with_action(:create) }
-    after_update { execute_scripts_with_action(:update) }
-    after_destroy { execute_scripts_with_action(:destroy) }
+    with_options unless: -> { ::Current.script_triggers_disabled? } do
+      after_create { execute_scripts_with_action(:create) }
+      after_update { execute_scripts_with_action(:update) }
+      after_destroy { execute_scripts_with_action(:destroy) }
+    end
   end
 
   private

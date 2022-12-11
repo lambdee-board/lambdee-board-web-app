@@ -44,4 +44,12 @@ class ::DB::ScriptTriggerTest < ::ActiveSupport::TestCase
       assert run.triggered_at.today?
     end
   end
+
+  should 'not execute script on create when script triggers are disabled' do
+    ::Current.disable_script_triggers_for_this_request!
+    ::FactoryBot.create(:script, :with_trigger_on_task_creation)
+    assert_no_difference('DB::ScriptRun.count') do
+      ::FactoryBot.create(:task)
+    end
+  end
 end

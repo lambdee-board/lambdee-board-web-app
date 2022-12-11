@@ -7,7 +7,7 @@ class APIController < ::ApplicationController
 
   rescue_from ::ActiveRecord::RecordNotFound, with: :not_found
 
-  before_action :authenticate_user!
+  before_action :authenticate_user!, :disable_script_triggers_if_needed
 
   helper_method :current_user
 
@@ -27,6 +27,10 @@ class APIController < ::ApplicationController
     auth_scheme == 'ScriptService' &&
       ::ActiveSupport::SecurityUtils.secure_compare(::Base64.decode64(auth_token), ::Config::ENV_SETTINGS['script_service_secret']) &&
       %w[localhost rails].include?(request.host)
+  end
+
+  def disable_script_triggers_if_needed
+    ::Current.disable_script_triggers_for_this_request! if params[:trigger_scripts] == false
   end
 
   # @return [Integer, nil]
