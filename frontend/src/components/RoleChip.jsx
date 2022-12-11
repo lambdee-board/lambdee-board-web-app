@@ -7,7 +7,7 @@ import './RoleChip.sass'
 
 
 export default function RoleChip(props) {
-  const [chipState, toggleChipState] = React.useState(true)
+  const [chipState, toggleChipState] = React.useState(false)
   const chipRef = React.useRef()
 
   const toggleRoleChip = () => {
@@ -26,9 +26,11 @@ export default function RoleChip(props) {
       label={props.name}
       ref={chipRef}
       sx={{ background: props.color,
+        opacity: 0.45,
         color: 'white',
         mb: 1,
-        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;' }} />
+        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;',
+        '&:hover': { background: props.color, opacity: 0.6 } }} />
   )
 }
 

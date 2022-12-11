@@ -1,17 +1,21 @@
 import * as React from 'react'
 
-import { Divider, List, ListItemButton, Typography, Dialog, Chip } from '@mui/material'
+import { Divider, List, ListItemButton, Typography, Dialog, Chip, Pagination } from '@mui/material'
 import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScriptRuns from '../../../api/script-runs'
 import CodeHighlighter from '../../../components/CodeHighlighter'
 import dayjs from 'dayjs'
 
-
 import './ScriptRunsView.sass'
+import ScriptRunsFilter from '../../../components/ScriptRunsFilter'
 
 export default function ScriptRunsView() {
-  const { data: scriptRuns, isLoading, isError } = useScriptRuns({})
+  const perPage = 10
+  const [filter, setFilter] = React.useState({ page: 1, per: perPage })
+  const [totalPages, setTotalPages] = React.useState(0)
+
+  const { data: scriptRuns, isLoading, isError, mutate } = useScriptRuns({ axiosOptions: { params: filter } })
   const [openDial, setOpenDial] = React.useState(false)
   const [currentRun, setCurrentRun] = React.useState(null)
 
@@ -24,6 +28,12 @@ export default function ScriptRunsView() {
     'waiting': '#aaa'
   }
 
+  React.useEffect(() => {
+    if (!scriptRuns?.totalPages) return
+
+    setTotalPages(scriptRuns?.totalPages)
+  }, [scriptRuns?.totalPages])
+
 
   const handleOpenDial = (scriptRun) => {
     console.log(scriptRun)
@@ -35,15 +45,34 @@ export default function ScriptRunsView() {
     setCurrentRun(null)
   }
 
-  if ((isLoading || isError)) return
+  const fetchNextUserPage = (event, newPage) => {
+    if (filter.page === newPage) return
+
+    const newFilterPage = { ...filter, page: newPage }
+    setFilter(newFilterPage)
+    mutate({ axiosOptions: { params: newFilterPage } })
+  }
+
+  const updateFilters = (newFilter) => {
+    const validFilter = Object.fromEntries(
+      Object.entries(newFilter).filter(([_, v]) => v !== '')
+    )
+    validFilter.per = perPage
+    validFilter.page = 1
+
+    // console.log(validFilter)
+    setFilter(validFilter)
+  }
+
 
   return (
-    <div className='WorkspaceScriptsRuns'>
+    <div className='WorkspaceScriptsRuns' style={{ display: 'flex', flexDirection: 'row' }}>
       <div className='list-wrapper'>
+        {!(isLoading || isError) &&
         <List className='List'>
           <Divider />
-          {scriptRuns.length > 0 ?
-            scriptRuns.map((scriptRun, idx) => (
+          {scriptRuns?.runs.length > 0 ?
+            scriptRuns?.runs.map((scriptRun, idx) => (
               <div key={idx}>
                 <ListItemButton
                   divider
@@ -60,7 +89,22 @@ export default function ScriptRunsView() {
             <Typography className='no-script-runs'>No script was run yet</Typography>
           }
         </List>
+        }
+        { totalPages > 1 &&
+          <Pagination
+            className='WorkspaceScriptsRuns-pagination'
+            count={totalPages || 0}
+            color='primary'
+            onChange={fetchNextUserPage}
+            size='large'
+            page={filter.page} />
+        }
 
+      </div>
+      <div className='filter-wrapper'>
+        <ScriptRunsFilter
+          updateFilters={updateFilters}
+        />
       </div>
       { currentRun &&
         <Dialog

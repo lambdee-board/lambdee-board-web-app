@@ -19,7 +19,7 @@ const UsersFilter = (props) => {
   const [endDate, setEndDate] = React.useState('')
 
   const defaultRoles = ['admin', 'manager', 'developer', 'regular', 'guest']
-  const [roles, setRoles] = React.useState(defaultRoles)
+  const [roles, setRoles] = React.useState([])
   const colors = [
     'linear-gradient(248.86deg, #F34483 -15.19%, #EB2149 115.06%)',
     'linear-gradient(250.72deg, #029FD1 -16.17%, #0288D1 114.3%)',
