@@ -25,6 +25,7 @@ import '@fontsource/fira-code/700.css'
 import './EditScriptView.sass'
 import { useNavigate, useParams } from 'react-router-dom'
 import { mutateWorkspaceScripts } from '../../../api/workspace-scripts'
+import ScriptLabel from '../../../components/ScriptLabel'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -250,12 +251,8 @@ const EditScriptView = () => {
       <Paper className='EditCard'>
         <div className='EditCard-content'>
           <div className='EditCard-header'>
-            <Typography className='EditCard-scriptName' variant='h4'>
-              {script.name}
-            </Typography>
-            <Typography className='EditCard-scriptDescription' sx={{ color: '#aaa' }}>
-              {script.description}
-            </Typography>
+            <ScriptLabel id={script.id} text={script.name} />
+            <ScriptLabel id={script.id} text={script.description} type='description' />
           </div>
 
           <Editor
