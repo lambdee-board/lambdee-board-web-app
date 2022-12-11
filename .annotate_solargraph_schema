@@ -684,6 +684,12 @@ class DB::ScriptRun < ApplicationRecord
   #
   # @return [Array<DB::ScriptRun>, nil]
   def self.not_timed_out(); end
+  # Scope `:not_waiting`.
+  #
+  #     klass.scope "not_#{value_method_name}", -> { where.not(name => value) }
+  #
+  # @return [Array<DB::ScriptRun>, nil]
+  def self.not_waiting(); end
   # Scope `:running`.
   #
   #     klass.scope value_method_name, -> { where(name => value) }
@@ -696,6 +702,12 @@ class DB::ScriptRun < ApplicationRecord
   #
   # @return [Array<DB::ScriptRun>, nil]
   def self.timed_out(); end
+  # Scope `:waiting`.
+  #
+  #     klass.scope value_method_name, -> { where(name => value) }
+  #
+  # @return [Array<DB::ScriptRun>, nil]
+  def self.waiting(); end
   # `belongs_to` relation with `DB::User`. Database column `script_runs.initiator_id`.
   # @param val [DB::User, nil]
   def initiator=(val); end
@@ -750,6 +762,18 @@ class DB::ScriptRun < ApplicationRecord
   # Database column `script_runs.delay`, type: `integer`.
   # @return [Integer, nil]
   def delay; end
+  # Database column `script_runs.triggered_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def triggered_at=(val); end
+  # Database column `script_runs.triggered_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def triggered_at; end
+  # Database column `script_runs.executed_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def executed_at=(val); end
+  # Database column `script_runs.executed_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def executed_at; end
 end
 # %%<RailsAnnotateSolargraph:End:script_runs>%%
 

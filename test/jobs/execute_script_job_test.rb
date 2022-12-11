@@ -9,6 +9,7 @@ class ExecuteScriptJobTest < ActiveJob::TestCase
       script_run = ::FactoryBot.create(:script_run)
       ::ExecuteScriptJob.perform_now(script_run.id)
       assert script_run.reload.running?
+      assert script_run.executed_at.today?
     end
   end
 

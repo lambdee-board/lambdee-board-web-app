@@ -15,8 +15,10 @@ import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
 import AvatarPopover from '../AvatarPopover'
 import Tag from '../Tag'
+import TaskDueTime from '../TaskDueTime'
 
 import './TaskListItem.sass'
+
 
 const TaskListItem = (props) => {
   const dndRef = useRef(null)
@@ -48,15 +50,16 @@ const TaskListItem = (props) => {
           {props.label}
         </Typography>
         <Box className='TaskListItem-properties'>
-
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} className='TaskListItem-properties-tags'>
-            <AvatarGroup max={(4)} >
+            <AvatarGroup max={(3)} >
               {props.tags.map((tag) => (
                 <Tag name={tag.name} colour={tag.colour} key={tag.id} />
               ))}
             </AvatarGroup>
           </Box>
-
+          <Box className='TaskListItem-properties-duetime'>
+            {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:MM'} />}
+          </Box>
           <Box className='TaskListItem-properties-priority'>
             <PriorityIcon size='xl' taskPriority={props.priority} />
 
@@ -64,7 +67,7 @@ const TaskListItem = (props) => {
           <Box className='TaskListItem-properties-points'>
             {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
           </Box>
-          <Box className='TaskListItem-properties-avatars'>
+          <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }} className='TaskListItem-properties-avatars'>
             <AvatarGroup max={3} className='.MuiAvatar-root'>
               {props.assignedUsers.map((assignedUser) => (
                 <AvatarPopover
@@ -96,6 +99,7 @@ TaskListItem.propTypes = {
   priority: PropTypes.string,
   tags: PropTypes.array.isRequired,
   listId: PropTypes.number.isRequired,
+  dueTime: PropTypes.string,
   index: PropTypes.number.isRequired,
 }
 

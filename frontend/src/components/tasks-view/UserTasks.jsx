@@ -18,6 +18,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { useUserTasks, mutateUserTasks } from '../../api/user-tasks'
 import PriorityIcon from '../PriorityIcon'
 import TaskCardModal from '../TaskCardModal'
+import TaskDueTime from '../TaskDueTime'
 
 import './UserTasks.sass'
 
@@ -106,7 +107,10 @@ function UserTasks({ boardId, workspaceId }) {
                           <PriorityIcon size='lg' taskPriority={task.priority} />
                         </div>
 
-                        <Typography className='userTasks-card-list-task-title' variant='caption'>{task.name}</Typography>
+                        <Typography noWrap className='userTasks-card-list-task-title' variant='caption'>{task.name}</Typography>
+                        <div className='Tasks-card-list-task-duetime'>
+                          {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
+                        </div>
                       </div>
                     </Button>
                   </div>
