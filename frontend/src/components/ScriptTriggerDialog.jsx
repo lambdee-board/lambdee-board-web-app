@@ -10,6 +10,7 @@ const ScriptTriggerDialog = (props) => {
     subjectType: '',
     subjectId: '',
     action: '',
+    delay: 0,
   })
 
   React.useEffect(() => {
@@ -17,6 +18,7 @@ const ScriptTriggerDialog = (props) => {
       subjectType: '',
       subjectId: '',
       action: '',
+      delay: 0,
     })
   }, [props])
 
@@ -75,6 +77,19 @@ const ScriptTriggerDialog = (props) => {
               subjectId: event.target.value,
             })}
             label='Subject id'
+            variant='standard'
+          />
+
+          <TextField
+            sx={{ width: '200px' }}
+            margin='dense'
+            type='number'
+            value={newTrigger.delay}
+            onChange={(event) => setNewTrigger({
+              ...newTrigger,
+              delay: event.target.value,
+            })}
+            label='Delay (seconds)'
             variant='standard'
           />
         </DialogContent>

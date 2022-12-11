@@ -337,9 +337,11 @@ const EditScriptView = () => {
                         </IconButton>
                       }
                     >
-                      <ListItemText primary={`Action: ${trigger.action}`} />
                       <ListItemText
-                        primary={`Type: ${trigger.subjectType}`}
+                        primary={`Action: ${trigger.action}`}
+                        secondary={`Delay: ${trigger.delay || 0}`} />
+                      <ListItemText
+                        primary={`Type: ${trigger.subjectType || 'all'}`}
                         secondary={`Id: ${trigger.subjectId}`} />
                     </ListItem>
                   </div>
