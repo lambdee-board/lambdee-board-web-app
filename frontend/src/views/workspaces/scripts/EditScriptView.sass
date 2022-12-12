@@ -1,9 +1,8 @@
-@import './../styles/base'
+@import './../../../styles/base'
 
 .EditCard-wrapper
   position: absolute
-  z-index: 999
-  width: 100%
+  width: calc(100vw - (29 * $unit))
   min-height: calc(100vh - (13 * $unit))
   .EditCard
     min-height: calc(100vh - (13 * $unit))
@@ -13,8 +12,16 @@
     display: flex
     flex-direction: row
     justify-content: space-between
+    width: calc(100% - 3*$unit)
     .EditCard-content
-      width: 100%
+      width: calc(100% - 34 * $unit)
+      .EditCard-editor-wrapper
+        overflow-y: scroll
+        overflow-x: scroll
+        border-radius: $unit
+        height: 45vh
+        min-width: 100%
+
       .EditCard-editor, .EditCard-output
         overflow-y: scroll
         overflow-x: scroll
@@ -22,13 +29,13 @@
         background-color: #032b3a
         color: #fff
         border-radius: $unit
-        width: 100%
-        height: 45vh
+
       .EditCard-output
         padding: 10px
         height: 30vh
         margin: 0
         width: calc(100% - 20px)
+        max-width: calc(100% - 20px)
         pre
           margin: 0
 

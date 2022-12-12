@@ -1,89 +1,107 @@
 import * as React from 'react'
 
 import {
-  List,
   Typography,
-  ListItemButton
+  Toolbar,
+  Button,
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faHistory, faScroll } from '@fortawesome/free-solid-svg-icons'
-
-import useWorkspaceScripts from '../../api/workspace-scripts'
-import useScriptRuns from '../../api/script-runs'
-
-import EditScript from '../../components/EditScript'
+import { faClockRotateLeft, faList, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { Outlet, useNavigate, useParams } from 'react-router-dom'
+import useCookie from 'react-use-cookie'
 
 import './WorkspaceScriptsView.sass'
+import NewScriptDialog from '../../components/NewScriptDialog'
+import apiClient from '../../api/api-client'
+import useAppAlertStore from '../../stores/app-alert'
+import { mutateWorkspaceScripts } from '../../api/workspace-scripts'
 
 export default function WorkspaceScriptsView() {
-  const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({})
-  const { data: scriptRuns, isLoadingSR, isErrorSR } = useScriptRuns({})
-  const [editing, setEditState] = React.useState(false)
-  const [currentScript, setCurrentScript] = React.useState(null)
+  const { workspaceId } = useParams()
+  const navigate = useNavigate()
+  const addAlert = useAppAlertStore((store) => store.addAlert)
+  const [openDial, setOpenDial] = React.useState(false)
+  const [scriptView, setScriptView] = useCookie('showAllScripts', 'all')
 
-  const openScriptEditing = (script) => {
-    setCurrentScript(script)
-    setEditState(true)
+  React.useEffect(() => {
+    let navigatedOut = false
+    if (navigatedOut) return
+
+    if (scriptView === 'all') {
+      navigate(`/workspaces/${workspaceId}/scripts/all`)
+    } else {
+      navigate(`/workspaces/${workspaceId}/scripts/runs`)
+    }
+    return () => { navigatedOut = true }
+  }, [workspaceId, scriptView, navigate])
+
+  const handleCloseDial = () => {
+    setOpenDial(false)
   }
 
-  const closeScriptEditing = () => {
-    setCurrentScript(null)
-    setEditState(false)
+  const handleOpenDial = () => {
+    setOpenDial(true)
   }
 
-  const mutateScript = (script) => {
-    mutate([ script, ...scripts ])
+  const handleSubmit = (event, script) => {
+    event.preventDefault()
+    saveScript(script)
+    handleCloseDial()
+  }
+
+  const saveScript = (payload) => {
+    apiClient.post('/api/scripts', payload)
+      .then((response) => {
+        // successful request
+        mutateWorkspaceScripts({})
+      })
+      .catch((error) => {
+        // failed or rejected
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
+      })
   }
 
   return (
     <div className='WorkspaceScripts-wrapper'>
-      { editing &&
-      <EditScript
-        script={currentScript}
-        closeFn={closeScriptEditing}
-        mutateScript={mutateScript}
-      /> }
-      <div className='WorkspaceScripts'>
-        <div className='list-wrapper'>
-          <Typography sx={{ paddingLeft: '16px' }}>Scrips</Typography>
-          <List className='List'>
-            { !(isLoading || isError) &&
-              scripts.map((script, idx) => (
-                <div key={idx}>
-                  <ListItemButton
-                    divider
-                    onClick={() => openScriptEditing(script)}
-                    sx={{ fontSize: '32px', gap: '16px' }}
-                  >
-                    <FontAwesomeIcon icon={faScroll} />
-                    <Typography variant='h5'>{script.name}</Typography>
-                  </ListItemButton>
-                </div>
-              ))
-            }
-          </List>
+      <Toolbar className='WorkspaceScripts-toolbar'>
+        <div>
+          {scriptView === 'all' &&
+            <Button
+              onClick={handleOpenDial}
+              className='WorkspaceScripts-newScript-btn'
+              color='secondary'
+              variant='outlined'
+              startIcon={<FontAwesomeIcon icon={faPlus} />}>
+              <Typography>Create new script</Typography>
+            </Button>
+          }
         </div>
-        <div className='list-wrapper'>
-          <Typography sx={{ paddingLeft: '16px' }}>Script Runs</Typography>
-          <List className='List'>
-            { !(isLoadingSR || isErrorSR) &&
-              scriptRuns?.map((run, idx) => (
-                <div key={idx}>
-                  <ListItemButton
-                    divider
-                    onClick={() => {}}
-                    sx={{ fontSize: '32px', gap: '16px' }}
-                  >
-                    <FontAwesomeIcon icon={faHistory} />
-                    <Typography variant='h5'>{run.state}</Typography>
-                    <Typography variant='pre'>{run.output}</Typography>
-                  </ListItemButton>
-                </div>
-              ))
-            }
-          </List>
+        <div>
+          <Button
+            sx={{ ml: '8px' }}
+            onClick={() => { if (scriptView !== 'all') setScriptView('all') }}
+            className='WorkspaceScripts-scriptsAll-btn'
+            color='secondary'
+            variant={scriptView === 'all' ? 'contained' : 'outlined'}
+            startIcon={<FontAwesomeIcon icon={faList} />}>
+            <Typography>All scripts</Typography>
+          </Button>
+          <Button
+            sx={{ ml: '8px' }}
+            onClick={() => { if (scriptView !== 'runs') setScriptView('runs') }}
+            className='WorkspaceScripts-scriptsRuns-btn'
+            color='secondary'
+            variant={scriptView === 'runs' ? 'contained' : 'outlined'}
+            startIcon={<FontAwesomeIcon icon={faClockRotateLeft} />}>
+            <Typography>Run history</Typography>
+          </Button>
         </div>
-      </div>
+      </Toolbar>
+      <Outlet />
+      <NewScriptDialog
+        openDial={openDial}
+        handleCloseDial={handleCloseDial}
+        handleSubmit={handleSubmit} />
     </div>
   )
 }
