@@ -45,7 +45,7 @@ class API::CommentsController < ::APIController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_comment
-    @comment = ::DB::Comment.find(params[:id])
+    @comment = ::DB::Comment.with_deleted.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

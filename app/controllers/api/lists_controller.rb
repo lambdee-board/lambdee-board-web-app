@@ -58,7 +58,7 @@ class API::ListsController < ::APIController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_list
-    @list = ::DB::List.find(params[:id])
+    @list = ::DB::List.with_deleted.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.

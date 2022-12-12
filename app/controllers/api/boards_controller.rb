@@ -70,7 +70,7 @@ class API::BoardsController < ::APIController
 
   # @return [DB::Board]
   def set_board
-    @board = ::DB::Board.find(params[:id])
+    @board = ::DB::Board.with_deleted.find(params[:id])
   end
 
   # @return [Hash{Symbol => Object}]

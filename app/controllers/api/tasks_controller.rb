@@ -96,7 +96,7 @@ class API::TasksController < ::APIController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_task
-    @task = ::DB::Task.find(params[:id])
+    @task = ::DB::Task.with_deleted.find(params[:id])
   end
 
   # Only allow a list of trusted parameters through.
