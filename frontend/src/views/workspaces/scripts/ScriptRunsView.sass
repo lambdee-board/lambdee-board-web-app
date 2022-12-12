@@ -1,0 +1,38 @@
+@import './../../../styles/base'
+
+
+.dialog-output
+  overflow-y: scroll
+  overflow-x: scroll
+  font-family: "Fira code", "Fira Mono", monospace
+  background-color: #032b3a
+  color: #fff
+  border-radius: $unit
+  width: calc( 100% - 3 * $unit )
+  padding: $unit
+  height: 350px
+  margin: $unit 0
+  pre
+    margin: 0
+
+.list-wrapper
+  width: 100%
+  .List
+    .no-script-runs
+      width: 100%
+      font-size: 48px
+      text-transform: uppercase
+      font-weight: bold
+      text-align: center
+      color: rgba(2, 159, 209, 0.3)
+  .WorkspaceScriptsRuns-pagination
+    padding-top: $unit
+    display: flex
+    justify-content: center
+
+.dialog-script-datetime
+  display: flex
+  gap: 3 * $unit
+
+.filter-wrapper
+  max-width: 45 * $unit

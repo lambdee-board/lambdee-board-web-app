@@ -1,8 +1,8 @@
 import { useAPI } from './api-client'
 
-const requestPath = () => '/api/script_runs'
+const requestPath = '/api/script_runs'
 
-const getterKey = (axiosOptions = undefined) => {
+const getterKey = (axiosOptions) => {
   let key = requestPath
   if (axiosOptions != null) key = [key, axiosOptions]
 
