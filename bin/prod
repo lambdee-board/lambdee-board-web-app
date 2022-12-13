@@ -18,4 +18,15 @@ fi
 $script_dir/precompile
 
 title "Starting the Rails Server"
-bundle exec puma -C $script_dir/../config/puma.rb
+
+# Start sidekiq in the background
+bundle exec sidekiq &
+
+# Start puma in the background
+bundle exec puma -C $script_dir/../config/puma.rb &
+
+# Wait for any process to exit
+wait -n
+
+# Exit with status of process that exited first
+exit $?

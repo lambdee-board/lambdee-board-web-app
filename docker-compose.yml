@@ -1,10 +1,22 @@
-# spakowanie obrazu `docker save af1e44a6f4ae | gzip > lambdee-web-app.tgz`
+# docker image ls
+# spakowanie obrazu `docker save lambdee-board/rails | gzip > lambdee-web-app.tgz`
 # upload scp `scp ./lambdee-nginx.tgz mati@garbimat:~/lambdee-nginx.tgz`
 # załadowanie obrazów `docker load < lambdee-nginx.tgz`
 # postawienie appki `docker-compose up`
 
 version: "3.9"
 services:
+
+  redis:
+    image: redis
+    # platform: linux/amd64
+    expose:
+      - '6379'
+    volumes:
+      - lambdee-postgres:/var/lib/postgresql/data
+    networks:
+      - kv_store
+    restart: always
 
   postgres:
     image: postgres
@@ -42,13 +54,14 @@ services:
     expose:
       - "3000"
     environment:
-      DB_HOST: postgres
       PORT: 3000
       RAILS_ENV: production
       RACK_ENV: production
       NODE_ENV: production
+      DB_HOST: postgres
       DB_NAME: ${DB_NAME:-lambdee_board_web_app_production}
       DB_PASSWORD: ${DB_PASSWORD:-HasloPostgres123}
+      REDIS_URL: 'redis://redis:6379/0'
       SECRET_KEY_BASE: ${SECRET_KEY_BASE:-22e0fc31bebdffb37576ed32310e8f3e7a2cf1fa8c2a209d1542b6f54bed4654343a7b870933b88e4647e79e55a3ad25200e5c9242b7b5accec67b16d0aeec0c}
       LAMBDEE_HOST: ${LAMBDEE_HOST:-localhost}
       LAMBDEE_PROTOCOL: ${LAMBDEE_PROTOCOL:-http}
@@ -66,6 +79,7 @@ services:
     networks:
       - web
       - db
+      - kv_store
     volumes:
       - lambdee-public-assets:/var/www/lambdee-web-app/public/assets
     restart: always
@@ -91,3 +105,4 @@ volumes:
 networks:
   web:
   db:
+  kv_store:
