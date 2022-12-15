@@ -13,7 +13,7 @@ test:
 
 production:
   default_url_options:
-    host: <%= ENV['LAMBDEE_HOST'] %>
-    protocol: <%= ENV['LAMBDEE_PROTOCOL'] || 'https' %>
-  gravatar_host: www.gravatar.com
-  script_service_secret: <%= ENV['SCRIPT_SERVICE_SECRET'] || 'sikritToken123' %>
+    host: '<%= ENV['LAMBDEE_HOST'] %>'
+    protocol: '<%= ENV['LAMBDEE_PROTOCOL'] || 'https' %>'
+  gravatar_host: 'www.gravatar.com'
+  script_service_secret: '<%= ENV['SCRIPT_SERVICE_SECRET'] || 'sikritToken123' %>'

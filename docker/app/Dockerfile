@@ -10,10 +10,7 @@ RUN curl -sL https://deb.nodesource.com/setup_16.x | bash -\
 # throw errors if Gemfile has been modified since Gemfile.lock
 RUN bundle config --global frozen 1
 
-ENV RAILS_ROOT /var/www/lambdee-web-app
-RUN mkdir -p $RAILS_ROOT
-
-WORKDIR $RAILS_ROOT
+WORKDIR /usr/src/app
 
 # Setting env up
 ENV RAILS_ENV='production'

@@ -8,8 +8,7 @@ module QueryAPI
   class BaseMapper < ::Shale::Mapper
     include ::ActiveModel::Validations
     extend Forwardable
-    extend NestedValidations::ClassMethods
-    include NestedValidations::InstanceMethods
+    include NestedValidations
 
     class << self
       # @param params [Hash{String => Object}]
