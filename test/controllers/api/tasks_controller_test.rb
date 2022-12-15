@@ -19,6 +19,8 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
       end
       assert_response :created
+      script_run = ::DB::ScriptRun.last
+      assert_equal @user.id, script_run.initiator.id
     end
 
     should 'create task and not run script' do
