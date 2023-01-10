@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Wraps the universal data for all scripts,
+# mainly its body (eg. Ruby code)
 class ::DB::Script < ::ApplicationRecord
   has_many :script_runs, dependent: :destroy
   has_many :script_triggers, dependent: :destroy

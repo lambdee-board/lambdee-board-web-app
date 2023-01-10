@@ -199,3 +199,6 @@ Layout/HashAlignment:
 
 Style/EmptyLiteral:
   Enabled: false
+
+Style/RedundantConstantBase:
+  Enabled: false

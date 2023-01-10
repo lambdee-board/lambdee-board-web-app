@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# Represents a single run of a script
+# holds its output logs and state
 class ::DB::ScriptRun < ::ApplicationRecord
   belongs_to :script
   belongs_to :initiator, class_name: '::DB::User'
