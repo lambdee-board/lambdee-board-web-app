@@ -12,7 +12,7 @@ class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
     get api_script_runs_url, params: { limit: 3, as: :json }, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
-    assert_equal 3, json.size
+    assert_equal 3, json['runs'].size
   end
 
   should 'get index for sprint' do
@@ -22,7 +22,7 @@ class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
     get "/api/scripts/#{my_script.id}/script_runs", as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
-    assert_equal 3, json.size
+    assert_equal 3, json['runs'].size
   end
 
   should 'show script_run' do

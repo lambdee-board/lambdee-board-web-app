@@ -3,7 +3,7 @@
 # Provides a thread-isolated attributes singleton.
 # Should only be used for a few, top-level globals!
 class ::Current < ::ActiveSupport::CurrentAttributes
-  attribute :script_triggers_disabled
+  attribute :script_triggers_disabled, :user
 
   # @return [Boolean]
   def disable_script_triggers_for_this_request!

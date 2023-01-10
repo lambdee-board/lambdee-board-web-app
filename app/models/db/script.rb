@@ -23,7 +23,7 @@ class ::DB::Script < ::ApplicationRecord
       state: :waiting,
       triggered_at: ::Time.now,
       delay: delay,
-      initiator: author, # TODO: fix author
+      initiator: ::Current.user || author,
       input: extended_content
     )
 
