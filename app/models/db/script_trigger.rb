@@ -5,6 +5,7 @@ class ::DB::ScriptTrigger < ::ApplicationRecord
   ACTIONS = ::Set['create', 'update', 'destroy']
 
   belongs_to :subject, polymorphic: true, optional: true
+  belongs_to :scope, polymorphic: true, optional: true
   belongs_to :script
 
   scope :global, -> { where(subject_type: nil) }
