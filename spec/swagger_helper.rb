@@ -189,6 +189,14 @@ end
             },
             required: %w[sprints]
           },
+          script_run_pages_response: {
+            type: :object,
+            properties: {
+              runs: { type: :array, items: { '$ref' => '#components/schemas/script_run_response'}},
+              total_pages: { type: :integer },
+            },
+            required: %w[runs]
+          },
           sprint_response: {
             type: :object,
             properties: {

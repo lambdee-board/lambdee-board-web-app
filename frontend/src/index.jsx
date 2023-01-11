@@ -39,7 +39,6 @@ import EditScriptView from './views/workspaces/scripts/EditScriptView'
 import AllScriptsView from './views/workspaces/scripts/AllScriptsView'
 import ScriptRunsView from './views/workspaces/scripts/ScriptRunsView'
 
-
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
   <React.StrictMode>

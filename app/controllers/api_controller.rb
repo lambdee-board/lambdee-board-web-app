@@ -29,7 +29,7 @@ class APIController < ::ApplicationController
   def script_service_authenticated?(auth_scheme, auth_token)
     auth_scheme == 'ScriptService' &&
       ::ActiveSupport::SecurityUtils.secure_compare(::Base64.decode64(auth_token), ::Config::ENV_SETTINGS['script_service_secret']) &&
-      %w[localhost rails].include?(request.host)
+      ::Config::ENV_SETTINGS['internal_host'] == request.host
   end
 
   def disable_script_triggers_if_needed

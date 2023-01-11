@@ -2,6 +2,7 @@ default: &default
   default_url_options:
     host: 'localhost:3000'
     protocol: 'http'
+  internal_host: 'localhost'
   gravatar_host: www.gravatar.com
   script_service_secret: sikritToken123
 
@@ -15,5 +16,6 @@ production:
   default_url_options:
     host: '<%= ENV['LAMBDEE_HOST'] %>'
     protocol: '<%= ENV['LAMBDEE_PROTOCOL'] || 'https' %>'
+  internal_host: '<%= ENV['LAMBDEE_INTERNAL_HOST'] %>'
   gravatar_host: 'www.gravatar.com'
   script_service_secret: '<%= ENV['SCRIPT_SERVICE_SECRET'] || 'sikritToken123' %>'

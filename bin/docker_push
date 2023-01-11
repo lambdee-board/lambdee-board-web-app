@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+BIN_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+VERSION=$(cat $BIN_DIR/../.version | tr -d '\n')
+echo "VERSION: $VERSION"
+echo
+
+docker buildx build \
+  --push \
+  --platform linux/amd64,linux/arm64,linux/arm/v7 \
+  -t lambdee/web:$VERSION -t lambdee/web:latest .
