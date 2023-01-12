@@ -4,19 +4,27 @@ import {
   Typography,
   MenuItem,
   Skeleton,
-  Divider
+  Divider,
+  Modal,
+  Box
 } from '@mui/material'
 
 import DropdownButton from '../DropdownButton'
 import useScriptTriggers from '../../api/scripts-triggers'
 import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
+import CustomAlert from '../CustomAlert'
 
 const ScriptMenuButton = () => {
   const { data: scriptTriggers, isLoading, isError } = useScriptTriggers({ scope: 'users', id: 'current' })
   const [anchorEl, setAnchorEl] = React.useState(null)
   const addAlert = useAppAlertStore((store) => store.addAlert)
-
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const [scriptTriggerId, setScriptTriggerId] = React.useState()
+  const [scriptTriggerText, setScriptTriggerText] = React.useState()
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const handleClose = () => setAnchorEl(null)
 
@@ -25,7 +33,9 @@ const ScriptMenuButton = () => {
   const handleRun = (triggerId) => {
     apiClient.post(`/api/ui_script_triggers/${triggerId}/executions`)
       .then((response) => {
+        toggleAlertModalState()
         handleClose()
+        addAlert({ severity: 'success', message: 'Action initialized!' })
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -52,16 +62,42 @@ const ScriptMenuButton = () => {
   if (scriptTriggers.length === 0) return (<></>)
 
   return (
-    <DropdownButton label='Actions' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
-      {scriptTriggers?.map((scriptTrigger) => (
-        <MenuItem className='Workspace-menu-item'
-          onClick={() => {
-            handleRun(scriptTrigger.id)
-          }} key={scriptTrigger.scriptId}>
-          {scriptTrigger.scriptId}
-        </MenuItem>
-      ))}
-    </DropdownButton>
+    <>
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={() => handleRun(scriptTriggerId)}
+            dismissAction={() => {
+              toggleAlertModalState()
+              handleClose()
+            }}
+            title='Run Script?'
+            message={`Are you sure you want to run script ${scriptTriggerText}?`}
+            confirmMessage='Confirm, run script' />
+        </Box>
+      </Modal>
+      <DropdownButton label='Actions' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
+        {scriptTriggers?.map((scriptTrigger) => (
+          <MenuItem
+            onClick={() => {
+              setScriptTriggerId(scriptTrigger.id)
+              setScriptTriggerText(scriptTrigger.text)
+              toggleAlertModalState()
+            }}
+            key={scriptTrigger.id}
+          >
+            {scriptTrigger.text}
+          </MenuItem>
+        ))}
+      </DropdownButton>
+    </>
   )
 }
 

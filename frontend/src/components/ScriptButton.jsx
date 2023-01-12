@@ -1,4 +1,4 @@
-import { Button, IconButton, Menu, MenuItem } from '@mui/material'
+import { Button, IconButton, Menu, MenuItem, Modal, Box } from '@mui/material'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScriptTriggers from '../api/scripts-triggers'
 import apiClient from '../api/api-client'
 import useAppAlertStore from '../stores/app-alert'
+import CustomAlert from './CustomAlert'
 
 
 import './ScriptButton.sass'
@@ -16,6 +17,12 @@ export default function ScriptButton({ variant, scope, id }) {
   const { data: scriptTriggers, isLoading, isError } = useScriptTriggers({ scope, id })
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
+  const [alertModalState, setAlertModalState] = React.useState(false)
+  const [scriptTriggerId, setScriptTriggerId] = React.useState()
+  const [scriptTriggerText, setScriptTriggerText] = React.useState()
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const handleOpenScripts = (event) => {
     setAnchorElUser(event.currentTarget)
@@ -24,7 +31,9 @@ export default function ScriptButton({ variant, scope, id }) {
   const handleRunScript = (triggerId) => {
     apiClient.post(`/api/ui_script_triggers/${triggerId}/executions`, { subjectId: id })
       .then((response) => {
+        toggleAlertModalState()
         handleCloseScripts()
+        addAlert({ severity: 'success', message: 'Action initialized!' })
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -39,27 +48,50 @@ export default function ScriptButton({ variant, scope, id }) {
   if (scriptTriggers.length === 0) return (<></>)
 
   return (
+    // <>
+    //   {variant === 'icon' ?
+    //     <>
+    //       <IconButton color='secondary' onClick={handleOpenScripts}>
+    //         <FontAwesomeIcon icon={faBolt} />
+    //       </IconButton>
+    //       <Menu
+    //         id='scripts'
+    //         anchorEl={anchorElUser}
+    //         open={Boolean(anchorElUser)}
+    //         onClose={handleCloseScripts}
+    //       >
+    //         {scriptTriggers?.map((scriptTrigger) => (
+    //           <MenuItem
+    //             onClick={() => {
+    //               handleCloseScripts()
+    //             }} key={scriptTrigger.scriptId}>
+    //             {scriptTrigger.text}
+    //           </MenuItem>
+    //         ))}
+    //       </Menu>
+    //     </>        :
     <>
-      {variant === 'icon' ?       <>
-        <IconButton color='secondary' onClick={handleOpenScripts}>
-          <FontAwesomeIcon icon={faBolt} />
-        </IconButton>
-        <Menu
-          id='scripts'
-          anchorEl={anchorElUser}
-          open={Boolean(anchorElUser)}
-          onClose={handleCloseScripts}
-        >
-          {scriptTriggers?.map((scriptTrigger) => (
-            <MenuItem
-              onClick={() => {
-                handleCloseScripts()
-              }} key={scriptTrigger.scriptId}>
-              {scriptTrigger.text}
-            </MenuItem>
-          ))}
-        </Menu>
-      </> :  <> <Button sx={{ ml: '6%' }}
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={() => handleRunScript(scriptTriggerId)}
+            dismissAction={() => {
+              toggleAlertModalState()
+              handleCloseScripts()
+            }}
+            title='Run Script?'
+            message={`Are you sure you want to run script ${scriptTriggerText}?`}
+            confirmMessage='Confirm, run script' />
+        </Box>
+      </Modal>
+      <Button sx={{ ml: '6%' }}
         onClick={handleOpenScripts}
         className='ScriptButton'
         color='secondary'
@@ -76,13 +108,16 @@ export default function ScriptButton({ variant, scope, id }) {
         {scriptTriggers?.map((scriptTrigger) => (
           <MenuItem
             onClick={() => {
-              handleRunScript(scriptTrigger.id)
-            }} key={scriptTrigger.id}>
+              setScriptTriggerId(scriptTrigger.id)
+              setScriptTriggerText(scriptTrigger.text)
+              toggleAlertModalState()
+            }}
+            key={scriptTrigger.id}
+          >
             {scriptTrigger.text}
           </MenuItem>
         ))}
       </Menu>
-      </>}
     </>
   )
 }
