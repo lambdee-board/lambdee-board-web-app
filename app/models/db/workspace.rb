@@ -7,6 +7,8 @@ class DB::Workspace < ApplicationRecord
   include ::CustomDatable
   include ::PgSearch::Model
 
+  AVAILABLE_SCOPES = ::Set[]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   has_many :boards, dependent: :destroy

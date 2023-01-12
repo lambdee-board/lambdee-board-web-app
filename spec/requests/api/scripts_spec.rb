@@ -72,7 +72,13 @@ require 'swagger_helper'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/script_response'
 
-        let(:id) { ::FactoryBot.create(:script).id }
+        let(:id) do
+          script = ::FactoryBot.create(:script)
+          ::FactoryBot.create(:script_trigger, script:)
+          ::FactoryBot.create(:ui_script_trigger, script:)
+
+          script.id
+        end
 
         after do |example|
           save_response(example, response)

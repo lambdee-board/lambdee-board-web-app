@@ -28,12 +28,14 @@
       resources :workspaces do
         post :assign_user, on: :member
         post :unassign_user, on: :member
+        get :ui_script_triggers, on: :member
 
         resources :users, only: %i[index]
       end
 
       resources :users, only: %i[index show update destroy] do
         get :current, on: :collection
+        get 'current/ui_script_triggers', on: :collection, to: 'users#ui_script_triggers'
       end
 
       resources :boards do
@@ -42,6 +44,7 @@
         get :user_tasks, on: :member
         resources :sprints, only: :index
         get :active_sprint, on: :member, controller: :sprints
+        get :ui_script_triggers, on: :member
       end
 
       resources :lists do
@@ -55,6 +58,7 @@
         post :assign_user, on: :member
         post :unassign_user, on: :member
         put :add_time, on: :member
+        get :ui_script_triggers, on: :member
 
         resources :comments, only: %i[index]
       end
@@ -77,7 +81,9 @@
 
       resources :script_triggers, only: %i[show create update destroy]
 
-      resources :ui_script_triggers, only: %i[show create update destroy]
+      resources :ui_script_triggers, only: %i[show create update destroy] do
+        post 'executions', on: :member, to: 'ui_script_triggers#execute'
+      end
 
       resources :script_runs, only: %i[index show update]
     end
