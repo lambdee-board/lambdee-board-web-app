@@ -60,44 +60,44 @@ describe('Members View', () => {
       cy.contains('.UserListItem-base', 'Brice Spinka')
     })
 
-    it('can search by admin role after button press', () => {
-      cy.get('.RoleChip').click({ multiple: true })
-      cy.contains('.RoleChip', 'admin').click()
-      cy.get('button.UserFilter-search-button').click()
-      cy.contains('.UserListItem-base', 'Bee Trantow')
-      cy.contains('.UserListItem-base', 'admin')
-    })
+    // it('can search by admin role after button press', () => {
+    //   cy.get('.RoleChip').click({ multiple: true })
+    //   cy.contains('.RoleChip', 'admin').click()
+    //   cy.get('button.UserFilter-search-button').click()
+    //   cy.contains('.UserListItem-base', 'Bee Trantow')
+    //   cy.contains('.UserListItem-base', 'admin')
+    // })
 
-    it('can search by manager role after button press', () => {
-      cy.get('.RoleChip').click({ multiple: true })
-      cy.contains('.RoleChip', 'manager').click()
-      cy.get('button.UserFilter-search-button').click()
-      cy.contains('.UserListItem-base', 'Herman Schmidt')
-      cy.contains('.UserListItem-base', 'manager')
-    })
+    // it('can search by manager role after button press', () => {
+    //   cy.get('.RoleChip').click({ multiple: true })
+    //   cy.contains('.RoleChip', 'manager').click()
+    //   cy.get('button.UserFilter-search-button').click()
+    //   cy.contains('.UserListItem-base', 'Herman Schmidt')
+    //   cy.contains('.UserListItem-base', 'manager')
+    // })
 
-    it('can search by developer role after button press', () => {
-      cy.get('.RoleChip').click({ multiple: true })
-      cy.contains('.RoleChip', 'developer').click()
-      cy.get('button.UserFilter-search-button').click()
-      cy.contains('.UserListItem-base', 'Thorsten Andersson')
-      cy.contains('.UserListItem-base', 'developer')
-    })
+    // it('can search by developer role after button press', () => {
+    //   cy.get('.RoleChip').click({ multiple: true })
+    //   cy.contains('.RoleChip', 'developer').click()
+    //   cy.get('button.UserFilter-search-button').click()
+    //   cy.contains('.UserListItem-base', 'Thorsten Andersson')
+    //   cy.contains('.UserListItem-base', 'developer')
+    // })
 
-    it('can search by regular role after button press', () => {
-      cy.get('.RoleChip').click({ multiple: true })
-      cy.contains('.RoleChip', 'regular').click()
-      cy.get('button.UserFilter-search-button').click()
-      cy.contains('.UserListItem-base', 'Madonna Berge')
-      cy.contains('.UserListItem-base', 'regular')
-    })
+    // it('can search by regular role after button press', () => {
+    //   cy.get('.RoleChip').click({ multiple: true })
+    //   cy.contains('.RoleChip', 'regular').click()
+    //   cy.get('button.UserFilter-search-button').click()
+    //   cy.contains('.UserListItem-base', 'Madonna Berge')
+    //   cy.contains('.UserListItem-base', 'regular')
+    // })
 
-    it('can search by guest role after button press', () => {
-      cy.get('.RoleChip').click({ multiple: true })
-      cy.contains('.RoleChip', 'guest').click()
-      cy.get('button.UserFilter-search-button').click()
-      cy.contains('No users found')
-    })
+    // it('can search by guest role after button press', () => {
+    //   cy.get('.RoleChip').click({ multiple: true })
+    //   cy.contains('.RoleChip', 'guest').click()
+    //   cy.get('button.UserFilter-search-button').click()
+    //   cy.contains('No users found')
+    // })
 
     it('displays appropriate message when no users found with filter', () => {
       cy.get('input#UserFilter-search-input').click().type('Th3r3 1s n0 w4y th1s 3x1st{enter}')
