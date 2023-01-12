@@ -9,8 +9,8 @@ import {
 
 import DropdownButton from '../DropdownButton'
 import useScriptTriggers from '../../api/scripts-triggers'
-import apiClient from '../api/api-client'
-import useAppAlertStore from '../stores/app-alert'
+import apiClient from '../../api/api-client'
+import useAppAlertStore from '../../stores/app-alert'
 
 const ScriptMenuButton = () => {
   const { data: scriptTriggers, isLoading, isError } = useScriptTriggers({ scope: 'users', id: 'current' })
