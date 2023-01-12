@@ -6,6 +6,8 @@ class DB::List < ::ApplicationRecord
   include ::ScriptTriggerable
   include ::CustomDatable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :board
@@ -40,5 +42,10 @@ class DB::List < ::ApplicationRecord
     return unless board
 
     self.pos ||= board.lists.order(:pos).last&.pos&.+(1024) || 65_536
+  end
+
+  # @return [DB::Workspace]
+  def workspace
+    board.workspace
   end
 end

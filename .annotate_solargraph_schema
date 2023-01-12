@@ -813,6 +813,12 @@ class DB::ScriptTrigger < ApplicationRecord
   #
   # @return [Array<DB::ScriptTrigger>, nil]
   def self.with_action(action); end
+  # Polymorphic relation. Database columns `script_triggers.scope_id` and `script_triggers.scope_type`.
+  # @param val [Object, nil]
+  def scope=(val); end
+  # Polymorphic relation. Database columns `script_triggers.scope_id` and `script_triggers.scope_type`.
+  # @return [Object, nil]
+  def scope; end
   # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
   # @param val [DB::Script, nil]
   def script=(val); end
@@ -861,6 +867,30 @@ class DB::ScriptTrigger < ApplicationRecord
   # Database column `script_triggers.delay`, type: `integer`.
   # @return [Integer, nil]
   def delay; end
+  # Database column `script_triggers.scope_type`, type: `string`.
+  # @param val [String, nil]
+  def scope_type=(val); end
+  # Database column `script_triggers.scope_type`, type: `string`.
+  # @return [String, nil]
+  def scope_type; end
+  # Database column `script_triggers.scope_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def scope_id=(val); end
+  # Database column `script_triggers.scope_id`, type: `integer`.
+  # @return [Integer, nil]
+  def scope_id; end
+  # Database column `script_triggers.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `script_triggers.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `script_triggers.private`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def private=(val); end
+  # Database column `script_triggers.private`, type: `boolean`.
+  # @return [Boolean, nil]
+  def private; end
 end
 # %%<RailsAnnotateSolargraph:End:script_triggers>%%
 
@@ -1494,6 +1524,36 @@ class DB::UiScriptTrigger < ApplicationRecord
   # Database column `ui_script_triggers.scope_id`, type: `integer`.
   # @return [Integer, nil]
   def scope_id; end
+  # Database column `ui_script_triggers.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `ui_script_triggers.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `ui_script_triggers.delay`, type: `integer`.
+  # @param val [Integer, nil]
+  def delay=(val); end
+  # Database column `ui_script_triggers.delay`, type: `integer`.
+  # @return [Integer, nil]
+  def delay; end
+  # Database column `ui_script_triggers.private`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def private=(val); end
+  # Database column `ui_script_triggers.private`, type: `boolean`.
+  # @return [Boolean, nil]
+  def private; end
+  # Database column `ui_script_triggers.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `ui_script_triggers.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
+  # Database column `ui_script_triggers.text`, type: `string`.
+  # @param val [String, nil]
+  def text=(val); end
+  # Database column `ui_script_triggers.text`, type: `string`.
+  # @return [String, nil]
+  def text; end
 end
 # %%<RailsAnnotateSolargraph:End:ui_script_triggers>%%
 

@@ -16,7 +16,7 @@ class ::DB::Script < ::ApplicationRecord
 
   accepts_nested_attributes_for :script_triggers, :ui_script_triggers, allow_destroy: true
 
-  # @param subject [ApplicationRecord]
+  # @param subject [ApplicationRecord, nil]
   # @param delay [Integer, nil]
   def execute(subject, delay: nil)
     @subject = subject
@@ -35,6 +35,8 @@ class ::DB::Script < ::ApplicationRecord
   private
 
   def extended_content
+    return content unless @subject
+
     <<~SCRIPT
       context[:subject] = #{@subject.class}.from_record(#{@subject.as_json})
       context[:subject_before_update] = #{@subject.class}.from_record(#{@subject.previous_object_state.as_json})

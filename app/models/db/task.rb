@@ -5,6 +5,8 @@
 class DB::Task < ApplicationRecord
   include ::ScriptTriggerable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board, :list]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :list
@@ -54,6 +56,11 @@ class DB::Task < ApplicationRecord
   # @return [DB::Board]
   def board
     list.board
+  end
+
+  # @return [DB::Workspace]
+  def workspace
+    board.workspace
   end
 
   # @return [DB::SprintTask, nil]
