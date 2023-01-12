@@ -97,7 +97,6 @@ function TaskCardModalSkeleton() {
 
 
 const TaskCardModal = (props) => {
-  // TODO: User id should be derived from a Cookie
   const { data: task, isLoading: isTaskLoading, isError: isTaskError, mutate: mutateTask } = useTask({ id: props.taskId, axiosOptions: { params: { includeAssociations: 'true' } } })
   const [assignUserSelectVisible, setAssignUserSelectVisible] = React.useState(false)
   const [attachTagSelectVisible, setTagSelectVisible] = React.useState(false)

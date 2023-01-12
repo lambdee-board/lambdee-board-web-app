@@ -5,7 +5,25 @@ VERSION=$(cat $BIN_DIR/../.version | tr -d '\n')
 echo "VERSION: $VERSION"
 echo
 
-docker buildx build \
-  --push \
-  --platform linux/amd64,linux/arm64,linux/arm/v7 \
-  -t lambdee/web:$VERSION -t lambdee/web:latest .
+$BIN_DIR/docker_build
+
+# push images
+docker push lambdee/web:$VERSION-arm64
+docker push lambdee/web:$VERSION-amd64
+docker push lambdee/web:$VERSION-armv7
+
+# create a versioned manifest
+docker manifest create lambdee/web:$VERSION \
+--amend lambdee/web:$VERSION-arm64 \
+--amend lambdee/web:$VERSION-amd64 \
+--amend lambdee/web:$VERSION-armv7
+
+docker manifest push --purge lambdee/web:$VERSION
+
+# create the latest manifest
+docker manifest create lambdee/web:latest \
+--amend lambdee/web:$VERSION-arm64 \
+--amend lambdee/web:$VERSION-amd64 \
+--amend lambdee/web:$VERSION-armv7
+
+docker manifest push --purge lambdee/web:latest
