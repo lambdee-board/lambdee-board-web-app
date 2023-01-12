@@ -7,7 +7,7 @@ const NewScriptDialog = (props) => {
   const [newScript, setNewScript] = React.useState({ name: '', description: '', content: '' })
 
   React.useEffect(() => {
-    setNewScript({ name: '', description: '', content: '' })
+    setNewScript({ name: '', description: '', content: '', authorId: parseInt(localStorage.getItem('id')) })
   }, [props])
 
 
