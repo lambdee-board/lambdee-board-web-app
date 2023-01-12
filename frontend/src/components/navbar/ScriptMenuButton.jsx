@@ -15,7 +15,7 @@ import DropdownButton from '../DropdownButton'
 import useScriptTriggers from '../../api/scripts-triggers'
 
 const ScriptMenuButton = () => {
-  const { data: scriptTriggers, isLoading, isError } = useScriptTriggers(useScriptTriggers({ scope, id }))
+  const { data: workspaces, isLoading, isError } = useScriptTriggers({ axiosOptions: { params: { limit: '5' } } })
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null)
 
