@@ -15,6 +15,7 @@ list = ::FactoryBot.create(:list, board: board, name: 'To Do')
 task = ::FactoryBot.create(:task, list: list, name: 'Nice task')
 ::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: wrk, text: 'Run on workspace')
 ::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: board, text: 'Run on board')
+::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: board, text: 'Run on board - second', colour: '#123456')
 ::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject_type: 'DB::Task', scope: board, text: 'Run on task')
 
 ::FactoryBot.create(:script, name: 'Foo script')
