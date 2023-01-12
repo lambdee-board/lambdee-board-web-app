@@ -176,9 +176,24 @@ const EditScriptView = () => {
     setOpenDial(true)
   }
 
-  const handleSubmit = (event, trigger) => {
-    event.preventDefault()
-    saveTrigger(trigger)
+  const differentiateTrigger = (triggerType, trigger) => {
+    switch (triggerType) {
+    case 'callback':
+      saveTrigger(triggerType, trigger, '/api/script_triggers')
+      break
+    case 'ui':
+      if (trigger.subjectType === 'Global') {
+        trigger.subjectType = trigger.subjectType = ''
+      }
+      saveTrigger(triggerType, trigger, '/api/ui_script_triggers')
+      break
+    case 'schedule':
+      saveTrigger(triggerType, trigger, '/api/schedule_script_triggers')
+    }
+  }
+
+  const handleSubmit = (triggerType, trigger) => {
+    differentiateTrigger(triggerType, trigger)
     handleCloseDial()
   }
 
@@ -214,16 +229,28 @@ const EditScriptView = () => {
       })
   }
 
-  const saveTrigger = (trigger) => {
-    const payload = {
-      scriptId: script.id,
-      ...trigger
-    }
+  const saveTrigger = (type, trigger, path) => {
+    const clearedTrigger = Object.fromEntries(Object.entries(trigger).filter(([_, v]) => v !== ''))
 
-    apiClient.post('/api/script_triggers', payload)
+    const payload = {
+      authorId: parseInt(localStorage.getItem('id')),
+      scriptId: script.id,
+      ...clearedTrigger
+    }
+    console.log(path, payload)
+    apiClient.post(path, payload)
       .then((response) => {
         // successful request
-        mutate({ ...script, scriptTriggers: [...script.scriptTriggers, response.data] }, { revalidate: false })
+        switch (type) {
+        case 'callback':
+          mutate({ ...script, scriptTriggers: [...script.scriptTriggers, response.data] }, { revalidate: false })
+          break
+        case 'ui':
+          mutate({ ...script, uiScriptTriggers: [...script.uiScriptTriggers, response.data] }, { revalidate: false })
+          break
+        case 'schedule':
+          break
+        }
       })
       .catch((error) => {
         // failed or rejected
@@ -231,11 +258,20 @@ const EditScriptView = () => {
       })
   }
 
-  const deleteTrigger = (triggerId) => {
-    apiClient.delete(`/api/script_triggers/${triggerId}`)
+  const deleteTrigger = (triggerType, triggerId) => {
+    apiClient.delete(`/api/${triggerType}/${triggerId}`)
       .then((response) => {
         // successful request
-        mutate({ ...script, scriptTriggers: [...script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
+        switch (triggerType) {
+        case 'script_triggers':
+          mutate({ ...script, scriptTriggers: [...script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
+          break
+        case 'ui_script_triggers':
+          mutate({ ...script, uiScriptTriggers: [...script.uiScriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
+          break
+        case 'schedule_script_triggers':
+          break
+        }
       })
       .catch((error) => {
         // failed or rejected
@@ -320,9 +356,12 @@ const EditScriptView = () => {
             </Button>
           </div>
           <div>
-            <Typography variant='h5'>Active triggers</Typography>
+            <Typography variant='h4'>Active triggers</Typography>
             {!(isLoading || isError) &&
               <List>
+                <ListItem>
+                  <Typography variant='h5'>Callback triggers</Typography>
+                </ListItem>
                 {script?.scriptTriggers?.map((trigger, idx) => (
                   <div key={`trigger-${idx}`}>
                     <Divider />
@@ -331,7 +370,7 @@ const EditScriptView = () => {
                       secondaryAction={
                         <IconButton
                           edge='end'
-                          onClick={() => deleteTrigger(trigger.id)}
+                          onClick={() => deleteTrigger('script_triggers', trigger.id)}
                           color='error'>
                           <FontAwesomeIcon icon={faTrash} />
                         </IconButton>
@@ -343,6 +382,40 @@ const EditScriptView = () => {
                       <ListItemText
                         primary={`Type: ${trigger.subjectType || 'all'}`}
                         secondary={`Id: ${trigger.subjectId}`} />
+                    </ListItem>
+                  </div>
+                ))}
+
+                <Divider />
+                <ListItem>
+                  <Typography variant='h5'>UI triggers</Typography>
+                </ListItem>
+                {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
+                  <div key={`ui-trigger-${idx}`}>
+                    <Divider />
+                    <ListItem
+                      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+                      secondaryAction={
+                        <IconButton
+                          edge='end'
+                          onClick={() => deleteTrigger('ui_script_triggers', uiTrigger.id)}
+                          color='error'>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </IconButton>
+                      }
+                    >
+                      <ListItemText
+                        primary={`Private: ${uiTrigger.private}`}
+                        secondary={`Delay: ${uiTrigger.delay || 0}`} />
+                      <ListItemText
+                        primary={`Subject type: ${uiTrigger.subjectType || 'all'}`}
+                        secondary={`Subject Id: ${uiTrigger.subjectId}`} />
+                      <ListItemText
+                        primary={`Scope type: ${uiTrigger.scopeType || 'all'}`}
+                        secondary={`Scope Id: ${uiTrigger.scopeId}`} />
+                      <ListItemText
+                        primary={`Text: ${uiTrigger.text || 'none'}`}
+                        secondary={`Colour: ${uiTrigger.colour}`} />
                     </ListItem>
                   </div>
                 ))}
