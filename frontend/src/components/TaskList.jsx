@@ -208,9 +208,6 @@ function TaskList(props) {
             >
               {props.title}
             </Typography>
-            <DeveloperContent>
-              <ScriptButton variant='icon' />
-            </DeveloperContent>
             <ManagerContent>
               <IconButton aria-label='Edit' color='secondary' onClick={toggleTaskListModalState}>
                 <FontAwesomeIcon icon={faPencil} />

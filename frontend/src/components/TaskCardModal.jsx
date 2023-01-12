@@ -377,7 +377,7 @@ const TaskCardModal = (props) => {
             <Stack spacing={3}>
               <Stack spacing={1}>
                 <DeveloperContent>
-                  <ScriptButton />
+                  <ScriptButton scope='tasks' id={props.taskId} />
                 </DeveloperContent>
                 <Typography>Author</Typography>
                 <Box className='TaskCardModal-sidebar-card-box'>

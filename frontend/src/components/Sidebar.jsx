@@ -12,9 +12,9 @@ import {
 } from '@mui/material'
 import {
   faClipboardList,
-  faScroll,
   faGear,
   faUsers,
+  faGem,
   // faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { DeveloperContent } from '../permissions/content/DeveloperContent'
@@ -129,7 +129,7 @@ export default function Sidebar() {
                   active={false}
                   label='Scripts'
                   onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
-                  icon={<FontAwesomeIcon icon={faScroll} />}
+                  icon={<FontAwesomeIcon icon={faGem} />}
                 />
               </DeveloperContent>
               <ManagerContent>
@@ -160,7 +160,7 @@ export default function Sidebar() {
           )}
           <DeveloperContent>
             <Box sx={{ mt: '10px' }}>
-              <ScriptButton />
+              <ScriptButton scope='workspaces' id={workspaceId} />
             </Box>
           </DeveloperContent>
           <ManagerContent>

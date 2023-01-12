@@ -188,7 +188,7 @@ export default function BoardToolbar(props) {
           </Button>}
         <DeveloperContent>
           <Box>
-            <ScriptButton />
+            <ScriptButton scope='boards' id={boardId} />
           </Box>
         </DeveloperContent>
       </Toolbar>
