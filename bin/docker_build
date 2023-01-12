@@ -5,4 +5,8 @@ VERSION=$(cat $BIN_DIR/../.version | tr -d '\n')
 echo "VERSION: $VERSION"
 echo
 
-docker build -t lambdee/web:$VERSION -t lambdee/web:latest .
+docker build -t lambdee/web:$VERSION-arm64 --platform linux/arm64 .
+
+docker build -t lambdee/web:$VERSION-amd64 --platform linux/amd64 .
+
+docker build -t lambdee/web:$VERSION-armv7 --platform linux/arm/v7 .
