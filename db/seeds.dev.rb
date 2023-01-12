@@ -6,7 +6,17 @@ studenckie =  ::FactoryBot.create(:user, email: "mieszkanie@example.com", name: 
 zdjecia =     ::FactoryBot.create(:user, email: "kalorycznosc@example.com", name: 'Kaloryczność Zdjęcia', role: :admin)
 lambdee =     ::FactoryBot.create(:user, email: "lambdee@example.com", name: 'Lambdee', role: :admin)
 
-::FactoryBot.create(:script, name: 'Hello world script')
+script = ::FactoryBot.create(:script, name: 'TEST SCRIPT puts id of subject', content: 'puts "Action run on id: #{subject&.id}"')
+# Global ui script trigger
+::FactoryBot.create(:ui_script_trigger, author: lambdee, text: 'Run global', script: script)
+wrk = ::FactoryBot.create(:workspace, name: 'test scripts')
+board = ::FactoryBot.create(:board, workspace: wrk, name: 'test scripts')
+list = ::FactoryBot.create(:list, board: board, name: 'To Do')
+task = ::FactoryBot.create(:task, list: list, name: 'Nice task')
+::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: wrk, text: 'Run on workspace')
+::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: board, text: 'Run on board')
+::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject_type: 'DB::Task', scope: board, text: 'Run on task')
+
 ::FactoryBot.create(:script, name: 'Foo script')
 ::FactoryBot.create(:script, name: 'Bar script')
 ::FactoryBot.create(:script, name: 'Example script')
