@@ -14,7 +14,7 @@ import {
   InputBase,
   Modal
 } from '@mui/material'
-import { ManagerContent, DeveloperContent } from '../permissions/content'
+import { ManagerContent } from '../permissions/content'
 import { Box } from '@mui/system'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
@@ -25,7 +25,7 @@ import apiClient from '../api/api-client'
 import useList from '../api/list'
 import { calculatePos, sortByPos } from '../internal/component-position'
 import useTaskDndStore from '../stores/task-dnd'
-import ScriptButton from './ScriptButton'
+
 
 import './TaskList.sass'
 import TaskListModal from './TaskListModal'
