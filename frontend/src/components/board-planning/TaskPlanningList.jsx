@@ -124,7 +124,7 @@ function TaskPlanningList(props) {
       .then((response) => {
         // successful request
         mutate({ ...taskList, tasks: [...taskList?.tasks || [], response.data] }, { revalidate: false })
-        toggleNewTaskButton()
+        nameInput.value = ''
       })
       .catch((error) => {
         // failed or rejected

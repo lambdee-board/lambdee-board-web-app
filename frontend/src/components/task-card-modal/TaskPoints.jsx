@@ -50,6 +50,13 @@ function TaskPoints({ task, mutate }) {
       })
   }
 
+  const editPointsIfGiven = () => {
+    const newPoints = editPointsRef.current.children[0]
+    if (newPoints.value === '') return toggleEditPointsButton()
+
+    editPoints()
+  }
+
   const editPointsInputOnKey = (e) => {
     const excluded = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'Backspace', 'Delete']
     if (excluded.includes(e.key)) return
@@ -77,7 +84,7 @@ function TaskPoints({ task, mutate }) {
             ref={editPointsRef}
             className='TaskPoints-input-text'
             onKeyDown={(e) => editPointsInputOnKey(e)}
-            onBlur={(e) => toggleEditPointsButton()}
+            onBlur={(e) => editPointsIfGiven()}
             type='text'
             inputProps={{ inputMode: 'numeric', pattern: '\\d*', maxLength: 2 }}
           />
