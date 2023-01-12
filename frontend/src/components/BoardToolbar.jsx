@@ -11,8 +11,9 @@ import { mutateBoard } from '../api/board'
 import useAppAlertStore from '../stores/app-alert'
 import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/board-active-sprint'
 
-import { ManagerContent } from '../permissions/content'
+import { ManagerContent, DeveloperContent } from '../permissions/content'
 import SprintModal from './SprintModal'
+import ScriptButton from './ScriptButton'
 
 import './BoardToolbar.sass'
 
@@ -185,7 +186,11 @@ export default function BoardToolbar(props) {
           >
             <Typography>View Sprint</Typography>
           </Button>}
-
+        <DeveloperContent>
+          <Box>
+            <ScriptButton />
+          </Box>
+        </DeveloperContent>
       </Toolbar>
       <Toolbar className='Toolbar'>
         {boardView === '0' ?
@@ -248,6 +253,7 @@ export default function BoardToolbar(props) {
             <Typography>Report View</Typography>
           </Button>
         }
+
       </Toolbar>
     </div>
   )

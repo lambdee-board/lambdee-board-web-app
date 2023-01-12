@@ -8,7 +8,6 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  // Button,
   Skeleton,
 } from '@mui/material'
 import {
@@ -29,6 +28,7 @@ import useWorkspace from '../api/workspace'
 import './Sidebar.sass'
 import WorkspaceIcon from './WorkspaceIcon'
 import NewBoardButton from './NewBoardButton'
+import ScriptButton from './ScriptButton'
 
 const drawerWidth = 240
 
@@ -158,9 +158,15 @@ export default function Sidebar() {
               ))}
             </List>
           )}
+          <DeveloperContent>
+            <Box sx={{ mt: '10px' }}>
+              <ScriptButton />
+            </Box>
+          </DeveloperContent>
           <ManagerContent>
             <NewBoardButton />
           </ManagerContent>
+
         </Box>
       </Drawer>
       {/* <SidebarButton
