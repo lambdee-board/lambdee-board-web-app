@@ -60,6 +60,7 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'show script' do
     script = ::FactoryBot.create(:script, :with_trigger_on_task_creation, author: @user)
+    ::FactoryBot.create(:ui_script_trigger, author: @user, script: script, text: 'xdd')
     get api_script_url(script), as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
@@ -71,6 +72,8 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
     assert_equal 1, json['script_triggers'].size
     assert_equal 'create', json['script_triggers'].first['action']
     assert_equal 'DB::Task', json['script_triggers'].first['subject_type']
+
+    assert_equal 'xdd', json['ui_script_triggers'].first['text']
   end
 
   should 'update script and create callback' do
