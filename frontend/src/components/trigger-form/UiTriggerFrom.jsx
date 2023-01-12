@@ -3,8 +3,6 @@ import { Button, FormControlLabel, MenuItem, Switch, TextField, Typography } fro
 import PropTypes from 'prop-types'
 
 import ColorPickerPopover from '../ColorPickerPopover'
-import useCurrentUser from '../../api/current-user'
-
 
 const UiTriggerFrom = (props) => {
   const [triggerScopeTypes, setTriggerScopeTypes] = React.useState([])
