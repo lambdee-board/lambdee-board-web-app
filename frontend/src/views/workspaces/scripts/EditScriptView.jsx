@@ -356,11 +356,11 @@ const EditScriptView = () => {
             </Button>
           </div>
           <div>
-            <Typography variant='h5'>Active triggers</Typography>
+            <Typography variant='h4'>Active triggers</Typography>
             {!(isLoading || isError) &&
               <List>
                 <ListItem>
-                  <ListItemText primary='Callback triggers' />
+                  <Typography variant='h5'>Callback triggers</Typography>
                 </ListItem>
                 {script?.scriptTriggers?.map((trigger, idx) => (
                   <div key={`trigger-${idx}`}>
@@ -388,7 +388,7 @@ const EditScriptView = () => {
 
                 <Divider />
                 <ListItem>
-                  <ListItemText primary='UI triggers' />
+                  <Typography variant='h5'>UI triggers</Typography>
                 </ListItem>
                 {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
                   <div key={`ui-trigger-${idx}`}>
@@ -413,6 +413,9 @@ const EditScriptView = () => {
                       <ListItemText
                         primary={`Scope type: ${uiTrigger.scopeType || 'all'}`}
                         secondary={`Scope Id: ${uiTrigger.scopeId}`} />
+                      <ListItemText
+                        primary={`Text: ${uiTrigger.text || 'none'}`}
+                        secondary={`Colour: ${uiTrigger.colour}`} />
                     </ListItem>
                   </div>
                 ))}
