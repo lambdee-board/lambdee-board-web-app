@@ -218,4 +218,57 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     }, as: :json, headers: auth_headers(@user)
     assert_response :forbidden
   end
+
+  context 'reset password' do
+    should 'not be found' do
+      post api_user_url(:reset_password),
+           params: {
+             password: 'someNewPass1',
+             password_confirmation: 'someNewPass1',
+             reset_password_token: 'bollocks'
+           },
+           as: :json,
+           headers: auth_headers(@user)
+
+      assert_response :not_found
+    end
+
+    should 'be invalid' do
+      token = @user.__send__(:set_reset_password_token)
+
+      post api_user_url(:reset_password),
+           params: {
+             password: 'someNewPass1',
+             password_confirmation: 'otherPass2',
+             reset_password_token: token
+           },
+           as: :json,
+           headers: auth_headers(@user)
+
+      assert_response :unprocessable_entity
+      json = ::JSON.parse @response.body, symbolize_names: true
+      assert_equal 'is invalid', json.dig(:password, 0)
+    end
+
+    should 'be successful' do
+      token = @user.__send__(:set_reset_password_token)
+
+      post api_user_url(:reset_password),
+           params: {
+             password: 'someNewPass1',
+             password_confirmation: 'someNewPass1',
+             reset_password_token: token
+           },
+           as: :json,
+           headers: auth_headers(@user)
+
+      assert_response :ok
+      json = ::JSON.parse @response.body, symbolize_names: true
+      assert_equal @user.id, json[:id]
+      assert_equal @user.name, json[:name]
+
+      @user.reload
+      assert @user.valid_password?('someNewPass1')
+    end
+  end
 end

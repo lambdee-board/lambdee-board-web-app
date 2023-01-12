@@ -31,6 +31,7 @@ import WelcomeView from './views/WelcomeView'
 import TasksView from './views/workspaces/TasksView'
 import LoginView from './views/login/LoginView'
 import ForgotPasswordView from './views/login/ForgotPasswordView'
+import PasswordResetView from './views/login/PasswordResetView'
 import ResetPasswordView from './views/login/ResetPasswordView'
 import WorkspaceMembersView from './views/workspaces/WorkspaceMembersView'
 import WorkspaceScriptsView from './views/workspaces/WorkspaceScriptsView'
@@ -50,6 +51,7 @@ root.render(
           <Route path='/login' element={<LoginView />} />
           <Route path='/login/forgot-password' element={<ForgotPasswordView />} />
           <Route path='/login/reset-password' element={<ResetPasswordView />} />
+          <Route path='/login/password-reset' element={<PasswordResetView />} />
         </Route>
         <Route element={<PrivateRoutes />}>
           <Route path='/' element={<App />}>

@@ -86,6 +86,7 @@ group :development, :test do
 
   # for running and managing many process at once (Procfile)
   gem 'foreman'
+  gem 'letter_opener' # open emails in development mode
 
   # OpenAPI generating tests
   gem 'rspec-rails'

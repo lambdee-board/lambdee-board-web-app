@@ -13,8 +13,6 @@ import {
   TextField,
   Typography,
 } from '@mui/material'
-import { faPencil } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import apiClient from '../api/api-client'
 import useCurrentUser from '../api/current-user'
@@ -89,8 +87,16 @@ export default function UserSettingsView() {
   }
 
   const handleResetPassword = () => {
-    localStorage.clear()
-    navigate('/login/reset-password')
+    apiClient.post('/api/users/send_reset_password')
+      .then((response) => {
+        // successful request
+        localStorage.clear()
+        navigate('/login/password-reset')
+      })
+      .catch((error) => {
+        // failed or rejected
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
+      })
   }
 
 
@@ -141,11 +147,13 @@ export default function UserSettingsView() {
               fullWidth />
           </ListItem>
           <ListItem className='userSettings-item' key='user-reset-password' >
-            <Button onClick={() => { console.log('reset-pass-TODO') }}
+            <Button
+              onClick={handleResetPassword}
               className='userSettings-reset-password-button'
               color='primary'
-              variant='contained' >
-              <Typography onClick={handleResetPassword} className='userSettings-reset-password-button-text' >
+              variant='contained'
+            >
+              <Typography className='userSettings-reset-password-button-text' >
                 Reset Password
               </Typography>
             </Button>
@@ -154,15 +162,10 @@ export default function UserSettingsView() {
       </div>
       <div className='userSettings-rightCol'>
         <div className='userSettings-avatar-wrapper'>
-          <IconButton className='userSettings-user-avatar-button'
-            onClick={() => { console.log('avatar-TODO') }} >
-            <Avatar
-              className='userSettings-avatar'
-              alt={`${user.name.replace(' ', '-')}-avatar`}
-              src={user.avatarUrl} />
-            <FontAwesomeIcon className='userSettings-avatar-edit'
-              icon={faPencil} />
-          </IconButton>
+          <Avatar
+            className='userSettings-avatar'
+            alt={`${user.name.replace(' ', '-')}-avatar`}
+            src={user.avatarUrl} />
         </div>
       </div>
     </div>

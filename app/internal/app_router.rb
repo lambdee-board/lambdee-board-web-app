@@ -14,6 +14,8 @@ module AppRouter
   @url_helpers = ::Rails.application.routes.url_helpers
   @host = ::Rails.application.default_url_options[:host]
   @protocol = ::Rails.application.default_url_options[:protocol]
+  # @return [URI::HTTP]
+  BASE_URL = ::URI.parse("#{@protocol}://#{@host}")
 
   class << self
     attr_reader :url_helpers, :host, :protocol

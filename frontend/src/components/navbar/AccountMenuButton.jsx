@@ -15,7 +15,8 @@ import useCurrentUser from '../../api/current-user'
 const AccountMenuButton = () => {
   const [anchorElUser, setAnchorElUser] = React.useState(null)
   // TODO: User id should be derived from a Cookie
-  const { data: user, isLoading, isError } = useCurrentUser()
+  const { data: user, isLoading, isError, error } = useCurrentUser()
+  console.log(user, error)
 
   const navigate = useNavigate()
 

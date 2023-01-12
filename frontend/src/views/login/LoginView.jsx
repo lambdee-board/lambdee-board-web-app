@@ -12,6 +12,7 @@ import {
 
 import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
+import { emailValid } from '../../utils/email-valid'
 
 import './LoginView.sass'
 import lambdeeLogo from '../../assets/lambdee-logo.svg'
@@ -22,6 +23,14 @@ export default function LoginView() {
   const navigate = useNavigate()
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [loginFail, setLoginFail] = React.useState(false)
+  const [invalidEmail, setInvalidEmail] = React.useState(false)
+
+  const verifyEmail = (e) => {
+    const email = e.target.value
+    if (!emailValid(email)) return setInvalidEmail(true)
+
+    setInvalidEmail(false)
+  }
 
   const handleKeyDown = (e) => {
     if (e.key === 'Enter') {
@@ -45,7 +54,6 @@ export default function LoginView() {
         navigate('/')
       })
       .catch((error) => {
-        addAlert({ severity: 'error', message: 'Something went wrong!' })
         setLoginFail(true)
       })
   }
@@ -58,18 +66,47 @@ export default function LoginView() {
       />
       <Card className='loginView-card'>
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
-        <TextField inputRef={emailRef} className='loginView-card-input' label='Email' variant='outlined' />
-        <TextField inputRef={passwordRef} type='password' className='loginView-card-input' label='Password' variant='outlined' />
-        {loginFail &&
-          <Alert severity='error' className='loginView-card-input' sx={{ width: '73%' }}>Incorrect credentials!</Alert>
+        <TextField
+          inputRef={emailRef}
+          className='loginView-card-input'
+          label='Email'
+          variant='outlined'
+          onChange={verifyEmail}
+          error={invalidEmail}
+          helperText={invalidEmail ? 'Invalid email' : undefined}
+        />
+        <TextField inputRef={passwordRef}
+          type='password'
+          className='loginView-card-input'
+          label='Password'
+          variant='outlined'
+        />
+        { loginFail &&
+          <Alert
+            severity='error'
+            className='loginView-card-input'
+            sx={{ width: '73%' }}
+          >
+            Incorrect credentials!
+          </Alert>
         }
         <Link
           onClick={() => navigate('/login/forgot-password')}
           component='button'
           className='loginView-card-reset'
           underline='none'
-          variant='body2'>Forgot password?</Link>
-        <Button onClick={() => login()} className='loginView-card-button' variant='contained'>Login</Button>
+          variant='body2'
+        >
+          Forgot password?
+        </Link>
+        <Button
+          onClick={() => login()}
+          className='loginView-card-button'
+          variant='contained'
+          disabled={invalidEmail}
+        >
+          Login
+        </Button>
       </Card>
     </div>
   )

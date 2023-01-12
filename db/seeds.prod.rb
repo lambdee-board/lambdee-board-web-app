@@ -8,11 +8,12 @@ workspace = ::DB::Workspace.create(name: 'Initial')
   workspace: workspace
 )
 
-admin = ::DB::User.create(
+admin = ::DB::User.new(
   name: 'Admin',
   email: ::ENV['DEFAULT_ADMIN_USER_EMAIL'] || 'admin@example.com',
   password: ::ENV['DEFAULT_ADMIN_USER_PASSWORD'] || 'adminadmin',
   role: :admin
 )
+admin.save(validate: false)
 
 workspace.users << admin

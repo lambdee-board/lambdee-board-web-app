@@ -15,7 +15,7 @@ axiosClient.interceptors.response.use(
       localStorage.removeItem('role')
       window.location.reload()
     }
-    return error
+    return Promise.reject(error)
   }
 )
 
@@ -64,7 +64,9 @@ export const apiClient = applyCaseMiddleware(axiosClient, {
   ignoreHeaders: true
 })
 
-export const fetcher = (...args) => apiClient.get(...args).then((res) => res.data)
+export const fetcher = (...args) => {
+  return apiClient.get(...args).then((res) => res.data)
+}
 
 export const useAPI = (key, options = undefined) => {
   const { data, error, mutate } = useSWR(key, fetcher, options)

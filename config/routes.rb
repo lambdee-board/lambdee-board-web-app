@@ -34,6 +34,9 @@
 
       resources :users, only: %i[index show update destroy] do
         get :current, on: :collection
+        post :reset_password, on: :collection
+        post :send_reset_password, on: :collection
+        get :valid_reset_password, on: :collection
       end
 
       resources :boards do
