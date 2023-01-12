@@ -10,8 +10,8 @@ workspace = ::DB::Workspace.create(name: 'Initial')
 
 admin = ::DB::User.create(
   name: 'Admin',
-  email: 'admin@example.com',
-  password: 'adminadmin',
+  email: ::ENV['DEFAULT_ADMIN_USER_EMAIL'] || 'admin@example.com',
+  password: ::ENV['DEFAULT_ADMIN_USER_PASSWORD'] || 'adminadmin',
   role: :admin
 )
 
