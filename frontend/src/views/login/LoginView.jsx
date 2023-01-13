@@ -13,15 +13,18 @@ import {
 import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
 import { emailValid } from '../../utils/email-valid'
+import useQuery from '../../utils/use-query'
 
 import './LoginView.sass'
 import lambdeeLogo from '../../assets/lambdee-logo.svg'
 
 export default function LoginView() {
+  const query = useQuery()
   const emailRef = React.useRef()
   const passwordRef = React.useRef()
+  const [passwordChanged, setPasswordChanged] = React.useState(Boolean(query.get('password_changed')))
   const navigate = useNavigate()
-  const addAlert = useAppAlertStore((store) => store.addAlert)
+  const addAlertTimeout = useAppAlertStore((store) => store.addAlertTimeout)
   const [loginFail, setLoginFail] = React.useState(false)
   const [invalidEmail, setInvalidEmail] = React.useState(false)
 
@@ -56,6 +59,11 @@ export default function LoginView() {
       .catch((error) => {
         setLoginFail(true)
       })
+  }
+
+  if (passwordChanged) {
+    addAlertTimeout({ severity: 'success', message: 'Password changed' })
+    setPasswordChanged(false)
   }
 
   return (

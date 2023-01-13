@@ -54,7 +54,7 @@ class API::UsersController < ::APIController
     return head :not_found if @user.nil?
 
     token = @user.__send__(:set_reset_password_token)
-    ::AccountMailer.with(token:).reset_password_email.deliver_later
+    ::AccountMailer.with(token:, user: @user).reset_password_email.deliver_now
 
     render :show, status: :ok
   end

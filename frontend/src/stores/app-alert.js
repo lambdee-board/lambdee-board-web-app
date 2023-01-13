@@ -9,6 +9,13 @@ const useAppAlertStore = create((set, get) => ({
     message: alert.message || null,
     severity: alert.severity || null
   })),
+  addAlertTimeout: (alert, timeout = 1000) => {
+    setTimeout(() => set(() => ({
+      title: alert.title || null,
+      message: alert.message || null,
+      severity: alert.severity || null
+    })), timeout)
+  },
   clearAlert: () => set(() => ({
     title: null,
     message: null,

@@ -52,7 +52,7 @@ export default function ResetPasswordView() {
     apiClient.post('/api/users/reset_password', body)
       .then(() => {
         localStorage.clear()
-        navigate('/login/password-reset')
+        navigate('/login?password_changed=true')
       })
       .catch(() => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -85,6 +85,7 @@ export default function ResetPasswordView() {
           className='resetPasswordView-card-input'
           label='New Password'
           variant='outlined'
+          type='password'
           inputRef={passwordInputRef}
           onChange={validatePasswords}
         />
@@ -92,6 +93,7 @@ export default function ResetPasswordView() {
           className='resetPasswordView-card-input'
           label='Confirm New Password'
           variant='outlined'
+          type='password'
           inputRef={passwordConfirmationInputRef}
           onChange={validatePasswords}
           error={differentPasswords}

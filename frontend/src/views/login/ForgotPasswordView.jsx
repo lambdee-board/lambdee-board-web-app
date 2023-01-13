@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 
 import apiClient from '../../api/api-client'
-import useAppAlertStore from '../../stores/app-alert'
 import { emailValid } from '../../utils/email-valid'
 
 import './ForgotPasswordView.sass'
@@ -17,7 +16,6 @@ import lambdeeLogo from '../../assets/lambdee-logo.svg'
 
 export default function ForgotPasswordView() {
   const navigate = useNavigate()
-  const addAlert = useAppAlertStore((store) => store.addAlert)
   const emailInputRef = React.useRef()
   const [invalidEmail, setInvalidEmail] = React.useState(false)
 

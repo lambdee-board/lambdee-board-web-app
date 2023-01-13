@@ -82,6 +82,20 @@ require "active_support/core_ext/integer/time"
   # require "syslog/logger"
   # config.logger = ActiveSupport::TaggedLogging.new(Syslog::Logger.new "app-name")
 
+  if ::ENV['CONFIGURE_SMTP']
+    config.action_mailer.perform_deliveries = true
+    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.smtp_settings = {
+      :address              => ::ENV['SMTP_SERVER_ADDRESS'],
+      :port                 => ::ENV['SMTP_SERVER_PORT'],
+      :domain               => ::ENV['SMTP_SERVER_DOMAIN'],
+      :user_name            => ::ENV['SMTP_USER_NAME'],
+      :password             => ::ENV['SMTP_PASSWORD'],
+      :authentication       => 'plain',
+      :enable_starttls_auto => true
+    }
+  end
+
   config.hosts << ::ENV['LAMBDEE_INTERNAL_HOST']
   config.hosts << ::ENV['LAMBDEE_HOST']
 
