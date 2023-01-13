@@ -13,7 +13,7 @@ import Navbar from './components/Navbar'
 Sortable.mount(new MultiDrag(), new AutoScroll())
 
 const swrConfig = {
-  refreshInterval: process.env.NODE_ENV === 'development' ? null : 15000,
+  refreshInterval: process.env.NODE_ENV === 'development' ? 3000 : 3000,
   revalidateOnFocus: process.env.NODE_ENV !== 'development'
 }
 
