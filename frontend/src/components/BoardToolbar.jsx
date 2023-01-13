@@ -194,16 +194,15 @@ export default function BoardToolbar(props) {
       </Toolbar>
       <Toolbar className='Toolbar'>
         {boardView === '0' ?
-          <div>
-            <Button
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faBriefcase} />}
-            >
-              <Typography>Work View</Typography>
-            </Button>
-          </div>      :
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faBriefcase} />}
+          >
+            <Typography>Work View</Typography>
+          </Button>                :
           <Button onClick={() => setBoardWorkView()}
             className='Toolbar-create-list-button'
             color='secondary'
@@ -214,16 +213,15 @@ export default function BoardToolbar(props) {
           </Button>
         }
         {boardView === '1' ?
-          <div>
-            <Button
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faList} />}
-            >
-              <Typography>Planning View</Typography>
-            </Button>
-          </div>      :
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faList} />}
+          >
+            <Typography>Planning View</Typography>
+          </Button>               :
           <Button onClick={() => setBoardPlanningView()}
             className='Toolbar-create-list-button'
             color='secondary'
@@ -234,16 +232,15 @@ export default function BoardToolbar(props) {
           </Button>
         }
         {boardView === '2' ?
-          <div>
-            <Button
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faChartLine} />}
-            >
-              <Typography>Report View</Typography>
-            </Button>
-          </div>      :
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faChartLine} />}
+          >
+            <Typography>Report View</Typography>
+          </Button>                :
           <Button onClick={() => setBoardReportsView()}
             className='Toolbar-create-list-button'
             color='secondary'
