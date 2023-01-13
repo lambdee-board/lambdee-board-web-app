@@ -78,9 +78,9 @@ const ScriptMenuButton = () => {
               toggleAlertModalState()
               handleClose()
             }}
-            title='Run Script?'
-            message={`Are you sure you want to run script ${scriptTriggerText}?`}
-            confirmMessage='Confirm, run script' />
+            title='Initialize Action?'
+            message={`Are you sure you want to initialize action ${scriptTriggerText}?`}
+            confirmMessage='Confirm, initialize action' />
         </Box>
       </Modal>
       <DropdownButton label='Actions' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>

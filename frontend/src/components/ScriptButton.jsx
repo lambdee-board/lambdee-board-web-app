@@ -1,4 +1,4 @@
-import { Button, IconButton, Menu, MenuItem, Modal, Box } from '@mui/material'
+import { Button, Menu, MenuItem, Modal, Box, Typography } from '@mui/material'
 import React from 'react'
 import PropTypes from 'prop-types'
 
@@ -86,9 +86,9 @@ export default function ScriptButton({ variant, scope, id }) {
               toggleAlertModalState()
               handleCloseScripts()
             }}
-            title='Run Script?'
-            message={`Are you sure you want to run script ${scriptTriggerText}?`}
-            confirmMessage='Confirm, run script' />
+            title='Initialize Action?'
+            message={`Are you sure you want to initialize action ${scriptTriggerText}?`}
+            confirmMessage='Confirm, initialize action' />
         </Box>
       </Modal>
       <Button sx={{ ml: '6%' }}
@@ -114,7 +114,14 @@ export default function ScriptButton({ variant, scope, id }) {
             }}
             key={scriptTrigger.id}
           >
-            {scriptTrigger.text}
+            <Box sx={{ color: scriptTrigger.colour }} >
+              <div className='ScriptButtonItemIcon'>
+                <FontAwesomeIcon icon={faBolt} />
+              </div>
+              <Typography sx={{ color: scriptTrigger.colour }} className='ScriptButtonItemText'>
+                {scriptTrigger.text}
+              </Typography>
+            </Box>
           </MenuItem>
         ))}
       </Menu>
