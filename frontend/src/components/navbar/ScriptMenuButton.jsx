@@ -95,8 +95,8 @@ const ScriptMenuButton = () => {
             }}
             key={scriptTrigger.id}
           >
-            <Box sx={{ color: scriptTrigger.colour, display: 'flex', flexDirection: 'row' }} >
-              <Box sx={{ mr: '8px' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row' }} >
+              <Box sx={{ color: scriptTrigger.colour, mr: '8px' }}>
                 <FontAwesomeIcon icon={faBolt} />
               </Box>
               <Typography>

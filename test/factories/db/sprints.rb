@@ -7,6 +7,7 @@
     started_at { ::Time.now }
     expected_end_at { ::Time.now + 1.week }
     association :board
+    to_create { _1.save(validate: false) }
 
     trait :inactive do
       ended_at { ::Time.now + 1.week }

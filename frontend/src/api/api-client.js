@@ -48,7 +48,7 @@ if (process.env.NODE_ENV === 'development') {
     let responseData = error?.response?.data
     if (typeof(responseData) === 'string') responseData = { string: responseData }
 
-    console.error(
+    console._warn(
       `
   ${error?.config?.method?.toUpperCase()} ${error?.request?.responseURL}
   Sent: %O
