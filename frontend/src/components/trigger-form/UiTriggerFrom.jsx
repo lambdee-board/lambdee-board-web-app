@@ -35,6 +35,7 @@ const UiTriggerFrom = (props) => {
     const scopeArr = [
       'DB::Workspace',
       'DB::Board',
+      'DB::List',
       'DB::Task',
     ]
     setTriggerScopeTypes(scopeArr.slice(0, scopeArr.indexOf(uiTriggerState.subjectType)))
