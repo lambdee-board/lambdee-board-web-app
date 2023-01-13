@@ -27,7 +27,8 @@ const UiTriggerFrom = (props) => {
     setUiTriggerState({
       ...uiTriggerState,
       scopeType: '',
-      scopeId: ''
+      scopeId: '',
+      subjectId: ''
     })
 
     if (uiTriggerState.subjectType === 'Global') return
