@@ -39,7 +39,7 @@ class ::DB::Script < ::ApplicationRecord
 
     <<~SCRIPT
       context[:subject] = #{@subject.class}.from_record(#{@subject.as_json})
-      context[:subject_before_update] = #{@subject.class}.from_record(#{@subject.previous_object_state.as_json})
+      context[:subject_before_update] = #{@subject.class}.from_record(#{@subject.previous_object_state.as_json || @subject.as_json})
       context.keys.each { |k| define_method(k) { context[k] } }
 
       #{content}
