@@ -444,6 +444,7 @@ PLATFORMS
   arm-linux-eabihf
   arm64-darwin-20
   arm64-darwin-21
+  ruby
   x86_64-darwin-21
   x86_64-linux
 

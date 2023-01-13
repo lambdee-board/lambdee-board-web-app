@@ -41,6 +41,14 @@ class API::UsersController < ::APIController
     render :show, status: :ok
   end
 
+  # GET /api/users/current/ui_script_triggers
+  def ui_script_triggers
+    authorize! :read, @task
+    @ui_script_triggers = ::DB::UiScriptTrigger.global(current_user)
+
+    render 'api/ui_script_triggers/index'
+  end
+
   # POST /api/users/send_reset_password
   def send_reset_password
     @user =

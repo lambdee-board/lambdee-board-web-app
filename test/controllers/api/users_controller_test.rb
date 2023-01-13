@@ -19,6 +19,24 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  should 'return global ui script triggers' do
+    global_private_trigger = ::FactoryBot.create(:ui_script_trigger, private: true, author: @user)
+    global_trigger = ::FactoryBot.create(:ui_script_trigger, author: @user)
+
+    ::FactoryBot.create(:ui_script_trigger, private: true)
+    ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: ::FactoryBot.create(:board))
+    ::FactoryBot.create(:ui_script_trigger, scope: ::FactoryBot.create(:task))
+
+    get current_ui_script_triggers_api_users_url, headers: auth_headers(@user)
+
+    json = ::JSON.parse response.body
+    assert_equal 2, json.size
+    assert_equal global_trigger.id, json[0]['id']
+    assert_equal '#ffffff', json[0]['colour']
+    assert_equal 'Send a message', json[0]['text']
+    assert_equal global_private_trigger.id, json[1]['id']
+  end
+
   should 'get index with role param' do
     ::FactoryBot.create(:user, role: :guest,)
     ::FactoryBot.create(:user, role: :regular)

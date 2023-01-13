@@ -31,6 +31,28 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
       end
       assert_response :created
     end
+
+    should 'return ui script triggers' do
+      subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @task, private: true, author: @user)
+      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board)
+
+      ::FactoryBot.create(:ui_script_trigger)
+      ::FactoryBot.create(:ui_script_trigger, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: @task, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: ::FactoryBot.create(:board))
+      ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:task))
+
+      get ui_script_triggers_api_task_url(@task), headers: auth_headers(@user)
+
+      json = ::JSON.parse response.body
+      assert_equal 2, json.size
+      assert_equal scope_trigger.id, json[0]['id']
+      assert_equal 'DB::Task', json[0]['subject_type']
+      assert_equal '#ffffff', json[0]['colour']
+      assert_equal 'Send a message', json[0]['text']
+      assert_equal subject_trigger.id, json[1]['id']
+    end
   end
 
   context 'user belongs to board' do

@@ -76,6 +76,10 @@ end
               DB::TaskTag
               DB::SprintTask]
           },
+          lambdee_ui_script_triggers_subjects_enum: {
+            type: :string,
+            enum: %w[DB::Workspace DB::Board DB::Task]
+          },
           user_pages_response: {
             type: :object,
             properties: {
@@ -367,6 +371,10 @@ end
               script_triggers: {
                 type: :array,
                 items: { '$ref' => '#/components/schemas/nested_script_trigger_response' }
+              },
+              ui_script_triggers: {
+                type: :array,
+                items: { '$ref' => '#/components/schemas/ui_script_trigger_response' }
               }
             },
             required: %w[]
@@ -392,7 +400,7 @@ end
               subject_type: { type: %i[string null] },
               subject_id: { type: %i[integer null] },
               action: { type: :string },
-              delay: { type: :integer },
+              delay: { type: %i[integer null] },
               url: { type: :string }
             },
             required: %w[]
@@ -405,7 +413,7 @@ end
               subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
               subject_id: { type: :integer },
               action: { type: :string, enum: %w[create update destroy] },
-              delay: { type: :integer, description: 'Number of seconds of script execution delay' },
+              delay: { type: %i[integer null], description: 'Number of seconds of script execution delay' },
               _destroy: { type: :boolean, description: 'If `true` callback for given `id` will be destroyed. Works only nested in sprint.' },
             },
             required: %w[action]
@@ -418,7 +426,7 @@ end
               subject_type: { type: %i[string null] },
               subject_id: { type: %i[integer null] },
               action: { type: :string },
-              delay: { type: :integer },
+              delay: { type: %i[integer null] },
               url: { type: :string }
             },
             required: %w[]
@@ -430,7 +438,48 @@ end
               subject_type: { '$ref' => '#/components/schemas/lambdee_models_enum' },
               subject_id: { type: :integer },
               action: { type: :string },
-              delay: { type: :integer, description: 'Number of seconds of script execution delay' },
+              delay: { type: %i[integer null], description: 'Number of seconds of script execution delay' },
+            },
+            required: %w[script_id action]
+          },
+          ui_script_trigger_response: {
+            type: :object,
+            properties: {
+              id: { type: :integer },
+              script_id: { type: :integer },
+              subject_type: { type: %i[string null] },
+              subject_id: { type: %i[integer null] },
+              scope_type: { type: %i[string null] },
+              scope_id: { type: %i[integer null] },
+              delay: { type: %i[integer null] },
+              text: { type: :string },
+              author_id: { type: :integer },
+              private: { type: %i[boolean null] },
+              colour: { type: :string },
+              url: { type: :string }
+            },
+            required: %w[]
+          },
+          ui_script_trigger_execution_request: {
+            type: :object,
+            properties: {
+              subject_id: { type: %i[integer null], description: 'Id of the actual subject. Not needed for global triggers.' },
+            },
+            required: %w[script_id action]
+          },
+          ui_script_trigger_request: {
+            type: :object,
+            properties: {
+              script_id: { type: :integer },
+              subject_type: { '$ref' => '#/components/schemas/lambdee_ui_script_triggers_subjects_enum' },
+              subject_id: { type: %i[integer null] },
+              scope_type: { type: %i[string null] },
+              scope_id: { type: %i[integer null] },
+              text: { type: %i[string null] },
+              author_id: { type: :integer },
+              private: { type: %i[boolean null] },
+              colour: { type: %i[string null] },
+              delay: { type: %i[integer null], description: 'Number of seconds of script execution delay' },
             },
             required: %w[script_id action]
           },

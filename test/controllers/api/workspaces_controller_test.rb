@@ -84,6 +84,24 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
 
       assert_response :forbidden
     end
+
+    should 'return ui script triggers' do
+      subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @workspace, private: true, author: @user)
+
+      ::FactoryBot.create(:ui_script_trigger)
+      ::FactoryBot.create(:ui_script_trigger, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: @workspace, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:workspace))
+
+      get ui_script_triggers_api_workspace_path(@workspace), headers: auth_headers(@user)
+
+      assert_response :ok
+      json = ::JSON.parse response.body
+      assert_equal 1, json.size
+      assert_equal 'DB::Workspace', json[0]['subject_type']
+      assert_equal '#ffffff', json[0]['colour']
+      assert_equal 'Send a message', json[0]['text']
+    end
   end
 
   context 'manager' do
