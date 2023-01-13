@@ -32,7 +32,7 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
       record.class::AVAILABLE_SCOPES.each do |scope_name|
         query = query.or(for_model(record.class, record.public_send(scope_name)))
       end
-      query = query.not_private.or(with_author(user))
+      query = query.merge(not_private.or(with_author(user)))
     end
   end
 
