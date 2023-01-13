@@ -78,9 +78,9 @@ export default function ScriptRunsView() {
                   divider
                   onClick={() => handleOpenDial(scriptRun)}
                   sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '32px', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
                     <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[scriptRun.state]} />
-                    <Typography variant='h5'>{scriptRun.scriptName}</Typography>
+                    <Typography sx={{ fontSize: '18px' }}>{scriptRun.scriptName}</Typography>
                   </div>
                   <Chip label={scriptRun.state} sx={{ bgcolor: stateColors[scriptRun.state], color: 'white' }} />
                 </ListItemButton>

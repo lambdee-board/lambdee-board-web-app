@@ -301,7 +301,7 @@ const EditScriptView = () => {
             />
           </div>
 
-          <Typography variant='h5'>Logs</Typography>
+          <Typography sx={{ fontSize: '18px' }}>Logs</Typography>
           <div className='EditCard-output'>
             {outputHistory.map((interaction, index) => {
               return (<div key={index}>
@@ -356,11 +356,11 @@ const EditScriptView = () => {
             </Button>
           </div>
           <div>
-            <Typography variant='h4'>Active triggers</Typography>
+            <Typography sx={{ fontSize: '24px' }}>Active triggers</Typography>
             {!(isLoading || isError) &&
               <List>
                 <ListItem>
-                  <Typography variant='h5'>Callback triggers</Typography>
+                  <Typography sx={{ fontSize: '18px' }}>Callback triggers</Typography>
                 </ListItem>
                 {script?.scriptTriggers?.map((trigger, idx) => (
                   <div key={`trigger-${idx}`}>
@@ -388,7 +388,7 @@ const EditScriptView = () => {
 
                 <Divider />
                 <ListItem>
-                  <Typography variant='h5'>Action triggers</Typography>
+                  <Typography sx={{ fontSize: '18px' }}>Action triggers</Typography>
                 </ListItem>
                 {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
                   <div key={`ui-trigger-${idx}`}>

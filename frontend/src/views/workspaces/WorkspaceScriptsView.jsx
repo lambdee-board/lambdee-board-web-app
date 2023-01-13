@@ -4,6 +4,7 @@ import {
   Typography,
   Toolbar,
   Button,
+  Box
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClockRotateLeft, faList, faPlus } from '@fortawesome/free-solid-svg-icons'
@@ -97,6 +98,7 @@ export default function WorkspaceScriptsView() {
           </Button>
         </div>
       </Toolbar>
+      <Box sx={{ height: '4px' }}></Box>
       <Outlet />
       <NewScriptDialog
         openDial={openDial}

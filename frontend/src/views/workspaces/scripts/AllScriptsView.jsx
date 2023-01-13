@@ -7,7 +7,7 @@ import {
   Divider
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faScroll } from '@fortawesome/free-solid-svg-icons'
+import { faGem } from '@fortawesome/free-solid-svg-icons'
 import { useNavigate, useParams } from 'react-router-dom'
 
 
@@ -31,9 +31,9 @@ export default function AllScriptsView() {
                   <ListItemButton
                     divider
                     onClick={() => navigate(`/workspaces/${workspaceId}/scripts/${script.id}`)}
-                    sx={{ fontSize: '32px', gap: '16px' }}>
-                    <FontAwesomeIcon icon={faScroll} opacity='0.58' />
-                    <Typography variant='h5'>{script.name}</Typography>
+                    sx={{ height: '49px', fontSize: '24px', gap: '16px' }}>
+                    <FontAwesomeIcon icon={faGem} opacity='0.58' />
+                    <Typography sx={{ fontSize: '18px' }}>{script.name}</Typography>
                   </ListItemButton>
                 </div>
               ))}
