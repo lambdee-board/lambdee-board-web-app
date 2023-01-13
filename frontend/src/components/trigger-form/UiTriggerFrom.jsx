@@ -26,7 +26,8 @@ const UiTriggerFrom = (props) => {
   React.useEffect(() => {
     setUiTriggerState({
       ...uiTriggerState,
-      scopeType: ''
+      scopeType: '',
+      scopeId: ''
     })
 
     if (uiTriggerState.subjectType === 'Global') return
@@ -39,6 +40,17 @@ const UiTriggerFrom = (props) => {
     setTriggerScopeTypes(scopeArr.slice(0, scopeArr.indexOf(uiTriggerState.subjectType)))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uiTriggerState.subjectType])
+
+  React.useEffect(() => {
+    if (uiTriggerState.subjectId === '') return
+    setUiTriggerState({
+      ...uiTriggerState,
+      scopeType: '',
+      scopeId: ''
+    })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uiTriggerState.subjectId])
 
 
   const subjectTypeGlobal = () => {
@@ -92,7 +104,7 @@ const UiTriggerFrom = (props) => {
             sx={{ width: '200px' }}
             margin='dense'
             select
-            disabled={subjectTypeGlobal() || subjectIdNil()}
+            disabled={subjectTypeGlobal() || !subjectIdNil()}
             id='Trigger-scope-type'
             value={uiTriggerState.scopeType}
             label='Scope Type'
@@ -119,7 +131,7 @@ const UiTriggerFrom = (props) => {
             })}
             label='Scope ID'
             variant='standard'
-            disabled={subjectTypeGlobal() || subjectIdNil()} />
+            disabled={subjectTypeGlobal() || !subjectIdNil()} />
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
