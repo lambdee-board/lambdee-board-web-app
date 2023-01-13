@@ -42,8 +42,8 @@ class ::DB::UiScriptTriggerTest < ::ActiveSupport::TestCase
     task = ::FactoryBot.create(:task, list: list)
 
     ::FactoryBot.create(:ui_script_trigger, author: user, script: script, subject: wrk, text: 'Run on workspace')
-    ::FactoryBot.create(:ui_script_trigger, author: user, script: script, subject: board, text: 'Run on board')
     ::FactoryBot.create(:ui_script_trigger, author: user, script: script, subject: board, text: 'Run on board - second')
+    ::FactoryBot.create(:ui_script_trigger, author: user, script: script, subject: board, text: 'Run on board')
     ::FactoryBot.create(:ui_script_trigger, author: user, script: script, subject_type: 'DB::Task', scope: board, text: 'Run on task')
 
     result = ::DB::UiScriptTrigger.regarding_record_and_user(wrk, user)
