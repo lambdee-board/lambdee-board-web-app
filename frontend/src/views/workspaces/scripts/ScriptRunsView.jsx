@@ -101,11 +101,11 @@ export default function ScriptRunsView() {
         }
 
       </div>
-      <div className='filter-wrapper'>
+      {/* <div className='filter-wrapper'>
         <ScriptRunsFilter
           updateFilters={updateFilters}
         />
-      </div>
+      </div> */}
       { currentRun &&
         <Dialog
           open={openDial}

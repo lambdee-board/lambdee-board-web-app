@@ -52,8 +52,9 @@ export default function LoginView() {
     apiClient.post('/api/users/sign_in', credentials)
       .then((response) => {
         localStorage.setItem('token', response.headers.authorization)
-        const role = jwt(response.headers.authorization.replace('Bearer ', '')).role
-        localStorage.setItem('role', role)
+        const token = jwt(response.headers.authorization.replace('Bearer ', ''))
+        localStorage.setItem('role', token.role)
+        localStorage.setItem('id', token.sub)
         navigate('/')
       })
       .catch((error) => {
