@@ -33,8 +33,8 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
     end
 
     should 'return ui script triggers' do
-      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board)
       subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @task, private: true, author: @user)
+      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board)
 
       ::FactoryBot.create(:ui_script_trigger)
       ::FactoryBot.create(:ui_script_trigger, private: true)

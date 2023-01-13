@@ -167,8 +167,8 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     end
 
     should 'return ui script triggers' do
-      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Board', scope: @workspace)
       subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @board, private: true, author: @user)
+      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Board', scope: @workspace)
 
       ::FactoryBot.create(:ui_script_trigger)
       ::FactoryBot.create(:ui_script_trigger, private: true)

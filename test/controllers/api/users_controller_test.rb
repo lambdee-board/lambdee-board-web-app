@@ -20,8 +20,8 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   should 'return global ui script triggers' do
-    global_trigger = ::FactoryBot.create(:ui_script_trigger, author: @user)
     global_private_trigger = ::FactoryBot.create(:ui_script_trigger, private: true, author: @user)
+    global_trigger = ::FactoryBot.create(:ui_script_trigger, author: @user)
 
     ::FactoryBot.create(:ui_script_trigger, private: true)
     ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: ::FactoryBot.create(:board))

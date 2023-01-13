@@ -18,6 +18,8 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
   scope :for_model, ->(model, scope) { where(subject_type: model.to_s).where(subject_id: nil).where(scope: scope) }
   scope :global, ->(author) { with_author(author).where(subject_type: nil) }
 
+  default_scope { order(id: :desc) }
+
   validates :scope, presence: true, if: -> { subject_type && subject_id.nil? }
   validates :scope_id, presence: true, if: -> { scope_type }
   validates :subject_type, inclusion: { in: ALLOWED_SUBJECT_CLASSES }, allow_nil: true
@@ -32,7 +34,7 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
       record.class::AVAILABLE_SCOPES.each do |scope_name|
         query = query.or(for_model(record.class, record.public_send(scope_name)))
       end
-      query = query.not_private.or(with_author(user))
+      query = query.merge(not_private.or(with_author(user)))
     end
   end
 
