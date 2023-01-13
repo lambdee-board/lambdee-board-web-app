@@ -156,7 +156,7 @@ export default function BoardToolbar(props) {
         {!activeSprint ?
 
           <ManagerContent>
-            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+            <Button onClick={() => setNewSprintModal(true)}
               className='Toolbar-create-spring-button'
               color='secondary'
               variant='outlined'
@@ -165,7 +165,7 @@ export default function BoardToolbar(props) {
               <Typography>Start Sprint</Typography>
             </Button>
           </ManagerContent>       :
-          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+          <Button onClick={() => setNewSprintModal(true)}
             className='Toolbar-create-spring-button'
             color='secondary'
             variant='contained'
@@ -195,7 +195,7 @@ export default function BoardToolbar(props) {
       <Toolbar className='Toolbar'>
         {boardView === '0' ?
           <div>
-            <Button sx={{ ml: '8px' }}
+            <Button
               className='Toolbar-create-list-button'
               color='secondary'
               variant='contained'
@@ -204,7 +204,7 @@ export default function BoardToolbar(props) {
               <Typography>Work View</Typography>
             </Button>
           </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardWorkView()}
+          <Button onClick={() => setBoardWorkView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
@@ -215,7 +215,7 @@ export default function BoardToolbar(props) {
         }
         {boardView === '1' ?
           <div>
-            <Button sx={{ ml: '8px' }}
+            <Button
               className='Toolbar-create-list-button'
               color='secondary'
               variant='contained'
@@ -224,7 +224,7 @@ export default function BoardToolbar(props) {
               <Typography>Planning View</Typography>
             </Button>
           </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
+          <Button onClick={() => setBoardPlanningView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
@@ -235,7 +235,7 @@ export default function BoardToolbar(props) {
         }
         {boardView === '2' ?
           <div>
-            <Button sx={{ ml: '8px' }}
+            <Button
               className='Toolbar-create-list-button'
               color='secondary'
               variant='contained'
@@ -244,7 +244,7 @@ export default function BoardToolbar(props) {
               <Typography>Report View</Typography>
             </Button>
           </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardReportsView()}
+          <Button onClick={() => setBoardReportsView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'

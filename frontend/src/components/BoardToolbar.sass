@@ -3,10 +3,17 @@
 .Toolbar-wrapper
   display: flex
   justify-content: space-between
-  min-width: 1000px
   .Toolbar
     display: flex
-    justify-content: space-between
+    @media (min-width: #{$xs}) and (max-width: #{$lg - 1px})
+      flex-direction: column
+      align-items: stretch
+      gap: calc($unit / 2)
+      margin-top: $unit
+    @media (min-width: #{$lg})
+      gap: $unit
+      justify-content: space-between
     .Toolbar-new-list-input
       .MuiOutlinedInput-input
         padding: 0 $unit
+
