@@ -91,7 +91,7 @@ export default function ScriptButton({ variant, scope, id }) {
             confirmMessage='Confirm, initialize action' />
         </Box>
       </Modal>
-      <Button sx={{ ml: '6%' }}
+      <Button
         onClick={handleOpenScripts}
         className='ScriptButton'
         color='secondary'

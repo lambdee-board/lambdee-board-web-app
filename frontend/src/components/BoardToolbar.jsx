@@ -187,9 +187,7 @@ export default function BoardToolbar(props) {
             <Typography>View Sprint</Typography>
           </Button>}
         <DeveloperContent>
-          <Box>
-            <ScriptButton scope='boards' id={boardId} />
-          </Box>
+          <ScriptButton scope='boards' id={boardId} />
         </DeveloperContent>
       </Toolbar>
       <Toolbar className='Toolbar'>

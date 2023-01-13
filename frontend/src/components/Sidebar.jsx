@@ -159,7 +159,7 @@ export default function Sidebar() {
             </List>
           )}
           <DeveloperContent>
-            <Box sx={{ mt: '10px' }}>
+            <Box sx={{ mt: '10px', display: 'flex', justifyContent: 'center' }}>
               <ScriptButton scope='workspaces' id={workspaceId} />
             </Box>
           </DeveloperContent>
