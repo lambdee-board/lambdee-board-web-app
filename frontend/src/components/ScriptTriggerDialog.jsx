@@ -24,7 +24,7 @@ const ScriptTriggerDialog = (props) => {
             color='success'
             sx={{ maxWidth: '150px', maxHeight: '75px', minWidth: '150px', minHeight: '75px' }}
             onClick={() => setTriggerType('UI')}>
-          UI
+          Action
           </Button>
           <Button
             disabled

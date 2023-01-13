@@ -17,6 +17,7 @@ import RecentMenuButton from './navbar/RecentMenuButton'
 import lambdeeLogo from '../assets/lambdee-logo.svg'
 import './Navbar.sass'
 import { useNavigate } from 'react-router-dom'
+import ScriptMenuButton from './navbar/ScriptMenuButton'
 
 
 const Navbar = () => {
@@ -44,6 +45,7 @@ const Navbar = () => {
             <WorkspacesMenuButton />
             <RecentMenuButton />
             <RegularContent>
+              <ScriptMenuButton />
               <Button
                 className='Button'
                 id='dropdown-button'

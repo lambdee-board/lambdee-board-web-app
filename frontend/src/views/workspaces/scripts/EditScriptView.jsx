@@ -388,7 +388,7 @@ const EditScriptView = () => {
 
                 <Divider />
                 <ListItem>
-                  <Typography variant='h5'>UI triggers</Typography>
+                  <Typography variant='h5'>Action triggers</Typography>
                 </ListItem>
                 {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
                   <div key={`ui-trigger-${idx}`}>

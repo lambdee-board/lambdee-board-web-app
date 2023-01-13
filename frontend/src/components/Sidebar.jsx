@@ -8,14 +8,13 @@ import {
   ListItem,
   ListItemText,
   ListItemIcon,
-  // Button,
   Skeleton,
 } from '@mui/material'
 import {
   faClipboardList,
-  faScroll,
   faGear,
   faUsers,
+  faGem,
   // faArrowLeft,
 } from '@fortawesome/free-solid-svg-icons'
 import { DeveloperContent } from '../permissions/content/DeveloperContent'
@@ -29,6 +28,7 @@ import useWorkspace from '../api/workspace'
 import './Sidebar.sass'
 import WorkspaceIcon from './WorkspaceIcon'
 import NewBoardButton from './NewBoardButton'
+import ScriptButton from './ScriptButton'
 
 const drawerWidth = 240
 
@@ -129,7 +129,7 @@ export default function Sidebar() {
                   active={false}
                   label='Scripts'
                   onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
-                  icon={<FontAwesomeIcon icon={faScroll} />}
+                  icon={<FontAwesomeIcon icon={faGem} />}
                 />
               </DeveloperContent>
               <ManagerContent>
@@ -158,9 +158,15 @@ export default function Sidebar() {
               ))}
             </List>
           )}
+          <DeveloperContent>
+            <Box sx={{ mt: '10px' }}>
+              <ScriptButton scope='workspaces' id={workspaceId} />
+            </Box>
+          </DeveloperContent>
           <ManagerContent>
             <NewBoardButton />
           </ManagerContent>
+
         </Box>
       </Drawer>
       {/* <SidebarButton

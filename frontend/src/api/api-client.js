@@ -13,6 +13,7 @@ axiosClient.interceptors.response.use(
     if (error.response.status === 401 && localStorage.getItem('token')) {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
+      localStorage.removeItem('id')
       window.location.reload()
     }
     return Promise.reject(error)
