@@ -114,11 +114,11 @@ export default function ScriptButton({ variant, scope, id }) {
             }}
             key={scriptTrigger.id}
           >
-            <Box sx={{ color: scriptTrigger.colour }} >
-              <div className='ScriptButtonItemIcon'>
+            <Box sx={{ color: scriptTrigger.colour, display: 'flex', flexDirection: 'row' }} >
+              <Box sx={{ mr: '8px' }}>
                 <FontAwesomeIcon icon={faBolt} />
-              </div>
-              <Typography sx={{ color: scriptTrigger.colour }} className='ScriptButtonItemText'>
+              </Box>
+              <Typography>
                 {scriptTrigger.text}
               </Typography>
             </Box>

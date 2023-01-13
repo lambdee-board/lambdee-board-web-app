@@ -9,6 +9,8 @@ import {
   Box
 } from '@mui/material'
 
+import { faBolt } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import DropdownButton from '../DropdownButton'
 import useScriptTriggers from '../../api/scripts-triggers'
 import apiClient from '../../api/api-client'
@@ -93,7 +95,14 @@ const ScriptMenuButton = () => {
             }}
             key={scriptTrigger.id}
           >
-            {scriptTrigger.text}
+            <Box sx={{ color: scriptTrigger.colour, display: 'flex', flexDirection: 'row' }} >
+              <Box sx={{ mr: '8px' }}>
+                <FontAwesomeIcon icon={faBolt} />
+              </Box>
+              <Typography>
+                {scriptTrigger.text}
+              </Typography>
+            </Box>
           </MenuItem>
         ))}
       </DropdownButton>
