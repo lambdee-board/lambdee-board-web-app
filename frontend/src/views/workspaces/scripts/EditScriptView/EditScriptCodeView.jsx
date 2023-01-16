@@ -44,7 +44,7 @@ export default function EditScriptCodeView() {
   const [codeDraft, setCodeDraft] = React.useState('')
   const [outputHistory, setOutputHistory] = React.useState([{
     type: WebSocketMessage.types.consoleOutput,
-    content: '# Run script to see logs.',
+    content: '# Run script to see logs',
     time: new Date(),
   }])
   React.useEffect(() => {
