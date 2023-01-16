@@ -2,7 +2,7 @@ import * as React from 'react'
 import { languages, highlight } from 'prismjs/components/prism-core'
 
 import Editor from 'react-simple-code-editor'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography } from '@mui/material'
+import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card } from '@mui/material'
 import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -291,8 +291,8 @@ const EditScriptView = () => {
             <ScriptLabel id={script.id} text={script.description} type='description' />
           </div>
           <Divider>Code</Divider>
-          <div className='EditCard-editor-wrapper'>
-            <div className='EditCard-scriptBtns'>
+          <div className='EditCard-scriptBtns'>
+            <Card sx={{ display: 'flex', flexDirection: 'row', borderRadius: '0', width: '280px'  }}>
               <Button
                 onClick={openWsConnection}
                 className='EditCard-btnRun'
@@ -319,15 +319,18 @@ const EditScriptView = () => {
                 <Typography>Delete</Typography>
               </Button>
 
-              <Button
+              {/* <Button
                 onClick={handleOpenDial}
                 className='EditCard-btnAddTrigger'
                 color='secondary'
                 fullWidth
                 startIcon={<FontAwesomeIcon icon={faPlus} />}>
                 <Typography>New Trigger</Typography>
-              </Button>
-            </div>
+              </Button> */}
+            </Card>
+          </div>
+          <div></div>
+          <div className='EditCard-editor-wrapper'>
             <Editor
               className='EditCard-editor'
               value={codeDraft}
@@ -346,7 +349,7 @@ const EditScriptView = () => {
           </div>
 
         </div>
-        <div className='EditCard-actionBtns'>
+        {/* <div className='EditCard-actionBtns'>
           <div className='EditCard-closeWrapper'>
             <IconButton
               onClick={() => navigate(`/workspaces/${workspaceId}/scripts/all`)}
@@ -355,7 +358,7 @@ const EditScriptView = () => {
             </IconButton>
           </div>
 
-          {/* <div>
+          <div>
             <Typography sx={{ fontSize: '24px' }}>Active triggers</Typography>
             {!(isLoading || isError) &&
               <List>
@@ -421,8 +424,8 @@ const EditScriptView = () => {
                 ))}
               </List>
             }
-          </div> */}
-        </div>
+          </div>
+        </div> */}
       </Paper>
       <ScriptTriggerDialog
         openDial={openDial}

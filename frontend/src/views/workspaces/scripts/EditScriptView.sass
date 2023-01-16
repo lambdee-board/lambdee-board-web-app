@@ -9,33 +9,37 @@
     min-height: calc(100vh - (13 * $unit))
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
     border-radius: $unit
-    padding: 3 * $unit
-    padding-right: 0
+    padding: 2 * $unit
     display: flex
     flex-direction: row
     justify-content: space-between
-    width: calc(100% - 2 * $unit)
+    width: calc(100% - 3 * $unit)
     .EditCard-content
       width: 100%
+      min-width: 1000px
       .EditCard-editor-wrapper
         overflow-y: scroll
         overflow-x: hidden
-        border-radius: $unit
         height: 45vh
         min-width: 100%
-
+      .EditCard-scriptBtns
+        display: flex
+        flex-direction: row
+        background-color: #032b3a
+        width: 100%
+        overflow-y: scroll
       .EditCard-editor, .EditCard-output
         overflow-y: scroll
-        overflow-x: scroll
+        overflow-x: hidden
+        scrollbar-width: none
         font-family: "Fira code", "Fira Mono", monospace
         background-color: #032b3a
         color: #fff
-        border-radius: $unit
         min-height: 45vh
-
       .EditCard-output
         padding: 10px
-        height: 30vh
+        min-height: 30vh
+        max-height: 30vh
         margin: 0
         width: calc(100% - 20px)
         max-width: calc(100% - 20px)
