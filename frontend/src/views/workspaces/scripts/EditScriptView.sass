@@ -24,12 +24,17 @@
         flex-direction: row
         .EditCard-header-text
           width: 600px
-        .EditCard-header-buttons
+        .EditCard-header-author
+          display: 'flex'
+          flex-direction: 'column'
           justify-self: flex-end
           margin-left: auto
-          margin-top: 12px
-          .MuiButton-root
-            margin: 4px
+          .EditCard-header-buttons
+            display: 'flex'
+            flex-direction: 'row'
+            margin-top: 12px
+            .MuiButton-root
+              margin: 4px
       .EditCard-editor-wrapper
         overflow-y: scroll
         height: 45vh
