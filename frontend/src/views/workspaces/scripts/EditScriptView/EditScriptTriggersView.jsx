@@ -125,10 +125,10 @@ export default function EditScriptTriggersView() {
         color: '#029fd1',
         opacity: '0.3' }}>no triggers created</Typography>}
       {script?.scriptTriggers.length !== 0 && <Divider>Callback Triggers</Divider>}
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
         {script?.scriptTriggers?.map((trigger, idx) => (
           <div key={`trigger-${idx}`}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ display: 'flex', width: '180px', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
               <ListItem
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
               >
@@ -149,11 +149,11 @@ export default function EditScriptTriggersView() {
           </div>
         ))}
       </div>
-      {script?.uiScriptTriggers.length !== 0 && <Divider>Action Triggers</Divider>}
-      <div style={{ display: 'flex', flexDirection: 'row' }}>
+      {script?.uiScriptTriggers.length !== 0 && <Divider sx={{ mt: '12px' }}>Action Triggers</Divider>}
+      <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto'  }}>
         {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
           <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
-            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ width: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
               <ListItem
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
               >
