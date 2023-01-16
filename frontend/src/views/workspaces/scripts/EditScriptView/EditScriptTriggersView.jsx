@@ -2,7 +2,7 @@ import * as React from 'react'
 import { languages, highlight } from 'prismjs/components/prism-core'
 
 import Editor from 'react-simple-code-editor'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card } from '@mui/material'
+import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card, ButtonBase } from '@mui/material'
 import { faPlay, faXmark, faSave, faTrash, faPlus, faCode, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -130,58 +130,69 @@ export default function EditScriptTriggersView() {
           <Typography>Create new Trigger</Typography>
         </Button>
       </div>
-      <Divider>Callback Triggers</Divider>
-      {script?.scriptTriggers?.map((trigger, idx) => (
-        <div key={`trigger-${idx}`}>
-          <ListItem
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
-            secondaryAction={
-              <IconButton
-                edge='end'
-                onClick={() => deleteTrigger('script_triggers', trigger.id)}
-                color='error'>
-                <FontAwesomeIcon icon={faTrash} />
-              </IconButton>
-            }
-          >
-            <ListItemText
-              primary={`Action: ${trigger.action}`}
-              secondary={`Delay: ${trigger.delay || 0}`} />
-            <ListItemText
-              primary={`Type: ${trigger.subjectType || 'all'}`}
-              secondary={`Id: ${trigger.subjectId}`} />
-          </ListItem>
-        </div>
-      ))}
-      <Divider>Action Triggers</Divider>
-      {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
-        <div key={`ui-trigger-${idx}`}>
-          <ListItem
-            sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
-            secondaryAction={
-              <IconButton
-                edge='end'
-                onClick={() => deleteTrigger('ui_script_triggers', uiTrigger.id)}
-                color='error'>
-                <FontAwesomeIcon icon={faTrash} />
-              </IconButton>
-            }
-          >
-            <ListItemText
-              primary={`Private: ${uiTrigger.private}`}
-              secondary={`Delay: ${uiTrigger.delay || 0}`} />
-            <ListItemText
-              primary={`Subject type: ${uiTrigger.subjectType || 'all'}`}
-              secondary={`Subject Id: ${uiTrigger.subjectId}`} />
-            <ListItemText
-              primary={`Scope type: ${uiTrigger.scopeType || 'all'}`}
-              secondary={`Scope Id: ${uiTrigger.scopeId}`} />
-            <ListItemText
-              primary={`Text: ${uiTrigger.text || 'none'}`}
-              secondary={`Colour: ${uiTrigger.colour}`} />
-          </ListItem>
-        </div>
-      ))}
+      {script?.scriptTriggers.length === 0 && script?.uiScriptTriggers.length === 0 && <Typography sx={{ width: '100%',
+        fontSize: '32px',
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+        textAlign: 'center',
+        color: '#029fd1',
+        opacity: '0.3' }}>no triggers created</Typography>}
+      {script?.scriptTriggers.length !== 0 && <Divider>Callback Triggers</Divider>}
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {script?.scriptTriggers?.map((trigger, idx) => (
+          <div key={`trigger-${idx}`}>
+            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+              <ListItem
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+              >
+                <ListItemText
+                  primary={`Action: ${trigger.action}`}
+                  secondary={`Delay: ${trigger.delay || 0}`} />
+                <ListItemText
+                  primary={`Type: ${trigger.subjectType || 'all'}`}
+                  secondary={`Id: ${trigger.subjectId}`} />
+              </ListItem>
+              <Button
+                variant='contained'
+                color='error'
+                onClick={() => deleteTrigger('script_triggers', trigger.id)}>
+                Delete
+              </Button>
+            </Card>
+          </div>
+        ))}
+      </div>
+      {script?.uiScriptTriggers.length !== 0 && <Divider>Action Triggers</Divider>}
+      <div style={{ display: 'flex', flexDirection: 'row' }}>
+        {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
+          <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
+            <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+              <ListItem
+                sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
+              >
+                <ListItemText
+                  primary={`Private: ${uiTrigger.private}`}
+                  secondary={`Delay: ${uiTrigger.delay || 0}`} />
+                <ListItemText
+                  primary={`Subject type: ${uiTrigger.subjectType || 'all'}`}
+                  secondary={`Subject Id: ${uiTrigger.subjectId}`} />
+                <ListItemText
+                  primary={`Scope type: ${uiTrigger.scopeType || 'all'}`}
+                  secondary={`Scope Id: ${uiTrigger.scopeId}`} />
+                <ListItemText
+                  primary={`Text: ${uiTrigger.text || 'none'}`}
+                  secondary={`Colour: ${uiTrigger.colour}`} />
+              </ListItem>
+              <Button
+                variant='contained'
+                color='error'
+                onClick={() => deleteTrigger('ui_script_triggers', uiTrigger.id)}>
+                Delete
+              </Button>
+            </Card>
+          </div>
+        ))}
+      </div>
       <ScriptTriggerDialog
         openDial={openDial}
         handleCloseDial={handleCloseDial}
