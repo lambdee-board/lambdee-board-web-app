@@ -2,11 +2,14 @@
 
 class ::API::ScriptsController < ::APIController
   before_action :set_script, only: %i[show update destroy]
+  has_scope :page, :per
 
   # GET /api/scripts
   def index
-    @scripts = ::DB::Script.all
-    @scripts = @scripts.limit(limit) if limit?
+    filters = ::FilterParameters::Universal.new(params)
+    return render json: filters.errors, status: :unprocessable_entity unless filters.valid?(params)
+
+    @scripts = apply_scopes(::DB::Script.all)
   end
 
   # GET /api/scripts/1

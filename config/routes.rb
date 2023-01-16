@@ -82,6 +82,8 @@
         resources :script_runs, only: :index
       end
 
+      resources :script_variables
+
       resources :script_triggers, only: %i[show create update destroy]
 
       resources :ui_script_triggers, only: %i[show create update destroy] do

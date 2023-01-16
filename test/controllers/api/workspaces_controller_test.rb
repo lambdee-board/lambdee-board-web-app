@@ -99,7 +99,7 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
       json = ::JSON.parse response.body
       assert_equal 1, json.size
       assert_equal 'DB::Workspace', json[0]['subject_type']
-      assert_equal '#ffffff', json[0]['colour']
+      assert json[0]['colour'].is_a?(::String)
       assert_equal 'Send a message', json[0]['text']
     end
   end

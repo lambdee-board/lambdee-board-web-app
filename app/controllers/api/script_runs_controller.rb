@@ -16,7 +16,6 @@ class ::API::ScriptRunsController < ::APIController
                    end
     @script_runs = apply_scopes(@script_runs.accessible_by(current_ability))
     @script_runs = @script_runs.includes(:script)
-    @script_runs = @script_runs.limit(limit) if limit?
   end
 
   # GET /api/script_runs/1

@@ -9,8 +9,8 @@ class API::BoardsController < ::APIController
 
   # GET /api/boards
   def index
-    @boards = ::DB::Board.all.accessible_by(current_ability)
-    @boards = @boards.limit(limit) if limit?
+    @boards = ::DB::Board.all
+    @boards = @boards.accessible_by(current_ability)
   end
 
   # GET api/boards/1

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_15_221537) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_104925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -82,6 +82,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_15_221537) do
     t.index ["author_id"], name: "index_script_triggers_on_author_id"
     t.index ["scope_type", "scope_id"], name: "index_script_triggers_on_scope"
     t.index ["subject_type", "subject_id"], name: "index_script_triggers_on_subject"
+  end
+
+  create_table "script_variables", force: :cascade do |t|
+    t.string "owner_type"
+    t.bigint "owner_id"
+    t.string "name"
+    t.string "description"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_script_variables_on_name", unique: true
+    t.index ["owner_type", "owner_id", "name"], name: "unique_name_per_owner", unique: true
+    t.index ["owner_type", "owner_id"], name: "index_script_variables_on_owner"
   end
 
   create_table "scripts", force: :cascade do |t|
