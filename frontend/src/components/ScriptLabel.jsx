@@ -10,7 +10,7 @@ import { mutateScript } from '../api/script'
 import './ScriptLabel.sass'
 
 const ScriptLabel = (props) => {
-  const descStyle = props.type !== 'description' ? {} : { fontSize: 18, color: '#aaa' }
+  const descStyle = props.type !== 'description' ? {} : { fontSize: 18 }
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editScriptLabelButton, setEditScriptLabel] = React.useState(true)
 
@@ -78,8 +78,7 @@ const ScriptLabel = (props) => {
         <Typography
           className='Script-Label'
           onClick={editScriptLabelOnClick}
-          variant='h4'
-          sx={{ mt: '8px', mb: '8px', fontSize: 34, ...descStyle }}
+          sx={{ mt: '8px', mb: '12px', fontSize: 28, ...descStyle }}
         >
           {props.text}
         </Typography>
@@ -90,7 +89,7 @@ const ScriptLabel = (props) => {
             fullWidth
             multiline
             defaultValue={props.text}
-            sx={{ fontSize: 34, ...descStyle }}
+            sx={{ fontSize: 28, ...descStyle }}
             onKeyDown={(e) => editScriptLabelInputOnKey(e)}
             onBlur={(e) => toggleEditScriptLabelButton()}
           />

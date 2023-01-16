@@ -21,19 +21,21 @@ export default function AllScriptsView() {
   const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
 
   return (
-    <div className='WorkspaceScripts' style={{ height: '100%', overflow: 'scroll' }}>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div className='list-wrapper'>
         <List className='List'>
-          <Divider />
           { !(isLoading || isError) &&
               scripts?.map((script, idx) => (
                 <div key={idx}>
                   <ListItemButton
                     divider
                     onClick={() => navigate(`/workspaces/${workspaceId}/scripts/${script.id}`)}
-                    sx={{ height: '49px', fontSize: '24px', gap: '16px' }}>
-                    <FontAwesomeIcon icon={faGem} opacity='0.58' />
-                    <Typography sx={{ fontSize: '18px' }}>{script.name}</Typography>
+                    sx={{ display: 'flex', justifyContent: 'space-between', height: '48px' }}>
+                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
+                      <FontAwesomeIcon icon={faGem} opacity='0.58' />
+                      <Typography sx={{ fontSize: '18px' }}>{script.name}</Typography>
+                    </div>
+                    <Divider />
                   </ListItemButton>
                 </div>
               ))}
