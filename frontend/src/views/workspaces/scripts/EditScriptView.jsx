@@ -3,7 +3,7 @@ import { languages, highlight } from 'prismjs/components/prism-core'
 
 import Editor from 'react-simple-code-editor'
 import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card } from '@mui/material'
-import { faPlay, faXmark, faSave, faTrash, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faPlay, faXmark, faSave, faTrash, faPlus, faCode, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import useAppAlertStore from '../../../stores/app-alert'
@@ -23,9 +23,10 @@ import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
 import './EditScriptView.sass'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams, Outlet } from 'react-router-dom'
 import { mutateWorkspaceScripts } from '../../../api/workspace-scripts'
 import ScriptLabel from '../../../components/ScriptLabel'
+import useCookie from 'react-use-cookie'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -85,89 +86,19 @@ const EditScriptView = () => {
   const { scriptId, workspaceId } = useParams()
   const { data: script, isLoading, isError, mutate } = useScript({ id: scriptId })
   const [openDial, setOpenDial] = React.useState(false)
-  const [webSocketOpen, setWebSocketOpen] = React.useState(false)
-  const [webSocket, setWebSocket] = React.useState(null)
-  const [newInputProvided, setNewInputProvided] = React.useState(false)
-  const [codeDraft, setCodeDraft] = React.useState('')
-  const [outputHistory, setOutputHistory] = React.useState([{
-    type: WebSocketMessage.types.consoleOutput,
-    content: '# Run script to see logs.',
-    time: new Date(),
-  }])
-
+  const [scriptView, setScriptView] = useCookie('showEditScript', 'code')
 
   React.useEffect(() => {
-    if (!webSocket || !webSocketOpen) return
-    webSocket.send(WebSocketMessage.encode(
-      WebSocketMessage.types.consoleInput,
-      { input: codeDraft }
-    ))
-  }, [codeDraft, webSocket, webSocketOpen])
+    let navigatedOut = false
+    if (navigatedOut) return
 
-  React.useEffect(() => {
-    if (!(isLoading || isError)) setCodeDraft(script.content)
-  }, [isLoading, isError, script?.content])
-
-  const openWsConnection = () => {
-    resetOutputHistory()
-    const newWebSocket = new WebSocket(`${process.env.SCRIPT_SERVICE_WS_PROTOCOL}://${process.env.SCRIPT_SERVICE_EXTERNAL_HOST}`)
-    newWebSocket.onmessage = async(event) => {
-      const message = WebSocketMessage.decode(event.data)
-      switch (message.type) {
-      case WebSocketMessage.types.consoleOutput:
-        addToOutputHistory(message.payload)
-        break
-      // case WebSocketMessage.types.info:
-      //   addToOutputHistory(message.payload)
-      //   break
-      case WebSocketMessage.types.consoleOutputEnd:
-        if (message.payload) addToOutputHistory(message.payload)
-        newWebSocket.close()
-        break
-      }
+    if (scriptView === 'code') {
+      navigate(`/workspaces/${workspaceId}/scripts/${scriptId}/code`)
+    } else {
+      navigate(`/workspaces/${workspaceId}/scripts/${scriptId}/triggers`)
     }
-    newWebSocket.onclose = (event) => {
-      addToOutputHistory('# Session closed.')
-      setWebSocketOpen(false)
-      setWebSocket(null)
-    }
-    newWebSocket.onopen = () => {
-      setWebSocketOpen(true)
-      newWebSocket.send(WebSocketMessage.encode(
-        WebSocketMessage.types.auth,
-        { token: localStorage.getItem('token') }
-      ))
-    }
-    setWebSocket(newWebSocket)
-  }
-
-  const addToOutputHistory = (content) => {
-    // TODO: create a second websocket endpoint for scripts
-    // which doesn't use IRB
-    if (content) content = takeUntil(content.split('\n'), (line) => line.match(/^ {2}=>/)).join('\n')
-
-    const entry = {
-      type: WebSocketMessage.types.consoleOutput,
-      content,
-      time: new Date(),
-    }
-    setOutputHistory((oldOutputHistory) => [...oldOutputHistory.slice(-HISTORY_BUFFER_SIZE), entry])
-    setTimeout(() => {
-      scrollToBottom()
-    }, 50)
-  }
-
-  const resetOutputHistory = () => {
-    setOutputHistory([])
-  }
-
-  const updateCode = (val) => {
-    setCodeDraft(val)
-    if (!newInputProvided) {
-      setNewInputProvided(true)
-    }
-  }
-
+    return () => { navigatedOut = true }
+  }, [workspaceId, scriptView, scriptId, navigate])
   const handleCloseDial = () => {
     setOpenDial(false)
   }
@@ -176,59 +107,11 @@ const EditScriptView = () => {
     setOpenDial(true)
   }
 
-  const differentiateTrigger = (triggerType, trigger) => {
-    switch (triggerType) {
-    case 'callback':
-      saveTrigger(triggerType, trigger, '/api/script_triggers')
-      break
-    case 'ui':
-      if (trigger.subjectType === 'Global') {
-        trigger.subjectType = trigger.subjectType = ''
-      }
-      saveTrigger(triggerType, trigger, '/api/ui_script_triggers')
-      break
-    case 'schedule':
-      saveTrigger(triggerType, trigger, '/api/schedule_script_triggers')
-    }
-  }
 
   const handleSubmit = (triggerType, trigger) => {
     differentiateTrigger(triggerType, trigger)
     handleCloseDial()
   }
-
-  const saveScript = () => {
-    const payload = {
-      content: codeDraft
-    }
-
-    apiClient.put(`/api/scripts/${script.id}`, payload)
-      .then((response) => {
-        // successful request
-        setNewInputProvided(false)
-        mutate({ ...script, content: codeDraft })
-        addAlert({ severity: 'success', message: 'Script saved' })
-      })
-      .catch((error) => {
-        // failed or rejected
-        addAlert({ severity: 'error', message: 'Something went wrong!' })
-      })
-  }
-
-  const deleteScript = () => {
-    apiClient.delete(`/api/scripts/${script.id}`)
-      .then((response) => {
-        // successful request
-        addAlert({ severity: 'success', message: 'Script deleted' })
-        mutateWorkspaceScripts({})
-        navigate(`/workspaces/${workspaceId}/scripts`)
-      })
-      .catch((error) => {
-        // failed or rejected
-        addAlert({ severity: 'error', message: 'Something went wrong!' })
-      })
-  }
-
   const saveTrigger = (type, trigger, path) => {
     const clearedTrigger = Object.fromEntries(Object.entries(trigger).filter(([_, v]) => v !== ''))
 
@@ -258,6 +141,22 @@ const EditScriptView = () => {
       })
   }
 
+
+  const differentiateTrigger = (triggerType, trigger) => {
+    switch (triggerType) {
+    case 'callback':
+      saveTrigger(triggerType, trigger, '/api/script_triggers')
+      break
+    case 'ui':
+      if (trigger.subjectType === 'Global') {
+        trigger.subjectType = trigger.subjectType = ''
+      }
+      saveTrigger(triggerType, trigger, '/api/ui_script_triggers')
+      break
+    case 'schedule':
+      saveTrigger(triggerType, trigger, '/api/schedule_script_triggers')
+    }
+  }
   const deleteTrigger = (triggerType, triggerId) => {
     apiClient.delete(`/api/${triggerType}/${triggerId}`)
       .then((response) => {
@@ -287,67 +186,98 @@ const EditScriptView = () => {
       <Paper className='EditCard'>
         <div className='EditCard-content'>
           <div className='EditCard-header'>
-            <ScriptLabel id={script.id} text={script.name} />
-            <ScriptLabel id={script.id} text={script.description} type='description' />
+            <div className='EditCard-header-text'>
+              <ScriptLabel id={script.id} text={script.name} />
+              <ScriptLabel id={script.id} text={script.description} type='description' />
+            </div>
+            <div className='EditCard-header-author'></div>
+            <div className='EditCard-header-buttons'>
+              <Button
+                onClick={() => { if (scriptView !== 'code') setScriptView('code') }}
+                color='secondary'
+                variant={scriptView === 'code' ? 'contained' : 'outlined'}
+                startIcon={<FontAwesomeIcon icon={faCode} />}
+              >
+                <Typography>Script</Typography>
+              </Button>
+              <Button
+                onClick={() => { if (scriptView !== 'triggers') setScriptView('triggers') }}
+                color='secondary'
+                variant={scriptView === 'triggers' ? 'contained' : 'outlined'}
+                startIcon={<FontAwesomeIcon icon={faLink} />}
+              >
+                <Typography>Triggers</Typography>
+              </Button>
+              <Button
+                onClick={() => navigate(`/workspaces/${workspaceId}/scripts/all`)}
+                color='secondary'
+                variant='outlined'
+                startIcon={<FontAwesomeIcon icon={faXmark} />}
+              >
+                <Typography>Exit</Typography>
+              </Button>
+            </div>
           </div>
-          <Divider>Code</Divider>
-          <div className='EditCard-scriptBtns'>
-            <Card sx={{ display: 'flex', flexDirection: 'row', borderRadius: '0', width: '280px'  }}>
-              <Button
-                onClick={openWsConnection}
-                className='EditCard-btnRun'
-                color='success'
-                fullWidth
-                startIcon={<FontAwesomeIcon icon={faPlay} />}>
-                <Typography>Run</Typography>
-              </Button>
-              <Button
-                onClick={saveScript}
-                className='EditCard-btnSave'
-                color='info'
-                disabled={!newInputProvided}
-                fullWidth
-                startIcon={<FontAwesomeIcon icon={faSave} />}>
-                <Typography>Save</Typography>
-              </Button>
-              <Button
-                onClick={deleteScript}
-                className='EditCard-btnDelete'
-                color='error'
-                fullWidth
-                startIcon={<FontAwesomeIcon icon={faTrash} />}>
-                <Typography>Delete</Typography>
-              </Button>
+          <Outlet />
+          {/* <div>
+            <Divider>Code</Divider>
+            <div className='EditCard-scriptBtns'>
+              <Card sx={{ display: 'flex', flexDirection: 'row', borderRadius: '0', width: '280px'  }}>
+                <Button
+                  onClick={openWsConnection}
+                  className='EditCard-btnRun'
+                  color='success'
+                  fullWidth
+                  startIcon={<FontAwesomeIcon icon={faPlay} />}>
+                  <Typography>Run</Typography>
+                </Button>
+                <Button
+                  onClick={saveScript}
+                  className='EditCard-btnSave'
+                  color='info'
+                  disabled={!newInputProvided}
+                  fullWidth
+                  startIcon={<FontAwesomeIcon icon={faSave} />}>
+                  <Typography>Save</Typography>
+                </Button>
+                <Button
+                  onClick={deleteScript}
+                  className='EditCard-btnDelete'
+                  color='error'
+                  fullWidth
+                  startIcon={<FontAwesomeIcon icon={faTrash} />}>
+                  <Typography>Delete</Typography>
+                </Button>
 
-              {/* <Button
+                {/* <Button
                 onClick={handleOpenDial}
                 className='EditCard-btnAddTrigger'
                 color='secondary'
                 fullWidth
                 startIcon={<FontAwesomeIcon icon={faPlus} />}>
                 <Typography>New Trigger</Typography>
-              </Button> */}
-            </Card>
-          </div>
-          <div></div>
-          <div className='EditCard-editor-wrapper'>
-            <Editor
-              className='EditCard-editor'
-              value={codeDraft}
-              onValueChange={updateCode}
-              highlight={(code) => highlight(code, languages.ruby)}
-              padding={10}
-            />
-          </div>
-          <Divider>Logs</Divider>
-          <div className='EditCard-output'>
-            {outputHistory.map((interaction, index) => {
-              return (<div key={index}>
-                <CodeHighlighter className='EditCard-outputLine' code={interaction.content} />
-              </div>)
-            })}
-          </div>
-
+              </Button>
+              </Card>
+            </div>
+            <div></div>
+            <div className='EditCard-editor-wrapper'>
+              <Editor
+                className='EditCard-editor'
+                value={codeDraft}
+                onValueChange={updateCode}
+                highlight={(code) => highlight(code, languages.ruby)}
+                padding={10}
+              />
+            </div>
+            <Divider>Logs</Divider>
+            <div className='EditCard-output'>
+              {outputHistory.map((interaction, index) => {
+                return (<div key={index}>
+                  <CodeHighlighter className='EditCard-outputLine' code={interaction.content} />
+                </div>)
+              })}
+            </div>
+          </div> */}
         </div>
         {/* <div className='EditCard-actionBtns'>
           <div className='EditCard-closeWrapper'>

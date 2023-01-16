@@ -39,6 +39,8 @@ import WorkspaceWelcomeView from './views/workspaces/WorkspaceWelcomeView'
 import EditScriptView from './views/workspaces/scripts/EditScriptView'
 import AllScriptsView from './views/workspaces/scripts/AllScriptsView'
 import ScriptRunsView from './views/workspaces/scripts/ScriptRunsView'
+import EditScriptCodeView from './views/workspaces/scripts/EditScriptView/EditScriptCodeView'
+import EditScriptTriggersView from './views/workspaces/scripts/EditScriptView/EditScriptTriggersView'
 
 const root = ReactDOM.createRoot(document.getElementById('root'))
 root.render(
@@ -67,7 +69,10 @@ root.render(
                 <Route path='planning' element={<BoardPlanningView />} />
               </Route>
               <Route path='members' element={<WorkspaceMembersView />} />
-              <Route path='scripts/:scriptId' element={<EditScriptView />} />
+              <Route path='scripts/:scriptId' element={<EditScriptView />}>
+                <Route path='code' element={<EditScriptCodeView />} />
+                <Route path='triggers' element={<EditScriptTriggersView />} />
+              </Route>
               <Route path='scripts' element={<WorkspaceScriptsView />} >
                 <Route path='all' element={<AllScriptsView />} />
                 <Route path='runs' element={<ScriptRunsView />} />
