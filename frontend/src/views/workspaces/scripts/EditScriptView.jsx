@@ -1,19 +1,13 @@
 import * as React from 'react'
-import { languages, highlight } from 'prismjs/components/prism-core'
 
-import Editor from 'react-simple-code-editor'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card } from '@mui/material'
-import { faPlay, faXmark, faSave, faTrash, faPlus, faCode, faLink } from '@fortawesome/free-solid-svg-icons'
+
+import { Button,  Paper, Skeleton, Typography } from '@mui/material'
+import { faXmark,  faCode, faLink } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import useAppAlertStore from '../../../stores/app-alert'
-import WebSocketMessage from '../../../internal/web-socket-message'
-import apiClient from '../../../api/api-client'
-import useScript from '../../../api/script'
-import { takeUntil } from '../../../utils/take-until'
 
-import CodeHighlighter from '../../../components/CodeHighlighter'
-import ScriptTriggerDialog from '../../../components/ScriptTriggerDialog'
+import useScript from '../../../api/script'
+
 
 import '@fontsource/fira-code'
 import '@fontsource/fira-code/300.css'
@@ -24,17 +18,8 @@ import '@fontsource/fira-code/700.css'
 
 import './EditScriptView.sass'
 import { useNavigate, useParams, Outlet } from 'react-router-dom'
-import { mutateWorkspaceScripts } from '../../../api/workspace-scripts'
 import ScriptLabel from '../../../components/ScriptLabel'
 import useCookie from 'react-use-cookie'
-
-const HISTORY_BUFFER_SIZE = 200
-
-const scrollToBottom = () => {
-  const view = document.querySelector('.EditCard-output')
-  if (!view) return
-  view.scrollTop = view.scrollHeight
-}
 
 const EditScriptSkeleton = () => (
   <div className='EditCard-wrapper'>
@@ -44,36 +29,6 @@ const EditScriptSkeleton = () => (
           <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: '8px' }} />
           <Skeleton variant='rectangular' width={210} height={32} sx={{ mb: '8px' }} />
         </div>
-        <div className='EditCard-output'>
-          <CodeHighlighter className='EditCard-outputLine' code='' />
-        </div>
-
-        <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: '8px' }} />
-        <div className='EditCard-output'>
-          <CodeHighlighter className='EditCard-outputLine' code='' />
-        </div>
-
-      </div>
-      <div className='EditCard-actionBtns'>
-        <div className='EditCard-closeWrapper'>
-          <IconButton disabled>
-            <FontAwesomeIcon icon={faXmark} />
-          </IconButton>
-        </div>
-        <div className='EditCard-scriptBtns'>
-          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faPlay} />}>
-            <Typography>Run</Typography>
-          </Button>
-          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faSave} />}>
-            <Typography>Save</Typography>
-          </Button>
-          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faTrash} />}>
-            <Typography>Delete</Typography>
-          </Button>
-          <Button disabled fullWidth startIcon={<FontAwesomeIcon icon={faPlus} />}>
-            <Typography>New Trigger</Typography>
-          </Button>
-        </div>
       </div>
     </Paper>
   </div>
@@ -82,10 +37,8 @@ const EditScriptSkeleton = () => (
 
 const EditScriptView = () => {
   const navigate = useNavigate()
-  const addAlert = useAppAlertStore((store) => store.addAlert)
   const { scriptId, workspaceId } = useParams()
-  const { data: script, isLoading, isError, mutate } = useScript({ id: scriptId })
-  const [openDial, setOpenDial] = React.useState(false)
+  const { data: script, isLoading, isError } = useScript({ id: scriptId })
   const [scriptView, setScriptView] = useCookie('showEditScript', 'code')
 
   React.useEffect(() => {
@@ -141,112 +94,7 @@ const EditScriptView = () => {
             </div>
           </div>
           <Outlet />
-          {/* <div>
-            <Divider>Code</Divider>
-            <div className='EditCard-scriptBtns'>
-              <Card sx={{ display: 'flex', flexDirection: 'row', borderRadius: '0', width: '280px'  }}>
-                <Button
-                  onClick={openWsConnection}
-                  className='EditCard-btnRun'
-                  color='success'
-                  fullWidth
-                  startIcon={<FontAwesomeIcon icon={faPlay} />}>
-                  <Typography>Run</Typography>
-                </Button>
-                <Button
-                  onClick={saveScript}
-                  className='EditCard-btnSave'
-                  color='info'
-                  disabled={!newInputProvided}
-                  fullWidth
-                  startIcon={<FontAwesomeIcon icon={faSave} />}>
-                  <Typography>Save</Typography>
-                </Button>
-                <Button
-                  onClick={deleteScript}
-                  className='EditCard-btnDelete'
-                  color='error'
-                  fullWidth
-                  startIcon={<FontAwesomeIcon icon={faTrash} />}>
-                  <Typography>Delete</Typography>
-                </Button>
-
-                {/* <Button
-                onClick={handleOpenDial}
-                className='EditCard-btnAddTrigger'
-                color='secondary'
-                fullWidth
-                startIcon={<FontAwesomeIcon icon={faPlus} />}>
-                <Typography>New Trigger</Typography>
-              </Button>
-              </Card>
-            </div>
-            <div></div>
-            <div className='EditCard-editor-wrapper'>
-              <Editor
-                className='EditCard-editor'
-                value={codeDraft}
-                onValueChange={updateCode}
-                highlight={(code) => highlight(code, languages.ruby)}
-                padding={10}
-              />
-            </div>
-            <Divider>Logs</Divider>
-            <div className='EditCard-output'>
-              {outputHistory.map((interaction, index) => {
-                return (<div key={index}>
-                  <CodeHighlighter className='EditCard-outputLine' code={interaction.content} />
-                </div>)
-              })}
-            </div>
-          </div> */}
         </div>
-        {/* <div className='EditCard-actionBtns'>
-          <div className='EditCard-closeWrapper'>
-            <IconButton
-              onClick={() => navigate(`/workspaces/${workspaceId}/scripts/all`)}
-              className='EditCard-btnClose'>
-              <FontAwesomeIcon icon={faXmark} />
-            </IconButton>
-          </div>
-
-          <div>
-            <Typography sx={{ fontSize: '24px' }}>Active triggers</Typography>
-            {!(isLoading || isError) &&
-              <List>
-                <ListItem>
-                  <Typography sx={{ fontSize: '18px' }}>Callback triggers</Typography>
-                </ListItem>
-                {script?.scriptTriggers?.map((trigger, idx) => (
-                  <div key={`trigger-${idx}`}>
-                    <Divider />
-                    <ListItem
-                      sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
-                      secondaryAction={
-                        <IconButton
-                          edge='end'
-                          onClick={() => deleteTrigger('script_triggers', trigger.id)}
-                          color='error'>
-                          <FontAwesomeIcon icon={faTrash} />
-                        </IconButton>
-                      }
-                    >
-                      <ListItemText
-                        primary={`Action: ${trigger.action}`}
-                        secondary={`Delay: ${trigger.delay || 0}`} />
-                      <ListItemText
-                        primary={`Type: ${trigger.subjectType || 'all'}`}
-                        secondary={`Id: ${trigger.subjectId}`} />
-                    </ListItem>
-                  </div>
-                ))}
-
-                <Divider />
-                <ListItem>
-                  <Typography sx={{ fontSize: '18px' }}>Action triggers</Typography>
-            }
-          </div>
-        </div> */}
       </Paper>
     </div>
   )

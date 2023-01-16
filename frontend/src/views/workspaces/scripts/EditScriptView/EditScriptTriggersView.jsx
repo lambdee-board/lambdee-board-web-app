@@ -1,9 +1,8 @@
 import * as React from 'react'
-import { languages, highlight } from 'prismjs/components/prism-core'
 
-import Editor from 'react-simple-code-editor'
-import { Button, Divider, IconButton, List, ListItem, ListItemText, Paper, Skeleton, Typography, Card, ButtonBase } from '@mui/material'
-import { faPlay, faXmark, faSave, faTrash, faPlus, faCode, faLink } from '@fortawesome/free-solid-svg-icons'
+
+import { Button, Divider, ListItem, ListItemText, Typography, Card } from '@mui/material'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import useAppAlertStore from '../../../../stores/app-alert'
@@ -19,25 +18,13 @@ import '@fontsource/fira-code/500.css'
 import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
-import { useNavigate, useParams, Outlet } from 'react-router-dom'
-import { mutateWorkspaceScripts } from '../../../../api/workspace-scripts'
-import ScriptLabel from '../../../../components/ScriptLabel'
-import useCookie from 'react-use-cookie'
+import { useParams } from 'react-router-dom'
 
-const HISTORY_BUFFER_SIZE = 200
-
-const scrollToBottom = () => {
-  const view = document.querySelector('.EditCard-output')
-  if (!view) return
-  view.scrollTop = view.scrollHeight
-}
 
 export default function EditScriptTriggersView() {
-  const navigate = useNavigate()
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [openDial, setOpenDial] = React.useState(false)
-  const [scriptView, setScriptView] = useCookie('showEditScript', 'code')
-  const { scriptId, workspaceId } = useParams()
+  const { scriptId } = useParams()
   const { data: script, isLoading, isError, mutate } = useScript({ id: scriptId })
 
   const handleCloseDial = () => {
@@ -118,7 +105,7 @@ export default function EditScriptTriggersView() {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
       })
   }
-
+  if (isLoading || isError) return (<></>)
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
       <div style={{ marginBottom: '12px', marginTop: '24px'  }}>
