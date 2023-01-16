@@ -30,20 +30,20 @@ class ::API::ScriptVariablesControllerTest < ::ActionDispatch::IntegrationTest
       assert_response :forbidden
     end
 
-    should 'show script variable' do
+    should 'not show script variable' do
       script_var = ::FactoryBot.create(:script_variable)
       get api_script_variable_url(script_var), as: :json, headers: auth_headers(@user)
       assert_response :forbidden
     end
 
-    should 'update script variable' do
+    should 'not update script variable' do
       script_var = ::FactoryBot.create(:script_variable)
 
       patch api_script_variable_url(script_var), params: { script_variable: { name: 'new name', description: 'new description', value: 'new value' } }, as: :json, headers: auth_headers(@user)
       assert_response :forbidden
     end
 
-    should 'destroy script variable' do
+    should 'not destroy script variable' do
       script_var = ::FactoryBot.create(:script_variable)
 
       assert_no_difference 'DB::ScriptVariable.count' do
@@ -92,7 +92,20 @@ class ::API::ScriptVariablesControllerTest < ::ActionDispatch::IntegrationTest
 
     should 'show script variable' do
       script_var = ::FactoryBot.create(:script_variable)
-      get api_script_variable_url(script_var), as: :json, headers: auth_headers(@user)
+      get api_script_variable_url(script_var.id), as: :json, headers: auth_headers(@user)
+      assert_response :success
+      json = ::JSON.parse(response.body, symbolize_names: true)
+
+      assert_equal script_var.name, json[:name]
+      assert_equal script_var.description, json[:description]
+      assert_nil json[:value]
+      assert_not_nil json[:created_at]
+      assert_not_nil json[:updated_at]
+    end
+
+    should 'show script variable by name' do
+      script_var = ::FactoryBot.create(:script_variable)
+      get api_script_variable_url(script_var.name), params: { by_name: true }, as: :json, headers: auth_headers(@user)
       assert_response :success
       json = ::JSON.parse(response.body, symbolize_names: true)
 

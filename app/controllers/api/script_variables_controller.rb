@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ::API::ScriptVariablesController < ::APIController
-  before_action :set_script_variable, only: %i[show update destroy]
+  before_action :set_script_variable, only: %i[update destroy]
   has_scope :page, :per
 
   # GET /api/script_variables
@@ -17,6 +17,13 @@ class ::API::ScriptVariablesController < ::APIController
   # GET /api/script_variables/1
   def show
     authorize! :read, ::DB::ScriptVariable
+    @script_variable =
+      if params[:by_name]
+        ::DB::ScriptVariable.find_by!(name: params[:id])
+      else
+        ::DB::ScriptVariable.find(params[:id])
+      end
+
     @decrypt = can?(:decrypt, ::DB::ScriptVariable) && params[:decrypt]
   end
 
