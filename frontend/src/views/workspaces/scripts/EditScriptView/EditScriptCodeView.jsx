@@ -2,7 +2,7 @@ import * as React from 'react'
 import { languages, highlight } from 'prismjs/components/prism-core'
 
 import Editor from 'react-simple-code-editor'
-import { Button, Divider, Typography, Card } from '@mui/material'
+import { Button, Divider, Typography, Card, Modal, Box } from '@mui/material'
 import { faPlay, faSave, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -23,6 +23,7 @@ import '@fontsource/fira-code/700.css'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { mutateWorkspaceScripts } from '../../../../api/workspace-scripts'
+import CustomAlert from '../../../../components/CustomAlert'
 
 const HISTORY_BUFFER_SIZE = 200
 
@@ -42,6 +43,12 @@ export default function EditScriptCodeView() {
   const [webSocket, setWebSocket] = React.useState(null)
   const [newInputProvided, setNewInputProvided] = React.useState(false)
   const [codeDraft, setCodeDraft] = React.useState('')
+  const [alertModalState, setAlertModalState] = React.useState(false)
+
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
+
   const [outputHistory, setOutputHistory] = React.useState([{
     type: WebSocketMessage.types.consoleOutput,
     content: '# Run script to see logs',
@@ -141,6 +148,7 @@ export default function EditScriptCodeView() {
       .then((response) => {
         // successful request
         addAlert({ severity: 'success', message: 'Script deleted' })
+        toggleAlertModalState()
         mutateWorkspaceScripts({})
         navigate(`/workspaces/${workspaceId}/scripts`)
       })
@@ -152,6 +160,25 @@ export default function EditScriptCodeView() {
 
   return (
     <div>
+      <Modal
+        open={alertModalState}
+        onClose={toggleAlertModalState}
+      >
+        <Box
+          sx={{  position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            outline: 0 }}>
+          <CustomAlert confirmAction={deleteScript}
+            dismissAction={() => {
+              toggleAlertModalState()
+            }}
+            title='Delete Script?'
+            message={`Are you sure you want to delete script ${script.name}`}
+            confirmMessage='Confirm, delete script' />
+        </Box>
+      </Modal>
       <Divider>Code</Divider>
       <div className='EditCard-scriptBtns'>
         <Card sx={{ display: 'flex', flexDirection: 'row', borderRadius: '0', width: '280px'  }}>
@@ -173,7 +200,7 @@ export default function EditScriptCodeView() {
             <Typography>Save</Typography>
           </Button>
           <Button
-            onClick={deleteScript}
+            onClick={toggleAlertModalState}
             className='EditCard-btnDelete'
             color='error'
             fullWidth

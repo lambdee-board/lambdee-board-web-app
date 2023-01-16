@@ -1,7 +1,7 @@
 import * as React from 'react'
 
 
-import { Button, Divider, ListItem, ListItemText, Typography, Card } from '@mui/material'
+import { Button, Divider, ListItem, ListItemText, Typography, Card, Box, Modal } from '@mui/material'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
@@ -19,6 +19,7 @@ import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
 import { useParams } from 'react-router-dom'
+import CustomAlert from '../../../../components/CustomAlert'
 
 
 export default function EditScriptTriggersView() {
@@ -26,6 +27,11 @@ export default function EditScriptTriggersView() {
   const [openDial, setOpenDial] = React.useState(false)
   const { scriptId } = useParams()
   const { data: script, isLoading, isError, mutate } = useScript({ id: scriptId })
+  const [alertModalState, setAlertModalState] = React.useState(false)
+
+  const toggleAlertModalState = () => {
+    setAlertModalState(!alertModalState)
+  }
 
   const handleCloseDial = () => {
     setOpenDial(false)
@@ -91,9 +97,11 @@ export default function EditScriptTriggersView() {
         // successful request
         switch (triggerType) {
         case 'script_triggers':
+          toggleAlertModalState()
           mutate({ ...script, scriptTriggers: [...script.scriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
           break
         case 'ui_script_triggers':
+          toggleAlertModalState()
           mutate({ ...script, uiScriptTriggers: [...script.uiScriptTriggers.filter((trigger) => trigger.id !== triggerId)] }, { revalidate: false })
           break
         case 'schedule_script_triggers':
@@ -129,6 +137,25 @@ export default function EditScriptTriggersView() {
         {script?.scriptTriggers?.map((trigger, idx) => (
           <div key={`trigger-${idx}`}>
             <Card sx={{ display: 'flex', width: '180px', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+              <Modal
+                open={alertModalState}
+                onClose={toggleAlertModalState}
+              >
+                <Box
+                  sx={{  position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    outline: 0 }}>
+                  <CustomAlert confirmAction={() => deleteTrigger('script_triggers', trigger.id)}
+                    dismissAction={() => {
+                      toggleAlertModalState()
+                    }}
+                    title='Delete Trigger?'
+                    message={'Are you sure you want to delete this trigger?'}
+                    confirmMessage='Confirm, delete trigger' />
+                </Box>
+              </Modal>
               <ListItem
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
               >
@@ -142,7 +169,7 @@ export default function EditScriptTriggersView() {
               <Button
                 variant='contained'
                 color='error'
-                onClick={() => deleteTrigger('script_triggers', trigger.id)}>
+                onClick={toggleAlertModalState}>
                 Delete
               </Button>
             </Card>
@@ -154,6 +181,25 @@ export default function EditScriptTriggersView() {
         {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
           <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
             <Card sx={{ width: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+              <Modal
+                open={alertModalState}
+                onClose={toggleAlertModalState}
+              >
+                <Box
+                  sx={{  position: 'absolute',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    outline: 0 }}>
+                  <CustomAlert confirmAction={() => deleteTrigger('ui_script_triggers', uiTrigger.id)}
+                    dismissAction={() => {
+                      toggleAlertModalState()
+                    }}
+                    title='Delete Trigger?'
+                    message={'Are you sure you want to delete this trigger?'}
+                    confirmMessage='Confirm, delete trigger' />
+                </Box>
+              </Modal>
               <ListItem
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
               >
@@ -173,7 +219,7 @@ export default function EditScriptTriggersView() {
               <Button
                 variant='contained'
                 color='error'
-                onClick={() => deleteTrigger('ui_script_triggers', uiTrigger.id)}>
+                onClick={toggleAlertModalState}>
                 Delete
               </Button>
             </Card>
