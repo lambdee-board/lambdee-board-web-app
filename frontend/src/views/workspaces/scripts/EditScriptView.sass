@@ -2,22 +2,24 @@
 
 .EditCard-wrapper
   position: absolute
-  width: calc(100vw - (29 * $unit))
+  width: calc(100vw - (35 * $unit))
   min-height: calc(100vh - (13 * $unit))
+  padding: 2 * $unit
   .EditCard
     min-height: calc(100vh - (13 * $unit))
     background: linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)
+    border-radius: $unit
     padding: 3 * $unit
     padding-right: 0
     display: flex
     flex-direction: row
     justify-content: space-between
-    width: calc(100% - 3*$unit)
+    width: calc(100% - 2 * $unit)
     .EditCard-content
-      width: calc(100% - 34 * $unit)
+      width: 100%
       .EditCard-editor-wrapper
         overflow-y: scroll
-        overflow-x: scroll
+        overflow-x: hidden
         border-radius: $unit
         height: 45vh
         min-width: 100%
@@ -39,19 +41,3 @@
         max-width: calc(100% - 20px)
         pre
           margin: 0
-
-    .EditCard-actionBtns
-      display: flex
-      flex-direction: column
-      width: 30 * $unit
-      gap: 3 * $unit
-      margin: 0 (2 * $unit)
-      .EditCard-closeWrapper
-        display: flex
-        justify-content: end
-      .EditCard-scriptBtns
-        display: flex
-        flex-direction: column
-        align-items: flex-start
-        button
-          justify-content: start

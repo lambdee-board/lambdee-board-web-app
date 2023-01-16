@@ -290,8 +290,44 @@ const EditScriptView = () => {
             <ScriptLabel id={script.id} text={script.name} />
             <ScriptLabel id={script.id} text={script.description} type='description' />
           </div>
-
+          <Divider>Code</Divider>
           <div className='EditCard-editor-wrapper'>
+            <div className='EditCard-scriptBtns'>
+              <Button
+                onClick={openWsConnection}
+                className='EditCard-btnRun'
+                color='success'
+                fullWidth
+                startIcon={<FontAwesomeIcon icon={faPlay} />}>
+                <Typography>Run</Typography>
+              </Button>
+              <Button
+                onClick={saveScript}
+                className='EditCard-btnSave'
+                color='info'
+                disabled={!newInputProvided}
+                fullWidth
+                startIcon={<FontAwesomeIcon icon={faSave} />}>
+                <Typography>Save</Typography>
+              </Button>
+              <Button
+                onClick={deleteScript}
+                className='EditCard-btnDelete'
+                color='error'
+                fullWidth
+                startIcon={<FontAwesomeIcon icon={faTrash} />}>
+                <Typography>Delete</Typography>
+              </Button>
+
+              <Button
+                onClick={handleOpenDial}
+                className='EditCard-btnAddTrigger'
+                color='secondary'
+                fullWidth
+                startIcon={<FontAwesomeIcon icon={faPlus} />}>
+                <Typography>New Trigger</Typography>
+              </Button>
+            </div>
             <Editor
               className='EditCard-editor'
               value={codeDraft}
@@ -300,8 +336,7 @@ const EditScriptView = () => {
               padding={10}
             />
           </div>
-
-          <Typography sx={{ fontSize: '18px' }}>Logs</Typography>
+          <Divider>Logs</Divider>
           <div className='EditCard-output'>
             {outputHistory.map((interaction, index) => {
               return (<div key={index}>
@@ -319,43 +354,8 @@ const EditScriptView = () => {
               <FontAwesomeIcon icon={faXmark} />
             </IconButton>
           </div>
-          <div className='EditCard-scriptBtns'>
-            <Button
-              onClick={openWsConnection}
-              className='EditCard-btnRun'
-              color='success'
-              fullWidth
-              startIcon={<FontAwesomeIcon icon={faPlay} />}>
-              <Typography>Run</Typography>
-            </Button>
-            <Button
-              onClick={saveScript}
-              className='EditCard-btnSave'
-              color='info'
-              disabled={!newInputProvided}
-              fullWidth
-              startIcon={<FontAwesomeIcon icon={faSave} />}>
-              <Typography>Save</Typography>
-            </Button>
-            <Button
-              onClick={deleteScript}
-              className='EditCard-btnDelete'
-              color='error'
-              fullWidth
-              startIcon={<FontAwesomeIcon icon={faTrash} />}>
-              <Typography>Delete</Typography>
-            </Button>
 
-            <Button
-              onClick={handleOpenDial}
-              className='EditCard-btnAddTrigger'
-              color='secondary'
-              fullWidth
-              startIcon={<FontAwesomeIcon icon={faPlus} />}>
-              <Typography>New Trigger</Typography>
-            </Button>
-          </div>
-          <div>
+          {/* <div>
             <Typography sx={{ fontSize: '24px' }}>Active triggers</Typography>
             {!(isLoading || isError) &&
               <List>
@@ -421,7 +421,7 @@ const EditScriptView = () => {
                 ))}
               </List>
             }
-          </div>
+          </div> */}
         </div>
       </Paper>
       <ScriptTriggerDialog
