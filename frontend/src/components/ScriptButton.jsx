@@ -17,9 +17,9 @@ export default function ScriptButton({ variant, scope, id }) {
   const { data: scriptTriggers, isLoading, isError } = useScriptTriggers({ scope, id })
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
-  const [alertModalState, setAlertModalState] = React.useState(false)
   const [scriptTriggerId, setScriptTriggerId] = React.useState()
   const [scriptTriggerText, setScriptTriggerText] = React.useState()
+  const [alertModalState, setAlertModalState] = React.useState(false)
   const toggleAlertModalState = () => {
     setAlertModalState(!alertModalState)
   }

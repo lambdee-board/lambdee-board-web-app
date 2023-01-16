@@ -70,7 +70,7 @@ export default function ScriptRunsView() {
       <div className='list-wrapper'>
         {!(isLoading || isError) &&
         <List className='List'>
-          <Divider />
+
           {scriptRuns?.runs.length > 0 ?
             scriptRuns?.runs.map((scriptRun, idx) => (
               <div key={idx}>
@@ -81,6 +81,7 @@ export default function ScriptRunsView() {
                   <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
                     <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[scriptRun.state]} />
                     <Typography sx={{ fontSize: '18px' }}>{scriptRun.scriptName}</Typography>
+                    <Divider />
                   </div>
                   <Chip label={scriptRun.state} sx={{ bgcolor: stateColors[scriptRun.state], color: 'white' }} />
                 </ListItemButton>

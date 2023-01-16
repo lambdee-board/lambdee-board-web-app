@@ -64,6 +64,7 @@ export default function WorkspaceScriptsView() {
 
   return (
     <div className='WorkspaceScripts-wrapper'>
+
       <Toolbar className='WorkspaceScripts-toolbar'>
         <div>
           {scriptView === 'all' &&
@@ -98,12 +99,14 @@ export default function WorkspaceScriptsView() {
           </Button>
         </div>
       </Toolbar>
-      <Box sx={{ height: '4px' }}></Box>
-      <Outlet />
-      <NewScriptDialog
-        openDial={openDial}
-        handleCloseDial={handleCloseDial}
-        handleSubmit={handleSubmit} />
+      <div className='WorkspaceScripts'>
+        <Box sx={{ height: '4px' }}></Box>
+        <Outlet />
+        <NewScriptDialog
+          openDial={openDial}
+          handleCloseDial={handleCloseDial}
+          handleSubmit={handleSubmit} />
+      </div>
     </div>
   )
 }
