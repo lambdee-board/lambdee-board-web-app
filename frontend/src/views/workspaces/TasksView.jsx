@@ -19,7 +19,8 @@ import WorkspaceIcon from '../../components/WorkspaceIcon'
 import './TasksView.sass'
 
 export default function TasksView() {
-  const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { boards: 'visible' } } })
+  const { data, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { boards: 'visible' } } })
+  const workspaces = data ? data.workspaces : null
   const [pickedWorkspace, setPickedWorkspace] = React.useState(false)
 
 

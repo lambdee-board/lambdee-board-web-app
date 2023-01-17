@@ -211,7 +211,7 @@ end
               started_at: { type: :string, format: :date_time },
               expected_end_at: { type: :string, format: :date_time },
               ended_at: { type: %i[string null], format: :date_time },
-              final_list_name: { type: :string },
+              final_list_name: { type: %i[string null] },
               url: { type: :string },
               tasks: {
                 type: :array,
@@ -353,6 +353,14 @@ end
             },
             required: %w[id name created_at updated_at deleted_at]
           },
+          workspace_pages_response: {
+            type: :object,
+            properties: {
+              workspaces: { type: :array, items: { '$ref' => '#components/schemas/workspace_response'}},
+              total_pages: { type: :integer },
+            },
+            required: %w[workspaces]
+          },
           workspace_request: {
             type: :object,
             properties: {
@@ -378,6 +386,14 @@ end
               }
             },
             required: %w[]
+          },
+          script_pages_response: {
+            type: :object,
+            properties: {
+              scripts: { type: :array, items: { '$ref' => '#components/schemas/script_response'}},
+              total_pages: { type: :integer },
+            },
+            required: %w[scripts]
           },
           script_request: {
             type: :object,

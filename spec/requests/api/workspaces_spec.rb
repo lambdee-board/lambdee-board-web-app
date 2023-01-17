@@ -24,8 +24,7 @@ require 'swagger_helper'
                 required: false
 
       response(200, 'successful with `boards=all`') do
-        schema type: :array,
-               items: { '$ref' => '#/components/schemas/workspace_response' }
+        schema '$ref' => '#/components/schemas/workspace_pages_response'
 
         let(:boards) { 'all' }
 
@@ -44,8 +43,7 @@ require 'swagger_helper'
       end
 
       response(200, 'successful') do
-        schema type: :array,
-          items: { '$ref' => '#/components/schemas/workspace_response' }
+        schema '$ref' => '#/components/schemas/workspace_pages_response'
 
         before do
           usr = ::FactoryBot.create(:user)

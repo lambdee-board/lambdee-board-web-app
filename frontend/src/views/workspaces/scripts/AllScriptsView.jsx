@@ -4,7 +4,8 @@ import {
   List,
   Typography,
   ListItemButton,
-  Divider
+  Divider,
+  Pagination
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faGem } from '@fortawesome/free-solid-svg-icons'
@@ -15,17 +16,36 @@ import useWorkspaceScripts from '../../../api/workspace-scripts'
 
 import './AllScriptsView.sass'
 
+
 export default function AllScriptsView() {
   const { workspaceId } = useParams()
+  const perPage = 10
   const navigate = useNavigate()
-  const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
+  const [filter, setFilter] = React.useState({ page: 1, per: perPage })
+  const [totalPages, setTotalPages] = React.useState(0)
+
+  const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({ axiosOptions: { params: filter } })
+
+  React.useEffect(() => {
+    if (!scripts?.totalPages) return
+
+    setTotalPages(scripts?.totalPages)
+  }, [scripts?.totalPages])
+
+  const fetchNextUserPage = (event, newPage) => {
+    if (filter.page === newPage) return
+
+    const newFilterPage = { ...filter, page: newPage }
+    setFilter(newFilterPage)
+    mutate({ axiosOptions: { params: newFilterPage } })
+  }
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
       <div className='list-wrapper'>
         <List className='List'>
           { !(isLoading || isError) &&
-              scripts?.map((script, idx) => (
+              scripts?.scripts.map((script, idx) => (
                 <div key={idx}>
                   <ListItemButton
                     divider
@@ -39,7 +59,17 @@ export default function AllScriptsView() {
                   </ListItemButton>
                 </div>
               ))}
+          { totalPages > 1 &&
+          <Pagination
+            className='WorkspaceScriptsRuns-pagination'
+            count={totalPages || 0}
+            color='primary'
+            onChange={fetchNextUserPage}
+            size='large'
+            page={filter.page} />
+          }
         </List>
+
       </div>
     </div>
   )
