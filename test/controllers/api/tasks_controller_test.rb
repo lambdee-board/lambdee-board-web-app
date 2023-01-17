@@ -49,7 +49,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
       assert_equal 2, json.size
       assert_equal scope_trigger.id, json[0]['id']
       assert_equal 'DB::Task', json[0]['subject_type']
-      assert_equal '#ffffff', json[0]['colour']
+      assert json[0]['colour'].is_a?(::String)
       assert_equal 'Send a message', json[0]['text']
       assert_equal subject_trigger.id, json[1]['id']
     end

@@ -19,4 +19,9 @@ class ::DB::ScriptTrigger < ::ApplicationRecord
   scope :with_action, ->(action) { where(action: action) }
 
   validates :action, presence: true, inclusion: { in: ACTIONS }
+
+  # @return [Boolean]
+  def global?
+    subject_type.nil?
+  end
 end

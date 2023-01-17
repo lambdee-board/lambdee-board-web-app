@@ -53,7 +53,7 @@ const WorkspaceLabel = ({ workspace }) => {
           axiosOptions: { params: { boards: 'visible' } },
           data: (currentWorkspace) => ({ ...currentWorkspace, name: updatedWorkspace.name })
         })
-        mutateWorkspaces({ limit: 5 })
+        mutateWorkspaces({ axiosOptions: { params: { per: '5', page: '1' } } })
         toggleEditWorkspaceLabelButton()
       })
       .catch((error) => {
