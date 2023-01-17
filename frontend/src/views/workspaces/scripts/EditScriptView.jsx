@@ -36,13 +36,27 @@ const EditScriptSkeleton = () => (
   </div>
 )
 
+const ScriptAuthor = ({ authorId }) => {
+  const { data: user, isLoading, isError  } = useUser({ id: authorId })
+  if (isLoading || isError) return (<></>)
+  return (
+    <div style={{ display: 'flex', flexDirection: 'row', marginTop: '12px' }}>
+      <Typography sx={{ display: 'flex', alignSelf: 'center', marginRight: '12px', marginLeft: '6px' }}>Author: </Typography>
+      <Avatar sx={{ mt: '4px' }}
+        alt={user.name} src={user.avatarUrl}
+      />
+      <UserInfo userName={user.name} userTitle={user.role} />
+    </div>
+  )
+}
+
 
 const EditScriptView = () => {
   const navigate = useNavigate()
   const { scriptId, workspaceId } = useParams()
-  const { data: script } = useScript({ id: scriptId })
+  const { data: script, isLoading, isError } = useScript({ id: scriptId })
+
   const [scriptView, setScriptView] = useCookie('showEditScript', 'code')
-  const { data: user, isLoading, isError  } = useUser({ id: script?.authorId })
 
   React.useEffect(() => {
     let navigatedOut = false
@@ -95,13 +109,8 @@ const EditScriptView = () => {
                   <Typography>Exit</Typography>
                 </Button>
               </div>
-              <div style={{ display: 'flex', flexDirection: 'row', marginTop: '12px' }}>
-                <Typography sx={{ display: 'flex', alignSelf: 'center', marginRight: '12px', marginLeft: '6px' }}>Author: </Typography>
-                <Avatar sx={{ mt: '4px' }}
-                  alt={user.name} src={user.avatarUrl}
-                />
-                <UserInfo userName={user.name} userTitle={user.role} />
-              </div>
+              <ScriptAuthor authorId={script?.authorId} />
+
             </div>
           </div>
           <Outlet />
