@@ -1,5 +1,5 @@
 import * as React from 'react'
-
+import PropTypes from 'prop-types'
 
 import { Avatar, Button,  Paper, Skeleton, Typography } from '@mui/material'
 import { faXmark,  faCode, faLink } from '@fortawesome/free-solid-svg-icons'
@@ -118,6 +118,9 @@ const EditScriptView = () => {
       </Paper>
     </div>
   )
+}
+ScriptAuthor.propTypes = {
+  authorId: PropTypes.number
 }
 
 export default EditScriptView
