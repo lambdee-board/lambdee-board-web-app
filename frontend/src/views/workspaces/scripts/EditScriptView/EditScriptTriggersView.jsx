@@ -136,7 +136,7 @@ export default function EditScriptTriggersView() {
       <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
         {script?.scriptTriggers?.map((trigger, idx) => (
           <div key={`trigger-${idx}`}>
-            <Card sx={{ display: 'flex', width: '180px', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ display: 'flex', width: '240px', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
               <Modal
                 open={alertModalState}
                 onClose={toggleAlertModalState}
@@ -180,7 +180,7 @@ export default function EditScriptTriggersView() {
       <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto'  }}>
         {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
           <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
-            <Card sx={{ width: '180px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ width: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
               <Modal
                 open={alertModalState}
                 onClose={toggleAlertModalState}
@@ -219,6 +219,7 @@ export default function EditScriptTriggersView() {
               <Button
                 variant='contained'
                 color='error'
+                sx={{ display: 'flex' }}
                 onClick={toggleAlertModalState}>
                 Delete
               </Button>

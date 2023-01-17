@@ -2,7 +2,7 @@
 
 ::FactoryBot.define do
   factory :script_variable, class: 'DB::ScriptVariable' do
-    name { "#{::Faker::Hacker.noun}-#{::Time.now.to_i}" }
+    name { "#{::Faker::Hacker.noun}-#{::Time.now.to_i}-#{rand(100)}" }
     value { ::Faker::Hacker.abbreviation }
     description { ::Faker::Hacker.say_something_smart }
   end

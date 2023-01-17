@@ -64,7 +64,8 @@ function WelcomeViewMessage({ userName }) {
 
 export default function WelcomeView() {
   const { data: boards, isBoardsLoading, isBoardsError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
-  const { data: workspaces,  isWorkspacesLoading, isWorkspacesError } = useWorkspaces()
+  const { data,  isWorkspacesLoading, isWorkspacesError } = useWorkspaces()
+  const workspaces = data ? data.workspaces : null
   const { data: user, isLoading, isError } = useCurrentUser()
 
 
