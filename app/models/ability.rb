@@ -73,12 +73,13 @@ class Ability
   # @return [void]
   def set_admin_abilities
     can :manage, :all
+    cannot :decrypt, ::DB::ScriptVariable
   end
 
   # @return [void]
   def set_script_service_abilities
     set_admin_abilities
-    abilities_for_scripts %i[read update create destroy decrypt]
+    can :decrypt, ::DB::ScriptVariable
   end
 
   # @param actions [Symbol, Array<Symbol>]
