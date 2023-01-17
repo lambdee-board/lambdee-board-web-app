@@ -1,8 +1,8 @@
-import { mutateAPI, useAPI } from './api-client'
+import { useAPI, mutateAPI } from './api-client'
 
-const requestPath = () => '/api/scripts'
+const requestPath = '/api/scripts'
 
-const getterKey = (axiosOptions = undefined) => {
+const getterKey = (axiosOptions) => {
   let key = requestPath
   if (axiosOptions != null) key = [key, axiosOptions]
 

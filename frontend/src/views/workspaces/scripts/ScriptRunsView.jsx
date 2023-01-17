@@ -8,7 +8,6 @@ import CodeHighlighter from '../../../components/CodeHighlighter'
 import dayjs from 'dayjs'
 
 import './ScriptRunsView.sass'
-import ScriptRunsFilter from '../../../components/ScriptRunsFilter'
 
 export default function ScriptRunsView() {
   const perPage = 10
@@ -51,17 +50,6 @@ export default function ScriptRunsView() {
     const newFilterPage = { ...filter, page: newPage }
     setFilter(newFilterPage)
     mutate({ axiosOptions: { params: newFilterPage } })
-  }
-
-  const updateFilters = (newFilter) => {
-    const validFilter = Object.fromEntries(
-      Object.entries(newFilter).filter(([_, v]) => v !== '')
-    )
-    validFilter.per = perPage
-    validFilter.page = 1
-
-    // console.log(validFilter)
-    setFilter(validFilter)
   }
 
 
