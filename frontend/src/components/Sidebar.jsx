@@ -104,7 +104,9 @@ export default function Sidebar() {
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  const [isSelected, setSelected] = React.useState()
+  if (!localStorage.getItem('sidebarSelected')) {
+    localStorage.setItem('sidebarSelected', 'workspace')
+  }
 
   return (
     <Box className='Sidebar-wrapper'>
@@ -121,9 +123,9 @@ export default function Sidebar() {
           ) : (
             <List className='List'>
               <SidebarListItem
-                active={isSelected === 'workspace'}
+                active={localStorage.getItem('sidebarSelected') === 'workspace'}
                 onClick={() => {
-                  setSelected('workspace')
+                  localStorage.setItem('sidebarSelected', 'workspace')
                   navigate(`/workspaces/${workspaceId}`)
                 }}
                 className='ListItem-workspace'
@@ -132,10 +134,10 @@ export default function Sidebar() {
               />
               <DeveloperContent>
                 <SidebarListItem
-                  active={isSelected === 'Scripts'}
+                  active={localStorage.getItem('sidebarSelected') === 'Scripts'}
                   label='Scripts'
                   onClick={() => {
-                    setSelected('Scripts')
+                    localStorage.setItem('sidebarSelected', 'Scripts')
                     navigate(`/workspaces/${workspaceId}/scripts`)
                   }}
                   icon={<FontAwesomeIcon icon={faGem} />}
@@ -143,20 +145,20 @@ export default function Sidebar() {
               </DeveloperContent>
               <ManagerContent>
                 <SidebarListItem
-                  active={isSelected === 'Settings'}
+                  active={localStorage.getItem('sidebarSelected') === 'Settings'}
                   label='Settings'
                   onClick={() => {
-                    setSelected('Settings')
+                    localStorage.setItem('sidebarSelected', 'Settings')
                     navigate(`/workspaces/${workspaceId}/settings`)
                   }}
                   icon={<FontAwesomeIcon icon={faGear} />}
                 />
               </ManagerContent>
               <SidebarListItem
-                active={isSelected === 'Members'}
+                active={localStorage.getItem('sidebarSelected') === 'Members'}
                 label='Members'
                 onClick={() => {
-                  setSelected('Members')
+                  localStorage.setItem('sidebarSelected', 'Members')
                   navigate(`/workspaces/${workspaceId}/members`)
                 }}
                 icon={<FontAwesomeIcon icon={faUsers} />}
@@ -165,10 +167,10 @@ export default function Sidebar() {
                 <SidebarListItem
                   className='ListItem-board'
                   key={board.name + index}
-                  active={isSelected === board.name}
+                  active={localStorage.getItem('sidebarSelected') === board.name}
                   label={board.name}
                   onClick={() => {
-                    setSelected(board.name)
+                    localStorage.setItem('sidebarSelected', board.name)
                     navigate(`/workspaces/${workspaceId}/boards/${board.id}`)
                   }}
                   icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}

@@ -27,7 +27,11 @@ const Navbar = () => {
     <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth='false'>
         <Toolbar disableGutters>
-          <Button onClick={() => navigate('/')}>
+          <Button
+            onClick={() => {
+              localStorage.setItem('sidebarSelected', 'workspace')
+              navigate('/')
+            }}>
             <img
               className='logo'
               src={lambdeeLogo}
