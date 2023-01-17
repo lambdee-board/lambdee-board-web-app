@@ -16,6 +16,7 @@ import NewScriptDialog from '../../components/NewScriptDialog'
 import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
 import { mutateWorkspaceScripts } from '../../api/workspace-scripts'
+import useAllScriptsFilter from '../../stores/allscripts-filter'
 
 export default function WorkspaceScriptsView() {
   const { workspaceId } = useParams()
@@ -23,6 +24,7 @@ export default function WorkspaceScriptsView() {
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [openDial, setOpenDial] = React.useState(false)
   const [scriptView, setScriptView] = useCookie('showAllScripts', 'all')
+  const filter = useAllScriptsFilter((store) => store.filter)
 
   React.useEffect(() => {
     let navigatedOut = false
@@ -54,7 +56,7 @@ export default function WorkspaceScriptsView() {
     apiClient.post('/api/scripts', payload)
       .then((response) => {
         // successful request
-        mutateWorkspaceScripts({})
+        mutateWorkspaceScripts({ axiosOptions: { params: filter } })
       })
       .catch((error) => {
         // failed or rejected

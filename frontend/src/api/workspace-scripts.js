@@ -5,7 +5,6 @@ const requestPath = '/api/scripts'
 const getterKey = (axiosOptions) => {
   let key = requestPath
   if (axiosOptions != null) key = [key, axiosOptions]
-
   return key
 }
 
