@@ -4,12 +4,12 @@ require 'test_helper'
 
 class ::API::ScriptRunsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create :user, role: 4
+    @user = ::FactoryBot.create :user, role: :admin
   end
 
   should 'get index' do
     4.times { ::FactoryBot.create(:script_run) }
-    get api_script_runs_url, params: { limit: 3, as: :json }, headers: auth_headers(@user)
+    get api_script_runs_url, params: { per: 3, page: 1, as: :json }, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
     assert_equal 3, json['runs'].size

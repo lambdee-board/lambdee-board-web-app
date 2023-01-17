@@ -33,7 +33,7 @@ class Ability
     return unless user
 
     @user = user
-    return set_admin_abilities if user == :god # rubocop:disable Lint/ReturnInVoidContext
+    return set_script_service_abilities if user == :script_service # rubocop:disable Lint/ReturnInVoidContext
 
     set_guest_abilities if user.guest?
     set_regular_abilities if user.regular?
@@ -60,17 +60,32 @@ class Ability
   def set_developer_abilities
     abilities_for_workspaces(:read)
     abilities_for_basic_models(:manage)
+    abilities_for_scripts %i[read update create destroy]
   end
 
   # @return [void]
   def set_manager_abilities
     abilities_for_workspaces(:manage)
     abilities_for_basic_models(:manage)
+    abilities_for_scripts %i[read update create destroy]
   end
 
   # @return [void]
   def set_admin_abilities
     can :manage, :all
+  end
+
+  # @return [void]
+  def set_script_service_abilities
+    set_admin_abilities
+    abilities_for_scripts %i[read update create destroy decrypt]
+  end
+
+  # @param actions [Symbol, Array<Symbol>]
+  # @return [void]
+  def abilities_for_scripts(actions)
+    can actions, ::DB::Script
+    can actions, ::DB::ScriptVariable
   end
 
   # @param actions [Symbol, Array<Symbol>]

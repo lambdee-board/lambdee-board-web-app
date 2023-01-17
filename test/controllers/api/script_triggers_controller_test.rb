@@ -4,7 +4,7 @@ require 'test_helper'
 
 class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user, role: 4)
+    @user = ::FactoryBot.create(:user, role: :admin)
   end
 
   should 'create script_trigger' do

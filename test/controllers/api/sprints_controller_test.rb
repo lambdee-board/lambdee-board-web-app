@@ -4,7 +4,7 @@ require 'test_helper'
 
 class ::API::SprintsControllerTest < ::ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create(:user, role: 4)
+    @user = ::FactoryBot.create(:user, role: :admin)
     @board = ::FactoryBot.create(:board)
     2.times { ::FactoryBot.create(:visible_list, board: @board)}
     @sprint = ::FactoryBot.create(:sprint, board: @board, final_list_name: 'Done')

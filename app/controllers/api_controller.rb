@@ -16,7 +16,7 @@ class APIController < ::ApplicationController
   def authenticate_user!
     auth_scheme, auth_token = request.headers[:authorization]&.split(' ')
     if script_service_authenticated?(auth_scheme, auth_token)
-      @current_ability = ::Ability.new(:god)
+      @current_ability = ::Ability.new(:script_service)
     else
       super
       ::Current.user = current_user
