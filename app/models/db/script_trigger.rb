@@ -7,6 +7,7 @@ class ::DB::ScriptTrigger < ::ApplicationRecord
   belongs_to :subject, polymorphic: true, optional: true
   belongs_to :scope, polymorphic: true, optional: true
   belongs_to :script
+  belongs_to :author, class_name: 'DB::User'
 
   scope :global, -> { where(subject_type: nil) }
   scope :for_model, ->(model) { where(subject_type: model.to_s).where(subject: nil) }

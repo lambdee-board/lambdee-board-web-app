@@ -11,7 +11,7 @@ class ::API::ScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     script = ::FactoryBot.create(:script)
 
     assert_difference('DB::ScriptTrigger.count') do
-      post api_script_triggers_url, params: { script_trigger: { action: 'destroy', delay: 60, script_id: script.id } }, as: :json, headers: auth_headers(@user)
+      post api_script_triggers_url, params: { script_trigger: { action: 'destroy', delay: 60, script_id: script.id, author_id: @user.id } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created

@@ -26,7 +26,7 @@ class API::TagsController < ::APIController
     @tag = ::DB::Tag.new(tag_params)
     @tag.board_id = params[:board_id] if params[:board_id]
     relate_tag_with_task if params[:task_id]
-
+    authorize! :create, @tag
     return render :show, status: :created, location: api_tag_url(@tag) if @tag.save
 
     render json: @tag.errors, status: :unprocessable_entity

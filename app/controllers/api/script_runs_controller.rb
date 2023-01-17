@@ -2,6 +2,7 @@
 
 class ::API::ScriptRunsController < ::APIController
   before_action :set_script_run, only: %i[show update destroy]
+  authorize_resource only: %i[show update]
   has_scope :page, :per
 
   # GET /api/script_runs or /api/scripts/1/script_runs

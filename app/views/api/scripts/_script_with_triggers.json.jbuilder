@@ -5,7 +5,7 @@ json.script_triggers do
   end
 end
 json.ui_script_triggers do
-  json.array! script.ui_script_triggers do |ust|
+  json.array! script.ui_script_triggers.accessible_by(current_ability, :read) do |ust|
     json.partial! 'api/ui_script_triggers/ui_script_trigger', ui_script_trigger: ust
   end
 end

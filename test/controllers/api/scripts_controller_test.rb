@@ -17,9 +17,9 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
 
   should 'create script' do
     task = ::FactoryBot.create(:task)
-    script_trigger_global_params = { action: 'create', delay: 60 }
-    script_trigger_model_params = { subject_type: 'DB::Task', action: 'update' }
-    script_trigger_record_params = { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy' }
+    script_trigger_global_params = { action: 'create', delay: 60, author_id: @user.id }
+    script_trigger_model_params = { subject_type: 'DB::Task', action: 'update', author_id: @user.id }
+    script_trigger_record_params = { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy', author_id: @user.id }
     script_trigger_params = [script_trigger_global_params, script_trigger_model_params, script_trigger_record_params]
     params = { script: { content: 'p 1', description: 'des', name: 'super script', script_triggers_attributes: script_trigger_params } }
 
@@ -59,8 +59,12 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'show script' do
+    @user.developer!
+
     script = ::FactoryBot.create(:script, :with_trigger_on_task_creation, author: @user)
-    ::FactoryBot.create(:ui_script_trigger, author: @user, script: script, text: 'xdd')
+    ::FactoryBot.create(:ui_script_trigger, author: @user, script: script, text: 'ok', private: true)
+    ::FactoryBot.create(:ui_script_trigger, script: script, text: 'not ok', private: true)
+
     get api_script_url(script), as: :json, headers: auth_headers(@user)
     assert_response :success
     json = ::JSON.parse(response.body)
@@ -73,14 +77,15 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
     assert_equal 'create', json['script_triggers'].first['action']
     assert_equal 'DB::Task', json['script_triggers'].first['subject_type']
 
-    assert_equal 'xdd', json['ui_script_triggers'].first['text']
+    assert_equal 1, json['ui_script_triggers'].count
+    assert_equal 'ok', json['ui_script_triggers'].first['text']
   end
 
   should 'update script and create callback' do
     script = ::FactoryBot.create(:script, :with_trigger_on_task_creation)
 
     assert_difference('DB::ScriptTrigger.count', 1) do
-      patch api_script_url(script), params: { script: { name: 'new name', script_triggers_attributes: [{ action: 'destroy' }] } }, as: :json, headers: auth_headers(@user)
+      patch api_script_url(script), params: { script: { name: 'new name', script_triggers_attributes: [{ action: 'destroy', author_id: @user.id }] } }, as: :json, headers: auth_headers(@user)
     end
     assert_response :success
     json = ::JSON.parse(response.body)
