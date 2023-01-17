@@ -104,7 +104,7 @@ export default function Sidebar() {
   const navigate = useNavigate()
   const { workspaceId, boardId } = useParams()
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: { params: { boards: 'visible' } } })
-  // const [isOpen, setOpen] = React.useState(true)
+  const [isSelected, setSelected] = React.useState()
 
   return (
     <Box className='Sidebar-wrapper'>
@@ -120,39 +120,57 @@ export default function Sidebar() {
             <SidebarListSkeleton />
           ) : (
             <List className='List'>
-              <SidebarListItem onClick={() => navigate(`/workspaces/${workspaceId}`)} className='ListItem-workspace'
+              <SidebarListItem
+                active={isSelected === 'workspace'}
+                onClick={() => {
+                  setSelected('workspace')
+                  navigate(`/workspaces/${workspaceId}`)
+                }}
+                className='ListItem-workspace'
                 label={workspace.name}
                 icon={<WorkspaceIcon name={workspace.name} size={48} />}
               />
               <DeveloperContent>
                 <SidebarListItem
-                  active={false}
+                  active={isSelected === 'Scripts'}
                   label='Scripts'
-                  onClick={() => navigate(`/workspaces/${workspaceId}/scripts`)}
+                  onClick={() => {
+                    setSelected('Scripts')
+                    navigate(`/workspaces/${workspaceId}/scripts`)
+                  }}
                   icon={<FontAwesomeIcon icon={faGem} />}
                 />
               </DeveloperContent>
               <ManagerContent>
                 <SidebarListItem
-                  active={false}
+                  active={isSelected === 'Settings'}
                   label='Settings'
-                  onClick={() => navigate(`/workspaces/${workspaceId}/settings`)}
+                  onClick={() => {
+                    setSelected('Settings')
+                    navigate(`/workspaces/${workspaceId}/settings`)
+                  }}
                   icon={<FontAwesomeIcon icon={faGear} />}
                 />
               </ManagerContent>
               <SidebarListItem
-                active={false}
+                active={isSelected === 'Members'}
                 label='Members'
-                onClick={() => navigate(`/workspaces/${workspaceId}/members`)}
+                onClick={() => {
+                  setSelected('Members')
+                  navigate(`/workspaces/${workspaceId}/members`)
+                }}
                 icon={<FontAwesomeIcon icon={faUsers} />}
               />
               {workspace.boards?.map((board, index) => (
                 <SidebarListItem
                   className='ListItem-board'
                   key={board.name + index}
-                  active={board.id === boardId}
+                  active={isSelected === board.name}
                   label={board.name}
-                  onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}
+                  onClick={() => {
+                    setSelected(board.name)
+                    navigate(`/workspaces/${workspaceId}/boards/${board.id}`)
+                  }}
                   icon={<FontAwesomeIcon className='ListItem-icon' icon={faClipboardList} color={board.colour} />}
                 />
               ))}
