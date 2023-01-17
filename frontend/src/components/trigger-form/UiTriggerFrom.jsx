@@ -3,8 +3,17 @@ import { Button, FormControlLabel, MenuItem, Switch, TextField, Typography } fro
 import PropTypes from 'prop-types'
 
 import ColorPickerPopover from '../ColorPickerPopover'
+import apiClient from '../../api/api-client'
 
 const UiTriggerFrom = (props) => {
+  const [workspaces, setWorkspaces] = React.useState([])
+  const [boards, setBoards] = React.useState([])
+  const [lists, setLists] = React.useState([])
+  const [tasks, setTasks] = React.useState([])
+
+  const [subjectIdData, setSubjectIdData] = React.useState([])
+  const [scopeIdData, setScopeIdData] = React.useState([])
+
   const [triggerScopeTypes, setTriggerScopeTypes] = React.useState([])
   const [uiTriggerState, setUiTriggerState] = React.useState({
     subjectType: 'Global',
@@ -54,6 +63,40 @@ const UiTriggerFrom = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uiTriggerState.subjectId])
 
+  const requestData = (objectName) => {
+    apiClient.get(`/api/${objectName}`)
+      .then((response) => {
+      // successful request
+        console.log(response.data[objectName])
+        return response.data[objectName]
+      })
+      .catch((error) => {
+        return []
+      })
+  }
+
+  const prepareSelectIdData = (assignFunc, type) => {
+    switch (type) {
+    case 'DB::Workspace':
+      if (workspaces.length === 0) setWorkspaces(requestData('workspaces'))
+      else assignFunc(workspaces)
+      break
+    case 'DB::Board':
+      if (boards.length === 0) setBoards(requestData('boards'))
+      else assignFunc(boards)
+      break
+    case 'DB::Lists':
+      if (lists.length === 0) setLists(requestData('lists'))
+      else assignFunc(lists)
+      break
+    case 'DB::Task':
+      if (tasks.length === 0) setTasks(requestData('tasks'))
+      else assignFunc(tasks)
+      break
+    default:
+      break
+    }
+  }
 
   const subjectTypeGlobal = () => {
     return uiTriggerState.subjectType === 'Global'
@@ -74,10 +117,13 @@ const UiTriggerFrom = (props) => {
             id='Trigger-subject-type'
             value={uiTriggerState.subjectType}
             label='Subject Type'
-            onChange={(e) => setUiTriggerState({
-              ...uiTriggerState,
-              subjectType: e.target.value
-            })}>
+            onChange={(e) => {
+              setUiTriggerState({
+                ...uiTriggerState,
+                subjectType: e.target.value
+              })
+              prepareSelectIdData(setSubjectIdData, e.target.value)
+            }}>
             { triggerSubjectTypes.map((action, idx) => (
               <MenuItem value={action} key={`${action}-${idx}`}>
                 {action}
@@ -85,8 +131,28 @@ const UiTriggerFrom = (props) => {
             ))}
           </TextField>
 
-          {/* TODO - LIST WITH FETCHING AVAILABLE  */}
           <TextField
+            sx={{ width: '200px' }}
+            margin='dense'
+            select
+            id='Trigger-subject-id'
+            value={uiTriggerState.subjectId}
+            label='Subject ID'
+            onChange={(e) => setUiTriggerState({
+              ...uiTriggerState,
+              subjectId: e.target.value,
+            })
+            }
+            disabled={subjectTypeGlobal()}>
+            { subjectIdData?.map((item, idx) => (
+              <MenuItem value={item.id} key={`${item.name}-${idx}`}>
+                {item.id} - {item.name}
+              </MenuItem>
+            ))}
+          </TextField>
+
+
+          {/* <TextField
             sx={{ width: '200px' }}
             margin='dense'
             type='number'
@@ -97,8 +163,7 @@ const UiTriggerFrom = (props) => {
             })}
             label='Subject ID'
             variant='standard'
-            disabled={subjectTypeGlobal()}
-          />
+            disabled={subjectTypeGlobal()}/> */}
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
@@ -127,9 +192,9 @@ const UiTriggerFrom = (props) => {
             margin='dense'
             type='number'
             value={uiTriggerState.scopeId}
-            onChange={(event) => setUiTriggerState({
+            onChange={(e) => setUiTriggerState({
               ...uiTriggerState,
-              scopeId: event.target.value,
+              scopeId: e.target.value,
             })}
             label='Scope ID'
             variant='standard'
@@ -142,9 +207,9 @@ const UiTriggerFrom = (props) => {
             margin='dense'
             type='text'
             value={uiTriggerState.text}
-            onChange={(event) => setUiTriggerState({
+            onChange={(e) => setUiTriggerState({
               ...uiTriggerState,
-              text: event.target.value,
+              text: e.target.value,
             })}
             label='Button Text'
             variant='standard'
@@ -155,9 +220,9 @@ const UiTriggerFrom = (props) => {
             margin='dense'
             type='number'
             value={uiTriggerState.delay}
-            onChange={(event) => setUiTriggerState({
+            onChange={(e) => setUiTriggerState({
               ...uiTriggerState,
-              delay: event.target.value,
+              delay: e.target.value,
             })}
             label='Delay (seconds)'
             variant='standard'
