@@ -11,8 +11,9 @@ class ::API::ScriptsControllerTest < ::ActionDispatch::IntegrationTest
     4.times { ::FactoryBot.create(:script) }
     get api_scripts_url, params: { per: 3, page: 1, as: :json }, headers: auth_headers(@user)
     assert_response :success
-    json = ::JSON.parse(response.body)
-    assert_equal 3, json.size
+    json = ::JSON.parse(response.body, symbolize_names: true)
+    assert_equal 3, json[:scripts].size
+    assert_equal 2, json[:total_pages]
   end
 
   should 'create script' do

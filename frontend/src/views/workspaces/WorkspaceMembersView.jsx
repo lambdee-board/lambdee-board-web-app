@@ -20,7 +20,8 @@ export default function WorkspaceMembersView() {
   const { data: usersData, isLoading, isError } = useUsers({ axiosOptions: { params: filter } })
 
   const [totalPages, setTotalPages] = React.useState(0)
-  const { data: workspaces, workspacesLoading, workspacesError } = useWorkspaces({})
+  const { data, workspacesLoading, workspacesError } = useWorkspaces({})
+  const workspaces = data ? data.workspaces : null
 
   React.useEffect(() => {
     if (!usersData?.totalPages) return

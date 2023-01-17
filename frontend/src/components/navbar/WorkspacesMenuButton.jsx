@@ -14,7 +14,8 @@ import WorkspaceIcon from '../WorkspaceIcon'
 import DropdownButton from '../DropdownButton'
 
 const WorkspacesMenuButton = () => {
-  const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { per: '5', page: '1' } } })
+  const { data, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { per: '5', page: '1' } } })
+  const workspaces = data ? data.workspaces : null
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null)
 

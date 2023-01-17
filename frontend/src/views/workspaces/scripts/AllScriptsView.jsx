@@ -18,7 +18,8 @@ import './AllScriptsView.sass'
 export default function AllScriptsView() {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
-  const { data: scripts, isLoading, isError } = useWorkspaceScripts({})
+  const { data, isLoading, isError } = useWorkspaceScripts({})
+  const scripts = data ? data.scripts : null
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
