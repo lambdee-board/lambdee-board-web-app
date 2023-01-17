@@ -10,5 +10,5 @@ const getterKey = (axiosOptions) => {
 }
 
 export const useWorkspaceScripts = ({ axiosOptions, options }) => useAPI(getterKey(axiosOptions), options)
-export const mutateWorkspaceScripts = ({ id, axiosOptions, data, options }) => mutateAPI(getterKey(id, axiosOptions), data, options)
+export const mutateWorkspaceScripts = ({ axiosOptions, data, options }) => mutateAPI(getterKey(axiosOptions), data, options)
 export default useWorkspaceScripts
