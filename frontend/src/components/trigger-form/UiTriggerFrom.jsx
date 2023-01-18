@@ -10,6 +10,12 @@ const UiTriggerFrom = (props) => {
   const [boards, setBoards] = React.useState([])
   const [lists, setLists] = React.useState([])
   const [tasks, setTasks] = React.useState([])
+  const assignBoardData = {
+    workspaces: setWorkspaces,
+    boards: setBoards,
+    lists: setLists,
+    tasks: setTasks
+  }
 
   const [subjectIdData, setSubjectIdData] = React.useState([])
   const [scopeIdData, setScopeIdData] = React.useState([])
@@ -63,35 +69,35 @@ const UiTriggerFrom = (props) => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uiTriggerState.subjectId])
 
-  const requestData = (objectName) => {
-    apiClient.get(`/api/${objectName}`)
+  const requestData = async(assignFunc, objectName) => {
+    await apiClient.get(`/api/${objectName}`)
       .then((response) => {
       // successful request
-        console.log(response.data[objectName])
-        return response.data[objectName]
+        assignFunc(response.data[objectName] ? response.data[objectName] : response.data)
+        assignBoardData[objectName](response.data[objectName] ? response.data[objectName] : response.data)
       })
       .catch((error) => {
-        return []
+        console.log('errrrrrrrrr')
       })
   }
 
   const prepareSelectIdData = (assignFunc, type) => {
     switch (type) {
     case 'DB::Workspace':
-      if (workspaces.length === 0) setWorkspaces(requestData('workspaces'))
+      if (workspaces.length === 0) requestData(assignFunc, 'workspaces')
       else assignFunc(workspaces)
       break
     case 'DB::Board':
-      if (boards.length === 0) setBoards(requestData('boards'))
-      else assignFunc(boards)
+      if (boards.length === 0) requestData(assignFunc, 'boards')
+      assignFunc(boards)
       break
     case 'DB::Lists':
-      if (lists.length === 0) setLists(requestData('lists'))
-      else assignFunc(lists)
+      if (lists.length === 0) requestData(assignFunc, 'lists')
+      assignFunc(lists)
       break
     case 'DB::Task':
-      if (tasks.length === 0) setTasks(requestData('tasks'))
-      else assignFunc(tasks)
+      if (tasks.length === 0) requestData(assignFunc, 'tasks')
+      assignFunc(tasks)
       break
     default:
       break
@@ -150,20 +156,6 @@ const UiTriggerFrom = (props) => {
               </MenuItem>
             ))}
           </TextField>
-
-
-          {/* <TextField
-            sx={{ width: '200px' }}
-            margin='dense'
-            type='number'
-            value={uiTriggerState.subjectId}
-            onChange={(event) => setUiTriggerState({
-              ...uiTriggerState,
-              subjectId: event.target.value,
-            })}
-            label='Subject ID'
-            variant='standard'
-            disabled={subjectTypeGlobal()}/> */}
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
