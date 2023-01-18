@@ -15,17 +15,18 @@ import { useNavigate, useParams } from 'react-router-dom'
 import useWorkspaceScripts from '../../../api/workspace-scripts'
 
 import './AllScriptsView.sass'
-import useAllScriptsFilter from '../../../stores/allscripts-filter'
+import useScriptsPage from '../../../stores/scripts-page'
 
 
 export default function AllScriptsView() {
   const { workspaceId } = useParams()
-  const perPage = 10
   const navigate = useNavigate()
-  const [filter, setFilter] = React.useState({ page: 1, per: perPage })
   const [totalPages, setTotalPages] = React.useState(0)
-  const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({ axiosOptions: { params: filter } })
-  const setAllScriptsFilter = useAllScriptsFilter((store) => store.setFilter)
+  const per = useScriptsPage((store) => store.per)
+  const page = useScriptsPage((store) => store.page)
+  const setPage = useScriptsPage((store) => store.setPage)
+
+  const { data: scripts, isLoading, isError, mutate } = useWorkspaceScripts({ axiosOptions: { params: { per, page } } })
 
   React.useEffect(() => {
     if (!scripts?.totalPages) return
@@ -34,12 +35,10 @@ export default function AllScriptsView() {
   }, [scripts?.totalPages])
 
   const fetchNextUserPage = (event, newPage) => {
-    if (filter.page === newPage) return
+    if (page === newPage) return
 
-    const newFilterPage = { ...filter, page: newPage }
-    setFilter(newFilterPage)
-    setAllScriptsFilter(newFilterPage)
-    mutate({ axiosOptions: { params: newFilterPage } })
+    setPage(newPage)
+    mutate({ axiosOptions: { params: { per, page } } })
   }
 
   return (
@@ -68,7 +67,7 @@ export default function AllScriptsView() {
             color='primary'
             onChange={fetchNextUserPage}
             size='large'
-            page={filter.page} />
+            page={page} />
           }
         </List>
 

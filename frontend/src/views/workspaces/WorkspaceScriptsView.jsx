@@ -20,7 +20,7 @@ import useAppAlertStore from '../../stores/app-alert'
 import useScriptVariablesPage from '../../stores/script-variables-page'
 import { mutateWorkspaceScripts } from '../../api/workspace-scripts'
 import { mutateScriptVariables } from '../../api/script-variables'
-import useAllScriptsFilter from '../../stores/allscripts-filter'
+import useScriptsPage from '../../stores/scripts-page'
 
 export default function WorkspaceScriptsView() {
   const { workspaceId } = useParams()
@@ -30,10 +30,12 @@ export default function WorkspaceScriptsView() {
   const scriptVariablesPer = useScriptVariablesPage((store) => store.per)
   const scriptVariablesPage = useScriptVariablesPage((store) => store.page)
 
+  const scriptsPer = useScriptsPage((store) => store.per)
+  const scriptsPage = useScriptsPage((store) => store.page)
+
   const [scriptView, setScriptView] = useCookie('showAllScripts', 'all')
   const [newScriptIsOpen, setNewScriptIsOpen] = React.useState(false)
   const [newScriptVariableIsOpen, setNewScriptVariableIsOpen] = React.useState(false)
-  const filter = useAllScriptsFilter((store) => store.filter)
 
   React.useEffect(() => {
     let navigatedOut = false
@@ -64,7 +66,8 @@ export default function WorkspaceScriptsView() {
     apiClient.post('/api/scripts', payload)
       .then((response) => {
         // successful request
-        mutateWorkspaceScripts({ axiosOptions: { params: filter } })
+        addAlert({ severity: 'success', message: `Added ${payload.name}` })
+        mutateWorkspaceScripts({ axiosOptions: { params: { per: scriptsPer, page: scriptsPage } } })
       })
       .catch((error) => {
         // failed or rejected

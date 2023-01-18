@@ -10,7 +10,6 @@ import {
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faKey } from '@fortawesome/free-solid-svg-icons'
-import { useNavigate, useParams } from 'react-router-dom'
 import dayjs from 'dayjs'
 
 import useScriptVariables from '../../../api/script-variables'
@@ -19,8 +18,6 @@ import useScriptVariablesPage from '../../../stores/script-variables-page'
 import './ScriptVariablesView.sass'
 
 export default function ScriptVariablesView() {
-  const { workspaceId } = useParams()
-  const navigate = useNavigate()
   const [totalPages, setTotalPages] = React.useState(0)
   const [openDial, setOpenDial] = React.useState(false)
   const [currentVar, setCurrentVar] = React.useState(null)
