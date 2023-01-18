@@ -81,7 +81,7 @@ export const useAPI = (key, options = undefined) => {
   }
 }
 
-export const mutateAPI = (key, data, options = undefined) => {
+export const mutateAPI = (key, data = undefined, options = undefined) => {
   if (data || options) return swrMutate(key, data, options)
   return swrMutate(key)
 }

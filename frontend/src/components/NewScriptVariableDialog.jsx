@@ -3,12 +3,17 @@ import { Button, Dialog, DialogActions, DialogContent, DialogTitle, TextField } 
 import PropTypes from 'prop-types'
 
 
-const NewScriptDialog = (props) => {
-  const [newScript, setNewScript] = React.useState({ name: '', description: '', content: '' })
+const NewScriptVariableDialog = (props) => {
+  const [newVariable, setNewVariable] = React.useState({ name: '', description: '', content: '' })
 
   React.useEffect(() => {
-    setNewScript({ name: '', description: '', content: '', authorId: parseInt(localStorage.getItem('id')) })
+    setNewVariable({
+      name: '',
+      description: '',
+      value: ''
+    })
   }, [props])
+
 
   return (
     <Dialog
@@ -16,7 +21,7 @@ const NewScriptDialog = (props) => {
       onClose={props.onClose}
       fullWidth
       maxWidth='sm'>
-      <form onSubmit={(event) => props.onSubmit(event, newScript)}>
+      <form onSubmit={(event) => props.onSubmit(event, newVariable)}>
         <DialogTitle>New script</DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <TextField
@@ -25,17 +30,26 @@ const NewScriptDialog = (props) => {
             autoFocus
             margin='dense'
             autoComplete='off'
-            value={newScript.name}
-            onChange={(event) => setNewScript({ ...newScript, name: event.target.value })}
+            value={newVariable.name}
+            onChange={(event) => setNewVariable({ ...newVariable, name: event.target.value })}
             label='Name'
             variant='standard' />
           <TextField
             fullWidth
             margin='dense'
             autoComplete='off'
-            value={newScript.description}
-            onChange={(event) => setNewScript({ ...newScript, description: event.target.value })}
+            value={newVariable.description}
+            onChange={(event) => setNewVariable({ ...newVariable, description: event.target.value })}
             label='Description'
+            variant='standard'
+            multiline />
+          <TextField
+            fullWidth
+            margin='dense'
+            autoComplete='off'
+            value={newVariable.value}
+            onChange={(event) => setNewVariable({ ...newVariable, value: event.target.value })}
+            label='Value'
             variant='standard'
             multiline />
         </DialogContent>
@@ -49,10 +63,10 @@ const NewScriptDialog = (props) => {
 }
 
 
-NewScriptDialog.propTypes = {
+NewScriptVariableDialog.propTypes = {
   open: PropTypes.bool.isRequired,
   onClose: PropTypes.func.isRequired,
   onSubmit: PropTypes.func.isRequired
 }
 
-export default NewScriptDialog
+export default NewScriptVariableDialog
