@@ -39,6 +39,7 @@ import WorkspaceWelcomeView from './views/workspaces/WorkspaceWelcomeView'
 import EditScriptView from './views/workspaces/scripts/EditScriptView'
 import AllScriptsView from './views/workspaces/scripts/AllScriptsView'
 import ScriptRunsView from './views/workspaces/scripts/ScriptRunsView'
+import ScriptVariablesView from './views/workspaces/scripts/ScriptVariablesView'
 import EditScriptCodeView from './views/workspaces/scripts/EditScriptView/EditScriptCodeView'
 import EditScriptTriggersView from './views/workspaces/scripts/EditScriptView/EditScriptTriggersView'
 
@@ -76,6 +77,7 @@ root.render(
               <Route path='scripts' element={<WorkspaceScriptsView />} >
                 <Route path='all' element={<AllScriptsView />} />
                 <Route path='runs' element={<ScriptRunsView />} />
+                <Route path='variables' element={<ScriptVariablesView />} />
               </Route>
             </Route>
             <Route path='members' element={<WorkspaceMembersView />} />
