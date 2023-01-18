@@ -15,6 +15,8 @@ class DB::List < ::ApplicationRecord
   has_many :tasks_including_deleted, -> { with_deleted }, class_name: 'DB::Task'
   has_many :deleted_tasks, -> { only_deleted }, class_name: 'DB::Task'
 
+  delegate :workspace, to: :board
+
   before_create :set_highest_pos_in_board
 
   default_scope { order(:id) }
@@ -42,10 +44,5 @@ class DB::List < ::ApplicationRecord
     return unless board
 
     self.pos ||= board.lists.order(:pos).last&.pos&.+(1024) || 65_536
-  end
-
-  # @return [DB::Workspace]
-  def workspace
-    board.workspace
   end
 end

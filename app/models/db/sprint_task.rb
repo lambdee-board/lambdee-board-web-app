@@ -2,7 +2,6 @@
 
 # Contains the data about task in certain sprint
 class ::DB::SprintTask < ::ApplicationRecord
-  include ::ScriptTriggerable
   include ::CustomDatable
 
   belongs_to :sprint

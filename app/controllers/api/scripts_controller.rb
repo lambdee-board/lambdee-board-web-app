@@ -46,6 +46,6 @@ class ::API::ScriptsController < ::APIController
   end
 
   def script_params
-    params.require(:script).permit(:content, :name, :description, script_triggers_attributes: %i[id subject_type subject_id action delay author_id _destroy])
+    params.require(:script).permit(:content, :name, :description, script_triggers_attributes: %i[id subject_type subject_id scope_type scope_id action delay private author_id _destroy])
   end
 end

@@ -84,14 +84,11 @@ class Ability
   # @return [void]
   def abilities_for_scripts
     can :manage, ::DB::Script
-
-    # TODO: Maybe triggers should be edited only by the owners?
-    can :manage, ::DB::ScriptTrigger
+    can :manage, ::DB::ScriptTrigger,   author: @user
+    can :manage, ::DB::ScriptTrigger,   private: false
     can :manage, ::DB::UiScriptTrigger, author: @user
     can :manage, ::DB::UiScriptTrigger, private: false
-
-    can :read, ::DB::ScriptRun
-
+    can :read,   ::DB::ScriptRun
     can %i[read update create destroy], ::DB::ScriptVariable
   end
 

@@ -35,6 +35,6 @@ class ::API::ScriptTriggersController < ::APIController
   end
 
   def script_trigger_params
-    params.require(:script_trigger).permit(:script_id, :subject_type, :subject_id, :action, :delay, :author_id)
+    params.require(:script_trigger).permit(:script_id, :subject_type, :subject_id, :scope_type, :scope_id, :action, :delay, :private, :author_id)
   end
 end

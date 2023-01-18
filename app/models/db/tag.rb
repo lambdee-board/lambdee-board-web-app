@@ -6,9 +6,13 @@ class DB::Tag < ApplicationRecord
   include ::ScriptTriggerable
   include ::CustomDatable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board]
+
   belongs_to :board
   has_many :task_tags, class_name: 'DB::TaskTag', dependent: :destroy
   has_many :tasks, through: :task_tags
+
+  delegate :workspace, to: :board
 
   default_scope { order(:id) }
 

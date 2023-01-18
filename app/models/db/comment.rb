@@ -4,10 +4,16 @@
 class DB::Comment < ApplicationRecord
   include ::ScriptTriggerable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board, :list, :task]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :author, -> { with_deleted }, class_name: 'DB::User', foreign_key: :author_id
   belongs_to :task
+
+  delegate :list, to: :task
+  delegate :board, to: :list
+  delegate :workspace, to: :board
 
   default_scope { order(id: :desc) }
 
