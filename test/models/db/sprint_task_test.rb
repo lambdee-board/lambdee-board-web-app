@@ -15,14 +15,16 @@ class ::DB::SprintTaskTest < ::ActiveSupport::TestCase
     st.build_start_params
     assert_equal 'todo', st.start_state
     assert_equal 'todo', st.state
-    assert st.added_at = ::Time.now.today?
+    assert st.added_at.today?
+    st.save!
     assert_nil st.completed_at
 
     st = ::DB::SprintTask.new(sprint: sprint, task: task_done)
     st.build_start_params
     assert_equal 'done', st.start_state
     assert_equal 'done', st.state
-    assert st.added_at = ::Time.now.today?
-    assert st.completed_at = ::Time.now.today?
+    assert st.added_at.today?
+    st.save!
+    assert st.completed_at.today?
   end
 end
