@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 
 import useWorkspaces from '../../api/workspaces'
-import useCookie from 'react-use-cookie'
 import WorkspaceIcon from '../WorkspaceIcon'
 import DropdownButton from '../DropdownButton'
 
