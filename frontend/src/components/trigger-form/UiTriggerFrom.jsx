@@ -89,15 +89,15 @@ const UiTriggerFrom = (props) => {
       break
     case 'DB::Board':
       if (boards.length === 0) requestData(assignFunc, 'boards')
-      assignFunc(boards)
+      else assignFunc(boards)
       break
-    case 'DB::Lists':
+    case 'DB::List':
       if (lists.length === 0) requestData(assignFunc, 'lists')
-      assignFunc(lists)
+      else assignFunc(lists)
       break
     case 'DB::Task':
       if (tasks.length === 0) requestData(assignFunc, 'tasks')
-      assignFunc(tasks)
+      else assignFunc(tasks)
       break
     default:
       break
@@ -111,6 +111,8 @@ const UiTriggerFrom = (props) => {
   const subjectIdNil = () => {
     return uiTriggerState.subjectId === ''
   }
+
+  console.log(lists)
 
   return (
     <div>
@@ -167,10 +169,13 @@ const UiTriggerFrom = (props) => {
             id='Trigger-scope-type'
             value={uiTriggerState.scopeType}
             label='Scope Type'
-            onChange={(e) => setUiTriggerState({
-              ...uiTriggerState,
-              scopeType: e.target.value
-            })}>
+            onChange={(e) => {
+              setUiTriggerState({
+                ...uiTriggerState,
+                scopeType: e.target.value
+              })
+              prepareSelectIdData(setScopeIdData, e.target.value)
+            }}>
             { triggerScopeTypes.map((action, idx) => (
               <MenuItem value={action} key={`${action}-${idx}`}>
                 {action}
@@ -178,19 +183,24 @@ const UiTriggerFrom = (props) => {
             ))}
           </TextField>
 
-          {/* TODO - LIST WITH FETCHING AVAILABLE  */}
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
-            type='number'
+            select
+            id='Trigger-scope-id'
             value={uiTriggerState.scopeId}
+            label='Scope ID'
             onChange={(e) => setUiTriggerState({
               ...uiTriggerState,
               scopeId: e.target.value,
             })}
-            label='Scope ID'
-            variant='standard'
-            disabled={subjectTypeGlobal() || !subjectIdNil()} />
+            disabled={subjectTypeGlobal() || !subjectIdNil()} >
+            { scopeIdData?.map((item, idx) => (
+              <MenuItem value={item.id} key={`${item.name}-${idx}`}>
+                {item.id} - {item.name}
+              </MenuItem>
+            ))}
+          </TextField>
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
