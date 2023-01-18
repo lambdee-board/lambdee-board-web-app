@@ -7,49 +7,57 @@ import {
   Box
 } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { faClockRotateLeft, faList, faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faClockRotateLeft, faList, faPlus, faKey } from '@fortawesome/free-solid-svg-icons'
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import useCookie from 'react-use-cookie'
 
 import './WorkspaceScriptsView.sass'
+
 import NewScriptDialog from '../../components/NewScriptDialog'
+import NewScriptVariableDialog from '../../components/NewScriptVariableDialog'
 import apiClient from '../../api/api-client'
 import useAppAlertStore from '../../stores/app-alert'
+import useScriptVariablesPage from '../../stores/script-variables-page'
 import { mutateWorkspaceScripts } from '../../api/workspace-scripts'
+import { mutateScriptVariables } from '../../api/script-variables'
 import useAllScriptsFilter from '../../stores/allscripts-filter'
 
 export default function WorkspaceScriptsView() {
   const { workspaceId } = useParams()
   const navigate = useNavigate()
   const addAlert = useAppAlertStore((store) => store.addAlert)
-  const [openDial, setOpenDial] = React.useState(false)
+
+  const scriptVariablesPer = useScriptVariablesPage((store) => store.per)
+  const scriptVariablesPage = useScriptVariablesPage((store) => store.page)
+
   const [scriptView, setScriptView] = useCookie('showAllScripts', 'all')
+  const [newScriptIsOpen, setNewScriptIsOpen] = React.useState(false)
+  const [newScriptVariableIsOpen, setNewScriptVariableIsOpen] = React.useState(false)
   const filter = useAllScriptsFilter((store) => store.filter)
 
   React.useEffect(() => {
     let navigatedOut = false
     if (navigatedOut) return
 
-    if (scriptView === 'all') {
-      navigate(`/workspaces/${workspaceId}/scripts/all`)
-    } else {
-      navigate(`/workspaces/${workspaceId}/scripts/runs`)
-    }
+    const scriptSubpath = scriptView ?? 'runs'
+    const expectedPath = `/workspaces/${workspaceId}/scripts/${scriptSubpath}`
+    navigate(expectedPath)
+
     return () => { navigatedOut = true }
   }, [workspaceId, scriptView, navigate])
 
-  const handleCloseDial = () => {
-    setOpenDial(false)
+  const closeNewScript = () => {
+    setNewScriptIsOpen(false)
   }
 
-  const handleOpenDial = () => {
-    setOpenDial(true)
+  const openNewScript = () => {
+    setNewScriptIsOpen(true)
   }
 
-  const handleSubmit = (event, script) => {
+  const persistNewScript = (event, script) => {
     event.preventDefault()
     saveScript(script)
-    handleCloseDial()
+    closeNewScript()
   }
 
   const saveScript = (payload) => {
@@ -64,6 +72,34 @@ export default function WorkspaceScriptsView() {
       })
   }
 
+  const closeNewScriptVariable = () => {
+    setNewScriptVariableIsOpen(false)
+  }
+
+  const openNewScriptVariable = () => {
+    setNewScriptVariableIsOpen(true)
+  }
+
+  const persistNewScriptVariable = (event, scriptVariable) => {
+    event.preventDefault()
+    saveScriptVariable(scriptVariable)
+    closeNewScriptVariable()
+  }
+
+  const saveScriptVariable = (payload) => {
+    apiClient.post('/api/script_variables', payload)
+      .then((response) => {
+        // successful request
+
+        addAlert({ severity: 'success', message: `Added ${payload.name}` })
+        mutateScriptVariables({ axiosOptions: { params: { per: scriptVariablesPer, page: scriptVariablesPage } } })
+      })
+      .catch((error) => {
+        // failed or rejected
+        addAlert({ severity: 'error', message: 'Something went wrong!' })
+      })
+  }
+
   return (
     <div className='WorkspaceScripts-wrapper'>
 
@@ -71,12 +107,22 @@ export default function WorkspaceScriptsView() {
         <div>
           {scriptView === 'all' &&
             <Button
-              onClick={handleOpenDial}
+              onClick={openNewScript}
               className='WorkspaceScripts-newScript-btn'
               color='secondary'
               variant='outlined'
               startIcon={<FontAwesomeIcon icon={faPlus} />}>
-              <Typography>Create new script</Typography>
+              <Typography>New script</Typography>
+            </Button>
+          }
+          {scriptView === 'variables' &&
+            <Button
+              onClick={openNewScriptVariable}
+              className='WorkspaceScripts-newScript-btn'
+              color='secondary'
+              variant='outlined'
+              startIcon={<FontAwesomeIcon icon={faPlus} />}>
+              <Typography>New variable</Typography>
             </Button>
           }
         </div>
@@ -99,15 +145,30 @@ export default function WorkspaceScriptsView() {
             startIcon={<FontAwesomeIcon icon={faClockRotateLeft} />}>
             <Typography>Run history</Typography>
           </Button>
+          <Button
+            sx={{ ml: '8px' }}
+            onClick={() => { if (scriptView !== 'variables') setScriptView('variables') }}
+            className='WorkspaceScripts-scriptsRuns-btn'
+            color='secondary'
+            variant={scriptView === 'variables' ? 'contained' : 'outlined'}
+            startIcon={<FontAwesomeIcon icon={faKey} />}>
+            <Typography>Variables</Typography>
+          </Button>
         </div>
       </Toolbar>
       <div className='WorkspaceScripts'>
         <Box sx={{ height: '4px' }}></Box>
         <Outlet />
         <NewScriptDialog
-          openDial={openDial}
-          handleCloseDial={handleCloseDial}
-          handleSubmit={handleSubmit} />
+          open={newScriptIsOpen}
+          onClose={closeNewScript}
+          onSubmit={persistNewScript}
+        />
+        <NewScriptVariableDialog
+          open={newScriptVariableIsOpen}
+          onClose={closeNewScriptVariable}
+          onSubmit={persistNewScriptVariable}
+        />
       </div>
     </div>
   )
