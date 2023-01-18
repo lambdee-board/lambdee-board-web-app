@@ -6,9 +6,13 @@ class DB::Sprint < ApplicationRecord
   include ::CustomDatable
   include ::Charts::BurnUpChart
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board]
+
   has_many :sprint_tasks, dependent: :destroy
   has_many :tasks, -> { with_deleted }, through: :sprint_tasks
   belongs_to :board
+
+  delegate :workspace, to: :board
 
   validates :name, presence: true, length: { maximum: 40 }
   validates :final_list_name, presence: true, length: { maximum: 255 }

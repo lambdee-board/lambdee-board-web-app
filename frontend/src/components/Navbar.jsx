@@ -29,7 +29,6 @@ const Navbar = () => {
         <Toolbar disableGutters>
           <Button
             onClick={() => {
-              localStorage.setItem('sidebarSelected', 'workspace')
               navigate('/')
             }}>
             <img

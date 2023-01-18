@@ -55,7 +55,7 @@ class API::TasksController < ::APIController
 
   # PUT api/tasks/1/add_time
   def add_time
-    set_task
+    authorize! :update, @task
     add_time = AddTaskTimeService.new(@task, params[:time], params[:unit])
     if add_time.valid? && add_time.save
       render :show, status: 200

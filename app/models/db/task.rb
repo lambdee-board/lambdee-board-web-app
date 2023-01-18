@@ -21,6 +21,9 @@ class DB::Task < ApplicationRecord
   has_many :sprint_tasks
   has_many :sprints, through: :sprint_tasks
 
+  delegate :board, to: :list
+  delegate :workspace, to: :board
+
   before_create :set_highest_pos_in_list
   around_save :update_or_create_sprint_task_if_needed
 
@@ -51,16 +54,6 @@ class DB::Task < ApplicationRecord
   # @return [Array<DB::User>]
   def assignees
     users
-  end
-
-  # @return [DB::Board]
-  def board
-    list.board
-  end
-
-  # @return [DB::Workspace]
-  def workspace
-    board.workspace
   end
 
   # @return [DB::SprintTask, nil]

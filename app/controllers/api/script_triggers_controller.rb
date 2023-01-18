@@ -2,6 +2,7 @@
 
 class ::API::ScriptTriggersController < ::APIController
   before_action :set_script_trigger, only: %i[show update destroy]
+  authorize_resource only: %i[show update destroy]
 
   # GET /api/script_triggers/1
   def show; end
@@ -9,6 +10,7 @@ class ::API::ScriptTriggersController < ::APIController
   # POST /api/script_triggers
   def create
     @script_trigger = ::DB::ScriptTrigger.new(script_trigger_params)
+    authorize! :create, @script_trigger
     return render :show, status: :created if @script_trigger.save
 
     render json: @script_trigger.errors, status: :unprocessable_entity
@@ -33,6 +35,6 @@ class ::API::ScriptTriggersController < ::APIController
   end
 
   def script_trigger_params
-    params.require(:script_trigger).permit(:script_id, :subject_type, :subject_id, :action, :delay)
+    params.require(:script_trigger).permit(:script_id, :subject_type, :subject_id, :scope_type, :scope_id, :action, :delay, :private, :author_id)
   end
 end

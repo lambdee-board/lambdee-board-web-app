@@ -60,32 +60,36 @@ class Ability
   def set_developer_abilities
     abilities_for_workspaces(:read)
     abilities_for_basic_models(:manage)
-    abilities_for_scripts %i[read update create destroy]
+    abilities_for_scripts
   end
 
   # @return [void]
   def set_manager_abilities
     abilities_for_workspaces(:manage)
     abilities_for_basic_models(:manage)
-    abilities_for_scripts %i[read update create destroy]
+    abilities_for_scripts
   end
 
   # @return [void]
   def set_admin_abilities
     can :manage, :all
+    cannot :decrypt, ::DB::ScriptVariable
   end
 
   # @return [void]
   def set_script_service_abilities
-    set_admin_abilities
-    abilities_for_scripts %i[read update create destroy decrypt]
+    can :manage, :all
   end
 
-  # @param actions [Symbol, Array<Symbol>]
   # @return [void]
-  def abilities_for_scripts(actions)
-    can actions, ::DB::Script
-    can actions, ::DB::ScriptVariable
+  def abilities_for_scripts
+    can :manage, ::DB::Script
+    can :manage, ::DB::ScriptTrigger,   author: @user
+    can :manage, ::DB::ScriptTrigger,   private: false
+    can :manage, ::DB::UiScriptTrigger, author: @user
+    can :manage, ::DB::UiScriptTrigger, private: false
+    can :read,   ::DB::ScriptRun
+    can %i[read update create destroy], ::DB::ScriptVariable
   end
 
   # @param actions [Symbol, Array<Symbol>]

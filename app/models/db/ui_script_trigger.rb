@@ -12,13 +12,17 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
   belongs_to :script
   belongs_to :author, class_name: 'DB::User'
 
+  before_save :set_private_for_global
+
   scope :with_author, ->(author) { where(author: author) }
-  scope :not_private, -> { where(private: [nil, false]) }
+  scope :not_private, -> { where(private: false) }
   scope :for_record, ->(record) { where(subject: record) }
   scope :for_model, ->(model, scope) { where(subject_type: model.to_s).where(subject_id: nil).where(scope: scope) }
   scope :global, ->(author) { with_author(author).where(subject_type: nil) }
 
   default_scope { order(id: :desc) }
+
+  attribute :private, default: false
 
   validates :scope, presence: true, if: -> { subject_type && subject_id.nil? }
   validates :scope_id, presence: true, if: -> { scope_type }
@@ -50,5 +54,11 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
   # @return [void]
   def execute_script(subject)
     script.execute(subject, delay:)
+  end
+
+  private
+
+  def set_private_for_global
+    self.private = true unless subject_type
   end
 end

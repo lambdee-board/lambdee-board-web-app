@@ -7,6 +7,8 @@ class DB::User < ::ApplicationRecord
   include ::CustomDatable
   include ::PgSearch::Model
 
+  AVAILABLE_SCOPES = ::Set[]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   # Include default devise modules. Others available are:
