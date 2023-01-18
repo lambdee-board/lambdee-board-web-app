@@ -10,7 +10,7 @@ const ScriptTriggerDialog = (props) => {
   return (
     <Dialog open={props.openDial} onClose={props.handleCloseDial}>
       <DialogTitle>Trigger creator</DialogTitle>
-      <DialogContent sx={{ height: '440px' }}>
+      <DialogContent sx={{ minHeight: '440px' }}>
         <div style={{ display: 'flex', gap: '8px' }}>
           <Button
             variant={triggerType === 'Callback' ? 'contained' : 'outlined'}

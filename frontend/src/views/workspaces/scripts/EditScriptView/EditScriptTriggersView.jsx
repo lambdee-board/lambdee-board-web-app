@@ -68,6 +68,7 @@ export default function EditScriptTriggersView() {
         case 'schedule':
           break
         }
+        addAlert({ severity: 'success', message: 'Trigger created!' })
       })
       .catch((error) => {
         // failed or rejected

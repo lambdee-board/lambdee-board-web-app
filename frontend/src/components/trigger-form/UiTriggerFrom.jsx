@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, FormControlLabel, MenuItem, Switch, TextField, Typography } from '@mui/material'
+import { Alert, Button, FormControlLabel, MenuItem, Switch, TextField, Typography } from '@mui/material'
 import PropTypes from 'prop-types'
 
 import ColorPickerPopover from '../ColorPickerPopover'
@@ -19,6 +19,8 @@ const UiTriggerFrom = (props) => {
 
   const [subjectIdData, setSubjectIdData] = React.useState([])
   const [scopeIdData, setScopeIdData] = React.useState([])
+
+  const [showErrorMessage, setShowErrorMessage] = React.useState(false)
 
   const [triggerScopeTypes, setTriggerScopeTypes] = React.useState([])
   const [uiTriggerState, setUiTriggerState] = React.useState({
@@ -45,6 +47,7 @@ const UiTriggerFrom = (props) => {
       scopeId: '',
       subjectId: ''
     })
+    setShowErrorMessage(false)
 
     if (uiTriggerState.subjectType === 'Global') return
 
@@ -54,12 +57,14 @@ const UiTriggerFrom = (props) => {
       'DB::List',
       'DB::Task',
     ]
-    setTriggerScopeTypes(scopeArr.slice(0, scopeArr.indexOf(uiTriggerState.subjectType)))
+    const slicedScopeArr = scopeArr.slice(0, scopeArr.indexOf(uiTriggerState.subjectType))
+    setTriggerScopeTypes(slicedScopeArr)
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uiTriggerState.subjectType])
 
   React.useEffect(() => {
     if (uiTriggerState.subjectId === '') return
+    setShowErrorMessage(false)
     setUiTriggerState({
       ...uiTriggerState,
       scopeType: '',
@@ -68,6 +73,17 @@ const UiTriggerFrom = (props) => {
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [uiTriggerState.subjectId])
+
+  React.useEffect(() => {
+    if (uiTriggerState.scopeType === '') return
+    setShowErrorMessage(false)
+    setUiTriggerState({
+      ...uiTriggerState,
+      subjectId: ''
+    })
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [uiTriggerState.scopeType])
 
   const requestData = async(assignFunc, objectName) => {
     await apiClient.get(`/api/${objectName}`)
@@ -112,11 +128,27 @@ const UiTriggerFrom = (props) => {
     return uiTriggerState.subjectId === ''
   }
 
-  console.log(lists)
+  const validateBeforeRequest = () => {
+    if (uiTriggerState.subjectType !== 'Global' && uiTriggerState.subjectId === '') {
+      if (uiTriggerState.scopeType === '' || uiTriggerState.scopeId === '') {
+        setShowErrorMessage(true)
+        return
+      }
+    }
+    props.handleSubmit('ui', uiTriggerState)
+    setShowErrorMessage(false)
+  }
 
   return (
     <div>
       <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
+        { showErrorMessage &&
+          <Alert severity='error'>When <strong>Subject Type</strong> is not set to <strong>Global</strong> you need to: <br />
+          - Select <strong>Subject Id</strong><br />
+          OR<br />
+          - Select both <strong>Scope Type</strong> and <strong>Scope Id</strong><br />
+          </Alert>
+        }
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
@@ -165,7 +197,7 @@ const UiTriggerFrom = (props) => {
             sx={{ width: '200px' }}
             margin='dense'
             select
-            disabled={subjectTypeGlobal() || !subjectIdNil()}
+            disabled={subjectTypeGlobal()}
             id='Trigger-scope-type'
             value={uiTriggerState.scopeType}
             label='Scope Type'
@@ -255,7 +287,7 @@ const UiTriggerFrom = (props) => {
       </div>
       <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '24px' }}>
         <Button size='large' onClick={props.handleCloseDial}>Cancel</Button>
-        <Button size='large' onClick={() => props.handleSubmit('ui', uiTriggerState)}>Create</Button>
+        <Button size='large' onClick={validateBeforeRequest}>Create</Button>
       </div>
     </div>
   )
