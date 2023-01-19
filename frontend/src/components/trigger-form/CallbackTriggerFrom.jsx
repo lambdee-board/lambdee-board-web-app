@@ -67,9 +67,9 @@ const CallbackTriggerFrom = (props) => {
 
     if (callbackTriggerState.subjectType === 'DB::User') return setTriggerScopeTypes([])
 
-    if (callbackTriggerState.subjectType === 'DB::TaskUser') return setTriggerScopeTypes(['DB::Workspaces', 'DB::Board', 'DB::List', 'DB::Task'])
+    if (callbackTriggerState.subjectType === 'DB::TaskUser') return setTriggerScopeTypes(['DB::Workspace', 'DB::Board', 'DB::List', 'DB::Task'])
 
-    if (['DB::Sprint', 'DB::Tag'].includes(callbackTriggerState.subjectType)) return setTriggerScopeTypes(['DB::Workspaces', 'DB::Board'])
+    if (['DB::Sprint', 'DB::Tag'].includes(callbackTriggerState.subjectType)) return setTriggerScopeTypes(['DB::Workspace', 'DB::Board'])
 
     const slicedScopeArr = triggerSubjectTypes.slice(0, triggerSubjectTypes.indexOf(callbackTriggerState.subjectType))
     setTriggerScopeTypes(slicedScopeArr)
