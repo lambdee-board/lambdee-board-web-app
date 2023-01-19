@@ -19,6 +19,29 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     end
   end
 
+  should 'update user' do
+    patch api_user_url(@user), params: {
+      user: { name: 'New Name 2' }
+    }, as: :json, headers: auth_headers(@user)
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal 'New Name 2', json['name']
+  end
+
+  should 'not update another user' do
+    @user.developer!
+    user2 = ::FactoryBot.create(:user, name: 'name')
+    patch api_user_url(user2), params: {
+      user: { name: 'New Name 2' }
+    }, as: :json, headers: auth_headers(@user)
+
+    assert_response :forbidden
+
+    assert_equal 'name', user2.reload.name
+  end
+
   should 'return global ui script triggers' do
     global_private_trigger = ::FactoryBot.create(:ui_script_trigger, private: true, author: @user)
     global_trigger = ::FactoryBot.create(:ui_script_trigger, author: @user)
@@ -211,23 +234,6 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     json = ::JSON.parse response.body
     assert_equal @user.name, json['name']
     assert_equal @user.email, json['email']
-  end
-
-  should 'update user' do
-    patch '/api/users', params: {
-      user: { id: @user.id, name: 'new name', current_password: 'password'}
-    }, as: :json, headers: auth_headers(@user)
-    assert_response :success
-
-    assert_equal 'new name', @user.reload.name
-  end
-
-  # TODO: update this
-  should 'update user' do
-    patch api_user_path(@user), params: {
-      user: { id: @user.id, name: 'new name', current_password: 'password'}
-    }, as: :json, headers: auth_headers(@user)
-    assert_response :forbidden
   end
 
   should 'destroy user' do
