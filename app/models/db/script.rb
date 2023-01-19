@@ -20,12 +20,13 @@ class ::DB::Script < ::ApplicationRecord
   # @param delay [Integer, nil]
   def execute(subject, delay: nil)
     @subject = subject
+    @initiator = ::Current.user || author
     script_run = ::DB::ScriptRun.create(
       script: self,
       state: :waiting,
       triggered_at: ::Time.now,
       delay: delay,
-      initiator: ::Current.user || author,
+      initiator: @initiator,
       input: extended_content
     )
 
@@ -38,6 +39,7 @@ class ::DB::Script < ::ApplicationRecord
     return content unless @subject
 
     <<~SCRIPT
+      context[:initiator] = DB::User.from_record(#{@initiator.as_json})
       context[:subject] = #{@subject.class}.from_record(#{@subject.as_json})
       context[:subject_before_update] = #{@subject.class}.from_record(#{@subject.previous_object_state.as_json || @subject.as_json})
       context.keys.each { |k| define_method(k) { context[k] } }
