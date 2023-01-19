@@ -93,7 +93,7 @@ export default function ScriptVariablesView() {
               </Typography>
               <div className='dialog-script-datetime'>
                 <Typography>
-                Created at: {currentVar.createdAt ? dayjs(currentVar.createdAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                Created at: {currentVar.createdAt ? dayjs(currentVar.createdAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
               </div>
             </div>

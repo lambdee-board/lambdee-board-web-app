@@ -72,7 +72,7 @@ const TaskCard = (props) => {
         <Typography className='TaskCard-label'>
           {props.label}
         </Typography>
-        {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:MM'} />}
+        {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:mm'} />}
         <Box className='Box-tags'>
           {props.tags.map((tag) => (
             <Tag key={tag.id} name={tag.name} colour={tag.colour} />
