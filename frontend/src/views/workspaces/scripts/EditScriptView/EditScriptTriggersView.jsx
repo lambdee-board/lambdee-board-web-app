@@ -160,12 +160,16 @@ export default function EditScriptTriggersView() {
               <ListItem
                 sx={{ display: 'flex', flexDirection: 'column', alignItems: 'flex-start' }}
               >
+                <ListItemText primary={`Action: ${trigger.action}`} />
                 <ListItemText
-                  primary={`Action: ${trigger.action}`}
+                  primary={`Private: ${trigger.private}`}
                   secondary={`Delay: ${trigger.delay || 0}`} />
                 <ListItemText
-                  primary={`Type: ${trigger.subjectType || 'all'}`}
-                  secondary={`Id: ${trigger.subjectId}`} />
+                  primary={`Subject type: ${trigger.subjectType || 'all'}`}
+                  secondary={`Subject Id: ${trigger.subjectId}`} />
+                <ListItemText
+                  primary={`Scope type: ${trigger.scopeType || 'all'}`}
+                  secondary={`Scope Id: ${trigger.scopeId}`} />
               </ListItem>
               <Button
                 variant='contained'

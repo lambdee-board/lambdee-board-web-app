@@ -156,13 +156,13 @@ const CallbackTriggerFrom = (props) => {
   }
 
   const validateBeforeRequest = () => {
-    if (callbackTriggerState.subjectType !== 'Global' && callbackTriggerState.subjectId === '') {
-      if (callbackTriggerState.scopeType === '' || callbackTriggerState.scopeId === '') {
-        setShowErrorMessage(true)
-        return
-      }
-    }
-    props.handleSubmit('ui', callbackTriggerState)
+    // if (callbackTriggerState.subjectType !== 'Global' && callbackTriggerState.subjectId === '') {
+    //   if (callbackTriggerState.scopeType === '' || callbackTriggerState.scopeId === '') {
+    //     setShowErrorMessage(true)
+    //     return
+    //   }
+    // }
+    props.handleSubmit('callback', callbackTriggerState)
     setShowErrorMessage(false)
   }
 
