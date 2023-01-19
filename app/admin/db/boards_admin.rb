@@ -18,11 +18,10 @@
   table do
     column :id
     column :name
-    column :workspace
+    column :workspace, sort: false
     column :lists, format: :tags do |ws|
       ws.lists.pluck(:name)
     end
-
     column :created_at, align: :center
     column :updated_at, align: :center, header: 'Last update at'
 
