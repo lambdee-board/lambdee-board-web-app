@@ -132,17 +132,6 @@ export default function Sidebar() {
                 label={workspace.name}
                 icon={<WorkspaceIcon name={workspace.name} size={48} />}
               />
-              <DeveloperContent>
-                <SidebarListItem
-                  active={localStorage.getItem('sidebarSelected') === 'Scripts'}
-                  label='Scripts'
-                  onClick={() => {
-                    localStorage.setItem('sidebarSelected', 'Scripts')
-                    navigate(`/workspaces/${workspaceId}/scripts`)
-                  }}
-                  icon={<FontAwesomeIcon icon={faGem} />}
-                />
-              </DeveloperContent>
               <ManagerContent>
                 <SidebarListItem
                   active={localStorage.getItem('sidebarSelected') === 'Settings'}
@@ -154,6 +143,17 @@ export default function Sidebar() {
                   icon={<FontAwesomeIcon icon={faGear} />}
                 />
               </ManagerContent>
+              <DeveloperContent>
+                <SidebarListItem
+                  active={localStorage.getItem('sidebarSelected') === 'Scripts'}
+                  label='Scripts'
+                  onClick={() => {
+                    localStorage.setItem('sidebarSelected', 'Scripts')
+                    navigate(`/workspaces/${workspaceId}/scripts`)
+                  }}
+                  icon={<FontAwesomeIcon icon={faGem} />}
+                />
+              </DeveloperContent>
               <SidebarListItem
                 active={localStorage.getItem('sidebarSelected') === 'Members'}
                 label='Members'
