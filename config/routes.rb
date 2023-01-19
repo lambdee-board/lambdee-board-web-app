@@ -24,6 +24,7 @@
   namespace :api do
     defaults format: :json do
       get 'search', to: 'search#search'
+      post 'mails', to: 'mails#create'
 
       resources :workspaces do
         post :assign_user, on: :member

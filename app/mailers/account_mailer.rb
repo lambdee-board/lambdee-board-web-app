@@ -12,4 +12,13 @@ class AccountMailer < ::ApplicationMailer
 
     mail(to: @user.email, subject: 'Password reset instructions')
   end
+
+  # send a generic email with custom content
+  def custom_email
+    to = params[:to]
+    subject = params[:subject]
+    @content = params[:content]
+
+    mail(to:, subject:)
+  end
 end

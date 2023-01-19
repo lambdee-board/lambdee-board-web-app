@@ -74,6 +74,7 @@ class Ability
   def set_admin_abilities
     can :manage, :all
     cannot :decrypt, ::DB::ScriptVariable
+    cannot :read, ::API::MailsController
   end
 
   # @return [void]
