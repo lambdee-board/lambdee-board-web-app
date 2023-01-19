@@ -17,7 +17,7 @@ const CallbackTriggerFrom = (props) => {
     'DB::Sprint',
     'DB::Tag',
     'DB::User',
-    'DB:TaskUser'
+    'DB::TaskUser'
   ]
 
   const [callbackTriggerState, setCallbackTriggerState] = React.useState({
@@ -67,7 +67,7 @@ const CallbackTriggerFrom = (props) => {
 
     if (callbackTriggerState.subjectType === 'DB::User') return setTriggerScopeTypes([])
 
-    if (callbackTriggerState.subjectType === 'DB:TaskUser') return setTriggerScopeTypes(['DB::Workspaces', 'DB::Board', 'DB::List', 'DB::Task'])
+    if (callbackTriggerState.subjectType === 'DB::TaskUser') return setTriggerScopeTypes(['DB::Workspaces', 'DB::Board', 'DB::List', 'DB::Task'])
 
     if (['DB::Sprint', 'DB::Tag'].includes(callbackTriggerState.subjectType)) return setTriggerScopeTypes(['DB::Workspaces', 'DB::Board'])
 
