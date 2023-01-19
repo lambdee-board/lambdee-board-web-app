@@ -26,6 +26,7 @@ import useList from '../api/list'
 import { calculatePos, sortByPos } from '../internal/component-position'
 import useTaskDndStore from '../stores/task-dnd'
 
+
 import './TaskList.sass'
 import TaskListModal from './TaskListModal'
 import { TaskCardSkeleton, TaskCard } from './TaskCard'
@@ -114,7 +115,7 @@ function TaskList(props) {
     const newTask = {
       name: nameInput.value,
       listId: props.id,
-      authorId: 1, // TODO: these values should be fetched
+      authorId: parseInt(localStorage.getItem('id')),
     }
     apiClient.post('/api/tasks', newTask)
       .then((response) => {

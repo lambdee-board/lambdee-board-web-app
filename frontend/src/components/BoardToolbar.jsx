@@ -11,8 +11,9 @@ import { mutateBoard } from '../api/board'
 import useAppAlertStore from '../stores/app-alert'
 import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/board-active-sprint'
 
-import { ManagerContent } from '../permissions/content'
+import { ManagerContent, DeveloperContent } from '../permissions/content'
 import SprintModal from './SprintModal'
+import ScriptButton from './ScriptButton'
 
 import './BoardToolbar.sass'
 
@@ -155,7 +156,7 @@ export default function BoardToolbar(props) {
         {!activeSprint ?
 
           <ManagerContent>
-            <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+            <Button onClick={() => setNewSprintModal(true)}
               className='Toolbar-create-spring-button'
               color='secondary'
               variant='outlined'
@@ -164,7 +165,7 @@ export default function BoardToolbar(props) {
               <Typography>Start Sprint</Typography>
             </Button>
           </ManagerContent>       :
-          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+          <Button onClick={() => setNewSprintModal(true)}
             className='Toolbar-create-spring-button'
             color='secondary'
             variant='contained'
@@ -185,21 +186,22 @@ export default function BoardToolbar(props) {
           >
             <Typography>View Sprint</Typography>
           </Button>}
-
+        <DeveloperContent>
+          <ScriptButton scope='boards' id={boardId} />
+        </DeveloperContent>
       </Toolbar>
       <Toolbar className='Toolbar'>
         {boardView === '0' ?
-          <div>
-            <Button sx={{ ml: '8px' }}
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faBriefcase} />}
-            >
-              <Typography>Work View</Typography>
-            </Button>
-          </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardWorkView()}
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faBriefcase} />}
+          >
+            <Typography>Work View</Typography>
+          </Button>                :
+          <Button onClick={() => setBoardWorkView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
@@ -209,17 +211,16 @@ export default function BoardToolbar(props) {
           </Button>
         }
         {boardView === '1' ?
-          <div>
-            <Button sx={{ ml: '8px' }}
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faList} />}
-            >
-              <Typography>Planning View</Typography>
-            </Button>
-          </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardPlanningView()}
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faList} />}
+          >
+            <Typography>Planning View</Typography>
+          </Button>               :
+          <Button onClick={() => setBoardPlanningView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
@@ -229,17 +230,16 @@ export default function BoardToolbar(props) {
           </Button>
         }
         {boardView === '2' ?
-          <div>
-            <Button sx={{ ml: '8px' }}
-              className='Toolbar-create-list-button'
-              color='secondary'
-              variant='contained'
-              startIcon={<FontAwesomeIcon icon={faChartLine} />}
-            >
-              <Typography>Report View</Typography>
-            </Button>
-          </div>      :
-          <Button sx={{ ml: '8px' }} onClick={() => setBoardReportsView()}
+
+          <Button
+            className='Toolbar-create-list-button'
+            color='secondary'
+            variant='contained'
+            startIcon={<FontAwesomeIcon icon={faChartLine} />}
+          >
+            <Typography>Report View</Typography>
+          </Button>                :
+          <Button onClick={() => setBoardReportsView()}
             className='Toolbar-create-list-button'
             color='secondary'
             variant='outlined'
@@ -248,6 +248,7 @@ export default function BoardToolbar(props) {
             <Typography>Report View</Typography>
           </Button>
         }
+
       </Toolbar>
     </div>
   )

@@ -1,8 +1,9 @@
 import { sassPlugin } from 'esbuild-sass-plugin'
 import { prismjsPlugin } from 'esbuild-plugin-prismjs'
 
+import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
-import { sep, dirname, join } from 'path'
+import { dirname, join } from 'path'
 import errorReportPlugin from './error-report-plugin.mjs'
 import cleanBuildPlugin from './clean-build-plugin.mjs'
 
@@ -22,7 +23,8 @@ export default {
     '.png': 'file',
     '.svg': 'file',
     '.jpg': 'file',
-    '.jpeg': 'file'
+    '.jpeg': 'file',
+    '.txt': 'text'
   },
   plugins: [
     cleanBuildPlugin,
@@ -49,7 +51,7 @@ export default {
     'process.env.SCRIPT_SERVICE_EXTERNAL_HOST': JSON.stringify(process.env.SCRIPT_SERVICE_EXTERNAL_HOST || 'localhost:3001'),
     'process.env.SCRIPT_SERVICE_WS_PROTOCOL': JSON.stringify(process.env.SCRIPT_SERVICE_WS_PROTOCOL || 'ws'),
     '__dirname': JSON.stringify(`${__dirname}/..`),
-    'process.path.sep': JSON.stringify(sep)
+    'process.env.LAMBDEE_VERSION': JSON.stringify(readFileSync(`${__dirname}/../../.version`, 'utf8').trim())
   },
   inject: [
     `${__dirname}/../react-shim.js`,

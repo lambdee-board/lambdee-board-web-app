@@ -3,13 +3,16 @@
 # Controller which provides a full CRUD for workspaces
 # through the JSON API.
 class API::WorkspacesController < ::APIController
-  before_action :set_workspace, only: %i[show update destroy assign_user unassign_user]
-  authorize_resource except: %i[index create]
+  before_action :set_workspace, only: %i[show update destroy assign_user unassign_user ui_script_triggers]
+  authorize_resource only: %i[show update destroy]
+  has_scope :page, :per
 
   # GET /api/workspaces
   def index
-    @workspaces = ::DB::Workspace.accessible_by(current_ability)
-    @workspaces = @workspaces.limit(limit) if limit?
+    filters = ::FilterParameters::Universal.new(params)
+    return render json: filters.errors, status: :unprocessable_entity unless filters.valid?(params)
+
+    @workspaces = apply_scopes(::DB::Workspace.accessible_by(current_ability))
   end
 
   # GET /api/workspaces/1
@@ -52,6 +55,13 @@ class API::WorkspacesController < ::APIController
     authorize! :update, @workspace
     @workspace.users.delete(params[:user_id])
     head :no_content
+  end
+
+  # GET api/workspaces/:id/ui_script_triggers
+  def ui_script_triggers
+    authorize! :read, @workspace
+    @ui_script_triggers = ::DB::UiScriptTrigger.regarding_record_and_user(@workspace, current_user)
+    render 'api/ui_script_triggers/index'
   end
 
   private

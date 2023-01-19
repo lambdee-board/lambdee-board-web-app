@@ -12,7 +12,11 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     board = ::FactoryBot.create(:board)
 
     assert_difference('DB::UiScriptTrigger.count') do
-      post api_ui_script_triggers_url, params: { ui_script_trigger: { script_id: script.id, subject_type: 'DB::Task', scope_type: 'DB::Board', scope_id: board.id } }, as: :json, headers: auth_headers(@user)
+      post api_ui_script_triggers_url, params: {
+        ui_script_trigger: {
+          script_id: script.id, subject_type: 'DB::Task', scope_type: 'DB::Board', scope_id: board.id, author_id: @user.id, delay: 1, private: true, colour: '#ffffff', text: 'elo'
+        }
+      }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -22,6 +26,11 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     assert_equal 'DB::Board', json['scope_type']
     assert_equal board.id, json['scope_id']
     assert_equal board.id, ::DB::UiScriptTrigger.last.scope.id
+    assert_equal @user.id, json['author_id']
+    assert_equal 1, json['delay']
+    assert_equal true, json['private']
+    assert_equal '#ffffff', json['colour']
+    assert_equal 'elo', json['text']
   end
 
 
@@ -30,7 +39,7 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     task = ::FactoryBot.create(:task)
 
     assert_difference('DB::UiScriptTrigger.count') do
-      post api_ui_script_triggers_url, params: { ui_script_trigger: { script_id: script.id, subject_type: 'DB::Task', subject_id: task.id } }, as: :json, headers: auth_headers(@user)
+      post api_ui_script_triggers_url, params: { ui_script_trigger: { script_id: script.id, subject_type: 'DB::Task', subject_id: task.id, author_id: @user.id } }, as: :json, headers: auth_headers(@user)
     end
 
     assert_response :created
@@ -71,5 +80,36 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     end
 
     assert_response :no_content
+  end
+
+  should 'execute global script' do
+    trigger = ::FactoryBot.create(:ui_script_trigger)
+
+    assert_difference('DB::ScriptRun.count', 1) do
+      post executions_api_ui_script_trigger_url(trigger), headers: auth_headers(@user)
+    end
+
+    assert_response :created
+    run = ::DB::ScriptRun.last
+    assert_equal "puts 'hello world'", run.input
+    assert_equal 'waiting', run.state
+    assert_equal @user.id, run.initiator.id
+    assert run.triggered_at.today?
+  end
+
+  should 'execute script on task subject' do
+    task = ::FactoryBot.create(:task)
+    trigger = ::FactoryBot.create(:ui_script_trigger, subject: task)
+
+    assert_difference('DB::ScriptRun.count', 1) do
+      post executions_api_ui_script_trigger_url(trigger), headers: auth_headers(@user), params: { subject_id: task.id }, as: :json
+    end
+
+    assert_response :created
+    run = ::DB::ScriptRun.last
+    assert run.input.include?('context[:subject] = DB::Task.from_record')
+    assert_equal 'waiting', run.state
+    assert_equal @user.id, run.initiator.id
+    assert run.triggered_at.today?
   end
 end

@@ -7,12 +7,14 @@ class DB::User < ::ApplicationRecord
   include ::CustomDatable
   include ::PgSearch::Model
 
+  AVAILABLE_SCOPES = ::Set[]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   # Include default devise modules. Others available are:
-  # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
+  # :confirmable, :lockable, :timeoutable, and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
-         :jwt_authenticatable, jwt_revocation_strategy: ::DB::JwtDenylist
+         :jwt_authenticatable, :trackable, jwt_revocation_strategy: ::DB::JwtDenylist
 
   self.skip_session_storage = %i[http_auth params_auth]
 

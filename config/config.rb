@@ -8,6 +8,8 @@
 module Config
   extend self
 
+  ROOT = ::Pathname.new ::File.expand_path('..', __dir__)
+
   # Load a *YAML* file from the `config` folder inside this Rails project.
   # It also preprocesses it using *ERB* prior to loading.
   # Returns parsed Ruby objects (`Hash` or `Array` on top level).
@@ -39,6 +41,6 @@ module Config
   # @param file_name [Array<String>]
   # @return [String]
   def load_file(*file_name)
-    ::File.read(::File.join(::Rails.root.to_s, "config", *file_name))
+    ::File.read(::File.join(ROOT.to_s, "config", *file_name))
   end
 end

@@ -7,6 +7,8 @@ class DB::Board < ::ApplicationRecord
   include ::ScriptTriggerable
   include ::CustomDatable
 
+  AVAILABLE_SCOPES = ::Set[:workspace]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :workspace

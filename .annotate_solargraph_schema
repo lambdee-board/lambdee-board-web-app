@@ -813,6 +813,12 @@ class DB::ScriptTrigger < ApplicationRecord
   #
   # @return [Array<DB::ScriptTrigger>, nil]
   def self.with_action(action); end
+  # Polymorphic relation. Database columns `script_triggers.scope_id` and `script_triggers.scope_type`.
+  # @param val [Object, nil]
+  def scope=(val); end
+  # Polymorphic relation. Database columns `script_triggers.scope_id` and `script_triggers.scope_type`.
+  # @return [Object, nil]
+  def scope; end
   # `belongs_to` relation with `DB::Script`. Database column `script_triggers.script_id`.
   # @param val [DB::Script, nil]
   def script=(val); end
@@ -861,8 +867,99 @@ class DB::ScriptTrigger < ApplicationRecord
   # Database column `script_triggers.delay`, type: `integer`.
   # @return [Integer, nil]
   def delay; end
+  # Database column `script_triggers.scope_type`, type: `string`.
+  # @param val [String, nil]
+  def scope_type=(val); end
+  # Database column `script_triggers.scope_type`, type: `string`.
+  # @return [String, nil]
+  def scope_type; end
+  # Database column `script_triggers.scope_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def scope_id=(val); end
+  # Database column `script_triggers.scope_id`, type: `integer`.
+  # @return [Integer, nil]
+  def scope_id; end
+  # Database column `script_triggers.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `script_triggers.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `script_triggers.private`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def private=(val); end
+  # Database column `script_triggers.private`, type: `boolean`.
+  # @return [Boolean, nil]
+  def private; end
 end
 # %%<RailsAnnotateSolargraph:End:script_triggers>%%
+
+
+# %%<RailsAnnotateSolargraph:Start:script_variables>%%
+
+class DB::ScriptVariable < ApplicationRecord
+  # Scope `:global`.
+  #
+  #     scope :global, -> { where(owner_type: nil) }
+  #
+  # @return [Array<DB::ScriptVariable>, nil]
+  def self.global(); end
+  # Polymorphic relation. Database columns `script_variables.owner_id` and `script_variables.owner_type`.
+  # @param val [Object, nil]
+  def owner=(val); end
+  # Polymorphic relation. Database columns `script_variables.owner_id` and `script_variables.owner_type`.
+  # @return [Object, nil]
+  def owner; end
+  # Database column `script_variables.id`, type: `integer`.
+  # @param val [Integer, nil]
+  def id=(val); end
+  # Database column `script_variables.id`, type: `integer`.
+  # @return [Integer, nil]
+  def id; end
+  # Database column `script_variables.owner_type`, type: `string`.
+  # @param val [String, nil]
+  def owner_type=(val); end
+  # Database column `script_variables.owner_type`, type: `string`.
+  # @return [String, nil]
+  def owner_type; end
+  # Database column `script_variables.owner_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def owner_id=(val); end
+  # Database column `script_variables.owner_id`, type: `integer`.
+  # @return [Integer, nil]
+  def owner_id; end
+  # Database column `script_variables.name`, type: `string`.
+  # @param val [String, nil]
+  def name=(val); end
+  # Database column `script_variables.name`, type: `string`.
+  # @return [String, nil]
+  def name; end
+  # Database column `script_variables.description`, type: `string`.
+  # @param val [String, nil]
+  def description=(val); end
+  # Database column `script_variables.description`, type: `string`.
+  # @return [String, nil]
+  def description; end
+  # Database column `script_variables.value`, type: `text`.
+  # @param val [String, nil]
+  def value=(val); end
+  # Database column `script_variables.value`, type: `text`.
+  # @return [String, nil]
+  def value; end
+  # Database column `script_variables.created_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def created_at=(val); end
+  # Database column `script_variables.created_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def created_at; end
+  # Database column `script_variables.updated_at`, type: `datetime`.
+  # @param val [ActiveSupport::TimeWithZone, nil]
+  def updated_at=(val); end
+  # Database column `script_variables.updated_at`, type: `datetime`.
+  # @return [ActiveSupport::TimeWithZone, nil]
+  def updated_at; end
+end
+# %%<RailsAnnotateSolargraph:End:script_variables>%%
 
 
 # %%<RailsAnnotateSolargraph:Start:sprints>%%
@@ -1440,6 +1537,42 @@ end
 # %%<RailsAnnotateSolargraph:Start:ui_script_triggers>%%
 
 class DB::UiScriptTrigger < ApplicationRecord
+  # Scope `:for_model`.
+  #
+  #     scope :for_model, ->(model, scope) { where(subject_type: model.to_s).where(subject_id: nil).where(scope: scope) }
+  #
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def self.for_model(model, scope); end
+  # Scope `:for_record`.
+  #
+  #     scope :for_record, ->(record) { where(subject: record) }
+  #
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def self.for_record(record); end
+  # Scope `:global`.
+  #
+  #     scope :global, ->(author) { with_author(author).where(subject_type: nil) }
+  #
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def self.global(author); end
+  # Scope `:not_private`.
+  #
+  #     scope :not_private, -> { where(private: [nil, false]) }
+  #
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def self.not_private(); end
+  # Scope `:with_author`.
+  #
+  #     scope :with_author, ->(author) { where(author: author) }
+  #
+  # @return [Array<DB::UiScriptTrigger>, nil]
+  def self.with_author(author); end
+  # `belongs_to` relation with `DB::User`. Database column `ui_script_triggers.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `ui_script_triggers.author_id`.
+  # @return [DB::User, nil]
+  def author; end
   # Polymorphic relation. Database columns `ui_script_triggers.scope_id` and `ui_script_triggers.scope_type`.
   # @param val [Object, nil]
   def scope=(val); end
@@ -1494,6 +1627,36 @@ class DB::UiScriptTrigger < ApplicationRecord
   # Database column `ui_script_triggers.scope_id`, type: `integer`.
   # @return [Integer, nil]
   def scope_id; end
+  # Database column `ui_script_triggers.author_id`, type: `integer`.
+  # @param val [Integer, nil]
+  def author_id=(val); end
+  # Database column `ui_script_triggers.author_id`, type: `integer`.
+  # @return [Integer, nil]
+  def author_id; end
+  # Database column `ui_script_triggers.delay`, type: `integer`.
+  # @param val [Integer, nil]
+  def delay=(val); end
+  # Database column `ui_script_triggers.delay`, type: `integer`.
+  # @return [Integer, nil]
+  def delay; end
+  # Database column `ui_script_triggers.private`, type: `boolean`.
+  # @param val [Boolean, nil]
+  def private=(val); end
+  # Database column `ui_script_triggers.private`, type: `boolean`.
+  # @return [Boolean, nil]
+  def private; end
+  # Database column `ui_script_triggers.colour`, type: `string`.
+  # @param val [String, nil]
+  def colour=(val); end
+  # Database column `ui_script_triggers.colour`, type: `string`.
+  # @return [String, nil]
+  def colour; end
+  # Database column `ui_script_triggers.text`, type: `string`.
+  # @param val [String, nil]
+  def text=(val); end
+  # Database column `ui_script_triggers.text`, type: `string`.
+  # @return [String, nil]
+  def text; end
 end
 # %%<RailsAnnotateSolargraph:End:ui_script_triggers>%%
 

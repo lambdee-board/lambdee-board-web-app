@@ -6,12 +6,16 @@ class DB::List < ::ApplicationRecord
   include ::ScriptTriggerable
   include ::CustomDatable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :board
   has_many :tasks, dependent: :destroy
   has_many :tasks_including_deleted, -> { with_deleted }, class_name: 'DB::Task'
   has_many :deleted_tasks, -> { only_deleted }, class_name: 'DB::Task'
+
+  delegate :workspace, to: :board
 
   before_create :set_highest_pos_in_board
 

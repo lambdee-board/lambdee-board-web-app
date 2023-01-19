@@ -7,17 +7,16 @@ const NewScriptDialog = (props) => {
   const [newScript, setNewScript] = React.useState({ name: '', description: '', content: '' })
 
   React.useEffect(() => {
-    setNewScript({ name: '', description: '', content: '' })
+    setNewScript({ name: '', description: '', content: '', authorId: parseInt(localStorage.getItem('id')) })
   }, [props])
-
 
   return (
     <Dialog
-      open={props.openDial}
-      onClose={props.handleCloseDial}
+      open={props.open}
+      onClose={props.onClose}
       fullWidth
       maxWidth='sm'>
-      <form onSubmit={(event) => props.handleSubmit(event, newScript)}>
+      <form onSubmit={(event) => props.onSubmit(event, newScript)}>
         <DialogTitle>New script</DialogTitle>
         <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
           <TextField
@@ -41,7 +40,7 @@ const NewScriptDialog = (props) => {
             multiline />
         </DialogContent>
         <DialogActions className=''>
-          <Button onClick={props.handleCloseDial}>Cancel</Button>
+          <Button onClick={props.onClose}>Cancel</Button>
           <Button type='submit'>Create</Button>
         </DialogActions>
       </form>
@@ -51,9 +50,9 @@ const NewScriptDialog = (props) => {
 
 
 NewScriptDialog.propTypes = {
-  openDial: PropTypes.bool.isRequired,
-  handleCloseDial: PropTypes.func.isRequired,
-  handleSubmit: PropTypes.func.isRequired
+  open: PropTypes.bool.isRequired,
+  onClose: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired
 }
 
 export default NewScriptDialog

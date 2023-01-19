@@ -17,8 +17,7 @@ require 'swagger_helper'
       parameter name: 'limit', in: :query, type: :integer, required: false, description: 'Decides how many entities should be returned', example: 3
 
       response(200, 'successful') do
-        schema type: :array,
-          items: { '$ref' => '#/components/schemas/script_response' }
+        schema '$ref' => '#/components/schemas/script_pages_response'
 
         before do
           3.times { ::FactoryBot.create(:script) }
@@ -72,7 +71,13 @@ require 'swagger_helper'
       response(200, 'successful') do
         schema '$ref' => '#/components/schemas/script_response'
 
-        let(:id) { ::FactoryBot.create(:script).id }
+        let(:id) do
+          script = ::FactoryBot.create(:script)
+          ::FactoryBot.create(:script_trigger, script:)
+          ::FactoryBot.create(:ui_script_trigger, script:)
+
+          script.id
+        end
 
         after do |example|
           save_response(example, response)

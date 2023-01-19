@@ -9,19 +9,13 @@
 
     trait :with_trigger_on_task_creation  do
       after(:create) do |s|
-        ::FactoryBot.create(:script_trigger, script: s, action: :create, subject_type: ::DB::Task)
+        ::FactoryBot.create(:script_trigger, script: s, action: :create, scope: ::FactoryBot.create(:workspace), subject_type: ::DB::Task, author: s.author)
       end
     end
 
     trait :with_trigger_on_task_update  do
       after(:create) do |s|
-        ::FactoryBot.create(:script_trigger, script: s, action: :update, subject: ::FactoryBot.create(:task))
-      end
-    end
-
-    trait :with_trigger_on_every_model_creation  do
-      after(:create) do |s|
-        ::FactoryBot.create(:script_trigger, script: s, action: :create)
+        ::FactoryBot.create(:script_trigger, script: s, action: :update, subject: ::FactoryBot.create(:task), author: s.author)
       end
     end
   end

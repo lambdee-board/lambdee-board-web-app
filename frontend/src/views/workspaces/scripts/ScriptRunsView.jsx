@@ -8,7 +8,6 @@ import CodeHighlighter from '../../../components/CodeHighlighter'
 import dayjs from 'dayjs'
 
 import './ScriptRunsView.sass'
-import ScriptRunsFilter from '../../../components/ScriptRunsFilter'
 
 export default function ScriptRunsView() {
   const perPage = 10
@@ -36,7 +35,6 @@ export default function ScriptRunsView() {
 
 
   const handleOpenDial = (scriptRun) => {
-    console.log(scriptRun)
     setCurrentRun(scriptRun)
     setOpenDial(true)
   }
@@ -53,24 +51,13 @@ export default function ScriptRunsView() {
     mutate({ axiosOptions: { params: newFilterPage } })
   }
 
-  const updateFilters = (newFilter) => {
-    const validFilter = Object.fromEntries(
-      Object.entries(newFilter).filter(([_, v]) => v !== '')
-    )
-    validFilter.per = perPage
-    validFilter.page = 1
-
-    // console.log(validFilter)
-    setFilter(validFilter)
-  }
-
 
   return (
     <div className='WorkspaceScriptsRuns' style={{ display: 'flex', flexDirection: 'row' }}>
       <div className='list-wrapper'>
         {!(isLoading || isError) &&
         <List className='List'>
-          <Divider />
+
           {scriptRuns?.runs.length > 0 ?
             scriptRuns?.runs.map((scriptRun, idx) => (
               <div key={idx}>
@@ -78,9 +65,10 @@ export default function ScriptRunsView() {
                   divider
                   onClick={() => handleOpenDial(scriptRun)}
                   sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '32px', gap: '16px' }}>
+                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
                     <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[scriptRun.state]} />
-                    <Typography variant='h5'>{scriptRun.scriptName}</Typography>
+                    <Typography sx={{ fontSize: '18px' }}>{scriptRun.scriptName}</Typography>
+                    <Divider />
                   </div>
                   <Chip label={scriptRun.state} sx={{ bgcolor: stateColors[scriptRun.state], color: 'white' }} />
                 </ListItemButton>
@@ -101,11 +89,11 @@ export default function ScriptRunsView() {
         }
 
       </div>
-      <div className='filter-wrapper'>
+      {/* <div className='filter-wrapper'>
         <ScriptRunsFilter
           updateFilters={updateFilters}
         />
-      </div>
+      </div> */}
       { currentRun &&
         <Dialog
           open={openDial}
@@ -120,10 +108,10 @@ export default function ScriptRunsView() {
               </Typography>
               <div className='dialog-script-datetime'>
                 <Typography>
-                Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
                 <Typography>
-                Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
                 <Typography>Delay: {currentRun.delay || 0}s</Typography>
               </div>

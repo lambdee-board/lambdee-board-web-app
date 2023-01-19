@@ -5,6 +5,10 @@ default: &default
   internal_host: 'localhost'
   gravatar_host: www.gravatar.com
   script_service_secret: sikritToken123
+  encryption:
+    primary_key: EGY8WhulUOXixybod7ZWwMIL68R9o5kC
+    deterministic_key: aPA5XyALhf75NNnMzaspW7akTfZp0lPY
+    key_derivation_salt: xEY0dt6TZcAMg52K7O84wYzkjvbA62Hz
 
 development:
   <<: *default
@@ -19,3 +23,7 @@ production:
   internal_host: '<%= ENV['LAMBDEE_INTERNAL_HOST'] %>'
   gravatar_host: 'www.gravatar.com'
   script_service_secret: '<%= ENV['SCRIPT_SERVICE_SECRET'] || 'sikritToken123' %>'
+  encryption:
+    primary_key: '<%= ENV['ENCRYPTION_PRIMARY_KEY'] %>'
+    deterministic_key: '<%= ENV['ENCRYPTION_DETERMINISTIC_KEY'] %>'
+    key_derivation_salt: '<%= ENV['ENCRYPTION_KEY_DERIVATION_SALT'] %>'

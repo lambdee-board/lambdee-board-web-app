@@ -118,7 +118,7 @@ function TaskPlanningList(props) {
     const newTask = {
       name: nameInput.value,
       listId: props.id,
-      authorId: 1, // TODO: these values should be fetched
+      authorId: parseInt(localStorage.getItem('id')),
     }
     apiClient.post('/api/tasks', newTask)
       .then((response) => {

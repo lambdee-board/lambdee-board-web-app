@@ -4,7 +4,7 @@ require "test_helper"
 
 class API::UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = ::FactoryBot.create :user, role: 4
+    @user = ::FactoryBot.create :user, role: :admin
   end
 
   should 'get index' do
@@ -17,6 +17,47 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     3.times do |i|
       assert_equal "Person#{i}", json.dig('users', i + 1, 'name')
     end
+  end
+
+  should 'update user' do
+    patch api_user_url(@user), params: {
+      user: { name: 'New Name 2' }
+    }, as: :json, headers: auth_headers(@user)
+
+    assert_response :success
+
+    json = ::JSON.parse response.body
+    assert_equal 'New Name 2', json['name']
+  end
+
+  should 'not update another user' do
+    @user.developer!
+    user2 = ::FactoryBot.create(:user, name: 'name')
+    patch api_user_url(user2), params: {
+      user: { name: 'New Name 2' }
+    }, as: :json, headers: auth_headers(@user)
+
+    assert_response :forbidden
+
+    assert_equal 'name', user2.reload.name
+  end
+
+  should 'return global ui script triggers' do
+    global_private_trigger = ::FactoryBot.create(:ui_script_trigger, private: true, author: @user)
+    global_trigger = ::FactoryBot.create(:ui_script_trigger, author: @user)
+
+    ::FactoryBot.create(:ui_script_trigger, private: true)
+    ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: ::FactoryBot.create(:board))
+    ::FactoryBot.create(:ui_script_trigger, scope: ::FactoryBot.create(:task))
+
+    get current_ui_script_triggers_api_users_url, headers: auth_headers(@user)
+
+    json = ::JSON.parse response.body
+    assert_equal 2, json.size
+    assert_equal global_trigger.id, json[0]['id']
+    assert json[0]['colour'].is_a?(::String)
+    assert_equal 'Send a message', json[0]['text']
+    assert_equal global_private_trigger.id, json[1]['id']
   end
 
   should 'get index with role param' do
@@ -193,23 +234,6 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     json = ::JSON.parse response.body
     assert_equal @user.name, json['name']
     assert_equal @user.email, json['email']
-  end
-
-  should 'update user' do
-    patch '/api/users', params: {
-      user: { id: @user.id, name: 'new name', current_password: 'password'}
-    }, as: :json, headers: auth_headers(@user)
-    assert_response :success
-
-    assert_equal 'new name', @user.reload.name
-  end
-
-  # TODO: update this
-  should 'update user' do
-    patch api_user_path(@user), params: {
-      user: { id: @user.id, name: 'new name', current_password: 'password'}
-    }, as: :json, headers: auth_headers(@user)
-    assert_response :forbidden
   end
 
   should 'destroy user' do

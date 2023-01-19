@@ -26,6 +26,7 @@ class ::DB::SprintTest < ::ActiveSupport::TestCase
     ::FactoryBot.create(:visible_list, board: board, pos: 3, name: 'done')
     ::FactoryBot.create(:visible_list, board: board, pos: 2, name: 'todo')
     sprint = ::FactoryBot.create(:sprint, board: board)
+    sprint.valid?
 
     assert_equal 'done', sprint.final_list_name
   end

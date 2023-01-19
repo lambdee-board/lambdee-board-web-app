@@ -9,15 +9,13 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
   end
 
   should 'get index' do
-    3.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}").users << @user }
+    4.times { |i| ::FactoryBot.create(:workspace, name: "workspace#{i}").users << @user }
     ::FactoryBot.create(:workspace, name: 'not_user_workspace')
-    get '/api/workspaces', headers: auth_headers(@user)
+    get '/api/workspaces', params: { page: 1, per: 3 }, headers: auth_headers(@user)
     assert_response 200
-    json = ::JSON.parse(response.body)
-    assert_equal 3, json.length
-    3.times do |i|
-      assert_equal "workspace#{i}", json.dig(i, 'name')
-    end
+    json = ::JSON.parse(response.body, symbolize_names: true)
+    assert_equal 3, json[:workspaces].length
+    assert_equal 2, json[:total_pages]
   end
 
   should 'get index when admin user' do
@@ -25,8 +23,8 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
     ::FactoryBot.create(:workspace, name: 'not_user_workspace')
     get '/api/workspaces', headers: auth_headers(@user)
     assert_response 200
-    json = ::JSON.parse(response.body)
-    assert_equal 'not_user_workspace', json.last['name']
+    json = ::JSON.parse(response.body, symbolize_names: true)
+    assert_equal 'not_user_workspace', json[:workspaces][-1][:name]
   end
 
   should 'not show workspace' do
@@ -83,6 +81,24 @@ class API::WorkspacesControllerTest < ::ActionDispatch::IntegrationTest
       post unassign_user_api_workspace_url(@workspace), params: { user_id: @user.id }, headers: auth_headers(@user), as: :json
 
       assert_response :forbidden
+    end
+
+    should 'return ui script triggers' do
+      subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @workspace, private: true, author: @user)
+
+      ::FactoryBot.create(:ui_script_trigger)
+      ::FactoryBot.create(:ui_script_trigger, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: @workspace, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:workspace))
+
+      get ui_script_triggers_api_workspace_path(@workspace), headers: auth_headers(@user)
+
+      assert_response :ok
+      json = ::JSON.parse response.body
+      assert_equal 1, json.size
+      assert_equal 'DB::Workspace', json[0]['subject_type']
+      assert json[0]['colour'].is_a?(::String)
+      assert_equal 'Send a message', json[0]['text']
     end
   end
 

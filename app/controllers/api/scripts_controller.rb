@@ -2,11 +2,16 @@
 
 class ::API::ScriptsController < ::APIController
   before_action :set_script, only: %i[show update destroy]
+  authorize_resource only: %i[show update destroy]
+
+  has_scope :page, :per
 
   # GET /api/scripts
   def index
-    @scripts = ::DB::Script.all
-    @scripts = @scripts.limit(limit) if limit?
+    filters = ::FilterParameters::Universal.new(params)
+    return render json: filters.errors, status: :unprocessable_entity unless filters.valid?(params)
+
+    @scripts = apply_scopes(::DB::Script.accessible_by(current_ability))
   end
 
   # GET /api/scripts/1
@@ -16,6 +21,7 @@ class ::API::ScriptsController < ::APIController
   def create
     @script = ::DB::Script.new(script_params)
     @script.author = current_user
+    authorize! :create, @script
     return render :show, status: :created if @script.save
 
     render json: @script.errors, status: :unprocessable_entity
@@ -40,6 +46,6 @@ class ::API::ScriptsController < ::APIController
   end
 
   def script_params
-    params.require(:script).permit(:content, :name, :description, script_triggers_attributes: %i[id subject_type subject_id action delay _destroy])
+    params.require(:script).permit(:content, :name, :description, script_triggers_attributes: %i[id subject_type subject_id scope_type scope_id action delay private author_id _destroy])
   end
 end

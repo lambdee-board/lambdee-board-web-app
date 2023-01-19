@@ -3,14 +3,14 @@
 # Controller which provides a full CRUD for boards
 # through the JSON API.
 class API::BoardsController < ::APIController
-  before_action :set_board, only: %i[update show destroy user_tasks]
+  before_action :set_board, only: %i[update show destroy user_tasks ui_script_triggers]
   after_action :set_last_viewed_board_for_user, only: %i[show create]
   authorize_resource only: %i[show update destroy]
 
   # GET /api/boards
   def index
-    @boards = ::DB::Board.all.accessible_by(current_ability)
-    @boards = @boards.limit(limit) if limit?
+    @boards = ::DB::Board.all
+    @boards = @boards.accessible_by(current_ability)
   end
 
   # GET api/boards/1
@@ -53,6 +53,13 @@ class API::BoardsController < ::APIController
         []
       end
     render :recently_viewed
+  end
+
+  # GET api/boards/:id/ui_script_triggers
+  def ui_script_triggers
+    authorize! :read, @board
+    @ui_script_triggers = ::DB::UiScriptTrigger.regarding_record_and_user(@board, current_user)
+    render 'api/ui_script_triggers/index'
   end
 
   private

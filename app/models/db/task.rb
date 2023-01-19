@@ -5,6 +5,8 @@
 class DB::Task < ApplicationRecord
   include ::ScriptTriggerable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board, :list]
+
   acts_as_paranoid double_tap_destroys_fully: false
 
   belongs_to :list
@@ -18,6 +20,9 @@ class DB::Task < ApplicationRecord
   has_many :tags, through: :task_tags
   has_many :sprint_tasks
   has_many :sprints, through: :sprint_tasks
+
+  delegate :board, to: :list
+  delegate :workspace, to: :board
 
   before_create :set_highest_pos_in_list
   around_save :update_or_create_sprint_task_if_needed
@@ -51,11 +56,6 @@ class DB::Task < ApplicationRecord
     users
   end
 
-  # @return [DB::Board]
-  def board
-    list.board
-  end
-
   # @return [DB::SprintTask, nil]
   def current_sprint_task
     @current_sprint_task ||= sprint_tasks.find_by(sprint: board.active_sprint)
@@ -65,7 +65,7 @@ class DB::Task < ApplicationRecord
   def set_highest_pos_in_list
     return unless list
 
-    self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
+    self.pos ||= list.tasks.reorder(:pos).last&.pos&.+(1024) || 65_536
   end
 
   private

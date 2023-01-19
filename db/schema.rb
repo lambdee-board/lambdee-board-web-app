@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_12_10_140437) do
+ActiveRecord::Schema[7.0].define(version: 2023_01_16_104925) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -75,7 +75,26 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_140437) do
     t.bigint "subject_id"
     t.string "action"
     t.integer "delay"
+    t.string "scope_type"
+    t.bigint "scope_id"
+    t.bigint "author_id"
+    t.boolean "private"
+    t.index ["author_id"], name: "index_script_triggers_on_author_id"
+    t.index ["scope_type", "scope_id"], name: "index_script_triggers_on_scope"
     t.index ["subject_type", "subject_id"], name: "index_script_triggers_on_subject"
+  end
+
+  create_table "script_variables", force: :cascade do |t|
+    t.string "owner_type"
+    t.bigint "owner_id"
+    t.string "name"
+    t.string "description"
+    t.string "value"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_script_variables_on_name", unique: true
+    t.index ["owner_type", "owner_id", "name"], name: "unique_name_per_owner", unique: true
+    t.index ["owner_type", "owner_id"], name: "index_script_variables_on_owner"
   end
 
   create_table "scripts", force: :cascade do |t|
@@ -155,6 +174,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_140437) do
     t.bigint "subject_id"
     t.string "scope_type"
     t.bigint "scope_id"
+    t.bigint "author_id"
+    t.integer "delay"
+    t.boolean "private"
+    t.string "colour", limit: 9
+    t.string "text", limit: 100
+    t.index ["author_id"], name: "index_ui_script_triggers_on_author_id"
     t.index ["scope_type", "scope_id"], name: "index_ui_script_triggers_on_scope"
     t.index ["subject_type", "subject_id"], name: "index_ui_script_triggers_on_subject"
   end
@@ -200,11 +225,13 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_10_140437) do
   add_foreign_key "comments", "tasks"
   add_foreign_key "comments", "users", column: "author_id"
   add_foreign_key "lists", "boards"
+  add_foreign_key "script_triggers", "users", column: "author_id"
   add_foreign_key "sprint_tasks", "sprints"
   add_foreign_key "sprint_tasks", "tasks"
   add_foreign_key "tags", "boards"
   add_foreign_key "tasks", "lists"
   add_foreign_key "tasks", "users", column: "author_id"
+  add_foreign_key "ui_script_triggers", "users", column: "author_id"
   add_foreign_key "user_workspaces", "users"
   add_foreign_key "user_workspaces", "workspaces"
 end

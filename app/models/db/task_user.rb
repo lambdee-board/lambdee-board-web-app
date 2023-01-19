@@ -5,6 +5,12 @@
 class DB::TaskUser < ::ApplicationRecord
   include ::ScriptTriggerable
 
+  AVAILABLE_SCOPES = ::Set[:workspace, :board, :list, :task]
+
   belongs_to :task, class_name: 'DB::Task'
   belongs_to :user, class_name: 'DB::User'
+
+  delegate :list, to: :task
+  delegate :board, to: :list
+  delegate :workspace, to: :board
 end

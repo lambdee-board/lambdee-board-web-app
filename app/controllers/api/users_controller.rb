@@ -3,7 +3,7 @@
 # Controller which provides a full CRUD for users
 # through the JSON API.
 class API::UsersController < ::APIController
-  before_action :set_user, only: :show
+  before_action :set_user, only: %i[show update]
   has_scope :role, :workspace_id, :search, :page, :per, :limit, :created_at_from, :created_at_to
   has_scope :role_collection, type: :array
 
@@ -25,7 +25,10 @@ class API::UsersController < ::APIController
 
   # PATCH/PUT /api/users/1
   def update
-    head :forbidden
+    authorize! :update, @user
+    return render :show, status: :ok, location: api_user_url(@user) if @user.update(user_params)
+
+    render json: @user.errors, status: :unprocessable_entity
   end
 
   # DELETE /api/users
@@ -41,6 +44,14 @@ class API::UsersController < ::APIController
     render :show, status: :ok
   end
 
+  # GET /api/users/current/ui_script_triggers
+  def ui_script_triggers
+    authorize! :read, @task
+    @ui_script_triggers = ::DB::UiScriptTrigger.global(current_user)
+
+    render 'api/ui_script_triggers/index'
+  end
+
   # POST /api/users/send_reset_password
   def send_reset_password
     @user =
@@ -54,7 +65,7 @@ class API::UsersController < ::APIController
     return head :not_found if @user.nil?
 
     token = @user.__send__(:set_reset_password_token)
-    ::AccountMailer.with(token:, user: @user).reset_password_email.deliver_now
+    ::AccountMailer.with(token:, user: @user).reset_password_email.deliver_later
 
     render :show, status: :ok
   end
@@ -95,6 +106,6 @@ class API::UsersController < ::APIController
   end
 
   def user_params
-    params.require(:user).permit(:name, :email, :role, :password, :password_confirmation)
+    params.require(:user).permit(:name, :email)
   end
 end

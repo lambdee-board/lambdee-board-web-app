@@ -18,6 +18,7 @@ function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceNa
 
   return (
     <MenuItem onClick={() => {
+      localStorage.setItem('sidebarSelected', boardName)
       handleClose()
       navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
     }}>

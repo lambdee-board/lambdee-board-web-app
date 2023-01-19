@@ -9,14 +9,15 @@ import {
 } from '@mui/material'
 
 import useWorkspaces from '../../api/workspaces'
-
 import WorkspaceIcon from '../WorkspaceIcon'
 import DropdownButton from '../DropdownButton'
 
 const WorkspacesMenuButton = () => {
-  const { data: workspaces, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { limit: '5' } } })
+  const { data, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { per: '5', page: '1' } } })
+  const workspaces = data ? data.workspaces : null
   const navigate = useNavigate()
   const [anchorEl, setAnchorEl] = React.useState(null)
+
 
   const handleClose = () => setAnchorEl(null)
   const handleClick = (event) => setAnchorEl(event.currentTarget)
@@ -45,6 +46,7 @@ const WorkspacesMenuButton = () => {
         <MenuItem className='Workspace-menu-item'
           onClick={() => {
             handleClose()
+            localStorage.setItem('sidebarSelected', 'workspace')
             navigate(generatePath('workspaces/:id', { id: workspace.id }))
           }} key={`${workspace.name}-${index}`}>
           <WorkspaceIcon name={workspace.name} size={32} />
@@ -54,6 +56,7 @@ const WorkspacesMenuButton = () => {
       <Divider />
       <MenuItem onClick={() => {
         handleClose()
+        localStorage.setItem('sidebarSelected', 'workspace')
         navigate('/')
       }}>
         <Typography color='primary'>More...</Typography>

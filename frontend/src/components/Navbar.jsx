@@ -17,6 +17,7 @@ import RecentMenuButton from './navbar/RecentMenuButton'
 import lambdeeLogo from '../assets/lambdee-logo.svg'
 import './Navbar.sass'
 import { useNavigate } from 'react-router-dom'
+import ScriptMenuButton from './navbar/ScriptMenuButton'
 
 
 const Navbar = () => {
@@ -26,7 +27,10 @@ const Navbar = () => {
     <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
       <Container maxWidth='false'>
         <Toolbar disableGutters>
-          <Button onClick={() => navigate('/')}>
+          <Button
+            onClick={() => {
+              navigate('/')
+            }}>
             <img
               className='logo'
               src={lambdeeLogo}
@@ -44,6 +48,7 @@ const Navbar = () => {
             <WorkspacesMenuButton />
             <RecentMenuButton />
             <RegularContent>
+              <ScriptMenuButton />
               <Button
                 className='Button'
                 id='dropdown-button'

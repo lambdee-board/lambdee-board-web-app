@@ -13,9 +13,9 @@ import {
   IconButton,
   Button,
   TextField,
-  Modal
+  Modal,
 } from '@mui/material'
-import { ManagerContent, RegularContent } from '../permissions/content'
+import { DeveloperContent, ManagerContent, RegularContent } from '../permissions/content'
 import { faPlus, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
@@ -30,6 +30,7 @@ import TaskPoints from './task-card-modal/TaskPoints'
 import AttachTagSelect from './task-card-modal/AttachTagSelect'
 import TaskTime from './task-card-modal/TaskTime'
 import CustomAlert from './CustomAlert'
+import ScriptButton from './ScriptButton'
 
 import { isRegular } from '../internal/permissions'
 import useTask from '../api/task'
@@ -37,6 +38,7 @@ import apiClient from '../api/api-client'
 
 import './TaskCardModal.sass'
 import useAppAlertStore from '../stores/app-alert'
+import { width } from '@mui/system'
 
 function TaskCardModalSkeleton() {
   return (
@@ -374,6 +376,9 @@ const TaskCardModal = (props) => {
           <Card className='TaskCardModal-sidebar-card'>
             <Stack spacing={3}>
               <Stack spacing={1}>
+                <DeveloperContent>
+                  <ScriptButton scope='tasks' id={props.taskId} />
+                </DeveloperContent>
                 <Typography>Author</Typography>
                 <Box className='TaskCardModal-sidebar-card-box'>
                   <Avatar className='TaskCardModal-main-avatar'
@@ -506,7 +511,6 @@ const TaskCardModal = (props) => {
 
 
 export default TaskCardModal
-
 
 TaskCardModal.propTypes = {
   taskId: PropTypes.number.isRequired,

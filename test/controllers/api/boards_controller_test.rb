@@ -165,6 +165,28 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
       assert_equal tag.name, json['lists'].first['tasks'].first['tags'].first['name']
       assert_equal @user.name, json['lists'].first['tasks'].first['author']['name']
     end
+
+    should 'return ui script triggers' do
+      subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @board, private: true, author: @user)
+      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Board', scope: @workspace)
+
+      ::FactoryBot.create(:ui_script_trigger)
+      ::FactoryBot.create(:ui_script_trigger, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Board', scope: @workspace, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: @board, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Board', scope: ::FactoryBot.create(:workspace))
+      ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:board))
+
+      get ui_script_triggers_api_board_url(@board), headers: auth_headers(@user)
+
+      json = ::JSON.parse response.body
+      assert_equal 2, json.size
+      assert_equal scope_trigger.id, json[0]['id']
+      assert_equal 'DB::Board', json[0]['subject_type']
+      assert json[0]['colour'].is_a?(::String)
+      assert_equal 'Send a message', json[0]['text']
+      assert_equal subject_trigger.id, json[1]['id']
+    end
   end
 
   context 'user does not belong to board' do

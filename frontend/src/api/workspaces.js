@@ -9,7 +9,7 @@ const getterKey = (axiosOptions = undefined) => {
   return key
 }
 
-export const useWorkspaces = ({ axiosOptions, options })  => useAPI(getterKey(axiosOptions), options)
-export const mutateWorkspaces =  ({ axiosOptions, data, options }) => mutateAPI(getterKey(axiosOptions), data, options)
+export const useWorkspaces = ({ axiosOptions, options } = {})  => useAPI(getterKey(axiosOptions), options)
+export const mutateWorkspaces =  ({ axiosOptions, data, options } = {}) => mutateAPI(getterKey(axiosOptions), data, options)
 
 export default useWorkspaces

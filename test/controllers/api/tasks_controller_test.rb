@@ -13,7 +13,8 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   context 'scripts' do
     should 'create task and run script' do
-      script = ::FactoryBot.create(:script, :with_trigger_on_task_creation)
+      script = ::FactoryBot.create(:script)
+      ::FactoryBot.create(:script_trigger, script:, action: :create, scope: @list, subject_type: ::DB::Task, author: script.author)
       params = { task: { name: 'New task', list_id: @list.id, author_id: @user.id } }
       assert_difference('DB::ScriptRun.count', 1) do
         post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
@@ -30,6 +31,28 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)
       end
       assert_response :created
+    end
+
+    should 'return ui script triggers' do
+      subject_trigger = ::FactoryBot.create(:ui_script_trigger, subject: @task, private: true, author: @user)
+      scope_trigger = ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board)
+
+      ::FactoryBot.create(:ui_script_trigger)
+      ::FactoryBot.create(:ui_script_trigger, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: @board, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject: @task, private: true)
+      ::FactoryBot.create(:ui_script_trigger, subject_type: 'DB::Task', scope: ::FactoryBot.create(:board))
+      ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:task))
+
+      get ui_script_triggers_api_task_url(@task), headers: auth_headers(@user)
+
+      json = ::JSON.parse response.body
+      assert_equal 2, json.size
+      assert_equal scope_trigger.id, json[0]['id']
+      assert_equal 'DB::Task', json[0]['subject_type']
+      assert json[0]['colour'].is_a?(::String)
+      assert_equal 'Send a message', json[0]['text']
+      assert_equal subject_trigger.id, json[1]['id']
     end
   end
 

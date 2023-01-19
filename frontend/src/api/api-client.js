@@ -13,6 +13,7 @@ axiosClient.interceptors.response.use(
     if (error.response.status === 401 && localStorage.getItem('token')) {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
+      localStorage.removeItem('id')
       window.location.reload()
     }
     return Promise.reject(error)
@@ -47,7 +48,7 @@ if (process.env.NODE_ENV === 'development') {
     let responseData = error?.response?.data
     if (typeof(responseData) === 'string') responseData = { string: responseData }
 
-    console.error(
+    console._warn(
       `
   ${error?.config?.method?.toUpperCase()} ${error?.request?.responseURL}
   Sent: %O
@@ -80,7 +81,7 @@ export const useAPI = (key, options = undefined) => {
   }
 }
 
-export const mutateAPI = (key, data, options = undefined) => {
+export const mutateAPI = (key, data = undefined, options = undefined) => {
   if (data || options) return swrMutate(key, data, options)
   return swrMutate(key)
 }
