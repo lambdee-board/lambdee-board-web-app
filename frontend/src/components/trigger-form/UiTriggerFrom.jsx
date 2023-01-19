@@ -279,7 +279,11 @@ const UiTriggerFrom = (props) => {
           <FormControlLabel
             sx={{ display: 'flex', justifyContent: 'flex-start', m: 0, width: '150px', height: '68px' }}
             value='start'
-            control={<Switch color='primary' defaultChecked />}
+            control={
+              <Switch color='primary' onChange={(e) => setUiTriggerState({
+                ...uiTriggerState,
+                private: e.target.checked,
+              })} defaultChecked />}
             label='Private'
             labelPlacement='start'
             disabled={subjectTypeGlobal()} />
