@@ -65,7 +65,7 @@ class DB::Task < ApplicationRecord
   def set_highest_pos_in_list
     return unless list
 
-    self.pos ||= list.tasks.order(:pos).last&.pos&.+(1024) || 65_536
+    self.pos ||= list.tasks.reorder(:pos).last&.pos&.+(1024) || 65_536
   end
 
   private
