@@ -66,9 +66,9 @@
         resources :comments, only: %i[index]
       end
 
-      resources :tags, except: %i[index]
+      resources :tags
 
-      resources :comments, except: %i[index]
+      resources :comments
 
       resources :sprints do
         put :end, on: :member

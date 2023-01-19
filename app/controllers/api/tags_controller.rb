@@ -6,7 +6,7 @@ class API::TagsController < ::APIController
   before_action :set_tag, only: %i[show update destroy]
   authorize_resource only: %i[show update destroy]
 
-  # GET api/boards/:board_id/tags or GET api/tasks/:task_id/tags
+  # GET api/boards/:board_id/tags or GET api/tasks/:task_id/tags or GET api/tags
   def index
     @tags = if params[:task_id]
               ::DB::Task.find(params[:task_id]).tags

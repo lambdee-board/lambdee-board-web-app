@@ -264,7 +264,7 @@ const UiTriggerFrom = (props) => {
         </div>
 
         <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-around' }}>
-          <div style={{ display: 'flex', flexFlow: 'row', alignItems: 'center', height: '60px' }}>
+          <div style={{ display: 'flex', flexFlow: 'row', alignItems: 'center', height: '68px' }}>
             <Typography>Button Color</Typography>
             <ColorPickerPopover
               color={uiTriggerState.colour}
@@ -277,7 +277,7 @@ const UiTriggerFrom = (props) => {
           </div>
 
           <FormControlLabel
-            sx={{ display: 'flex', justifyContent: 'flex-start', m: 0, width: '150px', height: '60px' }}
+            sx={{ display: 'flex', justifyContent: 'flex-start', m: 0, width: '150px', height: '68px' }}
             value='start'
             control={<Switch color='primary' defaultChecked />}
             label='Private'
