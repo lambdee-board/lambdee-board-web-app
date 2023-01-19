@@ -6,7 +6,7 @@ const lambdeeTheme = createTheme({
       main: '#1082F3'
     },
     secondary: {
-      main: '#010A13'
+      main: '#1c4269'
     }
   }
 })
