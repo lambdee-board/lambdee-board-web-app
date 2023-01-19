@@ -3,8 +3,6 @@
 # Represents a many to many relationship
 # between `DB::User` and `DB::Workspace`
 class DB::UserWorkspace < ApplicationRecord
-  include ::ScriptTriggerable
-
   belongs_to :user
   belongs_to :workspace
 end

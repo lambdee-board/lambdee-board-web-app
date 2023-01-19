@@ -13,7 +13,8 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
 
   context 'scripts' do
     should 'create task and run script' do
-      script = ::FactoryBot.create(:script, :with_trigger_on_task_creation)
+      script = ::FactoryBot.create(:script)
+      ::FactoryBot.create(:script_trigger, script:, action: :create, scope: @list, subject_type: ::DB::Task, author: script.author)
       params = { task: { name: 'New task', list_id: @list.id, author_id: @user.id } }
       assert_difference('DB::ScriptRun.count', 1) do
         post api_tasks_url, params: params, as: :json, headers: auth_headers(@user)

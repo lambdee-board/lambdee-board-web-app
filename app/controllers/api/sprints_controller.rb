@@ -58,6 +58,7 @@ class API::SprintsController < ::APIController
   def active_sprint
     @sprint = ::DB::Board.find(params[:id]).active_sprint
     if @sprint
+      authorize! :read, @sprint
       render :show
     else
       head :not_found

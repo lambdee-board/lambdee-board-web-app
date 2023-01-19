@@ -6,14 +6,17 @@ class API::CommentsController < ::APIController
   before_action :set_comment, only: %i[show update destroy]
   authorize_resource except: %i[index create]
 
-  # GET api/tasks/:task_id/comments
+  # GET api/tasks/:task_id/comments or GET api/comments
   def index
-    if params[:with_author] == 'true'
+    if params[:task_id].nil?
+      @comments = ::DB::Comment.all
+    elsif params[:with_author] == 'true'
       @comments = ::DB::Comment.find_with_author_for_task(params[:task_id])
       @with_author = true
     else
       @comments = ::DB::Comment.find_for_task(params[:task_id])
     end
+
     @comments = @comments.accessible_by(current_ability)
   end
 

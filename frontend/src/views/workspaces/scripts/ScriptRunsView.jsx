@@ -108,10 +108,10 @@ export default function ScriptRunsView() {
               </Typography>
               <div className='dialog-script-datetime'>
                 <Typography>
-                Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
                 <Typography>
-                Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:MM:ss') : '-'}
+                Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
                 <Typography>Delay: {currentRun.delay || 0}s</Typography>
               </div>

@@ -58,7 +58,7 @@ const TaskListItem = (props) => {
             </AvatarGroup>
           </Box>
           <Box className='TaskListItem-properties-duetime'>
-            {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:MM'} />}
+            {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:mm'} />}
           </Box>
           <Box className='TaskListItem-properties-priority'>
             <PriorityIcon size='xl' taskPriority={props.priority} />

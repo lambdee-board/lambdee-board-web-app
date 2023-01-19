@@ -59,4 +59,23 @@ class ::DB::UiScriptTriggerTest < ::ActiveSupport::TestCase
     assert_equal 1, result.size
     assert_equal 'Run on task', result[0]['text']
   end
+
+  should 'set private true for global' do
+    trigger = ::FactoryBot.create(:ui_script_trigger, subject: nil, private: false)
+    assert_equal true, trigger.private
+  end
+
+  should 'show private only if author' do
+    user = ::FactoryBot.create(:user, role: :developer)
+    ability = ::Ability.new(user)
+
+    trigger = ::FactoryBot.create(:ui_script_trigger, subject: ::FactoryBot.create(:task), private: false)
+    assert ability.can? :read, trigger
+
+    trigger.update!(private: true)
+    assert_not ability.can? :read, trigger
+
+    trigger.update!(author: user)
+    assert ability.can? :read, trigger
+  end
 end
