@@ -18,7 +18,15 @@ require 'swagger_helper'
         let(:script_trigger) do
           task = ::FactoryBot.create(:task)
           script = ::FactoryBot.create(:script)
-          { action: 'destroy', delay: 60, subject_type: 'DB::Task', subject_id: task.id, script_id: script.id }
+          user = ::FactoryBot.create(:user)
+          {
+            action: 'destroy',
+            delay: 60,
+            subject_type: 'DB::Task',
+            subject_id: task.id,
+            script_id: script.id,
+            author_id: user.id
+          }
         end
 
         before do
@@ -47,7 +55,7 @@ require 'swagger_helper'
         before do
           ::FactoryBot.create :user
         end
-        let(:id) { ::FactoryBot.create(:script_trigger).id }
+        let(:id) { ::FactoryBot.create(:script_trigger, :with_scope_on_board).id }
 
         after do |example|
           save_response(example, response)
@@ -69,7 +77,7 @@ require 'swagger_helper'
         before do
           ::FactoryBot.create :user
         end
-        let(:id) { ::FactoryBot.create(:script_trigger).id }
+        let(:id) { ::FactoryBot.create(:script_trigger, :with_scope_on_board).id }
         let(:script_trigger) { { action: 'destroy' } }
 
         after do |example|
@@ -85,7 +93,7 @@ require 'swagger_helper'
         before do
           ::FactoryBot.create :user
         end
-        let(:id) { ::FactoryBot.create(:script_trigger).id }
+        let(:id) { ::FactoryBot.create(:script_trigger, :with_scope_on_board).id }
         run_test!
       end
     end

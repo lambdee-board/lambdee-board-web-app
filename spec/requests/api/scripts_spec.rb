@@ -40,14 +40,19 @@ require 'swagger_helper'
         schema '$ref' => '#/components/schemas/script_response'
         let(:script) do
            task = ::FactoryBot.create(:task)
+           user = ::FactoryBot.create(:user)
+           author_id = user.id
+           board = ::FactoryBot.create(:board)
+           scope_type = board.class.name
+           scope_id = board.id
            {
             name: 'New Script',
             description: 'What script does',
             content: "puts 'Hello world!'",
             script_triggers_attributes: [
-              { action: 'create', delay: 60 },
-              { subject_type: 'DB::Task', action: 'update', delay: 60 },
-              { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy', delay: 60 }
+              { action: 'create', delay: 60, author_id:, scope_type:, scope_id: },
+              { subject_type: 'DB::Task', action: 'update', delay: 60, author_id:, scope_type:, scope_id: },
+              { subject_type: 'DB::Task', subject_id: task.id.to_s, action: 'destroy', delay: 60, author_id:, scope_type:, scope_id: }
             ]
            }
         end
@@ -73,7 +78,7 @@ require 'swagger_helper'
 
         let(:id) do
           script = ::FactoryBot.create(:script)
-          ::FactoryBot.create(:script_trigger, script:)
+          ::FactoryBot.create(:script_trigger, :with_scope_on_board, script:)
           ::FactoryBot.create(:ui_script_trigger, script:)
 
           script.id
@@ -98,10 +103,15 @@ require 'swagger_helper'
 
         let(:id) { ::FactoryBot.create(:script, :with_trigger_on_task_creation).id }
         let(:script) do
+          user = ::FactoryBot.create :user
+          author_id = user.id
+          board = ::FactoryBot.create :board
+          scope_type = board.class.name
+          scope_id = board.id
           {
             name: 'New Name',
             script_triggers_attributes: [
-              { action: 'create', delay: 60 },
+              { action: 'create', delay: 60, author_id:, scope_type:, scope_id: },
               { id: ::DB::ScriptTrigger.last.id, _destroy: true },
             ]
           }
