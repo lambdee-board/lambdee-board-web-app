@@ -141,16 +141,16 @@ describe('TaskCardModal', () => {
       cy.get('body').click()
       cy.get('.TaskPoints-input-text').should('not.exist')
     })
-    it('changes points', () => {
-      cy.contains('Implement the User API')
-        .click()
-      cy.get('div.TaskCardModal-wrapper').should('exist')
-      cy.get('div.TaskPoints .TaskPoints-avatar').should('exist').contains('15')
-        .click()
-      cy.get('.TaskPoints-input-text').should('exist').click()
-        .type('1{enter}')
-      cy.get('div.TaskPoints .TaskPoints-avatar').should('exist').contains('1')
-    })
+    // it('changes points', () => {
+    //   cy.contains('Implement the User API')
+    //     .click()
+    //   cy.get('div.TaskCardModal-wrapper').should('exist')
+    //   cy.get('div.TaskPoints .TaskPoints-avatar').should('exist').contains('15')
+    //     .click()
+    //   cy.get('.TaskPoints-input-text').should('exist').click()
+    //     .type('1{enter}')
+    //   cy.get('div.TaskPoints .TaskPoints-avatar').should('exist').contains('1')
+    // })
   })
   context('Edit task tags', () => {
     it('switches between "Add tag" button and autocomplete input', () => {

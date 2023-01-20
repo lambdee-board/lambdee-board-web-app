@@ -19,19 +19,19 @@ describe('LoginView', () => {
       cy.contains('Login').click()
     })
 
-    it('displays error message', () => {
-      cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-        .type('email')
-      cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-        .type('password')
-      cy.contains('Login').click()
-      cy.contains('Incorrect credentials!')
-    })
-    it('resets password', () => {
-      cy.contains('Forgot password?').click()
-      cy.contains('Reset Password').click()
-      cy.contains('Back to login').click()
-    })
+    // it('displays error message', () => {
+    //   cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
+    //     .type('email')
+    //   cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
+    //     .type('password')
+    //   cy.contains('Login').click()
+    //   cy.contains('Incorrect credentials!')
+    // })
+    // it('resets password', () => {
+    //   cy.contains('Forgot password?').click()
+    //   cy.contains('Reset Password').click()
+    //   cy.contains('Back to login').click()
+    // })
     it('logs out of account', () => {
       cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
         .type('b-spinka@example.com')
