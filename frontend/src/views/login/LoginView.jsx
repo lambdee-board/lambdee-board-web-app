@@ -1,6 +1,6 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
-import jwt from 'jwt-decode'
+import { jwtDecode } from 'jwt-decode'
 import {
   Card,
   Link,
@@ -52,7 +52,7 @@ export default function LoginView() {
     apiClient.post('/api/users/sign_in', credentials)
       .then((response) => {
         localStorage.setItem('token', response.headers.authorization)
-        const token = jwt(response.headers.authorization.replace('Bearer ', ''))
+        const token = jwtDecode(response.headers.authorization.replace('Bearer ', ''))
         localStorage.setItem('role', token.role)
         localStorage.setItem('id', token.sub)
         navigate('/')

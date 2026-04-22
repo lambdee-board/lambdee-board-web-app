@@ -1,8 +1,0 @@
-{
-  "screenshotsFolder": "tmp/cypress_screenshots",
-  "videosFolder": "tmp/cypress_videos",
-  "trashAssetsBeforeRuns": false,
-  "video": false,
-  "responseTimeout": 10000,
-  "pageLoadTimeout": 15000
-}
