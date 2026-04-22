@@ -16,7 +16,7 @@ class API::ListsController < ::APIController
     set_list_and_tasks_scope
     authorize! :show, @list
 
-    return render :show_with_tasks, locals: { tasks: @tasks_scope } if @tasks_scope
+    render :show_with_tasks, locals: { tasks: @tasks_scope } if @tasks_scope
   end
 
   # POST api/lists

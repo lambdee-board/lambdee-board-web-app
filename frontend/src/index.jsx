@@ -1,4 +1,3 @@
-import './init/configure-panic-overlay'
 import './init/configure-prism'
 import './init/initialize-console'
 

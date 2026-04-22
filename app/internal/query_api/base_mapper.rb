@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
-
 module QueryAPI
   # @abstract Subclass to define new parameters
   #   in the query API.

@@ -25,7 +25,8 @@ class QueryAPI::Search
       def cast(value)
         return if value.nil?
         return value if value.is_a?(::Class)
-        return PERMITTED_MODELS[value.to_sym] if value.respond_to? :to_sym
+
+        PERMITTED_MODELS[value.to_sym] if value.respond_to? :to_sym
       end
     end
   end
