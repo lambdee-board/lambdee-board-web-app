@@ -1,74 +1,121 @@
 # frozen_string_literal: true
 
-pri =         ::FactoryBot.create(:user, email: "system@example.com", name: 'System PRI', role: :admin)
-przedszkole = ::FactoryBot.create(:user, email: "przedszkole@example.com", name: 'Wirtualne Przedszkole', role: :admin)
-studenckie =  ::FactoryBot.create(:user, email: "mieszkanie@example.com", name: 'Mieszkanie Studenckie', role: :admin)
-zdjecia =     ::FactoryBot.create(:user, email: "kalorycznosc@example.com", name: 'Kaloryczność Zdjęcia', role: :admin)
-lambdee =     ::FactoryBot.create(:user, email: "lambdee@example.com", name: 'Lambdee', role: :admin)
+# === Users ===
 
-script = ::FactoryBot.create(:script, name: 'TEST SCRIPT puts id of subject', content: 'puts "Action run on id: #{subject&.id}"')
-# Global ui script trigger
-::FactoryBot.create(:ui_script_trigger, author: lambdee, text: 'Run global', script: script)
-wrk = ::FactoryBot.create(:workspace, name: 'test scripts')
-board = ::FactoryBot.create(:board, workspace: wrk, name: 'test scripts')
-list = ::FactoryBot.create(:list, board: board, name: 'To Do')
-task = ::FactoryBot.create(:task, list: list, name: 'Nice task')
-::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: wrk, text: 'Run on workspace')
-::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: board, text: 'Run on board')
-::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject: board, text: 'Run on board - second', colour: '#123456')
-::FactoryBot.create(:ui_script_trigger, author: lambdee, script: script, subject_type: 'DB::Task', scope: board, text: 'Run on task')
+admin = ::FactoryBot.create(:user, email: 'admin@example.com', name: 'Admin',         role: :admin)
+alice = ::FactoryBot.create(:user, email: 'alice@example.com', name: 'Alice Johnson', role: :manager)
+bob   = ::FactoryBot.create(:user, email: 'bob@example.com',   name: 'Bob Smith',     role: :developer)
+carol = ::FactoryBot.create(:user, email: 'carol@example.com', name: 'Carol White',   role: :developer)
+dave  = ::FactoryBot.create(:user, email: 'dave@example.com',  name: 'Dave Brown',    role: :developer)
 
-::FactoryBot.create(:script, name: 'Foo script')
-::FactoryBot.create(:script, name: 'Bar script')
-::FactoryBot.create(:script, name: 'Example script')
+# === Workspace ===
 
-def create_board(workspace)
-  tags_amount = 5
-  workspace.boards << board = ::FactoryBot.create(:board)
-  tags_amount.times { ::FactoryBot.create(:tag, board:) }
+wrk = ::FactoryBot.create(:workspace, name: 'Lambdee')
+wrk.users << admin << alice << bob << carol << dave
 
-  ::FactoryBot.create(:list, board:, name: 'Hidden', visible: false)
-  5.times do |i|
-    list = ::FactoryBot.create(:list, board:, visible: true)
-    rand(5).times do
-      task = ::FactoryBot.create(:task, list:)
-      rand(4).times { task.users << ::FactoryBot.create(:user) }
-      task.tags << board.tags.order("RANDOM()").last(rand(tags_amount))
-      rand(2).times { task.comments << ::FactoryBot.create(:comment) }
-    end
-  end
+# === Board: Web App ===
 
-  time = '2022-11-07 19:48:59'.to_time
-  sprint = ::FactoryBot.create(:sprint, board:, started_at: time, expected_end_at: time + 7.days, ended_at: time + 7.days)
-  sprint.sprint_tasks.last(2).each_with_index { _1.update!(added_at: time + _2.days) }
-  sprint.sprint_tasks.first(sprint.sprint_tasks.size - 2).each { _1.update!(completed_at: time + rand(7).days) }
-  sprint.sprint_tasks.last(2).each { _1.update!(completed_at: nil) }
+web_app = ::FactoryBot.create(:board, name: 'Web App', workspace: wrk, colour: '#4A6CF7')
 
-  board
-end
+tag_backend     = ::FactoryBot.create(:tag, name: 'Backend',     board: web_app, colour: '#294590')
+tag_frontend    = ::FactoryBot.create(:tag, name: 'Frontend',    board: web_app, colour: '#b82a94')
+tag_bug         = ::FactoryBot.create(:tag, name: 'Bug',         board: web_app, colour: '#c0392b')
+tag_feature     = ::FactoryBot.create(:tag, name: 'Feature',     board: web_app, colour: '#27ae60')
+tag_performance = ::FactoryBot.create(:tag, name: 'Performance', board: web_app, colour: '#e67e22')
 
-wrk = ::FactoryBot.create :workspace
-wrk.users << pri
-wrk.users << przedszkole
-wrk.users << studenckie
-wrk.users << zdjecia
-wrk.users << lambdee
-wrk.users << usr = ::FactoryBot.create(:user)
-wrk.users << ::FactoryBot.create(:user, name: 'Madonna Berge', role: :regular)
-wrk.users << ::FactoryBot.create(:user, name: 'Brice Spinka', role: :developer)
-wrk.users << ::FactoryBot.create(:user, name: 'Rupert Reichel', role: :manager)
-wrk.users << ::FactoryBot.create(:user, name: 'Bee Trantow', role: :admin)
+backlog = ::FactoryBot.create(:list, name: 'Backlog',     board: web_app, visible: false)
+todo    = ::FactoryBot.create(:list, name: 'To Do',       board: web_app, visible: true)
+doing   = ::FactoryBot.create(:list, name: 'In Progress', board: web_app, visible: true)
+review  = ::FactoryBot.create(:list, name: 'Review',      board: web_app, visible: true)
+done    = ::FactoryBot.create(:list, name: 'Done',         board: web_app, visible: true)
 
-2.times { create_board(wrk) }
+# Backlog
+task = ::FactoryBot.create(:task, list: backlog, name: 'Set up CI/CD pipeline', author: alice, priority: :high, points: 8,
+  description: 'Automate build, test, and deployment workflows using GitHub Actions.')
+task.tags << tag_feature
 
-2.times { ::FactoryBot.create(:board, workspace: wrk) }
+task = ::FactoryBot.create(:task, list: backlog, name: 'Add rate limiting to API', author: bob, priority: :medium, points: 5,
+  description: 'Prevent abuse by limiting requests per client per minute.')
+task.tags << tag_backend
 
-wrk = ::FactoryBot.create :workspace
-wrk.users << usr
-3.times { create_board(wrk) }
-wrk = ::FactoryBot.create :workspace
-wrk.users << usr
-create_board(wrk)
-4.times { wrk.users << ::FactoryBot.create(:user) }
+# To Do
+task = ::FactoryBot.create(:task, list: todo, name: 'Implement user profile page', author: alice, priority: :medium, points: 5,
+  description: 'Allow users to view and edit their profile information.')
+task.tags << tag_frontend
+task.users << carol
 
-3.times { ::FactoryBot.create(:workspace) }
+task = ::FactoryBot.create(:task, list: todo, name: 'Fix password reset email', author: alice, priority: :high, points: 3,
+  description: 'The password reset email is not being sent reliably. Investigate and fix.')
+task.tags << tag_bug
+task.users << dave
+
+# In Progress
+task_search = ::FactoryBot.create(:task, list: doing, name: 'Add search functionality', author: alice, priority: :high, points: 13,
+  description: 'Implement full-text search across boards and tasks.')
+task_search.tags << tag_frontend << tag_backend
+task_search.users << bob
+::FactoryBot.create(:comment, task: task_search, author: alice, body: 'Should we use Elasticsearch or Postgres full-text search?')
+
+task_db = ::FactoryBot.create(:task, list: doing, name: 'Optimise database queries', author: alice, priority: :medium, points: 8,
+  description: 'Several slow queries identified in production. Add indices and rewrite N+1 queries.')
+task_db.tags << tag_backend << tag_performance
+task_db.users << carol
+
+# Review
+task_auth = ::FactoryBot.create(:task, list: review, name: 'Refactor authentication middleware', author: alice, priority: :low, points: 5,
+  description: 'Clean up auth middleware to improve readability and reduce duplication.')
+task_auth.tags << tag_backend
+task_auth.users << dave
+::FactoryBot.create(:comment, task: task_auth, author: bob, body: 'Looks good overall. Left a few inline suggestions.')
+
+# Done
+task_setup = ::FactoryBot.create(:task, list: done, name: 'Set up project structure', author: alice, priority: :low, points: 2,
+  description: 'Initialise the repository with linting, CI config, and folder conventions.')
+task_setup.tags << tag_feature
+task_setup.users << alice
+
+task_validation = ::FactoryBot.create(:task, list: done, name: 'Add input validation', author: alice, priority: :medium, points: 3,
+  description: 'Validate all API inputs to prevent invalid data from reaching the database.')
+task_validation.tags << tag_backend << tag_bug
+task_validation.users << bob
+
+# Sprint 1 (completed — auto-creates SprintTasks for all visible-list tasks)
+sprint = ::FactoryBot.create(:sprint, board: web_app, name: 'Sprint 1',
+  started_at: 14.days.ago, expected_end_at: 7.days.ago, ended_at: 7.days.ago,
+  final_list_name: 'Done')
+sprint.sprint_tasks.update_all(added_at: 14.days.ago)
+sprint.sprint_tasks.where(task_id: [task_setup.id, task_validation.id]).update_all(completed_at: 7.days.ago)
+
+# === Board: Mobile App ===
+
+mobile = ::FactoryBot.create(:board, name: 'Mobile App', workspace: wrk, colour: '#27AE60')
+
+tag_ios     = ::FactoryBot.create(:tag, name: 'iOS',     board: mobile, colour: '#1abc9c')
+tag_android = ::FactoryBot.create(:tag, name: 'Android', board: mobile, colour: '#3498db')
+tag_mob_bug = ::FactoryBot.create(:tag, name: 'Bug',     board: mobile, colour: '#c0392b')
+tag_mob_ftr = ::FactoryBot.create(:tag, name: 'Feature', board: mobile, colour: '#27ae60')
+
+mob_backlog = ::FactoryBot.create(:list, name: 'Backlog',     board: mobile, visible: false)
+mob_doing   = ::FactoryBot.create(:list, name: 'In Progress', board: mobile, visible: true)
+mob_done    = ::FactoryBot.create(:list, name: 'Done',         board: mobile, visible: true)
+
+task = ::FactoryBot.create(:task, list: mob_backlog, name: 'Design onboarding flow', author: alice, priority: :medium, points: 5,
+  description: 'Create wireframes and implement the onboarding screens for new users.')
+task.tags << tag_mob_ftr << tag_ios
+
+task = ::FactoryBot.create(:task, list: mob_doing, name: 'Fix crash on Android 12', author: carol, priority: :high, points: 3,
+  description: 'App crashes on launch on Android 12 devices. Reproduce and fix.')
+task.tags << tag_mob_bug << tag_android
+task.users << carol
+::FactoryBot.create(:comment, task:, author: dave, body: 'I can reproduce on a Pixel 6. Looks like a permissions API change in Android 12.')
+
+task = ::FactoryBot.create(:task, list: mob_done, name: 'Set up React Native project', author: bob, priority: :low, points: 2,
+  description: 'Bootstrap the mobile app with React Native and core dependencies.')
+task.tags << tag_mob_ftr
+task.users << bob
+
+# === Script ===
+
+script = ::FactoryBot.create(:script, name: 'Log subject ID', author: admin,
+  content: 'puts "Action: #{action} on #{subject&.class} ##{subject&.id}"')
+::FactoryBot.create(:ui_script_trigger, script:, author: admin, subject: web_app, text: 'Log ID')
