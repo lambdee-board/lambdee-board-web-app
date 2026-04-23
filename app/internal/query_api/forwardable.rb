@@ -27,7 +27,7 @@ module QueryAPI
       # @param to [Array<Symbol>, Symbol]
       def initialize(name:, as:, to:)
         to = *to
-        super(name:, as:, to:)
+        super
       end
     end
 

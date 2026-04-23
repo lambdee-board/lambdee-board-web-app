@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'set'
-
 module FilterParameters
   # An abstract class which enables one to validate filter parameters.
   #

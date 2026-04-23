@@ -7,12 +7,12 @@
   devise_for :users,
   class_name: 'DB::User',
   path: 'api/users',
+  skip: [:registrations],
   defaults: {
     format: :json
   },
   controllers: {
     sessions: 'api/devise/sessions',
-    registrations: 'api/devise/registrations',
     passwords: 'api/devise/passwords'
   }
 
@@ -34,7 +34,7 @@
         resources :users, only: %i[index]
       end
 
-      resources :users, only: %i[index show update destroy] do
+      resources :users, only: %i[index show create update destroy] do
         get :current, on: :collection
         get 'current/ui_script_triggers', on: :collection, to: 'users#ui_script_triggers'
         post :reset_password, on: :collection

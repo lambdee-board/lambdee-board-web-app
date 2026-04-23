@@ -19,7 +19,7 @@ module LambdeeBoardWebApp
     self.ascii_logo = ::File.read(::Config::ROOT / 'ascii_logo.txt')
 
     # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    config.load_defaults 7.1
 
     # Configuration for the application, engines, and railties goes here.
     #

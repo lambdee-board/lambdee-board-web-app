@@ -1,12 +1,13 @@
+import { useEffect } from 'react'
 import { ThemeProvider } from '@mui/material'
 
-import { Outlet } from 'react-router-dom'
+import { Outlet, useNavigate } from 'react-router-dom'
 import { SWRConfig } from 'swr'
 import { Sortable, MultiDrag, AutoScroll } from 'sortablejs/modular/sortable.core.esm.js'
 
 import './App.sass'
 import lambdeeTheme from './lambdee-theme'
-
+import { setNavigate } from './api/navigation'
 
 import Navbar from './components/Navbar'
 
@@ -18,6 +19,9 @@ const swrConfig = {
 }
 
 function App() {
+  const navigate = useNavigate()
+  useEffect(() => { setNavigate(navigate) }, [navigate])
+
   return (
     <ThemeProvider theme={lambdeeTheme}>
       <SWRConfig

@@ -13,7 +13,7 @@ class DB::User < ::ApplicationRecord
 
   # Include default devise modules. Others available are:
   # :confirmable, :lockable, :timeoutable, and :omniauthable
-  devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable,
+  devise :database_authenticatable, :recoverable, :rememberable, :validatable,
          :jwt_authenticatable, :trackable, jwt_revocation_strategy: ::DB::JwtDenylist
 
   self.skip_session_storage = %i[http_auth params_auth]

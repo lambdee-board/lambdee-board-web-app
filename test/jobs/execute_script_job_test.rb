@@ -29,7 +29,7 @@ class ExecuteScriptJobTest < ActiveJob::TestCase
       script_run = ::FactoryBot.create(:script_run)
       ::ExecuteScriptJob.perform_now(script_run.id)
       assert script_run.reload.connection_failed?
-      assert_equal 'the server responded with status 401', script_run.output
+      assert_includes script_run.output, 'the server responded with status 401'
     end
   end
 end

@@ -1,6 +1,8 @@
 import axios from 'axios'
 import useSWR, { mutate as swrMutate, unstable_serialize as unstableSerialize } from 'swr'
 import applyCaseMiddleware from 'axios-case-converter'
+import { navigateTo } from './navigation'
+import useAppAlertStore from '../stores/app-alert'
 
 
 const axiosClient = axios.create({
@@ -10,11 +12,15 @@ const axiosClient = axios.create({
 axiosClient.interceptors.response.use(
   (response) => response,
   (error) => {
-    if (error.response.status === 401 && localStorage.getItem('token')) {
+    if (error.response?.status === 401 && localStorage.getItem('token')) {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
       localStorage.removeItem('id')
-      window.location.reload()
+      useAppAlertStore.getState().addAlert({
+        message: 'Your session has expired. Please log in again.',
+        severity: 'warning'
+      })
+      navigateTo('/login')
     }
     return Promise.reject(error)
   }
@@ -65,8 +71,12 @@ export const apiClient = applyCaseMiddleware(axiosClient, {
   ignoreHeaders: true
 })
 
-export const fetcher = (...args) => {
-  return apiClient.get(...args).then((res) => res.data)
+export const fetcher = (keyOrUrl) => {
+  if (Array.isArray(keyOrUrl)) {
+    const [url, axiosOptions] = keyOrUrl
+    return apiClient.get(url, axiosOptions).then((res) => res.data)
+  }
+  return apiClient.get(keyOrUrl).then((res) => res.data)
 }
 
 export const useAPI = (key, options = undefined) => {
