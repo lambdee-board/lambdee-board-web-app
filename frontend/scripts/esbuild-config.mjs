@@ -20,6 +20,8 @@ export default {
   outfile: join(__dirname, '..', '..', 'app', 'assets', 'builds', 'frontend.js'),
   logLevel: 'info',
   loader: {
+    '.ts': 'ts',
+    '.tsx': 'tsx',
     '.woff': 'dataurl',
     '.woff2': 'dataurl',
     '.ttf': 'dataurl',

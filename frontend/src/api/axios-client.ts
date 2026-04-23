@@ -1,4 +1,6 @@
-import axios from 'axios'
+declare const process: { env: { NODE_ENV: string } }
+
+import axios, { AxiosError, AxiosResponse, InternalAxiosRequestConfig } from 'axios'
 import applyCaseMiddleware from 'axios-case-converter'
 import { navigateTo } from './navigation'
 import useAppAlertStore from '../stores/app-alert'
@@ -8,17 +10,17 @@ const axiosClient = axios.create({
 })
 
 axiosClient.interceptors.request.use(
-  (config) => {
+  (config: InternalAxiosRequestConfig) => {
     const token = localStorage.getItem('token')
     if (token) config.headers['Authorization'] = token
     return config
   },
-  (error) => Promise.reject(error)
+  (error: unknown) => Promise.reject(error)
 )
 
 axiosClient.interceptors.response.use(
-  (response) => response,
-  (error) => {
+  (response: AxiosResponse) => response,
+  (error: AxiosError) => {
     if (error.response?.status === 401 && localStorage.getItem('token')) {
       localStorage.removeItem('token')
       localStorage.removeItem('role')
@@ -33,24 +35,27 @@ axiosClient.interceptors.response.use(
   }
 )
 
-const getSentData = (config) => (config.data && JSON.parse(config.data)) || config.params || null
+const getSentData = (config: InternalAxiosRequestConfig): unknown =>
+  (config.data && JSON.parse(config.data as string)) || config.params || null
 
-const logResponse = (response) => {
+const logResponse = (response: AxiosResponse): AxiosResponse => {
+  const xhr = response.request as XMLHttpRequest
   console.log(
-    `\n  ${response.config.method.toUpperCase()} ${response.request.responseURL}\n  Sent: %O\n  Received: HTTP ${response.status} %O`,
+    `\n  ${response.config.method!.toUpperCase()} ${xhr.responseURL}\n  Sent: %O\n  Received: HTTP ${response.status} %O`,
     getSentData(response.config),
     response.data,
   )
   return response
 }
 
-const logErrorResponse = (error) => {
-  let responseData = error?.response?.data
+const logErrorResponse = (error: AxiosError): Promise<never> => {
+  const xhr = error.request as XMLHttpRequest | undefined
+  let responseData: unknown = error?.response?.data
   if (typeof responseData === 'string') responseData = { string: responseData }
 
   console.warn(
-    `\n  ${error?.config?.method?.toUpperCase()} ${error?.request?.responseURL}\n  Sent: %O\n  Received: HTTP ${error.request.status} %O`,
-    getSentData(error.config),
+    `\n  ${error?.config?.method?.toUpperCase()} ${xhr?.responseURL}\n  Sent: %O\n  Received: HTTP ${xhr?.status} %O`,
+    error.config && getSentData(error.config),
     responseData,
   )
   return Promise.reject(error)
