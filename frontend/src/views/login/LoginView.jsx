@@ -41,9 +41,9 @@ export default function LoginView() {
     }
   }
 
-  const login = () => {
-    const emailInput = emailRef.current.value
-    const passwordInput = passwordRef.current.value
+  const login = (email, password) => {
+    const emailInput = email ?? emailRef.current.value
+    const passwordInput = password ?? passwordRef.current.value
     const credentials = {
       user: { email: emailInput, password: passwordInput }
 
@@ -60,6 +60,10 @@ export default function LoginView() {
       .catch((error) => {
         setLoginFail(true)
       })
+  }
+
+  const loginAsExampleUser = () => {
+    login('system@example.com', 'password')
   }
 
   if (passwordChanged) {
@@ -116,6 +120,17 @@ export default function LoginView() {
         >
           Login
         </Button>
+        { process.env.NODE_ENV === 'development' &&
+          <Link
+            onClick={loginAsExampleUser}
+            component='button'
+            className='loginView-card-example'
+            underline='none'
+            variant='body2'
+          >
+            Log in as example user
+          </Link>
+        }
       </Card>
     </div>
   )

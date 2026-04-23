@@ -23,6 +23,17 @@ class API::UsersController < ::APIController
   # GET /api/users/1
   def show; end
 
+  # POST /api/users
+  def create
+    authorize! :create, DB::User
+    @user = DB::User.new(create_user_params)
+    if @user.save
+      render :show, status: :created, location: api_user_url(@user)
+    else
+      render json: { errors: @user.errors }, status: :unprocessable_entity
+    end
+  end
+
   # PATCH/PUT /api/users/1
   def update
     authorize! :update, @user
@@ -107,5 +118,9 @@ class API::UsersController < ::APIController
 
   def user_params
     params.require(:user).permit(:name, :email)
+  end
+
+  def create_user_params
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :role)
   end
 end

@@ -8,12 +8,12 @@ import { dirname } from 'path'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 async function watch() {
-  let result
+  let ctx
   try {
-    result = await esbuild.build({
+    ctx = await esbuild.context({
       ...esbuildConfig,
-      incremental: true
     })
+    await ctx.rebuild()
   // eslint-disable-next-line no-empty
   } catch {}
 
@@ -26,12 +26,12 @@ async function watch() {
   watcher.on('all', async(event, path) => {
     console.log(`[watch] build started (${event}: "${path}")`)
     // eslint-disable-next-line no-empty
-    try { await result.rebuild() } catch {}
+    try { await ctx.rebuild() } catch {}
     console.log('[watch] build finished')
   })
 
   // Call "dispose" when you're done to free up resources.
-  // result.rebuild.dispose()
+  // ctx.dispose()
 }
 
 if (process.env.ONE_TIME) {

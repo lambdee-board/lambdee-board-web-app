@@ -47,7 +47,7 @@ root.render(
   <React.StrictMode>
     <AppAlert />
     <ErrorCounter />
-    <BrowserRouter>
+    <BrowserRouter future={{ v7_startTransition: true, v7_relativeSplatPath: true }}>
       <Routes>
         <Route element={<PublicRoutes />}>
           <Route path='/login' element={<LoginView />} />
