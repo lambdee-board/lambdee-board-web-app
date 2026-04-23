@@ -31,13 +31,16 @@
     "@msgpack/msgpack": "^2.7.2",
     "@mui/material": "^5.6.4",
     "@mui/x-date-pickers": "^5.0.6",
+    "@radix-ui/react-slot": "^1.2.4",
     "@uiw/react-md-editor": "^3.14.1",
     "ansicolor": "^1.1.100",
     "axios": "^1.7.0",
     "axios-case-converter": "^1.0.2",
     "chart.js": "^3.9.1",
     "chokidar": "^3.5.3",
+    "class-variance-authority": "^0.7.1",
     "classnames": "^2.3.1",
+    "clsx": "^2.1.1",
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
     "dayjs": "^1.11.6",
@@ -49,6 +52,7 @@
     "jdenticon": "^3.1.1",
     "jwt-decode": "^4.0.0",
     "lodash": "^4.17.21",
+    "lucide-react": "^1.9.0",
     "prism-themes": "^1.9.0",
     "prismjs": "^1.28.0",
     "prop-types": "^15.8.1",
@@ -64,6 +68,7 @@
     "rehype-sanitize": "^5.0.1",
     "sortablejs": "^1.15.0",
     "swr": "^2.0.0",
+    "tailwind-merge": "^3.5.0",
     "web-vitals": "^2.1.4",
     "zustand": "^4.1.4"
   },
@@ -86,10 +91,13 @@
     ]
   },
   "devDependencies": {
+    "autoprefixer": "^10.5.0",
     "cypress": "^13.0.0",
     "eslint": "^8.14.0",
     "eslint-plugin-cypress": "^3.0.0",
     "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.5.0"
+    "eslint-plugin-react-hooks": "^4.5.0",
+    "postcss": "^8.5.10",
+    "tailwindcss": "^3.4.19"
   }
 }

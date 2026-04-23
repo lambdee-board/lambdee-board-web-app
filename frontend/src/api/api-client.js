@@ -1,6 +1,8 @@
 import axios from 'axios'
 import useSWR, { mutate as swrMutate, unstable_serialize as unstableSerialize } from 'swr'
 import applyCaseMiddleware from 'axios-case-converter'
+import { navigateTo } from './navigation'
+import useAppAlertStore from '../stores/app-alert'
 
 
 const axiosClient = axios.create({
@@ -14,7 +16,11 @@ axiosClient.interceptors.response.use(
       localStorage.removeItem('token')
       localStorage.removeItem('role')
       localStorage.removeItem('id')
-      window.location.reload()
+      useAppAlertStore.getState().addAlert({
+        message: 'Your session has expired. Please log in again.',
+        severity: 'warning'
+      })
+      navigateTo('/login')
     }
     return Promise.reject(error)
   }
