@@ -65,8 +65,12 @@ export const apiClient = applyCaseMiddleware(axiosClient, {
   ignoreHeaders: true
 })
 
-export const fetcher = (...args) => {
-  return apiClient.get(...args).then((res) => res.data)
+export const fetcher = (keyOrUrl) => {
+  if (Array.isArray(keyOrUrl)) {
+    const [url, axiosOptions] = keyOrUrl
+    return apiClient.get(url, axiosOptions).then((res) => res.data)
+  }
+  return apiClient.get(keyOrUrl).then((res) => res.data)
 }
 
 export const useAPI = (key, options = undefined) => {
