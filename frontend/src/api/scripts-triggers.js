@@ -1,4 +1,4 @@
-import { useAPI, mutateAPI } from './api-client'
+import { useAPI, mutateAPI } from './api-hooks'
 
 const requestPath = (scope, id) => `/api/${scope}/${id}/ui_script_triggers`
 

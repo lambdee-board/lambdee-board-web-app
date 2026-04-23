@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom'
 
 import { ReactSortable } from 'react-sortablejs'
 
-import apiClient from '../../../api/api-client'
+import apiClient from '../../../api/axios-client'
 import useBoard from '../../../api/board'
 import { isManager } from '../../../internal/permissions'
 import { calculatePos, sortByPos } from '../../../internal/component-position'

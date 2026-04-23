@@ -9,7 +9,7 @@ import {
   Skeleton
 } from '@mui/material'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useAppAlertStore from '../../stores/app-alert'
 import useQuery from '../../utils/use-query'
 

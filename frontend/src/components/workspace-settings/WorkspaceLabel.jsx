@@ -7,7 +7,7 @@ import {
   InputBase
 } from '@mui/material'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import { mutateWorkspaces } from '../../api/workspaces'
 import { mutateWorkspace } from '../../api/workspace'
 import useAppAlertStore from '../../stores/app-alert'

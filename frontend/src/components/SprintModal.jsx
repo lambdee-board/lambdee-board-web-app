@@ -18,7 +18,7 @@ import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import MDEditor from '@uiw/react-md-editor'
 
 import useAppAlertStore from '../stores/app-alert'
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useBoard from '../api/board'
 import { mutateList } from '../api/list'
 import { isManager } from '../internal/permissions'

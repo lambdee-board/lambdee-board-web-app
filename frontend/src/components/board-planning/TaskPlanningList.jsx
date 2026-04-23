@@ -23,7 +23,7 @@ import { faPencil, faPlus, faXmark, faEye, faEyeSlash } from '@fortawesome/free-
 import { ReactSortable } from 'react-sortablejs'
 
 import { isRegular } from '../../internal/permissions'
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useList from '../../api/list'
 import { mutateBoard } from '../../api/board'
 import { calculatePos } from '../../internal/component-position'

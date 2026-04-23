@@ -16,7 +16,7 @@ import { faPencil, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import MDEditor from '@uiw/react-md-editor'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useComments from '../../api/comments'
 import useCurrentUser from '../../api/current-user'
 import useAppAlertStore from '../../stores/app-alert'

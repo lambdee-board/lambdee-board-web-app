@@ -21,7 +21,7 @@ import { faPencil, faPlus, faXmark } from '@fortawesome/free-solid-svg-icons'
 import { ReactSortable } from 'react-sortablejs'
 
 import { isRegular, isManager } from '../internal/permissions'
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useList from '../api/list'
 import { calculatePos, sortByPos } from '../internal/component-position'
 import useTaskDndStore from '../stores/task-dnd'

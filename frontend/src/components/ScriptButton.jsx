@@ -5,7 +5,7 @@ import PropTypes from 'prop-types'
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScriptTriggers from '../api/scripts-triggers'
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useAppAlertStore from '../stores/app-alert'
 import CustomAlert from './CustomAlert'
 

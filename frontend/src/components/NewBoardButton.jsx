@@ -15,7 +15,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import useWorkspace from '../api/workspace'
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useAppAlertStore from '../stores/app-alert'
 
 import ColorPickerPopover from './ColorPickerPopover'

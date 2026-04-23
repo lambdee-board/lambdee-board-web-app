@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Typography, InputBase } from '@mui/material'
 
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useAppAlertStore from '../stores/app-alert'
 import { mutateScript } from '../api/script'
 

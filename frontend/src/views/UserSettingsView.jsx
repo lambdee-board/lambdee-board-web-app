@@ -14,7 +14,7 @@ import {
   Typography,
 } from '@mui/material'
 
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import useCurrentUser from '../api/current-user'
 import useAppAlertStore from '../stores/app-alert'
 

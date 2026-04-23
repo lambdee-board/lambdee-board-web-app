@@ -13,7 +13,7 @@ import {
   faPlus
 } from '@fortawesome/free-solid-svg-icons'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useWorkspace from '../../api/workspace'
 import useWorkspaceUsers  from '../../api/workspace-users'
 import useAppAlertStore from '../../stores/app-alert'

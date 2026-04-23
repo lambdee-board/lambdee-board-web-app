@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import useAppAlertStore from '../../../../stores/app-alert'
-import apiClient from '../../../../api/api-client'
+import apiClient from '../../../../api/axios-client'
 import useScript from '../../../../api/script'
 
 import ScriptTriggerDialog from '../../../../components/ScriptTriggerDialog'

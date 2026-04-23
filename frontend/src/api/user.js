@@ -1,4 +1,4 @@
-import { useAPI } from './api-client'
+import { useAPI } from './api-hooks'
 
 const requestPath = (id) => `/api/users/${id}`
 

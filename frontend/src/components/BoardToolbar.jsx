@@ -6,7 +6,7 @@ import { faPlus, faXmark, faList, faPersonRunning, faChartLine, faBriefcase } fr
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Toolbar, Button, Typography, IconButton, ClickAwayListener, OutlinedInput, Modal, Box } from '@mui/material'
 
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import { mutateBoard } from '../api/board'
 import useAppAlertStore from '../stores/app-alert'
 import { useBoardActiveSprint, mutateBoardActiveSprint } from '../api/board-active-sprint'

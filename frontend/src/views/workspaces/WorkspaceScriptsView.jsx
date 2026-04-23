@@ -15,7 +15,7 @@ import './WorkspaceScriptsView.sass'
 
 import NewScriptDialog from '../../components/NewScriptDialog'
 import NewScriptVariableDialog from '../../components/NewScriptVariableDialog'
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useAppAlertStore from '../../stores/app-alert'
 import useScriptVariablesPage from '../../stores/script-variables-page'
 import { mutateWorkspaceScripts } from '../../api/workspace-scripts'

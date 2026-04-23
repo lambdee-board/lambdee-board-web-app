@@ -10,7 +10,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import  { isRegular } from '../../internal/permissions'
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import useAppAlertStore from '../../stores/app-alert'
 
 import UserInfo from './UserInfo'

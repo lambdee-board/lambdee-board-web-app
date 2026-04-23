@@ -7,7 +7,7 @@ import {
 import { ReactSortable } from 'react-sortablejs'
 
 import { isManager } from '../../../internal/permissions'
-import apiClient from '../../../api/api-client'
+import apiClient from '../../../api/axios-client'
 import useBoard from '../../../api/board'
 import { calculatePos, sortByPos } from '../../../internal/component-position'
 

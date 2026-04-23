@@ -2,7 +2,7 @@ import * as React from 'react'
 import { Alert, Button, FormControlLabel, MenuItem, Switch, TextField } from '@mui/material'
 import PropTypes from 'prop-types'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 
 const CallbackTriggerFrom = (props) => {
   const triggerActions = ['create', 'destroy', 'update']

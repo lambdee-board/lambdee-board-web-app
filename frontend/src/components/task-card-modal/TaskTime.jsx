@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from '@mui/material'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import { isRegular } from '../../internal/permissions'
 import useAppAlertStore from '../../stores/app-alert'
 

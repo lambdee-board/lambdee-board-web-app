@@ -8,7 +8,7 @@ import {
   Button
 } from '@mui/material'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import { emailValid } from '../../utils/email-valid'
 
 import './ForgotPasswordView.sass'

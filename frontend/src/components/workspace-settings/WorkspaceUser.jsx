@@ -13,7 +13,7 @@ import {
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 import { mutateWorkspaceUsers } from '../../api/workspace-users'
 import useAppAlertStore from '../../stores/app-alert'
 

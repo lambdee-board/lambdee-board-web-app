@@ -34,7 +34,7 @@ import ScriptButton from './ScriptButton'
 
 import { isRegular } from '../internal/permissions'
 import useTask from '../api/task'
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 
 import './TaskCardModal.sass'
 import useAppAlertStore from '../stores/app-alert'

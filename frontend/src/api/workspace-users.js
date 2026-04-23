@@ -1,4 +1,4 @@
-import { useAPI, mutateAPI } from './api-client'
+import { useAPI, mutateAPI } from './api-hooks'
 
 const requestPath = (id) => `/api/workspaces/${id}/users`
 

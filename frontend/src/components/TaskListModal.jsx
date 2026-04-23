@@ -2,7 +2,7 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import apiClient from '../api/api-client'
+import apiClient from '../api/axios-client'
 import { mutateBoard } from '../api/board'
 import { mutateList } from '../api/list'
 import useAppAlertStore from '../stores/app-alert'

@@ -8,7 +8,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import useAppAlertStore from '../../../../stores/app-alert'
 import WebSocketMessage from '../../../../internal/web-socket-message'
-import apiClient from '../../../../api/api-client'
+import apiClient from '../../../../api/axios-client'
 import useScript from '../../../../api/script'
 import { takeUntil } from '../../../../utils/take-until'
 

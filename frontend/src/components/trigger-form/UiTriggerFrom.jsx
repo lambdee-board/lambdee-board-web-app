@@ -3,7 +3,7 @@ import { Alert, Button, FormControlLabel, MenuItem, Switch, TextField, Typograph
 import PropTypes from 'prop-types'
 
 import ColorPickerPopover from '../ColorPickerPopover'
-import apiClient from '../../api/api-client'
+import apiClient from '../../api/axios-client'
 
 const UiTriggerFrom = (props) => {
   const [workspaces, setWorkspaces] = React.useState([])
