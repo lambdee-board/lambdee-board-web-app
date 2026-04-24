@@ -126,9 +126,8 @@ GEM
     connection_pool (3.0.2)
     crass (1.0.6)
     csv (3.3.5)
-    cypress-rails (0.7.1)
-      puma (>= 3.8.0)
-      railties (>= 5.2.0)
+    cypress-on-rails (1.19.0)
+      rack
     database_cleaner-active_record (2.2.2)
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0)
@@ -247,7 +246,6 @@ GEM
     marcel (1.1.0)
     matrix (0.4.3)
     mini_mime (1.1.5)
-    mini_portile2 (2.8.9)
     minitest (5.27.0)
     msgpack (1.8.0)
     mutex_m (0.3.0)
@@ -263,9 +261,6 @@ GEM
     net-smtp (0.5.1)
       net-protocol
     nio4r (2.7.5)
-    nokogiri (1.19.2)
-      mini_portile2 (~> 2.8.2)
-      racc (~> 1.4)
     nokogiri (1.19.2-aarch64-linux-gnu)
       racc (~> 1.4)
     nokogiri (1.19.2-arm-linux-gnu)
@@ -549,7 +544,7 @@ PLATFORMS
   arm-linux-eabihf
   arm64-darwin-20
   arm64-darwin-21
-  ruby
+  arm64-darwin-24
   x86_64-darwin-21
   x86_64-linux
 
@@ -565,7 +560,7 @@ DEPENDENCIES
   capybara
   chartkick
   csv
-  cypress-rails
+  cypress-on-rails
   database_cleaner-active_record
   debug
   devise

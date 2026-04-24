@@ -87,9 +87,10 @@
     ]
   },
   "devDependencies": {
+    "@playwright/test": "^1.59.1",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "cypress": "^13.0.0",
+    "cypress": "^15.14.1",
     "eslint": "^8.14.0",
     "eslint-plugin-cypress": "^3.0.0",
     "eslint-plugin-react": "^7.29.4",

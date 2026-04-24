@@ -1,0 +1,32 @@
+#!/usr/bin/env bash
+set -e
+
+PORT="${PORT:-3001}"
+
+# Kill any existing server on the port and clean up the pid file
+EXISTING_PID=$(lsof -ti :$PORT 2>/dev/null || true)
+if [ -n "$EXISTING_PID" ]; then
+  echo "Killing existing process on port $PORT (pid $EXISTING_PID)"
+  kill "$EXISTING_PID" 2>/dev/null || true
+  sleep 1
+fi
+rm -f tmp/pids/server.pid
+
+echo 'Preparing test database'
+RAILS_ENV=test bin/rails db:test:prepare
+
+echo 'Starting Rails test server'
+RAILS_ENV=test bin/rails server -p $PORT &
+RAILS_PID=$!
+
+# Wait for server to be ready
+echo 'Waiting for Rails...'
+until curl -sf "http://localhost:$PORT/" > /dev/null 2>&1; do sleep 1; done
+
+echo 'Starting Playwright'
+npx playwright test --config=e2e/playwright.config.js "$@"
+EXIT_CODE=$?
+
+kill "$RAILS_PID"
+wait "$RAILS_PID" 2>/dev/null || true
+exit $EXIT_CODE

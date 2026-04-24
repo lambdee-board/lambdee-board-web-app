@@ -80,7 +80,7 @@ group :development, :test do
 
   # Patch-level verification for Bundler
   gem 'bundler-audit'
-  gem 'cypress-rails'
+  gem 'cypress-on-rails'
 
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw], require: false
