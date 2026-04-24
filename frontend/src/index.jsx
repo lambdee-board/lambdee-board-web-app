@@ -1,4 +1,3 @@
-import './tailwind.css'
 import './init/configure-prism'
 import './init/initialize-console'
 

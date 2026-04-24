@@ -1,8 +1,5 @@
 import { sassPlugin } from 'esbuild-sass-plugin'
 import { prismjsPlugin } from 'esbuild-plugin-prismjs'
-import postcss from 'postcss'
-import tailwindcss from 'tailwindcss'
-import autoprefixer from 'autoprefixer'
 
 import { readFileSync } from 'fs'
 import { fileURLToPath } from 'url'
@@ -34,12 +31,7 @@ export default {
   plugins: [
     cleanBuildPlugin,
     errorReportPlugin,
-    sassPlugin({
-      transform: async (source, resolveDir) => {
-        const { css } = await postcss([tailwindcss, autoprefixer]).process(source, { from: resolveDir })
-        return css
-      }
-    }),
+    sassPlugin(),
     prismjsPlugin({
       inline: true,
       languages: ['typescript', 'javascript', 'ruby', 'markup', 'clike'],
