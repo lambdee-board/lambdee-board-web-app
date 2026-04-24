@@ -7,12 +7,7 @@ describe('WelcomeView', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
   })
   context('Recent', () => {
     it('does not show any recents', () => {
@@ -39,13 +34,11 @@ describe('WelcomeView', () => {
       cy.contains('Lambdee').click()
       cy.contains('Recent')
       cy.contains('Recents')
-      cy.get('.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-fullWidth.MuiButtonBase-root.recentBoardButton.css-11miwwc-MuiButtonBase-root-MuiButton-root').should('exist').first()
-        .click()
+      cy.get('.recentBoardButton').first().click()
     })
     it('navigate to workspace', () => {
       cy.contains('Workspace')
-      cy.get('.MuiButton-root.MuiButton-text.MuiButton-textPrimary.MuiButton-sizeMedium.MuiButton-textSizeMedium.MuiButton-fullWidth.MuiButtonBase-root.workspaceButton.css-11miwwc-MuiButtonBase-root-MuiButton-root').should('exist').first()
-        .click()
+      cy.get('.workspaceButton').first().click()
     })
   })
 })

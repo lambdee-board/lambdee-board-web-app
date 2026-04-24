@@ -7,18 +7,13 @@ describe('TasksView', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
     cy.visit('/tasks')
   })
   context('TasksView', () => {
     it('shows TasksView', () => {
       cy.contains('Tasks').click()
-      cy.get('.MuiDivider-root.MuiDivider-fullWidth.css-9mgopn-MuiDivider-root')
+      cy.get('.MuiDivider-root').should('exist')
     })
 
     it('opens Workspace in TasksView', () => {
@@ -30,8 +25,7 @@ describe('TasksView', () => {
     it('navigate to board from TasksView', () => {
       cy.contains('Tasks').click()
       cy.contains('Netflux').click()
-      cy.get('.userTasks-card-title > .MuiTypography-root').first().contains('Backend API')
-        .click()
+      cy.contains('.userTasks-card-title', 'Backend API').click()
       cy.contains('Planning View').click()
       cy.contains('Create New List')
       cy.contains('Doing')

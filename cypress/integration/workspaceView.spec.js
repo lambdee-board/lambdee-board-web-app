@@ -7,12 +7,7 @@ describe('Workspace View', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
     cy.contains('Netflux').click()
   })
 

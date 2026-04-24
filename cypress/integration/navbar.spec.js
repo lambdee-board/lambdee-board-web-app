@@ -6,12 +6,7 @@ describe('Navbar', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
   })
 
   it('displays the navbar with the logo', () => {
@@ -56,6 +51,6 @@ describe('Navbar', () => {
     cy.reload()
     cy.contains('Recents')
     cy.contains('Recent').click()
-    cy.get('.MuiMenuItem-root.MuiMenuItem-gutters.MuiButtonBase-root.css-fkgbok-MuiButtonBase-root-MuiMenuItem-root').first().click()
+    cy.get('.MuiMenuItem-root').first().click()
   })
 })

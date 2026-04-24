@@ -6,12 +6,7 @@ describe('Sidebar', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
     cy.contains('Workspaces').click()
     cy.contains('Netflux').click({ force: true })
     cy.get('body').first().click()
@@ -29,7 +24,7 @@ describe('Sidebar', () => {
     it('inputs string into add board input field and cancels', () => {
       cy.get('.New-board-button').should('exist')
         .click({ multiple: true })
-      cy.get('.New-board textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.New-board textarea').should('exist').first()
         .click()
         .type('Cypress New Task')
       cy.get('body').type('{esc}')
@@ -39,7 +34,7 @@ describe('Sidebar', () => {
     it('adds a new board', () => {
       cy.get('.New-board-button').should('exist')
         .click()
-      cy.get('.New-board textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.New-board textarea').should('exist').first()
         .click()
         .type('New Board Board{enter}')
       cy.wait(500)

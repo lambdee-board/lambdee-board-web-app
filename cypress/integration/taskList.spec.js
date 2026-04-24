@@ -6,12 +6,7 @@ describe('TaskList', () => {
     cy.clearCookies()
     // clear localStorage
     cy.clearLocalStorage()
-    cy.visit('/login')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').first()
-      .type('b-spinka@example.com')
-    cy.get('.MuiOutlinedInput-input.MuiInputBase-input.css-1t8l2tu-MuiInputBase-input-MuiOutlinedInput-input').eq(1)
-      .type('password')
-    cy.contains('Login').click()
+    cy.login()
     cy.contains('Netflux').click()
     cy.get('body').first().click()
     cy.get('div.Sidebar-wrapper').should('exist')
@@ -32,7 +27,7 @@ describe('TaskList', () => {
     it('inputs string into add task input field and cancels', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
-      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.TaskList-new-task textarea').should('exist').first()
         .click()
         .type('Cypress New Task')
       cy.get('body').type('{esc}')
@@ -42,7 +37,7 @@ describe('TaskList', () => {
     it('adds a new task', () => {
       cy.get('.TaskList-new-task-button').should('exist')
         .click({ multiple: true })
-      cy.get('.TaskList-new-task textarea.MuiInputBase-input').should('exist').first()
+      cy.get('.TaskList-new-task textarea').should('exist').first()
         .click()
         .type('New Test Task{enter}')
       cy.wait(500)
