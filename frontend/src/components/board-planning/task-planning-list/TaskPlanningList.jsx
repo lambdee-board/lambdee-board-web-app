@@ -28,7 +28,7 @@ import { mutateBoard } from '../../../api/board'
 import { calculatePos } from '../../../internal/component-position'
 import useAppAlertStore from '../../../stores/app-alert'
 
-import TaskListModal from '../../TaskListModal'
+import TaskListModal from '../../task-list-modal/TaskListModal'
 import TaskListItem from '../task-list-item/TaskListItem'
 import TaskPlanningListSkeleton from './TaskPlanningListSkeleton'
 

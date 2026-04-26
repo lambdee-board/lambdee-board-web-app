@@ -26,7 +26,7 @@ import { calculatePos, sortByPos } from '../../internal/component-position'
 import useTaskDndStore from '../../stores/task-dnd'
 
 import './TaskList.sass'
-import TaskListModal from '../TaskListModal'
+import TaskListModal from '../task-list-modal/TaskListModal'
 import TaskCard from '../task-card/TaskCard'
 import useAppAlertStore from '../../stores/app-alert'
 
