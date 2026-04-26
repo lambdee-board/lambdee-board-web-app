@@ -162,7 +162,7 @@ class DB::Board < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::Board>, nil]
@@ -297,7 +297,7 @@ class DB::Comment < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::Comment>, nil]
@@ -427,7 +427,7 @@ class DB::List < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::List>, nil]
@@ -783,36 +783,40 @@ end
 class DB::ScriptTrigger < ApplicationRecord
   # Scope `:for_model`.
   #
-  #     scope :for_model, ->(model) { where(subject_type: model.to_s).where(subject: nil) }
+  #     scope :for_model, ->(model, scope) { where(subject_type: model.to_s).where(subject_id: nil).where(scope: scope) }
   #
   # @return [Array<DB::ScriptTrigger>, nil]
-  def self.for_model(model); end
+  def self.for_model(model, scope); end
   # Scope `:for_record`.
   #
   #     scope :for_record, ->(record) { where(subject: record) }
   #
   # @return [Array<DB::ScriptTrigger>, nil]
   def self.for_record(record); end
-  # Scope `:global`.
+  # Scope `:not_private`.
   #
-  #     scope :global, -> { where(subject_type: nil) }
-  #
-  # @return [Array<DB::ScriptTrigger>, nil]
-  def self.global(); end
-  # Scope `:regarding_record`.
-  #
-  #     scope :regarding_record, (lambda do |record|
-  #       global.or(for_model(record.class)).or(for_record(record))
-  #     end)
+  #     scope :not_private, -> { where(private: false) }
   #
   # @return [Array<DB::ScriptTrigger>, nil]
-  def self.regarding_record(record); end
+  def self.not_private(); end
   # Scope `:with_action`.
   #
   #     scope :with_action, ->(action) { where(action: action) }
   #
   # @return [Array<DB::ScriptTrigger>, nil]
   def self.with_action(action); end
+  # Scope `:with_author`.
+  #
+  #     scope :with_author, ->(author) { where(author: author) }
+  #
+  # @return [Array<DB::ScriptTrigger>, nil]
+  def self.with_author(author); end
+  # `belongs_to` relation with `DB::User`. Database column `script_triggers.author_id`.
+  # @param val [DB::User, nil]
+  def author=(val); end
+  # `belongs_to` relation with `DB::User`. Database column `script_triggers.author_id`.
+  # @return [DB::User, nil]
+  def author; end
   # Polymorphic relation. Database columns `script_triggers.scope_id` and `script_triggers.scope_type`.
   # @param val [Object, nil]
   def scope=(val); end
@@ -940,10 +944,10 @@ class DB::ScriptVariable < ApplicationRecord
   # Database column `script_variables.description`, type: `string`.
   # @return [String, nil]
   def description; end
-  # Database column `script_variables.value`, type: `text`.
+  # Database column `script_variables.value`, type: `string`.
   # @param val [String, nil]
   def value=(val); end
-  # Database column `script_variables.value`, type: `text`.
+  # Database column `script_variables.value`, type: `string`.
   # @return [String, nil]
   def value; end
   # Database column `script_variables.created_at`, type: `datetime`.
@@ -1205,7 +1209,7 @@ class DB::Task < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::Task>, nil]
@@ -1557,7 +1561,7 @@ class DB::UiScriptTrigger < ApplicationRecord
   def self.global(author); end
   # Scope `:not_private`.
   #
-  #     scope :not_private, -> { where(private: [nil, false]) }
+  #     scope :not_private, -> { where(private: false) }
   #
   # @return [Array<DB::UiScriptTrigger>, nil]
   def self.not_private(); end
@@ -1703,7 +1707,7 @@ class DB::User < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::User>, nil]
@@ -1989,7 +1993,7 @@ class DB::Workspace < ApplicationRecord
   # Scope `:deleted_inside_time_window`.
   #
   #     scope :deleted_inside_time_window, lambda { |time, window|
-  #       deleted_after_time((time - window)).deleted_before_time((time + window))
+  #       deleted_after_time(time - window).deleted_before_time(time + window)
   #     }
   #
   # @return [Array<DB::Workspace>, nil]

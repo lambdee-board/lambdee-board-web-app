@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 
 const useAppAlertStore = create((set, get) => ({
   title: null,

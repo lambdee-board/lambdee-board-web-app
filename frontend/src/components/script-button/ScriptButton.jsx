@@ -13,7 +13,7 @@ import CustomAlert from '../custom-alert/CustomAlert'
 import './ScriptButton.sass'
 
 
-export default function ScriptButton({ variant, scope, id }) {
+export default function ScriptButton({ variant = 'default', scope, id }) {
   const { data: scriptTriggers, isLoading, isError } = useScriptTriggers({ scope, id })
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [anchorElUser, setAnchorElUser] = React.useState(null)
@@ -129,9 +129,6 @@ export default function ScriptButton({ variant, scope, id }) {
   )
 }
 
-ScriptButton.defaultProps = {
-  variant: 'default'
-}
 
 ScriptButton.propTypes = {
   variant: PropTypes.string.isRequired,

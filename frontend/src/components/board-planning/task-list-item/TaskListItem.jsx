@@ -20,13 +20,13 @@ import TaskDueTime from '../../TaskDueTime'
 import './TaskListItem.sass'
 
 
-const TaskListItem = (props) => {
+const TaskListItem = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTime, priority, points }) => {
   const dndRef = useRef(null)
   const { boardId, workspaceId } = useParams()
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
+    mutateList({ id: listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
   return (
@@ -42,34 +42,34 @@ const TaskListItem = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
+          <TaskCardModal taskId={id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <div className='TaskListItem' ref={dndRef} onClick={handleOpenTaskCardModal}>
         <Typography variant='caption' sx={{ fontSize: '14px' }} >
-          {props.label}
+          {label}
         </Typography>
         <Box className='TaskListItem-properties'>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} className='TaskListItem-properties-tags'>
             <AvatarGroup max={(3)} >
-              {props.tags.map((tag) => (
+              {tags.map((tag) => (
                 <Tag name={tag.name} colour={tag.colour} key={tag.id} />
               ))}
             </AvatarGroup>
           </Box>
           <Box className='TaskListItem-properties-duetime'>
-            {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:mm'} />}
+            {dueTime && <TaskDueTime dueTime={dueTime} format={'MM/DD/YY HH:mm'} />}
           </Box>
           <Box className='TaskListItem-properties-priority'>
-            <PriorityIcon size='xl' taskPriority={props.priority} />
+            <PriorityIcon size='xl' taskPriority={priority} />
 
           </Box>
           <Box className='TaskListItem-properties-points'>
-            {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
+            {points ? <Avatar className='Box-priority-avatar'>{points}</Avatar> : null}
           </Box>
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'flex' } }} className='TaskListItem-properties-avatars'>
             <AvatarGroup max={3} className='.MuiAvatar-root'>
-              {props.assignedUsers.map((assignedUser) => (
+              {assignedUsers.map((assignedUser) => (
                 <AvatarPopover
                   key={assignedUser.id}
                   userName={assignedUser.name}
@@ -82,12 +82,6 @@ const TaskListItem = (props) => {
       </div>
     </div>
   )
-}
-
-TaskListItem.defaultProps = {
-  label: '',
-  tags: [],
-  assignedUsers: [],
 }
 
 TaskListItem.propTypes = {

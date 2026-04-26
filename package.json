@@ -22,8 +22,8 @@
     }
   ],
   "dependencies": {
-    "@emotion/react": "^11.9.0",
-    "@emotion/styled": "^11.8.1",
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.0",
     "@fontsource/fira-code": "^4.5.10",
     "@fortawesome/fontawesome-svg-core": "^6.1.1",
     "@fortawesome/free-solid-svg-icons": "^6.1.1",
@@ -35,13 +35,13 @@
     "ansicolor": "^1.1.100",
     "axios": "^1.7.0",
     "axios-case-converter": "^1.0.2",
-    "chart.js": "^3.9.1",
+    "chart.js": "^4.5.1",
     "chokidar": "^3.5.3",
     "classnames": "^2.3.1",
     "date-fns": "^2.29.3",
     "dateformat": "^5.0.3",
-    "dayjs": "^1.11.6",
-    "esbuild": "^0.27.3",
+    "dayjs": "^1.11.20",
+    "esbuild": "^0.28.0",
     "esbuild-plugin-prismjs": "^1.0.7",
     "esbuild-sass-plugin": "^3.0.0",
     "humps": "^2.0.1",
@@ -52,10 +52,10 @@
     "prism-themes": "^1.9.0",
     "prismjs": "^1.28.0",
     "prop-types": "^15.8.1",
-    "react": "^18.1.0",
-    "react-chartkick": "^0.5.3",
+    "react": "^18.3.1",
+    "react-chartkick": "^0.5.4",
     "react-colorful": "^5.5.1",
-    "react-dom": "^18.1.0",
+    "react-dom": "^18.3.1",
     "react-router-dom": "^6.30.1",
     "react-simple-code-editor": "^0.11.2",
     "react-sortablejs": "^6.1.4",
@@ -64,8 +64,8 @@
     "rehype-sanitize": "^5.0.1",
     "sortablejs": "^1.15.0",
     "swr": "^2.0.0",
-    "web-vitals": "^2.1.4",
-    "zustand": "^4.1.4"
+    "web-vitals": "^4.0.0",
+    "zustand": "^5.0.10"
   },
   "scripts": {
     "build:development": "node ./frontend/scripts/build.dev.mjs",
@@ -87,12 +87,14 @@
     ]
   },
   "devDependencies": {
+    "@eslint/js": "^9.0.0",
     "@playwright/test": "^1.59.1",
     "@types/react": "^18.3.28",
     "@types/react-dom": "^18.3.7",
-    "eslint": "^8.14.0",
-    "eslint-plugin-react": "^7.29.4",
-    "eslint-plugin-react-hooks": "^4.5.0",
+    "eslint": "^9.0.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "globals": "^16.0.0",
     "typescript": "^6.0.3"
   }
 }

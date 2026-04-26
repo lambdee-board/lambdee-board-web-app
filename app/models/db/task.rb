@@ -35,7 +35,7 @@ class DB::Task < ApplicationRecord
   scope :with_users_and_tags, -> { includes(:users, :tags) }
   scope :find_with_all_associations, ->(id) { with_all_associations.find(id) }
 
-  enum priority: {
+  enum :priority, {
     very_low: 0,
     low: 1,
     medium: 2,

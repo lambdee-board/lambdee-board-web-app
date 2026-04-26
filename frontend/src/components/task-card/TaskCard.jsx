@@ -18,13 +18,13 @@ import Tag from '../Tag'
 import { mutateList } from '../../api/list'
 import TaskDueTime from '../TaskDueTime'
 
-const TaskCard = (props) => {
+const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTime, priority, points }) => {
   const dndRef = useRef(null)
   const { boardId, workspaceId } = useParams()
   const [openTaskCardModal, setOpenTaskCardModal] = React.useState(false)
   const handleOpenTaskCardModal = () => setOpenTaskCardModal(true)
   const handleCloseTaskCardModal = () => {
-    mutateList({ id: props.listId, axiosOptions: { params: { tasks: 'visible' } } })
+    mutateList({ id: listId, axiosOptions: { params: { tasks: 'visible' } } })
     setOpenTaskCardModal(false)
   }
 
@@ -41,26 +41,26 @@ const TaskCard = (props) => {
             left: '50%',
             transform: 'translate(-50%, -50%)',
             outline: 0 }}>
-          <TaskCardModal taskId={props.id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
+          <TaskCardModal taskId={id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
       <Card className='TaskCard' ref={dndRef} onClick={handleOpenTaskCardModal}>
         <Typography className='TaskCard-label'>
-          {props.label}
+          {label}
         </Typography>
-        {props.dueTime && <TaskDueTime dueTime={props.dueTime} format={'MM/DD/YY HH:mm'} />}
+        {dueTime && <TaskDueTime dueTime={dueTime} format={'MM/DD/YY HH:mm'} />}
         <Box className='Box-tags'>
-          {props.tags.map((tag) => (
+          {tags.map((tag) => (
             <Tag key={tag.id} name={tag.name} colour={tag.colour} />
           ))}
         </Box>
         <Box className='Box'>
           <Box className='Box-priority'>
-            <PriorityIcon size='xl' taskPriority={props.priority} />
-            {props.points ? <Avatar className='Box-priority-avatar'>{props.points}</Avatar> : null}
+            <PriorityIcon size='xl' taskPriority={priority} />
+            {points ? <Avatar className='Box-priority-avatar'>{points}</Avatar> : null}
           </Box>
           <AvatarGroup max={4} className='.MuiAvatar-root'>
-            {props.assignedUsers.map((assignedUser) => (
+            {assignedUsers.map((assignedUser) => (
               <AvatarPopover
                 key={assignedUser.id}
                 userName={assignedUser.name}
@@ -72,12 +72,6 @@ const TaskCard = (props) => {
       </Card>
     </div>
   )
-}
-
-TaskCard.defaultProps = {
-  label: '',
-  tags: [],
-  assignedUsers: [],
 }
 
 TaskCard.propTypes = {

@@ -95,7 +95,7 @@ module QueryAPI
       def validate_hash_association(klass, associations)
         associations.each do |key, val|
           validate_associations(klass, key)
-          associated_klass = klass._reflections[key.to_s]&.klass
+          associated_klass = klass._reflections[key.to_sym]&.klass
           validate_associations(associated_klass, val)
         end
 
@@ -115,7 +115,7 @@ module QueryAPI
       # @param associations [Symbol]
       # @return [Boolean] Whether the associations are invalid
       def validate_string_association(klass, associations)
-        reflection = klass&._reflections&.[](associations.to_s)
+        reflection = klass&._reflections&.[](associations.to_sym)
         throw :invalid, associations unless reflection
         @association_map ||= {}
         @association_map[associations.to_sym] = reflection.klass

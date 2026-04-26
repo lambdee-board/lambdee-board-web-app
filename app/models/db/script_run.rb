@@ -8,5 +8,5 @@ class ::DB::ScriptRun < ::ApplicationRecord
 
   default_scope { order(id: :desc) }
 
-  enum state: { waiting: 0, running: 1, executed: 2, failed: 3, timed_out: 4, connection_failed: 5 }
+  enum :state, { waiting: 0, running: 1, executed: 2, failed: 3, timed_out: 4, connection_failed: 5 }
 end

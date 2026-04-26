@@ -42,7 +42,7 @@ class DB::User < ::ApplicationRecord
   scope :created_at_to, ->(created_at) { where('created_at < ?', ::Time.parse(created_at).tomorrow) }
   scope :workspace_id, ->(workspace_id) { joins(:user_workspaces).where(user_workspaces: { workspace_id: workspace_id }) }
 
-  enum role: {
+  enum :role, {
     guest: 0,
     regular: 1,
     developer: 2,

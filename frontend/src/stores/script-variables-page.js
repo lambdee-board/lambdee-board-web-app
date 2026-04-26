@@ -1,4 +1,4 @@
-import create from 'zustand'
+import { create } from 'zustand'
 
 const useScriptVariablesPage = create((set) => ({
   page: 1,

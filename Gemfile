@@ -7,7 +7,7 @@ ruby '3.3.9'
 
 # Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
 gem 'minitest', '~> 5.0'
-gem 'rails', '~> 7.1.0'
+gem 'rails', '~> 7.2.0'
 
 # The original asset pipeline for Rails [https://github.com/rails/sprockets-rails]
 gem 'sprockets-rails'
@@ -26,7 +26,7 @@ gem 'importmap-rails'
 gem 'jbuilder'
 
 # Use Redis adapter to run Action Cable in production
-gem 'redis', '~> 4.0'
+gem 'redis', '~> 5.0'
 
 # Swagger OpenAPI docs UI
 gem 'rswag-api'
@@ -90,7 +90,7 @@ group :development, :test do
   gem 'letter_opener' # open emails in development mode
 
   # OpenAPI generating tests
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 8.0'
   gem 'rswag-specs'
 
   gem 'rubocop'
@@ -122,10 +122,9 @@ group :test do
   gem 'capybara'
   gem 'database_cleaner-active_record'
 
-  gem 'selenium-webdriver'
+  gem 'selenium-webdriver', '~> 4.0'
   gem 'shoulda'
   gem 'vcr'
-  gem 'webdrivers'
 
   # for generating test coverage
   gem 'simplecov', require: false
