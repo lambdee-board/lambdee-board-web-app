@@ -16,7 +16,7 @@ import '@fontsource/fira-code/700.css'
 
 import './EditScriptView.sass'
 import { useNavigate, useParams, Outlet } from 'react-router-dom'
-import ScriptLabel from '../../../../components/ScriptLabel'
+import ScriptLabel from '../../../../components/script-label/ScriptLabel'
 import UserInfo from '../../../../components/task-card-modal/UserInfo'
 import useCookie from 'react-use-cookie'
 import useUser from '../../../../api/user'

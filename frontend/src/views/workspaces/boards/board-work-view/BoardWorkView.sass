@@ -1,0 +1,15 @@
+@import '../../../../styles/base'
+
+.BoardWorkView
+  .TaskLists-scrollable
+    overflow-x: auto
+    height: calc(100vh - (17 * $unit))
+
+    .TaskLists-wrapper
+      width: fit-content
+      display: flex
+      flex-direction: row
+      margin-left: 2.5 * $unit
+
+      .TaskLists-spacer
+        padding-right: 2 * $unit

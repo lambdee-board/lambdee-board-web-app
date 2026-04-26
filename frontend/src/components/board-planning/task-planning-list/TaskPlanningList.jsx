@@ -29,7 +29,7 @@ import { calculatePos } from '../../../internal/component-position'
 import useAppAlertStore from '../../../stores/app-alert'
 
 import TaskListModal from '../../TaskListModal'
-import TaskListItem from '../TaskListItem'
+import TaskListItem from '../task-list-item/TaskListItem'
 import TaskPlanningListSkeleton from './TaskPlanningListSkeleton'
 
 import './TaskPlanningList.sass'

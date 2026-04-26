@@ -19,7 +19,7 @@ import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
 import { useParams } from 'react-router-dom'
-import CustomAlert from '../../../../components/CustomAlert'
+import CustomAlert from '../../../../components/custom-alert/CustomAlert'
 
 
 export default function EditScriptTriggersView() {

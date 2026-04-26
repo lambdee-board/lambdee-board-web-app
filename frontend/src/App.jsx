@@ -9,7 +9,7 @@ import './App.sass'
 import lambdeeTheme from './lambdee-theme'
 import { setNavigate } from './api/navigation'
 
-import Navbar from './components/Navbar'
+import Navbar from './components/navbar/Navbar'
 
 Sortable.mount(new MultiDrag(), new AutoScroll())
 

@@ -10,11 +10,11 @@ import {
 
 import { faBolt } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import DropdownButton from '../../DropdownButton'
+import DropdownButton from '../../dropdown-button/DropdownButton'
 import useScriptTriggers from '../../../api/scripts-triggers'
 import apiClient from '../../../api/axios-client'
 import useAppAlertStore from '../../../stores/app-alert'
-import CustomAlert from '../../CustomAlert'
+import CustomAlert from '../../custom-alert/CustomAlert'
 import ScriptMenuButtonSkeleton from './ScriptMenuButtonSkeleton'
 
 const ScriptMenuButton = () => {

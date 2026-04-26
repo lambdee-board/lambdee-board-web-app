@@ -10,8 +10,8 @@ import useCurrentUser from '../../api/current-user'
 import useBoard from '../../api/board'
 import useWorkspaces from '../../api/workspaces'
 
-import WorkspaceButton from '../../components/welcome-view/WorkspaceButton'
-import RecentBoardButton from '../../components/welcome-view/RecentBoardButton'
+import WorkspaceButton from '../../components/welcome-view/workspace-button/WorkspaceButton'
+import RecentBoardButton from '../../components/welcome-view/recent-board-button/RecentBoardButton'
 import WelcomeViewSkeleton from './WelcomeViewSkeleton'
 
 import './WelcomeView.sass'

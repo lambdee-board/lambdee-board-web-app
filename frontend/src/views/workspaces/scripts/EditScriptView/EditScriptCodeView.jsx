@@ -23,7 +23,7 @@ import '@fontsource/fira-code/700.css'
 
 import { useNavigate, useParams } from 'react-router-dom'
 import { mutateWorkspaceScripts } from '../../../../api/workspace-scripts'
-import CustomAlert from '../../../../components/CustomAlert'
+import CustomAlert from '../../../../components/custom-alert/CustomAlert'
 
 const HISTORY_BUFFER_SIZE = 200
 

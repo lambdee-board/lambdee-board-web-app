@@ -24,8 +24,8 @@ import { mutateList } from '../api/list'
 import { isManager } from '../internal/permissions'
 
 import { ManagerContent } from '../permissions/content'
-import ReportModal from './reports-view/ReportModal'
-import CustomAlert from './CustomAlert'
+import ReportModal from './reports-view/report-modal/ReportModal'
+import CustomAlert from './custom-alert/CustomAlert'
 
 import './SprintModal.sass'
 

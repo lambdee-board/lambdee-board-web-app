@@ -6,8 +6,8 @@ import { MenuItem } from '@mui/material'
 
 import useBoard from '../../../api/board'
 
-import RecentBoardIcon from '../../RecentBoardIcon'
-import DropdownButton from '../../DropdownButton'
+import RecentBoardIcon from '../../recent-board-icon/RecentBoardIcon'
+import DropdownButton from '../../dropdown-button/DropdownButton'
 import RecentMenuButtonSkeleton from './RecentMenuButtonSkeleton'
 
 function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName, handleClose }) {

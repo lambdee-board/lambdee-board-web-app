@@ -1,6 +1,6 @@
 import React from 'react'
 import { MenuItem, Skeleton, Divider, Typography } from '@mui/material'
-import DropdownButton from '../../DropdownButton'
+import DropdownButton from '../../dropdown-button/DropdownButton'
 
 const WorkspacesMenuButtonSkeleton = () => (
   <DropdownButton label='Workspaces'>

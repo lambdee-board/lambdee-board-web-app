@@ -24,8 +24,8 @@ import useWorkspace from '../../api/workspace'
 
 import './Sidebar.sass'
 import WorkspaceIcon from '../WorkspaceIcon'
-import NewBoardButton from '../NewBoardButton'
-import ScriptButton from '../ScriptButton'
+import NewBoardButton from '../new-board-button/NewBoardButton'
+import ScriptButton from '../script-button/ScriptButton'
 import SidebarSkeleton from './SidebarSkeleton'
 
 const drawerWidth = 240

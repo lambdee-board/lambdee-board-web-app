@@ -9,7 +9,7 @@ import {
   Modal
 } from '@mui/material'
 import PropTypes from 'prop-types'
-import PriorityIcon from '../PriorityIcon'
+import PriorityIcon from '../priority-icon/PriorityIcon'
 
 import './TaskCard.sass'
 import TaskCardModal from '../task-card-modal/TaskCardModal'

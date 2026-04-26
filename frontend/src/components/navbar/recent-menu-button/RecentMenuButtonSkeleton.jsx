@@ -1,6 +1,6 @@
 import React from 'react'
 import { MenuItem, Skeleton } from '@mui/material'
-import DropdownButton from '../../DropdownButton'
+import DropdownButton from '../../dropdown-button/DropdownButton'
 
 const RecentMenuButtonSkeleton = () => (
   <DropdownButton label='Recent'>

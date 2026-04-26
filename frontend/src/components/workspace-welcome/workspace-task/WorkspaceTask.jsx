@@ -9,7 +9,7 @@ import {
 } from '@mui/material'
 
 import { useList, mutateList } from '../../../api/list'
-import PriorityIcon from '../../PriorityIcon'
+import PriorityIcon from '../../priority-icon/PriorityIcon'
 import TaskCardModal from '../../task-card-modal/TaskCardModal'
 import TaskDueTime from '../../TaskDueTime'
 import WorkspaceTaskSkeleton from './WorkspaceTaskSkeleton'

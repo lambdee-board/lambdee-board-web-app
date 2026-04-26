@@ -12,7 +12,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography, Modal, Box } from '@mui/material'
 
 import './TaskListModal.sass'
-import CustomAlert from './CustomAlert'
+import CustomAlert from './custom-alert/CustomAlert'
 
 export default function TaskListModal(props) {
   const { boardId } = useParams()

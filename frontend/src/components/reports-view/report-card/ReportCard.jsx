@@ -8,7 +8,7 @@ import {
 
 import UserInfo from '../../task-card-modal/UserInfo'
 import LabeledData from '../../LabeledData'
-import ReportModal from '../ReportModal'
+import ReportModal from '../report-modal/ReportModal'
 
 import './ReportCard.sass'
 

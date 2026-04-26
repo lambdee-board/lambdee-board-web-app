@@ -15,7 +15,7 @@ import {
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import { useUserTasks, mutateUserTasks } from '../../../api/user-tasks'
-import PriorityIcon from '../../PriorityIcon'
+import PriorityIcon from '../../priority-icon/PriorityIcon'
 import TaskCardModal from '../../task-card-modal/TaskCardModal'
 import TaskDueTime from '../../TaskDueTime'
 import UserTasksSkeleton from './UserTasksSkeleton'

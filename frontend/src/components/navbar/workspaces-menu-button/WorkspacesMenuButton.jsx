@@ -9,7 +9,7 @@ import {
 
 import useWorkspaces from '../../../api/workspaces'
 import WorkspaceIcon from '../../WorkspaceIcon'
-import DropdownButton from '../../DropdownButton'
+import DropdownButton from '../../dropdown-button/DropdownButton'
 import WorkspacesMenuButtonSkeleton from './WorkspacesMenuButtonSkeleton'
 
 const WorkspacesMenuButton = () => {

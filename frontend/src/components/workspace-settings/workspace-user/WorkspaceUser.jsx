@@ -18,7 +18,7 @@ import useAppAlertStore from '../../../stores/app-alert'
 
 import UserInfo from '../../task-card-modal/UserInfo'
 import LabeledData from '../../LabeledData'
-import CustomAlert from '../../CustomAlert'
+import CustomAlert from '../../custom-alert/CustomAlert'
 
 import './WorkspaceUser.sass'
 
