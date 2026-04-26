@@ -2,17 +2,17 @@ import PropTypes from 'prop-types'
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
-import apiClient from '../api/axios-client'
-import { mutateBoard } from '../api/board'
-import { mutateList } from '../api/list'
-import useAppAlertStore from '../stores/app-alert'
+import apiClient from '../../api/axios-client'
+import { mutateBoard } from '../../api/board'
+import { mutateList } from '../../api/list'
+import useAppAlertStore from '../../stores/app-alert'
 
 import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography, Modal, Box } from '@mui/material'
 
 import './TaskListModal.sass'
-import CustomAlert from './custom-alert/CustomAlert'
+import CustomAlert from '../custom-alert/CustomAlert'
 
 export default function TaskListModal(props) {
   const { boardId } = useParams()

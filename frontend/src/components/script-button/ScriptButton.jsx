@@ -131,7 +131,7 @@ export default function ScriptButton({ variant = 'default', scope, id }) {
 
 
 ScriptButton.propTypes = {
-  variant: PropTypes.string.isRequired,
+  variant: PropTypes.string,
   scope: PropTypes.string.isRequired,
   id: PropTypes.any.isRequired
 }

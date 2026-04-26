@@ -17,15 +17,15 @@ import { LocalizationProvider, DateTimePicker } from '@mui/x-date-pickers'
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import MDEditor from '@uiw/react-md-editor'
 
-import useAppAlertStore from '../stores/app-alert'
-import apiClient from '../api/axios-client'
-import useBoard from '../api/board'
-import { mutateList } from '../api/list'
-import { isManager } from '../internal/permissions'
+import useAppAlertStore from '../../stores/app-alert'
+import apiClient from '../../api/axios-client'
+import useBoard from '../../api/board'
+import { mutateList } from '../../api/list'
+import { isManager } from '../../internal/permissions'
 
-import { ManagerContent } from '../permissions/content'
-import ReportModal from './reports-view/report-modal/ReportModal'
-import CustomAlert from './custom-alert/CustomAlert'
+import { ManagerContent } from '../../permissions/content'
+import ReportModal from '../reports-view/report-modal/ReportModal'
+import CustomAlert from '../custom-alert/CustomAlert'
 
 import './SprintModal.sass'
 

@@ -6,13 +6,13 @@ if (process.env.NODE_ENV === 'development') {
 
   console._warn = _warn
   console.warn = function() {
-    useErrorCounterStore.getState().addWarning()
+    setTimeout(() => useErrorCounterStore.getState().addWarning(), 0)
     return _warn.apply(console, arguments)
   }
 
   console._error = _error
   console.error = function() {
-    useErrorCounterStore.getState().addError()
+    setTimeout(() => useErrorCounterStore.getState().addError(), 0)
     return _error.apply(console, arguments)
   }
 }
