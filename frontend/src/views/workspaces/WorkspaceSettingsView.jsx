@@ -21,7 +21,7 @@ import useAppAlertStore from '../../stores/app-alert'
 import WorkspaceLabel from '../../components/workspace-settings/WorkspaceLabel'
 import NewBoardButton from '../../components/NewBoardButton'
 import WorkspaceBoard from '../../components/workspace-settings/WorkspaceBoard'
-import WorkspaceUser from '../../components/workspace-settings/WorkspaceUser'
+import WorkspaceUser from '../../components/workspace-settings/workspace-user/WorkspaceUser'
 import WorkspaceAssignUserSelect from '../../components/workspace-settings/WorkspaceAssignUserSelect'
 
 import './WorkspaceSettingsView.sass'

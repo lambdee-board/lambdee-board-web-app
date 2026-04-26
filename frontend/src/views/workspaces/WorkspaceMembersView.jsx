@@ -10,7 +10,8 @@ import useWorkspaces from '../../api/workspaces'
 import useUsers, { mutateUsers } from '../../api/users'
 
 import UsersFilter from '../../components/UsersFilter'
-import WorkspaceUser, { WorkspaceUserSkeleton } from '../../components/workspace-settings/WorkspaceUser'
+import WorkspaceUser from '../../components/workspace-settings/workspace-user/WorkspaceUser'
+import WorkspaceUserSkeleton from '../../components/workspace-settings/workspace-user/WorkspaceUserSkeleton'
 
 import './WorkspaceMembersView.sass'
 

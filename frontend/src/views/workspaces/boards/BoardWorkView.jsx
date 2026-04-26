@@ -8,7 +8,8 @@ import useBoard from '../../../api/board'
 import { isManager } from '../../../internal/permissions'
 import { calculatePos, sortByPos } from '../../../internal/component-position'
 
-import { TaskList, TaskListSkeleton } from '../../../components/TaskList'
+import TaskList from '../../../components/task-list/TaskList'
+import TaskListSkeleton from '../../../components/task-list/TaskListSkeleton'
 
 import './BoardWorkView.sass'
 import useAppAlertStore from '../../../stores/app-alert'

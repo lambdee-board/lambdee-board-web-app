@@ -27,15 +27,12 @@ function App() {
       <SWRConfig
         value={swrConfig}
       >
-
         <div className='App'>
-
           <Navbar />
           <div className='App-body'>
             <Outlet />
           </div>
         </div>
-
       </SWRConfig>
     </ThemeProvider>
   )

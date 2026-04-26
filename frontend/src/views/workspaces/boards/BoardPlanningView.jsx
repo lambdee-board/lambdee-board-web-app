@@ -11,7 +11,8 @@ import apiClient from '../../../api/axios-client'
 import useBoard from '../../../api/board'
 import { calculatePos, sortByPos } from '../../../internal/component-position'
 
-import { TaskPlanningList, TaskPlanningListSkeleton } from '../../../components/board-planning/TaskPlanningList'
+import TaskPlanningList from '../../../components/board-planning/task-planning-list/TaskPlanningList'
+import TaskPlanningListSkeleton from '../../../components/board-planning/task-planning-list/TaskPlanningListSkeleton'
 import { RegularContent } from '../../../permissions/content'
 import useAppAlertStore from '../../../stores/app-alert'
 

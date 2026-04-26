@@ -9,7 +9,7 @@ import { useParams } from 'react-router-dom'
 
 import { useBoardSprints, mutateBoardSprints } from '../../../api/board-sprints'
 
-import ReportCard from '../../../components/reports-view/ReportCard'
+import ReportCard from '../../../components/reports-view/report-card/ReportCard'
 
 import './ReportsView.sass'
 

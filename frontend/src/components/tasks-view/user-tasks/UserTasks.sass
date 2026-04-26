@@ -1,0 +1,46 @@
+@import '../../../styles/base'
+
+.userTasks-card
+  display: flex
+  flex-direction: column
+  width: 38 * $unit
+  min-height: 34 * $unit
+  max-height: 92%
+  margin: 3 * $unit
+  .userTasks-card-title
+    display: flex
+    flex-direction: row
+    width: 100%
+    min-height: 8 * $unit
+    color: black
+    align-items: center
+    justify-content: center
+    .userTasks-card-title-icon
+      width: 4 * $unit
+      height: 4 * $unit
+.userTasks-card-lists
+  overflow-y: auto
+  .userTasks-card-list
+    display: flex
+    flex-direction: column
+    .userTasks-card-list-title
+      display: flex
+      flex-direction: row
+      margin-top: 2 * $unit
+      margin-left: $unit
+    .userTasks-card-list-task
+      display: flex
+      flex-direction: row
+      color: black
+      width: 100%
+      align-items: flex-start
+      .userTasks-card-list-task-wrapper
+        display: flex
+        flex-direction: row
+        width: 100%
+        align-items: center
+        .userTasks-card-list-task-title
+          margin-left: $unit
+          margin-right: 2 * $unit
+        .Tasks-card-list-task-duetime
+          margin-left: auto

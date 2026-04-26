@@ -1,0 +1,46 @@
+@import '../../styles/base'
+
+.TaskCard-wrapper
+  width: 100%
+
+  .TaskCard
+    padding: 1 * $unit
+    margin: (.25 * $unit) (.5 * $unit)
+    @include transition
+    cursor: pointer
+
+    &:hover
+      background-color: darken(#fff, 3%)
+
+    .Box-tags
+      margin-top: calc($unit / 2)
+      margin-top: 0.2 * $unit
+      display: flex
+      flex-wrap: wrap
+
+      .Tag
+        margin-right: calc($unit / 2)
+        margin-bottom: calc($unit / 2)
+
+    .Box
+      display: flex
+      flex-direction: row
+      margin-top: 0.4 * $unit
+
+      .Box-priority
+        display: flex
+        flex-direction: row
+
+        align-items: center
+        margin-right: auto
+
+        .Box-priority-avatar
+          width: 3 * $unit
+          height: 3 * $unit
+          margin-left: $unit
+          font-size: 2 * $unit
+
+      .MuiAvatar-root
+        width: 3.2 * $unit
+        height: 3.2 * $unit
+        font-size: 2 * $unit

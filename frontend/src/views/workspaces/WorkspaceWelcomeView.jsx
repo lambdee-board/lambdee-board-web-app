@@ -4,11 +4,10 @@ import {
   Card,
   Divider,
   Grid,
-  Skeleton
 } from '@mui/material'
 
 import useWorkspace from './../../api/workspace'
-import WorkspaceTasksList from '../../components/workspace-welcome/WorkspaceTasksList'
+import WorkspaceTasksList from '../../components/workspace-welcome/workspace-tasks-list/WorkspaceTasksList'
 
 import './WorkspaceWelcomeView.sass'
 

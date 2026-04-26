@@ -10,14 +10,14 @@ import {
 } from '@mui/material'
 import { RegularContent, DeveloperContent } from '../permissions/content'
 
-import AccountMenuButton from './navbar/AccountMenuButton'
-import WorkspacesMenuButton from './navbar/WorkspacesMenuButton'
-import RecentMenuButton from './navbar/RecentMenuButton'
+import AccountMenuButton from './navbar/account-menu-button/AccountMenuButton'
+import WorkspacesMenuButton from './navbar/workspaces-menu-button/WorkspacesMenuButton'
+import RecentMenuButton from './navbar/recent-menu-button/RecentMenuButton'
 
 import lambdeeLogo from '../assets/lambdee-logo.svg'
 import './Navbar.sass'
 import { useNavigate } from 'react-router-dom'
-import ScriptMenuButton from './navbar/ScriptMenuButton'
+import ScriptMenuButton from './navbar/script-menu-button/ScriptMenuButton'
 
 
 const Navbar = () => {
