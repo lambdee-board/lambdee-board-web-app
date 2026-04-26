@@ -14,5 +14,5 @@ $script_dir/rails t
 title "Running Backend Spec Tests"
 bundle exec rspec
 
-title "Running Frontend Cypress Tests"
-$script_dir/cypress run
+title "Running Frontend E2E Tests"
+$script_dir/playwright

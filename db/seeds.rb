@@ -9,8 +9,8 @@
 if ::Rails.env.production?
   require_relative 'seeds.prod'
 elsif ::Rails.env.test?
-  require_relative 'seeds.cypress'
+  require_relative 'seeds.playwright'
 else
-  # require_relative 'seeds.cypress'
+  # require_relative 'seeds.playwright'
   require_relative 'seeds.dev'
 end

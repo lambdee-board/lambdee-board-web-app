@@ -34,10 +34,10 @@ bundle exec rspec
 bundle exec rspec spec/requests/api/scripts_spec.rb
 bundle exec rspec spec/requests/api/scripts_spec.rb:10
 
-# Frontend E2E (Cypress)
-bin/cypress open   # interactive
-bin/cypress run    # headless
-bin/cypress run --spec "cypress/integration/path/to/spec.js"
+# Frontend E2E (Playwright)
+bin/playwright                                                          # headless (all specs)
+npx playwright test --config=e2e/playwright.config.js --ui             # interactive UI mode
+npx playwright test --config=e2e/playwright.config.js <spec-path>      # single spec
 ```
 
 ## Linting & Security

@@ -50,11 +50,6 @@ jobs:
         with:
           path: ./node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
-      - name: Cache cypress
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/install
       # Add or replace database setup steps here
@@ -67,8 +62,10 @@ jobs:
         run: COVERAGE=true bundle exec rspec
       - name: Build the frontend
         run: bin/build
-      - name: Run cypress tests
-        run: bin/cypress run
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps chromium
+      - name: Run Playwright tests
+        run: bin/playwright
       - name: Backend Code Coverage report
         uses: 5monkeys/cobertura-action@master
         with:
@@ -107,8 +104,8 @@ jobs:
         uses: actions/upload-artifact@v3
         if: ${{ !success() }}
         with:
-          name: cypress_screenshots
-          path: tmp/cypress_screenshots
+          name: playwright_report
+          path: playwright-report
 
   lint:
     runs-on: ubuntu-latest
@@ -131,11 +128,6 @@ jobs:
         with:
           path: ./node_modules
           key: node_modules-${{ hashFiles('package-lock.json') }}
-      - name: Cache cypress
-        uses: actions/cache@v2
-        with:
-          path: ~/.cache/Cypress
-          key: cypress-${{ hashFiles('package-lock.json') }}
       - name: Run the setup script
         run: ./bin/install
       # Add or replace any other lints here

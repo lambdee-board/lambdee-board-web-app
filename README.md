@@ -29,9 +29,7 @@ Lambdee - Scriptable Agile Board
 - `bin/build` - build the frontend React app
 - `bin/openapi` - build the OpenAPI documentation from Ruby specs
 - `bin/seed` - fill the database with generated data
-- `bin/cypress`
-  - `open` -- open cypress for testing during development
-  - `run` -- run cypress tests headless (without a browser window)
+- `bin/playwright` -- run Playwright E2E tests headless
 - `bin/doc` -- generate the YARD docs and open them in your browser
 - `bundle exec brakeman -I` -- inspect backend security warnings and decide what to do with them
 
