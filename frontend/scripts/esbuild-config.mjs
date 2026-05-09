@@ -10,7 +10,7 @@ import cleanBuildPlugin from './clean-build-plugin.mjs'
 const __dirname = dirname(fileURLToPath(import.meta.url))
 
 export default {
-  entryPoints: [join(__dirname, '..', 'src', 'index.jsx')],
+  entryPoints: [join(__dirname, '..', 'src', 'index.tsx')],
   bundle: true,
   assetNames: '[name]-[hash].digested',
   publicPath: '/assets',

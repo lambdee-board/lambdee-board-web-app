@@ -2,17 +2,21 @@ import js from '@eslint/js'
 import globals from 'globals'
 import reactPlugin from 'eslint-plugin-react'
 import reactHooksPlugin from 'eslint-plugin-react-hooks'
+import tsParser from '@typescript-eslint/parser'
+import tsPlugin from '@typescript-eslint/eslint-plugin'
 
 export default [
   js.configs.recommended,
   reactPlugin.configs.flat.recommended,
   reactHooksPlugin.configs.flat.recommended,
   {
+    files: ['**/*.{ts,tsx,js,jsx,mjs,cjs}'],
     languageOptions: {
       ecmaVersion: 'latest',
       sourceType: 'module',
       globals: {
         ...globals.es2022,
+        ...globals.browser,
         ...globals.node,
       },
     },
@@ -22,6 +26,9 @@ export default [
       },
     },
     rules: {
+      'react/react-in-jsx-scope': 'off',
+      'react-hooks/set-state-in-effect': 'off',
+      'react-hooks/purity': 'off',
       'no-duplicate-imports': 'warn',
       camelcase: ['error', { properties: 'always', ignoreDestructuring: true }],
       'object-shorthand': ['warn', 'always'],
@@ -89,6 +96,21 @@ export default [
       'template-curly-spacing': 'warn',
       'wrap-iife': 'error',
       'yield-star-spacing': 'warn',
+    },
+  },
+  {
+    files: ['**/*.{ts,tsx}'],
+    plugins: { '@typescript-eslint': tsPlugin },
+    languageOptions: {
+      parser: tsParser,
+      parserOptions: {
+        ecmaFeatures: { jsx: true },
+      },
+    },
+    rules: {
+      'no-undef': 'off',
+      'no-unused-vars': 'off',
+      '@typescript-eslint/no-unused-vars': ['warn', { args: 'none' }],
     },
   },
 ]

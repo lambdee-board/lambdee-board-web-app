@@ -11,5 +11,6 @@ export interface Board {
   customData: Record<string, unknown>
   url: string
   workspaceUrl?: string
+  workspaceName?: string
   lists?: List[]
 }
