@@ -42,8 +42,16 @@ const ReportModal = ({ sprintId, sprintName, sprintDescription, sprintStartedAt,
       <Card className='ReportModal-paper'>
         <Box className='ReportModal-info'>
           <Box className='ReportModal-info-left'>
-            <Typography fontSize={24} sx={{ mb: '12px' }}>{sprintName}</Typography>
-            <Typography sx={{ overflowWrap: 'break-word' }} fontSize={18}>{sprintDescription}</Typography>
+            <Typography
+              sx={{
+                fontSize: 24,
+                mb: '12px'
+              }}>{sprintName}</Typography>
+            <Typography
+              sx={{
+                fontSize: 18,
+                overflowWrap: 'break-word'
+              }}>{sprintDescription}</Typography>
           </Box>
           <Box className='ReportModal-info-middle'>
             <LabeledData label='Work Scope' data={Object.values(workScope).at(-1)} />

@@ -15,11 +15,12 @@ interface Props {
 
 export default function CustomAlert({ confirmAction, dismissAction, title, message, confirmMessage, dismissMessage }: Props) {
   return (
-
     <div>
       <div className='AlertModal-wrapper'>
         <Card className='AlertModal-card'>
-          <Typography className='AlertModal-title' fontSize={24}>{title ? title : 'Are you sure?'}</Typography>
+          <Typography className='AlertModal-title' sx={{
+            fontSize: 24
+          }}>{title ? title : 'Are you sure?'}</Typography>
           <Typography className='AlertModal-message'>{message}</Typography>
           <div className='AlertModal-buttons'>
             <Button onClick={dismissAction} variant='contained' className='AlertModal-buttons-dismiss'>{dismissMessage ? dismissMessage : 'Dismiss'}</Button>
@@ -28,6 +29,5 @@ export default function CustomAlert({ confirmAction, dismissAction, title, messa
         </Card>
       </div>
     </div>
-
   )
 }

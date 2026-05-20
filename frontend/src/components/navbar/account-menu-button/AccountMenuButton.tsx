@@ -47,10 +47,14 @@ const AccountMenuButton = () => {
       >
         <MenuItem key={'user-account'}
           onClick={() => navigate(generatePath('account'))} >
-          <Typography textAlign='center'>Account</Typography>
+          <Typography sx={{
+            textAlign: 'center'
+          }}>Account</Typography>
         </MenuItem>
         <MenuItem key={'logout'} onClick={handleLogout}>
-          <Typography textAlign='center'>Logout</Typography>
+          <Typography sx={{
+            textAlign: 'center'
+          }}>Logout</Typography>
         </MenuItem>
       </Menu>
     </Box>

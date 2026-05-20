@@ -13,7 +13,9 @@ interface Props {
 const WorkspaceButton = ({ workspaceId, workspaceName }: Props) => {
   const navigate = useNavigate()
   return (
-    <Box textAlign='center'>
+    <Box sx={{
+      textAlign: 'center'
+    }}>
       <Button fullWidth sx={{ textTransform: 'none ' }} className='workspaceButton' onClick={() => {
         localStorage.setItem('sidebarSelected', 'workspace')
         navigate(generatePath('workspaces/:id', { id: String(workspaceId) }))

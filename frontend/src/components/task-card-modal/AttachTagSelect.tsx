@@ -76,7 +76,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
         id='attach-tag-to-task-select'
         options={tagsToAdd}
         loading={isLoading || isError}
-        isOptionEqualToValue={(option, other) => option.id === other.id}
+        isOptionEqualToValue={(option, other) => typeof option !== 'string' && typeof other !== 'string' && option.id === other.id}
         open={openTagsPopup}
         onOpen={() => setTagsPopup(true) }
         onClose={() => setTagsPopup(false) }
@@ -117,7 +117,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
           return option.name
         }}
         renderOption={({ key, ...params }, option) => (
-          <li key={key ?? (option.name + option.id || option.name)} {...params}>
+          <li key={key ?? (typeof option === 'string' ? option : (option.name + option.id || option.name))} {...params}>
             <div
               style={{ width: '16px',
                 height: '16px',
@@ -136,16 +136,18 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
           <TextField
             {...params}
             label='Add tag'
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <React.Fragment>
-                  {isLoading || isError ? <CircularProgress color='inherit' size={20} /> : null}
-                  {params.InputProps.endAdornment}
-                </React.Fragment>
-              ),
+            slotProps={{
+              ...params.slotProps,
+              input: {
+                ...(params.slotProps?.input as object),
+                endAdornment: (
+                  <React.Fragment>
+                    {isLoading || isError ? <CircularProgress color='inherit' size={20} /> : null}
+                    {(params.slotProps?.input as any)?.endAdornment}
+                  </React.Fragment>
+                ),
+              },
             }}
-
           />
         )}
         filterOptions={(options, params) => {

@@ -183,7 +183,9 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
         <Box className='SprintModal-main'>
           <div className='SprintModal-main-header'>
             {!activeSprint ?
-              <Typography fontSize={24}>Start new sprint</Typography>              :
+              <Typography sx={{
+                fontSize: 24
+              }}>Start new sprint</Typography>              :
               <div className='SprintModal-main-header-active'>
                 <Modal
                   open={openReportModal}
@@ -205,7 +207,9 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                     />
                   </Box>
                 </Modal>
-                <Typography fontSize={24}>View active sprint</Typography>
+                <Typography sx={{
+                  fontSize: 24
+                }}>View active sprint</Typography>
                 <Button
                   onClick={() => setOpenReportModal(true)}
                   color='secondary'
@@ -217,7 +221,9 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
 
           </div>
           <div className='SprintModal-main-name'>
-            <Typography fontSize={16}>Sprint name</Typography>
+            <Typography sx={{
+              fontSize: 16
+            }}>Sprint name</Typography>
             <Card
               className='SprintModal-main-name-card'>
               {!editSprintNameButton ?
@@ -251,7 +257,9 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                 </div>}
           </div>
           <div className='SprintModal-main-datetime'>
-            <Typography fontSize={16}>End date</Typography>
+            <Typography sx={{
+              fontSize: 16
+            }}>End date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 ampm={false}
@@ -284,7 +292,9 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
               </Button>
             </div>}
           </div>
-          <Typography fontSize={16}>Sprint description</Typography>
+          <Typography sx={{
+            fontSize: 16
+          }}>Sprint description</Typography>
           {unsavedDescriptionDraft ? (
             <Typography className='SprintModal-description-label-unsaved-changes' variant='caption'>
                 Unsaved Changes

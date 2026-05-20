@@ -27,7 +27,9 @@ const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }: Pro
 
 
   return (
-    <Box textAlign='center' >
+    <Box sx={{
+      textAlign: 'center'
+    }} >
       <Button fullWidth sx={{ textTransform: 'none ' }} className='recentBoardButton' onClick={() => {
         localStorage.setItem('sidebarSelected', boardName)
         navigate(`/workspaces/${workspaceId}/boards/${boardId}`)

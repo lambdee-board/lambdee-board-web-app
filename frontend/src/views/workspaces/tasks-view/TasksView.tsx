@@ -41,8 +41,14 @@ export default function TasksView() {
                 </Typography>
               </div>
               <Divider />
-              <Grid sx={{ mt: '4px' }} container spacing={2} direction='row'
-                alignItems='center' >
+              <Grid
+                container
+                spacing={2}
+                direction='row'
+                sx={{
+                  alignItems: 'center',
+                  mt: '4px'
+                }}>
                 {workspace.boards?.slice(0, 9).map((board) => (
                   <Grid size={4} key={board.id} className='tasksView-workspaces-card-board'>
                     <FontAwesomeIcon icon={faClipboardList} color={board.colour} />

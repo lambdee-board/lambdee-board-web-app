@@ -80,7 +80,7 @@ export default function LoginView() {
         <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
         <TextField
           inputRef={emailRef}
-          inputProps={{ id: 'login-email' }}
+          slotProps={{ htmlInput: { id: 'login-email' } }}
           className='loginView-card-input'
           label='Email'
           variant='outlined'

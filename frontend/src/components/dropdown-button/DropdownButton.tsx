@@ -21,10 +21,11 @@ const DropdownButton = ({ label, children, anchorEl, handleClick, handleClose }:
     <div className='DropdownButton'>
       <Button
         className='Button'
+        color='inherit'
         id='dropdown-button'
         onClick={handleClick}
       >
-        <Typography variant='button' color='white' sx={{ textTransform: 'capitalize' }}>
+        <Typography variant='button' sx={{ textTransform: 'capitalize', color: '#fff' }}>
           {label}
           <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
         </Typography>

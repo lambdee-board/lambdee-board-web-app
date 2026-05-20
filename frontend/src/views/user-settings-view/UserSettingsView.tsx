@@ -94,7 +94,9 @@ export default function UserSettingsView() {
       <div className='userSettings-leftCol'>
         <List className='userSettings-list'
           subheader={<ListSubheader disableSticky={true} className='userSettings-header' >
-            <Typography className='userSettings-header-text' fontSize={64}>
+            <Typography className='userSettings-header-text' sx={{
+              fontSize: 64
+            }}>
               Your Account
             </Typography>
           </ListSubheader>} >

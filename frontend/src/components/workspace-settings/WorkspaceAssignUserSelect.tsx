@@ -45,14 +45,17 @@ function WorkspaceAssignUserSelect({ onBlur, onChange, assignedUsers = [] }: Pro
         <TextField
           {...params}
           label='Assign'
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <React.Fragment>
-                {isLoading || isError ? <CircularProgress color='inherit' size={20} /> : null}
-                {params.InputProps.endAdornment}
-              </React.Fragment>
-            ),
+          slotProps={{
+            ...params.slotProps,
+            input: {
+              ...(params.slotProps?.input as object),
+              endAdornment: (
+                <React.Fragment>
+                  {isLoading || isError ? <CircularProgress color='inherit' size={20} /> : null}
+                  {(params.slotProps?.input as any)?.endAdornment}
+                </React.Fragment>
+              ),
+            },
           }}
         />
       )}

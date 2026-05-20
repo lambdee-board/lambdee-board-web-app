@@ -95,12 +95,13 @@ function TaskTime({ task, mutate }: Props) {
           <LinearProgress variant='determinate' value={task.spentTime > 604800 ? 100 : task.spentTime / 6048} />
         </div>
         <div>
-          <Typography variant='body2' color='text.secondary'>
+          <Typography variant='body2' sx={{
+            color: 'text.secondary'
+          }}>
             {task.spentTime === 0 ? 'No time registered' : getFormattedTime()}
           </Typography>
         </div>
       </div>
-
       <Dialog
         className='TaskTime-dialog'
         open={openTimeDial}

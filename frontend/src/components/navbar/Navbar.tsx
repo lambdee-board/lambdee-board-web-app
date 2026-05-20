@@ -28,6 +28,7 @@ const Navbar = () => {
       <Container maxWidth={false}>
         <Toolbar disableGutters>
           <Button
+            color='inherit'
             onClick={() => {
               navigate('/')
             }}>
@@ -37,8 +38,7 @@ const Navbar = () => {
             />
             <Typography
               className='Typography-logo-title'
-              sx={{ textTransform: 'none ' }}
-              color='white'
+              sx={{ textTransform: 'none', color: '#fff' }}
               variant='h6'
             >
             Lambdee
@@ -51,31 +51,34 @@ const Navbar = () => {
               <ScriptMenuButton />
               <Button
                 className='Button'
+                color='inherit'
                 id='dropdown-button'
                 onClick={() => navigate('/tasks')}
               >
 
-                <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
+                <Typography variant='button' sx={{ textTransform: 'capitalize', mr: '32px', color: '#fff' }}>
                 Tasks
                 </Typography>
               </Button>
             </RegularContent>
             <Button
               className='Button'
+              color='inherit'
               id='dropdown-button'
               onClick={() => navigate('/members')}
             >
-              <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+              <Typography variant='button' sx={{ textTransform: 'capitalize', marginRight: '32px', color: '#fff' }}>
                 Members
               </Typography>
             </Button>
             <DeveloperContent>
               <Button
                 className='Button'
+                color='inherit'
                 id='dropdown-button'
                 onClick={() => navigate('/console')}
               >
-                <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+                <Typography variant='button' sx={{ textTransform: 'capitalize', marginRight: '32px', color: '#fff' }}>
                 Console
                 </Typography>
               </Button>
