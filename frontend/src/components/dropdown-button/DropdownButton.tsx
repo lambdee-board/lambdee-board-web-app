@@ -24,7 +24,7 @@ const DropdownButton = ({ label, children, anchorEl, handleClick, handleClose }:
         id='dropdown-button'
         onClick={handleClick}
       >
-        <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize' }}>
+        <Typography variant='button' color='white' sx={{ textTransform: 'capitalize' }}>
           {label}
           <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
         </Typography>

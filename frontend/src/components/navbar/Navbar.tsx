@@ -55,7 +55,7 @@ const Navbar = () => {
                 onClick={() => navigate('/tasks')}
               >
 
-                <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
+                <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', mr: '32px' }}>
                 Tasks
                 </Typography>
               </Button>
@@ -65,7 +65,7 @@ const Navbar = () => {
               id='dropdown-button'
               onClick={() => navigate('/members')}
             >
-              <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+              <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
                 Members
               </Typography>
             </Button>
@@ -75,7 +75,7 @@ const Navbar = () => {
                 id='dropdown-button'
                 onClick={() => navigate('/console')}
               >
-                <Typography variant='button' color='common.white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
+                <Typography variant='button' color='white' sx={{ textTransform: 'capitalize', marginRight: '32px' }}>
                 Console
                 </Typography>
               </Button>

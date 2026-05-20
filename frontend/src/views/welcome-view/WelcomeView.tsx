@@ -55,7 +55,7 @@ export default function WelcomeView() {
           <div className='welcomeView-recents-buttons'>
             <Grid container spacing={0}>
               {boards.map((recentBoard) => (
-                <Grid item xs={12} sm={6} md={4} lg={2} key={recentBoard.id}>
+                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2 }} key={recentBoard.id}>
                   <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
                 </Grid>
               ))}
@@ -69,7 +69,7 @@ export default function WelcomeView() {
           <div className='welcomeView-workspaces-buttons'>
             <Grid container spacing={0}>
               {workspaces.map((workspace) => (
-                <Grid item xs={6} sm={6} md={4} lg={2} key={workspace.id}>
+                <Grid size={{ xs: 6, sm: 6, md: 4, lg: 2 }} key={workspace.id}>
                   <WorkspaceButton workspaceId={workspace.id} workspaceName={workspace.name} />
                 </Grid>
               ))}

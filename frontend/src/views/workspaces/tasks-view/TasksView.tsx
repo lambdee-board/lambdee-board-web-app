@@ -44,7 +44,7 @@ export default function TasksView() {
               <Grid sx={{ mt: '4px' }} container spacing={2} direction='row'
                 alignItems='center' >
                 {workspace.boards?.slice(0, 9).map((board) => (
-                  <Grid item xs={4} key={board.id} className='tasksView-workspaces-card-board'>
+                  <Grid size={4} key={board.id} className='tasksView-workspaces-card-board'>
                     <FontAwesomeIcon icon={faClipboardList} color={board.colour} />
                     <Typography variant='caption'>{board.name}</Typography>
                   </Grid>
