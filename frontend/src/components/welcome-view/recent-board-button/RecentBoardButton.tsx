@@ -33,7 +33,7 @@ const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }: Pro
         navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
       }}>
         <RecentBoardIcon name={workspace.name} size={52} colour={boardColour} iconSize='32' />
-        <Typography color='black'>{workspace.name}/{boardName}</Typography>
+        <Typography sx={{ color: 'black' }}>{workspace.name}/{boardName}</Typography>
       </Button>
     </Box>
   )

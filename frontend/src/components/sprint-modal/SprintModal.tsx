@@ -1,4 +1,5 @@
 import * as React from 'react'
+import dayjs, { type Dayjs } from 'dayjs'
 import { useParams } from 'react-router-dom'
 import rehypeSanitize from 'rehype-sanitize'
 
@@ -7,7 +8,6 @@ import {
   Box,
   Card,
   Button,
-  TextField,
   InputBase,
   Alert,
   Modal
@@ -41,7 +41,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
   const editSprintNameRef = React.useRef<HTMLInputElement>(null)
   const { data: board } = useBoard({ id: boardId, axiosOptions: { params: { lists: 'non-archived' } } })
   const [openReportModal, setOpenReportModal] = React.useState(false)
-  const [datetime, setDatetime] = React.useState<unknown>(activeSprint?.expectedEndAt)
+  const [datetime, setDatetime] = React.useState<Dayjs | null>(activeSprint?.expectedEndAt ? dayjs(activeSprint.expectedEndAt) : null)
   const [sprintDescriptionDraft, setSprintDescriptionDraft] = React.useState<string | undefined>(activeSprint?.description)
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
@@ -73,7 +73,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
 
   const cancelEditDatetime = () => {
     setEditDatetimeButton(false)
-    setDatetime(activeSprint!.expectedEndAt)
+    setDatetime(activeSprint!.expectedEndAt ? dayjs(activeSprint!.expectedEndAt) : null)
   }
 
   const editSprintNameOnClick = () => {
@@ -254,7 +254,6 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
             <Typography fontSize={16}>End date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
-                renderInput={(props) => <TextField {...props} />}
                 ampm={false}
                 disabled={isManager() ? undefined : true}
                 value={datetime}

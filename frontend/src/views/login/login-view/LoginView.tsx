@@ -62,7 +62,7 @@ export default function LoginView() {
   }
 
   const loginAsExampleUser = () => {
-    login('system@example.com', 'password')
+    login('admin@example.com', 'password')
   }
 
   if (passwordChanged) {

@@ -5,7 +5,7 @@ import {
   Drawer,
   Toolbar,
   List,
-  ListItem,
+  ListItemButton,
   ListItemText,
   ListItemIcon,
 } from '@mui/material'
@@ -40,12 +40,12 @@ interface SidebarListItemProps {
 
 function SidebarListItem({ onClick, className, active, label, icon }: SidebarListItemProps) {
   return (
-    <ListItem onClick={onClick} className={className} id={ active ? 'active' : ''} button divider >
+    <ListItemButton onClick={onClick} className={className} id={ active ? 'active' : ''} divider >
       <ListItemIcon>
         {icon}
       </ListItemIcon>
       <ListItemText primary={label} />
-    </ListItem>
+    </ListItemButton>
   )
 }
 

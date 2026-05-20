@@ -167,7 +167,7 @@ const WorkspaceBoard = ({ icon, boardId, boardName, boardColor }: Props) => {
         </ClickAwayListener>
       }
       {editBoardVisible &&
-        <ListItem button divider>
+        <ListItem divider>
           <Box className='BoardListItem' onClick={() => { editBoardOnClick() }}>
             <ListItemIcon>
               {icon}

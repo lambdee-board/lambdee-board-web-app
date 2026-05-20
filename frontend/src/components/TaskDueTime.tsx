@@ -11,10 +11,10 @@ interface Props {
 
 function TaskDueTime({ dueTime, format }: Props) {
   const now = dayjs()
-  if (dayjs(dueTime).diff(now, 'day') < 0) return <Typography variant='caption' color='red'>{dayjs(dueTime).format(format)}</Typography>
-  if (dayjs(dueTime).diff(now, 'day') < 3) return <Typography variant='caption' color='orange'>{dayjs(dueTime).format(format)}</Typography>
-  if (dayjs(dueTime).diff(now, 'day') < 7) return <Typography variant='caption' color='green'>{dayjs(dueTime).format(format)}</Typography>
-  return <Typography variant='caption' color='blue'>{dayjs(dueTime).format(format)}</Typography>
+  if (dayjs(dueTime).diff(now, 'day') < 0) return <Typography variant='caption' sx={{ color: 'red' }}>{dayjs(dueTime).format(format)}</Typography>
+  if (dayjs(dueTime).diff(now, 'day') < 3) return <Typography variant='caption' sx={{ color: 'orange' }}>{dayjs(dueTime).format(format)}</Typography>
+  if (dayjs(dueTime).diff(now, 'day') < 7) return <Typography variant='caption' sx={{ color: 'green' }}>{dayjs(dueTime).format(format)}</Typography>
+  return <Typography variant='caption' sx={{ color: 'blue' }}>{dayjs(dueTime).format(format)}</Typography>
 }
 
 export default TaskDueTime

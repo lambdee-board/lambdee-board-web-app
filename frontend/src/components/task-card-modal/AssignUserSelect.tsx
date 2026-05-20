@@ -40,6 +40,9 @@ function AssignUserSelect({ onBlur, onChange, assignedUsers = [], workspaceId }:
       onBlur={onBlur}
       isOptionEqualToValue={(option, other) => option.id === other.id}
       getOptionLabel={(option) => typeof option === 'string' ? option : option.name}
+      renderOption={({ key, ...props }: React.HTMLAttributes<HTMLLIElement> & { key?: React.Key }, option) => (
+        <li key={key} {...props}>{typeof option === 'string' ? option : option.name}</li>
+      )}
       options={usersToAssign}
       loading={isLoading || isError}
       renderInput={(params) => (

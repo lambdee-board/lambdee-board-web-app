@@ -100,7 +100,7 @@ function TaskPlanningList({ id, title }: Props) {
     }
     apiClient.post('/api/tasks', newTask)
       .then((response) => {
-        mutate({ ...taskList!, tasks: [...taskList?.tasks || [], response.data] }, { revalidate: false })
+        mutate({ ...taskList!, tasks: [...(taskList?.tasks || []), response.data] }, { revalidate: false })
         nameInput.value = ''
       })
       .catch((error) => {

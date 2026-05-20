@@ -19,7 +19,7 @@ const WorkspaceButton = ({ workspaceId, workspaceName }: Props) => {
         navigate(generatePath('workspaces/:id', { id: String(workspaceId) }))
       }} key={`${workspaceId}`}>
         <WorkspaceIcon name={workspaceName} size={52} />
-        <Typography color='black'>{workspaceName}</Typography>
+        <Typography sx={{ color: 'black' }}>{workspaceName}</Typography>
       </Button>
     </Box>
   )

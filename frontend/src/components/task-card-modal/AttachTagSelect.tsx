@@ -116,9 +116,8 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
           }
           return option.name
         }}
-        renderOption={(params, option) => (
-          <li {...params}
-            key={option.name + option.id || option.name }>
+        renderOption={({ key, ...params }, option) => (
+          <li key={key ?? (option.name + option.id || option.name)} {...params}>
             <div
               style={{ width: '16px',
                 height: '16px',

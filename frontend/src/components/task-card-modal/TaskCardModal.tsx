@@ -1,4 +1,5 @@
 import * as React from 'react'
+import dayjs, { type Dayjs } from 'dayjs'
 import MDEditor from '@uiw/react-md-editor'
 import rehypeSanitize from 'rehype-sanitize'
 
@@ -10,7 +11,6 @@ import {
   Stack,
   IconButton,
   Button,
-  TextField,
   Modal,
 } from '@mui/material'
 import { DeveloperContent, ManagerContent, RegularContent } from '../../permissions/content'
@@ -55,7 +55,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
   const [unsavedDescriptionDraft, setUnsavedDescriptionDraft] = React.useState(false)
   const [descriptionEditorVisible, setDescriptionEditorVisible] = React.useState(false)
   const [alertModalState, setAlertModalState] = React.useState(false)
-  const [duetime, setDuetime] = React.useState<unknown>()
+  const [duetime, setDuetime] = React.useState<Dayjs | null>(null)
   const toggleAlertModalState = () => {
     setAlertModalState(!alertModalState)
   }
@@ -92,7 +92,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
 
     apiClient.post(`/api/tasks/${taskId}/assign_user`, payload)
       .then((response) => {
-        mutateTask({ ...task, users: [...task?.users || [], user] } as any)
+        mutateTask({ ...task, users: [...(task?.users || []), user] } as any)
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -139,7 +139,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
 
     apiClient.post(`/api/tasks/${taskId}/attach_tag`, payload)
       .then((response) => {
-        mutateTask({ ...task, tags: [...task?.tags || [], tag] } as any)
+        mutateTask({ ...task, tags: [...(task?.tags || []), tag] } as any)
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -172,7 +172,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
     apiClient.post(`/api/tasks/${taskId}/tags`, payload)
       .then((response) => {
         const tagWithTempId = { ...payload, id: 99999999999 }
-        mutateTask({ ...task, tags: [...task?.tags || [], tagWithTempId] } as any)
+        mutateTask({ ...task, tags: [...(task?.tags || []), tagWithTempId] } as any)
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -208,17 +208,16 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
       })
   }
 
-  const editDueTime = (value: unknown) => {
-    const v = value as { isValid: () => boolean; get: (unit: string) => number; diff: (other: unknown, unit: string) => number; format: (fmt: string) => string }
-    if (!v.isValid() || ((v.get('year') < 1900 || v.get('year') > 2099)) || (v.diff(task.dueTime, 'millisecond') === 0)) {
+  const editDueTime = (value: Dayjs | null) => {
+    if (!value || !value.isValid() || ((value.get('year') < 1900 || value.get('year') > 2099)) || (value.diff(task.dueTime, 'millisecond') === 0)) {
       setDuetime(value)
       return
     }
-    const payload = { dueTime: v.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
+    const payload = { dueTime: value.format('YYYY-MM-DDTHH:mm:ssZ[Z]') }
     setDuetime(value)
     apiClient.put(`/api/tasks/${taskId}`, payload)
       .then((response) => {
-        mutateTask({ ...task, dueTime: value as string })
+        mutateTask({ ...task, dueTime: value.format('YYYY-MM-DDTHH:mm:ssZ[Z]') })
       })
       .catch((error) => {
         addAlert({ severity: 'error', message: 'Something went wrong!' })
@@ -334,9 +333,9 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
 
                 <LocalizationProvider dateAdapter={AdapterDayjs}>
                   <DateTimePicker
-                    renderInput={(properties) => <TextField {...properties} onBlur={duetime ? () => editDueTime(duetime) : undefined} />}
+                    slotProps={{ textField: { onBlur: duetime ? () => editDueTime(duetime) : undefined } }}
                     ampm={false}
-                    value={duetime ? duetime : task.dueTime}
+                    value={duetime ?? (task.dueTime ? dayjs(task.dueTime) : null)}
                     onChange={
                       (newValue) => {
                         setDuetime(newValue)
