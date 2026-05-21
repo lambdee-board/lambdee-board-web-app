@@ -8,30 +8,30 @@ import {
 
 const TaskCardModalSkeleton = () => {
   return (
-    <Box className='TaskCardModal-wrapper'>
-      <Card className='TaskCardModal-paper'>
-        <Box className='TaskCardModal-main'>
+    <Box>
+      <Card>
+        <Box>
           <Skeleton height={50} width={200} />
           <Skeleton height={40} width={100} />
-          <Card className='TaskCardModal-main-description'>
+          <Card>
             <Skeleton height={40} width={100} />
             <Skeleton height={20} width={300} />
             <Skeleton height={20} width={250} />
             <Skeleton height={20} width={150} />
           </Card>
           <Skeleton height={40} width={100} />
-          <Card className='TaskCardModal-main-newComment'>
-            <Skeleton variant='circular' className='TaskCardModal-avatar' />
+          <Card>
+            <Skeleton variant='circular' />
             <Skeleton width={200} />
           </Card>
         </Box>
-        <Box className='TaskCardModal-sidebar'>
-          <Card className='TaskCardModal-sidebar-card'>
+        <Box>
+          <Card>
             <Stack spacing={3}>
               <Stack spacing={1}>
                 <Skeleton height={40} width={80} />
-                <Box className='TaskCardModal-sidebar-card-box'>
-                  <Skeleton variant='circular' height={40} width={40} className='TaskCardModal-avatar' />
+                <Box>
+                  <Skeleton variant='circular' height={40} width={40} />
                   <div>
                     <Skeleton height={30} width={50} />
                     <Skeleton height={15} width={30} />

@@ -114,6 +114,10 @@ task = ::FactoryBot.create(:task, list: mob_done, name: 'Set up React Native pro
 task.tags << tag_mob_ftr
 task.users << bob
 
+# === Recent boards ===
+
+admin.update!(recent_boards: [web_app.id.to_s])
+
 # === Script ===
 
 script = ::FactoryBot.create(:script, name: 'Log subject ID', author: admin,

@@ -29,4 +29,23 @@ test.describe('Navbar', () => {
     await expect(page.getByText('To Do')).toBeVisible()
     await expect(page.getByText('In Progress')).toBeVisible()
   })
+
+  test('displays Tasks button', async({ page }) => {
+    await expect(page.getByRole('button', { name: 'Tasks' })).toBeVisible()
+    await page.getByRole('button', { name: 'Tasks' }).click()
+    await expect(page.getByRole('button', { name: 'Lambdee Web App Mobile App' })).toBeVisible()
+  })
+
+  test('displays Members button', async({ page }) => {
+    await expect(page.getByRole('button', { name: 'Members' })).toBeVisible()
+    await page.getByRole('button', { name: 'Members' }).click()
+    await expect(page.getByText('Filters')).toBeVisible()
+    await expect(page.getByText('Admin', { exact: true })).toBeVisible()
+  })
+
+  test('displays Tasks button', async({ page }) => {
+    await expect(page.getByRole('button', { name: 'Console' })).toBeVisible()
+    await page.getByRole('button', { name: 'Console' }).click()
+    await expect(page.getByText('Session closed.').first()).toBeVisible()
+  })
 })

@@ -13,6 +13,8 @@ import WorkspaceButton from '../../components/welcome-view/workspace-button/Work
 import RecentBoardButton from '../../components/welcome-view/recent-board-button/RecentBoardButton'
 import WelcomeViewSkeleton from './WelcomeViewSkeleton'
 
+import type { Board } from '../../types'
+
 import './WelcomeView.sass'
 
 interface WelcomeViewMessageProps {
@@ -39,7 +41,7 @@ function WelcomeViewMessage({ userName }: WelcomeViewMessageProps) {
 
 export default function WelcomeView() {
   const { data: boardsRaw, isLoading: isBoardsLoading, isError: isBoardsError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
-  const boards = boardsRaw as unknown as Array<import('../../types').Board>
+  const boards = boardsRaw as unknown as Board[]
   const { data,  isLoading: isWorkspacesLoading, isError: isWorkspacesError } = useWorkspaces()
   const workspaces = data ? data.workspaces : null
   const { data: user, isLoading, isError } = useCurrentUser()

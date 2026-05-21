@@ -11,11 +11,11 @@ import { Box } from '@mui/system'
 
 const TaskPlanningListSkeleton = () => {
   return (
-    <Box className='TaskListPlanning-wrapper'>
-      <Paper className='TaskListPlanning-paper' elevation={5}>
-        <List className='TaskListPlanning'
-          subheader={<ListSubheader className='TaskListPlanning-header'>
-            <Typography className='TaskListPlanning-header-text'>
+    <Box>
+      <Paper elevation={5}>
+        <List
+          subheader={<ListSubheader>
+            <Typography>
               <Skeleton height={36} width={200} />
             </Typography>
           </ListSubheader>}>

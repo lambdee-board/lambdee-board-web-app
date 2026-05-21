@@ -12,13 +12,13 @@ import TaskCardSkeleton from '../task-card/TaskCardSkeleton'
 function TaskListSkeletonContent() {
   return (
     <>
-      <ListItem className='TaskList-item'>
+      <ListItem>
         <TaskCardSkeleton />
       </ListItem>
-      <ListItem className='TaskList-item'>
+      <ListItem>
         <TaskCardSkeleton />
       </ListItem>
-      <ListItem className='TaskList-item'>
+      <ListItem>
         <TaskCardSkeleton />
       </ListItem>
     </>
@@ -27,16 +27,16 @@ function TaskListSkeletonContent() {
 
 const TaskListSkeleton = () => {
   return (
-    <Box className='TaskList-wrapper'>
-      <Paper className='TaskList-paper' elevation={5}>
-        <List className='TaskList'
-          subheader={<ListSubheader className='TaskList-header'>
+    <Box>
+      <Paper elevation={5}>
+        <List
+          subheader={<ListSubheader>
             <Skeleton height={36} width={200} variant='text' />
             <Skeleton height={36} width={36} variant='circular' />
           </ListSubheader>}>
           <TaskListSkeletonContent />
         </List>
-        <Box className='TaskList-new-task-wrapper' sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex' }}>
           <Skeleton height={36} width={70} variant='text' sx={{ ml: 2, mb: 1 }} />
         </Box>
       </Paper>
