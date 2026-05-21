@@ -9,8 +9,7 @@
 if ::Rails.env.production?
   load ::Rails.root.join('db/seeds.prod.rb').to_s
 elsif ::Rails.env.test?
-  load ::Rails.root.join('db/seeds.playwright.rb').to_s
+  load ::Rails.root.join('db/seeds.dev.rb').to_s
 else
-  # load ::Rails.root.join('db/seeds.playwright.rb').to_s
   load ::Rails.root.join('db/seeds.dev.rb').to_s
 end

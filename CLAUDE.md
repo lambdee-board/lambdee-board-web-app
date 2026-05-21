@@ -29,11 +29,6 @@ bin/rails test
 bin/rails test test/path/to/test_file.rb
 bin/rails test test/path/to/test_file.rb:42  # specific line
 
-# Backend request specs (RSpec)
-bundle exec rspec
-bundle exec rspec spec/requests/api/scripts_spec.rb
-bundle exec rspec spec/requests/api/scripts_spec.rb:10
-
 # Frontend E2E (Playwright)
 bin/playwright                                                          # headless (all specs)
 npx playwright test --config=e2e/playwright.config.js --ui             # interactive UI mode
@@ -64,7 +59,7 @@ CI requires minimum 75% code coverage (SimpleCov).
 - **Authorization**: CanCanCan; see `app/models/ability.rb`.
 - **Pagination/filtering**: Kaminari + custom `QueryAPI` in `app/internal/`.
 - **Background jobs**: Sidekiq jobs in `app/jobs/`.
-- **API docs**: rswag generates OpenAPI spec from RSpec; viewable at `/api-docs`.
+- **API docs**: OpenAPI spec at `swagger/v1/swagger.yaml` (maintained manually); viewable at `/api-docs` via rswag-ui.
 
 ### Frontend (`frontend/src/`)
 

@@ -89,10 +89,6 @@ group :development, :test do
   gem 'foreman'
   gem 'letter_opener' # open emails in development mode
 
-  # OpenAPI generating tests
-  gem 'rspec-rails', '~> 8.0'
-  gem 'rswag-specs'
-
   gem 'rubocop'
   gem 'rubocop-rails'
   gem 'ruby_audit'

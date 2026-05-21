@@ -1,22 +1,8 @@
 import React from 'react'
-import { MenuItem, Skeleton, Divider, Typography } from '@mui/material'
-import DropdownButton from '../../dropdown-button/DropdownButton'
+import { Skeleton } from '@mui/material'
 
 const WorkspacesMenuButtonSkeleton = () => (
-  <DropdownButton label='Workspaces'>
-    <MenuItem>
-      <Skeleton variant='rectangular' width={24} height={24} />
-      <Skeleton variant='text' width={50} sx={{ ml: 2 }} />
-    </MenuItem>
-    <MenuItem>
-      <Skeleton variant='rectangular' width={24} height={24} />
-      <Skeleton variant='text' width={50} sx={{ ml: 2 }} />
-    </MenuItem>
-    <Divider />
-    <MenuItem>
-      <Typography color='primary'>More...</Typography>
-    </MenuItem>
-  </DropdownButton>
+  <Skeleton variant='rounded' width={110} height={36} sx={{ mr: { xs: 1, sm: 4 } }} />
 )
 
 export default WorkspacesMenuButtonSkeleton
