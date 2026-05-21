@@ -4,6 +4,7 @@ import { useNavigate } from 'react-router'
 import { MenuItem } from '@mui/material'
 
 import useBoard from '../../../api/board'
+import type { Board } from '../../../types'
 
 import RecentBoardIcon from '../../recent-board-icon/RecentBoardIcon'
 import DropdownButton from '../../dropdown-button/DropdownButton'
@@ -35,7 +36,7 @@ function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceNa
 
 const RecentMenuButton = () => {
   const { data: boardsRaw, isLoading, isError } = useBoard({ id: 'recently_viewed', axiosOptions: { params: { lists: 'visible' } } })
-  const boards = boardsRaw as unknown as Array<import('../../../types').Board & { workspaceName?: string }> | undefined
+  const boards = boardsRaw as unknown as Array<Board & { workspaceName?: string }> | undefined
   const [anchorEl, setAnchorEl] = React.useState<HTMLElement | null>(null)
 
   const handleClose = () => setAnchorEl(null)
