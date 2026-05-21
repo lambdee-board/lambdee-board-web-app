@@ -1,20 +1,20 @@
 import { test, expect } from '@playwright/test'
-import { app } from '../support/on-rails.js'
-import { login } from '../support/command.js'
+import { app } from '../../support/on-rails.js'
+import { login } from '../../support/command.js'
 
 test.describe('WelcomeView', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async({ page }) => {
     await app('clean')
     await login(page)
   })
 
   test.describe('Recent', () => {
-    test('does not show any recents', async ({ page }) => {
+    test('does not show any recents', async({ page }) => {
       await expect(page.locator('.RecentBoardButton')).not.toBeVisible()
       await expect(page.getByText('Recents')).not.toBeVisible()
     })
 
-    test('adds a recent', async ({ page }) => {
+    test('adds a recent', async({ page }) => {
       await page.getByText('Netflux').click()
       await expect(page.locator('div.Sidebar-wrapper')).toBeVisible()
       await page.locator('div.ListItem-board').first().click()
@@ -24,7 +24,7 @@ test.describe('WelcomeView', () => {
       await expect(page.getByText('Recents')).toBeVisible()
     })
 
-    test('navigate to recent', async ({ page }) => {
+    test('navigate to recent', async({ page }) => {
       await page.getByText('Netflux').click()
       await expect(page.locator('div.Sidebar-wrapper')).toBeVisible()
       await page.locator('div.ListItem-board').first().click()
@@ -34,7 +34,7 @@ test.describe('WelcomeView', () => {
       await page.locator('.recentBoardButton').first().click()
     })
 
-    test('navigate to workspace', async ({ page }) => {
+    test('navigate to workspace', async({ page }) => {
       await expect(page.getByText('Workspace')).toBeVisible()
       await page.locator('.workspaceButton').first().click()
     })

@@ -1,94 +1,33 @@
-import * as React from 'react'
-
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Container,
-  Button
-} from '@mui/material'
+import { AppBar, Box, Toolbar } from '@mui/material'
 import { RegularContent, DeveloperContent } from '../../permissions/content'
 
 import AccountMenuButton from '../navbar/account-menu-button/AccountMenuButton'
 import WorkspacesMenuButton from '../navbar/workspaces-menu-button/WorkspacesMenuButton'
 import RecentMenuButton from '../navbar/recent-menu-button/RecentMenuButton'
-
-import lambdeeLogo from '../../assets/lambdee-logo.svg'
-import './Navbar.sass'
-import { useNavigate } from 'react-router-dom'
 import ScriptMenuButton from '../navbar/script-menu-button/ScriptMenuButton'
+import LogoButton from '../navbar/logo-button/LogoButton'
+import NavButton from '../navbar/nav-button/NavButton'
 
 
 const Navbar = () => {
-  const navigate = useNavigate()
-
   return (
-    <AppBar className='Navbar' sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
-      <Container maxWidth={false}>
-        <Toolbar disableGutters>
-          <Button
-            color='inherit'
-            onClick={() => {
-              navigate('/')
-            }}>
-            <img
-              className='logo'
-              src={lambdeeLogo}
-            />
-            <Typography
-              className='Typography-logo-title'
-              sx={{ textTransform: 'none', color: '#fff' }}
-              variant='h6'
-            >
-            Lambdee
-            </Typography>
-          </Button>
-          <Box className='Box-dropdown-button-group'>
-            <WorkspacesMenuButton />
-            <RecentMenuButton />
-            <RegularContent>
-              <ScriptMenuButton />
-              <Button
-                className='Button'
-                color='inherit'
-                id='dropdown-button'
-                onClick={() => navigate('/tasks')}
-              >
-
-                <Typography variant='button' sx={{ textTransform: 'capitalize', mr: '32px', color: '#fff' }}>
-                Tasks
-                </Typography>
-              </Button>
-            </RegularContent>
-            <Button
-              className='Button'
-              color='inherit'
-              id='dropdown-button'
-              onClick={() => navigate('/members')}
-            >
-              <Typography variant='button' sx={{ textTransform: 'capitalize', marginRight: '32px', color: '#fff' }}>
-                Members
-              </Typography>
-            </Button>
-            <DeveloperContent>
-              <Button
-                className='Button'
-                color='inherit'
-                id='dropdown-button'
-                onClick={() => navigate('/console')}
-              >
-                <Typography variant='button' sx={{ textTransform: 'capitalize', marginRight: '32px', color: '#fff' }}>
-                Console
-                </Typography>
-              </Button>
-            </DeveloperContent>
-
-
-          </Box>
-          <AccountMenuButton />
-        </Toolbar>
-      </Container>
+    <AppBar sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}>
+      <Toolbar>
+        <LogoButton />
+        <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: { xs: 'center', md: 'flex-start' } }}>
+          <WorkspacesMenuButton />
+          <RecentMenuButton />
+          <RegularContent>
+            <ScriptMenuButton />
+            <NavButton label='Tasks' path='/tasks' />
+          </RegularContent>
+          <NavButton label='Members' path='/members' />
+          <DeveloperContent>
+            <NavButton label='Console' path='/console' />
+          </DeveloperContent>
+        </Box>
+        <AccountMenuButton />
+      </Toolbar>
     </AppBar>
   )
 }

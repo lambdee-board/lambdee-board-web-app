@@ -24,9 +24,7 @@ function App() {
 
   return (
     <ThemeProvider theme={lambdeeTheme}>
-      <SWRConfig
-        value={swrConfig}
-      >
+      <SWRConfig value={swrConfig}>
         <div className='App'>
           <Navbar />
           <div className='App-body'>

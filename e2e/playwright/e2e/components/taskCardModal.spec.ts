@@ -1,9 +1,9 @@
 import { test, expect } from '@playwright/test'
-import { app } from '../support/on-rails.js'
-import { login } from '../support/command.js'
+import { app } from '../../support/on-rails.js'
+import { login } from '../../support/command.js'
 
 test.describe('TaskCardModal', () => {
-  test.beforeEach(async ({ page }) => {
+  test.beforeEach(async({ page }) => {
     await app('clean')
     await login(page)
     await page.getByText('Workspaces').click()
@@ -14,7 +14,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Shows task card modal with task information', () => {
-    test('Display and close task card modal', async ({ page }) => {
+    test('Display and close task card modal', async({ page }) => {
       await page.locator('.TaskCard-label').last().click()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-main')).toBeVisible()
@@ -22,14 +22,14 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('div.TaskCardModal-wrapper')).not.toBeVisible()
     })
 
-    test('Display task Author', async ({ page }) => {
+    test('Display task Author', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar-card-box').first()).toBeVisible()
     })
 
-    test('Display task Priority', async ({ page }) => {
+    test('Display task Priority', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
@@ -37,41 +37,41 @@ test.describe('TaskCardModal', () => {
       await page.locator('.TaskPriority-button').click()
     })
 
-    test('Display task Points', async ({ page }) => {
+    test('Display task Points', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
       await expect(page.locator('div.TaskPoints')).toBeVisible()
     })
 
-    test('Display task Tags', async ({ page }) => {
+    test('Display task Tags', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
       await expect(page.locator('.TaskCardModal-sidebar-card-box-tags')).toBeVisible()
     })
 
-    test('Display task Assigned', async ({ page }) => {
+    test('Display task Assigned', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-sidebar-card-box').first()).toBeVisible()
     })
 
-    test('Display task Label', async ({ page }) => {
+    test('Display task Label', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-main')).toBeVisible()
       await expect(page.locator('div.TaskCardModal-main-label').filter({ hasText: 'Implement the User API' })).toBeVisible()
     })
 
-    test('Display task Description', async ({ page }) => {
+    test('Display task Description', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.getByText('Currently, there is no way')).toBeVisible()
     })
 
-    test('Display task Comment', async ({ page }) => {
+    test('Display task Comment', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.getByText('Currently, there is no way')).toBeVisible()
@@ -79,7 +79,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Edit task label', () => {
-    test('switches between label and edit label input field', async ({ page }) => {
+    test('switches between label and edit label input field', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskLabel-typography')).toBeVisible()
@@ -88,7 +88,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskLabel-edit-input-cancel')).not.toBeVisible()
     })
 
-    test('inputs string into edit label input field and cancels', async ({ page }) => {
+    test('inputs string into edit label input field and cancels', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskLabel-typography').click()
@@ -98,7 +98,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskLabel-typography').filter({ hasText: 'Implement the User API' })).toBeVisible()
     })
 
-    test('change label of a task', async ({ page }) => {
+    test('change label of a task', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskLabel-typography').click()
@@ -110,7 +110,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Edit task priority', () => {
-    test('switches between priority and edit priority dropdown list', async ({ page }) => {
+    test('switches between priority and edit priority dropdown list', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskPriority-button')).toBeVisible()
@@ -118,7 +118,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskPriority-button')).not.toBeVisible()
     })
 
-    test('changes priority', async ({ page }) => {
+    test('changes priority', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskPriority-button').click()
@@ -129,7 +129,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Edit task points', () => {
-    test('switches between points and edit points input field', async ({ page }) => {
+    test('switches between points and edit points input field', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('div.TaskPoints .TaskPoints-avatar')).toBeVisible()
@@ -141,7 +141,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Edit task tags', () => {
-    test('switches between "Add tag" button and autocomplete input', async ({ page }) => {
+    test('switches between "Add tag" button and autocomplete input', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskCardModal-add-tag-btn')).toBeVisible()
@@ -151,7 +151,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskCardModal-add-tag-btn')).toBeVisible()
     })
 
-    test('attaches "Library" tag to task', async ({ page }) => {
+    test('attaches "Library" tag to task', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskCardModal-add-tag-btn').click()
@@ -162,7 +162,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskCardModal-sidebar-card-box-tags').filter({ hasText: 'Library' })).toBeVisible()
     })
 
-    test('detaches "Library" tag from task', async ({ page }) => {
+    test('detaches "Library" tag from task', async({ page }) => {
       await page.reload()
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
@@ -170,7 +170,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.getByText('Library')).not.toBeVisible()
     })
 
-    test('opens new tag dialog, then closes dialog/autocomplete input', async ({ page }) => {
+    test('opens new tag dialog, then closes dialog/autocomplete input', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskCardModal-add-tag-btn').click()
@@ -184,7 +184,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskCardModal-add-tag-btn')).toBeVisible()
     })
 
-    test('creates/attaches "New Tag"', async ({ page }) => {
+    test('creates/attaches "New Tag"', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await page.locator('.TaskCardModal-add-tag-btn').click()
@@ -200,7 +200,7 @@ test.describe('TaskCardModal', () => {
   })
 
   test.describe('Edit task time', () => {
-    test('can open and close TaskTime dialog', async ({ page }) => {
+    test('can open and close TaskTime dialog', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskTime-progress p').filter({ hasText: 'No time registered' })).toBeVisible()
@@ -210,7 +210,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskTime-dialog-content')).not.toBeVisible()
     })
 
-    test('can add time to task when format is valid', async ({ page }) => {
+    test('can add time to task when format is valid', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskTime-progress p').filter({ hasText: 'No time registered' })).toBeVisible()
@@ -221,7 +221,7 @@ test.describe('TaskCardModal', () => {
       await expect(page.locator('.TaskTime-progress p').filter({ hasText: '1d 1h 1m' })).toBeVisible()
     })
 
-    test('cannot add time to task when format is invalid', async ({ page }) => {
+    test('cannot add time to task when format is invalid', async({ page }) => {
       await page.getByText('Implement the User API').click()
       await expect(page.locator('div.TaskCardModal-wrapper')).toBeVisible()
       await expect(page.locator('.TaskTime-progress p').filter({ hasText: 'No time registered' })).toBeVisible()

@@ -1,11 +1,12 @@
-@import '../../../styles/base'
+@use '../../../styles/base' as *
+@use 'sass:color'
 
 .UserList
   @include transition
   cursor: pointer
 
   &:hover
-    background-color: darken(#fff, 3%)
+    background-color: color.adjust(#fff, $lightness: -3%)
   .UserListItem
     display: flex
     flex-direction: row

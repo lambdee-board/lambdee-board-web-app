@@ -1,4 +1,5 @@
-@import '../../../styles/base'
+@use '../../../styles/base' as *
+@use 'sass:color'
 
 .TaskListItem-wrapper
   width: 100%
@@ -13,7 +14,7 @@
     cursor: pointer
 
     &:hover
-      background-color: darken(#fff, 3%)
+      background-color: color.adjust(#fff, $lightness: -3%)
     .TaskListItem-properties
       display: flex
       justify-content: flex-end

@@ -7,10 +7,10 @@
 #   Character.create(name: "Luke", movie: movies.first)
 
 if ::Rails.env.production?
-  require_relative 'seeds.prod'
+  load ::Rails.root.join('db/seeds.prod.rb').to_s
 elsif ::Rails.env.test?
-  require_relative 'seeds.playwright'
+  load ::Rails.root.join('db/seeds.playwright.rb').to_s
 else
-  # require_relative 'seeds.playwright'
-  require_relative 'seeds.dev'
+  # load ::Rails.root.join('db/seeds.playwright.rb').to_s
+  load ::Rails.root.join('db/seeds.dev.rb').to_s
 end

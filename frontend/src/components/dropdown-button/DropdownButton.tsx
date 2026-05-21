@@ -1,6 +1,6 @@
 import * as React from 'react'
 import { ReactNode } from 'react'
-import { Typography, Button, Menu } from '@mui/material'
+import { Typography, Button, Menu, Box } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
@@ -24,10 +24,13 @@ const DropdownButton = ({ label, children, anchorEl, handleClick, handleClose }:
         color='inherit'
         id='dropdown-button'
         onClick={handleClick}
+        sx={{ mr: { xs: 1, sm: 4 } }}
       >
-        <Typography variant='button' sx={{ textTransform: 'capitalize', color: '#fff' }}>
+        <Typography variant='button' sx={{ textTransform: 'capitalize', color: 'common.white' }}>
           {label}
-          <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
+          <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
+            <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
+          </Box>
         </Typography>
       </Button>
       <Menu

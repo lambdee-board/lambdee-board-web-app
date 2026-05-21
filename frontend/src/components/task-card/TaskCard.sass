@@ -1,4 +1,5 @@
-@import '../../styles/base'
+@use '../../styles/base' as *
+@use 'sass:color'
 
 .TaskCard-wrapper
   width: 100%
@@ -10,7 +11,7 @@
     cursor: pointer
 
     &:hover
-      background-color: darken(#fff, 3%)
+      background-color: color.adjust(#fff, $lightness: -3%)
 
     .Box-tags
       margin-top: calc($unit / 2)
