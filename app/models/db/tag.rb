@@ -19,5 +19,5 @@ class DB::Tag < ApplicationRecord
   scope :for_board, ->(id) { where(board: id) }
 
   validates :name, length: { maximum: 30 }
-  validates :colour, length: { minimum: 7, maximum: 9 }, allow_blank: true
+  validates :color, length: { minimum: 7, maximum: 9 }, allow_blank: true
 end

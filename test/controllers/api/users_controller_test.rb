@@ -55,7 +55,7 @@ class API::UsersControllerTest < ActionDispatch::IntegrationTest
     json = ::JSON.parse response.body
     assert_equal 2, json.size
     assert_equal global_trigger.id, json[0]['id']
-    assert json[0]['colour'].is_a?(::String)
+    assert json[0]['color'].is_a?(::String)
     assert_equal 'Send a message', json[0]['text']
     assert_equal global_private_trigger.id, json[1]['id']
   end

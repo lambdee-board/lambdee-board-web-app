@@ -23,7 +23,7 @@ const filter = createFilterOptions<TagShort & { inputValue?: string; toCreate?: 
 
 interface NewTag {
   name: string
-  colour: string
+  color: string
 }
 
 interface Props {
@@ -41,7 +41,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
   const [tagsToAdd, setTagsToAdd] = React.useState<TagShort[]>([])
   const [newCreatedTag, setNewCreatedTag] = React.useState<NewTag>({
     name: '',
-    colour: '#1082F3',
+    color: '#1082F3',
   })
 
   React.useEffect(() => {
@@ -56,7 +56,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
   const handleClose = () => {
     setNewCreatedTag({
       name: '',
-      colour: '#1082F3',
+      color: '#1082F3',
     })
     setNewTagDial(false)
     onBlur?.()
@@ -123,7 +123,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
                 height: '16px',
                 borderRadius: '3px',
                 marginRight: '4px',
-                backgroundColor: option.colour || 'transparent' }}
+                backgroundColor: option.color || 'transparent' }}
             />
             <div
               style={(option as { toCreate?: boolean }).toCreate ?
@@ -156,7 +156,7 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
             filtered.push({
               id: -1,
               name: `Create "${params.inputValue}"`,
-              colour: '',
+              color: '',
               url: '',
               inputValue: params.inputValue,
               toCreate: true
@@ -191,10 +191,10 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
             <ColorPickerPopover
               width={32}
               height={32}
-              color={newCreatedTag.colour}
-              onChange={(newColour) => setNewCreatedTag({
+              color={newCreatedTag.color}
+              onChange={(newColor) => setNewCreatedTag({
                 ...newCreatedTag,
-                colour: newColour,
+                color: newColor,
               })} />
           </DialogContent>
           <DialogActions className='create-tag-buttons'>

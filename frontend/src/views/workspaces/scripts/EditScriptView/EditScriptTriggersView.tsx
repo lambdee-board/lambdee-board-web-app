@@ -216,7 +216,7 @@ export default function EditScriptTriggersView() {
                   secondary={`Scope Id: ${uiTrigger.scopeId}`} />
                 <ListItemText
                   primary={`Text: ${uiTrigger.text || 'none'}`}
-                  secondary={`Colour: ${uiTrigger.colour}`} />
+                  secondary={`Color: ${uiTrigger.color}`} />
               </ListItem>
               <Button
                 variant='contained'

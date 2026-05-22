@@ -1,4 +1,4 @@
-export default function textColour(backgroundColor: string | null | undefined): string | undefined {
+export default function textColor(backgroundColor: string | null | undefined): string | undefined {
   if (backgroundColor === null || backgroundColor === undefined || typeof(backgroundColor) === 'string' && backgroundColor.length !== 7) return
 
   const rgb = [backgroundColor.slice(1, 3), backgroundColor.slice(3, 5), backgroundColor.slice(5, 7)]

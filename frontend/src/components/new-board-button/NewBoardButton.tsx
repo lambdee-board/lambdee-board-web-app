@@ -60,7 +60,7 @@ export default function NewBoardButton() {
     const newBoard = {
       name: nameInput.value,
       workspaceId: workspace.id,
-      colour: color,
+      color: color,
     }
     apiClient.post('/api/boards', newBoard)
       .then((response) => {

@@ -26,7 +26,7 @@
     number_field :delay
     text_field :text
     check_box :private
-    color_field :colour
+    color_field :color
     collection_select :author_id, ::DB::User.all, :id, :name
   end
 end

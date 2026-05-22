@@ -4,7 +4,7 @@ workspace = ::DB::Workspace.create(name: 'Initial')
 
 ::DB::Board.create(
   name: 'Initial',
-  colour: '#48F8D0',
+  color: '#48F8D0',
   workspace: workspace
 )
 

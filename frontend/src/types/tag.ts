@@ -1,7 +1,7 @@
 export interface TagShort {
   id: number
   name: string
-  colour: string
+  color: string
   url: string
 }
 

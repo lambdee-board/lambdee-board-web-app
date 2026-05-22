@@ -14,7 +14,7 @@ const PriorityIcon = ({ taskPriority, size }: Props) => {
   const priorityObject = prioritiesMap[taskPriority!]
   if (!priorityObject || priorityObject.symbol == null) return
 
-  return <FontAwesomeIcon size={size || 'lg'} color={priorityObject.colour!} icon={priorityObject.icon!} />
+  return <FontAwesomeIcon size={size || 'lg'} color={priorityObject.color!} icon={priorityObject.icon!} />
 }
 
 export default PriorityIcon

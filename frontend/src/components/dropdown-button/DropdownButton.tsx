@@ -4,8 +4,6 @@ import { Typography, Button, Menu, Box } from '@mui/material'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faAngleDown } from '@fortawesome/free-solid-svg-icons'
 
-import './DropdownButton.sass'
-
 interface Props {
   label: string
   children: ReactNode
@@ -18,30 +16,26 @@ const DropdownButton = ({ label, children, anchorEl, handleClick, handleClose }:
   const open = Boolean(anchorEl)
 
   return (
-    <div className='DropdownButton'>
+    <Box>
       <Button
-        className='Button'
-        color='inherit'
-        id='dropdown-button'
         onClick={handleClick}
         sx={{ mr: { xs: 1, sm: 4 } }}
       >
-        <Typography variant='button' sx={{ textTransform: 'capitalize', color: 'common.white' }}>
+        <Typography variant='button' sx={{ textTransform: 'capitalize', color: 'common.white', mr: 0.5 }}>
           {label}
-          <Box component='span' sx={{ display: { xs: 'none', md: 'inline' } }}>
-            <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
-          </Box>
         </Typography>
+        <Box sx={{ display: { xs: 'none', md: 'inline' }, color: 'common.white' }}>
+          <FontAwesomeIcon className='FontAwesomeIcon' icon={faAngleDown} />
+        </Box>
       </Button>
       <Menu
-        sx = {{ mt: 1.7 }}
         anchorEl={anchorEl}
         open={open}
         onClose={handleClose}
       >
         {children}
       </Menu>
-    </div>
+    </Box>
   )
 }
 

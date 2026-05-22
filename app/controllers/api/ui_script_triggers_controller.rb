@@ -44,6 +44,6 @@ class ::API::UiScriptTriggersController < ::APIController
   end
 
   def ui_script_trigger_params
-    params.require(:ui_script_trigger).permit(:script_id, :subject_type, :subject_id, :scope_type, :scope_id, :author_id, :delay, :private, :colour, :text)
+    params.require(:ui_script_trigger).permit(:script_id, :subject_type, :subject_id, :scope_type, :scope_id, :author_id, :delay, :private, :color, :text)
   end
 end

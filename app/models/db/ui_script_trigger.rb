@@ -25,7 +25,7 @@ class ::DB::UiScriptTrigger < ::ApplicationRecord
   validates :scope, presence: true, if: -> { subject_type && subject_id.nil? }
   validates :scope_id, presence: true, if: -> { scope_type }
   validates :subject_type, inclusion: { in: ALLOWED_SUBJECT_CLASSES }, allow_nil: true
-  validates :colour, length: { minimum: 7, maximum: 9 }, allow_blank: true
+  validates :color, length: { minimum: 7, maximum: 9 }, allow_blank: true
   validates :text, length: { maximum: 100 }
 
   # @param subject_id [String, Integer]

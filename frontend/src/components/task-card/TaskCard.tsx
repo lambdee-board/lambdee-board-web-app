@@ -64,7 +64,7 @@ const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTi
         {dueTime && <TaskDueTime dueTime={dueTime} format={'MM/DD/YY HH:mm'} />}
         <Box className='Box-tags'>
           {tags.map((tag) => (
-            <Tag key={tag.id} name={tag.name} colour={tag.colour} />
+            <Tag key={tag.id} name={tag.name} color={tag.color} />
           ))}
         </Box>
         <Box className='Box'>

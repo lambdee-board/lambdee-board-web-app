@@ -5,6 +5,6 @@
     association :script
     association :author, factory: :user
     text { 'Send a message' }
-    colour { ::Faker::Color.hex_color }
+    color { ::Faker::Color.hex_color }
   end
 end

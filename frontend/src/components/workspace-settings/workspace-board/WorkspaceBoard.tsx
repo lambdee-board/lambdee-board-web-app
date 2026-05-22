@@ -63,7 +63,7 @@ const WorkspaceBoard = ({ icon, boardId, boardName, boardColor }: Props) => {
 
   const editBoard = () => {
     const editInput = editBoardRef.current!.children[0] as HTMLInputElement
-    const editedBoard: { name?: string; colour?: string } = {}
+    const editedBoard: { name?: string; color?: string } = {}
     if ((!editInput.value || editInput.value === boardName) && boardColor === color) {
       setEditBoardVisible(true)
       return
@@ -72,7 +72,7 @@ const WorkspaceBoard = ({ icon, boardId, boardName, boardColor }: Props) => {
       editedBoard.name = editInput.value
     }
     if (boardColor !== color) {
-      editedBoard.colour = color
+      editedBoard.color = color
     }
 
     apiClient.put(`/api/boards/${boardId}`, editedBoard)

@@ -27,13 +27,12 @@ const WorkspacesMenuButton = () => {
 
   return (
     <DropdownButton label='Workspaces' anchorEl={anchorEl} handleClick={handleClick} handleClose={handleClose}>
-      {workspaces.map((workspace, index) => (
+      {workspaces.map((workspace) => (
         <MenuItem className='Workspace-menu-item'
           onClick={() => {
             handleClose()
-            localStorage.setItem('sidebarSelected', 'workspace')
             navigate(generatePath('workspaces/:id', { id: String(workspace.id) }))
-          }} key={`${workspace.name}-${index}`}>
+          }} key={String(workspace.id)}>
           <WorkspaceIcon name={workspace.name} size={32} />
           {workspace.name}
         </MenuItem>
@@ -41,7 +40,6 @@ const WorkspacesMenuButton = () => {
       <Divider />
       <MenuItem onClick={() => {
         handleClose()
-        localStorage.setItem('sidebarSelected', 'workspace')
         navigate('/')
       }}>
         <Typography color='primary'>More...</Typography>

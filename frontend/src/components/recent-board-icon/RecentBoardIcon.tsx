@@ -10,16 +10,16 @@ import './RecentBoardIcon.sass'
 interface Props {
   name: string
   size: number
-  colour: string
+  color: string
   iconSize: string
 }
 
-function RecentBoardIcon({ name, size, colour, iconSize }: Props) {
+function RecentBoardIcon({ name, size, color, iconSize }: Props) {
   return (
     <div className='RecentBoardIcon'>
       <WorkspaceIcon name={name} size={size} />
       <div className='RecentBoardIcon-recent'>
-        <FontAwesomeIcon transform={{ size: parseFloat(iconSize) }} className='RecentBoardIcon-recent-icon' icon={faClipboardList} color={colour} />
+        <FontAwesomeIcon transform={{ size: parseFloat(iconSize) }} className='RecentBoardIcon-recent-icon' icon={faClipboardList} color={color} />
       </div>
     </div>
 

@@ -12,13 +12,13 @@ import type { TaskPriority } from '../types'
 class Priority {
   symbol: TaskPriority | null
   name: string
-  colour: string | null
+  color: string | null
   icon: IconDefinition | null
 
-  constructor(symbol: TaskPriority | null, name: string, colour: string | null, icon: IconDefinition | null) {
+  constructor(symbol: TaskPriority | null, name: string, color: string | null, icon: IconDefinition | null) {
     this.symbol = symbol
     this.name = name
-    this.colour = colour
+    this.color = color
     this.icon = icon
   }
 }

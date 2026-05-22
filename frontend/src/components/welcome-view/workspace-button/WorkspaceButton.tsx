@@ -17,7 +17,6 @@ const WorkspaceButton = ({ workspaceId, workspaceName }: Props) => {
       textAlign: 'center'
     }}>
       <Button fullWidth sx={{ textTransform: 'none ' }} className='workspaceButton' onClick={() => {
-        localStorage.setItem('sidebarSelected', 'workspace')
         navigate(generatePath('workspaces/:id', { id: String(workspaceId) }))
       }} key={`${workspaceId}`}>
         <WorkspaceIcon name={workspaceName} size={52} />

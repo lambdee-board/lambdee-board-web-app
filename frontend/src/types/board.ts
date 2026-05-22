@@ -3,7 +3,7 @@ import type { List } from './list'
 export interface Board {
   id: number
   name: string
-  colour: string
+  color: string
   workspaceId: number
   createdAt: string
   updatedAt: string

@@ -30,7 +30,7 @@
   form do |board|
     sidebar do
       text_field :name
-      color_field :colour
+      color_field :color
       collection_select :workspace_id, ::DB::Workspace.all, :id, :name
     end
 

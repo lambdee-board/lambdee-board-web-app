@@ -64,7 +64,7 @@ export default function WelcomeView() {
             <Grid container spacing={0}>
               {boards.map((recentBoard) => (
                 <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2 }} key={recentBoard.id}>
-                  <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColour={recentBoard.colour} workspaceId={recentBoard.workspaceId} />
+                  <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColor={recentBoard.color} workspaceId={recentBoard.workspaceId} />
                 </Grid>
               ))}
             </Grid>

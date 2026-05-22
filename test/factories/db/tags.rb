@@ -3,7 +3,7 @@
 ::FactoryBot.define do
   factory :tag, class: 'DB::Tag' do
     name { ::Faker::Job.field }
-    colour { ::Faker::Color.hex_color }
+    color { ::Faker::Color.hex_color }
     association :board
   end
 end

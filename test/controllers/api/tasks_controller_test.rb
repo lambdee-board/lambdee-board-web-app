@@ -50,7 +50,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
       assert_equal 2, json.size
       assert_equal scope_trigger.id, json[0]['id']
       assert_equal 'DB::Task', json[0]['subject_type']
-      assert json[0]['colour'].is_a?(::String)
+      assert json[0]['color'].is_a?(::String)
       assert_equal 'Send a message', json[0]['text']
       assert_equal subject_trigger.id, json[1]['id']
     end
@@ -368,7 +368,7 @@ class DB::TasksControllerTest < ActionDispatch::IntegrationTest
         assert_equal user.name, json['users'].first['name']
 
         assert_equal tag.name, json['tags'].first['name']
-        assert_equal tag.colour, json['tags'].first['colour']
+        assert_equal tag.color, json['tags'].first['color']
       end
 
       should 'not update task' do

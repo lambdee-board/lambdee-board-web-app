@@ -38,7 +38,7 @@ function WorkspaceTasksList({ boardId, workspaceId }: Props) {
         <Card className='Tasks-card' >
           <Button sx={{ textTransform: 'none' }} className='Tasks-card-title'
             onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}>
-            <FontAwesomeIcon className='Tasks-card-title-icon' icon={faClipboardList} color={board.colour} />
+            <FontAwesomeIcon className='Tasks-card-title-icon' icon={faClipboardList} color={board.color} />
             <Typography sx={{ ml: '10px' }}>
               {board.name}
             </Typography>

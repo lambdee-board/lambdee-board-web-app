@@ -3,7 +3,7 @@
 ::FactoryBot.define do
   factory :board, class: 'DB::Board' do
     name { ::Faker::Science.element }
-    colour { ::Faker::Color.hex_color }
+    color { ::Faker::Color.hex_color }
     association :workspace
   end
 end

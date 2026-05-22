@@ -12,11 +12,11 @@ import './RecentBoardButton.sass'
 interface Props {
   boardId: number
   boardName: string
-  boardColour: string
+  boardColor: string
   workspaceId: number
 }
 
-const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }: Props) => {
+const RecentBoardButton = ({ boardId, boardName, boardColor, workspaceId }: Props) => {
   const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: null })
   const navigate = useNavigate()
 
@@ -31,10 +31,9 @@ const RecentBoardButton = ({ boardId, boardName, boardColour, workspaceId }: Pro
       textAlign: 'center'
     }} >
       <Button fullWidth sx={{ textTransform: 'none ' }} className='recentBoardButton' onClick={() => {
-        localStorage.setItem('sidebarSelected', boardName)
         navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
       }}>
-        <RecentBoardIcon name={workspace.name} size={52} colour={boardColour} iconSize='32' />
+        <RecentBoardIcon name={workspace.name} size={52} color={boardColor} iconSize='32' />
         <Typography sx={{ color: 'black' }}>{workspace.name}/{boardName}</Typography>
       </Button>
     </Box>

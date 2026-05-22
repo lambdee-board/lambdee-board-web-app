@@ -8,7 +8,7 @@ export interface UiScriptTrigger {
   authorId: number
   delay: number
   private: boolean
-  colour: string
+  color: string
   text: string
   url: string
 }

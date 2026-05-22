@@ -51,9 +51,9 @@ export default function WorkspaceMembersView() {
 
   const checkIfAnyUsers = () => {
     if (usersData?.users.length > 0) {
-      return usersData?.users?.map((user, index) => (
+      return usersData?.users?.map((user) => (
         <WorkspaceUser
-          key={user.name + index}
+          key={user.id}
           userId={user.id}
           userName={user.name}
           userTitle={user.role}

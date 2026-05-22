@@ -33,7 +33,7 @@ paths:
                   value:
                   - id: 1
                     name: Calcium
-                    colour: "#40bf40"
+                    color: "#40bf40"
                     workspace_id: 1
                     created_at: '2023-01-12T18:31:02.518Z'
                     updated_at: '2023-01-12T18:31:02.518Z'
@@ -43,7 +43,7 @@ paths:
                     workspace_url: http://www.example.com/api/workspaces/1
                   - id: 2
                     name: Tellurium
-                    colour: "#947a7a"
+                    color: "#947a7a"
                     workspace_id: 2
                     created_at: '2023-01-12T18:31:02.521Z'
                     updated_at: '2023-01-12T18:31:02.521Z'
@@ -53,7 +53,7 @@ paths:
                     workspace_url: http://www.example.com/api/workspaces/2
                   - id: 3
                     name: Aluminum
-                    colour: "#318c31"
+                    color: "#318c31"
                     workspace_id: 3
                     created_at: '2023-01-12T18:31:02.524Z'
                     updated_at: '2023-01-12T18:31:02.524Z'
@@ -63,7 +63,7 @@ paths:
                     workspace_url: http://www.example.com/api/workspaces/3
                   - id: 4
                     name: Rutherfordium
-                    colour: "#eef2f2"
+                    color: "#eef2f2"
                     workspace_id: 4
                     created_at: '2023-01-12T18:31:02.526Z'
                     updated_at: '2023-01-12T18:31:02.526Z'
@@ -73,7 +73,7 @@ paths:
                     workspace_url: http://www.example.com/api/workspaces/4
                   - id: 5
                     name: Praseodymium
-                    colour: "#9d9dec"
+                    color: "#9d9dec"
                     workspace_id: 5
                     created_at: '2023-01-12T18:31:02.528Z'
                     updated_at: '2023-01-12T18:31:02.528Z'
@@ -101,7 +101,7 @@ paths:
                   value:
                     id: 6
                     name: New Board
-                    colour:
+                    color:
                     workspace_id: 6
                     created_at: '2023-01-12T18:31:02.596Z'
                     updated_at: '2023-01-12T18:31:02.596Z'
@@ -156,7 +156,7 @@ paths:
                   value:
                     id: 7
                     name: Praseodymium
-                    colour: "#747416"
+                    color: "#747416"
                     workspace_id: 7
                     created_at: '2023-01-12T18:31:02.607Z'
                     updated_at: '2023-01-12T18:31:02.607Z'
@@ -192,7 +192,7 @@ paths:
                   value:
                     id: 10
                     name: Germanium
-                    colour: "#f6fefe"
+                    color: "#f6fefe"
                     workspace_id: 10
                     created_at: '2023-01-12T18:31:02.659Z'
                     updated_at: '2023-01-12T18:31:02.659Z'
@@ -206,7 +206,7 @@ paths:
                   value:
                     id: 12
                     name: Polonium
-                    colour: "#4cc2c2"
+                    color: "#4cc2c2"
                     workspace_id: 12
                     created_at: '2023-01-12T18:31:02.691Z'
                     updated_at: '2023-01-12T18:31:02.691Z'
@@ -242,7 +242,7 @@ paths:
                   value:
                     id: 15
                     name: Xenon
-                    colour: "#6b6b0f"
+                    color: "#6b6b0f"
                     workspace_id: 15
                     created_at: '2023-01-12T18:31:02.730Z'
                     updated_at: '2023-01-12T18:31:02.730Z'
@@ -268,7 +268,7 @@ paths:
                   value:
                     id: 16
                     name: New Name
-                    colour: "#a5a5df"
+                    color: "#a5a5df"
                     workspace_id: 16
                     created_at: '2023-01-12T18:31:02.755Z'
                     updated_at: '2023-01-12T18:31:02.769Z'
@@ -317,7 +317,7 @@ paths:
                   value:
                     id: 18
                     name: Lanthanum
-                    colour: "#bf0d0d"
+                    color: "#bf0d0d"
                     workspace_id: 18
                     created_at: '2023-01-12T18:31:02.804Z'
                     updated_at: '2023-01-12T18:31:02.804Z'
@@ -736,11 +736,11 @@ paths:
                       tags:
                       - id: 2
                         name: IT
-                        colour: "#aa74aa"
+                        color: "#aa74aa"
                         url: http://www.example.com/api/tags/2
                       - id: 3
                         name: Community-Services
-                        colour: "#0303c4"
+                        color: "#0303c4"
                         url: http://www.example.com/api/tags/3
                     - id: 5
                       name: Boston
@@ -795,7 +795,7 @@ paths:
                       tags:
                       - id: 4
                         name: Accounting
-                        colour: "#de7cde"
+                        color: "#de7cde"
                         url: http://www.example.com/api/tags/4
                     - id: 7
                       name: The Marshall Mathers LP
@@ -858,7 +858,7 @@ paths:
                       tags:
                       - id: 5
                         name: Government
-                        colour: "#868603"
+                        color: "#868603"
                         url: http://www.example.com/api/tags/5
                 successful:
                   summary: successful
@@ -1345,7 +1345,7 @@ paths:
                       author_id: 89
                       delay:
                       private:
-                      colour: "#ffffff"
+                      color: "#ffffff"
                       text: Send a message
                       url: http://www.example.com/api/ui_script_triggers/1
               schema:
@@ -1782,7 +1782,7 @@ paths:
                   value:
                   - id: 6
                     name: Marketing
-                    colour: "#f7f7bb"
+                    color: "#f7f7bb"
                     url: http://www.example.com/api/tags/6
                     board_id: 62
                     created_at: '2023-01-12T18:31:04.226Z'
@@ -1790,7 +1790,7 @@ paths:
                     custom_data: {}
                   - id: 7
                     name: Retail
-                    colour: "#141401"
+                    color: "#141401"
                     url: http://www.example.com/api/tags/7
                     board_id: 62
                     created_at: '2023-01-12T18:31:04.227Z'
@@ -1798,7 +1798,7 @@ paths:
                     custom_data: {}
                   - id: 8
                     name: Real-Estate
-                    colour: "#ececfe"
+                    color: "#ececfe"
                     url: http://www.example.com/api/tags/8
                     board_id: 62
                     created_at: '2023-01-12T18:31:04.229Z'
@@ -1806,7 +1806,7 @@ paths:
                     custom_data: {}
                   - id: 9
                     name: Hospitality
-                    colour: "#152828"
+                    color: "#152828"
                     url: http://www.example.com/api/tags/9
                     board_id: 62
                     created_at: '2023-01-12T18:31:04.231Z'
@@ -1814,7 +1814,7 @@ paths:
                     custom_data: {}
                   - id: 10
                     name: Advertising
-                    colour: "#e0e0f5"
+                    color: "#e0e0f5"
                     url: http://www.example.com/api/tags/10
                     board_id: 62
                     created_at: '2023-01-12T18:31:04.232Z'
@@ -1846,7 +1846,7 @@ paths:
                   value:
                     id: 11
                     name: New Tag
-                    colour: "#fff000"
+                    color: "#fff000"
                     url: http://www.example.com/api/tags/11
                     board_id: 63
                     created_at: '2023-01-12T18:31:04.271Z'
@@ -1881,7 +1881,7 @@ paths:
                   value:
                     id: 12
                     name: New Tag
-                    colour: "#fff000"
+                    color: "#fff000"
                     url: http://www.example.com/api/tags/12
                     board_id: 64
                     created_at: '2023-01-12T18:31:04.309Z'
@@ -1921,7 +1921,7 @@ paths:
                   value:
                   - id: 13
                     name: Real-Estate
-                    colour: "#040416"
+                    color: "#040416"
                     url: http://www.example.com/api/tags/13
                     board_id: 65
                     created_at: '2023-01-12T18:31:04.330Z'
@@ -1929,7 +1929,7 @@ paths:
                     custom_data: {}
                   - id: 14
                     name: Retail
-                    colour: "#a5d9a5"
+                    color: "#a5d9a5"
                     url: http://www.example.com/api/tags/14
                     board_id: 65
                     created_at: '2023-01-12T18:31:04.333Z'
@@ -1937,7 +1937,7 @@ paths:
                     custom_data: {}
                   - id: 15
                     name: Real-Estate
-                    colour: "#8a3d3d"
+                    color: "#8a3d3d"
                     url: http://www.example.com/api/tags/15
                     board_id: 65
                     created_at: '2023-01-12T18:31:04.336Z'
@@ -1945,7 +1945,7 @@ paths:
                     custom_data: {}
                   - id: 16
                     name: Government
-                    colour: "#4141d8"
+                    color: "#4141d8"
                     url: http://www.example.com/api/tags/16
                     board_id: 65
                     created_at: '2023-01-12T18:31:04.339Z'
@@ -1953,7 +1953,7 @@ paths:
                     custom_data: {}
                   - id: 17
                     name: IT
-                    colour: "#d572d5"
+                    color: "#d572d5"
                     url: http://www.example.com/api/tags/17
                     board_id: 65
                     created_at: '2023-01-12T18:31:04.341Z'
@@ -1985,7 +1985,7 @@ paths:
                   value:
                     id: 18
                     name: New Tag
-                    colour: "#fff000"
+                    color: "#fff000"
                     url: http://www.example.com/api/tags/18
                     board_id: 66
                     created_at: '2023-01-12T18:31:04.428Z'
@@ -2025,7 +2025,7 @@ paths:
                   value:
                     id: 19
                     name: Manufacturing
-                    colour: "#bd6bbd"
+                    color: "#bd6bbd"
                     url: http://www.example.com/api/tags/19
                     board_id: 67
                     created_at: '2023-01-12T18:31:04.440Z'
@@ -2049,7 +2049,7 @@ paths:
                   value:
                     id: 20
                     name: New Name
-                    colour: "#0f6c0f"
+                    color: "#0f6c0f"
                     url: http://www.example.com/api/tags/20
                     board_id: 68
                     created_at: '2023-01-12T18:31:04.468Z'
@@ -2311,7 +2311,7 @@ paths:
                     tags:
                     - id: 22
                       name: Banking
-                      colour: "#e5f5e5"
+                      color: "#e5f5e5"
                       url: http://www.example.com/api/tags/22
                       board_id: 77
                       created_at: '2023-01-12T18:31:04.646Z'
@@ -2319,7 +2319,7 @@ paths:
                       custom_data: {}
                     - id: 23
                       name: Legal
-                      colour: "#0ff50f"
+                      color: "#0ff50f"
                       url: http://www.example.com/api/tags/23
                       board_id: 78
                       created_at: '2023-01-12T18:31:04.651Z'
@@ -2327,7 +2327,7 @@ paths:
                       custom_data: {}
                     - id: 24
                       name: Sales
-                      colour: "#adadae"
+                      color: "#adadae"
                       url: http://www.example.com/api/tags/24
                       board_id: 79
                       created_at: '2023-01-12T18:31:04.656Z'
@@ -2614,7 +2614,7 @@ paths:
                     author_id: 176
                     delay: 1
                     private: false
-                    colour: "#ffffff"
+                    color: "#ffffff"
                     text: click me
                     url: http://www.example.com/api/ui_script_triggers/2
               schema:
@@ -2658,7 +2658,7 @@ paths:
                     author_id: 180
                     delay:
                     private:
-                    colour: "#ffffff"
+                    color: "#ffffff"
                     text: Send a message
                     url: http://www.example.com/api/ui_script_triggers/3
               schema:
@@ -2686,7 +2686,7 @@ paths:
                     author_id: 184
                     delay:
                     private:
-                    colour: "#ffffff"
+                    color: "#ffffff"
                     text: Send a message
                     url: http://www.example.com/api/ui_script_triggers/4
               schema:
@@ -3366,7 +3366,7 @@ paths:
                     boards:
                     - id: 97
                       name: Potassium
-                      colour: "#206f6f"
+                      color: "#206f6f"
                       workspace_id: 100
                       created_at: '2023-01-12T18:31:05.589Z'
                       updated_at: '2023-01-12T18:31:05.589Z'
@@ -3376,7 +3376,7 @@ paths:
                       workspace_url: http://www.example.com/api/workspaces/100
                     - id: 98
                       name: Titanium
-                      colour: "#fdfded"
+                      color: "#fdfded"
                       workspace_id: 100
                       created_at: '2023-01-12T18:31:05.590Z'
                       updated_at: '2023-01-12T18:31:05.590Z'
@@ -3386,7 +3386,7 @@ paths:
                       workspace_url: http://www.example.com/api/workspaces/100
                     - id: 99
                       name: Sulfur
-                      colour: "#b6b65d"
+                      color: "#b6b65d"
                       workspace_id: 100
                       created_at: '2023-01-12T18:31:05.591Z'
                       updated_at: '2023-01-12T18:31:05.591Z'
@@ -3396,7 +3396,7 @@ paths:
                       workspace_url: http://www.example.com/api/workspaces/100
                     - id: 100
                       name: Mendelevium
-                      colour: "#d8d874"
+                      color: "#d8d874"
                       workspace_id: 100
                       created_at: '2023-01-12T18:31:05.594Z'
                       updated_at: '2023-01-12T18:31:05.594Z'
@@ -3406,7 +3406,7 @@ paths:
                       workspace_url: http://www.example.com/api/workspaces/100
                     - id: 101
                       name: Chromium
-                      colour: "#6262bc"
+                      color: "#6262bc"
                       workspace_id: 100
                       created_at: '2023-01-12T18:31:05.595Z'
                       updated_at: '2023-01-12T18:31:05.595Z'
@@ -3534,7 +3534,7 @@ paths:
                     boards:
                     - id: 102
                       name: Francium
-                      colour: "#da7cda"
+                      color: "#da7cda"
                       workspace_id: 108
                       created_at: '2023-01-12T18:31:05.684Z'
                       updated_at: '2023-01-12T18:31:05.685Z'
@@ -3544,7 +3544,7 @@ paths:
                       workspace_url: http://www.example.com/api/workspaces/108
                     - id: 103
                       name: Iron
-                      colour: "#0c220c"
+                      color: "#0c220c"
                       workspace_id: 108
                       created_at: '2023-01-12T18:31:05.687Z'
                       updated_at: '2023-01-12T18:31:05.688Z'
@@ -3829,7 +3829,7 @@ components:
           type: integer
         name:
           type: string
-        colour:
+        color:
           type: string
         board_id:
           type: integer
@@ -3850,7 +3850,7 @@ components:
       properties:
         name:
           type: string
-        colour:
+        color:
           type: string
         board_id:
           type: integer
@@ -4381,7 +4381,7 @@ components:
           type:
           - boolean
           - 'null'
-        colour:
+        color:
           type: string
         url:
           type: string
@@ -4426,7 +4426,7 @@ components:
           type:
           - boolean
           - 'null'
-        colour:
+        color:
           type:
           - string
           - 'null'

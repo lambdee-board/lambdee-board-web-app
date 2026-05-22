@@ -51,7 +51,7 @@ export default function TasksView() {
                 }}>
                 {workspace.boards?.slice(0, 9).map((board) => (
                   <Grid size={4} key={board.id} className='tasksView-workspaces-card-board'>
-                    <FontAwesomeIcon icon={faClipboardList} color={board.colour} />
+                    <FontAwesomeIcon icon={faClipboardList} color={board.color} />
                     <Typography variant='caption'>{board.name}</Typography>
                   </Grid>
                 ))}

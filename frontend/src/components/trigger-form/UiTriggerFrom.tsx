@@ -33,7 +33,7 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
     scopeType: '',
     scopeId: '',
     private: true,
-    colour: '#1082F3',
+    color: '#1082F3',
     text: '',
     delay: 0
   })
@@ -270,11 +270,11 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
           <div style={{ display: 'flex', flexFlow: 'row', alignItems: 'center', height: '68px' }}>
             <Typography>Button Color</Typography>
             <ColorPickerPopover
-              color={uiTriggerState.colour}
-              onChange={(colour) => {
+              color={uiTriggerState.color}
+              onChange={(color) => {
                 setUiTriggerState({
                   ...uiTriggerState,
-                  colour
+                  color
                 })
               }} />
           </div>

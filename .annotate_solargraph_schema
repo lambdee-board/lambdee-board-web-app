@@ -251,12 +251,12 @@ class DB::Board < ApplicationRecord
   # Database column `boards.workspace_id`, type: `integer`.
   # @return [Integer, nil]
   def workspace_id; end
-  # Database column `boards.colour`, type: `string`.
+  # Database column `boards.color`, type: `string`.
   # @param val [String, nil]
-  def colour=(val); end
-  # Database column `boards.colour`, type: `string`.
+  def color=(val); end
+  # Database column `boards.color`, type: `string`.
   # @return [String, nil]
-  def colour; end
+  def color; end
   # Database column `boards.deleted_at`, type: `datetime`.
   # @param val [ActiveSupport::TimeWithZone, nil]
   def deleted_at=(val); end
@@ -1151,12 +1151,12 @@ class DB::Tag < ApplicationRecord
   # Database column `tags.name`, type: `string`.
   # @return [String, nil]
   def name; end
-  # Database column `tags.colour`, type: `string`.
+  # Database column `tags.color`, type: `string`.
   # @param val [String, nil]
-  def colour=(val); end
-  # Database column `tags.colour`, type: `string`.
+  def color=(val); end
+  # Database column `tags.color`, type: `string`.
   # @return [String, nil]
-  def colour; end
+  def color; end
   # Database column `tags.board_id`, type: `integer`.
   # @param val [Integer, nil]
   def board_id=(val); end
@@ -1649,12 +1649,12 @@ class DB::UiScriptTrigger < ApplicationRecord
   # Database column `ui_script_triggers.private`, type: `boolean`.
   # @return [Boolean, nil]
   def private; end
-  # Database column `ui_script_triggers.colour`, type: `string`.
+  # Database column `ui_script_triggers.color`, type: `string`.
   # @param val [String, nil]
-  def colour=(val); end
-  # Database column `ui_script_triggers.colour`, type: `string`.
+  def color=(val); end
+  # Database column `ui_script_triggers.color`, type: `string`.
   # @return [String, nil]
-  def colour; end
+  def color; end
   # Database column `ui_script_triggers.text`, type: `string`.
   # @param val [String, nil]
   def text=(val); end

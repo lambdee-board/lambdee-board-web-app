@@ -53,7 +53,7 @@ class API::TagsController < ::APIController
 
   # Only allow a list of trusted parameters through.
   def tag_params
-    params.require(:tag).permit(:name, :colour, :board_id)
+    params.require(:tag).permit(:name, :color, :board_id)
   end
 
   def relate_tag_with_task

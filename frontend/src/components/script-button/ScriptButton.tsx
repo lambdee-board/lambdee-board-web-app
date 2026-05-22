@@ -97,7 +97,7 @@ export default function ScriptButton({ variant = 'default', scope, id }: Props) 
             key={scriptTrigger.id}
           >
             <Box sx={{ display: 'flex', flexDirection: 'row' }} >
-              <Box sx={{ color: scriptTrigger.colour, mr: '8px' }}>
+              <Box sx={{ color: scriptTrigger.color, mr: '8px' }}>
                 <FontAwesomeIcon icon={faBolt} />
               </Box>
               <Typography>

@@ -14,7 +14,7 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     assert_difference('DB::UiScriptTrigger.count') do
       post api_ui_script_triggers_url, params: {
         ui_script_trigger: {
-          script_id: script.id, subject_type: 'DB::Task', scope_type: 'DB::Board', scope_id: board.id, author_id: @user.id, delay: 1, private: true, colour: '#ffffff', text: 'elo'
+          script_id: script.id, subject_type: 'DB::Task', scope_type: 'DB::Board', scope_id: board.id, author_id: @user.id, delay: 1, private: true, color: '#ffffff', text: 'elo'
         }
       }, as: :json, headers: auth_headers(@user)
     end
@@ -29,7 +29,7 @@ class ::API::UiScriptTriggersControllerTest < ::ActionDispatch::IntegrationTest
     assert_equal @user.id, json['author_id']
     assert_equal 1, json['delay']
     assert_equal true, json['private']
-    assert_equal '#ffffff', json['colour']
+    assert_equal '#ffffff', json['color']
     assert_equal 'elo', json['text']
   end
 

@@ -166,7 +166,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
       })
   }
 
-  const createAttachTag = (newTagPayload: { name: string; colour: string }) => {
+  const createAttachTag = (newTagPayload: { name: string; color: string }) => {
     const payload = { ...newTagPayload, boardId, taskId }
 
     apiClient.post(`/api/tasks/${taskId}/tags`, payload)
@@ -351,7 +351,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
                   <Box key={tag.id} className='TaskCardModal-sidebar-card-box-tags'>
                     <Tag
                       name={tag.name}
-                      colour={tag.colour}
+                      color={tag.color}
                       deletable={!!isRegular()}
                       onDelete={() => detachTag({} as React.MouseEvent, tag)}
                     />

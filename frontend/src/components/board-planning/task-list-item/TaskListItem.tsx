@@ -65,7 +65,7 @@ const TaskListItem = ({ label = '', tags = [], assignedUsers = [], listId, id, d
           <Box sx={{ display: { xs: 'none', sm: 'none', md: 'block' } }} className='TaskListItem-properties-tags'>
             <AvatarGroup max={(3)} >
               {tags.map((tag) => (
-                <Tag name={tag.name} colour={tag.colour} key={tag.id} />
+                <Tag name={tag.name} color={tag.color} key={tag.id} />
               ))}
             </AvatarGroup>
           </Box>

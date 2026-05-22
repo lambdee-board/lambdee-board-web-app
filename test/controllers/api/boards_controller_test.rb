@@ -183,7 +183,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
       assert_equal 2, json.size
       assert_equal scope_trigger.id, json[0]['id']
       assert_equal 'DB::Board', json[0]['subject_type']
-      assert json[0]['colour'].is_a?(::String)
+      assert json[0]['color'].is_a?(::String)
       assert_equal 'Send a message', json[0]['text']
       assert_equal subject_trigger.id, json[1]['id']
     end
@@ -245,7 +245,7 @@ class API::BoardsControllerTest < ActionDispatch::IntegrationTest
     json = ::JSON.parse(response.body)
     assert_equal @board.id, json.first['id']
     assert_equal @board.name, json.first['name']
-    assert_equal @board.colour, json.first['colour']
+    assert_equal @board.color, json.first['color']
     assert_equal @board.workspace_id, json.first['workspace_id']
     assert_nil json.first['deleted_at']
   end

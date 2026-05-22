@@ -1,4 +1,4 @@
-json.extract! tag, :id, :name, :colour
+json.extract! tag, :id, :name, :color
 json.url api_tag_url(tag, format: :json)
 
 return if local_assigns[:short]

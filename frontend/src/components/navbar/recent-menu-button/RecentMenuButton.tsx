@@ -13,22 +13,21 @@ import RecentMenuButtonSkeleton from './RecentMenuButtonSkeleton'
 interface RecentBoardProps {
   boardId: number
   boardName: string
-  boardColour: string
+  boardColor: string
   workspaceId: number
   workspaceName: string
   handleClose?: () => void
 }
 
-function RecentBoard({ boardId, boardName, boardColour, workspaceId, workspaceName, handleClose }: RecentBoardProps) {
+function RecentBoard({ boardId, boardName, boardColor, workspaceId, workspaceName, handleClose }: RecentBoardProps) {
   const navigate = useNavigate()
 
   return (
     <MenuItem onClick={() => {
-      localStorage.setItem('sidebarSelected', boardName)
       handleClose?.()
       navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
     }}>
-      <RecentBoardIcon name={workspaceName} size={32} colour={boardColour} iconSize='20' />
+      <RecentBoardIcon name={workspaceName} size={32} color={boardColor} iconSize='20' />
       {workspaceName}/{boardName}
     </MenuItem>
   )
@@ -56,7 +55,7 @@ const RecentMenuButton = () => {
               key={recentBoard.id}
               boardId={recentBoard.id}
               boardName={recentBoard.name}
-              boardColour={recentBoard.colour}
+              boardColor={recentBoard.color}
               workspaceId={recentBoard.workspaceId}
               workspaceName={recentBoard.workspaceName}
             />

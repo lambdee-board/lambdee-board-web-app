@@ -82,7 +82,7 @@ class API::BoardsController < ::APIController
 
   # @return [Hash{Symbol => Object}]
   def board_params
-    params.require(:board).permit(:name, :colour, :workspace_id)
+    params.require(:board).permit(:name, :color, :workspace_id)
   end
 
   def set_last_viewed_board_for_user

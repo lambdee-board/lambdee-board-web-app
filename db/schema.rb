@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.2].define(version: 2026_04_26_172735) do
+ActiveRecord::Schema[7.2].define(version: 2026_05_22_154502) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_trgm"
   enable_extension "plpgsql"
@@ -21,7 +21,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_26_172735) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "workspace_id"
-    t.string "colour", limit: 9
+    t.string "color", limit: 9
     t.datetime "deleted_at"
     t.jsonb "custom_data"
     t.index ["workspace_id"], name: "index_boards_on_workspace_id"
@@ -131,7 +131,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_26_172735) do
 
   create_table "tags", force: :cascade do |t|
     t.string "name"
-    t.string "colour", limit: 9
+    t.string "color", limit: 9
     t.bigint "board_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -177,7 +177,7 @@ ActiveRecord::Schema[7.2].define(version: 2026_04_26_172735) do
     t.bigint "author_id"
     t.integer "delay"
     t.boolean "private"
-    t.string "colour", limit: 9
+    t.string "color", limit: 9
     t.string "text", limit: 100
     t.index ["author_id"], name: "index_ui_script_triggers_on_author_id"
     t.index ["scope_type", "scope_id"], name: "index_ui_script_triggers_on_scope"

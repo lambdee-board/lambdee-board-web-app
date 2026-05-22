@@ -15,13 +15,13 @@ wrk.users << admin << alice << bob << carol << dave
 
 # === Board: Web App ===
 
-web_app = ::FactoryBot.create(:board, name: 'Web App', workspace: wrk, colour: '#4A6CF7')
+web_app = ::FactoryBot.create(:board, name: 'Web App', workspace: wrk, color: '#4A6CF7')
 
-tag_backend     = ::FactoryBot.create(:tag, name: 'Backend',     board: web_app, colour: '#294590')
-tag_frontend    = ::FactoryBot.create(:tag, name: 'Frontend',    board: web_app, colour: '#b82a94')
-tag_bug         = ::FactoryBot.create(:tag, name: 'Bug',         board: web_app, colour: '#c0392b')
-tag_feature     = ::FactoryBot.create(:tag, name: 'Feature',     board: web_app, colour: '#27ae60')
-tag_performance = ::FactoryBot.create(:tag, name: 'Performance', board: web_app, colour: '#e67e22')
+tag_backend     = ::FactoryBot.create(:tag, name: 'Backend',     board: web_app, color: '#294590')
+tag_frontend    = ::FactoryBot.create(:tag, name: 'Frontend',    board: web_app, color: '#b82a94')
+tag_bug         = ::FactoryBot.create(:tag, name: 'Bug',         board: web_app, color: '#c0392b')
+tag_feature     = ::FactoryBot.create(:tag, name: 'Feature',     board: web_app, color: '#27ae60')
+tag_performance = ::FactoryBot.create(:tag, name: 'Performance', board: web_app, color: '#e67e22')
 
 backlog = ::FactoryBot.create(:list, name: 'Backlog',     board: web_app, visible: false)
 todo    = ::FactoryBot.create(:list, name: 'To Do',       board: web_app, visible: true)
@@ -88,12 +88,12 @@ sprint.sprint_tasks.where(task_id: [task_setup.id, task_validation.id]).update_a
 
 # === Board: Mobile App ===
 
-mobile = ::FactoryBot.create(:board, name: 'Mobile App', workspace: wrk, colour: '#27AE60')
+mobile = ::FactoryBot.create(:board, name: 'Mobile App', workspace: wrk, color: '#27AE60')
 
-tag_ios     = ::FactoryBot.create(:tag, name: 'iOS',     board: mobile, colour: '#1abc9c')
-tag_android = ::FactoryBot.create(:tag, name: 'Android', board: mobile, colour: '#3498db')
-tag_mob_bug = ::FactoryBot.create(:tag, name: 'Bug',     board: mobile, colour: '#c0392b')
-tag_mob_ftr = ::FactoryBot.create(:tag, name: 'Feature', board: mobile, colour: '#27ae60')
+tag_ios     = ::FactoryBot.create(:tag, name: 'iOS',     board: mobile, color: '#1abc9c')
+tag_android = ::FactoryBot.create(:tag, name: 'Android', board: mobile, color: '#3498db')
+tag_mob_bug = ::FactoryBot.create(:tag, name: 'Bug',     board: mobile, color: '#c0392b')
+tag_mob_ftr = ::FactoryBot.create(:tag, name: 'Feature', board: mobile, color: '#27ae60')
 
 mob_backlog = ::FactoryBot.create(:list, name: 'Backlog',     board: mobile, visible: false)
 mob_doing   = ::FactoryBot.create(:list, name: 'In Progress', board: mobile, visible: true)

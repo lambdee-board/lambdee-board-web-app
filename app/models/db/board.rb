@@ -33,7 +33,7 @@ class DB::Board < ::ApplicationRecord
   default_scope { order(:id) }
 
   validates :name, presence: true, length: { maximum: 50 }
-  validates :colour, length: { minimum: 7, maximum: 9 }, allow_blank: true
+  validates :color, length: { minimum: 7, maximum: 9 }, allow_blank: true
 
   # @return [Array<DB::Task>]
   def tasks

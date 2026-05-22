@@ -81,8 +81,8 @@ const WorkspaceSettings = () => {
                   key={board.id}
                   boardId={board.id}
                   boardName={board.name}
-                  boardColor={board.colour}
-                  icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.colour} />}
+                  boardColor={board.color}
+                  icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.color} />}
                 />
 
               ))}
@@ -98,9 +98,9 @@ const WorkspaceSettings = () => {
                 <Typography>Assign New User</Typography>
               </Button>
             )}
-            {usersData?.users?.map((user, index) => (
+            {usersData?.users?.map((user) => (
               <WorkspaceUser
-                key={user.name + index}
+                key={user.id}
                 userId={user.id}
                 userName={user.name}
                 userTitle={user.role}
