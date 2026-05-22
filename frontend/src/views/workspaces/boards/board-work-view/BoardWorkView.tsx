@@ -12,7 +12,7 @@ import type { List } from '../../../../types'
 import TaskList from '../../../../components/task-list/TaskList'
 import TaskListSkeleton from '../../../../components/task-list/TaskListSkeleton'
 
-import './BoardWorkView.sass'
+
 import useAppAlertStore from '../../../../stores/app-alert'
 
 export default function BoardWorkView() {
@@ -74,15 +74,13 @@ export default function BoardWorkView() {
   }, [board])
 
   if (isLoading || isError) return (
-    <div className='BoardView'>
-      <div className='BoardWorkView'>
-        <div className='TaskLists-scrollable' >
-          <div className='TaskLists-wrapper'>
-            {[0, 1, 2].map((index) => (
-              <TaskListSkeleton key={index} />
-            ))}
-            <div className='TaskLists-spacer'></div>
-          </div>
+    <div>
+      <div style={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
+        <div style={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
+          {[0, 1, 2].map((index) => (
+            <TaskListSkeleton key={index} />
+          ))}
+          <div style={{ paddingRight: 16 }}></div>
         </div>
       </div>
     </div>
@@ -99,13 +97,13 @@ export default function BoardWorkView() {
     ))
 
   return (
-    <div className='BoardWorkView'>
-      <div className='TaskLists-scrollable' >
+    <div>
+      <div style={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
         {isManager() ?
           <ReactSortable
             onChoose={(event) => setDraggedListId(parseInt((event.item as HTMLElement).dataset.listId!))}
             onEnd={clearDraggedListId}
-            className='TaskLists-wrapper'
+            style={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}
             list={sortedTaskLists}
             setList={updateTaskListOrder}
             scroll
@@ -115,7 +113,7 @@ export default function BoardWorkView() {
           >
             {listComponents}
           </ReactSortable> :
-          <div className='TaskLists-wrapper'>
+          <div style={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
             {listComponents}
           </div>}
       </div>

@@ -2,7 +2,7 @@ import { useParams } from 'react-router-dom'
 import React from 'react'
 
 import {
-  Divider, Typography
+  Box, Divider, Typography
 } from '@mui/material'
 import { ReactSortable } from 'react-sortablejs'
 
@@ -17,7 +17,6 @@ import TaskPlanningListSkeleton from '../../../../components/board-planning/task
 import { RegularContent } from '../../../../permissions/content'
 import useAppAlertStore from '../../../../stores/app-alert'
 
-import './BoardPlanningView.sass'
 
 export default function BoardWorkView() {
   const addAlert = useAppAlertStore((store) => store.addAlert)
@@ -88,16 +87,15 @@ export default function BoardWorkView() {
   }, [board])
 
   if (isLoading || isError) return (
-    <div className='BoardPlanningView'>
-      <div className='TaskLists-scrollable' >
-        <div className='TaskLists-wrapper'>
+    <Box sx={{ mb: 2 }}>
+      <div>
+        <Box sx={{ width: '98%', display: 'flex', flexDirection: 'column', ml: 2.5 }}>
           {[0, 1, 2, 3, 4].map((index) => (
             <TaskPlanningListSkeleton key={index} />
           ))}
-          <div className='TaskLists-spacer'></div>
-        </div>
+        </Box>
       </div>
-    </div>
+    </Box>
   )
 
   const visibleListComponents =
@@ -114,13 +112,13 @@ export default function BoardWorkView() {
     ))
 
   return (
-    <div className='BoardPlanningView'>
-      <div className='TaskLists-scrollable' >
+    <Box sx={{ mb: 2 }}>
+      <div>
         {isManager() ?
           <ReactSortable
             onChoose={(event) => setDraggedListId(parseInt((event.item as HTMLElement).dataset.listId!))}
             onEnd={clearDraggedListId}
-            className='TaskLists-wrapper'
+            style={{ width: '98%', display: 'flex', flexDirection: 'column', marginLeft: 20 }}
             list={sortedTaskLists}
             setList={updateTaskListOrder}
             scroll
@@ -130,13 +128,13 @@ export default function BoardWorkView() {
           >
             {visibleListComponents}
           </ReactSortable> :
-          <div className='TaskLists-wrapper'>
+          <Box sx={{ width: '98%', display: 'flex', flexDirection: 'column', ml: 2.5 }}>
             {visibleListComponents}
-          </div>
+          </Box>
         }
         <RegularContent>
-          <Divider sx={{ mt: '24px', mb: '8px' }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
-          <div className='TaskLists-wrapper'>
+          <Divider sx={{ mt: 3, mb: 1 }}><Typography sx={{ opacity: '0.6' }}>Hidden</Typography></Divider>
+          <Box sx={{ width: '98%', display: 'flex', flexDirection: 'column', ml: 2.5 }}>
             {invisibleLists.map((taskList, listIndex) => (
               <TaskPlanningList key={taskList.id}
                 title={taskList.name}
@@ -146,10 +144,10 @@ export default function BoardWorkView() {
                 visible={taskList.visible}
               />
             ))}
-          </div>
+          </Box>
         </RegularContent>
       </div>
 
-    </div>
+    </Box>
   )
 }

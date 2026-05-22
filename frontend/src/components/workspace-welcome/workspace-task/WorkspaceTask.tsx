@@ -13,7 +13,6 @@ import TaskCardModal from '../../task-card-modal/TaskCardModal'
 import TaskDueTime from '../../TaskDueTime'
 import WorkspaceTaskSkeleton from './WorkspaceTaskSkeleton'
 
-import './WorkspaceTask.sass'
 
 interface Props {
   boardId: number
@@ -59,14 +58,13 @@ function WorkspaceTask({ listId, boardId }: Props) {
       }
       {taskList.tasks?.map((task) => (
         <div key={task.id}>
-          <Button sx={{ textTransform: 'none', color: 'black' }} className='Tasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
-            <div className='Tasks-card-list-task-wrapper'>
-              <div className='Tasks-card-list-task-priority'>
+          <Button sx={{ textTransform: 'none', color: 'black', display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'flex-start' }} onClick={() => handleOpenTaskCardModal(task)} >
+            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+              <div>
                 <PriorityIcon size='lg' taskPriority={task.priority} />
               </div>
-
-              <Typography noWrap className='Tasks-card-list-task-title' variant='caption'>{task.name}</Typography>
-              <div className='Tasks-card-list-task-duetime'>
+              <Typography noWrap sx={{ ml: 1, mr: 2 }} variant='caption'>{task.name}</Typography>
+              <div style={{ marginLeft: 'auto' }}>
                 {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
               </div>
             </div>

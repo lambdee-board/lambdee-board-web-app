@@ -1,7 +1,7 @@
 import React from 'react'
-import { FormControl, OutlinedInput, Typography, Stack, InputLabel, Button } from '@mui/material'
+import { Box, FormControl, OutlinedInput, Typography, Stack, InputLabel, Button } from '@mui/material'
 
-import './ScriptRunsFilter.sass'
+
 import RoleChip from '../role-chip/RoleChip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -65,11 +65,11 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
 
 
   return (
-    <div className='ScriptRunsFilter-wrapper'>
-      <Typography className='ScriptRunsFilter-title'>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', p: 2, borderRadius: '8px', height: 'fit-content' }}>
+      <Typography sx={{ fontSize: '24px', mb: 1 }}>
         Filters
       </Typography>
-      <FormControl className='formControls'>
+      <FormControl sx={{ width: '100%', my: 2 }}>
         <InputLabel htmlFor='ScriptRunsFilter-search-input' shrink >ScriptRuns name</InputLabel>
         <OutlinedInput
           id='ScriptRunsFilter-search-input'
@@ -81,9 +81,9 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
           onChange={(event) => setNameSearch(event.target.value)}
         />
       </FormControl>
-      <FormControl className='formControls'>
-        <Typography className='form-label'>States</Typography>
-        <Stack className='chipStack' direction='row'>
+      <FormControl sx={{ width: '100%', my: 2 }}>
+        <Typography sx={{ mb: 1 }}>States</Typography>
+        <Stack direction='row' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
           {defaultStates.map((state, idx) => (
             <RoleChip
               key={state + idx}
@@ -94,10 +94,10 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
           ))}
         </Stack>
       </FormControl>
-      <div className='formControls'>
-        <Typography className='form-label'>Date</Typography>
-        <div className='date-wrapper'>
-          <FormControl className='date-block'>
+      <Box sx={{ width: '100%', my: 2 }}>
+        <Typography sx={{ mb: 1 }}>Date</Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', flexFlow: 'wrap' }}>
+          <FormControl sx={{ display: 'flex', flexDirection: 'column', pb: 1 }}>
             <InputLabel htmlFor='ScriptRunsFilter-date-start' shrink >From</InputLabel>
             <OutlinedInput
               id='ScriptRunsFilter-date-start'
@@ -105,11 +105,12 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
               label='From'
               notched
               value={startDate}
+              sx={{ width: '128px' }}
               onKeyDown={enterPressed}
               onChange={(event) => setStartDate(event.target.value)}
             />
           </FormControl>
-          <FormControl className='date-block'>
+          <FormControl sx={{ display: 'flex', flexDirection: 'column', pb: 1 }}>
             <InputLabel htmlFor='ScriptRunsFilter-date-end' shrink>To</InputLabel>
             <OutlinedInput
               id='ScriptRunsFilter-date-end'
@@ -117,15 +118,15 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
               label='To'
               notched
               value={endDate}
+              sx={{ width: '128px' }}
               onKeyDown={enterPressed}
               onChange={(event) => setEndDate(event.target.value)}
             />
           </FormControl>
         </div>
-      </div>
+      </Box>
       <Button
         onClick={getFilters}
-        className='ScriptRunsFilter-search-button'
         color='primary'
         variant='contained'
         fullWidth
@@ -133,7 +134,7 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
       >
           Search
       </Button>
-    </div>
+    </Box>
   )
 }
 

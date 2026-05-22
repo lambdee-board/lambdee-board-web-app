@@ -6,7 +6,6 @@ import apiClient from '../../api/axios-client'
 import useAppAlertStore from '../../stores/app-alert'
 import { mutateScript } from '../../api/script'
 
-import './ScriptLabel.sass'
 
 interface Props {
   id: number
@@ -79,9 +78,8 @@ const ScriptLabel = ({ id, text, type }: Props) => {
     <div>
       {editScriptLabelButton ? (
         <Typography
-          className='Script-Label'
           onClick={editScriptLabelOnClick}
-          sx={{ mt: '8px', mb: '12px', fontSize: 28, ...descStyle }}
+          sx={{ mt: 1, mb: 1.5, fontSize: 28, cursor: 'pointer', '&:hover': { backgroundColor: '#DCDCDC', borderRadius: '8px' }, ...descStyle }}
         >
           {text}
         </Typography>

@@ -1,5 +1,3 @@
-import './AppAlert.sass'
-
 import { Alert, AlertTitle } from '@mui/material'
 import useAppAlertStore from '../../stores/app-alert'
 
@@ -17,9 +15,9 @@ function AppAlert() {
   return (
     <Alert
       variant='filled'
-      className='AppAlert'
       onClose={() => clearAlert()}
-      severity={severity as 'success' | 'info' | 'warning' | 'error' || 'info'}>
+      severity={severity as 'success' | 'info' | 'warning' | 'error' || 'info'}
+      sx={{ position: 'absolute', zIndex: 2000, top: 9, left: '50%', transform: 'translate(-50%, 0)' }}>
       {title && <AlertTitle>{title}</AlertTitle> }
       {message}
     </Alert>

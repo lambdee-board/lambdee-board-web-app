@@ -11,7 +11,6 @@ import {
 import type { UserShort, TagShort, TaskPriority } from '../../types'
 import PriorityIcon from '../priority-icon/PriorityIcon'
 
-import './TaskCard.sass'
 import TaskCardModal from '../task-card-modal/TaskCardModal'
 import AvatarPopover from '../AvatarPopover'
 import Tag from '../Tag'
@@ -42,7 +41,7 @@ const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTi
   }
 
   return (
-    <div className='TaskCard-wrapper' >
+    <div style={{ width: '100%' }}>
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -57,22 +56,22 @@ const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTi
           <TaskCardModal taskId={id} boardId={boardId} workspaceId={workspaceId} closeModal={handleCloseTaskCardModal} />
         </Box>
       </Modal>
-      <Card className='TaskCard' ref={dndRef} onClick={handleOpenTaskCardModal}>
-        <Typography className='TaskCard-label'>
+      <Card ref={dndRef} onClick={handleOpenTaskCardModal} sx={{ p: 1, my: 0.25, mx: 0.5, transition: '.1s ease-in', cursor: 'pointer', '&:hover': { backgroundColor: '#f7f7f7' } }}>
+        <Typography>
           {label}
         </Typography>
         {dueTime && <TaskDueTime dueTime={dueTime} format={'MM/DD/YY HH:mm'} />}
-        <Box className='Box-tags'>
+        <Box sx={{ mt: 0.25, display: 'flex', flexWrap: 'wrap' }}>
           {tags.map((tag) => (
             <Tag key={tag.id} name={tag.name} color={tag.color} />
           ))}
         </Box>
-        <Box className='Box'>
-          <Box className='Box-priority'>
+        <Box sx={{ display: 'flex', flexDirection: 'row', mt: 0.5 }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', mr: 'auto' }}>
             <PriorityIcon size='xl' taskPriority={priority} />
-            {points ? <Avatar className='Box-priority-avatar'>{points}</Avatar> : null}
+            {points ? <Avatar sx={{ width: '24px', height: '24px', ml: 1, fontSize: '16px' }}>{points}</Avatar> : null}
           </Box>
-          <AvatarGroup max={4} className='.MuiAvatar-root'>
+          <AvatarGroup max={4} sx={{ '& .MuiAvatar-root': { width: '25.6px', height: '25.6px', fontSize: '16px' } }}>
             {assignedUsers.map((assignedUser) => (
               <AvatarPopover
                 key={assignedUser.id}

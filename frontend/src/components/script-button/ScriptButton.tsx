@@ -8,9 +8,6 @@ import apiClient from '../../api/axios-client'
 import useAppAlertStore from '../../stores/app-alert'
 import CustomAlert from '../custom-alert/CustomAlert'
 
-
-import './ScriptButton.sass'
-
 interface Props {
   variant?: string
   scope: string
@@ -97,7 +94,7 @@ export default function ScriptButton({ variant = 'default', scope, id }: Props) 
             key={scriptTrigger.id}
           >
             <Box sx={{ display: 'flex', flexDirection: 'row' }} >
-              <Box sx={{ color: scriptTrigger.color, mr: '8px' }}>
+              <Box sx={{ color: scriptTrigger.color, mr: 1 }}>
                 <FontAwesomeIcon icon={faBolt} />
               </Box>
               <Typography>

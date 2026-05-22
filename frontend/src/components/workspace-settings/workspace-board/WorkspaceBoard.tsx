@@ -27,7 +27,6 @@ import useAppAlertStore from '../../../stores/app-alert'
 import ColorPickerPopover from '../../ColorPickerPopover'
 import CustomAlert from '../../custom-alert/CustomAlert'
 
-import './WorkspaceBoard.sass'
 
 interface Props {
   icon: ReactElement
@@ -148,18 +147,18 @@ const WorkspaceBoard = ({ icon, boardId, boardName, boardColor }: Props) => {
       {!editBoardVisible &&
         <ClickAwayListener onClickAway={toggleEditBoard}>
           <Box>
-            <Box className='New-board'>
+            <Box sx={{ pb: 1, display: 'flex' }}>
               <ColorPickerPopover color={color || '#1082F3'} onChange={setColor} />
               <InputBase
                 ref={editBoardRef}
-                className='New-board-input'
+                sx={{ pl: 2.5 }}
                 fullWidth
                 multiline
                 defaultValue={boardName}
                 onKeyDown={(e) => editBoardInputOnKey(e)}
               />
-              <IconButton className='New-board-cancel' onClick={() => toggleEditBoard()}>
-                <FontAwesomeIcon className='New-board-cancel-icon' icon={faXmark} />
+              <IconButton sx={{ margin: 'auto', color: '#DCDCDC' }} onClick={() => toggleEditBoard()}>
+                <FontAwesomeIcon style={{ height: '16px', width: '16px' }} icon={faXmark} />
               </IconButton>
             </Box>
             <Divider />
@@ -168,14 +167,14 @@ const WorkspaceBoard = ({ icon, boardId, boardName, boardColor }: Props) => {
       }
       {editBoardVisible &&
         <ListItem divider>
-          <Box className='BoardListItem' onClick={() => { editBoardOnClick() }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%' }} onClick={() => { editBoardOnClick() }}>
             <ListItemIcon>
               {icon}
             </ListItemIcon>
             <ListItemText primary={boardName} />
           </Box>
           <IconButton onClick={toggleAlertModalState}>
-            <FontAwesomeIcon className='DeleteBoard-icon' icon={faTrash} />
+            <FontAwesomeIcon style={{ width: '18px', height: '18px', color: '#FF0000' }} icon={faTrash} />
           </IconButton>
         </ListItem>
       }

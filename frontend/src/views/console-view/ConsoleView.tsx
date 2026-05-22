@@ -1,6 +1,6 @@
 import * as React from 'react'
 
-import { LinearProgress } from '@mui/material'
+import { Box, LinearProgress } from '@mui/material'
 import { languages, highlight } from 'prismjs/components/prism-core'
 import Editor from 'react-simple-code-editor'
 import { strip } from 'ansicolor'
@@ -12,7 +12,6 @@ import '@fontsource/fira-code/500.css'
 import '@fontsource/fira-code/600.css'
 import '@fontsource/fira-code/700.css'
 
-import './ConsoleView.sass'
 
 import dateFormat from 'dateformat'
 import CodeHighlighter from '../../components/CodeHighlighter'
@@ -203,25 +202,27 @@ puts ruby`)
   }
 
   return (
-    <div className='ConsoleView'>
+    <div style={{ overflowY: 'scroll', overflowX: 'scroll', fontFamily: '"Fira code", "Fira Mono", monospace', backgroundColor: '#032b3a', width: '100vw', height: 'calc(100vh - 64px)', color: '#fff' }}>
       {consoleHistory.map((interaction, index) => (interaction.type === WebSocketMessage.types.consoleOutput ? (
-        <div key={index}>
-          <CodeHighlighter className='ConsoleView-output' code={strip(interaction.content)} />
-        </div>
+        <Box key={index} sx={{ my: 0, mx: 1 }}>
+          <CodeHighlighter code={strip(interaction.content)} />
+        </Box>
       ) : (
-        <div key={index} className='ConsoleView-prompt-wrapper'>
+        <Box key={index} sx={{ px: 1, display: 'flex', flexWrap: 'nowrap', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
           <ConsolePrompt />
-          <CodeHighlighter className='ConsoleView-editor' code={interaction.content} />
-          <div className='ConsoleView-command-time'>
+          <Box sx={{ width: '100%', borderRadius: '8px', m: 1 }}>
+            <CodeHighlighter code={interaction.content} />
+          </Box>
+          <Box sx={{ m: 2.25 }}>
             {dateFormat(interaction.time, 'HH:MM')}
-          </div>
-        </div>
+          </Box>
+        </Box>
       )))}
-      <div className='ConsoleView-prompt-wrapper'>
+      <Box sx={{ px: 1, display: 'flex', flexWrap: 'nowrap', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'flex-start', alignItems: 'flex-start' }}>
         <ConsolePrompt />
         {responseReceived && webSocket && webSocket.readyState !== WebSocket.CLOSED ? (
           <Editor
-            className='ConsoleView-editor'
+            style={{ width: '100%', borderRadius: '8px', margin: 8, fontFamily: '"Fira code", "Fira Mono", monospace' }}
             value={codeDraft}
             onValueChange={updateCode}
             highlight={(code) => highlight(code, languages.ruby)}
@@ -229,11 +230,11 @@ puts ruby`)
             onKeyDown={editorOnKeyDown as any}
           />
         ) : (
-          <div className='ConsoleView-progress-bar'>
+          <Box sx={{ ml: 2.25, width: '80px' }}>
             <LinearProgress color='inherit' />
-          </div>
+          </Box>
         )}
-      </div>
+      </Box>
     </div>
   )
 }

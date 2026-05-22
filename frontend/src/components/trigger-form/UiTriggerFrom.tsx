@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Alert, Button, FormControlLabel, MenuItem, Switch, TextField, Typography } from '@mui/material'
+import { Alert, Box, Button, FormControlLabel, MenuItem, Switch, TextField, Typography } from '@mui/material'
 
 import ColorPickerPopover from '../ColorPickerPopover'
 import apiClient from '../../api/axios-client'
@@ -144,7 +144,7 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
 
   return (
     <div>
-      <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', gap: '8px', marginTop: '16px' }}>
+      <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'center', gap: 1, mt: 2 }}>
         { showErrorMessage &&
           <Alert severity='error'>When <strong>Subject Type</strong> is not set to <strong>Global</strong> you need to: <br />
           - Select <strong>Subject Id</strong><br />
@@ -291,11 +291,11 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
             labelPlacement='start'
             disabled={subjectTypeGlobal()} />
         </div>
-      </div>
-      <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '24px' }}>
+      </Box>
+      <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button size='large' onClick={handleCloseDial}>Cancel</Button>
         <Button size='large' onClick={validateBeforeRequest}>Create</Button>
-      </div>
+      </Box>
     </div>
   )
 }

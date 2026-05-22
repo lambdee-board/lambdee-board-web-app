@@ -6,9 +6,9 @@ const TasksViewSkeleton = () => {
     <div className='tasksView-wrapper'>
       <div className='tasksView-workspaces'>
         <Card className='tasksView-workspaces-card'>
-          <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
+          <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: 0.5 }} width={210} height={60} />
           <Divider />
-          <Grid sx={{ mt: '4px' }} container spacing={2} direction='row'>
+          <Grid sx={{ mt: 0.5 }} container spacing={2} direction='row'>
             <Grid size={4} className='tasksView-workspaces-card-board'>
               <Skeleton variant='rectangular' width={60} height={60} />
             </Grid>
@@ -21,9 +21,9 @@ const TasksViewSkeleton = () => {
           </Grid>
         </Card>
         <Card className='tasksView-workspaces-card'>
-          <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
+          <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: 0.5 }} width={210} height={60} />
           <Divider />
-          <Grid sx={{ mt: '4px' }} container spacing={2} direction='row'>
+          <Grid sx={{ mt: 0.5 }} container spacing={2} direction='row'>
             <Grid size={4} className='tasksView-workspaces-card-board'>
               <Skeleton variant='rectangular' width={60} height={60} />
             </Grid>

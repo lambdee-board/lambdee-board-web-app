@@ -1,13 +1,12 @@
 import * as React from 'react'
 
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from '@mui/material'
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogContentText, DialogTitle, LinearProgress, TextField, Typography } from '@mui/material'
 
 import apiClient from '../../../api/axios-client'
 import { isRegular } from '../../../internal/permissions'
 import useAppAlertStore from '../../../stores/app-alert'
 import type { TaskWithAssociations } from '../../../types'
 
-import './TaskTime.sass'
 
 interface Props {
   task: TaskWithAssociations
@@ -89,8 +88,8 @@ function TaskTime({ task, mutate }: Props) {
   }
 
   return (
-    <div className='TaskTime'>
-      <div className='TaskTime-progress' onClick={isRegular() ? () => setTimeDial(true) : undefined}>
+    <div>
+      <Box onClick={isRegular() ? () => setTimeDial(true) : undefined} sx={{ py: 1, px: 0, cursor: 'pointer', transition: 'all 300ms linear', '&:hover': { backgroundColor: 'rgba(0,0,0,0.15)' } }}>
         <div>
           <LinearProgress variant='determinate' value={task.spentTime > 604800 ? 100 : task.spentTime / 6048} />
         </div>
@@ -101,7 +100,7 @@ function TaskTime({ task, mutate }: Props) {
             {task.spentTime === 0 ? 'No time registered' : getFormattedTime()}
           </Typography>
         </div>
-      </div>
+      </Box>
       <Dialog
         className='TaskTime-dialog'
         open={openTimeDial}
@@ -113,7 +112,7 @@ function TaskTime({ task, mutate }: Props) {
           </DialogTitle>
           <DialogContent className='TaskTime-dialog-content'>
             <DialogContentText>Providing time use following format:</DialogContentText>
-            <DialogContentText component='ul' sx={{ paddingLeft: '20px' }}>
+            <DialogContentText component='ul' sx={{ paddingLeft: 2.5 }}>
               <li>d - time in days</li>
               <li>h - time in hours</li>
               <li>m - time in minutes</li>

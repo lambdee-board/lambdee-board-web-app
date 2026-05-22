@@ -25,7 +25,6 @@ import WorkspaceBoard from '../../../components/workspace-settings/workspace-boa
 import WorkspaceUser from '../../../components/workspace-settings/workspace-user/WorkspaceUser'
 import WorkspaceAssignUserSelect from '../../../components/workspace-settings/WorkspaceAssignUserSelect'
 
-import './WorkspaceSettingsView.sass'
 
 const WorkspaceSettings = () => {
   const addAlert = useAppAlertStore((store) => store.addAlert)
@@ -65,24 +64,24 @@ const WorkspaceSettings = () => {
 
   return (
 
-    <Box className='WorkspaceSettings-wrapper'>
-      <Box className='WorkspaceSettings' >
+    <Box sx={{ overflow: 'hidden', msOverflowStyle: 'none', scrollbarWidth: 'none', pt: 1, pl: 2.5, pr: 1.5, pb: 1 }}>
+      <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', display: 'inline-flex', flexFlow: 'column', borderRadius: '8px', width: '100%', minHeight: 'calc(100vh - 80px)' }}>
         {isLoading || isError ? (
           <Box></Box>
         ) : (
-          <List className='List'>
+          <List sx={{ pb: 0, mb: 0 }}>
             <WorkspaceLabel
               workspace={workspace}
             />
             <NewBoardButton />
-            <Box className='WorkspaceBoards'>
+            <Box sx={{ mb: 2 }}>
               {workspace.boards?.map((board) => (
                 <WorkspaceBoard
                   key={board.id}
                   boardId={board.id}
                   boardName={board.name}
                   boardColor={board.color}
-                  icon={<FontAwesomeIcon className='WorkspaceBoards-icon' icon={faClipboardList} color={board.color} />}
+                  icon={<FontAwesomeIcon style={{ width: '24px', height: '24px' }} icon={faClipboardList} color={board.color} />}
                 />
 
               ))}

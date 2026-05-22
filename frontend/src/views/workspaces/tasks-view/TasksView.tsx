@@ -1,6 +1,7 @@
 import React from 'react'
 
 import {
+  Box,
   Card,
   Typography,
   Divider,
@@ -17,7 +18,6 @@ import UserTasks from '../../../components/tasks-view/user-tasks/UserTasks'
 import WorkspaceIcon from '../../../components/WorkspaceIcon'
 import TasksViewSkeleton from './TasksViewSkeleton'
 
-import './TasksView.sass'
 
 export default function TasksView() {
   const { data, isLoading, isError } = useWorkspaces({ axiosOptions: { params: { boards: 'visible' } } })
@@ -29,14 +29,14 @@ export default function TasksView() {
   )
 
   return (
-    <div className='tasksView-wrapper'>
-      <div className='tasksView-workspaces'>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: 'calc(100% - 16px)', minHeight: '656px', height: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'column' }}>
+      <Box sx={{ display: 'flex', overflowX: 'auto', overflowY: 'hidden', flexDirection: 'row', alignItems: 'center', pt: 1, minHeight: '320px' }}>
         {workspaces.map((workspace) => (
           <Button sx={{ textTransform: 'none', flexShrink: '0' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>
-            <Card className='tasksView-workspaces-card' sx={ pickedWorkspace && pickedWorkspace.id === workspace.id ? { boxSizing: 'border-box', border: '2px solid #1082F3', } : undefined}>
-              <div className='tasksView-workspaces-card-title'>
+            <Card sx={{ display: 'flex', flexDirection: 'column', width: '304px', height: '272px', m: 2, ...(pickedWorkspace && pickedWorkspace.id === workspace.id ? { boxSizing: 'border-box', border: '2px solid #1082F3' } : {}) }}>
+              <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center' }}>
                 <WorkspaceIcon name={workspace.name} size={52} />
-                <Typography sx={{ ml: '10px' }}>
+                <Typography sx={{ ml: 1.25 }}>
                   {workspace.name}
                 </Typography>
               </div>
@@ -47,10 +47,10 @@ export default function TasksView() {
                 direction='row'
                 sx={{
                   alignItems: 'center',
-                  mt: '4px'
+                  mt: 0.5
                 }}>
                 {workspace.boards?.slice(0, 9).map((board) => (
-                  <Grid size={4} key={board.id} className='tasksView-workspaces-card-board'>
+                  <Grid size={4} key={board.id} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <FontAwesomeIcon icon={faClipboardList} color={board.color} />
                     <Typography variant='caption'>{board.name}</Typography>
                   </Grid>
@@ -59,15 +59,15 @@ export default function TasksView() {
             </Card>
           </Button>
         ))}
-      </div>
+      </Box>
       <Divider />
       {pickedWorkspace &&
-        <div className='tasksView-userTasks'>
+        <Box sx={{ height: '100%', minHeight: '320px', overflowX: 'auto', display: 'flex', flexDirection: 'row', pt: 1 }}>
           {pickedWorkspace.boards?.map((board) => (
             <UserTasks key={board.id} workspaceId={pickedWorkspace.id} boardId={board.id} />
           ))}
-        </div>
+        </Box>
       }
-    </div>
+    </Box>
   )
 }

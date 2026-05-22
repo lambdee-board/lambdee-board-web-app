@@ -13,7 +13,6 @@ import LabeledData from '../../LabeledData'
 
 import 'chartkick/chart.js'
 
-import './ReportModal.sass'
 
 interface Props {
   sprintId: number
@@ -38,36 +37,28 @@ const ReportModal = ({ sprintId, sprintName, sprintDescription, sprintStartedAt,
 
 
   return (
-    <Box className='ReportModal-wrapper'>
-      <Card className='ReportModal-paper'>
-        <Box className='ReportModal-info'>
-          <Box className='ReportModal-info-left'>
-            <Typography
-              sx={{
-                fontSize: 24,
-                mb: '12px'
-              }}>{sprintName}</Typography>
-            <Typography
-              sx={{
-                fontSize: 18,
-                overflowWrap: 'break-word'
-              }}>{sprintDescription}</Typography>
+    <Box sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
+      <Card sx={{ width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'column', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', m: 4 }}>
+          <Box sx={{ display: 'flex', width: '60%', flexDirection: 'column', pr: 4 }}>
+            <Typography sx={{ fontSize: 24, mb: 1.5 }}>{sprintName}</Typography>
+            <Typography sx={{ fontSize: 18, overflowWrap: 'break-word' }}>{sprintDescription}</Typography>
           </Box>
-          <Box className='ReportModal-info-middle'>
+          <Box sx={{ display: 'flex', width: '15%', flexDirection: 'column' }}>
             <LabeledData label='Work Scope' data={Object.values(workScope).at(-1)} />
             <LabeledData label='Completed Work' data={Object.values(completedWork).at(i)} />
             <LabeledData label='Uncompleted Work' data={Object.values(workScope).at(-1) - Object.values(completedWork).at(i)} />
           </Box>
-          <Box className='ReportModal-info-right'>
+          <Box sx={{ display: 'flex', flexDirection: 'column', alignContent: 'flex-end' }}>
             <LabeledData label='Sprint Start' data={sprintStartedAt} />
             <LabeledData label='Sprint Expected End' data={sprintExpectedEndAt} />
             <LabeledData label='Sprint End' data={sprintEndedAt ? sprintEndedAt : undefined} />
           </Box>
         </Box>
-        <Box className='ReportModal-chart'>
+        <Box sx={{ m: 4 }}>
           <PieChart colors={['#1082F3', '#7b1fa2']} data={[['Completed Work', Object.values(completedWork).at(i)], ['Uncompleted Work', Object.values(workScope).at(-1) - Object.values(completedWork).at(i)]]} />
         </Box>
-        <Box className='ReportModal-chart'>
+        <Box sx={{ m: 4 }}>
           <LineChart colors={['#7b1fa2', '#1082F3']} data = {burnUpChart} xtitle='Date' ytitle='Points' curve={false} />
         </Box>
       </Card>

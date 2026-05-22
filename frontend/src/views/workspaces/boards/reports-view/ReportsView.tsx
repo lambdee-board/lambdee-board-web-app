@@ -11,7 +11,6 @@ import { useBoardSprints, mutateBoardSprints } from '../../../../api/board-sprin
 
 import ReportCard from '../../../../components/reports-view/report-card/ReportCard'
 
-import './ReportsView.sass'
 
 const ReportsView = () => {
   const { boardId } = useParams()
@@ -38,13 +37,13 @@ const ReportsView = () => {
 
   return (
 
-    <Box className='ReportView-wrapper'>
+    <Box sx={{ pt: 1, pl: 2.5, pr: 1.5, pb: 1 }}>
       {boardSprints?.sprints?.length > 0  &&
-      <Box className='ReportView' >
+      <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', display: 'inline-flex', flexFlow: 'column', borderRadius: '8px', width: '98%', p: 2, minWidth: '1000px' }}>
         {isLoading || isError ? (
           <Box></Box>
         ) : (
-          <Card sx={{ ml: '8px', mr: '8px' }}>
+          <Card sx={{ mx: 1 }}>
             {boardSprints.sprints?.map((sprint) => (
               <ReportCard key={sprint.id}
                 sprintId={sprint.id}
@@ -59,7 +58,7 @@ const ReportsView = () => {
         )}
         { boardSprints?.totalPages > 1 &&
               <Pagination
-                className='Pagination-bar'
+                sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}
                 count={totalPages || 0}
                 color='primary'
                 onChange={fetchNextUserPage}

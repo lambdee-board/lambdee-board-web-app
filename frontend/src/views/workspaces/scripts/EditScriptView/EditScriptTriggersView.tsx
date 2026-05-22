@@ -114,7 +114,7 @@ export default function EditScriptTriggersView() {
   if (isLoading || isError) return (<></>)
   return (
     <div style={{ display: 'flex', flexDirection: 'column' }}>
-      <div style={{ marginBottom: '12px', marginTop: '24px'  }}>
+      <Box sx={{ mb: 1.5, mt: 3 }}>
         <Button
           onClick={handleOpenDial}
           variant='outlined'
@@ -122,7 +122,7 @@ export default function EditScriptTriggersView() {
           startIcon={<FontAwesomeIcon icon={faPlus} />}>
           <Typography>Create new Trigger</Typography>
         </Button>
-      </div>
+      </Box>
       {script?.scriptTriggers.length === 0 && script?.uiScriptTriggers.length === 0 && <Typography sx={{ width: '100%',
         fontSize: '32px',
         textTransform: 'uppercase',
@@ -134,7 +134,7 @@ export default function EditScriptTriggersView() {
       <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
         {script?.scriptTriggers?.map((trigger, idx) => (
           <div key={`trigger-${idx}`}>
-            <Card sx={{ display: 'flex', width: '240px', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ display: 'flex', width: '240px', flexDirection: 'column', alignItems: 'center', p: 1.5, m: 1.5 }}>
               <Modal
                 open={alertModalState}
                 onClose={toggleAlertModalState}
@@ -178,11 +178,11 @@ export default function EditScriptTriggersView() {
           </div>
         ))}
       </div>
-      {script?.uiScriptTriggers.length !== 0 && <Divider sx={{ mt: '12px' }}>Action Triggers</Divider>}
+      {script?.uiScriptTriggers.length !== 0 && <Divider sx={{ mt: 1.5 }}>Action Triggers</Divider>}
       <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto'  }}>
         {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
           <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
-            <Card sx={{ width: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: '12px', m: '12px' }}>
+            <Card sx={{ width: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1.5, m: 1.5 }}>
               <Modal
                 open={alertModalState}
                 onClose={toggleAlertModalState}

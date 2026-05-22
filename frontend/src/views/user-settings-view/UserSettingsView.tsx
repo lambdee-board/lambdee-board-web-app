@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom'
 
 import {
   Avatar,
+  Box,
   Button,
   Divider,
   List,
@@ -17,7 +18,6 @@ import useCurrentUser from '../../api/current-user'
 import useAppAlertStore from '../../stores/app-alert'
 import UserSettingsViewSkeleton from './UserSettingsViewSkeleton'
 
-import './UserSettingsView.sass'
 
 
 export default function UserSettingsView() {
@@ -90,18 +90,16 @@ export default function UserSettingsView() {
   )
 
   return (
-    <div className='userSettings-wrapper'>
-      <div className='userSettings-leftCol'>
-        <List className='userSettings-list'
-          subheader={<ListSubheader disableSticky={true} className='userSettings-header' >
-            <Typography className='userSettings-header-text' sx={{
-              fontSize: 64
-            }}>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', maxWidth: 'calc(100% - 16px)', minHeight: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'row' }}>
+      <Box sx={{ width: 'calc(60vw - 64px)', m: 4 }}>
+        <List
+          subheader={<ListSubheader disableSticky={true} sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+            <Typography sx={{ fontSize: '64px' }}>
               Your Account
             </Typography>
           </ListSubheader>} >
           <Divider />
-          <ListItem className='userSettings-item' key='user-name-input' >
+          <ListItem sx={{ my: 2 }} key='user-name-input' >
             <TextField
               label='Name'
               value={name}
@@ -113,7 +111,7 @@ export default function UserSettingsView() {
               fullWidth
               autoComplete='off' />
           </ListItem>
-          <ListItem className='userSettings-item' key='user-email-input' >
+          <ListItem sx={{ my: 2 }} key='user-email-input' >
             <TextField
               label='Email'
               value={email}
@@ -125,7 +123,7 @@ export default function UserSettingsView() {
               fullWidth
               autoComplete='off' />
           </ListItem>
-          <ListItem className='userSettings-item' key='user-role-input' >
+          <ListItem sx={{ my: 2 }} key='user-role-input' >
             <TextField
               label='Role'
               disabled
@@ -133,28 +131,28 @@ export default function UserSettingsView() {
               variant='standard'
               fullWidth />
           </ListItem>
-          <ListItem className='userSettings-item' key='user-reset-password' >
+          <ListItem sx={{ my: 2 }} key='user-reset-password' >
             <Button
               onClick={handleResetPassword}
-              className='userSettings-reset-password-button'
+              sx={{ width: '280px', p: 1 }}
               color='primary'
               variant='contained'
             >
-              <Typography className='userSettings-reset-password-button-text' >
+              <Typography sx={{ fontSize: '0.8rem' }}>
                 Reset Password
               </Typography>
             </Button>
           </ListItem>
         </List>
-      </div>
-      <div className='userSettings-rightCol'>
-        <div className='userSettings-avatar-wrapper'>
+      </Box>
+      <Box sx={{ width: 'calc(40vw - 64px)', m: 4 }}>
+        <Box sx={{ mt: 5, ml: 5 }}>
           <Avatar
-            className='userSettings-avatar'
+            sx={{ width: '192px', height: '192px', transition: '.3s all' }}
             alt={`${user.name.replace(' ', '-')}-avatar`}
             src={user.avatarUrl} />
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   )
 }

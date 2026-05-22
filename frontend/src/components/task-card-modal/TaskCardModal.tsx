@@ -36,7 +36,7 @@ import { isRegular } from '../../internal/permissions'
 import useTask from '../../api/task'
 import apiClient from '../../api/axios-client'
 
-import './TaskCardModal.sass'
+
 import useAppAlertStore from '../../stores/app-alert'
 
 interface Props {
@@ -227,8 +227,8 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
   if (taskDescriptionDraft == null && task?.description != null) setTaskDescriptionDraft(task.description)
 
   return (
-    <Box className='TaskCardModal-wrapper' data-color-mode='light'>
-      <Card className='TaskCardModal-paper'>
+    <Box data-color-mode='light' sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
+      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}
@@ -246,22 +246,22 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
               confirmMessage='Confirm, delete task' />
           </Box>
         </Modal>
-        <Box className='TaskCardModal-main'>
-          <Box className='TaskCardModal-main-label'>
+        <Box sx={{ width: '100%', m: 4 }}>
+          <Box sx={{ mb: 4 }}>
             <TaskLabel task={task} mutate={mutateTask} />
           </Box>
-          <div className='TaskCardModal-description-label'>
-            <Typography>
+          <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', alignContent: 'center', flexWrap: 'wrap', flexDirection: 'row', ml: -1, mr: -1 }}>
+            <Typography sx={{ ml: 1, mr: 1 }}>
               Description
             </Typography>
             {unsavedDescriptionDraft ? (
-              <Typography className='TaskCardModal-description-label-unsaved-changes' variant='caption'>
+              <Typography variant='caption' sx={{ color: '#7d7b7b', ml: 1, mr: 1 }}>
                 Unsaved Changes
               </Typography>
             ) : null}
-          </div>
+          </Box>
           {descriptionEditorVisible ? (
-            <div className='TaskCardModal-task-description-editor'>
+            <Box sx={{ mt: 1, mb: 5 }}>
               <MDEditor
                 value={taskDescriptionDraft || ''}
                 onChange={(val) => { updateTaskDescriptionDraft(val) }}
@@ -269,26 +269,14 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
                   rehypePlugins: [[rehypeSanitize] as any]
                 }}
               />
-              <div className='buttons'>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => editTaskDescription()}
-                >
-                  Save
-                </Button>
-                <Button
-                  variant='text'
-                  sx={{ color: '#FF0000' }}
-                  onClick={() => setDescriptionEditorVisible(false)}
-                >
-                  Cancel
-                </Button>
-              </div>
-            </div>
+              <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', alignContent: 'flex-start', flexWrap: 'nowrap', flexDirection: 'row', pt: 1, pb: 1, ml: -0.5, mr: -0.5 }}>
+                <Button variant='contained' color='primary' sx={{ mx: 0.5 }} onClick={() => editTaskDescription()}>Save</Button>
+                <Button variant='text' sx={{ color: '#FF0000', mx: 0.5 }} onClick={() => setDescriptionEditorVisible(false)}>Cancel</Button>
+              </Box>
+            </Box>
           ) : (
             <Card
-              className='TaskCardModal-main-description'
+              sx={{ mt: 1, py: 1, px: 2, minHeight: '160px', mb: 5, cursor: 'pointer', transition: '.1s ease-in', '&:hover': { opacity: 0.8 } }}
               onClick={isRegular() ? taskDescriptionOnClick : undefined}
             >
               <MDEditor.Markdown
@@ -302,16 +290,16 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
           </Typography>
           <TaskComments taskId={task.id} />
         </Box>
-        <Box className='TaskCardModal-sidebar'>
-          <Card className='TaskCardModal-sidebar-card'>
+        <Box sx={{ width: '360px', p: 4 }}>
+          <Card sx={{ p: 2 }}>
             <Stack spacing={3}>
               <Stack spacing={1}>
                 <DeveloperContent>
                   <ScriptButton scope='tasks' id={taskId} />
                 </DeveloperContent>
                 <Typography>Author</Typography>
-                <Box className='TaskCardModal-sidebar-card-box'>
-                  <Avatar className='TaskCardModal-main-avatar'
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                  <Avatar sx={{ width: '32px', height: '32px', mr: 1 }}
                     alt={task.author.name} src={task.author.avatarUrl}
                   />
                   <UserInfo userName={task.author.name} userTitle={task.author.role} />
@@ -348,7 +336,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
               <Stack spacing={1}>
                 <Typography>Tags</Typography>
                 {task.tags.map((tag) => (
-                  <Box key={tag.id} className='TaskCardModal-sidebar-card-box-tags'>
+                  <Box key={tag.id} sx={{ mt: 0, mb: 1 }}>
                     <Tag
                       name={tag.name}
                       color={tag.color}
@@ -368,11 +356,11 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
                     />
                   ) : (
                     <Box
-                      className='TaskCardModal-sidebar-card-box TaskCardModal-add-tag-btn TaskCardModal-assign-user-btn'
+                      sx={{ color: '#7d7b7b', cursor: 'pointer', transition: '.1s ease-in', display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 } }}
                       onClick={attachTagButtonOnClick}
                     >
-                      <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
-                        <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                      <Avatar alt='Add new user'>
+                        <FontAwesomeIcon icon={faPlus} />
                       </Avatar>
                       <UserInfo userName='Add tag' />
                     </Box>
@@ -388,15 +376,14 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
               <Stack spacing={1}>
                 <Typography>Assigned</Typography>
                 {task.users.map((user, userId) => (
-                  <Box className='TaskCardModal-sidebar-card-box'
-                    key={userId}>
-                    <Avatar className='TaskCardModal-main-avatar'
+                  <Box sx={{ display: 'flex', alignItems: 'center' }} key={userId}>
+                    <Avatar sx={{ width: '32px', height: '32px', mr: 1 }}
                       alt={user.name} src={user.avatarUrl}
                     />
                     <UserInfo userName={user.name} userTitle={user.role} />
                     <ManagerContent>
-                      <IconButton onClick={() => unassignUser(user)} className='TaskCardModal-sidebar-user-unassinged'>
-                        <FontAwesomeIcon className='TaskCardModal-sidebar-user-unassigned-icon' icon={faTrash} />
+                      <IconButton onClick={() => unassignUser(user)} sx={{ ml: 'auto' }}>
+                        <FontAwesomeIcon style={{ width: '16px', height: '16px', color: '#FF0000' }} icon={faTrash} />
                       </IconButton>
                     </ManagerContent>
                   </Box>
@@ -411,11 +398,11 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
                     />
                   ) : (
                     <Box
-                      className='TaskCardModal-sidebar-card-box TaskCardModal-assign-user-btn'
+                      sx={{ color: '#7d7b7b', cursor: 'pointer', transition: '.1s ease-in', display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 } }}
                       onClick={assignUserButtonOnClick}
                     >
-                      <Avatar className='TaskCardModal-main-avatar' alt='Add new user'>
-                        <FontAwesomeIcon className='TaskCardModal-main-icon' icon={faPlus} />
+                      <Avatar alt='Add new user'>
+                        <FontAwesomeIcon icon={faPlus} />
                       </Avatar>
                       <UserInfo userName='Assign' />
                     </Box>
@@ -426,7 +413,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
           </Card>
           <ManagerContent>
             <Button
-              className='TaskCardModal-delete-task'
+              sx={{ width: '100%', mt: 2 }}
               variant='contained'
               color='error'
               onClick={toggleAlertModalState}>

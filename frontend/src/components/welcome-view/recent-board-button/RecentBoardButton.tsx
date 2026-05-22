@@ -7,7 +7,6 @@ import useWorkspace from '../../../api/workspace'
 
 import RecentBoardIcon from '../../recent-board-icon/RecentBoardIcon'
 
-import './RecentBoardButton.sass'
 
 interface Props {
   boardId: number
@@ -30,7 +29,7 @@ const RecentBoardButton = ({ boardId, boardName, boardColor, workspaceId }: Prop
     <Box sx={{
       textAlign: 'center'
     }} >
-      <Button fullWidth sx={{ textTransform: 'none ' }} className='recentBoardButton' onClick={() => {
+      <Button fullWidth sx={{ textTransform: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: 0 }} onClick={() => {
         navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
       }}>
         <RecentBoardIcon name={workspace.name} size={52} color={boardColor} iconSize='32' />

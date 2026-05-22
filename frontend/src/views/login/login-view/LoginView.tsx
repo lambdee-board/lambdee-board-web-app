@@ -15,7 +15,7 @@ import useAppAlertStore from '../../../stores/app-alert'
 import { emailValid } from '../../../utils/email-valid'
 import useQuery from '../../../utils/use-query'
 
-import './LoginView.sass'
+
 import lambdeeLogo from '../../../assets/lambdee-logo.svg'
 
 export default function LoginView() {
@@ -71,17 +71,17 @@ export default function LoginView() {
   }
 
   return (
-    <div className='loginView-wrapper' onKeyDown={handleKeyDown} >
+    <div style={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onKeyDown={handleKeyDown} >
       <img
-        className='logo'
+        style={{ display: 'flex', width: '64px', height: '64px' }}
         src={lambdeeLogo}
       />
-      <Card className='loginView-card'>
-        <Typography className='loginView-card-title' color='primary' variant='body1'>Lambdee</Typography>
+      <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 1, minWidth: '248px', py: 3, px: 1, minHeight: '272px' }}>
+        <Typography sx={{ fontSize: '24px', mb: 3 }} color='primary' variant='body1'>Lambdee</Typography>
         <TextField
           inputRef={emailRef}
           slotProps={{ htmlInput: { id: 'login-email' } }}
-          className='loginView-card-input'
+          sx={{ mb: 2 }}
           label='Email'
           variant='outlined'
           onChange={verifyEmail}
@@ -90,15 +90,14 @@ export default function LoginView() {
         />
         <TextField inputRef={passwordRef}
           type='password'
-          className='loginView-card-input'
+          sx={{ mb: 2 }}
           label='Password'
           variant='outlined'
         />
         { loginFail &&
           <Alert
             severity='error'
-            className='loginView-card-input'
-            sx={{ width: '73%' }}
+            sx={{ width: '73%', mb: 2 }}
           >
             Incorrect credentials!
           </Alert>
@@ -106,7 +105,7 @@ export default function LoginView() {
         <Link
           onClick={() => navigate('/login/forgot-password')}
           component='button'
-          className='loginView-card-reset'
+          sx={{ display: 'flex', alignSelf: 'flex-start', ml: '9%', mb: '6%' }}
           underline='none'
           variant='body2'
         >
@@ -114,7 +113,7 @@ export default function LoginView() {
         </Link>
         <Button
           onClick={() => login()}
-          className='loginView-card-button'
+          sx={{ width: '192px' }}
           variant='contained'
           disabled={invalidEmail}
         >
@@ -124,7 +123,7 @@ export default function LoginView() {
           <Link
             onClick={loginAsExampleUser}
             component='button'
-            className='loginView-card-example'
+            sx={{ mt: 1 }}
             underline='none'
             variant='body2'
           >

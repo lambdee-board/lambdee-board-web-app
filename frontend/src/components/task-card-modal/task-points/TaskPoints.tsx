@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import {
+  Box,
   IconButton,
   InputBase,
   Avatar
@@ -15,7 +16,6 @@ import type { TaskWithAssociations } from '../../../types'
 
 import UserInfo from '../UserInfo'
 
-import './TaskPoints.sass'
 
 interface Props {
   task: TaskWithAssociations
@@ -80,35 +80,35 @@ function TaskPoints({ task, mutate }: Props) {
   }
 
   if (editPointsVisible) return (
-    <div className='TaskPoints'>
-      <div className='TaskPoints-add-button'>
-        <Avatar className='TaskPoints-avatar' alt='Add points'>
+    <div>
+      <Box sx={{ color: '#7d7b7b', cursor: 'pointer', display: 'flex', alignItems: 'center', textAlign: 'center', transition: '.1s ease-in', '&:hover': { opacity: 0.8 } }}>
+        <Avatar alt='Add points'>
           <InputBase
             ref={editPointsRef}
-            className='TaskPoints-input-text'
             onKeyDown={(e) => editPointsInputOnKey(e)}
             onBlur={() => editPointsIfGiven()}
             type='text'
-            inputProps={{ inputMode: 'numeric', pattern: '\\d*', maxLength: 2 }}
+            inputProps={{ inputMode: 'numeric', pattern: '\\d*', maxLength: 2, style: { color: 'white', fontSize: '1.25rem', textAlign: 'center', width: '100%', height: '100%' } }}
+            sx={{ width: '100%', height: '100%' }}
           />
         </Avatar>
-      </div>
+      </Box>
     </div>
   )
 
   return (
-    <div className='TaskPoints'>
+    <div>
       {task.points ? (
-        <IconButton sx={{ p: 0, m: 0 }} onClick={isRegular() ? editPointsOnClick : undefined} className='TaskPoints-add-button'>
-          <Avatar className='TaskPoints-avatar'>{task.points}</Avatar>
+        <IconButton sx={{ p: 0, m: 0 }} onClick={isRegular() ? editPointsOnClick : undefined}>
+          <Avatar>{task.points}</Avatar>
         </IconButton>
       ) : (
-        <div onClick={editPointsOnClick} className='TaskPoints-add-button'>
-          <Avatar className='TaskPoints-avatar' alt='Add points'>
+        <Box onClick={editPointsOnClick} sx={{ color: '#7d7b7b', cursor: 'pointer', display: 'flex', alignItems: 'center', textAlign: 'center', transition: '.1s ease-in', '&:hover': { opacity: 0.8 } }}>
+          <Avatar alt='Add points'>
             <FontAwesomeIcon icon={faPlus} />
           </Avatar>
           <UserInfo userName='Add' />
-        </div>
+        </Box>
       )}
     </div>
   )

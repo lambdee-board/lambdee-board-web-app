@@ -1,13 +1,12 @@
 import * as React from 'react'
 
-import { Divider, List, ListItemButton, Typography, Dialog, Chip, Pagination } from '@mui/material'
+import { Box, Divider, List, ListItemButton, Typography, Dialog, Chip, Pagination } from '@mui/material'
 import { faCalendarCheck } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import useScriptRuns from '../../../api/script-runs'
 import CodeHighlighter from '../../../components/CodeHighlighter'
 import dayjs from 'dayjs'
 
-import './ScriptRunsView.sass'
 
 interface ScriptRun {
   state: string
@@ -63,10 +62,10 @@ export default function ScriptRunsView() {
 
 
   return (
-    <div className='WorkspaceScriptsRuns' style={{ display: 'flex', flexDirection: 'row' }}>
-      <div className='list-wrapper'>
+    <div style={{ display: 'flex', flexDirection: 'row' }}>
+      <div style={{ width: '100%' }}>
         {!(isLoading || isError) &&
-        <List className='List'>
+        <List>
 
           {scriptRuns?.runs.length > 0 ?
             scriptRuns?.runs.map((scriptRun, idx) => (
@@ -75,22 +74,22 @@ export default function ScriptRunsView() {
                   divider
                   onClick={() => handleOpenDial(scriptRun as ScriptRun)}
                   sx={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
+                  <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                     <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[(scriptRun as ScriptRun).state]} />
                     <Typography sx={{ fontSize: '18px' }}>{(scriptRun as ScriptRun).scriptName}</Typography>
                     <Divider />
-                  </div>
+                  </Box>
                   <Chip label={(scriptRun as ScriptRun).state} sx={{ bgcolor: stateColors[(scriptRun as ScriptRun).state], color: 'white' }} />
                 </ListItemButton>
               </div>
             )) :
-            <Typography className='no-script-runs'>No script was run yet</Typography>
+            <Typography sx={{ width: '100%', fontSize: '48px', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No script was run yet</Typography>
           }
         </List>
         }
         { totalPages > 1 &&
           <Pagination
-            className='WorkspaceScriptsRuns-pagination'
+            sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}
             count={totalPages || 0}
             color='primary'
             onChange={fetchNextUserPage}
@@ -105,13 +104,13 @@ export default function ScriptRunsView() {
           onClose={handleCloseDial}
           fullWidth
           maxWidth='lg'>
-          <div className='dialog-wrapper' style={{ padding: '24px' }}>
-            <div className='dialog-header'>
+          <Box sx={{ p: 3 }}>
+            <div>
               <Typography variant='h4'>{currentRun.scriptName}</Typography>
               <Typography sx={{ color: stateColors[currentRun.state] }} variant='h5'>
                 {currentRun.state}
               </Typography>
-              <div className='dialog-script-datetime'>
+              <Box sx={{ display: 'flex', gap: 3 }}>
                 <Typography>
                 Triggered at: {currentRun.triggeredAt ? dayjs(currentRun.triggeredAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
@@ -119,23 +118,20 @@ export default function ScriptRunsView() {
                 Executed at: {currentRun.executedAt ? dayjs(currentRun.executedAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
                 <Typography>Delay: {currentRun.delay || 0}s</Typography>
-              </div>
+              </Box>
             </div>
-            <div className='dialog-content'>
-              <div className='dialog-output'>
+            <div>
+              <Box sx={{ overflowY: 'scroll', overflowX: 'scroll', fontFamily: '"Fira code", "Fira Mono", monospace', backgroundColor: '#032b3a', color: '#fff', borderRadius: '8px', width: 'calc(100% - 24px)', p: 1, height: '350px', my: 1 }}>
+                <CodeHighlighter code={currentRun.input} />
+              </Box>
+              <Box sx={{ overflowY: 'scroll', overflowX: 'scroll', fontFamily: '"Fira code", "Fira Mono", monospace', backgroundColor: '#032b3a', color: '#fff', borderRadius: '8px', width: 'calc(100% - 24px)', p: 1, height: '350px', my: 1 }}>
                 <CodeHighlighter
-                  className='dialog-output-line'
-                  code={currentRun.input} />
-              </div>
-              <div className='dialog-output'>
-                <CodeHighlighter
-                  className='dialog-output-line'
                   code={currentRun.output || 'No output'}
                   plain={true}
                 />
-              </div>
+              </Box>
             </div>
-          </div>
+          </Box>
         </Dialog>
       }
     </div>

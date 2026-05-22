@@ -32,7 +32,6 @@ import TaskListModal from '../../task-list-modal/TaskListModal'
 import TaskListItem from '../task-list-item/TaskListItem'
 import TaskPlanningListSkeleton from './TaskPlanningListSkeleton'
 
-import './TaskPlanningList.sass'
 
 interface Props {
   id: number
@@ -170,15 +169,15 @@ function TaskPlanningList({ id, title }: Props) {
   if (!taskList) return <TaskPlanningListSkeleton />
 
   return (
-    <Box className='TaskListPlanning-wrapper'>
-      <Paper className='TaskListPlanning-paper' sx = {!taskList?.visible ? { opacity: '0.8' } : undefined}
+    <Box>
+      <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', mt: 3, background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', ...(taskList?.visible ? {} : { opacity: 0.8 }) }}
         elevation={5}>
-        <List ref={listRef} className='TaskListPlanning'
+        <List ref={listRef} sx={{ overflowY: 'auto' }}
           subheader={<ListSubheader
-            className='TaskListPlanning-header'
+            sx={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center', lineHeight: '0px', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}
             style={{ cursor: taskList?.visible ? 'grab' : undefined }}
           >
-            <Typography className='TaskListPlanning-header-text'>
+            <Typography sx={{ fontSize: '16px', pt: 0.75 }}>
               {title}
             </Typography>
             <ManagerContent>
@@ -195,7 +194,7 @@ function TaskPlanningList({ id, title }: Props) {
               </div>
             </ManagerContent>
           </ListSubheader>}>
-          <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px' }}>
+          <Card sx={{ px: 0.5, mx: 1 }}>
             <div>
               {isRegular() ?
                 <ReactSortable
@@ -211,7 +210,7 @@ function TaskPlanningList({ id, title }: Props) {
                 >
                   {sortedTasks.map((task, taskIndex) => (
                     <div key={taskIndex}>
-                      <ListItem className='TaskListPlanning-item'>
+                      <ListItem sx={{ width: '100%', p: 0.5 }}>
                         <TaskListItem key={`${task.name}-${task.id}`}
                           id={task.id}
                           label={task.name}
@@ -232,7 +231,7 @@ function TaskPlanningList({ id, title }: Props) {
                 <div>
                   {sortedTasks.map((task, taskIndex) => (
                     <div key={taskIndex}>
-                      <ListItem className='TaskListPlanning-item'>
+                      <ListItem sx={{ width: '100%', p: 0.5 }}>
                         <TaskListItem key={`${task.name}-${task.id}`}
                           id={task.id}
                           label={task.name}
@@ -254,28 +253,27 @@ function TaskPlanningList({ id, title }: Props) {
           </Card>
           <ManagerContent>
             { !newTaskButtonVisible &&
-            <Card
-              className='TaskListPlanning-new-task'>
+            <Card sx={{ py: 0.75, px: 1, my: 0.75, mx: 1, display: 'flex' }}>
               <InputBase
                 ref={newTaskInputRef}
-                className='TaskListPlanning-new-task-input'
+                sx={{ mr: 'auto' }}
                 fullWidth
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
                 onBlur={() => toggleNewTaskButton()}
               />
-              <IconButton className='TaskListPlanning-new-task-cancel' onClick={() => toggleNewTaskButton()}>
-                <FontAwesomeIcon className='TaskListPlanning-new-task-cancel-icon' icon={faXmark} />
+              <IconButton sx={{ margin: 'auto', color: '#DCDCDC' }} onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon style={{ height: '16px', width: '16px' }} icon={faXmark} />
               </IconButton>
             </Card>
             }
           </ManagerContent>
         </List>
         <ManagerContent>
-          <Box className='TaskListPlanning-new-task-wrapper'>
+          <Box>
             {newTaskButtonVisible &&
-            <Button sx={{ pt: '0px' }} onClick={newTaskButtonOnClick} className='TaskListPlanning-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button sx={{ pt: 0, textTransform: 'none', justifyContent: 'flex-start', width: '100%' }} onClick={newTaskButtonOnClick} color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
             }
@@ -285,11 +283,10 @@ function TaskPlanningList({ id, title }: Props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskList-modal-wrapper'
       >
-        <div className='TaskList-modal'>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', outline: 0 }}>
           <TaskListModal listId={id} title={title} listVisibility={'non-archived'} />
-        </div>
+        </Box>
       </Modal>
     </Box>
   )

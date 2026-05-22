@@ -9,7 +9,6 @@ import UserInfo from '../../task-card-modal/UserInfo'
 import LabeledData from '../../LabeledData'
 import ReportModal from '../report-modal/ReportModal'
 
-import './ReportCard.sass'
 
 interface Props {
   sprintId: number
@@ -48,12 +47,12 @@ const ReportCard = ({ sprintId, sprintName, sprintDescription, sprintStartedAt, 
             sprintEndedAt={sprintEndedAt ? formatDate(sprintEndedAt) : undefined} />
         </Box>
       </Modal>
-      <ListItem className='UserList' divider onClick={() => setOpenReportModal(true)}>
-        <Box className='UserListItem'>
-          <div className='UserListItem-base'>
+      <ListItem divider onClick={() => setOpenReportModal(true)} sx={{ transition: '.1s ease-in', cursor: 'pointer', '&:hover': { backgroundColor: '#f7f7f7' } }}>
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
             <UserInfo userName={sprintName} userTitle={sprintDescription} />
           </div>
-          <div className='UserListItem-dates'>
+          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <LabeledData label='Sprint Start' data={formatDate(sprintStartedAt)} />
             <LabeledData label='Sprint Expected End' data={formatDate(sprintExpectedEndAt)} />
             <LabeledData label='Sprint End' data={sprintEndedAt ? formatDate(sprintEndedAt) : undefined} />

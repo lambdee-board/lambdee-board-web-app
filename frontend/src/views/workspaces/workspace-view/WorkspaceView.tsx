@@ -1,15 +1,14 @@
 import { Outlet } from 'react-router-dom'
-
-import './WorkspaceView.sass'
+import { Box } from '@mui/material'
 import Sidebar from '../../../components/sidebar/Sidebar'
 
 export default function WorkspaceView() {
   return (
-    <div className='WorkspaceView'>
+    <div>
       <Sidebar />
-      <div className='WorkspaceView-body'>
+      <Box sx={{ ml: 29 }}>
         <Outlet />
-      </div>
+      </Box>
     </div>
   )
 }

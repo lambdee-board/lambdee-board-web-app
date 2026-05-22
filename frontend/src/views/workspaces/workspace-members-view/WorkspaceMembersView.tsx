@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import {
+  Box,
   List,
   Pagination,
   Typography
@@ -14,7 +15,6 @@ import UsersFilter from '../../../components/users-filter/UsersFilter'
 import WorkspaceUser from '../../../components/workspace-settings/workspace-user/WorkspaceUser'
 import WorkspaceUserSkeleton from '../../../components/workspace-settings/workspace-user/WorkspaceUserSkeleton'
 
-import './WorkspaceMembersView.sass'
 
 export default function WorkspaceMembersView() {
   const perPage = 7
@@ -65,14 +65,14 @@ export default function WorkspaceMembersView() {
         />
       ))
     }
-    return <Typography className='no-users-text'>No users found</Typography>
+    return <Typography sx={{ width: '100%', fontSize: '48px', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No users found</Typography>
   }
 
   return (
-    <div className='WorkspaceMembers-wrapper'>
-      <div className='WorkspaceMembers' >
-        <div className='list-wrapper'>
-          <List className='List' sx={{ height: `${perPage * 70}px` }}>
+    <Box sx={{ pt: 1, pl: 2.5, pr: 1.5, pb: 1 }}>
+      <div style={{ display: 'flex', flexFlow: 'row', width: '100%', minHeight: 'calc(100vh - 80px)' }}>
+        <div style={{ width: '100%' }}>
+          <List sx={{ height: 'fit-content', pb: 0, mb: 0 }}>
             { !(isLoading || isError) ?
               checkIfAnyUsers() :
               [...Array(5)].map((val, idx) => {
@@ -82,7 +82,7 @@ export default function WorkspaceMembersView() {
           </List>
           { usersData?.totalPages > 1 &&
               <Pagination
-                className='Pagination-bar'
+                sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}
                 count={totalPages || 0}
                 color='primary'
                 onChange={fetchNextUserPage}
@@ -90,14 +90,14 @@ export default function WorkspaceMembersView() {
                 page={filter.page as number} />
           }
         </div>
-        <div className='filter-wrapper'>
+        <Box sx={{ maxWidth: '360px', ml: 1 }}>
           <UsersFilter
             workspaces={workspaces || []}
             dataLoadingOrError={!!(workspacesLoading || workspacesError)}
             updateFilters={updateFilters}
           />
-        </div>
+        </Box>
       </div>
-    </div>
+    </Box>
   )
 }

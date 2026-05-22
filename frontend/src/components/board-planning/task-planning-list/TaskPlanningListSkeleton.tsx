@@ -19,7 +19,7 @@ const TaskPlanningListSkeleton = () => {
               <Skeleton height={36} width={200} />
             </Typography>
           </ListSubheader>}>
-          <Card sx={{ pl: '4px', pr: '4px', ml: '8px', mr: '8px' }}>
+          <Card sx={{ px: 0.5, mx: 1 }}>
             <Skeleton height={36} />
             <Skeleton height={36} />
             <Skeleton height={36} />

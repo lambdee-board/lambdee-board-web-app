@@ -25,7 +25,6 @@ import { calculatePos, sortByPos } from '../../internal/component-position'
 import useTaskDndStore from '../../stores/task-dnd'
 import type { ListTask } from '../../types'
 
-import './TaskList.sass'
 import TaskListModal from '../task-list-modal/TaskListModal'
 import TaskCard from '../task-card/TaskCard'
 import useAppAlertStore from '../../stores/app-alert'
@@ -155,13 +154,13 @@ function TaskList({ id, title }: Props) {
   }
 
   return (
-    <div className='TaskList-wrapper' data-list-id={taskList?.id}>
-      <Paper className='TaskList-paper'
+    <Box sx={{ m: 2 }} data-list-id={taskList?.id}>
+      <Paper sx={{ width: '320px', maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}
         elevation={5}>
-        <List ref={listRef} className='TaskList'
-          subheader={<ListSubheader className='TaskList-header' >
+        <List ref={listRef} sx={{ overflowY: 'auto' }}
+          subheader={<ListSubheader sx={{ pt: 1, fontSize: '32px', display: 'flex', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
             <Typography
-              className='TaskList-header-text'
+              sx={{ fontSize: '24px', width: '100%', display: 'block', mt: -1, pt: 1, ml: -2, pl: 2, mr: 1 }}
               style={{ cursor: isManager() ? 'grab' : undefined }}
             >
               {title}
@@ -189,7 +188,7 @@ function TaskList({ id, title }: Props) {
                 >
                   {sortedTasks.map((task, taskIndex) => (
                     <div key={taskIndex} data-task-id={task.id}>
-                      <ListItem className='TaskList-item'  >
+                      <ListItem sx={{ width: '100%', p: 0.5 }}>
                         <TaskCard key={`${task.name}-${task.id}`}
                           id={task.id}
                           label={task.name}
@@ -209,7 +208,7 @@ function TaskList({ id, title }: Props) {
                 <div>
                   {sortedTasks.map((task, taskIndex) => (
                     <div key={taskIndex}>
-                      <ListItem className='TaskList-item' >
+                      <ListItem sx={{ width: '100%', p: 0.5 }}>
                         <TaskCard key={`${task.name}-${task.id}`}
                           id={task.id}
                           label={task.name}
@@ -232,28 +231,27 @@ function TaskList({ id, title }: Props) {
           )}
           <ManagerContent>
             { !newTaskButtonVisible &&
-            <Card
-              className='TaskList-new-task'>
+            <Card sx={{ py: 0.75, px: 1, my: 0.75, mx: 1, display: 'flex' }}>
               <InputBase
                 ref={newTaskInputRef}
-                className='TaskList-new-task-input'
+                sx={{ mr: 'auto' }}
                 fullWidth
                 multiline
                 placeholder='Task Label'
                 onKeyDown={(e) => newTaskNameInputOnKey(e)}
                 onBlur={() => toggleNewTaskButton()}
               />
-              <IconButton className='TaskList-new-task-cancel' onClick={() => toggleNewTaskButton()}>
-                <FontAwesomeIcon className='TaskList-new-task-cancel-icon' icon={faXmark} />
+              <IconButton sx={{ margin: 'auto', color: '#DCDCDC' }} onClick={() => toggleNewTaskButton()}>
+                <FontAwesomeIcon style={{ height: '16px', width: '16px' }} icon={faXmark} />
               </IconButton>
             </Card>
             }
           </ManagerContent>
         </List>
         <ManagerContent>
-          <Box className='TaskList-new-task-wrapper'>
+          <Box>
             {newTaskButtonVisible &&
-            <Button onClick={newTaskButtonOnClick} className='TaskList-new-task-button' color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+            <Button onClick={newTaskButtonOnClick} sx={{ textTransform: 'none', justifyContent: 'flex-start', width: '100%' }} color='secondary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
               <Typography>New Task</Typography>
             </Button>
             }
@@ -264,14 +262,13 @@ function TaskList({ id, title }: Props) {
       <Modal
         open={taskListModalState}
         onClose={toggleTaskListModalState}
-        className='TaskList-modal-wrapper'
       >
-        <div className='TaskList-modal'>
+        <Box sx={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', outline: 0 }}>
           <TaskListModal listId={id} title={title} listVisibility={'visible'} />
-        </div>
+        </Box>
       </Modal>
       }
-    </div>
+    </Box>
   )
 }
 

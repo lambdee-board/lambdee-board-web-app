@@ -33,7 +33,7 @@ const NewScriptVariableDialog = ({ open, onClose, onSubmit }: Props) => {
       maxWidth='sm'>
       <form onSubmit={(event) => onSubmit(event, newVariable)}>
         <DialogTitle>New script</DialogTitle>
-        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: '8px' }}>
+        <DialogContent sx={{ display: 'flex', flexDirection: 'column', gap: 1 }}>
           <TextField
             fullWidth
             required

@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import WorkspaceIcon from '../WorkspaceIcon'
 
-import './RecentBoardIcon.sass'
 
 interface Props {
   name: string
@@ -16,10 +15,12 @@ interface Props {
 
 function RecentBoardIcon({ name, size, color, iconSize }: Props) {
   return (
-    <div className='RecentBoardIcon'>
-      <WorkspaceIcon name={name} size={size} />
-      <div className='RecentBoardIcon-recent'>
-        <FontAwesomeIcon transform={{ size: parseFloat(iconSize) }} className='RecentBoardIcon-recent-icon' icon={faClipboardList} color={color} />
+    <div style={{ display: 'flex', justifyContent: 'space-evenly' }}>
+      <div style={{ width: '100%' }}>
+        <WorkspaceIcon name={name} size={size} />
+      </div>
+      <div style={{ height: '50%', marginLeft: '-30%', marginTop: '40%' }}>
+        <FontAwesomeIcon transform={{ size: parseFloat(iconSize) }} style={{ filter: 'drop-shadow(2px 4px 2px white)' }} icon={faClipboardList} color={color} />
       </div>
     </div>
 

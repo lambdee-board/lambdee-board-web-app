@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import {
+  Box,
   List,
   Typography,
   ListItemButton,
@@ -14,7 +15,7 @@ import { useNavigate, useParams } from 'react-router-dom'
 
 import useWorkspaceScripts from '../../../../api/workspace-scripts'
 
-import './AllScriptsView.sass'
+
 import useScriptsPage from '../../../../stores/scripts-page'
 
 
@@ -43,8 +44,8 @@ export default function AllScriptsView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div className='list-wrapper'>
-        <List className='List'>
+      <div style={{ width: '100%' }}>
+        <List>
           { !(isLoading || isError) &&
               scripts?.scripts.map((script, idx) => (
                 <div key={idx}>
@@ -52,17 +53,17 @@ export default function AllScriptsView() {
                     divider
                     onClick={() => navigate(`/workspaces/${workspaceId}/scripts/${script.id}`)}
                     sx={{ display: 'flex', justifyContent: 'space-between', height: '48px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                       <FontAwesomeIcon icon={faGem} opacity='0.58' />
                       <Typography sx={{ fontSize: '18px' }}>{script.name}</Typography>
-                    </div>
+                    </Box>
                     <Divider />
                   </ListItemButton>
                 </div>
               ))}
           { totalPages > 1 &&
           <Pagination
-            className='WorkspaceScriptsRuns-pagination'
+            sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}
             count={totalPages || 0}
             color='primary'
             onChange={fetchNextUserPage}

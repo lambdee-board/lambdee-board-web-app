@@ -14,7 +14,6 @@ import apiClient from '../../../api/axios-client'
 import useAppAlertStore from '../../../stores/app-alert'
 import type { TaskWithAssociations } from '../../../types'
 
-import './TaskLabel.sass'
 
 interface Props {
   task: TaskWithAssociations
@@ -70,11 +69,11 @@ function TaskLabel({ task, mutate }: Props) {
   }
 
   if (editTaskLabelButtonVisible) return (
-    <div className='TaskLabel'>
+    <div>
       <Typography
         variant='h6'
         onClick={isRegular() ? editTaskLabelOnClick : undefined}
-        className='TaskLabel-typography'
+        sx={{ display: 'block', width: 'fit-content', px: 0.5, py: 0.25, mx: -0.5, cursor: 'pointer', transition: '.1s ease-in', '&:hover': { backgroundColor: '#DCDCDC', borderRadius: '8px' } }}
       >
         {task.name}
       </Typography>
@@ -82,11 +81,11 @@ function TaskLabel({ task, mutate }: Props) {
   )
 
   return (
-    <div className='TaskLabel'>
-      <Card className='TaskLabel-edit-input'>
+    <div>
+      <Card sx={{ mx: -1, px: 1, display: 'flex' }}>
         <InputBase
           ref={editTaskLabelRef}
-          className='TaskLabel-edit-input-text'
+          sx={{ mt: 0.75, '& textarea': { pt: 1, pb: 0.25, fontSize: '1.25rem', fontWeight: 500, lineHeight: '0.0075em' } }}
           fullWidth
           multiline
           size='medium'
@@ -94,8 +93,8 @@ function TaskLabel({ task, mutate }: Props) {
           onKeyDown={(e) => editTaskLabelInputOnKey(e)}
           onBlur={() => toggleEditTaskLabelButton()}
         />
-        <IconButton className='TaskLabel-edit-input-cancel' onClick={() => toggleEditTaskLabelButton()}>
-          <FontAwesomeIcon className='TaskLabel-edit-input-cancel-icon' icon={faXmark} />
+        <IconButton sx={{ color: '#DCDCDC' }} onClick={() => toggleEditTaskLabelButton()}>
+          <FontAwesomeIcon style={{ height: '16px', width: '16px' }} icon={faXmark} />
         </IconButton>
       </Card>
     </div>

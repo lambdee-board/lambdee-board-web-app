@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom'
 import {
   TextField,
   Autocomplete,
+  Box,
   CircularProgress,
   createFilterOptions,
   Dialog,
@@ -118,11 +119,11 @@ function AttachTagSelect({ onBlur, onChange, createTag, addedTags = [], boardId 
         }}
         renderOption={({ key, ...params }, option) => (
           <li key={key ?? (typeof option === 'string' ? option : (option.name + option.id || option.name))} {...params}>
-            <div
-              style={{ width: '16px',
+            <Box
+              sx={{ width: '16px',
                 height: '16px',
                 borderRadius: '3px',
-                marginRight: '4px',
+                mr: 0.5,
                 backgroundColor: option.color || 'transparent' }}
             />
             <div

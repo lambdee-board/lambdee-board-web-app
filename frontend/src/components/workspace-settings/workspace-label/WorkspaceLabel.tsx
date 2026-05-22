@@ -14,7 +14,6 @@ import useAppAlertStore from '../../../stores/app-alert'
 import WorkspaceIcon from '../../WorkspaceIcon'
 import type { Workspace } from '../../../types'
 
-import './WorkspaceLabel.sass'
 
 interface Props {
   workspace: Workspace
@@ -81,9 +80,9 @@ const WorkspaceLabel = ({ workspace }: Props) => {
       <WorkspaceIcon name={workspace.name} size={64} />
       {editWorkspaceLabelButton ? (
         <Typography
-          className='Workspace-Label'
           onClick={editWorkspaceLabelOnClick}
           variant='h4'
+          sx={{ cursor: 'pointer', '&:hover': { backgroundColor: '#DCDCDC', borderRadius: '8px' } }}
         >
           {workspace.name}
         </Typography>

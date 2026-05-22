@@ -24,7 +24,6 @@ import type { User, Comment } from '../../../types'
 import UserInfo from '../UserInfo'
 import CustomAlert from '../../custom-alert/CustomAlert'
 
-import './TaskComments.sass'
 
 interface NewTaskCommentProps {
   currentUser: User
@@ -74,10 +73,10 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }: NewTa
   }
 
   if (commentEditorVisible) return (
-    <Card className='TaskComment' data-color-mode='light'>
+    <Card data-color-mode='light'>
       <Box>
-        <Box className='TaskComment-info'>
-          <Avatar className='TaskComment-info-avatar' alt={currentUser.name} src={currentUser.avatarUrl} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', px: 1 }}>
+          <Avatar sx={{ width: '32px', height: '32px' }} alt={currentUser.name} src={currentUser.avatarUrl} />
           <UserInfo userName={currentUser.name} userTitle={currentUser.role} />
         </Box>
         <Divider />
@@ -93,35 +92,18 @@ const NewTaskComment = ({ currentUser, taskId, mutateComments, comments }: NewTa
         </div>
 
 
-        <Box className='TaskComment-footer'>
-          <Button
-            variant='contained'
-            color='primary'
-            onClick={() => createComment()}
-          >
-            Save
-          </Button>
-          <Button
-            variant='text'
-            sx={{ color: '#FF0000' }}
-            onClick={() => closeCommentEditor()}
-          >
-            Cancel
-          </Button>
+        <Box sx={{ display: 'flex', flexDirection: 'row', p: 0.5 }}>
+          <Button variant='contained' color='primary' onClick={() => createComment()}>Save</Button>
+          <Button variant='text' sx={{ color: '#FF0000' }} onClick={() => closeCommentEditor()}>Cancel</Button>
         </Box>
       </Box>
     </Card>
   )
 
   return (
-    <Card className='TaskComments-newComment'>
-      <Avatar className='TaskCardModal-avatar'
-        alt={currentUser.name} src={currentUser.avatarUrl}
-      />
-      <Typography
-        className='TaskComments-newComment-placeholder'
-        onClick={() => openCommentEditor()}
-      >
+    <Card sx={{ p: 1, mt: 1, mb: 2, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start', alignContent: 'center', flexWrap: 'wrap' }}>
+      <Avatar alt={currentUser.name} src={currentUser.avatarUrl} />
+      <Typography sx={{ color: '#696969', ml: 1, cursor: 'pointer' }} onClick={() => openCommentEditor()}>
         Write a comment...
       </Typography>
     </Card>
@@ -184,7 +166,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }: TaskCommentProps)
   if (commentDraft == null && comment?.body != null) setCommentDraft(comment.body)
 
   return (
-    <Card className='TaskComment'>
+    <Card sx={{ mb: 2 }}>
       <Modal
         open={alertModalState}
         onClose={toggleAlertModalState}
@@ -203,11 +185,10 @@ const TaskComment = ({ currentUser, comment, mutateComments }: TaskCommentProps)
         </Box>
       </Modal>
       <Box>
-        <Box className='TaskComment-info'>
-          <Avatar className='TaskComment-info-avatar' alt={comment.author.name} src={comment.author.avatarUrl} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', alignItems: 'center', px: 1 }}>
+          <Avatar sx={{ width: '32px', height: '32px' }} alt={comment.author.name} src={comment.author.avatarUrl} />
           <UserInfo userName={comment.author.name} userTitle={comment.author.role} />
-
-          <Typography variant='caption' className='TaskComment-info-date'>
+          <Typography variant='caption' sx={{ mr: 2, ml: 'auto', alignSelf: 'center', color: '#696969' }}>
             {date}
           </Typography>
         </Box>
@@ -224,7 +205,7 @@ const TaskComment = ({ currentUser, comment, mutateComments }: TaskCommentProps)
             />
           </div>
         ) : (
-          <Box className='TaskComment-content markdown-text'>
+          <Box className='markdown-text' sx={{ py: 1, px: 3 }}>
             <MDEditor.Markdown
               source={comment.body}
               rehypePlugins={[[rehypeSanitize] as any]}
@@ -233,42 +214,23 @@ const TaskComment = ({ currentUser, comment, mutateComments }: TaskCommentProps)
         )}
 
         {currentUser.id === comment.authorId ? (
-          <Box className='TaskComment-footer'>
+          <Box sx={{ display: 'flex', flexDirection: 'row', p: 0.5 }}>
             {commentEditorVisible ? (
               <>
-                <Button
-                  variant='contained'
-                  color='primary'
-                  onClick={() => editComment()}
-                >
-                Save
-                </Button>
-                <Button
-                  variant='text'
-                  sx={{ color: '#FF0000' }}
-                  onClick={() => closeCommentEditor()}
-                >
-                Cancel
-                </Button>
+                <Button variant='contained' color='primary' onClick={() => editComment()}>Save</Button>
+                <Button variant='text' sx={{ color: '#FF0000' }} onClick={() => closeCommentEditor()}>Cancel</Button>
               </>
             ) : (
               <>
-                <Button
-                  className='TaskComment-footer-edit'
-                  onClick={() => openCommentEditor()}
-                >
+                <Button sx={{ color: '#1082F3' }} onClick={() => openCommentEditor()}>
                   <Typography variant='body2'>
-                    <FontAwesomeIcon className='TaskComment-footer-icon' icon={faPencil} />
+                    <FontAwesomeIcon style={{ paddingRight: 8 }} icon={faPencil} />
                     Edit
                   </Typography>
                 </Button>
-
-                <Button
-                  className='TaskComment-footer-delete'
-                  onClick={toggleAlertModalState}
-                >
+                <Button sx={{ color: '#FF0000' }} onClick={toggleAlertModalState}>
                   <Typography variant='body2'>
-                    <FontAwesomeIcon className='TaskComment-footer-icon' icon={faTrash} />
+                    <FontAwesomeIcon style={{ paddingRight: 8 }} icon={faTrash} />
                     Delete
                   </Typography>
                 </Button>
@@ -290,13 +252,12 @@ const TaskComments = ({ taskId }: TaskCommentsProps) => {
   const { data: currentUser, isLoading: isCurrentUserLoading, isError: isCurrentUserError } = useCurrentUser()
 
   if (isLoading || isError || isCurrentUserLoading || isCurrentUserError) return (
-    <Box className='TaskComments-wrapper'>
-    </Box>
+    <Box />
   )
 
   return (
     <>
-      <Box className='TaskComments-wrapper'>
+      <Box>
         <NewTaskComment
           currentUser={currentUser}
           taskId={taskId}

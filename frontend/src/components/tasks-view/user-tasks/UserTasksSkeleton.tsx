@@ -5,7 +5,7 @@ const UserTasksSkeleton = () => {
   return (
     <Card>
       <div>
-        <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', margin: '4px' }} width={210} height={60} />
+        <Skeleton variant='rectangular' sx={{ display: 'flex', alignSelf: 'center', m: 0.5 }} width={210} height={60} />
       </div>
       <Divider />
       <div>

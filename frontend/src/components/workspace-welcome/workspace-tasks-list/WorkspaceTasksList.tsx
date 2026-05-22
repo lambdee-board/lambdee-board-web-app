@@ -5,6 +5,7 @@ import {
   Card,
   Divider,
   Button,
+  Box,
 } from '@mui/material'
 import {
   faClipboardList
@@ -15,7 +16,6 @@ import { useBoard } from '../../../api/board'
 import WorkspaceTask from '../workspace-task/WorkspaceTask'
 import WorkspaceTasksListSkeleton from './WorkspaceTasksListSkeleton'
 
-import './WorkspaceTasksList.sass'
 
 interface Props {
   boardId: number
@@ -35,21 +35,21 @@ function WorkspaceTasksList({ boardId, workspaceId }: Props) {
   return (
     <div>
       {board?.lists?.length > 0 &&
-        <Card className='Tasks-card' >
-          <Button sx={{ textTransform: 'none' }} className='Tasks-card-title'
+        <Card sx={{ display: 'flex', flexDirection: 'column', width: '304px', minHeight: '272px', maxHeight: '92%', margin: 3 }}>
+          <Button sx={{ textTransform: 'none', display: 'flex', flexDirection: 'row', width: '100%', minHeight: '64px', color: 'black', alignItems: 'center', justifyContent: 'center' }}
             onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}>
-            <FontAwesomeIcon className='Tasks-card-title-icon' icon={faClipboardList} color={board.color} />
-            <Typography sx={{ ml: '10px' }}>
+            <FontAwesomeIcon style={{ width: '32px', height: '32px' }} icon={faClipboardList} color={board.color} />
+            <Typography sx={{ ml: 1.25 }}>
               {board.name}
             </Typography>
           </Button>
           <Divider />
-          <div className='Tasks-card-lists'>
+          <div style={{ overflowY: 'auto' }}>
             {board.lists?.map((list) => (
-              <div key={list.id} className='Tasks-card-list'>
-                <div className='Tasks-card-list-title'>
+              <div key={list.id} style={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2, ml: 1 }}>
                   <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
-                </div>
+                </Box>
                 <WorkspaceTask listId={list.id} boardId={board.id} />
               </div>
             ))}

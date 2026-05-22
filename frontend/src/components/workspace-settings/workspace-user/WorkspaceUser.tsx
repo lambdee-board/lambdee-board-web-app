@@ -19,7 +19,6 @@ import UserInfo from '../../task-card-modal/UserInfo'
 import LabeledData from '../../LabeledData'
 import CustomAlert from '../../custom-alert/CustomAlert'
 
-import './WorkspaceUser.sass'
 
 interface Props {
   userId: number
@@ -80,19 +79,19 @@ const WorkspaceUser = ({ userId, userAvatarUrl, userName, userTitle, userRegiste
         </Box>
       </Modal>
       <ListItem divider>
-        <Box className='UserListItem'>
-          <div className='UserListItem-base'>
-            <Avatar className='UserListItem-avatar' src={userAvatarUrl} />
+        <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
+            <Avatar sx={{ mr: 1 }} src={userAvatarUrl} />
             <UserInfo userName={userName} userTitle={userTitle} />
           </div>
-          <div className='UserListItem-dates'>
+          <div style={{ display: 'flex', flexDirection: 'row' }}>
             { userLoginDate && <LabeledData label='Last Login' data={formatDate(userLoginDate)} />}
             { userRegisterDate && <LabeledData label='Registered' data={formatDate(userRegisterDate)} />}
           </div>
         </Box>
         { !hideDelete &&
           <IconButton onClick={toggleAlertModalState}>
-            <FontAwesomeIcon className='DeleteUser-icon' icon={faTrash} />
+            <FontAwesomeIcon style={{ width: '18px', height: '18px', color: '#FF0000' }} icon={faTrash} />
           </IconButton>
         }
       </ListItem>

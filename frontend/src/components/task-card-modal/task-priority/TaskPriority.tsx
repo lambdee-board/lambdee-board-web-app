@@ -20,7 +20,6 @@ import type { TaskWithAssociations } from '../../../types'
 import UserInfo from '../UserInfo'
 import PriorityIcon from '../../priority-icon/PriorityIcon'
 
-import './TaskPriority.sass'
 
 interface Props {
   task: TaskWithAssociations
@@ -72,15 +71,15 @@ function TaskPriority({ task, mutate }: Props) {
 
 
   return (
-    <Box className='TaskPriority'>
+    <Box sx={{ p: 0, m: 0 }}>
       {task.priority ? (<Box>
-        <IconButton onClick={isRegular() ? editPriorityOnClick : undefined} className='TaskPriority-button'>
+        <IconButton onClick={isRegular() ? editPriorityOnClick : undefined} sx={{ width: '42.4px', height: '42.4px' }}>
           <PriorityIcon size='xl' taskPriority={task.priority} />
         </IconButton>
       </Box>) :
         <Box>
-          <Box onClick={editPriorityOnClick} className='TaskPriority-add-button'>
-            <Avatar className='TaskPriority-avatar' alt='Add priority'>
+          <Box onClick={editPriorityOnClick} sx={{ color: '#7d7b7b', cursor: 'pointer', transition: '.1s ease-in', display: 'flex', alignItems: 'center', '&:hover': { opacity: 0.8 } }}>
+            <Avatar alt='Add priority'>
               <FontAwesomeIcon icon={faPlus} />
             </Avatar>
             <UserInfo userName='Add' />

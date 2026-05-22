@@ -1,10 +1,10 @@
 import React from 'react'
-import { FormControl, MenuItem, OutlinedInput, Select, Typography, Stack, InputLabel, Button } from '@mui/material'
+import { Box, FormControl, MenuItem, OutlinedInput, Select, Typography, Stack, InputLabel, Button } from '@mui/material'
 
 import WorkspaceIcon from '../WorkspaceIcon'
 import type { Workspace } from '../../types'
 
-import './UsersFilter.sass'
+
 import RoleChip from '../role-chip/RoleChip'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons'
@@ -84,11 +84,11 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
 
 
   return (
-    <div className='UsersFilter-wrapper'>
-      <Typography className='UserFilter-title'>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', p: 2, borderRadius: '8px', height: 'fit-content' }}>
+      <Typography sx={{ fontSize: '24px', mb: 1 }}>
         Filters
       </Typography>
-      <FormControl className='formControls'>
+      <FormControl sx={{ width: '100%', my: 2 }}>
         <InputLabel htmlFor='UserFilter-search-input' shrink >User name</InputLabel>
         <OutlinedInput
           id='UserFilter-search-input'
@@ -100,7 +100,7 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
           onChange={(event) => setNameSearch(event.target.value)}
         />
       </FormControl>
-      <FormControl className='formControls'>
+      <FormControl sx={{ width: '100%', my: 2 }}>
         <InputLabel htmlFor='UserFilter-select-label' shrink >Workspace</InputLabel>
         <Select
           id='UserFilter-select-label'
@@ -108,6 +108,7 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
           displayEmpty
           label='Workspace'
           notched
+          sx={{ height: '32px', display: 'flex', alignItems: 'center' }}
           onChange={(event) => setWorkspaceField(event.target.value)}
         >
           <MenuItem value=''>None</MenuItem>
@@ -115,7 +116,6 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
             <MenuItem
               value={workspace.id}
               key={`${workspace.name}-${idx}`}
-              className='UserFilter-select-item'
             >
               <WorkspaceIcon name={workspace.name} size={32} />
               {workspace.name}
@@ -124,9 +124,9 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
           }
         </Select>
       </FormControl>
-      <FormControl className='formControls'>
-        <Typography className='form-label'>Roles</Typography>
-        <Stack className='chipStack' direction='row'>
+      <FormControl sx={{ width: '100%', my: 2 }}>
+        <Typography sx={{ mb: 1 }}>Roles</Typography>
+        <Stack direction='row' sx={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'space-evenly' }}>
           {defaultRoles.map((role, idx) => (
             <RoleChip
               key={role + idx}
@@ -137,10 +137,10 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
           ))}
         </Stack>
       </FormControl>
-      <div className='formControls'>
-        <Typography className='form-label'>Account creation date</Typography>
-        <div className='date-wrapper'>
-          <FormControl className='date-block'>
+      <Box sx={{ width: '100%', my: 2 }}>
+        <Typography sx={{ mb: 1 }}>Account creation date</Typography>
+        <div style={{ display: 'flex', justifyContent: 'space-between', flexFlow: 'wrap' }}>
+          <FormControl sx={{ display: 'flex', flexDirection: 'column', pb: 1 }}>
             <InputLabel htmlFor='UserFilter-date-start' shrink >From</InputLabel>
             <OutlinedInput
               id='UserFilter-date-start'
@@ -148,11 +148,12 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
               label='From'
               notched
               value={startDate}
+              sx={{ width: '128px' }}
               onKeyDown={enterPressed}
               onChange={(event) => setStartDate(event.target.value)}
             />
           </FormControl>
-          <FormControl className='date-block'>
+          <FormControl sx={{ display: 'flex', flexDirection: 'column', pb: 1 }}>
             <InputLabel htmlFor='UserFilter-date-end' shrink>To</InputLabel>
             <OutlinedInput
               id='UserFilter-date-end'
@@ -160,15 +161,15 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
               label='To'
               notched
               value={endDate}
+              sx={{ width: '128px' }}
               onKeyDown={enterPressed}
               onChange={(event) => setEndDate(event.target.value)}
             />
           </FormControl>
         </div>
-      </div>
+      </Box>
       <Button
         onClick={getFilters}
-        className='UserFilter-search-button'
         color='primary'
         variant='contained'
         fullWidth
@@ -176,7 +177,7 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
       >
           Search
       </Button>
-    </div>
+    </Box>
   )
 }
 

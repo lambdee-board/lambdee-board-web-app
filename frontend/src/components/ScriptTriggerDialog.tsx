@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
+import { Box, Button, Dialog, DialogContent, DialogTitle } from '@mui/material'
 import UiTriggerFrom from './trigger-form/UiTriggerFrom'
 import CallbackTriggerFrom from './trigger-form/CallbackTriggerFrom'
 
@@ -16,7 +16,7 @@ const ScriptTriggerDialog = ({ openDial, handleCloseDial, handleSubmit }: Props)
     <Dialog open={openDial} onClose={handleCloseDial}>
       <DialogTitle>Trigger creator</DialogTitle>
       <DialogContent sx={{ minHeight: '450px' }}>
-        <div style={{ display: 'flex', gap: '8px' }}>
+        <Box sx={{ display: 'flex', gap: 1 }}>
           <Button
             variant={triggerType === 'Callback' ? 'contained' : 'outlined'}
             color='info'
@@ -39,7 +39,7 @@ const ScriptTriggerDialog = ({ openDial, handleCloseDial, handleSubmit }: Props)
             onClick={() => setTriggerType('Schedule')}>
             Schedule
           </Button>
-        </div>
+        </Box>
 
         {triggerType === 'Callback' && <CallbackTriggerFrom handleCloseDial={handleCloseDial} handleSubmit={handleSubmit} />}
         {triggerType === 'UI' && <UiTriggerFrom handleCloseDial={handleCloseDial} handleSubmit={handleSubmit} />}

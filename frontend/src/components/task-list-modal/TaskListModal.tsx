@@ -10,7 +10,6 @@ import { faXmark } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Button, Card, ClickAwayListener, IconButton, FilledInput, Typography, Modal, Box } from '@mui/material'
 
-import './TaskListModal.sass'
 import CustomAlert from '../custom-alert/CustomAlert'
 
 interface Props {
@@ -85,8 +84,8 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
   }
 
   return (
-    <div className='TaskListModal-wrapper'>
-      <Card className='TaskListModal-card'>
+    <div style={{ width: '400px' }}>
+      <Card sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}
@@ -104,11 +103,11 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
               confirmMessage='Confirm, delete List' />
           </Box>
         </Modal>
-        <div className='TaskListModal-main'>
-          <div className='TaskListModal-main-header'>
+        <Box sx={{ height: '160px', m: 3, display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
+          <div>
             { !editingListTitle &&
               <Typography
-                className='TaskListModal-main-header-text'
+                sx={{ fontSize: '32px', textAlign: 'center', cursor: 'pointer', '&:hover': { backgroundColor: '#77777710' } }}
                 onClick={() => editListTitleOnClick()}>
                 {title}
               </Typography>
@@ -118,15 +117,13 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
                 <FilledInput
                   ref={editListTitleRef}
                   fullWidth
-                  className='TaskListModal-edit-title-input'
                   color='secondary'
                   placeholder='New List Name'
                   defaultValue={title}
                   onKeyDown={(e) => editListTitleOnKey(e)}
+                  sx={{ '& .MuiFilledInput-input': { fontSize: '24px', py: 0, px: 1 } }}
                   endAdornment={
-                    <IconButton
-                      className='TaskListModal-edit-title-cancel'
-                      onClick={() => setEditingListTitle(false)}>
+                    <IconButton onClick={() => setEditingListTitle(false)}>
                       <FontAwesomeIcon icon={faXmark} />
                     </IconButton>
                   }
@@ -134,16 +131,16 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
               </ClickAwayListener>
             }
           </div>
-          <div className='TaskListModal-main-item'>
+          <Box sx={{ my: 1 }}>
             <Button
-              className='TaskListModal-main-delete-button'
+              sx={{ width: '100%' }}
               variant='contained'
               color='error'
               onClick={toggleAlertModalState}>
               <Typography>Delete List</Typography>
             </Button>
-          </div>
-        </div>
+          </Box>
+        </Box>
       </Card>
     </div>
   )

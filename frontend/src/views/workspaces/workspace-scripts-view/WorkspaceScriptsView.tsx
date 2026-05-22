@@ -11,7 +11,6 @@ import { faClockRotateLeft, faList, faPlus, faKey } from '@fortawesome/free-soli
 import { Outlet, useNavigate, useParams } from 'react-router-dom'
 import useCookie from 'react-use-cookie'
 
-import './WorkspaceScriptsView.sass'
 
 import NewScriptDialog from '../../../components/NewScriptDialog'
 import NewScriptVariableDialog from '../../../components/NewScriptVariableDialog'
@@ -99,9 +98,9 @@ export default function WorkspaceScriptsView() {
   }
 
   return (
-    <div className='WorkspaceScripts-wrapper'>
+    <div style={{ width: '100%', height: 'calc(100vh - 128px)' }}>
 
-      <Toolbar className='WorkspaceScripts-toolbar'>
+      <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
           {scriptView === 'all' &&
             <Button
@@ -126,7 +125,7 @@ export default function WorkspaceScriptsView() {
         </div>
         <div>
           <Button
-            sx={{ ml: '8px' }}
+            sx={{ ml: 1 }}
             onClick={() => { if (scriptView !== 'all') setScriptView('all') }}
             className='WorkspaceScripts-scriptsAll-btn'
             color='secondary'
@@ -135,7 +134,7 @@ export default function WorkspaceScriptsView() {
             <Typography>All scripts</Typography>
           </Button>
           <Button
-            sx={{ ml: '8px' }}
+            sx={{ ml: 1 }}
             onClick={() => { if (scriptView !== 'runs') setScriptView('runs') }}
             className='WorkspaceScripts-scriptsRuns-btn'
             color='secondary'
@@ -144,7 +143,7 @@ export default function WorkspaceScriptsView() {
             <Typography>Run history</Typography>
           </Button>
           <Button
-            sx={{ ml: '8px' }}
+            sx={{ ml: 1 }}
             onClick={() => { if (scriptView !== 'variables') setScriptView('variables') }}
             className='WorkspaceScripts-scriptsRuns-btn'
             color='secondary'
@@ -154,7 +153,7 @@ export default function WorkspaceScriptsView() {
           </Button>
         </div>
       </Toolbar>
-      <div className='WorkspaceScripts'>
+      <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', flexFlow: 'column', borderRadius: '8px', m: 2, height: '84vh' }}>
         <Box sx={{ height: '4px' }}></Box>
         <Outlet />
         <NewScriptDialog
@@ -167,7 +166,7 @@ export default function WorkspaceScriptsView() {
           onClose={closeNewScriptVariable}
           onSubmit={persistNewScriptVariable}
         />
-      </div>
+      </Box>
     </div>
   )
 }

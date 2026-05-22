@@ -27,7 +27,6 @@ import { ManagerContent } from '../../permissions/content'
 import ReportModal from '../reports-view/report-modal/ReportModal'
 import CustomAlert from '../custom-alert/CustomAlert'
 
-import './SprintModal.sass'
 
 interface Props {
   activeSprint?: Sprint
@@ -161,8 +160,8 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
   }
 
   return (
-    <Box className='SprintModal-wrapper' data-color-mode='light'>
-      <Card className='SprintModal-paper'>
+    <Box data-color-mode='light' sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
+      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '600px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}
@@ -180,13 +179,13 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
               confirmMessage='Confirm, end sprint' />
           </Box>
         </Modal>
-        <Box className='SprintModal-main'>
-          <div className='SprintModal-main-header'>
+        <Box sx={{ width: '100%', m: 4 }}>
+          <Box sx={{ mb: 8 }}>
             {!activeSprint ?
               <Typography sx={{
                 fontSize: 24
               }}>Start new sprint</Typography>              :
-              <div className='SprintModal-main-header-active'>
+              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Modal
                   open={openReportModal}
                   onClose={() => setOpenReportModal(false)}
@@ -219,13 +218,10 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                 </Button>
               </div>}
 
-          </div>
-          <div className='SprintModal-main-name'>
-            <Typography sx={{
-              fontSize: 16
-            }}>Sprint name</Typography>
-            <Card
-              className='SprintModal-main-name-card'>
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography sx={{ fontSize: 16 }}>Sprint name</Typography>
+            <Card sx={{ py: 0.75, px: 1, mt: 0.5, width: '46.6%', display: 'flex' }}>
               {!editSprintNameButton ?
                 <Typography sx={{ width: '100%', height: '24px' }} onClick={isManager() ? () => editSprintNameOnClick() : undefined}>{activeSprint?.name}</Typography>                :
                 <InputBase
@@ -239,7 +235,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
               }
             </Card>
             {activeSprint && editSprintNameButton &&
-                <div className='buttons'>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'nowrap', flexDirection: 'row', pt: 1, pb: 1, ml: -0.5, mr: -0.5 }}>
                   <Button
                     variant='contained'
                     color='primary'
@@ -249,17 +245,15 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                   </Button>
                   <Button
                     variant='text'
-                    sx={{ color: '#FF0000' }}
+                    sx={{ color: '#FF0000', mx: 0.5 }}
                     onClick={() => setEditSprintNameButton(false)}
                   >
                   Cancel
                   </Button>
-                </div>}
-          </div>
-          <div className='SprintModal-main-datetime'>
-            <Typography sx={{
-              fontSize: 16
-            }}>End date</Typography>
+                </Box>}
+          </Box>
+          <Box sx={{ mb: 4 }}>
+            <Typography sx={{ fontSize: 16 }}>End date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 ampm={false}
@@ -291,17 +285,17 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                   Cancel
               </Button>
             </div>}
-          </div>
+          </Box>
           <Typography sx={{
             fontSize: 16
           }}>Sprint description</Typography>
           {unsavedDescriptionDraft ? (
-            <Typography className='SprintModal-description-label-unsaved-changes' variant='caption'>
+            <Typography sx={{ color: '#7d7b7b' }} variant='caption'>
                 Unsaved Changes
             </Typography>
           ) : null}
           {descriptionEditorVisible ? (
-            <div className='SprintModal-description-editor'>
+            <Box sx={{ mb: 2 }}>
               <MDEditor
                 value={sprintDescriptionDraft || ''}
                 onChange={(val) => { updateSprintDescriptionDraft(val) }}
@@ -310,7 +304,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                 }}
               />
               {activeSprint &&
-                <div className='buttons'>
+                <Box sx={{ display: 'flex', alignItems: 'center', justifyContent: 'flex-start', flexWrap: 'nowrap', flexDirection: 'row', pt: 1, pb: 1, ml: -0.5, mr: -0.5 }}>
                   <Button
                     variant='contained'
                     color='primary'
@@ -325,12 +319,12 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                   >
                   Cancel
                   </Button>
-                </div>}
-            </div>
+                </Box>}
+            </Box>
           ) : (
 
             <Card
-              className='SprintModal-main-description'
+              sx={{ mt: 0.5, mb: 2, py: 1, px: 2, minHeight: '160px', cursor: 'pointer', transition: '.1s ease-in', '&:hover': { opacity: 0.8 } }}
               onClick={isManager() ? sprintDescriptionOnClick : undefined}
             >
               <MDEditor.Markdown
@@ -340,7 +334,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
             </Card>
           )}
           {sprintFail &&
-          <Alert severity='error' sx={{ width: '94%', mb: '16px' }}>All values have to be set!</Alert>
+          <Alert severity='error' sx={{ width: '94%', mb: 2 }}>All values have to be set!</Alert>
           }
           {!activeSprint ?
             <Button

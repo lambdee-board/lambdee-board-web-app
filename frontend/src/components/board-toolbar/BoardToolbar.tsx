@@ -15,7 +15,6 @@ import { ManagerContent, DeveloperContent } from '../../permissions/content'
 import SprintModal from '../sprint-modal/SprintModal'
 import ScriptButton from '../script-button/ScriptButton'
 
-import './BoardToolbar.sass'
 
 export default function BoardToolbar() {
   const navigate = useNavigate()
@@ -101,7 +100,7 @@ export default function BoardToolbar() {
   }
 
   return (
-    <div className='Toolbar-wrapper'>
+    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
       <Modal
         open={newSprintModal}
         onClose={handleCloseSprintModal}
@@ -116,7 +115,7 @@ export default function BoardToolbar() {
           <SprintModal activeSprint={activeSprint} closeModal={handleCloseSprintModal} mutate={mutateBoardActiveSprint} />
         </Box>
       </Modal>
-      <Toolbar className='Toolbar'>
+      <Toolbar sx={{ display: 'flex', '@media (max-width: 1199px)': { flexDirection: 'column', alignItems: 'stretch', gap: 0.5, mt: 1 }, '@media (min-width: 1200px)': { gap: 1, justifyContent: 'space-between' } }}>
         {boardView === '1' &&
       <>
         <ManagerContent>
@@ -134,7 +133,7 @@ export default function BoardToolbar() {
         <ClickAwayListener onClickAway={() => setNewListButtonVisible(true)}>
           <OutlinedInput
             ref={newListInputRef}
-            className='Toolbar-new-list-input'
+            sx={{ '& .MuiOutlinedInput-input': { py: 0, px: 1 } }}
             color='secondary'
             placeholder='New List Name'
             onKeyDown={(e) => newListNameInputOnKey(e)}
@@ -175,7 +174,7 @@ export default function BoardToolbar() {
 
         }
         {activeSprint && boardView === '0' &&
-          <Button sx={{ ml: '8px' }} onClick={() => setNewSprintModal(true)}
+          <Button sx={{ ml: 1 }} onClick={() => setNewSprintModal(true)}
             className='Toolbar-create-spring-button'
             color='secondary'
             variant='contained'
@@ -187,7 +186,7 @@ export default function BoardToolbar() {
           <ScriptButton scope='boards' id={boardId!} />
         </DeveloperContent>
       </Toolbar>
-      <Toolbar className='Toolbar'>
+      <Toolbar sx={{ display: 'flex', '@media (max-width: 1199px)': { flexDirection: 'column', alignItems: 'stretch', gap: 0.5, mt: 1 }, '@media (min-width: 1200px)': { gap: 1, justifyContent: 'space-between' } }}>
         {boardView === '0' ?
 
           <Button

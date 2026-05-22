@@ -20,7 +20,6 @@ import useAppAlertStore from '../../stores/app-alert'
 
 import ColorPickerPopover from '../ColorPickerPopover'
 
-import './NewBoardButton.sass'
 
 export default function NewBoardButton() {
   const addAlert = useAppAlertStore((store) => store.addAlert)
@@ -76,26 +75,26 @@ export default function NewBoardButton() {
     <Box>
       {!newBoardButtonVisible &&
         <ClickAwayListener onClickAway={toggleNewBoardButton}>
-          <Box className='New-board'>
+          <Box sx={{ pl: 1.5, pt: 0.75, pr: 1, display: 'flex' }}>
             <ColorPickerPopover color={color} onChange={setColor} />
             <InputBase
               ref={newBoardInputRef}
-              className='New-board-input'
+              sx={{ mr: 'auto' }}
               fullWidth
               multiline
               placeholder='Board Name'
               onKeyDown={(e) => newBoardNameInputOnKey(e)}
             />
-            <IconButton className='New-board-cancel' onClick={() => toggleNewBoardButton()}>
-              <FontAwesomeIcon className='New-board-cancel-icon' icon={faXmark} />
+            <IconButton sx={{ margin: 'auto', color: '#DCDCDC' }} onClick={() => toggleNewBoardButton()}>
+              <FontAwesomeIcon style={{ height: '16px', width: '16px' }} icon={faXmark} />
             </IconButton>
           </Box>
         </ClickAwayListener>
       }
 
-      <Box className='New-board-wrapper'>
+      <Box>
         {newBoardButtonVisible &&
-          <Button onClick={newBoardButtonOnClick} className='New-board-button' color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
+          <Button onClick={newBoardButtonOnClick} sx={{ textTransform: 'none', justifyContent: 'flex-start', width: '100%', p: 1.5, pl: 2 }} color='primary' startIcon={<FontAwesomeIcon icon={faPlus} />}>
             <Typography>Add New Board</Typography>
           </Button>
         }

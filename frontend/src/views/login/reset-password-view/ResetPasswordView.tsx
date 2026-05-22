@@ -13,7 +13,7 @@ import apiClient from '../../../api/axios-client'
 import useAppAlertStore from '../../../stores/app-alert'
 import useQuery from '../../../utils/use-query'
 
-import './ResetPasswordView.sass'
+
 import lambdeeLogo from '../../../assets/lambdee-logo.svg'
 import useValidResetPassword from '../../../api/valid-reset-password'
 
@@ -68,21 +68,15 @@ export default function ResetPasswordView() {
   }
 
   return (
-    <div className='resetPasswordView-wrapper'>
+    <div style={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
       <img
-        className='logo'
+        style={{ display: 'flex', width: '64px', height: '64px' }}
         src={lambdeeLogo}
       />
-      <Card className='resetPasswordView-card'>
-        <Typography
-          className='resetPasswordView-card-title'
-          color='primary'
-          variant='body1'
-        >
-          Lambdee
-        </Typography>
+      <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 1, width: '248px', py: 3, px: 1 }}>
+        <Typography sx={{ fontSize: '24px', mb: 3 }} color='primary' variant='body1'>Lambdee</Typography>
         <TextField
-          className='resetPasswordView-card-input'
+          sx={{ mb: 2 }}
           label='New Password'
           variant='outlined'
           type='password'
@@ -90,7 +84,7 @@ export default function ResetPasswordView() {
           onChange={validatePasswords}
         />
         <TextField
-          className='resetPasswordView-card-input'
+          sx={{ mb: 2 }}
           label='Confirm New Password'
           variant='outlined'
           type='password'
@@ -102,7 +96,7 @@ export default function ResetPasswordView() {
         <Link
           onClick={() => navigate('/login')}
           component='button'
-          className='resetPasswordView-card-reset'
+          sx={{ display: 'flex', alignSelf: 'flex-start', ml: '9%', mb: '6%' }}
           underline='none'
           variant='body2'
         >
@@ -110,7 +104,7 @@ export default function ResetPasswordView() {
         </Link>
         <Button
           onClick={handleResetPassword}
-          className='resetPasswordView-card-button'
+          sx={{ width: '192px' }}
           variant='contained'
           disabled={differentPasswords}
         >

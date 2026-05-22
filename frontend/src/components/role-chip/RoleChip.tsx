@@ -1,7 +1,6 @@
 import { Chip } from '@mui/material'
 import React from 'react'
 
-import './RoleChip.sass'
 
 interface Props {
   name: string
@@ -25,14 +24,17 @@ export default function RoleChip({ name, color, onClickFunc }: Props) {
   return (
     <Chip
       onClick={toggleRoleChip}
-      className='RoleChip'
       label={name}
       ref={chipRef}
-      sx={{ background: color,
+      sx={{
+        background: color,
         opacity: 0.45,
         color: 'white',
         mb: 1,
-        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;',
-        '&:hover': { background: color, opacity: 0.6 } }} />
+        textTransform: 'uppercase',
+        fontWeight: 'bold',
+        transition: 'opacity 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms',
+        '&:hover': { background: color, opacity: 0.6 },
+      }} />
   )
 }

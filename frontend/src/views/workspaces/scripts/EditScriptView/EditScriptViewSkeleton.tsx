@@ -6,8 +6,8 @@ const EditScriptViewSkeleton = () => (
     <Paper className='EditCard'>
       <div className='EditCard-content'>
         <div className='EditCard-header'>
-          <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: '8px' }} />
-          <Skeleton variant='rectangular' width={210} height={32} sx={{ mb: '8px' }} />
+          <Skeleton variant='rectangular' width={480} height={40} sx={{ mb: 1 }} />
+          <Skeleton variant='rectangular' width={210} height={32} sx={{ mb: 1 }} />
         </div>
       </div>
     </Paper>

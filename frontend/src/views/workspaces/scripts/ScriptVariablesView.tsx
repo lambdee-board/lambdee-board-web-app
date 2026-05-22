@@ -1,6 +1,7 @@
 import * as React from 'react'
 
 import {
+  Box,
   List,
   Typography,
   ListItemButton,
@@ -15,7 +16,6 @@ import dayjs from 'dayjs'
 import useScriptVariables from '../../../api/script-variables'
 import useScriptVariablesPage from '../../../stores/script-variables-page'
 
-import './ScriptVariablesView.sass'
 
 interface ScriptVariable {
   name: string
@@ -57,8 +57,8 @@ export default function ScriptVariablesView() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div className='list-wrapper'>
-        <List className='List'>
+      <div style={{ width: '100%' }}>
+        <List>
           { !(isLoading || isError) &&
               scriptVariables?.scriptVariables.map((scriptVariable, idx) => (
                 <div key={idx}>
@@ -66,17 +66,17 @@ export default function ScriptVariablesView() {
                     divider
                     onClick={() => handleOpenDial(scriptVariable as ScriptVariable)}
                     sx={{ display: 'flex', justifyContent: 'space-between', height: '48px' }}>
-                    <div style={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: '16px' }}>
+                    <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                       <FontAwesomeIcon icon={faKey} opacity='0.58' />
                       <Typography sx={{ fontSize: '18px' }}>{(scriptVariable as ScriptVariable).name}</Typography>
-                    </div>
+                    </Box>
                     <Divider />
                   </ListItemButton>
                 </div>
               ))}
           { totalPages > 1 &&
           <Pagination
-            className='WorkspaceScriptsRuns-pagination'
+            sx={{ pt: 1, display: 'flex', justifyContent: 'center' }}
             count={totalPages || 0}
             color='primary'
             onChange={fetchNextUserPage}
@@ -91,19 +91,19 @@ export default function ScriptVariablesView() {
           open={openDial}
           onClose={handleCloseDial}
           maxWidth='lg'>
-          <div className='dialog-wrapper' style={{ padding: '24px' }}>
-            <div className='dialog-header'>
+          <Box sx={{ p: 3 }}>
+            <div>
               <Typography variant='h4'>{currentVar.name}</Typography>
               <Typography variant='h5'>
                 {currentVar.description}
               </Typography>
-              <div className='dialog-script-datetime'>
+              <Box sx={{ display: 'flex', gap: 3 }}>
                 <Typography>
                 Created at: {currentVar.createdAt ? dayjs(currentVar.createdAt).format('MM/DD/YY HH:mm:ss') : '-'}
                 </Typography>
-              </div>
+              </Box>
             </div>
-          </div>
+          </Box>
         </Dialog>
       }
     </div>

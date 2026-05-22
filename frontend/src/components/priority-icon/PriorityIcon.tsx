@@ -3,7 +3,6 @@ import type { SizeProp } from '@fortawesome/fontawesome-svg-core'
 
 import { prioritiesMap } from '../../internal/priorities'
 
-import './PriorityIcon.sass'
 
 interface Props {
   taskPriority?: string

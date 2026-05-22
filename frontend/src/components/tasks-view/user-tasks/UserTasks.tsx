@@ -19,7 +19,6 @@ import TaskCardModal from '../../task-card-modal/TaskCardModal'
 import TaskDueTime from '../../TaskDueTime'
 import UserTasksSkeleton from './UserTasksSkeleton'
 
-import './UserTasks.sass'
 
 interface Props {
   boardId: number
@@ -65,31 +64,30 @@ function UserTasks({ boardId, workspaceId }: Props) {
         </Modal>
       }
       {board?.lists.length > 0 &&
-        <Card className='userTasks-card' >
-          <Button sx={{ textTransform: 'none' }} className='userTasks-card-title'
+        <Card sx={{ display: 'flex', flexDirection: 'column', width: '304px', minHeight: '272px', maxHeight: '92%', m: 3 }}>
+          <Button sx={{ textTransform: 'none', display: 'flex', flexDirection: 'row', width: '100%', minHeight: '64px', color: 'black', alignItems: 'center', justifyContent: 'center' }}
             onClick={() => navigate(`/workspaces/${workspaceId}/boards/${board.id}`)}>
-            <FontAwesomeIcon className='userTasks-card-title-icon' icon={faClipboardList} color={board.color} />
-            <Typography sx={{ ml: '10px' }}>
+            <FontAwesomeIcon style={{ width: '32px', height: '32px' }} icon={faClipboardList} color={board.color} />
+            <Typography sx={{ ml: 1.25 }}>
               {board.name}
             </Typography>
           </Button>
           <Divider />
-          <div className='userTasks-card-lists'>
+          <div style={{ overflowY: 'auto' }}>
             {board.lists?.map((list) => (
-              <div key={list.id} className='userTasks-card-list'>
-                <div className='userTasks-card-list-title'>
+              <div key={list.id} style={{ display: 'flex', flexDirection: 'column' }}>
+                <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2, ml: 1 }}>
                   <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
-                </div>
+                </Box>
                 {list.tasks?.map((task) => (
                   <div key={task.id}>
-                    <Button sx={{ textTransform: 'none' }} className='userTasks-card-list-task' onClick={() => handleOpenTaskCardModal(task)} >
-                      <div className='userTasks-card-list-task-wrapper'>
-                        <div className='userTasks-card-list-task-priority'>
+                    <Button sx={{ textTransform: 'none', display: 'flex', flexDirection: 'row', color: 'black', width: '100%', alignItems: 'flex-start' }} onClick={() => handleOpenTaskCardModal(task)} >
+                      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+                        <div>
                           <PriorityIcon size='lg' taskPriority={task.priority} />
                         </div>
-
-                        <Typography noWrap className='userTasks-card-list-task-title' variant='caption'>{task.name}</Typography>
-                        <div className='Tasks-card-list-task-duetime'>
+                        <Typography noWrap sx={{ ml: 1, mr: 2 }} variant='caption'>{task.name}</Typography>
+                        <div style={{ marginLeft: 'auto' }}>
                           {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
                         </div>
                       </div>

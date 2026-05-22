@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 import {
+  Box,
   Card,
   Divider,
   Grid,
@@ -9,7 +10,6 @@ import {
 import useWorkspace from '../../../api/workspace'
 import WorkspaceTasksList from '../../../components/workspace-welcome/workspace-tasks-list/WorkspaceTasksList'
 
-import './WorkspaceWelcomeView.sass'
 
 export default function WorkspaceWelcomeView() {
   const { workspaceId } = useParams()
@@ -21,12 +21,12 @@ export default function WorkspaceWelcomeView() {
   )
 
   return (
-    <div className='tasksView-wrapper'>
-      <div className='tasksView-userTasks'>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: 'calc(100% - 24px)', minHeight: '656px', height: 'calc(100vh - 80px)', m: 1, flexShrink: 0, ml: 2, borderRadius: '8px', display: 'inline-flex', flexDirection: 'column' }}>
+      <Box sx={{ height: '100%', minHeight: '320px', overflowX: 'auto', display: 'flex', flexDirection: 'row', pt: 1 }}>
         {workspace.boards?.map((board) => (
           <WorkspaceTasksList key={board.id} workspaceId={workspaceId!} boardId={board.id} />
         ))}
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }
