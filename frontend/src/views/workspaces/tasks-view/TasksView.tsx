@@ -34,12 +34,12 @@ export default function TasksView() {
         {workspaces.map((workspace) => (
           <Button sx={{ textTransform: 'none', flexShrink: '0' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>
             <Card sx={{ display: 'flex', flexDirection: 'column', width: '304px', height: '272px', m: 2, ...(pickedWorkspace && pickedWorkspace.id === workspace.id ? { boxSizing: 'border-box', border: '2px solid #1082F3' } : {}) }}>
-              <div style={{ display: 'flex', flexDirection: 'row', width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', height: '30%', alignItems: 'center', justifyContent: 'center' }}>
                 <WorkspaceIcon name={workspace.name} size={52} />
                 <Typography sx={{ ml: 1.25 }}>
                   {workspace.name}
                 </Typography>
-              </div>
+              </Box>
               <Divider />
               <Grid
                 container

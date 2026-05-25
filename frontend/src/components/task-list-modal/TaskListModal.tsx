@@ -84,7 +84,7 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
   }
 
   return (
-    <div style={{ width: '400px' }}>
+    <Box sx={{ width: '400px' }}>
       <Card sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
         <Modal
           open={alertModalState}
@@ -142,6 +142,6 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
           </Box>
         </Box>
       </Card>
-    </div>
+    </Box>
   )
 }

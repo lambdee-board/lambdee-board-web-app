@@ -59,15 +59,15 @@ function WorkspaceTask({ listId, boardId }: Props) {
       {taskList.tasks?.map((task) => (
         <div key={task.id}>
           <Button sx={{ textTransform: 'none', color: 'black', display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'flex-start' }} onClick={() => handleOpenTaskCardModal(task)} >
-            <div style={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+            <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
               <div>
                 <PriorityIcon size='lg' taskPriority={task.priority} />
               </div>
               <Typography noWrap sx={{ ml: 1, mr: 2 }} variant='caption'>{task.name}</Typography>
-              <div style={{ marginLeft: 'auto' }}>
+              <Box sx={{ marginLeft: 'auto' }}>
                 {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
-              </div>
-            </div>
+              </Box>
+            </Box>
           </Button>
         </div>
       ))}

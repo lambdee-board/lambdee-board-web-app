@@ -41,7 +41,7 @@ const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTi
   }
 
   return (
-    <div style={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }}>
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -82,7 +82,7 @@ const TaskCard = ({ label = '', tags = [], assignedUsers = [], listId, id, dueTi
           </AvatarGroup>
         </Box>
       </Card>
-    </div>
+    </Box>
   )
 }
 

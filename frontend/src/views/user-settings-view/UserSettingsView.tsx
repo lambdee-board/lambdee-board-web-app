@@ -18,8 +18,6 @@ import useCurrentUser from '../../api/current-user'
 import useAppAlertStore from '../../stores/app-alert'
 import UserSettingsViewSkeleton from './UserSettingsViewSkeleton'
 
-
-
 export default function UserSettingsView() {
   const { data: user, isLoading, isError, mutate } = useCurrentUser()
   const addAlert = useAppAlertStore((store) => store.addAlert)

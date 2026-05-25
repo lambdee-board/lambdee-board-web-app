@@ -152,7 +152,7 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
           - Select both <strong>Scope Type</strong> and <strong>Scope Id</strong><br />
           </Alert>
         }
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -193,9 +193,9 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -236,9 +236,9 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -264,10 +264,10 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
             label='Delay (seconds)'
             variant='standard'
           />
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-around' }}>
-          <div style={{ display: 'flex', flexFlow: 'row', alignItems: 'center', height: '68px' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-around' }}>
+          <Box sx={{ display: 'flex', flexFlow: 'row', alignItems: 'center', height: '68px' }}>
             <Typography>Button Color</Typography>
             <ColorPickerPopover
               color={uiTriggerState.color}
@@ -277,7 +277,7 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
                   color
                 })
               }} />
-          </div>
+          </Box>
 
           <FormControlLabel
             sx={{ display: 'flex', justifyContent: 'flex-start', m: 0, width: '150px', height: '68px' }}
@@ -290,7 +290,7 @@ const UiTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
             label='Private'
             labelPlacement='start'
             disabled={subjectTypeGlobal()} />
-        </div>
+        </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button size='large' onClick={handleCloseDial}>Cancel</Button>

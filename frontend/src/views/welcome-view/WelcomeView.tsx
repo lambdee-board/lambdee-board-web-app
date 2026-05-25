@@ -16,7 +16,6 @@ import WelcomeViewSkeleton from './WelcomeViewSkeleton'
 
 import type { Board } from '../../types'
 
-
 interface WelcomeViewMessageProps {
   userName: string
 }
@@ -51,12 +50,12 @@ export default function WelcomeView() {
   )
 
   return (
-    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: 'calc(100% - 16px)', minHeight: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'column' }}>
+    <Box sx={{ backgroundColor: 'primary.light', minHeight: '100vh' }}>
       <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', pt: 18, pb: 18 }}>
         <WelcomeViewMessage userName={user.name} />
       </Box>
       {boards?.length > 0 &&
-        <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
           <Typography color='primary' sx={{ fontSize: 20 }}>Recents</Typography>
           <Box sx={{ display: 'flex', width: '60%', pb: 5 }}>
             <Grid container spacing={0}>
@@ -67,10 +66,10 @@ export default function WelcomeView() {
               ))}
             </Grid>
           </Box>
-        </div>
+        </Box>
       }
       {workspaces?.length > 0 &&
-        <div style={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
           <Typography color='primary' sx={{ fontSize: 20 }}>Workspaces</Typography>
           <Box sx={{ display: 'flex', width: '60%', pb: 10 }}>
             <Grid container spacing={0}>
@@ -81,7 +80,7 @@ export default function WelcomeView() {
               ))}
             </Grid>
           </Box>
-        </div>
+        </Box>
       }
     </Box>
   )

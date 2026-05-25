@@ -98,7 +98,7 @@ export default function WorkspaceScriptsView() {
   }
 
   return (
-    <div style={{ width: '100%', height: 'calc(100vh - 128px)' }}>
+    <Box sx={{ width: '100%', height: 'calc(100vh - 128px)' }}>
 
       <Toolbar sx={{ display: 'flex', justifyContent: 'space-between' }}>
         <div>
@@ -167,6 +167,6 @@ export default function WorkspaceScriptsView() {
           onSubmit={persistNewScriptVariable}
         />
       </Box>
-    </div>
+    </Box>
   )
 }

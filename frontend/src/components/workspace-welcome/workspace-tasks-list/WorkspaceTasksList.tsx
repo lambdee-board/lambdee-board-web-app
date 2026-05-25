@@ -44,16 +44,16 @@ function WorkspaceTasksList({ boardId, workspaceId }: Props) {
             </Typography>
           </Button>
           <Divider />
-          <div style={{ overflowY: 'auto' }}>
+          <Box sx={{ overflowY: 'auto' }}>
             {board.lists?.map((list) => (
-              <div key={list.id} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Box key={list.id} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2, ml: 1 }}>
                   <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
                 </Box>
                 <WorkspaceTask listId={list.id} boardId={board.id} />
-              </div>
+              </Box>
             ))}
-          </div>
+          </Box>
         </Card>
       }
     </div>

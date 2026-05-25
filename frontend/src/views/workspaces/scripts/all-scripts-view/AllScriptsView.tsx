@@ -43,8 +43,8 @@ export default function AllScriptsView() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ width: '100%' }}>
         <List>
           { !(isLoading || isError) &&
               scripts?.scripts.map((script, idx) => (
@@ -72,7 +72,7 @@ export default function AllScriptsView() {
           }
         </List>
 
-      </div>
-    </div>
+      </Box>
+    </Box>
   )
 }

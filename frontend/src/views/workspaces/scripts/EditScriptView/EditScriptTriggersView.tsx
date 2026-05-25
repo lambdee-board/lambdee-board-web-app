@@ -113,7 +113,7 @@ export default function EditScriptTriggersView() {
   }
   if (isLoading || isError) return (<></>)
   return (
-    <div style={{ display: 'flex', flexDirection: 'column' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'column' }}>
       <Box sx={{ mb: 1.5, mt: 3 }}>
         <Button
           onClick={handleOpenDial}
@@ -131,7 +131,7 @@ export default function EditScriptTriggersView() {
         color: '#029fd1',
         opacity: '0.3' }}>no triggers created</Typography>}
       {script?.scriptTriggers.length !== 0 && <Divider>Callback Triggers</Divider>}
-      <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
         {script?.scriptTriggers?.map((trigger, idx) => (
           <div key={`trigger-${idx}`}>
             <Card sx={{ display: 'flex', width: '240px', flexDirection: 'column', alignItems: 'center', p: 1.5, m: 1.5 }}>
@@ -177,11 +177,11 @@ export default function EditScriptTriggersView() {
             </Card>
           </div>
         ))}
-      </div>
+      </Box>
       {script?.uiScriptTriggers.length !== 0 && <Divider sx={{ mt: 1.5 }}>Action Triggers</Divider>}
-      <div style={{ display: 'flex', flexDirection: 'row', overflow: 'auto'  }}>
+      <Box sx={{ display: 'flex', flexDirection: 'row', overflow: 'auto' }}>
         {script?.uiScriptTriggers?.map((uiTrigger, idx) => (
-          <div style={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }} key={`ui-trigger-${idx}`}>
             <Card sx={{ width: '240px', display: 'flex', flexDirection: 'column', alignItems: 'center', p: 1.5, m: 1.5 }}>
               <Modal
                 open={alertModalState}
@@ -226,14 +226,14 @@ export default function EditScriptTriggersView() {
                 Delete
               </Button>
             </Card>
-          </div>
+          </Box>
         ))}
-      </div>
+      </Box>
       <ScriptTriggerDialog
         openDial={openDial}
         handleCloseDial={handleCloseDial}
         handleSubmit={handleSubmit}
       />
-    </div>
+    </Box>
   )
 }

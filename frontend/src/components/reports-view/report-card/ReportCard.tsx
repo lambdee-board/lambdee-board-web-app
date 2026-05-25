@@ -49,14 +49,14 @@ const ReportCard = ({ sprintId, sprintName, sprintDescription, sprintStartedAt, 
       </Modal>
       <ListItem divider onClick={() => setOpenReportModal(true)} sx={{ transition: '.1s ease-in', cursor: 'pointer', '&:hover': { backgroundColor: '#f7f7f7' } }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <UserInfo userName={sprintName} userTitle={sprintDescription} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
             <LabeledData label='Sprint Start' data={formatDate(sprintStartedAt)} />
             <LabeledData label='Sprint Expected End' data={formatDate(sprintExpectedEndAt)} />
             <LabeledData label='Sprint End' data={sprintEndedAt ? formatDate(sprintEndedAt) : undefined} />
-          </div>
+          </Box>
         </Box>
       </ListItem>
     </Box>

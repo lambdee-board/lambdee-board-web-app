@@ -61,15 +61,15 @@ const EditScriptView = () => {
   if (isLoading || isError) return (<EditScriptViewSkeleton />)
 
   return (
-    <div style={{ position: 'absolute', width: 'calc(100vw - 280px)', minHeight: 'calc(100vh - 104px)', padding: 16 }}>
+    <Box sx={{ position: 'absolute', width: 'calc(100vw - 280px)', minHeight: 'calc(100vh - 104px)', padding: 16 }}>
       <Paper sx={{ minHeight: 'calc(100vh - 104px)', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', borderRadius: '8px', p: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', minWidth: '1000px', width: 'calc(100% - 24px)' }}>
-        <div style={{ width: '100%', minWidth: '1000px' }}>
-          <div style={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
-            <div style={{ width: '600px' }}>
+        <Box sx={{ width: '100%', minWidth: '1000px' }}>
+          <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
+            <Box sx={{ width: '600px' }}>
               <ScriptLabel id={script.id} text={script.name} />
               <ScriptLabel id={script.id} text={script.description} type='description' />
-            </div>
-            <div style={{ justifySelf: 'flex-end', marginLeft: 'auto' }}>
+            </Box>
+            <Box sx={{ justifySelf: 'flex-end', marginLeft: 'auto' }}>
               <Box sx={{ display: 'flex', flexDirection: 'row', mt: 1.5, gap: 0.5 }}>
                 <Button
                   onClick={() => { if (scriptView !== 'code') setScriptView('code') }}
@@ -97,12 +97,12 @@ const EditScriptView = () => {
                 </Button>
               </Box>
               <ScriptAuthor authorId={script?.authorId} />
-            </div>
-          </div>
+            </Box>
+          </Box>
           <Outlet />
-        </div>
+        </Box>
       </Paper>
-    </div>
+    </Box>
   )
 }
 

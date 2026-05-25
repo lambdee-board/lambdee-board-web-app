@@ -41,7 +41,7 @@ const TaskListItem = ({ label = '', tags = [], assignedUsers = [], listId, id, d
     setOpenTaskCardModal(false)
   }
   return (
-    <div style={{ width: '100%' }}>
+    <Box sx={{ width: '100%' }}>
       <Modal
         open={openTaskCardModal}
         onClose={handleCloseTaskCardModal}
@@ -90,7 +90,7 @@ const TaskListItem = ({ label = '', tags = [], assignedUsers = [], listId, id, d
           </Box>
         </Box>
       </Box>
-    </div>
+    </Box>
   )
 }
 

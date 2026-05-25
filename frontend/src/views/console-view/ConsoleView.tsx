@@ -202,7 +202,7 @@ puts ruby`)
   }
 
   return (
-    <div style={{ overflowY: 'scroll', overflowX: 'scroll', fontFamily: '"Fira code", "Fira Mono", monospace', backgroundColor: '#032b3a', width: '100vw', height: 'calc(100vh - 64px)', color: '#fff' }}>
+    <Box sx={{ overflowY: 'scroll', overflowX: 'scroll', fontFamily: '"Fira code", "Fira Mono", monospace', backgroundColor: '#032b3a', width: '100vw', height: 'calc(100vh - 64px)', color: '#fff' }}>
       {consoleHistory.map((interaction, index) => (interaction.type === WebSocketMessage.types.consoleOutput ? (
         <Box key={index} sx={{ my: 0, mx: 1 }}>
           <CodeHighlighter code={strip(interaction.content)} />
@@ -235,7 +235,7 @@ puts ruby`)
           </Box>
         )}
       </Box>
-    </div>
+    </Box>
   )
 }
 

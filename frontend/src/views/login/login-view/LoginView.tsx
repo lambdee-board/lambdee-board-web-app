@@ -2,6 +2,7 @@ import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import { jwtDecode } from 'jwt-decode'
 import {
+  Box,
   Card,
   Link,
   TextField,
@@ -71,7 +72,7 @@ export default function LoginView() {
   }
 
   return (
-    <div style={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onKeyDown={handleKeyDown} >
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onKeyDown={handleKeyDown} >
       <img
         style={{ display: 'flex', width: '64px', height: '64px' }}
         src={lambdeeLogo}
@@ -131,6 +132,6 @@ export default function LoginView() {
           </Link>
         }
       </Card>
-    </div>
+    </Box>
   )
 }

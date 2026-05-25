@@ -1,6 +1,7 @@
 import React from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
+  Box,
   Card,
   Typography,
   Link,
@@ -18,7 +19,7 @@ import lambdeeLogo from '../../../assets/lambdee-logo.svg'
 export default function PasswordResetView() {
   const navigate = useNavigate()
   return (
-    <div style={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
+    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }}>
       <img
         style={{ display: 'flex', width: '64px', height: '64px' }}
         src={lambdeeLogo}
@@ -29,6 +30,6 @@ export default function PasswordResetView() {
         <FontAwesomeIcon style={{ height: '88px', width: '88px', color: '#1082F3', marginTop: 16, marginBottom: 24 }} icon={faEnvelopeOpenText} />
         <Link onClick={() => navigate('/login')} component='button' sx={{ display: 'flex', alignSelf: 'flex-start', ml: '9%', mb: '6%' }} underline='none' variant='body2'>Back to login</Link>
       </Card>
-    </div>
+    </Box>
   )
 }

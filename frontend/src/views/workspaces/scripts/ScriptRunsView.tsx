@@ -62,8 +62,8 @@ export default function ScriptRunsView() {
 
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ width: '100%' }}>
         {!(isLoading || isError) &&
         <List>
 
@@ -97,7 +97,7 @@ export default function ScriptRunsView() {
             page={filter.page} />
         }
 
-      </div>
+      </Box>
       { currentRun &&
         <Dialog
           open={openDial}
@@ -134,6 +134,6 @@ export default function ScriptRunsView() {
           </Box>
         </Dialog>
       }
-    </div>
+    </Box>
   )
 }

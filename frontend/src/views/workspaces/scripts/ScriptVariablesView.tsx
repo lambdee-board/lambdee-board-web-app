@@ -56,8 +56,8 @@ export default function ScriptVariablesView() {
   }
 
   return (
-    <div style={{ display: 'flex', flexDirection: 'row' }}>
-      <div style={{ width: '100%' }}>
+    <Box sx={{ display: 'flex', flexDirection: 'row' }}>
+      <Box sx={{ width: '100%' }}>
         <List>
           { !(isLoading || isError) &&
               scriptVariables?.scriptVariables.map((scriptVariable, idx) => (
@@ -85,7 +85,7 @@ export default function ScriptVariablesView() {
           }
         </List>
 
-      </div>
+      </Box>
       { currentVar &&
         <Dialog
           open={openDial}
@@ -106,6 +106,6 @@ export default function ScriptVariablesView() {
           </Box>
         </Dialog>
       }
-    </div>
+    </Box>
   )
 }

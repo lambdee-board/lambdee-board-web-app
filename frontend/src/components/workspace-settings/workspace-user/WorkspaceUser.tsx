@@ -80,14 +80,14 @@ const WorkspaceUser = ({ userId, userAvatarUrl, userName, userTitle, userRegiste
       </Modal>
       <ListItem divider>
         <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', width: '100%' }}>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             <Avatar sx={{ mr: 1 }} src={userAvatarUrl} />
             <UserInfo userName={userName} userTitle={userTitle} />
-          </div>
-          <div style={{ display: 'flex', flexDirection: 'row' }}>
+          </Box>
+          <Box sx={{ display: 'flex', flexDirection: 'row' }}>
             { userLoginDate && <LabeledData label='Last Login' data={formatDate(userLoginDate)} />}
             { userRegisterDate && <LabeledData label='Registered' data={formatDate(userRegisterDate)} />}
-          </div>
+          </Box>
         </Box>
         { !hideDelete &&
           <IconButton onClick={toggleAlertModalState}>

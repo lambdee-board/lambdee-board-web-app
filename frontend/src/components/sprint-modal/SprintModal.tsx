@@ -185,7 +185,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
               <Typography sx={{
                 fontSize: 24
               }}>Start new sprint</Typography>              :
-              <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+              <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Modal
                   open={openReportModal}
                   onClose={() => setOpenReportModal(false)}
@@ -216,7 +216,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                 >
                   <Typography>Details</Typography>
                 </Button>
-              </div>}
+              </Box>}
 
           </Box>
           <Box sx={{ mb: 4 }}>

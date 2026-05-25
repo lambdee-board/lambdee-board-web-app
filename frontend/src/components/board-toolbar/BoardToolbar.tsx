@@ -100,7 +100,7 @@ export default function BoardToolbar() {
   }
 
   return (
-    <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+    <Box sx={{ display: 'flex', justifyContent: 'space-between' }}>
       <Modal
         open={newSprintModal}
         onClose={handleCloseSprintModal}
@@ -246,6 +246,6 @@ export default function BoardToolbar() {
         }
 
       </Toolbar>
-    </div>
+    </Box>
   )
 }

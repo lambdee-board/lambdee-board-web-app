@@ -73,30 +73,30 @@ function UserTasks({ boardId, workspaceId }: Props) {
             </Typography>
           </Button>
           <Divider />
-          <div style={{ overflowY: 'auto' }}>
+          <Box sx={{ overflowY: 'auto' }}>
             {board.lists?.map((list) => (
-              <div key={list.id} style={{ display: 'flex', flexDirection: 'column' }}>
+              <Box key={list.id} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2, ml: 1 }}>
                   <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
                 </Box>
                 {list.tasks?.map((task) => (
                   <div key={task.id}>
                     <Button sx={{ textTransform: 'none', display: 'flex', flexDirection: 'row', color: 'black', width: '100%', alignItems: 'flex-start' }} onClick={() => handleOpenTaskCardModal(task)} >
-                      <div style={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
+                      <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', alignItems: 'center' }}>
                         <div>
                           <PriorityIcon size='lg' taskPriority={task.priority} />
                         </div>
                         <Typography noWrap sx={{ ml: 1, mr: 2 }} variant='caption'>{task.name}</Typography>
-                        <div style={{ marginLeft: 'auto' }}>
+                        <Box sx={{ marginLeft: 'auto' }}>
                           {task.dueTime && <TaskDueTime dueTime={task.dueTime} format={'MM/DD/YY'} />}
-                        </div>
-                      </div>
+                        </Box>
+                      </Box>
                     </Button>
                   </div>
                 ))}
-              </div>
+              </Box>
             ))}
-          </div>
+          </Box>
         </Card>
       }
     </div>

@@ -1,3 +1,4 @@
+import { Box } from '@mui/material'
 import useErrorCounterStore from '../../stores/error-counter'
 
 function ErrorCounter() {
@@ -8,13 +9,13 @@ function ErrorCounter() {
   if (errorCount === 0 && warningCount === 0) return
 
   return (
-    <div style={{ fontSize: '.8rem', position: 'absolute', bottom: 0, left: '50%', transform: 'translate(-50%, 0)', zIndex: 1500, backgroundColor: 'red', color: 'white', borderRadius: '8px', padding: '1rem 2rem' }}>
-      <div style={{ marginBottom: '.5rem', fontSize: '1rem' }}>Take a look at the browser console</div>
+    <Box sx={{ fontSize: '.8rem', position: 'absolute', bottom: 0, left: '50%', transform: 'translate(-50%, 0)', zIndex: 1500, backgroundColor: 'red', color: 'white', borderRadius: '8px', padding: '1rem 2rem' }}>
+      <Box sx={{ marginBottom: '.5rem', fontSize: '1rem' }}>Take a look at the browser console</Box>
       <div>
         <div>Errors: {errorCount}</div>
         <div>Warnings: {warningCount}</div>
       </div>
-    </div>
+    </Box>
   )
 }
 

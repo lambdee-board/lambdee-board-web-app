@@ -176,7 +176,7 @@ const CallbackTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
           - Select both <strong>Scope Type</strong> and <strong>Scope Id</strong><br />
           </Alert>
         }
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             fullWidth
             margin='dense'
@@ -196,9 +196,9 @@ const CallbackTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -239,9 +239,9 @@ const CallbackTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row', justifyContent: 'space-between' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -282,9 +282,9 @@ const CallbackTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
               </MenuItem>
             ))}
           </TextField>
-        </div>
+        </Box>
 
-        <div style={{ display: 'flex', flexFlow: 'row' }}>
+        <Box sx={{ display: 'flex', flexFlow: 'row' }}>
           <TextField
             sx={{ width: '200px' }}
             margin='dense'
@@ -309,7 +309,7 @@ const CallbackTriggerFrom = ({ handleCloseDial, handleSubmit }: Props) => {
             label='Private'
             labelPlacement='start'
             disabled={subjectTypeGlobal()} />
-        </div>
+        </Box>
       </Box>
       <Box sx={{ display: 'flex', justifyContent: 'flex-end', mt: 3 }}>
         <Button size='large' onClick={handleCloseDial}>Cancel</Button>

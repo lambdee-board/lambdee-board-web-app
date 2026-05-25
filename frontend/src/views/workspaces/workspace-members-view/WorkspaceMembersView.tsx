@@ -70,8 +70,8 @@ export default function WorkspaceMembersView() {
 
   return (
     <Box sx={{ pt: 1, pl: 2.5, pr: 1.5, pb: 1 }}>
-      <div style={{ display: 'flex', flexFlow: 'row', width: '100%', minHeight: 'calc(100vh - 80px)' }}>
-        <div style={{ width: '100%' }}>
+      <Box sx={{ display: 'flex', flexFlow: 'row', width: '100%', minHeight: 'calc(100vh - 80px)' }}>
+        <Box sx={{ width: '100%' }}>
           <List sx={{ height: 'fit-content', pb: 0, mb: 0 }}>
             { !(isLoading || isError) ?
               checkIfAnyUsers() :
@@ -89,7 +89,7 @@ export default function WorkspaceMembersView() {
                 size='large'
                 page={filter.page as number} />
           }
-        </div>
+        </Box>
         <Box sx={{ maxWidth: '360px', ml: 1 }}>
           <UsersFilter
             workspaces={workspaces || []}
@@ -97,7 +97,7 @@ export default function WorkspaceMembersView() {
             updateFilters={updateFilters}
           />
         </Box>
-      </div>
+      </Box>
     </Box>
   )
 }

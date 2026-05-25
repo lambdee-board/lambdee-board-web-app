@@ -1,6 +1,7 @@
 import React from 'react'
 import { useParams } from 'react-router-dom'
 
+import { Box } from '@mui/material'
 import { ReactSortable } from 'react-sortablejs'
 
 import apiClient from '../../../../api/axios-client'
@@ -75,14 +76,14 @@ export default function BoardWorkView() {
 
   if (isLoading || isError) return (
     <div>
-      <div style={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
-        <div style={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
+      <Box sx={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
+        <Box sx={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
           {[0, 1, 2].map((index) => (
             <TaskListSkeleton key={index} />
           ))}
-          <div style={{ paddingRight: 16 }}></div>
-        </div>
-      </div>
+          <Box sx={{ paddingRight: 16 }}></Box>
+        </Box>
+      </Box>
     </div>
   )
 
@@ -98,7 +99,7 @@ export default function BoardWorkView() {
 
   return (
     <div>
-      <div style={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
+      <Box sx={{ overflowX: 'auto', height: 'calc(100vh - 136px)' }}>
         {isManager() ?
           <ReactSortable
             onChoose={(event) => setDraggedListId(parseInt((event.item as HTMLElement).dataset.listId!))}
@@ -113,10 +114,10 @@ export default function BoardWorkView() {
           >
             {listComponents}
           </ReactSortable> :
-          <div style={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
+          <Box sx={{ width: 'fit-content', display: 'flex', flexDirection: 'row', marginLeft: 20 }}>
             {listComponents}
-          </div>}
-      </div>
+          </Box>}
+      </Box>
     </div>
   )
 }

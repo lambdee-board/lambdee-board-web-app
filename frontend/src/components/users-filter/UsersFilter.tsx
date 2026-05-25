@@ -139,7 +139,7 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
       </FormControl>
       <Box sx={{ width: '100%', my: 2 }}>
         <Typography sx={{ mb: 1 }}>Account creation date</Typography>
-        <div style={{ display: 'flex', justifyContent: 'space-between', flexFlow: 'wrap' }}>
+        <Box sx={{ display: 'flex', justifyContent: 'space-between', flexFlow: 'wrap' }}>
           <FormControl sx={{ display: 'flex', flexDirection: 'column', pb: 1 }}>
             <InputLabel htmlFor='UserFilter-date-start' shrink >From</InputLabel>
             <OutlinedInput
@@ -166,7 +166,7 @@ const UsersFilter = ({ workspaces, dataLoadingOrError, updateFilters }: Props) =
               onChange={(event) => setEndDate(event.target.value)}
             />
           </FormControl>
-        </div>
+        </Box>
       </Box>
       <Button
         onClick={getFilters}
