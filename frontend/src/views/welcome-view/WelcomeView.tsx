@@ -55,13 +55,16 @@ export default function WelcomeView() {
       {boards?.length > 0 &&
         <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
           <Typography variant='h6' color='primary'>Recents</Typography>
-          <Box sx={{ display: 'flex', width: '60%', pb: 5 }}>
+          <Box sx={{ width: '60%', pb: 10 }}>
             <Grid container spacing={0}>
-              {boards.map((recentBoard) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 2 }} key={recentBoard.id}>
-                  <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColor={recentBoard.color} workspaceId={recentBoard.workspaceId} />
-                </Grid>
-              ))}
+              {boards.map((recentBoard) => {
+                const workspaceName = workspaces?.find((w) => w.id === recentBoard.workspaceId)?.name ?? ''
+                return (
+                  <Grid size={{ xs: 6, sm: 6, md: 4, lg: 2 }} key={recentBoard.id}>
+                    <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColor={recentBoard.color} workspaceId={recentBoard.workspaceId} workspaceName={workspaceName} />
+                  </Grid>
+                )
+              })}
             </Grid>
           </Box>
         </Box>
@@ -69,7 +72,7 @@ export default function WelcomeView() {
       {workspaces?.length > 0 &&
         <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
           <Typography variant='h6' color='primary'>Workspaces</Typography>
-          <Box sx={{ display: 'flex', width: '60%', pb: 10 }}>
+          <Box sx={{ width: '60%', pb: 10 }}>
             <Grid container spacing={0}>
               {workspaces.map((workspace) => (
                 <Grid size={{ xs: 6, sm: 6, md: 4, lg: 2 }} key={workspace.id}>

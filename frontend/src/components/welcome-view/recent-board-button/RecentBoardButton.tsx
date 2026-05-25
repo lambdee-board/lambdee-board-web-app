@@ -3,8 +3,6 @@ import { useNavigate } from 'react-router-dom'
 
 import { Typography, Button, Box } from '@mui/material'
 
-import useWorkspace from '../../../api/workspace'
-
 import RecentBoardIcon from '../../recent-board-icon/RecentBoardIcon'
 
 
@@ -13,27 +11,21 @@ interface Props {
   boardName: string
   boardColor: string
   workspaceId: number
+  workspaceName: string
 }
 
-const RecentBoardButton = ({ boardId, boardName, boardColor, workspaceId }: Props) => {
-  const { data: workspace, isLoading, isError } = useWorkspace({ id: workspaceId, axiosOptions: null })
+const RecentBoardButton = ({ boardId, boardName, boardColor, workspaceId, workspaceName }: Props) => {
   const navigate = useNavigate()
-
-
-  if (isLoading || isError) return (
-    <div></div>
-  )
-
 
   return (
     <Box sx={{
       textAlign: 'center'
     }} >
-      <Button fullWidth sx={{ textTransform: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', margin: 0 }} onClick={() => {
+      <Button fullWidth sx={{ textTransform: 'none', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', mt: 2, mb: 2 }} onClick={() => {
         navigate(`/workspaces/${workspaceId}/boards/${boardId}`)
       }}>
-        <RecentBoardIcon name={workspace.name} size={52} color={boardColor} iconSize='32' />
-        <Typography sx={{ color: 'black' }}>{workspace.name}/{boardName}</Typography>
+        <RecentBoardIcon name={workspaceName} size={52} color={boardColor} iconSize='32' />
+        <Typography sx={{ color: 'black', width: '100%', overflowWrap: 'anywhere' }}>{workspaceName}/{boardName}</Typography>
       </Button>
     </Box>
   )
