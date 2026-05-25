@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ScriptLabel = ({ id, text, type }: Props) => {
-  const descStyle = type !== 'description' ? {} : { fontSize: 18 }
+  const isDescription = type === 'description'
   const addAlert = useAppAlertStore((store) => store.addAlert)
   const [editScriptLabelButton, setEditScriptLabel] = React.useState(true)
 
@@ -79,7 +79,8 @@ const ScriptLabel = ({ id, text, type }: Props) => {
       {editScriptLabelButton ? (
         <Typography
           onClick={editScriptLabelOnClick}
-          sx={{ mt: 1, mb: 1.5, fontSize: 28, cursor: 'pointer', '&:hover': { backgroundColor: '#DCDCDC', borderRadius: '8px' }, ...descStyle }}
+          variant={isDescription ? 'h6' : 'h5'}
+          sx={{ mt: 1, mb: 1.5, cursor: 'pointer', '&:hover': { backgroundColor: '#DCDCDC', borderRadius: '8px' } }}
         >
           {text}
         </Typography>
@@ -90,7 +91,7 @@ const ScriptLabel = ({ id, text, type }: Props) => {
             fullWidth
             multiline
             defaultValue={text}
-            sx={{ fontSize: 28, ...descStyle }}
+            sx={{ fontSize: isDescription ? '1.25rem' : '1.75rem' }}
             onKeyDown={(e) => editScriptLabelInputOnKey(e)}
             onBlur={() => toggleEditScriptLabelButton()}
           />

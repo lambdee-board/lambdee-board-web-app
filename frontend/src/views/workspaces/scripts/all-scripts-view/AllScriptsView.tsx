@@ -55,7 +55,7 @@ export default function AllScriptsView() {
                     sx={{ display: 'flex', justifyContent: 'space-between', height: '48px' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                       <FontAwesomeIcon icon={faGem} opacity='0.58' />
-                      <Typography sx={{ fontSize: '18px' }}>{script.name}</Typography>
+                      <Typography variant='h6'>{script.name}</Typography>
                     </Box>
                     <Divider />
                   </ListItemButton>

@@ -123,8 +123,7 @@ export default function EditScriptTriggersView() {
           <Typography>Create new Trigger</Typography>
         </Button>
       </Box>
-      {script?.scriptTriggers.length === 0 && script?.uiScriptTriggers.length === 0 && <Typography sx={{ width: '100%',
-        fontSize: '32px',
+      {script?.scriptTriggers.length === 0 && script?.uiScriptTriggers.length === 0 && <Typography variant='h4' sx={{ width: '100%',
         textTransform: 'uppercase',
         fontWeight: 'bold',
         textAlign: 'center',

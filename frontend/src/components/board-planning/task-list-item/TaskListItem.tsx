@@ -57,7 +57,7 @@ const TaskListItem = ({ label = '', tags = [], assignedUsers = [], listId, id, d
         </Box>
       </Modal>
       <Box ref={dndRef} onClick={handleOpenTaskCardModal} sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', p: 0.5, transition: '.1s ease-in', cursor: 'pointer' }}>
-        <Typography variant='caption' sx={{ fontSize: '14px' }} >
+        <Typography variant='body2'>
           {label}
         </Typography>
         <Box sx={{ display: 'flex', justifyContent: 'flex-end', alignItems: 'center' }}>

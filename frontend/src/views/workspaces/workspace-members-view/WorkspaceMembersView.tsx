@@ -65,7 +65,7 @@ export default function WorkspaceMembersView() {
         />
       ))
     }
-    return <Typography sx={{ width: '100%', fontSize: '48px', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No users found</Typography>
+    return <Typography variant='h3' sx={{ width: '100%', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No users found</Typography>
   }
 
   return (

@@ -85,7 +85,7 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
 
   return (
     <Box sx={{ width: '400px' }}>
-      <Card sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+      <Card sx={{ bgcolor: 'primary.light' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}
@@ -107,7 +107,8 @@ export default function TaskListModal({ listId, title, listVisibility }: Props) 
           <div>
             { !editingListTitle &&
               <Typography
-                sx={{ fontSize: '32px', textAlign: 'center', cursor: 'pointer', '&:hover': { backgroundColor: '#77777710' } }}
+                variant='h4'
+                sx={{ textAlign: 'center', cursor: 'pointer', '&:hover': { backgroundColor: '#77777710' } }}
                 onClick={() => editListTitleOnClick()}>
                 {title}
               </Typography>

@@ -72,13 +72,13 @@ export default function LoginView() {
   }
 
   return (
-    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onKeyDown={handleKeyDown} >
+    <Box sx={{ bgcolor: 'primary.light', width: '100vw', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center', alignContent: 'center' }} onKeyDown={handleKeyDown} >
       <img
         style={{ display: 'flex', width: '64px', height: '64px' }}
         src={lambdeeLogo}
       />
       <Card sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', mt: 1, minWidth: '248px', py: 3, px: 1, minHeight: '272px' }}>
-        <Typography sx={{ fontSize: '24px', mb: 3 }} color='primary' variant='body1'>Lambdee</Typography>
+        <Typography variant='h5' sx={{ mb: 3 }} color='primary'>Lambdee</Typography>
         <TextField
           inputRef={emailRef}
           slotProps={{ htmlInput: { id: 'login-email' } }}

@@ -29,7 +29,7 @@ export default function TasksView() {
   )
 
   return (
-    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', width: 'calc(100% - 16px)', minHeight: '656px', height: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'column' }}>
+    <Box sx={{ bgcolor: 'primary.light', width: 'calc(100% - 16px)', minHeight: '656px', height: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'column' }}>
       <Box sx={{ display: 'flex', overflowX: 'auto', overflowY: 'hidden', flexDirection: 'row', alignItems: 'center', pt: 1, minHeight: '320px' }}>
         {workspaces.map((workspace) => (
           <Button sx={{ textTransform: 'none', flexShrink: '0' }} key={workspace.id} onClick={() => setPickedWorkspace(workspace)}>

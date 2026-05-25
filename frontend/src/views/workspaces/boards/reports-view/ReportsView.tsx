@@ -39,7 +39,7 @@ const ReportsView = () => {
 
     <Box sx={{ pt: 1, pl: 2.5, pr: 1.5, pb: 1 }}>
       {boardSprints?.sprints?.length > 0  &&
-      <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', display: 'inline-flex', flexFlow: 'column', borderRadius: '8px', width: '98%', p: 2, minWidth: '1000px' }}>
+      <Box sx={{ bgcolor: 'primary.light', display: 'inline-flex', flexFlow: 'column', borderRadius: '8px', width: '98%', p: 2, minWidth: '1000px' }}>
         {isLoading || isError ? (
           <Box></Box>
         ) : (

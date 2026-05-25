@@ -161,7 +161,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
 
   return (
     <Box data-color-mode='light' sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
-      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '600px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '600px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', bgcolor: 'primary.light' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}
@@ -182,9 +182,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
         <Box sx={{ width: '100%', m: 4 }}>
           <Box sx={{ mb: 8 }}>
             {!activeSprint ?
-              <Typography sx={{
-                fontSize: 24
-              }}>Start new sprint</Typography>              :
+              <Typography variant='h5'>Start new sprint</Typography>              :
               <Box sx={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                 <Modal
                   open={openReportModal}
@@ -206,9 +204,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                     />
                   </Box>
                 </Modal>
-                <Typography sx={{
-                  fontSize: 24
-                }}>View active sprint</Typography>
+                <Typography variant='h5'>View active sprint</Typography>
                 <Button
                   onClick={() => setOpenReportModal(true)}
                   color='secondary'
@@ -220,7 +216,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
 
           </Box>
           <Box sx={{ mb: 4 }}>
-            <Typography sx={{ fontSize: 16 }}>Sprint name</Typography>
+            <Typography variant='body1'>Sprint name</Typography>
             <Card sx={{ py: 0.75, px: 1, mt: 0.5, width: '46.6%', display: 'flex' }}>
               {!editSprintNameButton ?
                 <Typography sx={{ width: '100%', height: '24px' }} onClick={isManager() ? () => editSprintNameOnClick() : undefined}>{activeSprint?.name}</Typography>                :
@@ -253,7 +249,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
                 </Box>}
           </Box>
           <Box sx={{ mb: 4 }}>
-            <Typography sx={{ fontSize: 16 }}>End date</Typography>
+            <Typography variant='body1'>End date</Typography>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
                 ampm={false}
@@ -286,9 +282,7 @@ const SprintModal = ({ activeSprint, closeModal, mutate }: Props) => {
               </Button>
             </div>}
           </Box>
-          <Typography sx={{
-            fontSize: 16
-          }}>Sprint description</Typography>
+          <Typography variant='body1'>Sprint description</Typography>
           {unsavedDescriptionDraft ? (
             <Typography sx={{ color: '#7d7b7b' }} variant='caption'>
                 Unsaved Changes

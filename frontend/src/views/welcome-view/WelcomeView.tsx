@@ -31,9 +31,7 @@ function WelcomeViewMessage({ userName }: WelcomeViewMessageProps) {
   const message = messages[Math.floor(Math.random() * messages.length)]
 
   return (
-    <Typography color='primary' sx={{
-      fontSize: 36
-    }}>{message}</Typography>
+    <Typography variant='h4' color='primary'>{message}</Typography>
   )
 }
 
@@ -56,7 +54,7 @@ export default function WelcomeView() {
       </Box>
       {boards?.length > 0 &&
         <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
-          <Typography color='primary' sx={{ fontSize: 20 }}>Recents</Typography>
+          <Typography variant='h6' color='primary'>Recents</Typography>
           <Box sx={{ display: 'flex', width: '60%', pb: 5 }}>
             <Grid container spacing={0}>
               {boards.map((recentBoard) => (
@@ -70,7 +68,7 @@ export default function WelcomeView() {
       }
       {workspaces?.length > 0 &&
         <Box sx={{ display: 'flex', flexFlow: 'column', justifyContent: 'start', alignItems: 'center' }}>
-          <Typography color='primary' sx={{ fontSize: 20 }}>Workspaces</Typography>
+          <Typography variant='h6' color='primary'>Workspaces</Typography>
           <Box sx={{ display: 'flex', width: '60%', pb: 10 }}>
             <Grid container spacing={0}>
               {workspaces.map((workspace) => (

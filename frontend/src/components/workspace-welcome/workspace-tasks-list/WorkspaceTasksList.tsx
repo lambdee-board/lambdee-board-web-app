@@ -48,7 +48,7 @@ function WorkspaceTasksList({ boardId, workspaceId }: Props) {
             {board.lists?.map((list) => (
               <Box key={list.id} sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Box sx={{ display: 'flex', flexDirection: 'row', mt: 2, ml: 1 }}>
-                  <Typography sx={{ fontSize: '16px' }} variant='overline'>{list.name}</Typography>
+                  <Typography variant='overline'>{list.name}</Typography>
                 </Box>
                 <WorkspaceTask listId={list.id} boardId={board.id} />
               </Box>

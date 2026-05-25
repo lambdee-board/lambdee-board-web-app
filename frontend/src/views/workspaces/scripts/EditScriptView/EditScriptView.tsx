@@ -62,7 +62,7 @@ const EditScriptView = () => {
 
   return (
     <Box sx={{ position: 'absolute', width: 'calc(100vw - 280px)', minHeight: 'calc(100vh - 104px)', padding: 16 }}>
-      <Paper sx={{ minHeight: 'calc(100vh - 104px)', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', borderRadius: '8px', p: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', minWidth: '1000px', width: 'calc(100% - 24px)' }}>
+      <Paper sx={{ minHeight: 'calc(100vh - 104px)', bgcolor: 'primary.light', borderRadius: '8px', p: 2, display: 'flex', flexDirection: 'row', justifyContent: 'space-between', minWidth: '1000px', width: 'calc(100% - 24px)' }}>
         <Box sx={{ width: '100%', minWidth: '1000px' }}>
           <Box sx={{ width: '100%', display: 'flex', flexDirection: 'row' }}>
             <Box sx={{ width: '600px' }}>

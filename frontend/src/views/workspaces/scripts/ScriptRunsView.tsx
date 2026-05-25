@@ -76,14 +76,14 @@ export default function ScriptRunsView() {
                   sx={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                     <FontAwesomeIcon icon={faCalendarCheck} color={stateColors[(scriptRun as ScriptRun).state]} />
-                    <Typography sx={{ fontSize: '18px' }}>{(scriptRun as ScriptRun).scriptName}</Typography>
+                    <Typography variant='h6'>{(scriptRun as ScriptRun).scriptName}</Typography>
                     <Divider />
                   </Box>
                   <Chip label={(scriptRun as ScriptRun).state} sx={{ bgcolor: stateColors[(scriptRun as ScriptRun).state], color: 'white' }} />
                 </ListItemButton>
               </div>
             )) :
-            <Typography sx={{ width: '100%', fontSize: '48px', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No script was run yet</Typography>
+            <Typography variant='h3' sx={{ width: '100%', textTransform: 'uppercase', fontWeight: 'bold', textAlign: 'center', color: 'rgba(2, 159, 209, 0.3)' }}>No script was run yet</Typography>
           }
         </List>
         }

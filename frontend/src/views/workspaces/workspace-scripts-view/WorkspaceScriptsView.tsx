@@ -153,7 +153,7 @@ export default function WorkspaceScriptsView() {
           </Button>
         </div>
       </Toolbar>
-      <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', flexFlow: 'column', borderRadius: '8px', m: 2, height: '84vh' }}>
+      <Box sx={{ bgcolor: 'primary.light', flexFlow: 'column', borderRadius: '8px', m: 2, height: '84vh' }}>
         <Box sx={{ height: '4px' }}></Box>
         <Outlet />
         <NewScriptDialog

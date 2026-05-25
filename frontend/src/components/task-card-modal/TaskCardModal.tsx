@@ -228,7 +228,7 @@ const TaskCardModal = ({ taskId, boardId, workspaceId, closeModal }: Props) => {
 
   return (
     <Box data-color-mode='light' sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
-      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+      <Card sx={{ mt: 3, mb: 3, width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'row', alignContent: 'flex-start', justifyContent: 'space-between', bgcolor: 'primary.light' }}>
         <Modal
           open={alertModalState}
           onClose={toggleAlertModalState}

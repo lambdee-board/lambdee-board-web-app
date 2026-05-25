@@ -155,12 +155,13 @@ function TaskList({ id, title }: Props) {
 
   return (
     <Box sx={{ m: 2 }} data-list-id={taskList?.id}>
-      <Paper sx={{ width: '320px', maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}
+      <Paper sx={{ width: '320px', maxHeight: 'calc(100vh - 180px)', display: 'flex', flexDirection: 'column', justifyContent: 'space-between', bgcolor: 'primary.light' }}
         elevation={5}>
         <List ref={listRef} sx={{ overflowY: 'auto' }}
-          subheader={<ListSubheader sx={{ pt: 1, fontSize: '32px', display: 'flex', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+          subheader={<ListSubheader sx={{ pt: 1, fontSize: '32px', display: 'flex', justifyContent: 'space-between', bgcolor: 'primary.light' }}>
             <Typography
-              sx={{ fontSize: '24px', width: '100%', display: 'block', mt: -1, pt: 1, ml: -2, pl: 2, mr: 1 }}
+              variant='h5'
+              sx={{ width: '100%', display: 'block', mt: -1, pt: 1, ml: -2, pl: 2, mr: 1 }}
               style={{ cursor: isManager() ? 'grab' : undefined }}
             >
               {title}

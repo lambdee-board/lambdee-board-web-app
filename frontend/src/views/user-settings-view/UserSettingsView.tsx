@@ -88,11 +88,11 @@ export default function UserSettingsView() {
   )
 
   return (
-    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', maxWidth: 'calc(100% - 16px)', minHeight: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'row' }}>
+    <Box sx={{ bgcolor: 'primary.light', maxWidth: 'calc(100% - 16px)', minHeight: 'calc(100vh - 80px)', m: 1, borderRadius: '8px', display: 'inline-flex', flexDirection: 'row' }}>
       <Box sx={{ width: 'calc(60vw - 64px)', m: 4 }}>
         <List
-          subheader={<ListSubheader disableSticky={true} sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
-            <Typography sx={{ fontSize: '64px' }}>
+          subheader={<ListSubheader disableSticky={true} sx={{ bgcolor: 'primary.light' }}>
+            <Typography variant='h2'>
               Your Account
             </Typography>
           </ListSubheader>} >
@@ -136,7 +136,7 @@ export default function UserSettingsView() {
               color='primary'
               variant='contained'
             >
-              <Typography sx={{ fontSize: '0.8rem' }}>
+              <Typography variant='caption'>
                 Reset Password
               </Typography>
             </Button>

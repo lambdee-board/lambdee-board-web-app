@@ -38,11 +38,11 @@ const ReportModal = ({ sprintId, sprintName, sprintDescription, sprintStartedAt,
 
   return (
     <Box sx={{ overflowY: 'scroll', maxHeight: '100vh', msOverflowStyle: 'none', scrollbarWidth: 'none', '&::-webkit-scrollbar': { display: 'none' } }}>
-      <Card sx={{ width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'column', alignContent: 'flex-start', justifyContent: 'space-between', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}>
+      <Card sx={{ width: 'calc(100vw - 40px)', maxWidth: '1100px', display: 'flex', flexDirection: 'column', alignContent: 'flex-start', justifyContent: 'space-between', bgcolor: 'primary.light' }}>
         <Box sx={{ display: 'flex', flexDirection: 'row', width: '100%', m: 4 }}>
           <Box sx={{ display: 'flex', width: '60%', flexDirection: 'column', pr: 4 }}>
-            <Typography sx={{ fontSize: 24, mb: 1.5 }}>{sprintName}</Typography>
-            <Typography sx={{ fontSize: 18, overflowWrap: 'break-word' }}>{sprintDescription}</Typography>
+            <Typography variant='h5' sx={{ mb: 1.5 }}>{sprintName}</Typography>
+            <Typography variant='h6' sx={{ overflowWrap: 'break-word' }}>{sprintDescription}</Typography>
           </Box>
           <Box sx={{ display: 'flex', width: '15%', flexDirection: 'column' }}>
             <LabeledData label='Work Scope' data={Object.values(workScope).at(-1)} />

@@ -16,8 +16,8 @@ export default function CustomAlert({ confirmAction, dismissAction, title, messa
   return (
     <div>
       <Box sx={{ width: '560px' }}>
-        <Card sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', padding: 4 }}>
-          <Typography sx={{ fontSize: 24, display: 'flex', justifyContent: 'center', mb: 4 }}>{title ? title : 'Are you sure?'}</Typography>
+        <Card sx={{ bgcolor: 'primary.light', padding: 4 }}>
+          <Typography variant='h5' sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>{title ? title : 'Are you sure?'}</Typography>
           <Typography sx={{ display: 'flex', justifyContent: 'center', mb: 4 }}>{message}</Typography>
           <Box sx={{ display: 'flex', flex: 1 }}>
             <Button onClick={dismissAction} variant='contained' sx={{ flex: 1 }}>{dismissMessage ? dismissMessage : 'Dismiss'}</Button>

@@ -65,8 +65,8 @@ const ScriptRunsFilter = ({ updateFilters }: Props) => {
 
 
   return (
-    <Box sx={{ background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', p: 2, borderRadius: '8px', height: 'fit-content' }}>
-      <Typography sx={{ fontSize: '24px', mb: 1 }}>
+    <Box sx={{ bgcolor: 'primary.light', p: 2, borderRadius: '8px', height: 'fit-content' }}>
+      <Typography variant='h5' sx={{ mb: 1 }}>
         Filters
       </Typography>
       <FormControl sx={{ width: '100%', my: 2 }}>

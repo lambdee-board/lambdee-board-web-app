@@ -68,7 +68,7 @@ export default function ScriptVariablesView() {
                     sx={{ display: 'flex', justifyContent: 'space-between', height: '48px' }}>
                     <Box sx={{ display: 'flex', flexDirection: 'row', fontSize: '24px', gap: 2 }}>
                       <FontAwesomeIcon icon={faKey} opacity='0.58' />
-                      <Typography sx={{ fontSize: '18px' }}>{(scriptVariable as ScriptVariable).name}</Typography>
+                      <Typography variant='h6'>{(scriptVariable as ScriptVariable).name}</Typography>
                     </Box>
                     <Divider />
                   </ListItemButton>

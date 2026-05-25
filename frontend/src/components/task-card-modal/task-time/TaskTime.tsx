@@ -130,7 +130,7 @@ function TaskTime({ task, mutate }: Props) {
               error={wrongFormat}
             />
             <DialogContentText>ex. 3d 14h 43m</DialogContentText>
-            <DialogContentText sx={{ fontSize: '0.6rem' }}>Make sure that digits and letters are connected</DialogContentText>
+            <DialogContentText variant='caption'>Make sure that digits and letters are connected</DialogContentText>
           </DialogContent>
           <DialogActions className='create-tag-buttons'>
             <Button onClick={handleDialClose}>Cancel</Button>

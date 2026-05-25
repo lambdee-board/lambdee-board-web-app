@@ -170,14 +170,14 @@ function TaskPlanningList({ id, title }: Props) {
 
   return (
     <Box>
-      <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', mt: 3, background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)', ...(taskList?.visible ? {} : { opacity: 0.8 }) }}
+      <Paper sx={{ display: 'flex', flexDirection: 'column', justifyContent: 'space-between', mt: 3, bgcolor: 'primary.light', ...(taskList?.visible ? {} : { opacity: 0.8 }) }}
         elevation={5}>
         <List ref={listRef} sx={{ overflowY: 'auto' }}
           subheader={<ListSubheader
-            sx={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center', lineHeight: '0px', background: 'linear-gradient(222.65deg, #EFF7FA -19.21%, #EDF1F9 119.83%)' }}
+            sx={{ display: 'flex', justifyContent: 'space-between', alignContent: 'center', lineHeight: '0px', bgcolor: 'primary.light' }}
             style={{ cursor: taskList?.visible ? 'grab' : undefined }}
           >
-            <Typography sx={{ fontSize: '16px', pt: 0.75 }}>
+            <Typography variant='body1' sx={{ pt: 0.75 }}>
               {title}
             </Typography>
             <ManagerContent>
