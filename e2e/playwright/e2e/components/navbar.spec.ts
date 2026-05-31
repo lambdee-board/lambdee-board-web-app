@@ -43,7 +43,7 @@ test.describe('Navbar', () => {
     await expect(page.getByText('Admin', { exact: true })).toBeVisible()
   })
 
-  test('displays Tasks button', async({ page }) => {
+  test('displays Console button', async({ page }) => {
     await expect(page.getByRole('button', { name: 'Console' })).toBeVisible()
     await page.getByRole('button', { name: 'Console' }).click()
     await expect(page.getByText('Session closed.').first()).toBeVisible()

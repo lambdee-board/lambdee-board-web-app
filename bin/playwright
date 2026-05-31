@@ -18,6 +18,9 @@ RAILS_ENV=test bin/rails db:kill_connections 2>/dev/null || true
 echo 'Preparing test database'
 DISABLE_DATABASE_ENVIRONMENT_CHECK=1 RAILS_ENV=test bin/rails db:test:prepare
 
+echo 'Building the test frontend bundle'
+RAILS_ENV=test bin/build --one-time
+
 echo 'Starting Rails test server'
 RAILS_ENV=test bin/rails server -p $PORT &
 RAILS_PID=$!

@@ -12,28 +12,10 @@ import useWorkspaces from '../../api/workspaces'
 
 import WorkspaceButton from '../../components/welcome-view/workspace-button/WorkspaceButton'
 import RecentBoardButton from '../../components/welcome-view/recent-board-button/RecentBoardButton'
+import WelcomeViewMessage from '../../components/welcome-view/welcome-view-message/WelcomeViewMessage'
 import WelcomeViewSkeleton from './WelcomeViewSkeleton'
 
 import type { Board } from '../../types'
-
-interface WelcomeViewMessageProps {
-  userName: string
-}
-
-function WelcomeViewMessage({ userName }: WelcomeViewMessageProps) {
-  const messages = [
-    `Good to see you back, ${userName}!`,
-    `Let's get back to work, ${userName}!`,
-    `Time to shine, ${userName}!`,
-    `You again, ${userName}?`
-  ]
-
-  const message = messages[Math.floor(Math.random() * messages.length)]
-
-  return (
-    <Typography variant='h4' color='primary'>{message}</Typography>
-  )
-}
 
 
 export default function WelcomeView() {
@@ -61,7 +43,11 @@ export default function WelcomeView() {
                 const workspaceName = workspaces?.find((w) => w.id === recentBoard.workspaceId)?.name ?? ''
                 return (
                   <Grid size={{ xs: 6, sm: 6, md: 4, lg: 2 }} key={recentBoard.id}>
-                    <RecentBoardButton boardId={recentBoard.id} boardName={recentBoard.name} boardColor={recentBoard.color} workspaceId={recentBoard.workspaceId} workspaceName={workspaceName} />
+                    <RecentBoardButton boardId={recentBoard.id}
+                      boardName={recentBoard.name}
+                      boardColor={recentBoard.color}
+                      workspaceId={recentBoard.workspaceId}
+                      workspaceName={workspaceName} />
                   </Grid>
                 )
               })}
